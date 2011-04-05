@@ -3,12 +3,17 @@
 #define __AST_DUMPER_HANDLER__
 
 #include <iostream>
+#include <stack>
 #include "AstDumper.h"  // As an example
 
 #include <transport/TSocket.h>
 #include <transport/TBufferTransports.h>
 #include <transport/TSimpleFileTransport.h>
 #include <protocol/TBinaryProtocol.h>
+
+#include <as/ast/call.h>
+#include <as/ast/literal.h>
+#include <as/ast/expression_list.h>
 
 using namespace apache::thrift;
 using namespace apache::thrift::protocol;
@@ -51,16 +56,24 @@ class PNodeHandler : virtual public  generated::AstDumperIf {
   void startCallExpression(const generated::CallExpression& call) {
     // Your implementation goes here
     printf("startCallExpression\n");
+
+    std::tr1::shared_ptr<as::ast::Call> exp_call( new as::ast::Call );
+    _node_stack . push( exp_call );
   }
 
   void startAgumentList() {
     // Your implementation goes here
     printf("startAgumentList\n");
+    
+    std::tr1::shared_ptr<as::ast::ExpressionList> exp_list( new as::ast::ExpressionList);
+    _node_stack . top () -> addChild( exp_list );
+    _node_stack . push( exp_list );
   }
 
   void endAgumentList() {
     // Your implementation goes here
     printf("endAgumentList\n");
+    _node_stack . pop( );
   }
 
   void endCallExpression() {
@@ -71,6 +84,8 @@ class PNodeHandler : virtual public  generated::AstDumperIf {
   void identifierExpression(const generated::Identifier& id) {
     // Your implementation goes here
     printf("identifierExpression\n");
+    std::tr1::shared_ptr<as::ast::Literal> exp_literal( new as::ast::Literal(id.name) );
+    _node_stack . top () -> addChild( exp_literal);
   }
 
   void endExpressionList() {
@@ -103,6 +118,9 @@ class PNodeHandler : virtual public  generated::AstDumperIf {
     printf("ping2\n");
   }
 
+private:
+    std::vector< as::ast::ExpressionPtr > _arguments; 
+    std::stack< as::ast::ExpressionPtr > _node_stack;
 };
 
 } } 
