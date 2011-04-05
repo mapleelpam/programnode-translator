@@ -17,11 +17,12 @@ SET( AST_THRIFT_SRC gen-cpp/AstDumper.cpp gen-cpp/SyntaxTree_constants.cpp gen-c
 
 INCLUDE_DIRECTORIES(
     ${CMAKE_CURRENT_SOURCE_DIR}/gen-cpp/
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/
     ${THRIFT_INCLUDE_DIR}
     )
 
 ADD_EXECUTABLE( pn-translator
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/server.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
     ${AST_THRIFT_SRC} 
     )
 

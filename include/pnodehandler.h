@@ -1,4 +1,7 @@
 
+#ifndef __AST_DUMPER_HANDLER__
+#define __AST_DUMPER_HANDLER__
+
 #include <iostream>
 #include "AstDumper.h"  // As an example
 
@@ -12,11 +15,11 @@ using namespace apache::thrift::protocol;
 using namespace apache::thrift::transport;
 //tw::maple::generated::
 
-namespace tw { namespace maple { namespace generated {
+namespace tw { namespace maple { 
 
-class AstDumperHandler : virtual public  AstDumperIf {
+class PNodeHandler : virtual public  generated::AstDumperIf {
  public:
-  AstDumperHandler() {
+  PNodeHandler() {
     // Your initialization goes here
   }
 
@@ -30,12 +33,12 @@ class AstDumperHandler : virtual public  AstDumperIf {
     printf("endProgram\n");
   }
 
-  void startPackage(const StringList& id) {
+  void startPackage(const generated::StringList& id) {
     // Your implementation goes here
     printf("startPackage\n");
   }
 
-  void endPackage(const StringList& IDs) {
+  void endPackage(const generated::StringList& IDs) {
     // Your implementation goes here
     printf("endPackage\n");
   }
@@ -45,7 +48,7 @@ class AstDumperHandler : virtual public  AstDumperIf {
     printf("startExpressionList\n");
   }
 
-  void startCallExpression(const CallExpression& call) {
+  void startCallExpression(const generated::CallExpression& call) {
     // Your implementation goes here
     printf("startCallExpression\n");
   }
@@ -65,7 +68,7 @@ class AstDumperHandler : virtual public  AstDumperIf {
     printf("endCallExpression\n");
   }
 
-  void identifierExpression(const Identifier& id) {
+  void identifierExpression(const generated::Identifier& id) {
     // Your implementation goes here
     printf("identifierExpression\n");
   }
@@ -75,7 +78,7 @@ class AstDumperHandler : virtual public  AstDumperIf {
     printf("endExpressionList\n");
   }
 
-  void addImport(const StringList& packages) {
+  void addImport(const generated::StringList& packages) {
     // Your implementation goes here
     printf("addImport\n");
   }
@@ -102,31 +105,6 @@ class AstDumperHandler : virtual public  AstDumperIf {
 
 };
 
-} } } 
+} } 
 
-int main(int argc, char **argv) {
-
-    boost::shared_ptr<tw::maple::generated::AstDumperHandler> something( new tw::maple::generated::AstDumperHandler() );
-    boost::shared_ptr<TSimpleFileTransport> transport(new TSimpleFileTransport("1.pn",true,true));
-    boost::shared_ptr<tw::maple::generated::AstDumperProcessor> processor( new tw::maple::generated::AstDumperProcessor( something ) );
-
-
-
-    try {
-        transport->open();
-        boost::shared_ptr<TProtocol> io(new TBinaryProtocol(transport));
-        
-//        processor->process( io, io, NULL );
-//        processor->process( io, io, NULL );
-
-        transport->close();
-
-    }
-    catch (TTransportException ex )
-    {
-        std::cout << "handler: " << ex.what()<<std::endl;
-        return 1;
-    }
-
-    return 0;
-}
+#endif
