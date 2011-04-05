@@ -51,6 +51,11 @@ class PNodeHandler : virtual public  generated::AstDumperIf {
   void startExpressionList() {
     // Your implementation goes here
     printf("startExpressionList\n");
+
+    std::tr1::shared_ptr<as::ast::ExpressionList> exp_list( new as::ast::ExpressionList );
+    if( !_node_stack . empty() )
+         _node_stack . top () -> addChild( exp_list );
+    _node_stack . push( exp_list );
   }
 
   void startCallExpression(const generated::CallExpression& call) {
@@ -58,6 +63,7 @@ class PNodeHandler : virtual public  generated::AstDumperIf {
     printf("startCallExpression\n");
 
     std::tr1::shared_ptr<as::ast::Call> exp_call( new as::ast::Call );
+    _node_stack . top () -> addChild( exp_call );
     _node_stack . push( exp_call );
   }
 
@@ -79,6 +85,7 @@ class PNodeHandler : virtual public  generated::AstDumperIf {
   void endCallExpression() {
     // Your implementation goes here
     printf("endCallExpression\n");
+    _node_stack . pop( );
   }
 
   void identifierExpression(const generated::Identifier& id) {
@@ -91,6 +98,7 @@ class PNodeHandler : virtual public  generated::AstDumperIf {
   void endExpressionList() {
     // Your implementation goes here
     printf("endExpressionList\n");
+    _node_stack . pop ();
   }
 
   void addImport(const generated::StringList& packages) {
