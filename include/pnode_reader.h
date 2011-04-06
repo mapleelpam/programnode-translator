@@ -40,7 +40,8 @@ public:
 
         transport->close(); 
 
-        return  std::tr1::shared_ptr< as::ast::Program >();
+//        return  std::tr1::shared_ptr< as::ast::Program >();
+        return something->getProgramNode();
     }
 
 };

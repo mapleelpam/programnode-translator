@@ -21,13 +21,13 @@ struct Node
 
     virtual int nodeType() = 0;
 
-    virtual void addNodeChild( std::tr1::shared_ptr< Node > c) { _node_childs.push_back( c ); }
-protected:
-    std::vector< std::tr1::shared_ptr< Node > >    _node_childs;
+    virtual void addNodeChild( std::tr1::shared_ptr< Node > c) { node_childs.push_back( c ); }
+
+    std::vector< std::tr1::shared_ptr< Node > >    node_childs;
 };
 
-//using std::tr1::shared_ptr;
-//typedef std::tr1::shared_ptr<Expression>    ExpressionPtr;
+typedef std::tr1::shared_ptr<Node>    NodePtr;
+
 
 } } } }
 

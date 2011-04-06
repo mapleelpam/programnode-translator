@@ -1,8 +1,13 @@
 
 #include <iostream>
+#include <fstream>
+
 #include "AstDumper.h"  
 #include "pnodehandler.h" 
 #include "pnode_reader.h"
+
+#include <backend/cpp/interpret/interpreter.h>
+#include <backend/context.h>
 
 #include <boost/program_options/options_description.hpp>
 #include <boost/program_options/variables_map.hpp>
@@ -37,17 +42,33 @@ int main(int argc, char **argv)
 	}
 
 	std::vector<std::string> m_pnode_files = args["input"].as< std::vector<std::string > >();
-	std::string out_file  = args["output"].as<std::string> ();
+	std::string out_file_path  = args["output"].as<std::string> ();
 
 
 	// File Open
+	std::vector< std::tr1::shared_ptr< tw::maple::as::ast::Program > > pnode_list;
 	for (std::vector<std::string>::iterator fileItr = m_pnode_files.begin()
 			; fileItr != m_pnode_files.end(); fileItr++)
 	{
-		tw::maple::PNodeReader::open( *fileItr );
+		std::tr1::shared_ptr< tw::maple::as::ast::Program > proot = tw::maple::PNodeReader::open( *fileItr );
+		pnode_list . push_back( proot );
 	}
 
-	// Interpret/Explain - Invoke Backend Stream Out
+	{
+		namespace INTERPRET = tw::maple::backend::cpp::interpret;
+
+//		std::ofstream os_file;
+		tw::maple::backend::Context context;
+		context.ofs_stream.open( out_file_path.c_str() );
+		// Interpret/Explain - Invoke Back-end Stream Out
+
+		for (std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Program> >::iterator
+				nodeItr = pnode_list.begin(); nodeItr != pnode_list.end(); nodeItr++) {
+			INTERPRET::dispatchDo(*nodeItr, &context);
+		}
+
+		context.ofs_stream.close();
+	}
 
     return 0;
 }

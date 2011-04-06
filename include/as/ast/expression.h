@@ -29,6 +29,7 @@ struct Expression : public Node
             T_PrefixOperator,
 
             T_EXPR_LIST,
+            T_ARGUMENTS,
             T_LITERAL,
         };
     };

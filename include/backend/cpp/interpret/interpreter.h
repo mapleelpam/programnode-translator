@@ -5,17 +5,16 @@
 
 #include <as/ast/expression.h>
 #include <as/ast/call.h>
+#include <backend/context.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
-// Abstract
+void dispatchDo( tw::maple::as::ast::NodePtr, tw::maple::backend::Context* );
+
 struct Interpreter
-{   
-    static void dispatchDo( ::tw::maple::as::ast::Expression*);
-//    virtual void        do( ::tw::maple::as::ast::Expression*) = 0;
+{
 
 };
-
 
 } } } } }
 

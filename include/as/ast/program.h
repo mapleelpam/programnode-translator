@@ -13,9 +13,6 @@ public:
     virtual int nodeType() {	return NodeType::T_PROGRAM;	};
 };
 
-
-typedef std::tr1::shared_ptr< Node > NodePtr;
-
 } } } }
 
 #endif

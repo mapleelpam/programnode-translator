@@ -10,8 +10,6 @@ namespace tw { namespace maple { namespace as { namespace ast {
 struct Call : public Expression
 {
     int     exprType()   {   return ExpressionType::T_CALL;  } 
-    void    addChild( std::tr1::shared_ptr<Expression> ){   };
-
 };
 
 
