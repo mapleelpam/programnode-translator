@@ -2,14 +2,17 @@
 #ifndef __AS_AST_EXPRESSION__
 #define __AS_AST_EXPRESSION__
 
+#include <as/ast/node.h>
 #include <tr1/memory>
 
 
 namespace tw { namespace maple { namespace as { namespace ast {
 
 // Abstract
-struct Expression
+struct Expression : public Node
 {
+    virtual int nodeType() {	return NodeType::T_EXPRESSION;	};
+
     struct ExpressionType
     {
         enum {
@@ -30,14 +33,10 @@ struct Expression
         };
     };
 
-    virtual uint32_t    exprType() = 0;
+    virtual int exprType() = 0;
 
-    void addChild( std::tr1::shared_ptr<Expression> c) { childs.push_back( c ); }
-protected:
-    std::vector< std::tr1::shared_ptr<Expression> >    childs;
 };
 
-//using std::tr1::shared_ptr;
 typedef std::tr1::shared_ptr<Expression>    ExpressionPtr; 
 
 } } } }

@@ -11,7 +11,11 @@ namespace tw { namespace maple { namespace as { namespace ast {
 // Abstract
 struct ExpressionList : public Expression
 {
-    uint32_t exprType()   {   return ExpressionType::T_EXPR_LIST;  } 
+    int exprType()
+    {
+    	return ExpressionType::T_EXPR_LIST;
+    }
+
 };
 
 

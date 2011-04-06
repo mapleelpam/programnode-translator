@@ -23,9 +23,11 @@ INCLUDE_DIRECTORIES(
 
 ADD_EXECUTABLE( pn-translator
     ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/interpret.cpp
     ${AST_THRIFT_SRC} 
     )
 
 TARGET_LINK_LIBRARIES( pn-translator
     ${THRIFT_LIBS}
+    ${Boost_LIBRARIES}
     )

@@ -10,6 +10,8 @@
 
 #include "pnodehandler.h" 
 
+#include <as/ast/program.h>
+
 using namespace apache::thrift;
 using namespace apache::thrift::protocol;
 using namespace apache::thrift::transport;
@@ -20,7 +22,7 @@ namespace tw { namespace maple {
 class PNodeReader 
 {
 public:
-    static int open( std::string file )
+    static std::tr1::shared_ptr< as::ast::Program > open( std::string file )
     {
         boost::shared_ptr<tw::maple::PNodeHandler> something( new tw::maple::PNodeHandler() );
         boost::shared_ptr<TSimpleFileTransport> transport(new TSimpleFileTransport(file,true,true));
@@ -34,10 +36,11 @@ public:
                 processor->process( io, io, NULL );
         } catch (TTransportException ex ) {
             std::cout << "handler: " << ex.what()<<std::endl;
-            return 1;
         }
 
         transport->close(); 
+
+        return  std::tr1::shared_ptr< as::ast::Program >();
     }
 
 };
