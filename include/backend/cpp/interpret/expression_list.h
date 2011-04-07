@@ -5,8 +5,6 @@
 #include <as/ast/expression.h>
 #include <as/ast/call.h>
 #include <backend/cpp/interpret/interpreter.h>
-#include <backend/context.h>
-
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
@@ -16,7 +14,7 @@ namespace AST = ::tw::maple::as::ast;
 // Abstract
 struct ExpressionList : public Interpreter
 {   
-	static void interpret( AST::Expression* exp, tw::maple::backend::Context* ctx )
+	static void interpret( AST::Expression* exp, tw::maple::backend::cpp::Context* ctx )
 	{
 		bool is_first = true;
 		for (std::vector<std::tr1::shared_ptr<AST::Node> >::iterator nItr =

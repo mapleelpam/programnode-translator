@@ -13,7 +13,7 @@ namespace AST = ::tw::maple::as::ast;
 // Abstract
 struct Call : public Interpreter
 {   
-	static void interpret( AST::Expression* exp, tw::maple::backend::Context* ctx )
+	static void interpret( AST::Expression* exp, tw::maple::backend::cpp::Context* ctx )
 	{
 		std::cout << exp->node_childs.size() <<std::endl;
 		std::tr1::shared_ptr<AST::Node> callee;

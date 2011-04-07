@@ -5,11 +5,11 @@
 
 #include <as/ast/expression.h>
 #include <as/ast/call.h>
-#include <backend/context.h>
+#include <backend/cpp/context.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
-void dispatchDo( tw::maple::as::ast::NodePtr, tw::maple::backend::Context* );
+void dispatchDo( tw::maple::as::ast::NodePtr, tw::maple::backend::cpp::Context* );
 
 struct Interpreter
 {

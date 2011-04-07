@@ -72,6 +72,11 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("identifierExpression\n");
   }
 
+  void literalStringExpression(const LiteralString& str) {
+    // Your implementation goes here
+    printf("literalStringExpression\n");
+  }
+
   void endExpressionList() {
     // Your implementation goes here
     printf("endExpressionList\n");

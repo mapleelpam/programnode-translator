@@ -7,7 +7,7 @@
 #include <as/ast/call.h>
 #include <fstream>
 
-namespace tw { namespace maple { namespace backend {
+namespace tw { namespace maple { namespace backend { namespace cpp {
 
 
 struct Context
@@ -15,6 +15,6 @@ struct Context
 	std::ofstream ofs_stream;
 };
 
-} } }
+} } } }
 
 #endif 

@@ -7,7 +7,6 @@
 #include "pnode_reader.h"
 
 #include <backend/cpp/interpret/interpreter.h>
-#include <backend/context.h>
 
 #include <boost/program_options/options_description.hpp>
 #include <boost/program_options/variables_map.hpp>
@@ -58,7 +57,7 @@ int main(int argc, char **argv)
 		namespace INTERPRET = tw::maple::backend::cpp::interpret;
 
 //		std::ofstream os_file;
-		tw::maple::backend::Context context;
+		tw::maple::backend::cpp::Context context;
 		context.ofs_stream.open( out_file_path.c_str() );
 		// Interpret/Explain - Invoke Back-end Stream Out
 

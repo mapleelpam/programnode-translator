@@ -599,6 +599,68 @@ uint32_t AstDumper_identifierExpression_pargs::write(::apache::thrift::protocol:
   return xfer;
 }
 
+uint32_t AstDumper_literalStringExpression_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->str.read(iprot);
+          this->__isset.str = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t AstDumper_literalStringExpression_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  xfer += oprot->writeStructBegin("AstDumper_literalStringExpression_args");
+  xfer += oprot->writeFieldBegin("str", ::apache::thrift::protocol::T_STRUCT, 1);
+  xfer += this->str.write(oprot);
+  xfer += oprot->writeFieldEnd();
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+uint32_t AstDumper_literalStringExpression_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  xfer += oprot->writeStructBegin("AstDumper_literalStringExpression_pargs");
+  xfer += oprot->writeFieldBegin("str", ::apache::thrift::protocol::T_STRUCT, 1);
+  xfer += (*(this->str)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
 uint32_t AstDumper_endExpressionList_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   uint32_t xfer = 0;
@@ -1127,6 +1189,25 @@ void AstDumperClient::send_identifierExpression(const Identifier& id)
   oprot_->getTransport()->flush();
 }
 
+void AstDumperClient::literalStringExpression(const LiteralString& str)
+{
+  send_literalStringExpression(str);
+}
+
+void AstDumperClient::send_literalStringExpression(const LiteralString& str)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("literalStringExpression", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  AstDumper_literalStringExpression_pargs args;
+  args.str = &str;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
 void AstDumperClient::endExpressionList()
 {
   send_endExpressionList();
@@ -1647,6 +1728,43 @@ void AstDumperProcessor::process_identifierExpression(int32_t seqid, ::apache::t
 
   if (eventHandler_.get() != NULL) {
     eventHandler_->asyncComplete(ctx, "AstDumper.identifierExpression");
+  }
+
+  return;
+}
+
+void AstDumperProcessor::process_literalStringExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = NULL;
+  if (eventHandler_.get() != NULL) {
+    ctx = eventHandler_->getContext("AstDumper.literalStringExpression", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(eventHandler_.get(), ctx, "AstDumper.literalStringExpression");
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->preRead(ctx, "AstDumper.literalStringExpression");
+  }
+
+  AstDumper_literalStringExpression_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->postRead(ctx, "AstDumper.literalStringExpression", bytes);
+  }
+
+  try {
+    iface_->literalStringExpression(args.str);
+  } catch (const std::exception& e) {
+    if (eventHandler_.get() != NULL) {
+      eventHandler_->handlerError(ctx, "AstDumper.literalStringExpression");
+    }
+    return;
+  }
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->asyncComplete(ctx, "AstDumper.literalStringExpression");
   }
 
   return;

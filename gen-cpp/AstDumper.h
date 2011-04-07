@@ -24,6 +24,7 @@ class AstDumperIf {
   virtual void endAgumentList() = 0;
   virtual void endCallExpression() = 0;
   virtual void identifierExpression(const Identifier& id) = 0;
+  virtual void literalStringExpression(const LiteralString& str) = 0;
   virtual void endExpressionList() = 0;
   virtual void addImport(const StringList& packages) = 0;
   virtual void startStmtList() = 0;
@@ -63,6 +64,9 @@ class AstDumperNull : virtual public AstDumperIf {
     return;
   }
   void identifierExpression(const Identifier& /* id */) {
+    return;
+  }
+  void literalStringExpression(const LiteralString& /* str */) {
     return;
   }
   void endExpressionList() {
@@ -495,6 +499,53 @@ class AstDumper_identifierExpression_pargs {
 
 };
 
+typedef struct _AstDumper_literalStringExpression_args__isset {
+  _AstDumper_literalStringExpression_args__isset() : str(false) {}
+  bool str;
+} _AstDumper_literalStringExpression_args__isset;
+
+class AstDumper_literalStringExpression_args {
+ public:
+
+  AstDumper_literalStringExpression_args() {
+  }
+
+  virtual ~AstDumper_literalStringExpression_args() throw() {}
+
+  LiteralString str;
+
+  _AstDumper_literalStringExpression_args__isset __isset;
+
+  bool operator == (const AstDumper_literalStringExpression_args & rhs) const
+  {
+    if (!(str == rhs.str))
+      return false;
+    return true;
+  }
+  bool operator != (const AstDumper_literalStringExpression_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_literalStringExpression_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_literalStringExpression_pargs {
+ public:
+
+
+  virtual ~AstDumper_literalStringExpression_pargs() throw() {}
+
+  const LiteralString* str;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
 
 class AstDumper_endExpressionList_args {
  public:
@@ -777,6 +828,8 @@ class AstDumperClient : virtual public AstDumperIf {
   void send_endCallExpression();
   void identifierExpression(const Identifier& id);
   void send_identifierExpression(const Identifier& id);
+  void literalStringExpression(const LiteralString& str);
+  void send_literalStringExpression(const LiteralString& str);
   void endExpressionList();
   void send_endExpressionList();
   void addImport(const StringList& packages);
@@ -812,6 +865,7 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
   void process_endAgumentList(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_endCallExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_identifierExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_literalStringExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_endExpressionList(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_addImport(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_startStmtList(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -831,6 +885,7 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
     processMap_["endAgumentList"] = &AstDumperProcessor::process_endAgumentList;
     processMap_["endCallExpression"] = &AstDumperProcessor::process_endCallExpression;
     processMap_["identifierExpression"] = &AstDumperProcessor::process_identifierExpression;
+    processMap_["literalStringExpression"] = &AstDumperProcessor::process_literalStringExpression;
     processMap_["endExpressionList"] = &AstDumperProcessor::process_endExpressionList;
     processMap_["addImport"] = &AstDumperProcessor::process_addImport;
     processMap_["startStmtList"] = &AstDumperProcessor::process_startStmtList;
@@ -922,6 +977,13 @@ class AstDumperMultiface : virtual public AstDumperIf {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
       ifaces_[i]->identifierExpression(id);
+    }
+  }
+
+  void literalStringExpression(const LiteralString& str) {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->literalStringExpression(str);
     }
   }
 

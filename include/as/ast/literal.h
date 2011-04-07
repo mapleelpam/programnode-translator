@@ -12,7 +12,7 @@ namespace tw { namespace maple { namespace as { namespace ast {
 struct Literal: public Expression
 {
     Literal( std::string v ) : value(v) {}
-    int exprType()   {   return ExpressionType::T_LITERAL;  } 
+//    int exprType()   {   return ExpressionType::T);  }
 
     std::string value;
 };

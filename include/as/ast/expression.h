@@ -30,7 +30,11 @@ struct Expression : public Node
 
             T_EXPR_LIST,
             T_ARGUMENTS,
-            T_LITERAL,
+
+            T_LITERAL_STRING,
+            T_LITERAL_NUMBER,
+
+            T_IDENTIFIER,
         };
     };
 
