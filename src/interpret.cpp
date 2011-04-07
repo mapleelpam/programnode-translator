@@ -35,7 +35,9 @@
 #include <backend/cpp/interpret/identifier.h>
 #include <backend/cpp/interpret/statement_list.h>
 #include <backend/cpp/interpret/function_definition.h>
-
+#include <backend/cpp/interpret/function_name.h>
+#include <backend/cpp/interpret/function_return_type.h>
+#include <backend/cpp/interpret/function_signature.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
@@ -97,6 +99,21 @@ void dispatchDo( tw::maple::as::ast::NodePtr node, tw::maple::backend::cpp::Cont
 		case ::tw::maple::as::ast::Statement::StatementType::T_FUNCTION_DEFINITION: {
 			std::cout << "T_FUNCTION_DEFINITION " << std::endl;
 			FunctionDefinition::interpret( stmt, ctx );
+			break;
+		}
+		case ::tw::maple::as::ast::Statement::StatementType::T_FUNCTION_NAME: {
+			std::cout << "T_FUNCTION_NAME " << std::endl;
+			FunctionName::interpret(stmt, ctx);
+			break;
+		}
+		case ::tw::maple::as::ast::Statement::StatementType::T_FUNCTION_RETTYPE: {
+			std::cout << "T_FUNCTION_RETTYPE " << std::endl;
+			FunctionReturnType::interpret(stmt, ctx);
+			break;
+		}
+		case ::tw::maple::as::ast::Statement::StatementType::T_FUNCTION_SIGNATURE: {
+			std::cout << "T_FUNCTION_SIGNATURE " << std::endl;
+			FunctionSignature::interpret(stmt, ctx);
 			break;
 		}
 		}

@@ -38,6 +38,10 @@ struct FunctionDefinition: public Statement
 	FunctionDefinition( ) {}
     int stmtType()   {   return StatementType::T_FUNCTION_DEFINITION;  }
 
+    NodePtr FunctionName(){	return node_childs[0];	}
+    NodePtr FunctionSignature(){	return node_childs[1];	}
+    NodePtr FunctionBody(){	return node_childs[2];	}
+
 };
 
 } } } }

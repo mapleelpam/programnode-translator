@@ -23,23 +23,35 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
+#ifndef __BACKEDN_CPP_INTERPRET_STMT_FUNCTION_NAME_H__
+#define __BACKEDN_CPP_INTERPRET_STMT_FUNCTION_NAME_H__
 
-#ifndef __BACKEDN_CPP_INTERPRET_INTERPRET_H_
-#define __BACKEDN_CPP_INTERPRET_INTERPRET_H_
-
-#include <as/ast/expression.h>
+#include <as/ast/function_definition.h>
 #include <as/ast/call.h>
-#include <backend/cpp/context.h>
+#include <backend/cpp/interpret/interpreter.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
-void dispatchDo( tw::maple::as::ast::NodePtr, tw::maple::backend::cpp::Context* );
+namespace AST = ::tw::maple::as::ast;
 
-struct Interpreter
-{
+struct FunctionName : public Interpreter
+{   
+	static void interpret( AST::Node* exp, tw::maple::backend::cpp::Context* ctx )
+	{
+		printf(" function name \n");
+		for (std::vector<std::tr1::shared_ptr<AST::Node> >::iterator nItr =
+				exp->node_childs.begin(); nItr != exp->node_childs.end(); nItr++)
+		{
+			dispatchDo(*nItr, ctx);
+		}
+
+//		ctx->ofs_stream << " ; " << std::endl;
+	}
+};
 
 };
 
-} } } } }
+
+} } } } 
 
 #endif 

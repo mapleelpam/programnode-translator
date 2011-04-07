@@ -45,6 +45,9 @@
 #include <as/ast/program.h>
 #include <as/ast/arguments.h>
 #include <as/ast/function_definition.h>
+#include <as/ast/function_name.h>
+#include <as/ast/function_rettype.h>
+#include <as/ast/function_signature.h>
 #include <as/ast/statement.h>
 #include <as/ast/statement_list.h>
 #include <as/ast/node.h>
@@ -102,11 +105,59 @@ public:
   void startFunctionName() {
     // Your implementation goes here
     printf("startFunctionName\n");
+
+    std::tr1::shared_ptr<as::ast::FunctionName> func_name( new as::ast::FunctionName() );
+    _node_stack . top() -> addNodeChild( func_name );
+    _node_stack . push( func_name );
   }
 
   void endFunctionName() {
     // Your implementation goes here
     printf("endFunctionName\n");
+
+    _node_stack . pop();
+  }
+
+  void startFunctionSignature() {
+    // Your implementation goes here
+    printf("startFunctionSignature\n");
+
+
+    std::tr1::shared_ptr<as::ast::FunctionSignature> exp_list( new as::ast::FunctionSignature );
+    _node_stack . top() -> addNodeChild( exp_list );
+    _node_stack . push( exp_list );
+  }
+
+  void endFunctionSignature() {
+    // Your implementation goes here
+    printf("startFunctionSignature\n");
+
+    _node_stack . pop();
+  }
+
+  void startFunctionSignatureParameter() {
+    // Your implementation goes here
+    printf("startFunctionSignatureParameter\n");
+  }
+
+  void endFunctionSignatureParameter() {
+    // Your implementation goes here
+    printf("endFunctionSignatureParameter\n");
+  }
+
+  void startFunctionSignatureReturnType() {
+    // Your implementation goes here
+    printf("startFunctionSignatureReturnType\n");
+
+    std::tr1::shared_ptr<as::ast::FunctionReturnType> exp_list( new as::ast::FunctionReturnType );
+    _node_stack . top() -> addNodeChild( exp_list );
+    _node_stack . push( exp_list );
+  }
+
+  void endFunctionSignatureReturnType() {
+    // Your implementation goes here
+    printf("endFunctionSignatureReturnType\n");
+    _node_stack . pop();
   }
 
   void startFunctionBody() {
@@ -160,13 +211,15 @@ public:
     _node_stack . pop( );
   }
 
-  void endCallExpression() {
+  void endCallExpression()
+  {
     // Your implementation goes here
     printf("endCallExpression\n");
     _node_stack . pop( );
   }
 
-  void identifierExpression(const generated::Identifier& id) {
+  void identifierExpression(const generated::Identifier& id)
+  {
     // Your implementation goes here
     printf("identifierExpression\n");
     std::tr1::shared_ptr<as::ast::Identifier> exp_id( new as::ast::Identifier(id.name) );

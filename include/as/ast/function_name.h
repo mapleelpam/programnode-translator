@@ -24,22 +24,22 @@
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
 
-#ifndef __BACKEDN_CPP_INTERPRET_INTERPRET_H_
-#define __BACKEDN_CPP_INTERPRET_INTERPRET_H_
+#ifndef __AS_AST_FUNCTION_NAME_H__
+#define __AS_AST_FUNCTION_NAME_H__
 
-#include <as/ast/expression.h>
-#include <as/ast/call.h>
-#include <backend/cpp/context.h>
+#include <tr1/memory>
+#include <as/ast/statement.h>
 
-namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
+namespace tw { namespace maple { namespace as { namespace ast {
 
-void dispatchDo( tw::maple::as::ast::NodePtr, tw::maple::backend::cpp::Context* );
-
-struct Interpreter
+// Abstract
+struct FunctionName : public Statement
 {
+	FunctionName( ) {}
+    int stmtType()   {   return StatementType::T_FUNCTION_NAME;  }
 
 };
 
-} } } } }
+} } } }
 
-#endif 
+#endif

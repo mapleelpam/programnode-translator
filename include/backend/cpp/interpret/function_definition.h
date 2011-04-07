@@ -18,7 +18,7 @@
  */
 
 // ProgrameNode Translator
-// Copyright 2010 mapleellpam@gmail.com.  All rights reserved.
+// Copyright 2011 mapleellpam@gmail.com.  All rights reserved.
 // https://github.com/mapleelpam/programnode-translator
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
@@ -27,6 +27,8 @@
 #define __BACKEDN_CPP_INTERPRET_STMT_FUNCTION_DEFINITION_H__
 
 #include <as/ast/function_definition.h>
+#include <as/ast/function_signature.h>
+#include <as/ast/function_rettype.h>
 #include <as/ast/call.h>
 #include <backend/cpp/interpret/interpreter.h>
 
@@ -38,19 +40,37 @@ struct FunctionDefinition : public Interpreter
 {   
 	static void interpret( AST::Node* exp, tw::maple::backend::cpp::Context* ctx )
 	{
-		bool is_first_header = true;
-		for (std::vector<std::tr1::shared_ptr<AST::Node> >::iterator nItr =
-				exp->node_childs.begin(); nItr != exp->node_childs.end(); nItr++)
-		{
-			dispatchDo(*nItr, ctx);
+//		bool is_first_header = true;
+//		for (std::vector<std::tr1::shared_ptr<AST::Node> >::iterator nItr =
+//				exp->node_childs.begin(); nItr != exp->node_childs.end(); nItr++)
+//		{
+//			printf(" 1 0000000000000000000000000000 \n");
+//			dispatchDo(*nItr, ctx);
+//			// Tail Dirty Flag Handle
+//			if( is_first_header ) {
+//				ctx->ofs_stream << "() "<<std::endl;
+//				is_first_header = false;
+//			} else
+//				ctx->ofs_stream << std::endl;
+//		}
 
-			// Tail Dirty Flag Handle
-			if( is_first_header ) {
-				ctx->ofs_stream << "() "<<std::endl;
-				is_first_header = false;
-			} else
-				ctx->ofs_stream << std::endl;
+		AST::FunctionDefinition* fdef = dynamic_cast<AST::FunctionDefinition*>( &(*exp) );
+		AST::NodePtr fname = fdef -> FunctionName();
+		AST::NodePtr fsignature = fdef -> FunctionSignature();
+		AST::NodePtr fbody = fdef -> FunctionBody();
+
+
+		{ // Function Return Type
+			AST::FunctionSignature* rettype = dynamic_cast<AST::FunctionSignature*>( fsignature.get() );
+			dispatchDo(rettype->node_childs[0], ctx); // Name
+			ctx->ofs_stream << " ";
 		}
+		dispatchDo(fname, ctx); // Name
+		ctx->ofs_stream << "() "<<std::endl << "{" << std::endl;
+			dispatchDo(fbody, ctx);
+
+		ctx->ofs_stream << std::endl << "}" << std::endl;
+
 
 //		ctx->ofs_stream << " ; " << std::endl;
 	}

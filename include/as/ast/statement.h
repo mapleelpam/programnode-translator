@@ -41,6 +41,10 @@ struct Statement : public Node
     {
         enum {
             T_FUNCTION_DEFINITION ,
+            T_FUNCTION_NAME ,
+            T_FUNCTION_SIGNATURE ,
+            T_FUNCTION_RETTYPE ,
+            T_FUNCTION_PARAMETER ,
             T_STMT_LIST ,
         };
     };

@@ -43,7 +43,6 @@ struct Identifier : public Interpreter
 		AST::Identifier* li = dynamic_cast<AST::Identifier*>( exp );
 
 		ctx->ofs_stream << li->value;
-
 	}
 };
 
