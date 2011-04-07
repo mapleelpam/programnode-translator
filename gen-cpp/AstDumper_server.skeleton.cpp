@@ -42,6 +42,36 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("endPackage\n");
   }
 
+  void startFunctionDefinition() {
+    // Your implementation goes here
+    printf("startFunctionDefinition\n");
+  }
+
+  void startFunctionName() {
+    // Your implementation goes here
+    printf("startFunctionName\n");
+  }
+
+  void endFunctionName() {
+    // Your implementation goes here
+    printf("endFunctionName\n");
+  }
+
+  void startFunctionBody() {
+    // Your implementation goes here
+    printf("startFunctionBody\n");
+  }
+
+  void endFunctionBody() {
+    // Your implementation goes here
+    printf("endFunctionBody\n");
+  }
+
+  void endFunctionDefinition() {
+    // Your implementation goes here
+    printf("endFunctionDefinition\n");
+  }
+
   void startExpressionList() {
     // Your implementation goes here
     printf("startExpressionList\n");

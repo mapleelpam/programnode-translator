@@ -23,25 +23,22 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#ifndef __AS_AST_ARGUMENTS_H_
-#define __AS_AST_ARGUMENTS_H_
+
+#ifndef __AS_AST_FUNCTION_DEFINITION_H__
+#define __AS_AST_FUNCTION_DEFINITION_H__
 
 #include <tr1/memory>
-#include <as/ast/expression.h>
-
+#include <as/ast/statement.h>
 
 namespace tw { namespace maple { namespace as { namespace ast {
 
 // Abstract
-struct Arguments : public Expression
+struct FunctionDefinition: public Statement
 {
-    int exprType()
-    {
-    	return ExpressionType::T_ARGUMENTS;
-    }
+	FunctionDefinition( ) {}
+    int stmtType()   {   return StatementType::T_FUNCTION_DEFINITION;  }
 
 };
-
 
 } } } }
 

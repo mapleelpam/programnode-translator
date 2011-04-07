@@ -23,26 +23,42 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#ifndef __AS_AST_ARGUMENTS_H_
-#define __AS_AST_ARGUMENTS_H_
+#ifndef __BACKEDN_CPP_INTERPRET_STMT_FUNCTION_DEFINITION_H__
+#define __BACKEDN_CPP_INTERPRET_STMT_FUNCTION_DEFINITION_H__
 
-#include <tr1/memory>
-#include <as/ast/expression.h>
+#include <as/ast/function_definition.h>
+#include <as/ast/call.h>
+#include <backend/cpp/interpret/interpreter.h>
 
+namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
-namespace tw { namespace maple { namespace as { namespace ast {
+namespace AST = ::tw::maple::as::ast;
 
-// Abstract
-struct Arguments : public Expression
-{
-    int exprType()
-    {
-    	return ExpressionType::T_ARGUMENTS;
-    }
+struct FunctionDefinition : public Interpreter
+{   
+	static void interpret( AST::Node* exp, tw::maple::backend::cpp::Context* ctx )
+	{
+		bool is_first_header = true;
+		for (std::vector<std::tr1::shared_ptr<AST::Node> >::iterator nItr =
+				exp->node_childs.begin(); nItr != exp->node_childs.end(); nItr++)
+		{
+			dispatchDo(*nItr, ctx);
+
+			// Tail Dirty Flag Handle
+			if( is_first_header ) {
+				ctx->ofs_stream << "() "<<std::endl;
+				is_first_header = false;
+			} else
+				ctx->ofs_stream << std::endl;
+		}
+
+//		ctx->ofs_stream << " ; " << std::endl;
+	}
+};
 
 };
 
 
-} } } }
+} } } } 
 
-#endif
+#endif 

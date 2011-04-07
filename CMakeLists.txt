@@ -1,7 +1,13 @@
 
+# ProgrameNode Translator 
+# Copyright 2010 mapleellpam@gmail.com.  All rights reserved.
+# https://github.com/mapleelpam/programnode-translator
+
+# Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
+
 PROJECT( pn-translator )
 
-#execute_process( COMMAND ${THRIFT_COMPILER} -r -o ${CMAKE_CURRENT_SOURCE_DIR} --gen cpp ${AST_THRIFT}) 
+execute_process( COMMAND ${THRIFT_COMPILER} -r -o ${CMAKE_CURRENT_SOURCE_DIR} --gen cpp ${AST_THRIFT}) 
 
 #ADD_CUSTOM_TARGET(cpp-thrift-update ALL echo
 #    DEPENDS ${AST_THRIFT}

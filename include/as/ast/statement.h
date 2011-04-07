@@ -23,25 +23,33 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#ifndef __AS_AST_ARGUMENTS_H_
-#define __AS_AST_ARGUMENTS_H_
+#ifndef __AS_AST_NODE_STATEMENT_H__
+#define __AS_AST_NODE_STATEMENT_H__
 
+#include <as/ast/node.h>
 #include <tr1/memory>
-#include <as/ast/expression.h>
 
 
 namespace tw { namespace maple { namespace as { namespace ast {
 
 // Abstract
-struct Arguments : public Expression
+struct Statement : public Node
 {
-    int exprType()
+    virtual int nodeType() {	return NodeType::T_STATEMENT;	};
+
+    struct StatementType
     {
-    	return ExpressionType::T_ARGUMENTS;
-    }
+        enum {
+            T_FUNCTION_DEFINITION ,
+            T_STMT_LIST ,
+        };
+    };
+
+    virtual int stmtType() = 0;
 
 };
 
+typedef std::tr1::shared_ptr<Statement>    StatementPtr;
 
 } } } }
 
