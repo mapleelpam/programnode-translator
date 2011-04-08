@@ -45,6 +45,8 @@ struct FunctionSignature : public Statement
 //    NodePtr FunctionParameter(){	return node_childs[1];	}
 
     std::string toString()  {	return "node::function_signature"; };
+
+    bool check()	{	return node_childs.size() == 1; 	}
 };
 
 } } } }

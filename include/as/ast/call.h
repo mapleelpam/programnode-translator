@@ -33,7 +33,7 @@ namespace tw { namespace maple { namespace as { namespace ast {
 // Abstract
 struct Call : public Expression
 {
-	Call() : Expression(Node::NodeType::T_ARGUMENTS)
+	Call() : Expression(Node::NodeType::T_CALL)
 	{
 	}
     int     exprType()   {   return NodeType::T_CALL;  }

@@ -48,6 +48,7 @@ struct FunctionDefinition: public Statement
     NodePtr FunctionBody(){	return node_childs[2];	}
 
     std::string toString()  {	return "node::function_definition"; };
+    bool check(){	return node_childs.size() == 3;	};
 };
 
 } } } }

@@ -30,7 +30,6 @@
 #include <as/ast/identifier.h>
 #include <backend/cpp/interpret/interpreter.h>
 
-
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
 namespace AST = ::tw::maple::as::ast;

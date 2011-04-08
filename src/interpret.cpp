@@ -74,8 +74,6 @@ void dispatchDo( tw::maple::as::ast::NodePtr node, tw::maple::backend::cpp::Cont
 //		            T_BinaryOperator,
 //		            T_Assignment,
 
-
-		interpreterResolver[AST::Node::NodeType::T_CALL] = new Call();
 //		            T_CompareOperator,
 //		            T_InstanceOf,
 //
@@ -83,15 +81,17 @@ void dispatchDo( tw::maple::as::ast::NodePtr node, tw::maple::backend::cpp::Cont
 //		            T_PrefixOperator,
 		interpreterResolver[AST::Node::NodeType::T_EXPR_LIST] = new ExpressionList();
 		interpreterResolver[AST::Node::NodeType::T_ARGUMENTS] = new Arguments();
-		interpreterResolver[AST::Node::NodeType::T_LITERAL_STRING] = new Arguments();
+		interpreterResolver[AST::Node::NodeType::T_LITERAL_STRING] = new LiteralString();
 		interpreterResolver[AST::Node::NodeType::T_IDENTIFIER] = new Identifier();
+
+		interpreterResolver[AST::Node::NodeType::T_CALL] = new Call();
 	}
 	Interpreter* to = interpreterResolver[ node->nodeType() ];
 	if( to == NULL ){
 		std::cerr << "error: can't resolve interpreter - type id = "<<node->toString()<<std::endl;
 		exit(1);
 	} else {
-		std::cout <<" dispatch - " << node->toString()<<std::endl;
+		std::cout <<" dispatch - " << node->toString() << " number " << node->nodeType()<<std::endl;
 		to->interpret(node,ctx);
 	}
 

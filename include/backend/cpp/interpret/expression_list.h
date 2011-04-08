@@ -40,13 +40,10 @@ struct ExpressionList : public Interpreter
 {   
 	void interpret( AST::NodePtr exp, tw::maple::backend::cpp::Context* ctx )
 	{
-		printf("-------------> expr list\n");
-
 		bool is_first = true;
 		for (std::vector<std::tr1::shared_ptr<AST::Node> >::iterator nItr =
 				exp->node_childs.begin(); nItr != exp->node_childs.end(); nItr++)
 		{
-			std::cout << "-------------> inside expr list  " << (*nItr)->toString() << std::endl;
 			dispatchDo(*nItr, ctx);
 
 			// Tail Dirty Flag Handle
@@ -56,9 +53,8 @@ struct ExpressionList : public Interpreter
 				ctx->ofs_stream << ", ";
 		}
 
-		ctx->ofs_stream << " ; " << std::endl;
+		ctx->ofs_stream << "; " << std::endl;
 
-		printf("-------------> expr list end\n");
 	}
 };
 

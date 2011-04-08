@@ -42,21 +42,14 @@ struct FunctionDefinition : public Interpreter
 	{
 		std::tr1::shared_ptr<AST::FunctionDefinition> fdef = std::tr1::static_pointer_cast<AST::FunctionDefinition>(node);
 
-
-		AST::NodePtr fname = fdef -> FunctionName();
-		AST::NodePtr fsignature = fdef -> FunctionSignature();
-		AST::NodePtr fbody = fdef -> FunctionBody();
-
-
 		{ // Function Return Type
-//			AST::FunctionSignature* rettype = dynamic_cast<AST::FunctionSignature*>( fsignature.get() );
-			std::tr1::shared_ptr<AST::FunctionSignature> rettype = std::tr1::static_pointer_cast<AST::FunctionSignature>(node);
-			dispatchDo(rettype->node_childs[0], ctx); // Name
+			std::tr1::shared_ptr<AST::FunctionSignature> fsig = std::tr1::static_pointer_cast<AST::FunctionSignature>(fdef -> FunctionSignature());
+			dispatchDo(fsig->FunctionReturnType(), ctx); // Name
 			ctx->ofs_stream << " ";
 		}
-		dispatchDo(fname, ctx); // Name
+		dispatchDo( fdef -> FunctionName() , ctx); // Name
 		ctx->ofs_stream << "() "<<std::endl << "{" << std::endl;
-			dispatchDo(fbody, ctx);
+			dispatchDo( fdef -> FunctionBody() , ctx);
 
 		ctx->ofs_stream << std::endl << "}" << std::endl;
 

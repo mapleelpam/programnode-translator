@@ -39,7 +39,9 @@ struct Call : public Interpreter
 {   
 	virtual void interpret(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
 	{
-		std::cout << "-------------> call interpret\n";
+		DEBUG_INTERPRET_ENTRY;
+
+		std::cerr << "-------------> call interpret\n";
 //		std::cout << exp->node_childs.size() <<std::endl;
 
 		std::tr1::shared_ptr<AST::Call> call = std::tr1::static_pointer_cast<AST::Call>(node);
@@ -51,19 +53,12 @@ struct Call : public Interpreter
 		callee = call->getCallee();
 		args = call->getArgs();
 
-printf("call 1\n");
 		dispatchDo(callee, ctx);
-		ctx->ofs_stream << " ( ";
-printf("call 2\n");
+		ctx->ofs_stream << "( ";
 			dispatchDo(args, ctx);
-		ctx->ofs_stream << " ) ";
-		printf("call 3\n");
-//		for (std::vector<std::tr1::shared_ptr<AST::Node> >::iterator nItr =
-//				exp->node_childs.begin(); nItr != exp->node_childs.end(); nItr++)
-//		{
-//			dispatchDo(*nItr, ctx);
-//		}
+		ctx->ofs_stream << " )";
 
+		DEBUG_INTERPRET_LEAVE;
 	}
 };
 
