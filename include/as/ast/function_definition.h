@@ -35,13 +35,19 @@ namespace tw { namespace maple { namespace as { namespace ast {
 // Abstract
 struct FunctionDefinition: public Statement
 {
-	FunctionDefinition( ) {}
-    int stmtType()   {   return StatementType::T_FUNCTION_DEFINITION;  }
+	FunctionDefinition() :
+		Statement(Node::NodeType::T_FUNCTION_DEFINITION) {
 
+	}
+    int stmtType()   {   return Node::NodeType::T_FUNCTION_DEFINITION;  }
+
+
+    // Public Assert !!
     NodePtr FunctionName(){	return node_childs[0];	}
     NodePtr FunctionSignature(){	return node_childs[1];	}
     NodePtr FunctionBody(){	return node_childs[2];	}
 
+    std::string toString()  {	return "node::function_definition"; };
 };
 
 } } } }

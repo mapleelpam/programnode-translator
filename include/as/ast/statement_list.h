@@ -35,8 +35,14 @@ namespace tw { namespace maple { namespace as { namespace ast {
 // Abstract
 struct StatementList : public Statement
 {
-    int stmtType()    {    	return StatementType::T_STMT_LIST;    }
+	StatementList() :
+		Statement(Node::NodeType::T_STMT_LIST) {
+	}
+	int stmtType() {
+		return Node::NodeType::T_STMT_LIST;
+	}
 
+	std::string toString()  {	return "node::stmt_list"; };
 };
 
 

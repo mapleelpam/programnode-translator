@@ -35,20 +35,58 @@ namespace tw { namespace maple { namespace as { namespace ast {
 // Abstract Class
 struct Node
 {
+	Node(int ntype) :
+		_node_type(ntype) {
+	}
+
     struct NodeType
     {
         enum {
-        	T_EXPRESSION ,
-        	T_STATEMENT ,
         	T_PROGRAM ,
+
+        	// Stmt
+            T_FUNCTION_DEFINITION ,
+            T_FUNCTION_NAME ,
+            T_FUNCTION_SIGNATURE ,
+            T_FUNCTION_RETTYPE ,
+            T_FUNCTION_PARAMETER ,
+            T_STMT_LIST ,
+            T_ConstantNumber,
+
+            // Expr
+            T_BinaryOperator,
+            T_Assignment,
+
+            T_CALL,
+            T_CompareOperator,
+            T_InstanceOf,
+
+            T_PostfixOperator,
+            T_PrefixOperator,
+
+            T_EXPR_LIST,
+            T_ARGUMENTS,
+
+            T_LITERAL_STRING,
+            T_LITERAL_NUMBER,
+
+            T_IDENTIFIER,
+
+
+            T_NODE_TYPE_END,
         };
     };
 
-    virtual int nodeType() = 0;
+    virtual int nodeType(){	return _node_type;	};
 
     virtual void addNodeChild( std::tr1::shared_ptr< Node > c) { node_childs.push_back( c ); }
 
     std::vector< std::tr1::shared_ptr< Node > >    node_childs;
+
+//    std::ostream& operater<< ( std::ostream&, Node& );
+    virtual std::string toString() = 0;
+private:
+    int _node_type;
 };
 
 typedef std::tr1::shared_ptr<Node>    NodePtr;

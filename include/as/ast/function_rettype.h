@@ -35,9 +35,14 @@ namespace tw { namespace maple { namespace as { namespace ast {
 // Abstract
 struct FunctionReturnType : public Statement
 {
-	FunctionReturnType( ) {}
-    int stmtType()   {   return StatementType::T_FUNCTION_RETTYPE;  }
+	FunctionReturnType() :
+		Statement(Node::NodeType::T_FUNCTION_RETTYPE) {
+	}
+	int stmtType() {
+		return Node::NodeType::T_FUNCTION_RETTYPE;
+	}
 
+	std::string toString()  {	return "node::function_return_type"; };
 };
 
 } } } }

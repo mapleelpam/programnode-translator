@@ -35,9 +35,15 @@ namespace tw { namespace maple { namespace as { namespace ast {
 // Abstract
 struct FunctionName : public Statement
 {
-	FunctionName( ) {}
-    int stmtType()   {   return StatementType::T_FUNCTION_NAME;  }
+	FunctionName() :
+		Statement(Node::NodeType::T_FUNCTION_NAME) {
 
+	}
+    int stmtType() {
+		return Node::NodeType::T_FUNCTION_NAME;
+	}
+
+    std::string toString()  {	return "node::function_name"; };
 };
 
 } } } }

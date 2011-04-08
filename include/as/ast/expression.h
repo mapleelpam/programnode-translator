@@ -35,37 +35,11 @@ namespace tw { namespace maple { namespace as { namespace ast {
 // Abstract
 struct Expression : public Node
 {
-    virtual int nodeType() {	return NodeType::T_EXPRESSION;	};
-
-    struct ExpressionType
-    {
-        enum {
-            T_ConstantNumber,
-
-            T_BinaryOperator,
-            T_Assignment,  
-
-            T_CALL,
-            T_CompareOperator,
-            T_InstanceOf,
-
-            T_PostfixOperator,
-            T_PrefixOperator,
-
-            T_EXPR_LIST,
-            T_ARGUMENTS,
-
-            T_LITERAL_STRING,
-            T_LITERAL_NUMBER,
-
-            T_IDENTIFIER,
-
-            T_FUNCTION_DEFINITION,
-        };
-    };
-
     virtual int exprType() = 0;
 
+protected:
+//    Expression( Node::NodeType ntype ) : Node(ntype){}
+      Expression( int ntype ) : Node(ntype){}
 };
 
 typedef std::tr1::shared_ptr<Expression>    ExpressionPtr; 

@@ -24,8 +24,8 @@
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
 
-#ifndef __BACKEDN_CPP_INTERPRET_INTERPRET_H_
-#define __BACKEDN_CPP_INTERPRET_INTERPRET_H_
+#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_INTERPRET_H_
+#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_INTERPRET_H_
 
 #include <as/ast/expression.h>
 #include <as/ast/call.h>
@@ -37,6 +37,21 @@ void dispatchDo( tw::maple::as::ast::NodePtr, tw::maple::backend::cpp::Context* 
 
 struct Interpreter
 {
+//	virtual void interpret(::tw::maple::as::ast::NodePtr node,
+//			tw::maple::backend::cpp::Context* ctx) = 0;
+
+	virtual void interpret(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
+	{
+		std::cout << " default interpretor " << std::endl;
+		ctx->tree_depth ++;
+
+		for (std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr =
+				node->node_childs.begin(); nItr != node->node_childs.end(); nItr++) {
+			dispatchDo(*nItr, ctx);
+		}
+
+		ctx->tree_depth --;
+	}
 
 };
 

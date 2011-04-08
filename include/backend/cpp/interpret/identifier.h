@@ -23,8 +23,8 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#ifndef __BACKEDN_CPP_INTERPRET_IDENTIFIER_H__
-#define __BACKEDN_CPP_INTERPRET_IDENTIFIER_H__
+#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_IDENTIFIER_H__
+#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_IDENTIFIER_H__
 
 #include <as/ast/expression.h>
 #include <as/ast/identifier.h>
@@ -38,9 +38,11 @@ namespace AST = ::tw::maple::as::ast;
 // Abstract
 struct Identifier : public Interpreter
 {   
-	static void interpret( AST::Expression* exp, tw::maple::backend::cpp::Context* ctx )
+	void interpret( AST::NodePtr node, tw::maple::backend::cpp::Context* ctx )
 	{
-		AST::Identifier* li = dynamic_cast<AST::Identifier*>( exp );
+//		AST::Identifier* li = dynamic_cast<AST::Identifier*>( exp );
+		std::tr1::shared_ptr<AST::Identifier> li = std::tr1::static_pointer_cast<AST::Identifier>(node);
+
 
 		ctx->ofs_stream << li->value;
 	}

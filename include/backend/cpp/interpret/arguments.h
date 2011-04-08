@@ -18,13 +18,13 @@
  */
 
 // ProgrameNode Translator
-// Copyright 2010 mapleellpam@gmail.com.  All rights reserved.
+// Copyright 2011 mapleellpam@gmail.com.  All rights reserved.
 // https://github.com/mapleelpam/programnode-translator
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#ifndef __BACKEDN_CPP_INTERPRET_ARGUMENTS_H_
-#define __BACKEDN_CPP_INTERPRET_ARGUMENTS_H_
+#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_ARGUMENTS_H_
+#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_ARGUMENTS_H_
 
 #include <as/ast/arguments.h>
 #include <as/ast/call.h>
@@ -38,7 +38,7 @@ namespace AST = ::tw::maple::as::ast;
 // Abstract
 struct Arguments : public Interpreter
 {   
-	static void interpret( AST::Expression* exp, tw::maple::backend::cpp::Context* ctx )
+	void interpret( AST::NodePtr exp, tw::maple::backend::cpp::Context* ctx )
 	{
 		for (std::vector<std::tr1::shared_ptr<AST::Node> >::iterator nItr =
 				exp->node_childs.begin(); nItr != exp->node_childs.end(); nItr++)

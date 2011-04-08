@@ -18,7 +18,7 @@
  */
 
 // ProgrameNode Translator
-// Copyright 2010 mapleellpam@gmail.com.  All rights reserved.
+// Copyright 2011 mapleellpam@gmail.com.  All rights reserved.
 // https://github.com/mapleelpam/programnode-translator
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
@@ -35,8 +35,12 @@ namespace tw { namespace maple { namespace as { namespace ast {
 // Abstract
 struct ExpressionList : public Expression
 {
-    int exprType()    {    	return ExpressionType::T_EXPR_LIST;    }
-
+	ExpressionList() :
+		Expression(Node::NodeType::T_EXPR_LIST)
+	{
+	}
+    int exprType()    {    	return NodeType::T_EXPR_LIST;    }
+    std::string toString()  {	return "node::expression_list"; };
 };
 
 

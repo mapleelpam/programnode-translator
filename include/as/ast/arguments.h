@@ -18,7 +18,7 @@
  */
 
 // ProgrameNode Translator
-// Copyright 2010 mapleellpam@gmail.com.  All rights reserved.
+// Copyright 2011 mapleellpam@gmail.com.  All rights reserved.
 // https://github.com/mapleelpam/programnode-translator
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
@@ -35,11 +35,11 @@ namespace tw { namespace maple { namespace as { namespace ast {
 // Abstract
 struct Arguments : public Expression
 {
-    int exprType()
-    {
-    	return ExpressionType::T_ARGUMENTS;
-    }
-
+	Arguments() : Expression(Node::NodeType::T_ARGUMENTS)
+	{
+	}
+	int exprType() {	return Node::NodeType::T_ARGUMENTS;	}
+	std::string toString()  {	return "node::arguments"; };
 };
 
 

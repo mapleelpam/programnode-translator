@@ -38,7 +38,6 @@
 #include <protocol/TBinaryProtocol.h>
 
 #include <as/ast/call.h>
-#include <as/ast/literal.h>
 #include <as/ast/literal_string.h>
 #include <as/ast/expression_list.h>
 #include <as/ast/identifier.h>

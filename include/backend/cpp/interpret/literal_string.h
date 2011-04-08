@@ -18,20 +18,17 @@
  */
 
 // ProgrameNode Translator
-// Copyright 2010 mapleellpam@gmail.com.  All rights reserved.
+// Copyright 2011 mapleellpam@gmail.com.  All rights reserved.
 // https://github.com/mapleelpam/programnode-translator
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#ifndef __BACKEDN_CPP_INTERPRET_LITERAL_STRING_H__
-#define __BACKEDN_CPP_INTERPRET_LITERAL_STRING_H__
+#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_LITERAL_STRING_H__
+#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_LITERAL_STRING_H__
 
 #include <as/ast/expression.h>
-#include <as/ast/literal.h>
 #include <backend/cpp/interpret/interpreter.h>
 #include <as/ast/literal_string.h>
-
-
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
@@ -40,13 +37,15 @@ namespace AST = ::tw::maple::as::ast;
 // Abstract
 struct LiteralString : public Interpreter
 {   
-	static void interpret( AST::Expression* exp, tw::maple::backend::cpp::Context* ctx )
+	void interpret( AST::NodePtr node, tw::maple::backend::cpp::Context* ctx )
 	{
-		AST::LiteralString* li = dynamic_cast<AST::LiteralString*>( exp );
+//		AST::LiteralString* li = dynamic_cast<AST::LiteralString*>( exp );
+		std::tr1::shared_ptr<AST::LiteralString> li = std::tr1::static_pointer_cast<AST::LiteralString>(node);
 
 		ctx->ofs_stream << "\""<< li->value << "\"";
 
 	}
+
 };
 
 

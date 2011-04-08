@@ -35,11 +35,16 @@ namespace tw { namespace maple { namespace as { namespace ast {
 // Abstract
 struct FunctionSignature : public Statement
 {
-	FunctionSignature( ) {}
-    int stmtType()   {   return StatementType::T_FUNCTION_SIGNATURE;  }
+	FunctionSignature() :
+		Statement(Node::NodeType::T_FUNCTION_SIGNATURE) {
+	}
+
+	int stmtType()   {   return Node::NodeType::T_FUNCTION_SIGNATURE;  }
 
     NodePtr FunctionReturnType(){	return node_childs[0];	}
 //    NodePtr FunctionParameter(){	return node_childs[1];	}
+
+    std::string toString()  {	return "node::function_signature"; };
 };
 
 } } } }

@@ -18,29 +18,38 @@
  */
 
 // ProgrameNode Translator
-// Copyright 2010 mapleellpam@gmail.com.  All rights reserved.
+// Copyright 2011 mapleellpam@gmail.com.  All rights reserved.
 // https://github.com/mapleelpam/programnode-translator
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
+#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_PROGRAM_ROOT_H__
+#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_PROGRAM_ROOT_H__
 
-#ifndef __AS_AST_LITERAL_H__
-#define __AS_AST_LITERAL_H__
+#include <as/ast/arguments.h>
+#include <as/ast/call.h>
+#include <backend/cpp/interpret/interpreter.h>
 
-#include <tr1/memory>
-#include <as/ast/expression.h>
+namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
-namespace tw { namespace maple { namespace as { namespace ast {
+namespace AST = ::tw::maple::as::ast;
 
-// Abstract
-struct Literal: public Expression
-{
-    Literal( std::string v ) : value(v) {}
-//    int exprType()   {   return ExpressionType::T);  }
+struct ProgramRoot : public Interpreter
+{   
+	void interpret( AST::Node* exp, tw::maple::backend::cpp::Context* ctx )
+	{
+		for (std::vector<std::tr1::shared_ptr<AST::Node> >::iterator nItr =
+				exp->node_childs.begin(); nItr != exp->node_childs.end(); nItr++)
+		{
+			dispatchDo(*nItr, ctx);
+		}
 
-    std::string value;
+	}
 };
 
-} } } }
+};
 
-#endif
+
+} } } } 
+
+#endif 

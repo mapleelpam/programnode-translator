@@ -18,13 +18,13 @@
  */
 
 // ProgrameNode Translator
-// Copyright 2010 mapleellpam@gmail.com.  All rights reserved.
+// Copyright 2011 mapleellpam@gmail.com.  All rights reserved.
 // https://github.com/mapleelpam/programnode-translator
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#ifndef __AST_DUMPER_READER_
-#define __AST_DUMPER_READER_
+#ifndef __TW_MAPLE_AST_DUMPER_READER_
+#define __TW_MAPLE_AST_DUMPER_READER_
 
 #include <transport/TSocket.h>
 #include <transport/TBufferTransports.h>

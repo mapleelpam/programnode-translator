@@ -23,8 +23,8 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#ifndef __AS_AST_NODE_STATEMENT_H__
-#define __AS_AST_NODE_STATEMENT_H__
+#ifndef __TW_MAPLE_AS_AST_NODE_STATEMENT_H__
+#define __TW_MAPLE_AS_AST_NODE_STATEMENT_H__
 
 #include <as/ast/node.h>
 #include <tr1/memory>
@@ -35,22 +35,10 @@ namespace tw { namespace maple { namespace as { namespace ast {
 // Abstract
 struct Statement : public Node
 {
-    virtual int nodeType() {	return NodeType::T_STATEMENT;	};
-
-    struct StatementType
-    {
-        enum {
-            T_FUNCTION_DEFINITION ,
-            T_FUNCTION_NAME ,
-            T_FUNCTION_SIGNATURE ,
-            T_FUNCTION_RETTYPE ,
-            T_FUNCTION_PARAMETER ,
-            T_STMT_LIST ,
-        };
-    };
-
     virtual int stmtType() = 0;
 
+//protected:
+    Statement( int ntype ) : Node(ntype){}
 };
 
 typedef std::tr1::shared_ptr<Statement>    StatementPtr;

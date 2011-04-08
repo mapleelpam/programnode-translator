@@ -18,13 +18,13 @@
  */
 
 // ProgrameNode Translator
-// Copyright 2010 mapleellpam@gmail.com.  All rights reserved.
+// Copyright 2011 mapleellpam@gmail.com.  All rights reserved.
 // https://github.com/mapleelpam/programnode-translator
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#ifndef __BACKEDN_CPP_INTERPRET_CALL_H
-#define __BACKEDN_CPP_INTERPRET_CALL_H
+#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_CALL_H
+#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_CALL_H
 
 #include <as/ast/expression.h>
 #include <as/ast/call.h>
@@ -37,20 +37,27 @@ namespace AST = ::tw::maple::as::ast;
 // Abstract
 struct Call : public Interpreter
 {   
-	static void interpret( AST::Expression* exp, tw::maple::backend::cpp::Context* ctx )
+	virtual void interpret(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
 	{
-		std::cout << exp->node_childs.size() <<std::endl;
+		std::cout << "-------------> call interpret\n";
+//		std::cout << exp->node_childs.size() <<std::endl;
+
+		std::tr1::shared_ptr<AST::Call> call = std::tr1::static_pointer_cast<AST::Call>(node);
+
+
 		std::tr1::shared_ptr<AST::Node> callee;
 		std::tr1::shared_ptr<AST::Node> args;
 
-		callee = exp->node_childs[ 0 ];
-		args = exp->node_childs[ 1 ];
+		callee = call->getCallee();
+		args = call->getArgs();
 
-
+printf("call 1\n");
 		dispatchDo(callee, ctx);
 		ctx->ofs_stream << " ( ";
+printf("call 2\n");
 			dispatchDo(args, ctx);
 		ctx->ofs_stream << " ) ";
+		printf("call 3\n");
 //		for (std::vector<std::tr1::shared_ptr<AST::Node> >::iterator nItr =
 //				exp->node_childs.begin(); nItr != exp->node_childs.end(); nItr++)
 //		{

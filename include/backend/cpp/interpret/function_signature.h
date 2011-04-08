@@ -23,8 +23,8 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#ifndef __BACKEDN_CPP_INTERPRET_STMT_FUNCTION_RETTYPE_H__
-#define __BACKEDN_CPP_INTERPRET_STMT_FUNCTION_RETTYPE_H__
+#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_FUNCTION_RETTYPE_H__
+#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_FUNCTION_RETTYPE_H__
 
 #include <as/ast/function_signature.h>
 #include <backend/cpp/interpret/interpreter.h>
@@ -35,7 +35,7 @@ namespace AST = ::tw::maple::as::ast;
 
 struct FunctionSignature : public Interpreter
 {
-	static void interpret( AST::Node* exp, tw::maple::backend::cpp::Context* ctx )
+	void interpret( AST::NodePtr exp, tw::maple::backend::cpp::Context* ctx )
 	{
 //		AST::FunctionDefinition* fdef = dynamic_cast<AST::FunctionDefinition*>( &(*exp) );
 //		AST::NodePtr fname = fdef->FunctionName();

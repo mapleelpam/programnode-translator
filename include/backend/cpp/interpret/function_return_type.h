@@ -23,8 +23,8 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#ifndef __BACKEDN_CPP_INTERPRET_STMT_FUNCTION_RETURN_TYPE_H__
-#define __BACKEDN_CPP_INTERPRET_STMT_FUNCTION_RETURN_TYPE_H__
+#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_FUNCTION_RETURN_TYPE_H__
+#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_FUNCTION_RETURN_TYPE_H__
 
 #include <as/ast/function_definition.h>
 #include <as/ast/call.h>
@@ -36,7 +36,7 @@ namespace AST = ::tw::maple::as::ast;
 
 struct FunctionReturnType : public Interpreter
 {
-	static void interpret( AST::Node* exp, tw::maple::backend::cpp::Context* ctx )
+	void interpret( AST::NodePtr exp, tw::maple::backend::cpp::Context* ctx )
 	{
 		printf(" function return type \n");
 		for (std::vector<std::tr1::shared_ptr<AST::Node> >::iterator nItr =

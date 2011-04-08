@@ -33,8 +33,12 @@ namespace tw { namespace maple { namespace as { namespace ast {
 
 struct Program : public Node
 {
-public:
+	Program() : Node( NodeType::T_PROGRAM)
+	{
+	}
     virtual int nodeType() {	return NodeType::T_PROGRAM;	};
+
+    std::string toString()  {	return "node::program"; };
 };
 
 } } } }

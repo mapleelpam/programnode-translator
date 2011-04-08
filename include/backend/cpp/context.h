@@ -37,6 +37,8 @@ namespace tw { namespace maple { namespace backend { namespace cpp {
 struct Context
 {
 	std::ofstream ofs_stream;
+
+	int				tree_depth;
 };
 
 } } } }

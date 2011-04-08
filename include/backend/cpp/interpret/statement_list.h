@@ -18,13 +18,13 @@
  */
 
 // ProgrameNode Translator
-// Copyright 2010 mapleellpam@gmail.com.  All rights reserved.
+// Copyright 2011 mapleellpam@gmail.com.  All rights reserved.
 // https://github.com/mapleelpam/programnode-translator
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#ifndef __BACKEDN_CPP_INTERPRET_STMT_LIST_H__
-#define __BACKEDN_CPP_INTERPRET_STMT_LIST_H__
+#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_LIST_H__
+#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_LIST_H__
 
 #include <as/ast/statement_list.h>
 #include <as/ast/call.h>
@@ -36,11 +36,13 @@ namespace AST = ::tw::maple::as::ast;
 
 struct StatementList : public Interpreter
 {   
-	static void interpret( AST::Node* exp, tw::maple::backend::cpp::Context* ctx )
+	void interpret( AST::NodePtr node, tw::maple::backend::cpp::Context* ctx )
 	{
+		ctx->tree_depth ++;
+
 		bool is_first = true;
 		for (std::vector<std::tr1::shared_ptr<AST::Node> >::iterator nItr =
-				exp->node_childs.begin(); nItr != exp->node_childs.end(); nItr++)
+				node->node_childs.begin(); nItr != node->node_childs.end(); nItr++)
 		{
 			dispatchDo(*nItr, ctx);
 
@@ -51,7 +53,7 @@ struct StatementList : public Interpreter
 				ctx->ofs_stream << std::endl;
 		}
 
-//		ctx->ofs_stream << " ; " << std::endl;
+		ctx->tree_depth --;
 	}
 };
 

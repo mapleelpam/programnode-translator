@@ -18,37 +18,40 @@
  */
 
 // ProgrameNode Translator
-// Copyright 2010 mapleellpam@gmail.com.  All rights reserved.
+// Copyright 2011 mapleellpam@gmail.com.  All rights reserved.
 // https://github.com/mapleelpam/programnode-translator
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#ifndef __BACKEDN_CPP_INTERPRET_LITERAL_H__
-#define __BACKEDN_CPP_INTERPRET_LITERAL_H__
+#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_FUNCTION_PARAMETER_H__
+#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_FUNCTION_PARAMETER_H__
 
-#include <as/ast/expression.h>
-#include <as/ast/literal.h>
+#include <as/ast/function_definition.h>
+#include <as/ast/call.h>
 #include <backend/cpp/interpret/interpreter.h>
-
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
 namespace AST = ::tw::maple::as::ast;
 
-// Abstract
-struct Literal : public Interpreter
-{   
-	static void interpret( AST::Expression* exp, tw::maple::backend::cpp::Context* ctx )
+struct FunctionParameter : public Interpreter
+{
+	void interpret( AST::NodePtr exp, tw::maple::backend::cpp::Context* ctx )
 	{
-		AST::Literal* li = dynamic_cast<AST::Literal*>( exp );
+		printf(" function parameter \n");
+		for (std::vector<std::tr1::shared_ptr<AST::Node> >::iterator nItr =
+				exp->node_childs.begin(); nItr != exp->node_childs.end(); nItr++)
+		{
+			dispatchDo(*nItr, ctx);
+		}
 
-		ctx->ofs_stream << li->value;
-
+//		ctx->ofs_stream << " ; " << std::endl;
 	}
 };
 
+};
 
-} } } } }
+
+} } } } 
 
 #endif 
-

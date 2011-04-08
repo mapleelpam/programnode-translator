@@ -23,8 +23,8 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#ifndef __BACKEDN_CPP_INTERPRET_STMT_FUNCTION_DEFINITION_H__
-#define __BACKEDN_CPP_INTERPRET_STMT_FUNCTION_DEFINITION_H__
+#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_FUNCTION_DEFINITION_H__
+#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_FUNCTION_DEFINITION_H__
 
 #include <as/ast/function_definition.h>
 #include <as/ast/function_signature.h>
@@ -38,30 +38,19 @@ namespace AST = ::tw::maple::as::ast;
 
 struct FunctionDefinition : public Interpreter
 {   
-	static void interpret( AST::Node* exp, tw::maple::backend::cpp::Context* ctx )
+	void interpret( AST::NodePtr node, tw::maple::backend::cpp::Context* ctx )
 	{
-//		bool is_first_header = true;
-//		for (std::vector<std::tr1::shared_ptr<AST::Node> >::iterator nItr =
-//				exp->node_childs.begin(); nItr != exp->node_childs.end(); nItr++)
-//		{
-//			printf(" 1 0000000000000000000000000000 \n");
-//			dispatchDo(*nItr, ctx);
-//			// Tail Dirty Flag Handle
-//			if( is_first_header ) {
-//				ctx->ofs_stream << "() "<<std::endl;
-//				is_first_header = false;
-//			} else
-//				ctx->ofs_stream << std::endl;
-//		}
+		std::tr1::shared_ptr<AST::FunctionDefinition> fdef = std::tr1::static_pointer_cast<AST::FunctionDefinition>(node);
 
-		AST::FunctionDefinition* fdef = dynamic_cast<AST::FunctionDefinition*>( &(*exp) );
+
 		AST::NodePtr fname = fdef -> FunctionName();
 		AST::NodePtr fsignature = fdef -> FunctionSignature();
 		AST::NodePtr fbody = fdef -> FunctionBody();
 
 
 		{ // Function Return Type
-			AST::FunctionSignature* rettype = dynamic_cast<AST::FunctionSignature*>( fsignature.get() );
+//			AST::FunctionSignature* rettype = dynamic_cast<AST::FunctionSignature*>( fsignature.get() );
+			std::tr1::shared_ptr<AST::FunctionSignature> rettype = std::tr1::static_pointer_cast<AST::FunctionSignature>(node);
 			dispatchDo(rettype->node_childs[0], ctx); // Name
 			ctx->ofs_stream << " ";
 		}
