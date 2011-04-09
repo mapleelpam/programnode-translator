@@ -28,10 +28,10 @@ package abc
 
     function main( ) : int
     {
-        printf(" %d ", sum(1,2)); // CHECK: 3
-        printf(" %d ", sub(2,1)); // CHECK: 1
-        printf(" %d ", multi(2,4)); // CHECK: 8
-        printf(" %d ", div(4,2)); // CHECK: 2
-        printf(" %d ", mod(7,3)); // CHECK: 1
+        printf(" %d\n", sum(1,2)); // CHECK: 3
+        printf(" %d\n", sub(2,1)); // CHECK: 1
+        printf(" %d\n", multi(2,4)); // CHECK: 8
+        printf(" %d\n", div(4,2)); // CHECK: 2
+        printf(" %d\n", mod(7,3)); // CHECK: 1
     }
 }
