@@ -50,6 +50,14 @@ private:
 	{
 		if( str == "plus")
 			return "+";
+		else if( str == "minus")
+			return "-";
+		else if( str == "mult")
+			return "*";
+		else if( str == "div")
+			return "/";
+		else if( str == "modulus")
+			return "%";
 		else {
 			std::cerr << " can't resolve binary op string " << str << std::endl;
 			exit(1);
