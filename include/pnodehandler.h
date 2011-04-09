@@ -54,9 +54,11 @@
 #include <as/ast/function_common.h>
 #include <as/ast/binary_operator.h>
 #include <as/ast/unary_operator.h>
+#include <as/ast/variable_declare.h>
 #include <as/ast/statement.h>
 #include <as/ast/return_stmt.h>
 #include <as/ast/statement_list.h>
+#include <as/ast/assignment.h>
 #include <as/ast/node.h>
 
 
@@ -255,27 +257,52 @@ public:
   void startBinaryExpression(const generated::BinaryExpression& op)
   {
     // Your implementation goes here
-		printf("startBinaryExpression\n");
+	  printf(" %lu startBinaryExpression\n", _node_stack.size() );
+
 		as::ast::BinaryOperatorPtr as_node( new as::ast::BinaryOperator(op.op));
 		_node_stack . top() -> addNodeChild(as_node);
 		_node_stack . push(as_node);
   }
   void endBinaryExpression() {
     // Your implementation goes here
-    printf("endBinaryExpression\n");
+    printf(" %lu endBinaryExpression\n", _node_stack.size() );
     _node_stack . pop( );
 
   }
+  void startVariableDeclare() {
+		printf(" %lu startVariableDeclare\n", _node_stack.size());
+		as::ast::VariableDeclarePtr as_node(new as::ast::VariableDeclare());
+		_node_stack . top() -> addNodeChild(as_node);
+		_node_stack . push(as_node);
+	}
+	void endVariableDeclare() {
+
+		printf(" %lu endVariableDeclare\n", _node_stack.size());
+		_node_stack . pop();
+
+	}
+
+	  void startAssignment() {
+			printf(" %lu startAssignment\n", _node_stack.size());
+			as::ast::AssignmentPtr as_node(new as::ast::Assignment());
+			_node_stack . top() -> addNodeChild(as_node);
+			_node_stack . push(as_node);
+		}
+		void endAssignment() {
+			printf(" %lu endAssignment\n", _node_stack.size());
+			_node_stack . pop();
+
+		}
   void startUnaryExpression(const generated::UnaryExpression& op)
     {
-      // Your implementation goes here
+
   		printf("startUnaryExpression\n");
   		as::ast::UnaryOperatorPtr as_node( new as::ast::UnaryOperator(op.op));
   		_node_stack . top() -> addNodeChild(as_node);
   		_node_stack . push(as_node);
     }
     void endUnaryExpression() {
-      // Your implementation goes here
+
       printf("endUnaryExpression\n");
       _node_stack . pop( );
 

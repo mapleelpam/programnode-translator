@@ -167,6 +167,26 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("endUnaryExpression\n");
   }
 
+  void startVariableDeclare() {
+    // Your implementation goes here
+    printf("startVariableDeclare\n");
+  }
+
+  void endVariableDeclare() {
+    // Your implementation goes here
+    printf("endVariableDeclare\n");
+  }
+
+  void startAssignment() {
+    // Your implementation goes here
+    printf("startAssignment\n");
+  }
+
+  void endAssignment() {
+    // Your implementation goes here
+    printf("endAssignment\n");
+  }
+
   void identifierExpression(const Identifier& id) {
     // Your implementation goes here
     printf("identifierExpression\n");
@@ -205,16 +225,6 @@ class AstDumperHandler : virtual public AstDumperIf {
   void endStmtList() {
     // Your implementation goes here
     printf("endStmtList\n");
-  }
-
-  void ping() {
-    // Your implementation goes here
-    printf("ping\n");
-  }
-
-  void ping2(const int32_t echo) {
-    // Your implementation goes here
-    printf("ping2\n");
   }
 
 };

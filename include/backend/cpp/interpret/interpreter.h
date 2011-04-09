@@ -31,8 +31,8 @@
 #include <as/ast/call.h>
 #include <backend/cpp/context.h>
 
-#define DEBUG_INTERPRET_ENTRY {std::cout << typeid(*this).name() << "::"<<__FUNCTION__<< "enter function" <<std::endl;	}
-#define DEBUG_INTERPRET_LEAVE {std::cout << typeid(*this).name() << "::"<<__FUNCTION__<< "enter function" <<std::endl;	}
+#define DEBUG_INTERPRET_ENTRY {std::cout << typeid(*this).name() << "::"<<__FUNCTION__<< " enter function" <<std::endl;	}
+#define DEBUG_INTERPRET_LEAVE {std::cout << typeid(*this).name() << "::"<<__FUNCTION__<< " leave function" <<std::endl;	}
 
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {

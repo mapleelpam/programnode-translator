@@ -1525,6 +1525,198 @@ uint32_t AstDumper_endUnaryExpression_pargs::write(::apache::thrift::protocol::T
   return xfer;
 }
 
+uint32_t AstDumper_startVariableDeclare_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t AstDumper_startVariableDeclare_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  xfer += oprot->writeStructBegin("AstDumper_startVariableDeclare_args");
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+uint32_t AstDumper_startVariableDeclare_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  xfer += oprot->writeStructBegin("AstDumper_startVariableDeclare_pargs");
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+uint32_t AstDumper_endVariableDeclare_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t AstDumper_endVariableDeclare_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  xfer += oprot->writeStructBegin("AstDumper_endVariableDeclare_args");
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+uint32_t AstDumper_endVariableDeclare_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  xfer += oprot->writeStructBegin("AstDumper_endVariableDeclare_pargs");
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+uint32_t AstDumper_startAssignment_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t AstDumper_startAssignment_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  xfer += oprot->writeStructBegin("AstDumper_startAssignment_args");
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+uint32_t AstDumper_startAssignment_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  xfer += oprot->writeStructBegin("AstDumper_startAssignment_pargs");
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+uint32_t AstDumper_endAssignment_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t AstDumper_endAssignment_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  xfer += oprot->writeStructBegin("AstDumper_endAssignment_args");
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+uint32_t AstDumper_endAssignment_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  xfer += oprot->writeStructBegin("AstDumper_endAssignment_pargs");
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
 uint32_t AstDumper_identifierExpression_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   uint32_t xfer = 0;
@@ -2002,116 +2194,6 @@ uint32_t AstDumper_endStmtList_args::write(::apache::thrift::protocol::TProtocol
 uint32_t AstDumper_endStmtList_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   xfer += oprot->writeStructBegin("AstDumper_endStmtList_pargs");
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  return xfer;
-}
-
-uint32_t AstDumper_ping_args::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-  uint32_t xfer = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TType ftype;
-  int16_t fid;
-
-  xfer += iprot->readStructBegin(fname);
-
-  using ::apache::thrift::protocol::TProtocolException;
-
-
-  while (true)
-  {
-    xfer += iprot->readFieldBegin(fname, ftype, fid);
-    if (ftype == ::apache::thrift::protocol::T_STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      default:
-        xfer += iprot->skip(ftype);
-        break;
-    }
-    xfer += iprot->readFieldEnd();
-  }
-
-  xfer += iprot->readStructEnd();
-
-  return xfer;
-}
-
-uint32_t AstDumper_ping_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
-  uint32_t xfer = 0;
-  xfer += oprot->writeStructBegin("AstDumper_ping_args");
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  return xfer;
-}
-
-uint32_t AstDumper_ping_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
-  uint32_t xfer = 0;
-  xfer += oprot->writeStructBegin("AstDumper_ping_pargs");
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  return xfer;
-}
-
-uint32_t AstDumper_ping2_args::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-  uint32_t xfer = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TType ftype;
-  int16_t fid;
-
-  xfer += iprot->readStructBegin(fname);
-
-  using ::apache::thrift::protocol::TProtocolException;
-
-
-  while (true)
-  {
-    xfer += iprot->readFieldBegin(fname, ftype, fid);
-    if (ftype == ::apache::thrift::protocol::T_STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 1:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->echo);
-          this->__isset.echo = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      default:
-        xfer += iprot->skip(ftype);
-        break;
-    }
-    xfer += iprot->readFieldEnd();
-  }
-
-  xfer += iprot->readStructEnd();
-
-  return xfer;
-}
-
-uint32_t AstDumper_ping2_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
-  uint32_t xfer = 0;
-  xfer += oprot->writeStructBegin("AstDumper_ping2_args");
-  xfer += oprot->writeFieldBegin("echo", ::apache::thrift::protocol::T_I32, 1);
-  xfer += oprot->writeI32(this->echo);
-  xfer += oprot->writeFieldEnd();
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  return xfer;
-}
-
-uint32_t AstDumper_ping2_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
-  uint32_t xfer = 0;
-  xfer += oprot->writeStructBegin("AstDumper_ping2_pargs");
-  xfer += oprot->writeFieldBegin("echo", ::apache::thrift::protocol::T_I32, 1);
-  xfer += oprot->writeI32((*(this->echo)));
-  xfer += oprot->writeFieldEnd();
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -2644,6 +2726,78 @@ void AstDumperClient::send_endUnaryExpression()
   oprot_->getTransport()->flush();
 }
 
+void AstDumperClient::startVariableDeclare()
+{
+  send_startVariableDeclare();
+}
+
+void AstDumperClient::send_startVariableDeclare()
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("startVariableDeclare", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  AstDumper_startVariableDeclare_pargs args;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void AstDumperClient::endVariableDeclare()
+{
+  send_endVariableDeclare();
+}
+
+void AstDumperClient::send_endVariableDeclare()
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("endVariableDeclare", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  AstDumper_endVariableDeclare_pargs args;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void AstDumperClient::startAssignment()
+{
+  send_startAssignment();
+}
+
+void AstDumperClient::send_startAssignment()
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("startAssignment", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  AstDumper_startAssignment_pargs args;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void AstDumperClient::endAssignment()
+{
+  send_endAssignment();
+}
+
+void AstDumperClient::send_endAssignment()
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("endAssignment", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  AstDumper_endAssignment_pargs args;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
 void AstDumperClient::identifierExpression(const Identifier& id)
 {
   send_identifierExpression(id);
@@ -2786,43 +2940,6 @@ void AstDumperClient::send_endStmtList()
   oprot_->writeMessageBegin("endStmtList", ::apache::thrift::protocol::T_CALL, cseqid);
 
   AstDumper_endStmtList_pargs args;
-  args.write(oprot_);
-
-  oprot_->writeMessageEnd();
-  oprot_->getTransport()->writeEnd();
-  oprot_->getTransport()->flush();
-}
-
-void AstDumperClient::ping()
-{
-  send_ping();
-}
-
-void AstDumperClient::send_ping()
-{
-  int32_t cseqid = 0;
-  oprot_->writeMessageBegin("ping", ::apache::thrift::protocol::T_CALL, cseqid);
-
-  AstDumper_ping_pargs args;
-  args.write(oprot_);
-
-  oprot_->writeMessageEnd();
-  oprot_->getTransport()->writeEnd();
-  oprot_->getTransport()->flush();
-}
-
-void AstDumperClient::ping2(const int32_t echo)
-{
-  send_ping2(echo);
-}
-
-void AstDumperClient::send_ping2(const int32_t echo)
-{
-  int32_t cseqid = 0;
-  oprot_->writeMessageBegin("ping2", ::apache::thrift::protocol::T_CALL, cseqid);
-
-  AstDumper_ping2_pargs args;
-  args.echo = &echo;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -3948,6 +4065,154 @@ void AstDumperProcessor::process_endUnaryExpression(int32_t seqid, ::apache::thr
   return;
 }
 
+void AstDumperProcessor::process_startVariableDeclare(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = NULL;
+  if (eventHandler_.get() != NULL) {
+    ctx = eventHandler_->getContext("AstDumper.startVariableDeclare", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(eventHandler_.get(), ctx, "AstDumper.startVariableDeclare");
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->preRead(ctx, "AstDumper.startVariableDeclare");
+  }
+
+  AstDumper_startVariableDeclare_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->postRead(ctx, "AstDumper.startVariableDeclare", bytes);
+  }
+
+  try {
+    iface_->startVariableDeclare();
+  } catch (const std::exception& e) {
+    if (eventHandler_.get() != NULL) {
+      eventHandler_->handlerError(ctx, "AstDumper.startVariableDeclare");
+    }
+    return;
+  }
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->asyncComplete(ctx, "AstDumper.startVariableDeclare");
+  }
+
+  return;
+}
+
+void AstDumperProcessor::process_endVariableDeclare(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = NULL;
+  if (eventHandler_.get() != NULL) {
+    ctx = eventHandler_->getContext("AstDumper.endVariableDeclare", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(eventHandler_.get(), ctx, "AstDumper.endVariableDeclare");
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->preRead(ctx, "AstDumper.endVariableDeclare");
+  }
+
+  AstDumper_endVariableDeclare_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->postRead(ctx, "AstDumper.endVariableDeclare", bytes);
+  }
+
+  try {
+    iface_->endVariableDeclare();
+  } catch (const std::exception& e) {
+    if (eventHandler_.get() != NULL) {
+      eventHandler_->handlerError(ctx, "AstDumper.endVariableDeclare");
+    }
+    return;
+  }
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->asyncComplete(ctx, "AstDumper.endVariableDeclare");
+  }
+
+  return;
+}
+
+void AstDumperProcessor::process_startAssignment(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = NULL;
+  if (eventHandler_.get() != NULL) {
+    ctx = eventHandler_->getContext("AstDumper.startAssignment", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(eventHandler_.get(), ctx, "AstDumper.startAssignment");
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->preRead(ctx, "AstDumper.startAssignment");
+  }
+
+  AstDumper_startAssignment_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->postRead(ctx, "AstDumper.startAssignment", bytes);
+  }
+
+  try {
+    iface_->startAssignment();
+  } catch (const std::exception& e) {
+    if (eventHandler_.get() != NULL) {
+      eventHandler_->handlerError(ctx, "AstDumper.startAssignment");
+    }
+    return;
+  }
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->asyncComplete(ctx, "AstDumper.startAssignment");
+  }
+
+  return;
+}
+
+void AstDumperProcessor::process_endAssignment(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = NULL;
+  if (eventHandler_.get() != NULL) {
+    ctx = eventHandler_->getContext("AstDumper.endAssignment", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(eventHandler_.get(), ctx, "AstDumper.endAssignment");
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->preRead(ctx, "AstDumper.endAssignment");
+  }
+
+  AstDumper_endAssignment_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->postRead(ctx, "AstDumper.endAssignment", bytes);
+  }
+
+  try {
+    iface_->endAssignment();
+  } catch (const std::exception& e) {
+    if (eventHandler_.get() != NULL) {
+      eventHandler_->handlerError(ctx, "AstDumper.endAssignment");
+    }
+    return;
+  }
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->asyncComplete(ctx, "AstDumper.endAssignment");
+  }
+
+  return;
+}
+
 void AstDumperProcessor::process_identifierExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = NULL;
@@ -4239,80 +4504,6 @@ void AstDumperProcessor::process_endStmtList(int32_t seqid, ::apache::thrift::pr
 
   if (eventHandler_.get() != NULL) {
     eventHandler_->asyncComplete(ctx, "AstDumper.endStmtList");
-  }
-
-  return;
-}
-
-void AstDumperProcessor::process_ping(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
-{
-  void* ctx = NULL;
-  if (eventHandler_.get() != NULL) {
-    ctx = eventHandler_->getContext("AstDumper.ping", callContext);
-  }
-  ::apache::thrift::TProcessorContextFreer freer(eventHandler_.get(), ctx, "AstDumper.ping");
-
-  if (eventHandler_.get() != NULL) {
-    eventHandler_->preRead(ctx, "AstDumper.ping");
-  }
-
-  AstDumper_ping_args args;
-  args.read(iprot);
-  iprot->readMessageEnd();
-  uint32_t bytes = iprot->getTransport()->readEnd();
-
-  if (eventHandler_.get() != NULL) {
-    eventHandler_->postRead(ctx, "AstDumper.ping", bytes);
-  }
-
-  try {
-    iface_->ping();
-  } catch (const std::exception& e) {
-    if (eventHandler_.get() != NULL) {
-      eventHandler_->handlerError(ctx, "AstDumper.ping");
-    }
-    return;
-  }
-
-  if (eventHandler_.get() != NULL) {
-    eventHandler_->asyncComplete(ctx, "AstDumper.ping");
-  }
-
-  return;
-}
-
-void AstDumperProcessor::process_ping2(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
-{
-  void* ctx = NULL;
-  if (eventHandler_.get() != NULL) {
-    ctx = eventHandler_->getContext("AstDumper.ping2", callContext);
-  }
-  ::apache::thrift::TProcessorContextFreer freer(eventHandler_.get(), ctx, "AstDumper.ping2");
-
-  if (eventHandler_.get() != NULL) {
-    eventHandler_->preRead(ctx, "AstDumper.ping2");
-  }
-
-  AstDumper_ping2_args args;
-  args.read(iprot);
-  iprot->readMessageEnd();
-  uint32_t bytes = iprot->getTransport()->readEnd();
-
-  if (eventHandler_.get() != NULL) {
-    eventHandler_->postRead(ctx, "AstDumper.ping2", bytes);
-  }
-
-  try {
-    iface_->ping2(args.echo);
-  } catch (const std::exception& e) {
-    if (eventHandler_.get() != NULL) {
-      eventHandler_->handlerError(ctx, "AstDumper.ping2");
-    }
-    return;
-  }
-
-  if (eventHandler_.get() != NULL) {
-    eventHandler_->asyncComplete(ctx, "AstDumper.ping2");
   }
 
   return;

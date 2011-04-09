@@ -79,6 +79,9 @@ struct Node
 
             T_RETURN_STATEMENT,
 
+            T_VARIABLE_DECLARE,
+            T_ASSIGNMENT,
+
             T_NODE_TYPE_END,
         };
     };
@@ -91,7 +94,7 @@ struct Node
 
 //    std::ostream& operater<< ( std::ostream&, Node& );
     virtual std::string toString() = 0;
-private:
+protected:
     int _node_type;
 };
 
