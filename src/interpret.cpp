@@ -46,6 +46,7 @@
 #include <backend/cpp/interpret/arguments.h>
 #include <backend/cpp/interpret/return_stmt.h>
 #include <backend/cpp/interpret/binary_operator.h>
+#include <backend/cpp/interpret/unary_operator.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
@@ -84,6 +85,7 @@ void dispatchDo( ::tw::maple::as::ast::NodePtr node, ::tw::maple::backend::cpp::
 		interpreterResolver[AST::Node::NodeType::T_LITERAL_BOOLEAN] = new LiteralBoolean();
 		interpreterResolver[AST::Node::NodeType::T_IDENTIFIER] = new Identifier();
 		interpreterResolver[AST::Node::NodeType::T_BINARY_OPERATOR] = new BinaryOperator();
+		interpreterResolver[AST::Node::NodeType::T_UNARY_OPERATOR] = new UnaryOperator();
 		interpreterResolver[AST::Node::NodeType::T_RETURN_STATEMENT] = new ReturnStatement();
 
 		interpreterResolver[AST::Node::NodeType::T_CALL] = new Call();

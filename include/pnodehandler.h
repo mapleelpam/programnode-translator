@@ -53,6 +53,7 @@
 #include <as/ast/function_parameter_item.h>
 #include <as/ast/function_common.h>
 #include <as/ast/binary_operator.h>
+#include <as/ast/unary_operator.h>
 #include <as/ast/statement.h>
 #include <as/ast/return_stmt.h>
 #include <as/ast/statement_list.h>
@@ -265,6 +266,21 @@ public:
     _node_stack . pop( );
 
   }
+  void startUnaryExpression(const generated::UnaryExpression& op)
+    {
+      // Your implementation goes here
+  		printf("startUnaryExpression\n");
+  		as::ast::UnaryOperatorPtr as_node( new as::ast::UnaryOperator(op.op));
+  		_node_stack . top() -> addNodeChild(as_node);
+  		_node_stack . push(as_node);
+    }
+    void endUnaryExpression() {
+      // Your implementation goes here
+      printf("endUnaryExpression\n");
+      _node_stack . pop( );
+
+    }
+
 
   void startReturnStatement()
   {

@@ -188,6 +188,43 @@ class BinaryExpression {
 
 };
 
+typedef struct _UnaryExpression__isset {
+  _UnaryExpression__isset() : op(false) {}
+  bool op;
+} _UnaryExpression__isset;
+
+class UnaryExpression {
+ public:
+
+  static const char* ascii_fingerprint; // = "EFB929595D312AC8F305D5A794CFEDA1";
+  static const uint8_t binary_fingerprint[16]; // = {0xEF,0xB9,0x29,0x59,0x5D,0x31,0x2A,0xC8,0xF3,0x05,0xD5,0xA7,0x94,0xCF,0xED,0xA1};
+
+  UnaryExpression() : op("") {
+  }
+
+  virtual ~UnaryExpression() throw() {}
+
+  std::string op;
+
+  _UnaryExpression__isset __isset;
+
+  bool operator == (const UnaryExpression & rhs) const
+  {
+    if (!(op == rhs.op))
+      return false;
+    return true;
+  }
+  bool operator != (const UnaryExpression &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const UnaryExpression & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
 }}} // namespace
 
 #endif

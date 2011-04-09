@@ -41,6 +41,8 @@ class AstDumperIf {
   virtual void endCallExpression() = 0;
   virtual void startBinaryExpression(const BinaryExpression& op) = 0;
   virtual void endBinaryExpression() = 0;
+  virtual void startUnaryExpression(const UnaryExpression& op) = 0;
+  virtual void endUnaryExpression() = 0;
   virtual void identifierExpression(const Identifier& id) = 0;
   virtual void literalStringExpression(const Literal& str) = 0;
   virtual void literalNumberExpression(const Literal& str) = 0;
@@ -135,6 +137,12 @@ class AstDumperNull : virtual public AstDumperIf {
     return;
   }
   void endBinaryExpression() {
+    return;
+  }
+  void startUnaryExpression(const UnaryExpression& /* op */) {
+    return;
+  }
+  void endUnaryExpression() {
     return;
   }
   void identifierExpression(const Identifier& /* id */) {
@@ -1208,6 +1216,90 @@ class AstDumper_endBinaryExpression_pargs {
 
 };
 
+typedef struct _AstDumper_startUnaryExpression_args__isset {
+  _AstDumper_startUnaryExpression_args__isset() : op(false) {}
+  bool op;
+} _AstDumper_startUnaryExpression_args__isset;
+
+class AstDumper_startUnaryExpression_args {
+ public:
+
+  AstDumper_startUnaryExpression_args() {
+  }
+
+  virtual ~AstDumper_startUnaryExpression_args() throw() {}
+
+  UnaryExpression op;
+
+  _AstDumper_startUnaryExpression_args__isset __isset;
+
+  bool operator == (const AstDumper_startUnaryExpression_args & rhs) const
+  {
+    if (!(op == rhs.op))
+      return false;
+    return true;
+  }
+  bool operator != (const AstDumper_startUnaryExpression_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_startUnaryExpression_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_startUnaryExpression_pargs {
+ public:
+
+
+  virtual ~AstDumper_startUnaryExpression_pargs() throw() {}
+
+  const UnaryExpression* op;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_endUnaryExpression_args {
+ public:
+
+  AstDumper_endUnaryExpression_args() {
+  }
+
+  virtual ~AstDumper_endUnaryExpression_args() throw() {}
+
+
+  bool operator == (const AstDumper_endUnaryExpression_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const AstDumper_endUnaryExpression_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_endUnaryExpression_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_endUnaryExpression_pargs {
+ public:
+
+
+  virtual ~AstDumper_endUnaryExpression_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
 typedef struct _AstDumper_identifierExpression_args__isset {
   _AstDumper_identifierExpression_args__isset() : id(false) {}
   bool id;
@@ -1712,6 +1804,10 @@ class AstDumperClient : virtual public AstDumperIf {
   void send_startBinaryExpression(const BinaryExpression& op);
   void endBinaryExpression();
   void send_endBinaryExpression();
+  void startUnaryExpression(const UnaryExpression& op);
+  void send_startUnaryExpression(const UnaryExpression& op);
+  void endUnaryExpression();
+  void send_endUnaryExpression();
   void identifierExpression(const Identifier& id);
   void send_identifierExpression(const Identifier& id);
   void literalStringExpression(const Literal& str);
@@ -1772,6 +1868,8 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
   void process_endCallExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_startBinaryExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_endBinaryExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_startUnaryExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_endUnaryExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_identifierExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_literalStringExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_literalNumberExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -1812,6 +1910,8 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
     processMap_["endCallExpression"] = &AstDumperProcessor::process_endCallExpression;
     processMap_["startBinaryExpression"] = &AstDumperProcessor::process_startBinaryExpression;
     processMap_["endBinaryExpression"] = &AstDumperProcessor::process_endBinaryExpression;
+    processMap_["startUnaryExpression"] = &AstDumperProcessor::process_startUnaryExpression;
+    processMap_["endUnaryExpression"] = &AstDumperProcessor::process_endUnaryExpression;
     processMap_["identifierExpression"] = &AstDumperProcessor::process_identifierExpression;
     processMap_["literalStringExpression"] = &AstDumperProcessor::process_literalStringExpression;
     processMap_["literalNumberExpression"] = &AstDumperProcessor::process_literalNumberExpression;
@@ -2026,6 +2126,20 @@ class AstDumperMultiface : virtual public AstDumperIf {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
       ifaces_[i]->endBinaryExpression();
+    }
+  }
+
+  void startUnaryExpression(const UnaryExpression& op) {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->startUnaryExpression(op);
+    }
+  }
+
+  void endUnaryExpression() {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->endUnaryExpression();
     }
   }
 
