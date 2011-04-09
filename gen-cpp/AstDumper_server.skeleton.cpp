@@ -57,19 +57,34 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("endFunctionName\n");
   }
 
+  void startFunctionCommon() {
+    // Your implementation goes here
+    printf("startFunctionCommon\n");
+  }
+
   void startFunctionSignature() {
     // Your implementation goes here
     printf("startFunctionSignature\n");
   }
 
-  void startFunctionSignatureParameter() {
+  void startFunctionSignatureParameters() {
     // Your implementation goes here
-    printf("startFunctionSignatureParameter\n");
+    printf("startFunctionSignatureParameters\n");
   }
 
-  void endFunctionSignatureParameter() {
+  void startFunctionSignatureParameterMember() {
     // Your implementation goes here
-    printf("endFunctionSignatureParameter\n");
+    printf("startFunctionSignatureParameterMember\n");
+  }
+
+  void endFunctionSignatureParameterMember() {
+    // Your implementation goes here
+    printf("endFunctionSignatureParameterMember\n");
+  }
+
+  void endFunctionSignatureParameters() {
+    // Your implementation goes here
+    printf("endFunctionSignatureParameters\n");
   }
 
   void startFunctionSignatureReturnType() {
@@ -87,14 +102,9 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("endFunctionSignature\n");
   }
 
-  void startFunctionBody() {
+  void endFunctionCommon() {
     // Your implementation goes here
-    printf("startFunctionBody\n");
-  }
-
-  void endFunctionBody() {
-    // Your implementation goes here
-    printf("endFunctionBody\n");
+    printf("endFunctionCommon\n");
   }
 
   void endFunctionDefinition() {

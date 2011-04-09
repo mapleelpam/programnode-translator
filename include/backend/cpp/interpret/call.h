@@ -26,32 +26,25 @@
 #ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_CALL_H
 #define __TW_MAPLE_BACKEDN_CPP_INTERPRET_CALL_H
 
+#include <backend/cpp/interpret/interpreter.h>
 #include <as/ast/expression.h>
 #include <as/ast/call.h>
-#include <backend/cpp/interpret/interpreter.h>
-
-namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
 namespace AST = ::tw::maple::as::ast;
+
+namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
 // Abstract
 struct Call : public Interpreter
 {   
-	virtual void interpret(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
+	virtual void interpret( ::tw::maple::as::ast::NodePtr node,	::tw::maple::backend::cpp::Context* ctx)
 	{
 		DEBUG_INTERPRET_ENTRY;
 
-		std::cerr << "-------------> call interpret\n";
-//		std::cout << exp->node_childs.size() <<std::endl;
-
 		std::tr1::shared_ptr<AST::Call> call = std::tr1::static_pointer_cast<AST::Call>(node);
 
-
-		std::tr1::shared_ptr<AST::Node> callee;
-		std::tr1::shared_ptr<AST::Node> args;
-
-		callee = call->getCallee();
-		args = call->getArgs();
+		std::tr1::shared_ptr<AST::Node> callee  = call->getCallee();
+		std::tr1::shared_ptr<AST::Node> args = call->getArgs();
 
 		dispatchDo(callee, ctx);
 		ctx->ofs_stream << "( ";

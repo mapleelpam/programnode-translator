@@ -44,8 +44,8 @@ struct FunctionDefinition: public Statement
 
     // Public Assert !!
     NodePtr FunctionName(){	return node_childs[0];	}
-    NodePtr FunctionSignature(){	return node_childs[1];	}
-    NodePtr FunctionBody(){	return node_childs[2];	}
+//    NodePtr FunctionSignature(){	return node_childs[1];	}
+    NodePtr FunctionCommon(){	return node_childs[1];	}
 
     std::string toString()  {	return "node::function_definition"; };
     bool check(){	return node_childs.size() == 3;	};

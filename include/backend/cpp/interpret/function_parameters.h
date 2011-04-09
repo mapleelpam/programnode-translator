@@ -23,28 +23,43 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_LITERAL_STRING_H__
-#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_LITERAL_STRING_H__
+#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_FUNCTION_PARAMETER_H__
+#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_FUNCTION_PARAMETER_H__
 
-#include <as/ast/expression.h>
+#include <as/ast/function_definition.h>
+#include <as/ast/call.h>
 #include <backend/cpp/interpret/interpreter.h>
-#include <as/ast/literal_string.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
-// Abstract
-struct LiteralString : public Interpreter
-{   
-	void interpret( ::tw::maple::as::ast::NodePtr node, ::tw::maple::backend::cpp::Context* ctx )
+namespace AST = ::tw::maple::as::ast;
+
+struct FunctionParameter : public Interpreter
+{
+	void interpret( AST::NodePtr exp, tw::maple::backend::cpp::Context* ctx )
 	{
-		std::tr1::shared_ptr<AST::LiteralString> li = std::tr1::static_pointer_cast<AST::LiteralString>(node);
-		ctx->ofs_stream << "\""<< li->value << "\"";
+		DEBUG_INTERPRET_ENTRY;
+
+		printf(" function parameter \n");
+
+		std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr = exp->node_childs.begin();
+		if( nItr != exp->node_childs.end() ) {
+			dispatchDo(*nItr, ctx);
+
+			for( nItr++ ; nItr != exp->node_childs.end() ; nItr ++ )
+			{
+				ctx->ofs_stream << ", ";
+				dispatchDo(*nItr, ctx);
+			}
+		}
+
+		DEBUG_INTERPRET_LEAVE;
 	}
+};
 
 };
 
 
-} } } } }
+} } } } 
 
 #endif 
-

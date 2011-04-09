@@ -23,8 +23,8 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#ifndef __AS_AST_CALL_
-#define __AS_AST_CALL_
+#ifndef __TW_MAPLE_AS_AST_CALL_
+#define __TW_MAPLE_AS_AST_CALL_
 
 #include <as/ast/expression.h>
 
@@ -33,9 +33,8 @@ namespace tw { namespace maple { namespace as { namespace ast {
 // Abstract
 struct Call : public Expression
 {
-	Call() : Expression(Node::NodeType::T_CALL)
-	{
-	}
+	Call() : Expression(Node::NodeType::T_CALL)	{	}
+
     int     exprType()   {   return NodeType::T_CALL;  }
     std::string toString()  {	return "node::call"; };
 

@@ -23,28 +23,32 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_LITERAL_STRING_H__
-#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_LITERAL_STRING_H__
+#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_FUNCTION_PARAMETER_ITEM_H__
+#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_FUNCTION_PARAMETER_ITEM_H__
 
-#include <as/ast/expression.h>
+#include <as/ast/function_parameter_item.h>
+#include <as/ast/call.h>
 #include <backend/cpp/interpret/interpreter.h>
-#include <as/ast/literal_string.h>
+
+namespace AST = ::tw::maple::as::ast;
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
-// Abstract
-struct LiteralString : public Interpreter
-{   
-	void interpret( ::tw::maple::as::ast::NodePtr node, ::tw::maple::backend::cpp::Context* ctx )
+struct FunctionParameterItem : public Interpreter
+{
+	void interpret( AST::NodePtr exp, tw::maple::backend::cpp::Context* ctx )
 	{
-		std::tr1::shared_ptr<AST::LiteralString> li = std::tr1::static_pointer_cast<AST::LiteralString>(node);
-		ctx->ofs_stream << "\""<< li->value << "\"";
+		AST::FunctionParameterItemPtr fParam = std::tr1::static_pointer_cast<AST::FunctionParameterItem>(exp);
+		dispatchDo(fParam->ParamType(), ctx);
+		ctx->ofs_stream << " ";
+		dispatchDo(fParam->ParamName(), ctx);
+
 	}
+};
 
 };
 
 
-} } } } }
+} } } } 
 
 #endif 
-

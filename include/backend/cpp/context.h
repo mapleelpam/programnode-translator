@@ -33,12 +33,41 @@
 
 namespace tw { namespace maple { namespace backend { namespace cpp {
 
-
 struct Context
 {
-	std::ofstream ofs_stream;
+	struct IndentContext
+	{
+		IndentContext() : indent(0){}
+		int operator++(int) // Postfix
+		{
+			return indent++;
+		}
+		int operator++() // Prefix
+		{
+			return ++indent;
+		}
+		int operator--(int) // Postfix
+		{
+			return indent--;
+		}
+		int operator--() // Prefix
+		{
+			return --indent;
+		}
+		std::string toString()
+		{
+			std::string ans = "";
+			for( int idx = 0 ; idx < indent ; idx ++)
+				ans += " ";//TODO: replace by indent scape
+		}
+		private:
+		int		indent;
+	};
 
-	int				tree_depth;
+
+	std::ofstream	ofs_stream;
+
+	IndentContext	tree_depth;
 };
 
 } } } }

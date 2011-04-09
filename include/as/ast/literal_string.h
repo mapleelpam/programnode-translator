@@ -24,8 +24,8 @@
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
 
-#ifndef __AS_AST_LITERAL_STRING_H__
-#define __AS_AST_LITERAL_STRING_H__
+#ifndef __TW_MAPLE_AS_AST_LITERAL_STRING_H__
+#define __TW_MAPLE_AS_AST_LITERAL_STRING_H__
 
 #include <tr1/memory>
 #include <as/ast/expression.h>
@@ -38,9 +38,7 @@ struct LiteralString: public Expression
 	LiteralString(std::string v) :
 		Expression(Node::NodeType::T_LITERAL_STRING), value(v) {
 	}
-	int exprType() {
-		return Node::NodeType::T_LITERAL_STRING;
-	}
+	int exprType() { return Node::NodeType::T_LITERAL_STRING;	}
 
     std::string value;
 

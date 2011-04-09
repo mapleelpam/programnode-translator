@@ -42,7 +42,7 @@ struct FunctionSignature : public Statement
 	int stmtType()   {   return Node::NodeType::T_FUNCTION_SIGNATURE;  }
 
     NodePtr FunctionReturnType(){	return node_childs[0];	}
-//    NodePtr FunctionParameter(){	return node_childs[1];	}
+    NodePtr FunctionParameter(){	return node_childs[1];	}
 
     std::string toString()  {	return "node::function_signature"; };
 

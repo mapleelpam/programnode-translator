@@ -29,6 +29,7 @@
 #include <as/ast/function_definition.h>
 #include <as/ast/function_signature.h>
 #include <as/ast/function_rettype.h>
+#include <as/ast/function_common.h>
 #include <as/ast/call.h>
 #include <backend/cpp/interpret/interpreter.h>
 
@@ -41,15 +42,24 @@ struct FunctionDefinition : public Interpreter
 	void interpret( AST::NodePtr node, tw::maple::backend::cpp::Context* ctx )
 	{
 		std::tr1::shared_ptr<AST::FunctionDefinition> fdef = std::tr1::static_pointer_cast<AST::FunctionDefinition>(node);
+		std::cout << "  check ----------------------> " <<fdef->toString()<<std::endl;
 
-		{ // Function Return Type
-			std::tr1::shared_ptr<AST::FunctionSignature> fsig = std::tr1::static_pointer_cast<AST::FunctionSignature>(fdef -> FunctionSignature());
-			dispatchDo(fsig->FunctionReturnType(), ctx); // Name
-			ctx->ofs_stream << " ";
-		}
+		std::tr1::shared_ptr<AST::FunctionCommon> fcommon = std::tr1::static_pointer_cast<AST::FunctionCommon>(fdef -> FunctionCommon());
+		std::cout << "  check ----------------------> " << fcommon->toString()<<std::endl;
+		std::cout << " fdef child size = " << fdef->node_childs.size() << std::endl;
+		// Function Return Type
+		std::tr1::shared_ptr<AST::FunctionSignature> fsig = std::tr1::static_pointer_cast<AST::FunctionSignature>(fcommon -> FunctionSignature());
+		dispatchDo(fsig->FunctionReturnType(), ctx); // Name
+		ctx->ofs_stream << " ";
+
 		dispatchDo( fdef -> FunctionName() , ctx); // Name
-		ctx->ofs_stream << "() "<<std::endl << "{" << std::endl;
-			dispatchDo( fdef -> FunctionBody() , ctx);
+		ctx->ofs_stream << "(";
+
+			dispatchDo(fsig->FunctionParameter(), ctx); // parameters
+
+		ctx->ofs_stream << ")"<<std::endl << "{" << std::endl;
+
+			dispatchDo( fcommon->FunctionBody() , ctx);
 
 		ctx->ofs_stream << std::endl << "}" << std::endl;
 

@@ -47,6 +47,9 @@
 #include <as/ast/function_name.h>
 #include <as/ast/function_rettype.h>
 #include <as/ast/function_signature.h>
+#include <as/ast/function_parameters.h>
+#include <as/ast/function_parameter_item.h>
+#include <as/ast/function_common.h>
 #include <as/ast/statement.h>
 #include <as/ast/statement_list.h>
 #include <as/ast/node.h>
@@ -67,7 +70,7 @@ public:
 
   void startProgram()
   {
-    printf("startProgram\n");
+    printf(" %lu startProgram\n", _node_stack.size() );
 
     _program_root . reset( new as::ast::Program() );
     _node_stack.push( _program_root );
@@ -76,24 +79,24 @@ public:
   void endProgram()
   {
     // Your implementation goes here
-    printf("endProgram\n");
+    printf(" %lu endProgram\n", _node_stack.size() );
 
     // DO FOR WHAT?
   }
 
   void startPackage(const generated::StringList& id) {
     // Your implementation goes here
-    printf("startPackage\n");
+    printf(" %lu startPackage\n", _node_stack.size() );
   }
 
   void endPackage(const generated::StringList& IDs) {
     // Your implementation goes here
-    printf("endPackage\n");
+    printf(" %lu endPackage\n", _node_stack.size() );
   }
 
   void startFunctionDefinition() {
     // Your implementation goes here
-    printf("startFunctionDefinition\n");
+    printf(" %lu startFunctionDefinition\n", _node_stack.size() );
 
 
     std::tr1::shared_ptr<as::ast::FunctionDefinition> func_def( new as::ast::FunctionDefinition() );
@@ -103,7 +106,7 @@ public:
 
   void startFunctionName() {
     // Your implementation goes here
-    printf("startFunctionName\n");
+    printf(" %lu startFunctionName\n", _node_stack.size() );
 
     std::tr1::shared_ptr<as::ast::FunctionName> func_name( new as::ast::FunctionName() );
     _node_stack . top() -> addNodeChild( func_name );
@@ -112,41 +115,61 @@ public:
 
   void endFunctionName() {
     // Your implementation goes here
-    printf("endFunctionName\n");
+    printf(" %lu endFunctionName\n", _node_stack.size() );
 
     _node_stack . pop();
   }
 
   void startFunctionSignature() {
     // Your implementation goes here
-    printf("startFunctionSignature\n");
+    printf(" %lu startFunctionSignature\n", _node_stack.size() );
 
 
-    std::tr1::shared_ptr<as::ast::FunctionSignature> exp_list( new as::ast::FunctionSignature );
-    _node_stack . top() -> addNodeChild( exp_list );
-    _node_stack . push( exp_list );
+    std::tr1::shared_ptr<as::ast::FunctionSignature> fsig( new as::ast::FunctionSignature );
+    _node_stack . top() -> addNodeChild( fsig );
+    _node_stack . push( fsig );
   }
 
   void endFunctionSignature() {
     // Your implementation goes here
-    printf("startFunctionSignature\n");
-
+    printf(" %lu endFunctionSignature\n", _node_stack.size() );
     _node_stack . pop();
   }
 
-  void startFunctionSignatureParameter() {
+  void startFunctionSignatureParameters() {
     // Your implementation goes here
-    printf("startFunctionSignatureParameter\n");
+    printf(" %lu startFunctionSignatureParameters\n", _node_stack.size() );
+
+    std::cout << " current stack top is " << _node_stack . top() -> toString() << std::endl;
+
+    std::tr1::shared_ptr<as::ast::FunctionParameters> fsig_param( new as::ast::FunctionParameters );
+    _node_stack . top() -> addNodeChild( fsig_param );
+    _node_stack . push( fsig_param );
   }
 
-  void endFunctionSignatureParameter() {
+  void startFunctionSignatureParameterMember() {
     // Your implementation goes here
-    printf("endFunctionSignatureParameter\n");
+    printf(" %lu startFunctionSignatureParameterMember\n", _node_stack.size() );
+    std::tr1::shared_ptr<as::ast::FunctionParameterItem> fsig( new as::ast::FunctionParameterItem );
+    _node_stack . top() -> addNodeChild( fsig );
+    _node_stack . push( fsig );
+  }
+
+  void endFunctionSignatureParameterMember() {
+    // Your implementation goes here
+    printf(" %lu endFunctionSignatureParameterMember\n", _node_stack.size() );
+    _node_stack . pop();
+  }
+
+  void endFunctionSignatureParameters() {
+    // Your implementation goes here
+    printf(" %lu endFunctionSignatureParameters\n", _node_stack.size() );
+    _node_stack . pop();
   }
 
   void startFunctionSignatureReturnType() {
     // Your implementation goes here
-    printf("startFunctionSignatureReturnType\n");
+    printf(" %lu startFunctionSignatureReturnType\n", _node_stack.size() );
 
     std::tr1::shared_ptr<as::ast::FunctionReturnType> exp_list( new as::ast::FunctionReturnType );
     _node_stack . top() -> addNodeChild( exp_list );
@@ -155,30 +178,35 @@ public:
 
   void endFunctionSignatureReturnType() {
     // Your implementation goes here
-    printf("endFunctionSignatureReturnType\n");
+    printf(" %lu endFunctionSignatureReturnType\n", _node_stack.size() );
     _node_stack . pop();
   }
 
-  void startFunctionBody() {
+  void startFunctionCommon() {
     // Your implementation goes here
-    printf("startFunctionBody\n");
+    printf(" %lu startFunctionCommon\n", _node_stack.size() );
+
+    std::tr1::shared_ptr<as::ast::FunctionCommon> fCommon( new as::ast::FunctionCommon );
+    _node_stack . top() -> addNodeChild( fCommon );
+    _node_stack . push( fCommon );
   }
 
-  void endFunctionBody() {
+  void endFunctionCommon() {
     // Your implementation goes here
-    printf("endFunctionBody\n");
+    printf(" %lu endFunctionCommon\n", _node_stack.size() );
+    _node_stack . pop();
   }
 
   void endFunctionDefinition() {
     // Your implementation goes here
-    printf("endFunctionDefinition\n");
+    printf(" %lu endFunctionDefinition\n", _node_stack.size() );
     _node_stack . pop( );
   }
 
   void startExpressionList()
   {
     // Your implementation goes here
-    printf("startExpressionList\n");
+    printf(" %lu startExpressionList\n", _node_stack.size() );
 
     std::tr1::shared_ptr<as::ast::ExpressionList> exp_list( new as::ast::ExpressionList );
     _node_stack . top() -> addNodeChild( exp_list );
@@ -188,7 +216,7 @@ public:
   void startCallExpression(const generated::CallExpression& call)
   {
 	  // Your implementation goes here
-		printf("startCallExpression\n");
+		printf(" %lu startCallExpression\n", _node_stack.size() );
 
 		std::tr1::shared_ptr < as::ast::Call > exp_call(new as::ast::Call);
 		_node_stack . top() -> addNodeChild(exp_call);
@@ -197,7 +225,7 @@ public:
 
   void startAgumentList() {
     // Your implementation goes here
-    printf("startAgumentList\n");
+    printf(" %lu startAgumentList\n", _node_stack.size() );
     
     std::tr1::shared_ptr<as::ast::Arguments> args( new as::ast::Arguments);
     _node_stack . top () -> addNodeChild( args );
@@ -206,21 +234,21 @@ public:
 
   void endAgumentList() {
     // Your implementation goes here
-    printf("endAgumentList\n");
+    printf(" %lu endAgumentList\n", _node_stack.size() );
     _node_stack . pop( );
   }
 
   void endCallExpression()
   {
     // Your implementation goes here
-    printf("endCallExpression\n");
+    printf(" %lu endCallExpression\n", _node_stack.size() );
     _node_stack . pop( );
   }
 
   void identifierExpression(const generated::Identifier& id)
   {
     // Your implementation goes here
-    printf("identifierExpression\n");
+    printf(" %lu identifierExpression\n", _node_stack.size() );
     std::tr1::shared_ptr<as::ast::Identifier> exp_id( new as::ast::Identifier(id.name) );
     _node_stack . top () -> addNodeChild( exp_id);
   }
@@ -232,18 +260,18 @@ public:
   }
   void endExpressionList() {
     // Your implementation goes here
-    printf("endExpressionList\n");
+    printf(" %lu endExpressionList\n", _node_stack.size() );
    _node_stack . pop ();
   }
 
   void addImport(const generated::StringList& packages) {
     // Your implementation goes here
-    printf("addImport\n");
+    printf(" %lu addImport\n", _node_stack.size() );
   }
 
   void startStmtList() {
     // Your implementation goes here
-    printf("startStmtList\n");
+    printf(" %lu startStmtList\n", _node_stack.size() );
     std::tr1::shared_ptr<as::ast::StatementList> stmts( new as::ast::StatementList);
     _node_stack . top () -> addNodeChild( stmts );
     _node_stack . push( stmts );
@@ -251,18 +279,18 @@ public:
 
   void endStmtList() {
     // Your implementation goes here
-    printf("endStmtList\n");
+    printf(" %lu endStmtList\n", _node_stack.size() );
     _node_stack . pop ();
   }
 
   void ping() {
     // Your implementation goes here
-    printf("ping\n");
+    printf(" %lu ping\n", _node_stack.size() );
   }
 
   void ping2(const int32_t echo) {
     // Your implementation goes here
-    printf("ping2\n");
+    printf(" %lu ping2\n", _node_stack.size() );
   }
 
 public:

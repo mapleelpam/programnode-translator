@@ -23,35 +23,35 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_FUNCTION_PARAMETER_H__
-#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_FUNCTION_PARAMETER_H__
 
-#include <as/ast/function_definition.h>
-#include <as/ast/call.h>
-#include <backend/cpp/interpret/interpreter.h>
+#ifndef __AS_AST_FUNCTION_PARAMETER_ITEM_H__
+#define __AS_AST_FUNCTION_PARAMETER_ITEM_H__
 
-namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
+#include <tr1/memory>
+#include <as/ast/statement.h>
 
-namespace AST = ::tw::maple::as::ast;
+namespace tw { namespace maple { namespace as { namespace ast {
 
-struct FunctionParameter : public Interpreter
+// Abstract
+struct FunctionParameterItem : public Statement
 {
-	void interpret( AST::NodePtr exp, tw::maple::backend::cpp::Context* ctx )
-	{
-		printf(" function parameter \n");
-		for (std::vector<std::tr1::shared_ptr<AST::Node> >::iterator nItr =
-				exp->node_childs.begin(); nItr != exp->node_childs.end(); nItr++)
-		{
-			dispatchDo(*nItr, ctx);
-		}
-
-//		ctx->ofs_stream << " ; " << std::endl;
+	FunctionParameterItem() :
+		Statement(Node::NodeType::T_FUNCTION_PARAMETER_ITEM) {
 	}
+
+	int stmtType()   {   return Node::NodeType::T_FUNCTION_PARAMETER_ITEM;  }
+
+	NodePtr ParamType(){	return node_childs[1];	}
+	NodePtr ParamName(){	return node_childs[0];	}
+
+    std::string toString()  {	return "node::function_signature_parameter_item"; };
+
+//    bool check()	{	return node_childs.size() == 1; 	}
 };
 
-};
+typedef std::tr1::shared_ptr<FunctionParameterItem> FunctionParameterItemPtr;
 
 
-} } } } 
+} } } }
 
-#endif 
+#endif

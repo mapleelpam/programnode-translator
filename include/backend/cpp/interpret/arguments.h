@@ -38,20 +38,21 @@ namespace AST = ::tw::maple::as::ast;
 // Abstract
 struct Arguments : public Interpreter
 {   
-//	void interpret( AST::NodePtr exp, tw::maple::backend::cpp::Context* ctx )
-//	{
-//		for (std::vector<std::tr1::shared_ptr<AST::Node> >::iterator nItr =
-//				exp->node_childs.begin(); nItr != exp->node_childs.end(); nItr++)
-//		{
-//			dispatchDo(*nItr, ctx);
-//		}
-//
-//	}
+	void interpret( AST::NodePtr exp, tw::maple::backend::cpp::Context* ctx )
+	{
+		for (std::vector<std::tr1::shared_ptr<AST::Node> >::iterator nItr =
+				exp->node_childs.begin(); nItr != exp->node_childs.end(); nItr++)
+		{
+			dispatchDo(*nItr, ctx);
+		}
+
+	}
 };
 
-};
+
+typedef std::tr1::shared_ptr<Arguments>    ArgumentsPtr;
 
 
-} } } } 
+} } } } }
 
 #endif 

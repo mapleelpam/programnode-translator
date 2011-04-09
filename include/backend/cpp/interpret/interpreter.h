@@ -37,7 +37,7 @@
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
-void dispatchDo( tw::maple::as::ast::NodePtr, tw::maple::backend::cpp::Context* );
+void dispatchDo( ::tw::maple::as::ast::NodePtr, ::tw::maple::backend::cpp::Context* );
 
 struct Interpreter
 {

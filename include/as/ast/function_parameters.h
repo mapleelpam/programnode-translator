@@ -23,28 +23,29 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_LITERAL_STRING_H__
-#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_LITERAL_STRING_H__
 
-#include <as/ast/expression.h>
-#include <backend/cpp/interpret/interpreter.h>
-#include <as/ast/literal_string.h>
+#ifndef __AS_AST_FUNCTION_PARAMETER_H__
+#define __AS_AST_FUNCTION_PARAMETER_H__
 
-namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
+#include <tr1/memory>
+#include <as/ast/statement.h>
+
+namespace tw { namespace maple { namespace as { namespace ast {
 
 // Abstract
-struct LiteralString : public Interpreter
-{   
-	void interpret( ::tw::maple::as::ast::NodePtr node, ::tw::maple::backend::cpp::Context* ctx )
-	{
-		std::tr1::shared_ptr<AST::LiteralString> li = std::tr1::static_pointer_cast<AST::LiteralString>(node);
-		ctx->ofs_stream << "\""<< li->value << "\"";
+struct FunctionParameters : public Statement
+{
+	FunctionParameters() :
+		Statement(Node::NodeType::T_FUNCTION_PARAMETERS) {
 	}
 
+	int stmtType()   {   return Node::NodeType::T_FUNCTION_PARAMETERS;  }
+
+    std::string toString()  {	return "node::function_signature_parameter"; };
+
+//    bool check()	{	return node_childs.size() == 1; 	}
 };
 
+} } } }
 
-} } } } }
-
-#endif 
-
+#endif
