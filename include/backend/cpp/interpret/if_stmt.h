@@ -23,37 +23,37 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_VARIABLE_DECLARE_H__
-#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_VARIABLE_DECLARE_H__
+#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_IF_STMT_H__
+#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_IF_STMT_H__
 
-#include <as/ast/variable_declare.h>
+#include <as/ast/if_stmt.h>
+#include <as/ast/call.h>
 #include <backend/cpp/interpret/interpreter.h>
-
-namespace AST = ::tw::maple::as::ast;
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
-struct VariableDeclare : public Interpreter
+namespace AST = ::tw::maple::as::ast;
+
+struct IfStatement : public Interpreter
 {   
 	void interpret( AST::NodePtr node, cpp::Context* ctx )
 	{
-		DEBUG_INTERPRET_ENTRY;
 
+		AST::IfStatementPtr IF = std::tr1::static_pointer_cast<AST::IfStatement>(node);
 
-		AST::VariableDeclarePtr var = std::tr1::static_pointer_cast<
-				AST::VariableDeclare>(node);
+		ctx->ofs_stream << ctx->indent() << "if( ";
+			dispatchDo(IF->ifCondition(), ctx);
+		ctx->ofs_stream << "){\n";
+			dispatchDo(IF->ifThen(), ctx);
 
-//		ctx->ofs_stream << " " << var->varType() << " "<< var->varName() << " ";
-        ctx->ofs_stream << ctx->indent();
-		dispatchDo(var->varType(), ctx); //
-		ctx->ofs_stream << " " ;
-		dispatchDo(var->varName(), ctx); //
-		ctx->ofs_stream << ";\n" ;
-
-		DEBUG_INTERPRET_LEAVE;
+		ctx->ofs_stream << "" << ctx->indent()<<"}\n";
+		if( IF->ifElse() ) {
+			ctx->ofs_stream <<  ctx->indent()<<"else { \n";
+				dispatchDo(IF->ifElse(), ctx);
+			ctx->ofs_stream <<  ctx->indent()<<"}";
+		}
 
 	}
-
 };
 
 };

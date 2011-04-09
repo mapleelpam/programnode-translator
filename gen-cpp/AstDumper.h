@@ -34,6 +34,14 @@ class AstDumperIf {
   virtual void endFunctionDefinition() = 0;
   virtual void startReturnStatement() = 0;
   virtual void endReturnStatement() = 0;
+  virtual void startIfStatement() = 0;
+  virtual void startIfStatement_Condition() = 0;
+  virtual void endIfStatement_Condition() = 0;
+  virtual void startIfStatement_Then() = 0;
+  virtual void endIfStatement_Then() = 0;
+  virtual void startIfStatement_Else() = 0;
+  virtual void endtIfStatement_Else() = 0;
+  virtual void endIfStatement() = 0;
   virtual void startExpressionList() = 0;
   virtual void startCallExpression(const CallExpression& call) = 0;
   virtual void startAgumentList() = 0;
@@ -118,6 +126,30 @@ class AstDumperNull : virtual public AstDumperIf {
     return;
   }
   void endReturnStatement() {
+    return;
+  }
+  void startIfStatement() {
+    return;
+  }
+  void startIfStatement_Condition() {
+    return;
+  }
+  void endIfStatement_Condition() {
+    return;
+  }
+  void startIfStatement_Then() {
+    return;
+  }
+  void endIfStatement_Then() {
+    return;
+  }
+  void startIfStatement_Else() {
+    return;
+  }
+  void endtIfStatement_Else() {
+    return;
+  }
+  void endIfStatement() {
     return;
   }
   void startExpressionList() {
@@ -939,6 +971,302 @@ class AstDumper_endReturnStatement_pargs {
 
 
   virtual ~AstDumper_endReturnStatement_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_startIfStatement_args {
+ public:
+
+  AstDumper_startIfStatement_args() {
+  }
+
+  virtual ~AstDumper_startIfStatement_args() throw() {}
+
+
+  bool operator == (const AstDumper_startIfStatement_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const AstDumper_startIfStatement_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_startIfStatement_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_startIfStatement_pargs {
+ public:
+
+
+  virtual ~AstDumper_startIfStatement_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_startIfStatement_Condition_args {
+ public:
+
+  AstDumper_startIfStatement_Condition_args() {
+  }
+
+  virtual ~AstDumper_startIfStatement_Condition_args() throw() {}
+
+
+  bool operator == (const AstDumper_startIfStatement_Condition_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const AstDumper_startIfStatement_Condition_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_startIfStatement_Condition_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_startIfStatement_Condition_pargs {
+ public:
+
+
+  virtual ~AstDumper_startIfStatement_Condition_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_endIfStatement_Condition_args {
+ public:
+
+  AstDumper_endIfStatement_Condition_args() {
+  }
+
+  virtual ~AstDumper_endIfStatement_Condition_args() throw() {}
+
+
+  bool operator == (const AstDumper_endIfStatement_Condition_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const AstDumper_endIfStatement_Condition_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_endIfStatement_Condition_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_endIfStatement_Condition_pargs {
+ public:
+
+
+  virtual ~AstDumper_endIfStatement_Condition_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_startIfStatement_Then_args {
+ public:
+
+  AstDumper_startIfStatement_Then_args() {
+  }
+
+  virtual ~AstDumper_startIfStatement_Then_args() throw() {}
+
+
+  bool operator == (const AstDumper_startIfStatement_Then_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const AstDumper_startIfStatement_Then_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_startIfStatement_Then_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_startIfStatement_Then_pargs {
+ public:
+
+
+  virtual ~AstDumper_startIfStatement_Then_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_endIfStatement_Then_args {
+ public:
+
+  AstDumper_endIfStatement_Then_args() {
+  }
+
+  virtual ~AstDumper_endIfStatement_Then_args() throw() {}
+
+
+  bool operator == (const AstDumper_endIfStatement_Then_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const AstDumper_endIfStatement_Then_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_endIfStatement_Then_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_endIfStatement_Then_pargs {
+ public:
+
+
+  virtual ~AstDumper_endIfStatement_Then_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_startIfStatement_Else_args {
+ public:
+
+  AstDumper_startIfStatement_Else_args() {
+  }
+
+  virtual ~AstDumper_startIfStatement_Else_args() throw() {}
+
+
+  bool operator == (const AstDumper_startIfStatement_Else_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const AstDumper_startIfStatement_Else_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_startIfStatement_Else_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_startIfStatement_Else_pargs {
+ public:
+
+
+  virtual ~AstDumper_startIfStatement_Else_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_endtIfStatement_Else_args {
+ public:
+
+  AstDumper_endtIfStatement_Else_args() {
+  }
+
+  virtual ~AstDumper_endtIfStatement_Else_args() throw() {}
+
+
+  bool operator == (const AstDumper_endtIfStatement_Else_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const AstDumper_endtIfStatement_Else_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_endtIfStatement_Else_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_endtIfStatement_Else_pargs {
+ public:
+
+
+  virtual ~AstDumper_endtIfStatement_Else_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_endIfStatement_args {
+ public:
+
+  AstDumper_endIfStatement_args() {
+  }
+
+  virtual ~AstDumper_endIfStatement_args() throw() {}
+
+
+  bool operator == (const AstDumper_endIfStatement_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const AstDumper_endIfStatement_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_endIfStatement_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_endIfStatement_pargs {
+ public:
+
+
+  virtual ~AstDumper_endIfStatement_pargs() throw() {}
 
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -1862,6 +2190,22 @@ class AstDumperClient : virtual public AstDumperIf {
   void send_startReturnStatement();
   void endReturnStatement();
   void send_endReturnStatement();
+  void startIfStatement();
+  void send_startIfStatement();
+  void startIfStatement_Condition();
+  void send_startIfStatement_Condition();
+  void endIfStatement_Condition();
+  void send_endIfStatement_Condition();
+  void startIfStatement_Then();
+  void send_startIfStatement_Then();
+  void endIfStatement_Then();
+  void send_endIfStatement_Then();
+  void startIfStatement_Else();
+  void send_startIfStatement_Else();
+  void endtIfStatement_Else();
+  void send_endtIfStatement_Else();
+  void endIfStatement();
+  void send_endIfStatement();
   void startExpressionList();
   void send_startExpressionList();
   void startCallExpression(const CallExpression& call);
@@ -1937,6 +2281,14 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
   void process_endFunctionDefinition(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_startReturnStatement(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_endReturnStatement(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_startIfStatement(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_startIfStatement_Condition(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_endIfStatement_Condition(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_startIfStatement_Then(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_endIfStatement_Then(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_startIfStatement_Else(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_endtIfStatement_Else(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_endIfStatement(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_startExpressionList(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_startCallExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_startAgumentList(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -1981,6 +2333,14 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
     processMap_["endFunctionDefinition"] = &AstDumperProcessor::process_endFunctionDefinition;
     processMap_["startReturnStatement"] = &AstDumperProcessor::process_startReturnStatement;
     processMap_["endReturnStatement"] = &AstDumperProcessor::process_endReturnStatement;
+    processMap_["startIfStatement"] = &AstDumperProcessor::process_startIfStatement;
+    processMap_["startIfStatement_Condition"] = &AstDumperProcessor::process_startIfStatement_Condition;
+    processMap_["endIfStatement_Condition"] = &AstDumperProcessor::process_endIfStatement_Condition;
+    processMap_["startIfStatement_Then"] = &AstDumperProcessor::process_startIfStatement_Then;
+    processMap_["endIfStatement_Then"] = &AstDumperProcessor::process_endIfStatement_Then;
+    processMap_["startIfStatement_Else"] = &AstDumperProcessor::process_startIfStatement_Else;
+    processMap_["endtIfStatement_Else"] = &AstDumperProcessor::process_endtIfStatement_Else;
+    processMap_["endIfStatement"] = &AstDumperProcessor::process_endIfStatement;
     processMap_["startExpressionList"] = &AstDumperProcessor::process_startExpressionList;
     processMap_["startCallExpression"] = &AstDumperProcessor::process_startCallExpression;
     processMap_["startAgumentList"] = &AstDumperProcessor::process_startAgumentList;
@@ -2157,6 +2517,62 @@ class AstDumperMultiface : virtual public AstDumperIf {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
       ifaces_[i]->endReturnStatement();
+    }
+  }
+
+  void startIfStatement() {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->startIfStatement();
+    }
+  }
+
+  void startIfStatement_Condition() {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->startIfStatement_Condition();
+    }
+  }
+
+  void endIfStatement_Condition() {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->endIfStatement_Condition();
+    }
+  }
+
+  void startIfStatement_Then() {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->startIfStatement_Then();
+    }
+  }
+
+  void endIfStatement_Then() {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->endIfStatement_Then();
+    }
+  }
+
+  void startIfStatement_Else() {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->startIfStatement_Else();
+    }
+  }
+
+  void endtIfStatement_Else() {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->endtIfStatement_Else();
+    }
+  }
+
+  void endIfStatement() {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->endIfStatement();
     }
   }
 

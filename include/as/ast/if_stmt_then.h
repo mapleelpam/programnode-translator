@@ -18,47 +18,33 @@
  */
 
 // ProgrameNode Translator
-// Copyright 2011 mapleellpam@gmail.com.  All rights reserved.
+// Copyright 2010 mapleellpam@gmail.com.  All rights reserved.
 // https://github.com/mapleelpam/programnode-translator
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_VARIABLE_DECLARE_H__
-#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_VARIABLE_DECLARE_H__
+#ifndef __AS_AST_SATEMENTS_IF_STMT_THEN_H__
+#define __AS_AST_SATEMENTS_IF_STMT_THEN_H__
 
-#include <as/ast/variable_declare.h>
-#include <backend/cpp/interpret/interpreter.h>
-
-namespace AST = ::tw::maple::as::ast;
-
-namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
-
-struct VariableDeclare : public Interpreter
-{   
-	void interpret( AST::NodePtr node, cpp::Context* ctx )
-	{
-		DEBUG_INTERPRET_ENTRY;
+#include <tr1/memory>
+#include <as/ast/statement.h>
 
 
-		AST::VariableDeclarePtr var = std::tr1::static_pointer_cast<
-				AST::VariableDeclare>(node);
+namespace tw { namespace maple { namespace as { namespace ast {
 
-//		ctx->ofs_stream << " " << var->varType() << " "<< var->varName() << " ";
-        ctx->ofs_stream << ctx->indent();
-		dispatchDo(var->varType(), ctx); //
-		ctx->ofs_stream << " " ;
-		dispatchDo(var->varName(), ctx); //
-		ctx->ofs_stream << ";\n" ;
-
-		DEBUG_INTERPRET_LEAVE;
-
+struct IfStatementThen : public Statement
+{
+	IfStatementThen() :
+		Statement(Node::NodeType::T_IF_STMT_THEN) {
+	}
+	int stmtType() {
+		return _node_type;
 	}
 
+	std::string toString()  {	return "node::if_stmt_then"; };
 };
 
-};
 
+} } } }
 
-} } } } 
-
-#endif 
+#endif

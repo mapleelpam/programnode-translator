@@ -122,6 +122,46 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("endReturnStatement\n");
   }
 
+  void startIfStatement() {
+    // Your implementation goes here
+    printf("startIfStatement\n");
+  }
+
+  void startIfStatement_Condition() {
+    // Your implementation goes here
+    printf("startIfStatement_Condition\n");
+  }
+
+  void endIfStatement_Condition() {
+    // Your implementation goes here
+    printf("endIfStatement_Condition\n");
+  }
+
+  void startIfStatement_Then() {
+    // Your implementation goes here
+    printf("startIfStatement_Then\n");
+  }
+
+  void endIfStatement_Then() {
+    // Your implementation goes here
+    printf("endIfStatement_Then\n");
+  }
+
+  void startIfStatement_Else() {
+    // Your implementation goes here
+    printf("startIfStatement_Else\n");
+  }
+
+  void endtIfStatement_Else() {
+    // Your implementation goes here
+    printf("endtIfStatement_Else\n");
+  }
+
+  void endIfStatement() {
+    // Your implementation goes here
+    printf("endIfStatement\n");
+  }
+
   void startExpressionList() {
     // Your implementation goes here
     printf("startExpressionList\n");

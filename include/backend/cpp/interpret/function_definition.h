@@ -58,10 +58,7 @@ struct FunctionDefinition : public Interpreter
 
 			dispatchDo( fcommon->FunctionBody() , ctx);
 
-		ctx->ofs_stream << std::endl << "}" << std::endl;
-
-
-//		ctx->ofs_stream << " ; " << std::endl;
+		ctx->ofs_stream << std::endl << "}" << "// ("; dispatchDo( fdef -> FunctionName() , ctx); ctx->ofs_stream<<") function_end"<<std::endl;
 	}
 };
 

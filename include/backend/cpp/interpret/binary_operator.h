@@ -37,7 +37,6 @@ struct BinaryOperator : public Interpreter
 {   
 	void interpret( AST::NodePtr node, cpp::Context* ctx )
 	{
-
 		AST::BinaryOperatorPtr bin = std::tr1::static_pointer_cast<AST::BinaryOperator>(node);
 
 		dispatchDo(bin->LHS(), ctx); // LHS
@@ -58,6 +57,8 @@ private:
 			return "/";
 		else if( str == "modulus")
 			return "%";
+		else if( str == "lessthan")
+			return "<";
 		else {
 			std::cerr << " can't resolve binary op string " << str << std::endl;
 			exit(1);

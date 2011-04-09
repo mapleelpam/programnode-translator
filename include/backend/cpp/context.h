@@ -52,15 +52,25 @@ struct Context
 		{
 			return --indent;
 		}
+		int toInt()
+        {
+            return indent;
+        }
 		std::string toString()
 		{
 			std::string ans = "";
 			for( int idx = 0 ; idx < indent ; idx ++)
 				ans += " ";//TODO: replace by indent scape
+            return ans;
 		}
 		private:
 		int		indent;
 	};
+
+    std::string indent()
+    {
+        return tree_depth.toString();
+    }
 
 
 	std::ofstream	ofs_stream;

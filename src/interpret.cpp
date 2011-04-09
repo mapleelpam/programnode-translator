@@ -49,6 +49,7 @@
 #include <backend/cpp/interpret/unary_operator.h>
 #include <backend/cpp/interpret/variable_declare.h>
 #include <backend/cpp/interpret/assignment.h>
+#include <backend/cpp/interpret/if_stmt.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
@@ -93,6 +94,12 @@ void dispatchDo( ::tw::maple::as::ast::NodePtr node, ::tw::maple::backend::cpp::
 		interpreterResolver[AST::Node::NodeType::T_VARIABLE_DECLARE] = new VariableDeclare();
 		interpreterResolver[AST::Node::NodeType::T_ASSIGNMENT] = new Assignment();
 		interpreterResolver[AST::Node::NodeType::T_CALL] = new Call();
+		interpreterResolver[AST::Node::NodeType::T_IF_STMT] = new IfStatement();
+    
+        /* TODO: implement this */
+		interpreterResolver[AST::Node::NodeType::T_IF_STMT_CONDITION] = new Interpreter();
+		interpreterResolver[AST::Node::NodeType::T_IF_STMT_THEN] = new Interpreter();
+		interpreterResolver[AST::Node::NodeType::T_IF_STMT_ELSE] = new Interpreter();
 	}
 	Interpreter* to = interpreterResolver[ node->nodeType() ];
 	if( to == NULL ){

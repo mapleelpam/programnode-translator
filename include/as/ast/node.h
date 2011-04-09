@@ -82,6 +82,11 @@ struct Node
             T_VARIABLE_DECLARE,
             T_ASSIGNMENT,
 
+            T_IF_STMT,
+            T_IF_STMT_CONDITION,
+            T_IF_STMT_THEN,
+            T_IF_STMT_ELSE,
+
             T_NODE_TYPE_END,
         };
     };
