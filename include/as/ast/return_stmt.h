@@ -23,33 +23,26 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-
-
-#ifndef __AS_AST_FUNCTION_COMMON_H__
-#define __AS_AST_FUNCTION_COMMON_H__
+#ifndef __AS_AST_SATEMENTS_ERTURN_STMT_H__
+#define __AS_AST_SATEMENTS_ERTURN_STMT_H__
 
 #include <tr1/memory>
 #include <as/ast/statement.h>
 
+
 namespace tw { namespace maple { namespace as { namespace ast {
 
-// Abstract
-struct FunctionCommon: public Statement
+struct ReturnStatement : public Statement
 {
-	FunctionCommon() :
-		Statement(Node::NodeType::T_FUNCTION_COMMON) {
+	ReturnStatement() :
+		Statement(Node::NodeType::T_RETURN_STATEMENT) {
+	}
+	int stmtType() {
+		return Node::NodeType::T_RETURN_STATEMENT;
 	}
 
-    int stmtType()   {   return Node::NodeType::T_FUNCTION_COMMON;  }
-
-    NodePtr FunctionSignature(){	return node_childs[0];	}
-    NodePtr FunctionBody(){	return node_childs[1];	}
-
-    std::string toString()  {	return "node::function_common"; };
-    bool check(){	return node_childs.size() == 2;	};
+	std::string toString()  {	return "node::return_stmt"; };
 };
-
-//typedef std::tr1::shared_ptr<FunctionCommon> FunctionCommonPtr;
 
 
 } } } }

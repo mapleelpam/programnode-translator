@@ -37,3 +37,8 @@ TARGET_LINK_LIBRARIES( pn-translator
     ${THRIFT_LIBS}
     ${Boost_LIBRARIES}
     )
+
+
+ADD_SUBDIRECTORY( test )
+ADD_SUBDIRECTORY( test_framework )
+

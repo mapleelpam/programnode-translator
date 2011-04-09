@@ -57,7 +57,7 @@ struct Node
             T_ConstantNumber,
 
             // Expr
-            T_BinaryOperator,
+            T_BINARY_OPERATOR,
             T_Assignment,
 
             T_CALL,
@@ -75,6 +75,7 @@ struct Node
 
             T_IDENTIFIER,
 
+            T_RETURN_STATEMENT,
 
             T_NODE_TYPE_END,
         };

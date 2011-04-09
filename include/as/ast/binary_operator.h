@@ -23,33 +23,35 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-
-
-#ifndef __AS_AST_FUNCTION_COMMON_H__
-#define __AS_AST_FUNCTION_COMMON_H__
+#ifndef __TW_MAPLE_AS_AST_BINARY_OPERATOR_H__
+#define __TW_MAPLE_AS_AST_BINARY_OPERATOR_H__
 
 #include <tr1/memory>
-#include <as/ast/statement.h>
+#include <as/ast/expression.h>
 
 namespace tw { namespace maple { namespace as { namespace ast {
 
-// Abstract
-struct FunctionCommon: public Statement
+struct BinaryOperator: public Expression
 {
-	FunctionCommon() :
-		Statement(Node::NodeType::T_FUNCTION_COMMON) {
+	BinaryOperator( std::string ot ) :
+		Expression(Node::NodeType::T_BINARY_OPERATOR)
+		, op_type(ot)
+	{
 	}
 
-    int stmtType()   {   return Node::NodeType::T_FUNCTION_COMMON;  }
+    int exprType()   {   return Node::NodeType::T_BINARY_OPERATOR;  }
 
-    NodePtr FunctionSignature(){	return node_childs[0];	}
-    NodePtr FunctionBody(){	return node_childs[1];	}
+    NodePtr LHS(){	return node_childs[0];	}
+    NodePtr RHS(){	return node_childs[1];	}
 
-    std::string toString()  {	return "node::function_common"; };
+    std::string toString()  {	return "node::binary_operator"; };
     bool check(){	return node_childs.size() == 2;	};
+
+
+    std::string op_type;
 };
 
-//typedef std::tr1::shared_ptr<FunctionCommon> FunctionCommonPtr;
+typedef std::tr1::shared_ptr<BinaryOperator> BinaryOperatorPtr;
 
 
 } } } }

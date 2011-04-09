@@ -50,7 +50,9 @@
 #include <as/ast/function_parameters.h>
 #include <as/ast/function_parameter_item.h>
 #include <as/ast/function_common.h>
+#include <as/ast/binary_operator.h>
 #include <as/ast/statement.h>
+#include <as/ast/return_stmt.h>
 #include <as/ast/statement_list.h>
 #include <as/ast/node.h>
 
@@ -59,6 +61,9 @@ using namespace apache::thrift;
 using namespace apache::thrift::protocol;
 using namespace apache::thrift::transport;
 //tw::maple::generated::
+
+namespace AST = ::tw::maple::as::ast;
+
 
 namespace tw { namespace maple { 
 
@@ -243,6 +248,36 @@ public:
     // Your implementation goes here
     printf(" %lu endCallExpression\n", _node_stack.size() );
     _node_stack . pop( );
+  }
+  void startBinaryExpression(const generated::BinaryExpression& op)
+  {
+    // Your implementation goes here
+		printf("startBinaryExpression\n");
+		as::ast::BinaryOperatorPtr as_node( new as::ast::BinaryOperator(op.op));
+		_node_stack . top() -> addNodeChild(as_node);
+		_node_stack . push(as_node);
+  }
+  void endBinaryExpression() {
+    // Your implementation goes here
+    printf("endBinaryExpression\n");
+    _node_stack . pop( );
+
+  }
+
+  void startReturnStatement()
+  {
+	// Your implementation goes here
+	printf("startReturnStatement\n");
+	std::tr1::shared_ptr<as::ast::ReturnStatement> op( new as::ast::ReturnStatement);
+	_node_stack . top() -> addNodeChild(op);
+	_node_stack . push(op);
+  }
+
+  void endReturnStatement()
+  {
+	// Your implementation goes here
+	printf("endReturnStatement\n");
+	_node_stack . pop();
   }
 
   void identifierExpression(const generated::Identifier& id)

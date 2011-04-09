@@ -1,0 +1,4 @@
+ADD_SUBDIRECTORY( FileCheck )
+ADD_SUBDIRECTORY( not )
+ADD_SUBDIRECTORY( MessageChecker )
+

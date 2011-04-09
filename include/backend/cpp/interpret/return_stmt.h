@@ -18,40 +18,40 @@
  */
 
 // ProgrameNode Translator
-// Copyright 2010 mapleellpam@gmail.com.  All rights reserved.
+// Copyright 2011 mapleellpam@gmail.com.  All rights reserved.
 // https://github.com/mapleelpam/programnode-translator
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
+#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_RETURN_STATEMENT_H__
+#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_RETURN_STATEMENT_H__
 
+#include <as/ast/function_definition.h>
+#include <as/ast/call.h>
+#include <backend/cpp/interpret/interpreter.h>
 
-#ifndef __AS_AST_FUNCTION_COMMON_H__
-#define __AS_AST_FUNCTION_COMMON_H__
+namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
-#include <tr1/memory>
-#include <as/ast/statement.h>
+namespace AST = ::tw::maple::as::ast;
 
-namespace tw { namespace maple { namespace as { namespace ast {
-
-// Abstract
-struct FunctionCommon: public Statement
-{
-	FunctionCommon() :
-		Statement(Node::NodeType::T_FUNCTION_COMMON) {
+struct ReturnStatement : public Interpreter
+{   
+	void interpret( AST::NodePtr exp, cpp::Context* ctx )
+	{
+		ctx->ofs_stream << "return ";
+		for (std::vector<std::tr1::shared_ptr<AST::Node> >::iterator nItr =
+				exp->node_childs.begin(); nItr != exp->node_childs.end(); nItr++)
+		{
+			dispatchDo(*nItr, ctx);
+		}
+		ctx->ofs_stream << ";";
+		ctx->ofs_stream << "\n"; //TODO: replace to \n\l?
 	}
-
-    int stmtType()   {   return Node::NodeType::T_FUNCTION_COMMON;  }
-
-    NodePtr FunctionSignature(){	return node_childs[0];	}
-    NodePtr FunctionBody(){	return node_childs[1];	}
-
-    std::string toString()  {	return "node::function_common"; };
-    bool check(){	return node_childs.size() == 2;	};
 };
 
-//typedef std::tr1::shared_ptr<FunctionCommon> FunctionCommonPtr;
+};
 
 
-} } } }
+} } } } 
 
-#endif
+#endif 

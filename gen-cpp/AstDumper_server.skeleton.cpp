@@ -112,6 +112,16 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("endFunctionDefinition\n");
   }
 
+  void startReturnStatement() {
+    // Your implementation goes here
+    printf("startReturnStatement\n");
+  }
+
+  void endReturnStatement() {
+    // Your implementation goes here
+    printf("endReturnStatement\n");
+  }
+
   void startExpressionList() {
     // Your implementation goes here
     printf("startExpressionList\n");
@@ -135,6 +145,16 @@ class AstDumperHandler : virtual public AstDumperIf {
   void endCallExpression() {
     // Your implementation goes here
     printf("endCallExpression\n");
+  }
+
+  void startBinaryExpression(const BinaryExpression& op) {
+    // Your implementation goes here
+    printf("startBinaryExpression\n");
+  }
+
+  void endBinaryExpression() {
+    // Your implementation goes here
+    printf("endBinaryExpression\n");
   }
 
   void identifierExpression(const Identifier& id) {

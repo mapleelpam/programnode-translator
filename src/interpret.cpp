@@ -42,6 +42,8 @@
 #include <backend/cpp/interpret/function_common.h>
 #include <backend/cpp/interpret/program_root.h>
 #include <backend/cpp/interpret/arguments.h>
+#include <backend/cpp/interpret/return_stmt.h>
+#include <backend/cpp/interpret/binary_operator.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
@@ -77,6 +79,8 @@ void dispatchDo( ::tw::maple::as::ast::NodePtr node, ::tw::maple::backend::cpp::
 		interpreterResolver[AST::Node::NodeType::T_ARGUMENTS] = new Arguments();
 		interpreterResolver[AST::Node::NodeType::T_LITERAL_STRING] = new LiteralString();
 		interpreterResolver[AST::Node::NodeType::T_IDENTIFIER] = new Identifier();
+		interpreterResolver[AST::Node::NodeType::T_BINARY_OPERATOR] = new BinaryOperator();
+		interpreterResolver[AST::Node::NodeType::T_RETURN_STATEMENT] = new ReturnStatement();
 
 		interpreterResolver[AST::Node::NodeType::T_CALL] = new Call();
 	}
@@ -92,3 +96,4 @@ void dispatchDo( ::tw::maple::as::ast::NodePtr node, ::tw::maple::backend::cpp::
 }
 
 } /*interpret*/ } /*cpp*/ } /*backend*/ } /*maple*/ } /*tw*/
+
