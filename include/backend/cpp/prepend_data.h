@@ -24,48 +24,24 @@
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
 
-#ifndef __BACKEDN_CONTEXT_H__
-#define __BACKEDN_CONTEXT_H__
+#ifndef __TW_MAPLE_BACKEDN_PREPEND_DATA_H_
+#define __TW_MAPLE_BACKEDN_PREPEND_DATA_H_
 
 #include <fstream>
 
 namespace tw { namespace maple { namespace backend { namespace cpp {
 
-struct Context
+struct PrependData
 {
-	struct IndentContext
-	{
-		IndentContext() : indent(0){}
-		int operator++(int) // Postfix
-		{
-			return indent++;
-		}
-		int operator++() // Prefix
-		{
-			return ++indent;
-		}
-		int operator--(int) // Postfix
-		{
-			return indent--;
-		}
-		int operator--() // Prefix
-		{
-			return --indent;
-		}
-		std::string toString()
-		{
-			std::string ans = "";
-			for( int idx = 0 ; idx < indent ; idx ++)
-				ans += " ";//TODO: replace by indent scape
-		}
-		private:
-		int		indent;
-	};
+	std::string PrefixWarning;
+	std::string LicenseDeclare;
+	std::string IncludeHeaders;
+	std::string Authors;
+	bool		ShowGeneratedTime;
 
+	PrependData();
 
-	std::ofstream	ofs_stream;
-
-	IndentContext	tree_depth;
+	void execute( std::ofstream& os );
 };
 
 } } } }

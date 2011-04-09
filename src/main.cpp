@@ -31,6 +31,7 @@
 #include "pnode_reader.h"
 
 #include <backend/cpp/interpret/interpreter.h>
+#include <backend/cpp/prepend_data.h>
 
 #include <boost/program_options/options_description.hpp>
 #include <boost/program_options/variables_map.hpp>
@@ -84,6 +85,10 @@ int main(int argc, char **argv)
 		tw::maple::backend::cpp::Context context;
 		context.ofs_stream.open( out_file_path.c_str() );
 		// Interpret/Explain - Invoke Back-end Stream Out
+
+		tw::maple::backend::cpp::PrependData pd;
+		pd.execute( context.ofs_stream );
+
 
 		for (std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Program> >::iterator
 				nodeItr = pnode_list.begin(); nodeItr != pnode_list.end(); nodeItr++) {

@@ -30,6 +30,7 @@ INCLUDE_DIRECTORIES(
 ADD_EXECUTABLE( pn-translator
     ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/interpret.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/prepend_data.cpp
     ${AST_THRIFT_SRC} 
     )
 

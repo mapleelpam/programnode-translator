@@ -17,7 +17,7 @@ package abc
     {
         return a*b;
     }
-    function div( a:int, b:int ):int
+    function _div_( a:int, b:int ):int
     {
         return a/b;
     }
@@ -31,7 +31,7 @@ package abc
         printf(" %d\n", sum(1,2)); // CHECK: 3
         printf(" %d\n", sub(2,1)); // CHECK: 1
         printf(" %d\n", multi(2,4)); // CHECK: 8
-        printf(" %d\n", div(4,2)); // CHECK: 2
+        printf(" %d\n", _div_(4,2)); // CHECK: 2
         printf(" %d\n", mod(7,3)); // CHECK: 1
     }
 }

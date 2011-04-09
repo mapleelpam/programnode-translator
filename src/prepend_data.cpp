@@ -23,51 +23,33 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
+#include <string>
+#include <stdlib.h>
 
-#ifndef __BACKEDN_CONTEXT_H__
-#define __BACKEDN_CONTEXT_H__
-
-#include <fstream>
+#include <backend/cpp/prepend_data.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp {
 
-struct Context
+PrependData::PrependData()
+	: Authors( "Unknown" )
+	, ShowGeneratedTime(false)
 {
-	struct IndentContext
-	{
-		IndentContext() : indent(0){}
-		int operator++(int) // Postfix
-		{
-			return indent++;
-		}
-		int operator++() // Prefix
-		{
-			return ++indent;
-		}
-		int operator--(int) // Postfix
-		{
-			return indent--;
-		}
-		int operator--() // Prefix
-		{
-			return --indent;
-		}
-		std::string toString()
-		{
-			std::string ans = "";
-			for( int idx = 0 ; idx < indent ; idx ++)
-				ans += " ";//TODO: replace by indent scape
-		}
-		private:
-		int		indent;
-	};
+	PrefixWarning = "/* THIS FILE IS GENREATED BY pn-translater, you should not modify this file.*/";
+	LicenseDeclare = "/* NO LICNESE DECLARE */";
+//	IncludeHeaders = "#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>";
+	IncludeHeaders = "#include <stdio.h>\n";
+}
 
 
-	std::ofstream	ofs_stream;
+void PrependData::execute( std::ofstream& os )
+{
+	os << PrefixWarning << std::endl;
+	os << LicenseDeclare << std::endl;
+	os << "// Auther : "<< Authors << std::endl;
+	os << IncludeHeaders << std::endl;
 
-	IndentContext	tree_depth;
-};
+	//TODO: generated time
+}
 
-} } } }
+} /*cpp*/ } /*backend*/ } /*maple*/ } /*tw*/
 
-#endif 

@@ -28,7 +28,7 @@
 
 #include <as/ast/expression.h>
 #include <backend/cpp/interpret/interpreter.h>
-#include <as/ast/literal_string.h>
+#include <as/ast/literal_boolean.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
@@ -37,10 +37,16 @@ struct LiteralBoolean : public Interpreter
 {   
 	void interpret( ::tw::maple::as::ast::NodePtr node, ::tw::maple::backend::cpp::Context* ctx )
 	{
-//		std::tr1::shared_ptr<AST::LiteralString> li = std::tr1::static_pointer_cast<AST::LiteralString>(node);
-//		ctx->ofs_stream << li->value;
-		std::cerr << "error: not implement yet\n"<< std::endl;
-		exit(1);
+		std::tr1::shared_ptr<AST::LiteralBoolean> li = std::tr1::static_pointer_cast<AST::LiteralBoolean>(node);
+
+		if( li->value == "true" )
+			ctx->ofs_stream << "true";
+		else if( li->value == "false" )
+			ctx->ofs_stream << "false";
+		else {
+			std::cerr << " can't resolve literal boolean "<<li->value<<std::endl;
+			exit(1);
+		}
 	}
 
 };
