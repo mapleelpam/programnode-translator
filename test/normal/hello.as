@@ -5,13 +5,8 @@
 
 package abc
 {
-    function sum( a:int, b:int ):int
-    {
-        return a+b;
-    }
-
     function main( ) : int
     {
-        printf(" %d ", sum(1,2)); // CHECK: 3
+        printf(" hello world"); // CHECK: hello world
     }
 }

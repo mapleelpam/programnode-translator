@@ -42,7 +42,9 @@ class AstDumperIf {
   virtual void startBinaryExpression(const BinaryExpression& op) = 0;
   virtual void endBinaryExpression() = 0;
   virtual void identifierExpression(const Identifier& id) = 0;
-  virtual void literalStringExpression(const LiteralString& str) = 0;
+  virtual void literalStringExpression(const Literal& str) = 0;
+  virtual void literalNumberExpression(const Literal& str) = 0;
+  virtual void literalBooleanExpression(const Literal& str) = 0;
   virtual void endExpressionList() = 0;
   virtual void addImport(const StringList& packages) = 0;
   virtual void startStmtList() = 0;
@@ -138,7 +140,13 @@ class AstDumperNull : virtual public AstDumperIf {
   void identifierExpression(const Identifier& /* id */) {
     return;
   }
-  void literalStringExpression(const LiteralString& /* str */) {
+  void literalStringExpression(const Literal& /* str */) {
+    return;
+  }
+  void literalNumberExpression(const Literal& /* str */) {
+    return;
+  }
+  void literalBooleanExpression(const Literal& /* str */) {
     return;
   }
   void endExpressionList() {
@@ -1260,7 +1268,7 @@ class AstDumper_literalStringExpression_args {
 
   virtual ~AstDumper_literalStringExpression_args() throw() {}
 
-  LiteralString str;
+  Literal str;
 
   _AstDumper_literalStringExpression_args__isset __isset;
 
@@ -1288,7 +1296,101 @@ class AstDumper_literalStringExpression_pargs {
 
   virtual ~AstDumper_literalStringExpression_pargs() throw() {}
 
-  const LiteralString* str;
+  const Literal* str;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _AstDumper_literalNumberExpression_args__isset {
+  _AstDumper_literalNumberExpression_args__isset() : str(false) {}
+  bool str;
+} _AstDumper_literalNumberExpression_args__isset;
+
+class AstDumper_literalNumberExpression_args {
+ public:
+
+  AstDumper_literalNumberExpression_args() {
+  }
+
+  virtual ~AstDumper_literalNumberExpression_args() throw() {}
+
+  Literal str;
+
+  _AstDumper_literalNumberExpression_args__isset __isset;
+
+  bool operator == (const AstDumper_literalNumberExpression_args & rhs) const
+  {
+    if (!(str == rhs.str))
+      return false;
+    return true;
+  }
+  bool operator != (const AstDumper_literalNumberExpression_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_literalNumberExpression_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_literalNumberExpression_pargs {
+ public:
+
+
+  virtual ~AstDumper_literalNumberExpression_pargs() throw() {}
+
+  const Literal* str;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _AstDumper_literalBooleanExpression_args__isset {
+  _AstDumper_literalBooleanExpression_args__isset() : str(false) {}
+  bool str;
+} _AstDumper_literalBooleanExpression_args__isset;
+
+class AstDumper_literalBooleanExpression_args {
+ public:
+
+  AstDumper_literalBooleanExpression_args() {
+  }
+
+  virtual ~AstDumper_literalBooleanExpression_args() throw() {}
+
+  Literal str;
+
+  _AstDumper_literalBooleanExpression_args__isset __isset;
+
+  bool operator == (const AstDumper_literalBooleanExpression_args & rhs) const
+  {
+    if (!(str == rhs.str))
+      return false;
+    return true;
+  }
+  bool operator != (const AstDumper_literalBooleanExpression_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_literalBooleanExpression_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_literalBooleanExpression_pargs {
+ public:
+
+
+  virtual ~AstDumper_literalBooleanExpression_pargs() throw() {}
+
+  const Literal* str;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -1612,8 +1714,12 @@ class AstDumperClient : virtual public AstDumperIf {
   void send_endBinaryExpression();
   void identifierExpression(const Identifier& id);
   void send_identifierExpression(const Identifier& id);
-  void literalStringExpression(const LiteralString& str);
-  void send_literalStringExpression(const LiteralString& str);
+  void literalStringExpression(const Literal& str);
+  void send_literalStringExpression(const Literal& str);
+  void literalNumberExpression(const Literal& str);
+  void send_literalNumberExpression(const Literal& str);
+  void literalBooleanExpression(const Literal& str);
+  void send_literalBooleanExpression(const Literal& str);
   void endExpressionList();
   void send_endExpressionList();
   void addImport(const StringList& packages);
@@ -1668,6 +1774,8 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
   void process_endBinaryExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_identifierExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_literalStringExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_literalNumberExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_literalBooleanExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_endExpressionList(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_addImport(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_startStmtList(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -1706,6 +1814,8 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
     processMap_["endBinaryExpression"] = &AstDumperProcessor::process_endBinaryExpression;
     processMap_["identifierExpression"] = &AstDumperProcessor::process_identifierExpression;
     processMap_["literalStringExpression"] = &AstDumperProcessor::process_literalStringExpression;
+    processMap_["literalNumberExpression"] = &AstDumperProcessor::process_literalNumberExpression;
+    processMap_["literalBooleanExpression"] = &AstDumperProcessor::process_literalBooleanExpression;
     processMap_["endExpressionList"] = &AstDumperProcessor::process_endExpressionList;
     processMap_["addImport"] = &AstDumperProcessor::process_addImport;
     processMap_["startStmtList"] = &AstDumperProcessor::process_startStmtList;
@@ -1926,10 +2036,24 @@ class AstDumperMultiface : virtual public AstDumperIf {
     }
   }
 
-  void literalStringExpression(const LiteralString& str) {
+  void literalStringExpression(const Literal& str) {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
       ifaces_[i]->literalStringExpression(str);
+    }
+  }
+
+  void literalNumberExpression(const Literal& str) {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->literalNumberExpression(str);
+    }
+  }
+
+  void literalBooleanExpression(const Literal& str) {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->literalBooleanExpression(str);
     }
   }
 

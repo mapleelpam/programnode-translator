@@ -31,6 +31,8 @@
 #include <backend/cpp/interpret/expression_list.h>
 #include <backend/cpp/interpret/call.h>
 #include <backend/cpp/interpret/literal_string.h>
+#include <backend/cpp/interpret/literal_number.h>
+#include <backend/cpp/interpret/literal_boolean.h>
 #include <backend/cpp/interpret/identifier.h>
 #include <backend/cpp/interpret/statement_list.h>
 #include <backend/cpp/interpret/function_definition.h>
@@ -78,6 +80,8 @@ void dispatchDo( ::tw::maple::as::ast::NodePtr node, ::tw::maple::backend::cpp::
 		interpreterResolver[AST::Node::NodeType::T_EXPR_LIST] = new ExpressionList();
 		interpreterResolver[AST::Node::NodeType::T_ARGUMENTS] = new Arguments();
 		interpreterResolver[AST::Node::NodeType::T_LITERAL_STRING] = new LiteralString();
+		interpreterResolver[AST::Node::NodeType::T_LITERAL_NUMBER] = new LiteralNumber();
+		interpreterResolver[AST::Node::NodeType::T_LITERAL_BOOLEAN] = new LiteralBoolean();
 		interpreterResolver[AST::Node::NodeType::T_IDENTIFIER] = new Identifier();
 		interpreterResolver[AST::Node::NodeType::T_BINARY_OPERATOR] = new BinaryOperator();
 		interpreterResolver[AST::Node::NodeType::T_RETURN_STATEMENT] = new ReturnStatement();

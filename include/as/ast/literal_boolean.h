@@ -23,46 +23,28 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_ARGUMENTS_H_
-#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_ARGUMENTS_H_
 
-#include <as/ast/arguments.h>
-#include <as/ast/call.h>
-#include <backend/cpp/interpret/interpreter.h>
+#ifndef __TW_MAPLE_AS_AST_LITERAL_BOOLEAN_H__
+#define __TW_MAPLE_AS_AST_LITERAL_BOOLEAN_H__
 
-namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
+#include <tr1/memory>
+#include <as/ast/expression.h>
 
-namespace AST = ::tw::maple::as::ast;
-
+namespace tw { namespace maple { namespace as { namespace ast {
 
 // Abstract
-struct Arguments : public Interpreter
-{   
-	void interpret( AST::NodePtr exp, tw::maple::backend::cpp::Context* ctx )
-	{
-//		for (std::vector<std::tr1::shared_ptr<AST::Node> >::iterator nItr =
-//				exp->node_childs.begin(); nItr != exp->node_childs.end(); nItr++)
-//		{
-//			dispatchDo(*nItr, ctx);
-//		}
-
-		std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr = exp->node_childs.begin();
-		if( nItr != exp->node_childs.end() ) {
-			dispatchDo(*nItr, ctx);
-
-			for( nItr++ ; nItr != exp->node_childs.end() ; nItr ++ )
-			{
-				ctx->ofs_stream << ", ";
-				dispatchDo(*nItr, ctx);
-			}
-		}
+struct LiteralBoolean: public Expression
+{
+	LiteralBoolean(std::string v) :
+		Expression(Node::NodeType::T_LITERAL_BOOLEAN), value(v) {
 	}
+	int exprType() { return Node::NodeType::T_LITERAL_BOOLEAN;	}
+
+    std::string value;
+
+    std::string toString()  {	return "node::literal_number"; };
 };
 
+} } } }
 
-typedef std::tr1::shared_ptr<Arguments>    ArgumentsPtr;
-
-
-} } } } }
-
-#endif 
+#endif

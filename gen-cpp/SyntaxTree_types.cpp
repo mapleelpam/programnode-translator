@@ -96,10 +96,10 @@ uint32_t Identifier::write(::apache::thrift::protocol::TProtocol* oprot) const {
   return xfer;
 }
 
-const char* LiteralString::ascii_fingerprint = "3E312230276B1228199AAA0AF12FDB38";
-const uint8_t LiteralString::binary_fingerprint[16] = {0x3E,0x31,0x22,0x30,0x27,0x6B,0x12,0x28,0x19,0x9A,0xAA,0x0A,0xF1,0x2F,0xDB,0x38};
+const char* Literal::ascii_fingerprint = "3E312230276B1228199AAA0AF12FDB38";
+const uint8_t Literal::binary_fingerprint[16] = {0x3E,0x31,0x22,0x30,0x27,0x6B,0x12,0x28,0x19,0x9A,0xAA,0x0A,0xF1,0x2F,0xDB,0x38};
 
-uint32_t LiteralString::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t Literal::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   uint32_t xfer = 0;
   std::string fname;
@@ -139,9 +139,9 @@ uint32_t LiteralString::read(::apache::thrift::protocol::TProtocol* iprot) {
   return xfer;
 }
 
-uint32_t LiteralString::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t Literal::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
-  xfer += oprot->writeStructBegin("LiteralString");
+  xfer += oprot->writeStructBegin("Literal");
   xfer += oprot->writeFieldBegin("value", ::apache::thrift::protocol::T_STRING, 2);
   xfer += oprot->writeString(this->value);
   xfer += oprot->writeFieldEnd();

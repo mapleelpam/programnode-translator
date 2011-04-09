@@ -39,6 +39,8 @@
 
 #include <as/ast/call.h>
 #include <as/ast/literal_string.h>
+#include <as/ast/literal_number.h>
+#include <as/ast/literal_boolean.h>
 #include <as/ast/expression_list.h>
 #include <as/ast/identifier.h>
 #include <as/ast/program.h>
@@ -288,10 +290,20 @@ public:
     _node_stack . top () -> addNodeChild( exp_id);
   }
 
-  virtual void literalStringExpression(const generated::LiteralString& str)
+  virtual void literalStringExpression(const generated::Literal& str)
   {
 	    std::tr1::shared_ptr<as::ast::LiteralString> exp_literal( new as::ast::LiteralString( str.value ) );
 	    _node_stack . top () -> addNodeChild( exp_literal);
+  }
+  virtual void literalNumberExpression(const generated::Literal& num)
+  {
+	    std::tr1::shared_ptr<as::ast::LiteralNumber> exp_literal( new as::ast::LiteralNumber( num.value ) );
+	    _node_stack . top () -> addNodeChild( exp_literal);
+  }
+  virtual void literalBooleanExpression(const generated::Literal& num)
+  {
+  	    std::tr1::shared_ptr<as::ast::LiteralBoolean> exp_literal( new as::ast::LiteralBoolean( num.value ) );
+  	    _node_stack . top () -> addNodeChild( exp_literal);
   }
   void endExpressionList() {
     // Your implementation goes here

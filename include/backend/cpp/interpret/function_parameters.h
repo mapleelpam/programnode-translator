@@ -40,7 +40,6 @@ struct FunctionParameter : public Interpreter
 	{
 		DEBUG_INTERPRET_ENTRY;
 
-		printf(" function parameter \n");
 
 		std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr = exp->node_childs.begin();
 		if( nItr != exp->node_childs.end() ) {

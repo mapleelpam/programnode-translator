@@ -42,11 +42,7 @@ struct FunctionDefinition : public Interpreter
 	void interpret( AST::NodePtr node, tw::maple::backend::cpp::Context* ctx )
 	{
 		std::tr1::shared_ptr<AST::FunctionDefinition> fdef = std::tr1::static_pointer_cast<AST::FunctionDefinition>(node);
-		std::cout << "  check ----------------------> " <<fdef->toString()<<std::endl;
-
 		std::tr1::shared_ptr<AST::FunctionCommon> fcommon = std::tr1::static_pointer_cast<AST::FunctionCommon>(fdef -> FunctionCommon());
-		std::cout << "  check ----------------------> " << fcommon->toString()<<std::endl;
-		std::cout << " fdef child size = " << fdef->node_childs.size() << std::endl;
 		// Function Return Type
 		std::tr1::shared_ptr<AST::FunctionSignature> fsig = std::tr1::static_pointer_cast<AST::FunctionSignature>(fcommon -> FunctionSignature());
 		dispatchDo(fsig->FunctionReturnType(), ctx); // Name
@@ -55,6 +51,7 @@ struct FunctionDefinition : public Interpreter
 		dispatchDo( fdef -> FunctionName() , ctx); // Name
 		ctx->ofs_stream << "(";
 
+		if( fsig->node_childs.size() > 1 )
 			dispatchDo(fsig->FunctionParameter(), ctx); // parameters
 
 		ctx->ofs_stream << ")"<<std::endl << "{" << std::endl;
