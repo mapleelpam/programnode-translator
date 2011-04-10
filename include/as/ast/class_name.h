@@ -23,36 +23,33 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_RETURN_STATEMENT_H__
-#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_RETURN_STATEMENT_H__
+#ifndef __TW_MAPLE_AS_AST_SATEMENTS_CLASS_NAME_H__
+#define __TW_MAPLE_AS_AST_SATEMENTS_CLASS_NAME_H__
 
-#include <as/ast/function_definition.h>
-#include <as/ast/call.h>
-#include <backend/cpp/interpret/interpreter.h>
+#include <tr1/memory>
+#include <as/ast/statement.h>
 
-namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
-namespace AST = ::tw::maple::as::ast;
+namespace tw { namespace maple { namespace as { namespace ast {
 
-struct ReturnStatement : public Interpreter
-{   
-	void interpret( AST::NodePtr exp, cpp::Context* ctx )
-	{
-		ctx->ofs_stream << ctx->indent() ;
-		ctx->ofs_stream << "return ";
-		for (std::vector<std::tr1::shared_ptr<AST::Node> >::iterator nItr =
-				exp->node_childs.begin(); nItr != exp->node_childs.end(); nItr++)
-		{
-			dispatchDo(*nItr, ctx);
-		}
-		ctx->ofs_stream << ";";
-		ctx->ofs_stream << "\n"; //TODO: replace to \n\l?
+struct ClassName : public Statement
+{
+	ClassName() :
+		Statement(Node::NodeType::T_CLASS_DEFINE_NAME) {
 	}
+	int stmtType() {
+		return _node_type;
+	}
+
+//	NodePtr ifCondition(){	return node_childs[0];	}
+//	NodePtr ifThen(){	return node_childs[1];	}
+//	NodePtr ifElse(){	if(node_childs.size()<3)	return NodePtr(); else return node_childs[2];	}
+
+	std::string toString()  {	return "node::CLASS_NAME"; };
 };
+typedef std::tr1::shared_ptr<ClassName> ClassNamePtr;
 
-};
 
+} } } }
 
-} } } } 
-
-#endif 
+#endif

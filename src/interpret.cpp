@@ -50,6 +50,7 @@
 #include <backend/cpp/interpret/variable_declare.h>
 #include <backend/cpp/interpret/assignment.h>
 #include <backend/cpp/interpret/if_stmt.h>
+#include <backend/cpp/interpret/class_define.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
@@ -100,6 +101,10 @@ void dispatchDo( ::tw::maple::as::ast::NodePtr node, ::tw::maple::backend::cpp::
 		interpreterResolver[AST::Node::NodeType::T_IF_STMT_CONDITION] = new Interpreter();
 		interpreterResolver[AST::Node::NodeType::T_IF_STMT_THEN] = new Interpreter();
 		interpreterResolver[AST::Node::NodeType::T_IF_STMT_ELSE] = new Interpreter();
+
+		interpreterResolver[AST::Node::NodeType::T_CLASS_DEFINE] = new ClassDefine();
+		interpreterResolver[AST::Node::NodeType::T_CLASS_DEFINE_NAME] = new Interpreter();
+		interpreterResolver[AST::Node::NodeType::T_CLASS_DEFINE_STMT] = new Interpreter();
 	}
 	Interpreter* to = interpreterResolver[ node->nodeType() ];
 	if( to == NULL ){

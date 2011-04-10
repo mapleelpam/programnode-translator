@@ -46,9 +46,9 @@ struct IfStatement : public Interpreter
 		ctx->ofs_stream << "){\n";
 			dispatchDo(IF->ifThen(), ctx);
 
-		ctx->ofs_stream << "" << ctx->indent()<<"}\n";
+		ctx->ofs_stream << "" << ctx->indent()<<"}";
 		if( IF->ifElse() ) {
-			ctx->ofs_stream <<  ctx->indent()<<"else { \n";
+			ctx->ofs_stream << ctx->indent()<< " else\n" << ctx->indent()<< "{ \n";
 				dispatchDo(IF->ifElse(), ctx);
 			ctx->ofs_stream <<  ctx->indent()<<"}";
 		}

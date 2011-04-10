@@ -23,10 +23,10 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_RETURN_STATEMENT_H__
-#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_RETURN_STATEMENT_H__
+#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_CLASS_DEFINE_H__
+#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_CLASS_DEFINE_H__
 
-#include <as/ast/function_definition.h>
+#include <as/ast/class_define.h>
 #include <as/ast/call.h>
 #include <backend/cpp/interpret/interpreter.h>
 
@@ -34,19 +34,21 @@ namespace tw { namespace maple { namespace backend { namespace cpp { namespace i
 
 namespace AST = ::tw::maple::as::ast;
 
-struct ReturnStatement : public Interpreter
+struct ClassDefine : public Interpreter
 {   
-	void interpret( AST::NodePtr exp, cpp::Context* ctx )
+	void interpret( AST::NodePtr node, cpp::Context* ctx )
 	{
-		ctx->ofs_stream << ctx->indent() ;
-		ctx->ofs_stream << "return ";
-		for (std::vector<std::tr1::shared_ptr<AST::Node> >::iterator nItr =
-				exp->node_childs.begin(); nItr != exp->node_childs.end(); nItr++)
-		{
-			dispatchDo(*nItr, ctx);
-		}
-		ctx->ofs_stream << ";";
-		ctx->ofs_stream << "\n"; //TODO: replace to \n\l?
+
+		AST::ClassDefinePtr _class_define_ = std::tr1::static_pointer_cast<AST::ClassDefine>(node);
+		ctx->tree_depth ++;
+
+		ctx->ofs_stream << ctx->indent() << "class  ";
+			dispatchDo(_class_define_->className(), ctx);
+		ctx->ofs_stream << "{\n";
+			dispatchDo(_class_define_->classStmt(), ctx);
+		ctx->ofs_stream << "" << ctx->indent()<<"};";
+
+		ctx->tree_depth --;
 	}
 };
 

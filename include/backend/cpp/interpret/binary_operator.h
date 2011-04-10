@@ -59,8 +59,10 @@ private:
 			return "%";
 		else if( str == "lessthan")
 			return "<";
+		else if( str == "equals")
+			return "==";
 		else {
-			std::cerr << " can't resolve binary op string " << str << std::endl;
+			std::cerr << " can't resolve binary op string '" << str << "'"<<std::endl;
 			exit(1);
 		}
 	}

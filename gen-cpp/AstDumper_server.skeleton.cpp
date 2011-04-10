@@ -267,6 +267,36 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("endStmtList\n");
   }
 
+  void startClassDefine() {
+    // Your implementation goes here
+    printf("startClassDefine\n");
+  }
+
+  void startClassName() {
+    // Your implementation goes here
+    printf("startClassName\n");
+  }
+
+  void endClassName() {
+    // Your implementation goes here
+    printf("endClassName\n");
+  }
+
+  void startClassStmt() {
+    // Your implementation goes here
+    printf("startClassStmt\n");
+  }
+
+  void endClassStmt() {
+    // Your implementation goes here
+    printf("endClassStmt\n");
+  }
+
+  void endClassDefine() {
+    // Your implementation goes here
+    printf("endClassDefine\n");
+  }
+
 };
 
 int main(int argc, char **argv) {

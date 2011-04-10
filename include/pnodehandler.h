@@ -66,6 +66,10 @@
 #include <as/ast/if_stmt_then.h>
 #include <as/ast/if_stmt_else.h>
 
+#include <as/ast/class_define.h>
+#include <as/ast/class_name.h>
+#include <as/ast/class_stmt.h>
+
 using namespace apache::thrift;
 using namespace apache::thrift::protocol;
 using namespace apache::thrift::transport;
@@ -224,9 +228,7 @@ public:
 
   void startExpressionList()
   {
-
       printf(" %lu startExpressionList\n", _node_stack.size() );
-
       std::tr1::shared_ptr<as::ast::ExpressionList> exp_list( new as::ast::ExpressionList );
       _node_stack . top() -> addNodeChild( exp_list );
       _node_stack . push( exp_list );
@@ -377,7 +379,6 @@ public:
   }
 
   void endStmtList() {
-
       printf(" %lu endStmtList\n", _node_stack.size() );
       _node_stack . pop ();
   }
@@ -434,6 +435,43 @@ public:
        CHECK_STACK_AND_POP( AST::Node::NodeType::T_IF_STMT_ELSE );
       _node_stack . pop ();
   }
+
+  void startClassDefine()
+  {
+      printf(" %lu startClassDefine\n", _node_stack.size() );
+      std::tr1::shared_ptr<as::ast::ClassDefine> exp_list( new as::ast::ClassDefine );
+      _node_stack . top() -> addNodeChild( exp_list );
+      _node_stack . push( exp_list );
+  }
+  void startClassName()
+    {
+        printf(" %lu startClassName\n", _node_stack.size() );
+        std::tr1::shared_ptr<as::ast::ClassName> exp_list( new as::ast::ClassName );
+        _node_stack . top() -> addNodeChild( exp_list );
+        _node_stack . push( exp_list );
+    }
+  void startClassStmt()
+      {
+          printf(" %lu startClassStmt\n", _node_stack.size() );
+          std::tr1::shared_ptr<as::ast::ClassStmt> exp_list( new as::ast::ClassStmt );
+          _node_stack . top() -> addNodeChild( exp_list );
+          _node_stack . push( exp_list );
+      }
+  void endClassDefine() {
+      printf(" %lu endClassDefine\n", _node_stack.size() );
+      CHECK_STACK_AND_POP( AST::Node::NodeType::T_CLASS_DEFINE );
+      _node_stack . pop ();
+  }
+  void endClassName() {
+        printf(" %lu endClassName\n", _node_stack.size() );
+        CHECK_STACK_AND_POP( AST::Node::NodeType::T_CLASS_DEFINE_NAME );
+        _node_stack . pop ();
+    }
+  void endClassStmt() {
+        printf(" %lu endClassDefine\n", _node_stack.size() );
+        CHECK_STACK_AND_POP( AST::Node::NodeType::T_CLASS_DEFINE_STMT );
+        _node_stack . pop ();
+    }
 public:
   std::tr1::shared_ptr< as::ast::Program > getProgramNode() {	return _program_root;	};
 

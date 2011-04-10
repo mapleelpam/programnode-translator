@@ -63,6 +63,12 @@ class AstDumperIf {
   virtual void addImport(const StringList& packages) = 0;
   virtual void startStmtList() = 0;
   virtual void endStmtList() = 0;
+  virtual void startClassDefine() = 0;
+  virtual void startClassName() = 0;
+  virtual void endClassName() = 0;
+  virtual void startClassStmt() = 0;
+  virtual void endClassStmt() = 0;
+  virtual void endClassDefine() = 0;
 };
 
 class AstDumperNull : virtual public AstDumperIf {
@@ -213,6 +219,24 @@ class AstDumperNull : virtual public AstDumperIf {
     return;
   }
   void endStmtList() {
+    return;
+  }
+  void startClassDefine() {
+    return;
+  }
+  void startClassName() {
+    return;
+  }
+  void endClassName() {
+    return;
+  }
+  void startClassStmt() {
+    return;
+  }
+  void endClassStmt() {
+    return;
+  }
+  void endClassDefine() {
     return;
   }
 };
@@ -2130,6 +2154,228 @@ class AstDumper_endStmtList_pargs {
 
 };
 
+
+class AstDumper_startClassDefine_args {
+ public:
+
+  AstDumper_startClassDefine_args() {
+  }
+
+  virtual ~AstDumper_startClassDefine_args() throw() {}
+
+
+  bool operator == (const AstDumper_startClassDefine_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const AstDumper_startClassDefine_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_startClassDefine_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_startClassDefine_pargs {
+ public:
+
+
+  virtual ~AstDumper_startClassDefine_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_startClassName_args {
+ public:
+
+  AstDumper_startClassName_args() {
+  }
+
+  virtual ~AstDumper_startClassName_args() throw() {}
+
+
+  bool operator == (const AstDumper_startClassName_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const AstDumper_startClassName_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_startClassName_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_startClassName_pargs {
+ public:
+
+
+  virtual ~AstDumper_startClassName_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_endClassName_args {
+ public:
+
+  AstDumper_endClassName_args() {
+  }
+
+  virtual ~AstDumper_endClassName_args() throw() {}
+
+
+  bool operator == (const AstDumper_endClassName_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const AstDumper_endClassName_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_endClassName_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_endClassName_pargs {
+ public:
+
+
+  virtual ~AstDumper_endClassName_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_startClassStmt_args {
+ public:
+
+  AstDumper_startClassStmt_args() {
+  }
+
+  virtual ~AstDumper_startClassStmt_args() throw() {}
+
+
+  bool operator == (const AstDumper_startClassStmt_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const AstDumper_startClassStmt_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_startClassStmt_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_startClassStmt_pargs {
+ public:
+
+
+  virtual ~AstDumper_startClassStmt_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_endClassStmt_args {
+ public:
+
+  AstDumper_endClassStmt_args() {
+  }
+
+  virtual ~AstDumper_endClassStmt_args() throw() {}
+
+
+  bool operator == (const AstDumper_endClassStmt_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const AstDumper_endClassStmt_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_endClassStmt_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_endClassStmt_pargs {
+ public:
+
+
+  virtual ~AstDumper_endClassStmt_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_endClassDefine_args {
+ public:
+
+  AstDumper_endClassDefine_args() {
+  }
+
+  virtual ~AstDumper_endClassDefine_args() throw() {}
+
+
+  bool operator == (const AstDumper_endClassDefine_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const AstDumper_endClassDefine_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_endClassDefine_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_endClassDefine_pargs {
+ public:
+
+
+  virtual ~AstDumper_endClassDefine_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
 class AstDumperClient : virtual public AstDumperIf {
  public:
   AstDumperClient(boost::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) :
@@ -2248,6 +2494,18 @@ class AstDumperClient : virtual public AstDumperIf {
   void send_startStmtList();
   void endStmtList();
   void send_endStmtList();
+  void startClassDefine();
+  void send_startClassDefine();
+  void startClassName();
+  void send_startClassName();
+  void endClassName();
+  void send_endClassName();
+  void startClassStmt();
+  void send_startClassStmt();
+  void endClassStmt();
+  void send_endClassStmt();
+  void endClassDefine();
+  void send_endClassDefine();
  protected:
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -2310,6 +2568,12 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
   void process_addImport(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_startStmtList(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_endStmtList(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_startClassDefine(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_startClassName(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_endClassName(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_startClassStmt(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_endClassStmt(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_endClassDefine(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
   AstDumperProcessor(boost::shared_ptr<AstDumperIf> iface) :
     iface_(iface) {
@@ -2362,6 +2626,12 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
     processMap_["addImport"] = &AstDumperProcessor::process_addImport;
     processMap_["startStmtList"] = &AstDumperProcessor::process_startStmtList;
     processMap_["endStmtList"] = &AstDumperProcessor::process_endStmtList;
+    processMap_["startClassDefine"] = &AstDumperProcessor::process_startClassDefine;
+    processMap_["startClassName"] = &AstDumperProcessor::process_startClassName;
+    processMap_["endClassName"] = &AstDumperProcessor::process_endClassName;
+    processMap_["startClassStmt"] = &AstDumperProcessor::process_startClassStmt;
+    processMap_["endClassStmt"] = &AstDumperProcessor::process_endClassStmt;
+    processMap_["endClassDefine"] = &AstDumperProcessor::process_endClassDefine;
   }
 
   virtual bool process(boost::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot, boost::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot, void* callContext);
@@ -2720,6 +2990,48 @@ class AstDumperMultiface : virtual public AstDumperIf {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
       ifaces_[i]->endStmtList();
+    }
+  }
+
+  void startClassDefine() {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->startClassDefine();
+    }
+  }
+
+  void startClassName() {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->startClassName();
+    }
+  }
+
+  void endClassName() {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->endClassName();
+    }
+  }
+
+  void startClassStmt() {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->startClassStmt();
+    }
+  }
+
+  void endClassStmt() {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->endClassStmt();
+    }
+  }
+
+  void endClassDefine() {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->endClassDefine();
     }
   }
 
