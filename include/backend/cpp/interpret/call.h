@@ -43,12 +43,16 @@ struct Call : public Interpreter
 
 		std::tr1::shared_ptr<AST::Call> call = std::tr1::static_pointer_cast<AST::Call>(node);
 
-		std::tr1::shared_ptr<AST::Node> callee  = call->getCallee();
-		std::tr1::shared_ptr<AST::Node> args = call->getArgs();
+//		std::tr1::shared_ptr<AST::Node> callee  = call->getCallee();
+//		std::tr1::shared_ptr<AST::Node> args = call->getArgs();
 
-		dispatchDo(callee, ctx);
+		if( call->isObjectConsturct() )
+			ctx->ofs_stream << " new ";
+		dispatchDo( call->getCallee(), ctx);
 		ctx->ofs_stream << "( ";
-			dispatchDo(args, ctx);
+		if( call->getArgs() ){
+			dispatchDo( call->getArgs(), ctx);
+		}
 		ctx->ofs_stream << " )";
 
 		DEBUG_INTERPRET_LEAVE;

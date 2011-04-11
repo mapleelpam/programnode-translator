@@ -239,7 +239,7 @@ public:
 
       printf(" %lu startCallExpression\n", _node_stack.size() );
 
-      std::tr1::shared_ptr < as::ast::Call > exp_call(new as::ast::Call);
+      std::tr1::shared_ptr < as::ast::Call > exp_call(new as::ast::Call(call.is_new));
       _node_stack . top() -> addNodeChild(exp_call);
       _node_stack . push( exp_call );
   }

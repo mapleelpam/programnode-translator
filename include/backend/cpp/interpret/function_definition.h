@@ -46,7 +46,7 @@ struct FunctionDefinition : public Interpreter
 		// Function Return Type
 		std::tr1::shared_ptr<AST::FunctionSignature> fsig = std::tr1::static_pointer_cast<AST::FunctionSignature>(fcommon -> FunctionSignature());
 
-		ctx->ofs_stream << ctx->indent();
+		ctx->ofs_stream << "\n" << ctx->indent();
 		dispatchDo(fsig->FunctionReturnType(), ctx); // Name
 		ctx->ofs_stream << " ";
 

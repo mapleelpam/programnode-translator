@@ -12,3 +12,5 @@
             ${CMAKE_CURRENT_SOURCE_DIR}/normal
         )
 
+    
+    ADD_SUBDIRECTORY( boost )

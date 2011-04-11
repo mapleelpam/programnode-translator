@@ -33,13 +33,17 @@ namespace tw { namespace maple { namespace as { namespace ast {
 // Abstract
 struct Call : public Expression
 {
-	Call() : Expression(Node::NodeType::T_CALL)	{	}
+	Call( bool is_new = false ) : Expression(Node::NodeType::T_CALL), _is_new(is_new)	{	}
 
     int     exprType()   {   return NodeType::T_CALL;  }
     std::string toString()  {	return "node::call"; };
 
     NodePtr getCallee(){	return node_childs[0];	}
-    NodePtr getArgs(){	return node_childs[1];	}
+    NodePtr getArgs(){	return (node_childs.size() > 1 )? node_childs[1] : NodePtr();	}
+
+    bool isObjectConsturct()	{	return _is_new;	}
+private:
+    bool _is_new;
 };
 
 
