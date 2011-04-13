@@ -43,6 +43,14 @@ struct LiteralString : public Interpreter
 		ctx->ofs_stream << "\""<< li->value << "\"";
 	}
 
+	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
+	{
+		std::tr1::shared_ptr<AST::LiteralString> li = std::tr1::static_pointer_cast<AST::LiteralString>(node);
+
+		_replace_string( li->value, "\n", "\\n");
+		return  "\"" + li->value + "\"";
+	}
+
 private:
 	static void _replace_string(
 	    std::string &s, const std::string &SearchString, const std::string &ReplaceString

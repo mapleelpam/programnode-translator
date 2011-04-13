@@ -117,5 +117,68 @@ void dispatchDo( ::tw::maple::as::ast::NodePtr node, ::tw::maple::backend::cpp::
 
 }
 
+std::string dispatchExpound( ::tw::maple::as::ast::NodePtr node, ::tw::maple::backend::cpp::Context* ctx )
+{
+	if( node == NULL ){
+		std::cerr << "error: dispatchDo - can't get null node"<<std::endl;
+		exit(1);
+	}
+
+	static Interpreter* interpreterResolver[ ::tw::maple::as::ast::Node::NodeType::T_NODE_TYPE_END];
+	static bool _1st_enter = true;
+
+	namespace AST = ::tw::maple::as::ast;
+	if( _1st_enter )
+	{ // Initialize
+		_1st_enter = false;
+		for( int idx = 0 ; idx < AST::Node::NodeType::T_NODE_TYPE_END; idx ++ )
+			interpreterResolver[ idx ] = NULL;
+
+		interpreterResolver[AST::Node::NodeType::T_PROGRAM] = new ProgramRoot();
+//
+		interpreterResolver[AST::Node::NodeType::T_FUNCTION_DEFINITION] = new FunctionDefinition();
+		interpreterResolver[AST::Node::NodeType::T_FUNCTION_NAME] = new FunctionName();
+		interpreterResolver[AST::Node::NodeType::T_FUNCTION_SIGNATURE] = new FunctionSignature();
+		interpreterResolver[AST::Node::NodeType::T_FUNCTION_RETTYPE] = new FunctionReturnType();
+		interpreterResolver[AST::Node::NodeType::T_FUNCTION_PARAMETERS] = new FunctionParameter();
+		interpreterResolver[AST::Node::NodeType::T_FUNCTION_PARAMETER_ITEM] = new FunctionParameterItem();
+		interpreterResolver[AST::Node::NodeType::T_FUNCTION_COMMON] = new FunctionCommon();
+//
+		interpreterResolver[AST::Node::NodeType::T_STMT_LIST] = new StatementList();
+		interpreterResolver[AST::Node::NodeType::T_EXPR_LIST] = new ExpressionList();
+		interpreterResolver[AST::Node::NodeType::T_ARGUMENTS] = new Arguments();
+		interpreterResolver[AST::Node::NodeType::T_LITERAL_STRING] = new LiteralString();
+		interpreterResolver[AST::Node::NodeType::T_LITERAL_NUMBER] = new LiteralNumber();
+		interpreterResolver[AST::Node::NodeType::T_LITERAL_BOOLEAN] = new LiteralBoolean();
+		interpreterResolver[AST::Node::NodeType::T_IDENTIFIER] = new Identifier();
+		interpreterResolver[AST::Node::NodeType::T_BINARY_OPERATOR] = new BinaryOperator();
+		interpreterResolver[AST::Node::NodeType::T_UNARY_OPERATOR] = new UnaryOperator();
+		interpreterResolver[AST::Node::NodeType::T_RETURN_STATEMENT] = new ReturnStatement();
+
+		interpreterResolver[AST::Node::NodeType::T_VARIABLE_DECLARE] = new VariableDeclare();
+		interpreterResolver[AST::Node::NodeType::T_ASSIGNMENT] = new Assignment();
+		interpreterResolver[AST::Node::NodeType::T_CALL] = new Call();
+		interpreterResolver[AST::Node::NodeType::T_IF_STMT] = new IfStatement();
+
+        /* TODO: implement this */
+		interpreterResolver[AST::Node::NodeType::T_IF_STMT_CONDITION] = new Interpreter();
+		interpreterResolver[AST::Node::NodeType::T_IF_STMT_THEN] = new Interpreter();
+		interpreterResolver[AST::Node::NodeType::T_IF_STMT_ELSE] = new Interpreter();
+
+		interpreterResolver[AST::Node::NodeType::T_CLASS_DEFINE] = new ClassDefine();
+		interpreterResolver[AST::Node::NodeType::T_CLASS_DEFINE_NAME] = new Interpreter();
+		interpreterResolver[AST::Node::NodeType::T_CLASS_DEFINE_STMT] = new Interpreter();
+	}
+	Interpreter* to = interpreterResolver[ node->nodeType() ];
+	if( to == NULL ){
+		std::cerr << "error: can't resolve expound - type id = "<<node->toString()<<std::endl;
+		exit(1);
+	} else {
+		std::cout <<" dispatch - " << node->toString() << " number " << node->nodeType()<<std::endl;
+		return to->expound(node,ctx);
+	}
+
+}
+
 } /*interpret*/ } /*cpp*/ } /*backend*/ } /*maple*/ } /*tw*/
 

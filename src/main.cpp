@@ -92,7 +92,7 @@ int main(int argc, char **argv)
 
 		for (std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Program> >::iterator
 				nodeItr = pnode_list.begin(); nodeItr != pnode_list.end(); nodeItr++) {
-			INTERPRET::dispatchDo(*nodeItr, &context);
+			context.ofs_stream << INTERPRET::dispatchExpound(*nodeItr, &context);
 		}
 
 		context.ofs_stream.close();

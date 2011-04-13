@@ -48,6 +48,21 @@ struct ReturnStatement : public Interpreter
 		ctx->ofs_stream << ";";
 		ctx->ofs_stream << "\n"; //TODO: replace to \n\l?
 	}
+	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
+	{
+		std::string result;
+		result += ctx->indent() ;
+		result += "return ";
+		for (std::vector<std::tr1::shared_ptr<AST::Node> >::iterator nItr =
+				node->node_childs.begin(); nItr != node->node_childs.end(); nItr++)
+		{
+			result += dispatchExpound(*nItr, ctx);
+		}
+		result +=  ";";
+		result +=  "\n"; //TODO: replace to \n\l?
+
+		return result;
+	}
 };
 
 };

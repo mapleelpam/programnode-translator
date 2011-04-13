@@ -40,7 +40,12 @@ struct LiteralNumber : public Interpreter
 		std::tr1::shared_ptr<AST::LiteralString> li = std::tr1::static_pointer_cast<AST::LiteralString>(node);
 		ctx->ofs_stream << li->value;
 	}
+	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
+	{
+		std::tr1::shared_ptr<AST::LiteralString> li = std::tr1::static_pointer_cast<AST::LiteralString>(node);
+		return li->value;
 
+	}
 };
 
 

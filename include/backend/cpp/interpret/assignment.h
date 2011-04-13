@@ -41,7 +41,6 @@ struct Assignment : public Interpreter
 	{
 		DEBUG_INTERPRET_ENTRY;
 
-
 		AST::AssignmentPtr assignment = std::tr1::static_pointer_cast<
 				AST::Assignment>(node);
 
@@ -51,6 +50,14 @@ struct Assignment : public Interpreter
 		dispatchDo(assignment->RHS(), ctx); //
 
 		DEBUG_INTERPRET_LEAVE;
+	}
+	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
+	{
+		std::string result;
+		AST::AssignmentPtr assignment = std::tr1::static_pointer_cast<
+				AST::Assignment>(node);
+
+		return dispatchExpound(assignment->LHS(), ctx) + " = "  + dispatchExpound(assignment->RHS(), ctx);
 	}
 };
 

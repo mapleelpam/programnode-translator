@@ -57,6 +57,23 @@ struct ExpressionList : public Interpreter
 		ctx->ofs_stream << "; " << std::endl;
 
 	}
+
+	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
+	{
+		std::string result;
+
+		std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr = node->node_childs.begin();
+		if( nItr != node->node_childs.end() ) {
+			result += dispatchExpound(*nItr, ctx);
+
+			for( nItr++ ; nItr != node->node_childs.end() ; nItr ++ )
+			{
+				result += ", " + dispatchExpound(*nItr, ctx);
+			}
+		}
+
+		return result+";\n";
+	}
 };
 
 };

@@ -38,24 +38,38 @@ namespace AST = ::tw::maple::as::ast;
 // Abstract
 struct Arguments : public Interpreter
 {   
-	void interpret( AST::NodePtr exp, tw::maple::backend::cpp::Context* ctx )
+	void interpret( AST::NodePtr node, tw::maple::backend::cpp::Context* ctx )
 	{
 //		for (std::vector<std::tr1::shared_ptr<AST::Node> >::iterator nItr =
-//				exp->node_childs.begin(); nItr != exp->node_childs.end(); nItr++)
+//				node->node_childs.begin(); nItr != node->node_childs.end(); nItr++)
 //		{
 //			dispatchDo(*nItr, ctx);
 //		}
 
-		std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr = exp->node_childs.begin();
-		if( nItr != exp->node_childs.end() ) {
+		std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr = node->node_childs.begin();
+		if( nItr != node->node_childs.end() ) {
 			dispatchDo(*nItr, ctx);
 
-			for( nItr++ ; nItr != exp->node_childs.end() ; nItr ++ )
+			for( nItr++ ; nItr != node->node_childs.end() ; nItr ++ )
 			{
 				ctx->ofs_stream << ", ";
 				dispatchDo(*nItr, ctx);
 			}
 		}
+	}
+	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
+	{
+		std::string result = "";
+		std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr = node->node_childs.begin();
+		if( nItr != node->node_childs.end() ) {
+			result += dispatchExpound(*nItr, ctx);
+
+			for( nItr++ ; nItr != node->node_childs.end() ; nItr ++ )
+			{
+				result += ", " + dispatchExpound(*nItr, ctx);
+			}
+		}
+		return result;
 	}
 };
 

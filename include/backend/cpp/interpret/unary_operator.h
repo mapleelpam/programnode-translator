@@ -44,6 +44,18 @@ struct UnaryOperator : public Interpreter
 		ctx->ofs_stream << " " << resolve_operator(bin->op_type) << " ";
 		dispatchDo(bin->subExpr(), ctx); // sub expression
 	}
+	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
+	{
+		std::string result;
+
+		AST::UnaryOperatorPtr bin = std::tr1::static_pointer_cast<
+				AST::UnaryOperator>(node);
+
+		result +=  " " + resolve_operator(bin->op_type) + " ";
+		result += dispatchExpound(bin->subExpr(), ctx); // sub expression
+
+		return result;
+	}
 
 private:
 	std::string resolve_operator( std::string str )

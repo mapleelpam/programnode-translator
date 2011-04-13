@@ -50,6 +50,23 @@ struct ClassDefine : public Interpreter
 
 		ctx->tree_depth --;
 	}
+
+	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
+	{
+		AST::ClassDefinePtr _class_define_ = std::tr1::static_pointer_cast<AST::ClassDefine>(node);
+		std::string result = "";
+
+		ctx->tree_depth ++;
+
+		{
+			result = ctx->indent() + "class  " + dispatchExpound(_class_define_->className(), ctx) +"{\n"
+					+ dispatchExpound(_class_define_->classStmt(), ctx) +  "" +  ctx->indent() + "};" ;
+		}
+
+		ctx->tree_depth --;
+
+		return result;
+	}
 };
 
 };

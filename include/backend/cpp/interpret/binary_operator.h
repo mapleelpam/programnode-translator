@@ -43,7 +43,14 @@ struct BinaryOperator : public Interpreter
 			ctx->ofs_stream << " " << resolve_operator( bin->op_type ) << " ";
 		dispatchDo(bin->RHS(), ctx); // RHS
 	}
+	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
+	{
+		AST::BinaryOperatorPtr bin = std::tr1::static_pointer_cast<AST::BinaryOperator>(node);
 
+		return dispatchExpound(bin->LHS(), ctx)
+				+ resolve_operator( bin->op_type )
+				+ dispatchExpound(bin->RHS(), ctx);
+	}
 private:
 	std::string resolve_operator( std::string str )
 	{

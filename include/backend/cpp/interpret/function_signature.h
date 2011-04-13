@@ -35,19 +35,6 @@ namespace AST = ::tw::maple::as::ast;
 
 struct FunctionSignature : public Interpreter
 {
-	void interpret( AST::NodePtr exp, tw::maple::backend::cpp::Context* ctx )
-	{
-//		AST::FunctionDefinition* fdef = dynamic_cast<AST::FunctionDefinition*>( &(*exp) );
-//		AST::NodePtr fname = fdef->FunctionName();
-//		AST::NodePtr fbody = fdef->FunctionBody();
-//		dispatchDo(fname, ctx);
-//		ctx->ofs_stream << "() "<<std::endl << "{" << std::endl;
-//			dispatchDo(fbody, ctx);
-//
-//		ctx->ofs_stream << std::endl << "}" << std::endl;
-
-
-	}
 };
 
 };

@@ -53,6 +53,23 @@ struct VariableDeclare : public Interpreter
 		DEBUG_INTERPRET_LEAVE;
 
 	}
+	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
+	{
+		std::string result;
+
+
+		AST::VariableDeclarePtr var = std::tr1::static_pointer_cast<
+				AST::VariableDeclare>(node);
+
+        result += ctx->indent();
+		result += dispatchExpound(var->varType(), ctx);
+		result += " " ;
+		result += dispatchExpound(var->varName(), ctx);
+		result += ";\n" ;
+
+		return result;
+	}
+
 
 };
 

@@ -54,6 +54,26 @@ struct IfStatement : public Interpreter
 		}
 
 	}
+	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
+	{
+		std::string result = "";
+
+		AST::IfStatementPtr IF = std::tr1::static_pointer_cast<AST::IfStatement>(node);
+
+		result += ctx->indent() + "if( ";
+		result += dispatchExpound(IF->ifCondition(), ctx);
+		result += "){\n";
+		result += dispatchExpound(IF->ifThen(), ctx);
+
+		result += ctx->indent()+"}";
+		if( IF->ifElse() ) {
+			result += ctx->indent() + " else\n" + ctx->indent()+ "{ \n";
+			result += dispatchExpound(IF->ifElse(), ctx);
+			result +=  ctx->indent() + "}";
+		}
+
+		return result;
+	}
 };
 
 };

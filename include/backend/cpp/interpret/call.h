@@ -57,6 +57,22 @@ struct Call : public Interpreter
 
 		DEBUG_INTERPRET_LEAVE;
 	}
+	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
+	{
+		std::string result;
+		std::tr1::shared_ptr<AST::Call> call = std::tr1::static_pointer_cast<AST::Call>(node);
+
+		if (call->isObjectConsturct())
+			result +=  " new ";
+		result += dispatchExpound(call->getCallee(), ctx);
+		result +=  "( ";
+		if (call->getArgs()) {
+			result += dispatchExpound( call->getArgs(), ctx);
+		}
+		result += " )";
+
+		return result;
+	}
 };
 
 

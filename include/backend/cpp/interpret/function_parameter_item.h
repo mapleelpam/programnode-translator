@@ -42,7 +42,19 @@ struct FunctionParameterItem : public Interpreter
 		dispatchDo(fParam->ParamType(), ctx);
 		ctx->ofs_stream << " ";
 		dispatchDo(fParam->ParamName(), ctx);
+	}
 
+	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
+	{
+		std::string result = "";
+
+		AST::FunctionParameterItemPtr fParam = std::tr1::static_pointer_cast<AST::FunctionParameterItem>(node);
+		result += dispatchExpound(fParam->ParamType(), ctx);
+		result += " ";
+		result += dispatchExpound(fParam->ParamName(), ctx);
+
+
+		return result;
 	}
 };
 

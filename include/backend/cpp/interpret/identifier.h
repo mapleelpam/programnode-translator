@@ -45,6 +45,11 @@ struct Identifier : public Interpreter
 
 		ctx->ofs_stream << li->value;
 	}
+	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
+	{
+		std::tr1::shared_ptr<AST::Identifier> li = std::tr1::static_pointer_cast<AST::Identifier>(node);
+		return li->value;
+	}
 };
 
 

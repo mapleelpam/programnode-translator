@@ -62,6 +62,37 @@ struct FunctionDefinition : public Interpreter
 
 		ctx->ofs_stream << std::endl << ctx->indent() << "}" << "// ("; dispatchDo( fdef -> FunctionName() , ctx); ctx->ofs_stream<<") function_end"<<std::endl;
 	}
+	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
+	{
+		std::string result;
+
+		std::tr1::shared_ptr < AST::FunctionDefinition > fdef = std::tr1::static_pointer_cast<AST::FunctionDefinition>(node);
+		std::tr1::shared_ptr < AST::FunctionCommon > fcommon= std::tr1::static_pointer_cast<AST::FunctionCommon>( fdef -> FunctionCommon());
+		// Function Return Type
+		std::tr1::shared_ptr < AST::FunctionSignature > fsig
+				= std::tr1::static_pointer_cast<AST::FunctionSignature>( fcommon -> FunctionSignature());
+
+		result += "\n" + ctx->indent();
+		result += dispatchExpound(fsig->FunctionReturnType(), ctx); // Name
+		result += " ";
+
+		result += dispatchExpound(fdef -> FunctionName(), ctx); // Name
+		result +=  "(";
+
+		if (fsig->node_childs.size() > 1)
+			result += dispatchExpound(fsig->FunctionParameter(), ctx); // parameters
+
+		result +=  ")\n" + ctx->indent() + "{\n";
+
+		result += dispatchExpound(fcommon->FunctionBody(), ctx);
+
+		result += "\n" + ctx->indent() + "}// (";
+		result += dispatchExpound( fdef -> FunctionName() , ctx);
+
+		result += ") function_end\n";
+
+		return result;
+	}
 };
 
 };

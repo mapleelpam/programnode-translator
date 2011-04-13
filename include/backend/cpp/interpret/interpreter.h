@@ -38,6 +38,7 @@
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
 void dispatchDo( ::tw::maple::as::ast::NodePtr, ::tw::maple::backend::cpp::Context* );
+std::string dispatchExpound( ::tw::maple::as::ast::NodePtr node, ::tw::maple::backend::cpp::Context* ctx );
 
 struct Interpreter
 {
@@ -61,6 +62,21 @@ struct Interpreter
 		ctx->tree_depth --;
 	}
 
+	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
+	{
+		std::cerr << " default expound " << std::endl;
+		std::string result = "";
+		ctx->tree_depth ++;
+
+		for (std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr =
+				node->node_childs.begin(); nItr != node->node_childs.end(); nItr++) {
+			result += dispatchExpound(*nItr, ctx);
+		}
+
+		ctx->tree_depth --;
+
+		return result;
+	}
 };
 
 } } } } }
