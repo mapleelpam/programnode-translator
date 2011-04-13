@@ -43,16 +43,25 @@ struct VariableDeclare : public Interpreter
 
 		AST::VariableDeclarePtr var = std::tr1::static_pointer_cast<
 				AST::VariableDeclare>(node);
+		std::string var_type = dispatchExpound(var->varType(), ctx);
+		std::string var_name = dispatchExpound(var->varName(), ctx);
 
         result += ctx->indent();
-		result += dispatchExpound(var->varType(), ctx);
+		result += (is_primitive(var_type))? var_type : var_type+"*";
 		result += " " ;
-		result += dispatchExpound(var->varName(), ctx);
+		result += var_name;
 		result += ";\n" ;
 
 		return result;
 	}
 
+private:
+	bool is_primitive( std::string str )
+	{
+		if( str == "int" )
+			return true;
+		return false;
+	}
 
 };
 

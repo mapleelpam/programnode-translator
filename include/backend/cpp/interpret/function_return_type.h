@@ -46,7 +46,8 @@ struct FunctionReturnType : public Interpreter
 			result += dispatchExpound(*nItr, ctx);
 
 
-		return result;
+		//TODO: default void should be om settings.ini
+		return (result == "") ? "void" : result;
 	}
 };
 
