@@ -36,20 +36,6 @@ namespace AST = ::tw::maple::as::ast;
 
 struct ClassDefine : public Interpreter
 {   
-	void interpret( AST::NodePtr node, cpp::Context* ctx )
-	{
-
-		AST::ClassDefinePtr _class_define_ = std::tr1::static_pointer_cast<AST::ClassDefine>(node);
-		ctx->tree_depth ++;
-
-		ctx->ofs_stream << ctx->indent() << "class  ";
-			dispatchDo(_class_define_->className(), ctx);
-		ctx->ofs_stream << "{\n";
-			dispatchDo(_class_define_->classStmt(), ctx);
-		ctx->ofs_stream << "" << ctx->indent()<<"};";
-
-		ctx->tree_depth --;
-	}
 
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
 	{

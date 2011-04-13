@@ -36,24 +36,7 @@ namespace AST = ::tw::maple::as::ast;
 
 struct IfStatement : public Interpreter
 {   
-	void interpret( AST::NodePtr node, cpp::Context* ctx )
-	{
 
-		AST::IfStatementPtr IF = std::tr1::static_pointer_cast<AST::IfStatement>(node);
-
-		ctx->ofs_stream << ctx->indent() << "if( ";
-			dispatchDo(IF->ifCondition(), ctx);
-		ctx->ofs_stream << "){\n";
-			dispatchDo(IF->ifThen(), ctx);
-
-		ctx->ofs_stream << "" << ctx->indent()<<"}";
-		if( IF->ifElse() ) {
-			ctx->ofs_stream << ctx->indent()<< " else\n" << ctx->indent()<< "{ \n";
-				dispatchDo(IF->ifElse(), ctx);
-			ctx->ofs_stream <<  ctx->indent()<<"}";
-		}
-
-	}
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
 	{
 		std::string result = "";

@@ -35,24 +35,7 @@ namespace tw { namespace maple { namespace backend { namespace cpp { namespace i
 
 struct VariableDeclare : public Interpreter
 {   
-	void interpret( AST::NodePtr node, cpp::Context* ctx )
-	{
-		DEBUG_INTERPRET_ENTRY;
 
-
-		AST::VariableDeclarePtr var = std::tr1::static_pointer_cast<
-				AST::VariableDeclare>(node);
-
-//		ctx->ofs_stream << " " << var->varType() << " "<< var->varName() << " ";
-        ctx->ofs_stream << ctx->indent();
-		dispatchDo(var->varType(), ctx); //
-		ctx->ofs_stream << " " ;
-		dispatchDo(var->varName(), ctx); //
-		ctx->ofs_stream << ";\n" ;
-
-		DEBUG_INTERPRET_LEAVE;
-
-	}
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
 	{
 		std::string result;

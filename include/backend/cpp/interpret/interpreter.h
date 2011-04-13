@@ -37,30 +37,10 @@
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
-void dispatchDo( ::tw::maple::as::ast::NodePtr, ::tw::maple::backend::cpp::Context* );
 std::string dispatchExpound( ::tw::maple::as::ast::NodePtr node, ::tw::maple::backend::cpp::Context* ctx );
 
 struct Interpreter
 {
-//	virtual void interpret(::tw::maple::as::ast::NodePtr node,
-//			tw::maple::backend::cpp::Context* ctx) = 0;
-
-//	void DEBUG_INTERPRET_ENTRY() {std::cout << typeid(*this).name() << "::"<<__FUNCTION__<< "enter function" <<std::endl;	}
-//	void DEBUG_INTERPRET_LEAVE() {std::cout << typeid(*this).name() << "::"<<__FUNCTION__<< "enter function" <<std::endl;	}
-
-
-	virtual void interpret(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
-	{
-		std::cerr << " default interpretor " << std::endl;
-		ctx->tree_depth ++;
-
-		for (std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr =
-				node->node_childs.begin(); nItr != node->node_childs.end(); nItr++) {
-			dispatchDo(*nItr, ctx);
-		}
-
-		ctx->tree_depth --;
-	}
 
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
 	{

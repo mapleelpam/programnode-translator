@@ -39,29 +39,6 @@ namespace AST = ::tw::maple::as::ast;
 
 struct FunctionDefinition : public Interpreter
 {   
-	void interpret( AST::NodePtr node, tw::maple::backend::cpp::Context* ctx )
-	{
-		std::tr1::shared_ptr<AST::FunctionDefinition> fdef = std::tr1::static_pointer_cast<AST::FunctionDefinition>(node);
-		std::tr1::shared_ptr<AST::FunctionCommon> fcommon = std::tr1::static_pointer_cast<AST::FunctionCommon>(fdef -> FunctionCommon());
-		// Function Return Type
-		std::tr1::shared_ptr<AST::FunctionSignature> fsig = std::tr1::static_pointer_cast<AST::FunctionSignature>(fcommon -> FunctionSignature());
-
-		ctx->ofs_stream << "\n" << ctx->indent();
-		dispatchDo(fsig->FunctionReturnType(), ctx); // Name
-		ctx->ofs_stream << " ";
-
-		dispatchDo( fdef -> FunctionName() , ctx); // Name
-		ctx->ofs_stream << "(";
-
-		if( fsig->node_childs.size() > 1 )
-			dispatchDo(fsig->FunctionParameter(), ctx); // parameters
-
-		ctx->ofs_stream << ")"<<std::endl << ctx->indent() << "{" << std::endl;
-
-			dispatchDo( fcommon->FunctionBody() , ctx);
-
-		ctx->ofs_stream << std::endl << ctx->indent() << "}" << "// ("; dispatchDo( fdef -> FunctionName() , ctx); ctx->ofs_stream<<") function_end"<<std::endl;
-	}
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
 	{
 		std::string result;

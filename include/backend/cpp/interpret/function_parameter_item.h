@@ -36,13 +36,6 @@ namespace tw { namespace maple { namespace backend { namespace cpp { namespace i
 
 struct FunctionParameterItem : public Interpreter
 {
-	void interpret( AST::NodePtr exp, tw::maple::backend::cpp::Context* ctx )
-	{
-		AST::FunctionParameterItemPtr fParam = std::tr1::static_pointer_cast<AST::FunctionParameterItem>(exp);
-		dispatchDo(fParam->ParamType(), ctx);
-		ctx->ofs_stream << " ";
-		dispatchDo(fParam->ParamName(), ctx);
-	}
 
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
 	{

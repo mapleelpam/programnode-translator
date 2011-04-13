@@ -37,20 +37,6 @@ namespace AST = ::tw::maple::as::ast;
 
 struct Assignment : public Interpreter
 {   
-	void interpret( AST::NodePtr node, tw::maple::backend::cpp::Context* ctx )
-	{
-		DEBUG_INTERPRET_ENTRY;
-
-		AST::AssignmentPtr assignment = std::tr1::static_pointer_cast<
-				AST::Assignment>(node);
-
-//		ctx->ofs_stream << " " << var->varType() << " "<< var->varName() << " ";
-		dispatchDo(assignment->LHS(), ctx); //
-		ctx->ofs_stream << " = " ;
-		dispatchDo(assignment->RHS(), ctx); //
-
-		DEBUG_INTERPRET_LEAVE;
-	}
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
 	{
 		std::string result;

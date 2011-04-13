@@ -35,15 +35,7 @@ namespace AST = ::tw::maple::as::ast;
 
 struct UnaryOperator : public Interpreter
 {   
-	void interpret( AST::NodePtr node, cpp::Context* ctx )
-	{
 
-		AST::UnaryOperatorPtr bin = std::tr1::static_pointer_cast<
-				AST::UnaryOperator>(node);
-
-		ctx->ofs_stream << " " << resolve_operator(bin->op_type) << " ";
-		dispatchDo(bin->subExpr(), ctx); // sub expression
-	}
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
 	{
 		std::string result;

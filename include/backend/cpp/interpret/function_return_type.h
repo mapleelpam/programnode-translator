@@ -36,17 +36,7 @@ namespace AST = ::tw::maple::as::ast;
 
 struct FunctionReturnType : public Interpreter
 {
-	void interpret( AST::NodePtr exp, tw::maple::backend::cpp::Context* ctx )
-	{
-		printf(" function return type \n");
-		for (std::vector<std::tr1::shared_ptr<AST::Node> >::iterator nItr =
-				exp->node_childs.begin(); nItr != exp->node_childs.end(); nItr++)
-		{
-			dispatchDo(*nItr, ctx);
-		}
 
-//		ctx->ofs_stream << " ; " << std::endl;
-	}
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
 	{
 		std::string result = "";

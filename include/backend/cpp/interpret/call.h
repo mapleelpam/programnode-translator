@@ -37,26 +37,6 @@ namespace tw { namespace maple { namespace backend { namespace cpp { namespace i
 // Abstract
 struct Call : public Interpreter
 {   
-	virtual void interpret( ::tw::maple::as::ast::NodePtr node,	::tw::maple::backend::cpp::Context* ctx)
-	{
-		DEBUG_INTERPRET_ENTRY;
-
-		std::tr1::shared_ptr<AST::Call> call = std::tr1::static_pointer_cast<AST::Call>(node);
-
-//		std::tr1::shared_ptr<AST::Node> callee  = call->getCallee();
-//		std::tr1::shared_ptr<AST::Node> args = call->getArgs();
-
-		if( call->isObjectConsturct() )
-			ctx->ofs_stream << " new ";
-		dispatchDo( call->getCallee(), ctx);
-		ctx->ofs_stream << "( ";
-		if( call->getArgs() ){
-			dispatchDo( call->getArgs(), ctx);
-		}
-		ctx->ofs_stream << " )";
-
-		DEBUG_INTERPRET_LEAVE;
-	}
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
 	{
 		std::string result;

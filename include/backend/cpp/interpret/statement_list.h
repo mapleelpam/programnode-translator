@@ -36,30 +36,6 @@ namespace AST = ::tw::maple::as::ast;
 
 struct StatementList : public Interpreter
 {   
-	void interpret( AST::NodePtr node, tw::maple::backend::cpp::Context* ctx )
-	{
-		DEBUG_INTERPRET_ENTRY;
-		ctx->tree_depth ++;
-
-		bool is_first = true;
-        int _idx = 0;
-		for (std::vector<std::tr1::shared_ptr<AST::Node> >::iterator nItr =
-				node->node_childs.begin(); nItr != node->node_childs.end(); nItr++)
-		{
-            std::cerr << " in stmt list's interpret - "<<ctx->tree_depth.toInt() << " ---- counter "<<_idx++<< " listsize "<<node->node_childs.size()<<std::endl;
-			dispatchDo(*nItr, ctx);
-
-			// Tail Dirty Flag Handle
-			if( is_first )
-				is_first = false;
-			else
-				ctx->ofs_stream << std::endl;
-		}
-		ctx->ofs_stream.flush();
-
-		ctx->tree_depth --;
-		DEBUG_INTERPRET_LEAVE;
-	}
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
 	{
 		std::string result;

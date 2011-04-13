@@ -35,19 +35,7 @@ namespace tw { namespace maple { namespace backend { namespace cpp { namespace i
 // Abstract
 struct LiteralBoolean : public Interpreter
 {   
-	void interpret( ::tw::maple::as::ast::NodePtr node, ::tw::maple::backend::cpp::Context* ctx )
-	{
-		std::tr1::shared_ptr<AST::LiteralBoolean> li = std::tr1::static_pointer_cast<AST::LiteralBoolean>(node);
 
-		if( li->value == "true" )
-			ctx->ofs_stream << "true";
-		else if( li->value == "false" )
-			ctx->ofs_stream << "false";
-		else {
-			std::cerr << " can't resolve literal boolean "<<li->value<<std::endl;
-			exit(1);
-		}
-	}
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
 	{
 		std::tr1::shared_ptr<AST::LiteralBoolean> li = std::tr1::static_pointer_cast<AST::LiteralBoolean>(node);
