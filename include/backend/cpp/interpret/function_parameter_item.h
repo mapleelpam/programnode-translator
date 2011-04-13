@@ -36,7 +36,6 @@ namespace tw { namespace maple { namespace backend { namespace cpp { namespace i
 
 struct FunctionParameterItem : public Interpreter
 {
-
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
 	{
 		std::string result = "";

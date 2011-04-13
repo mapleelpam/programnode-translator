@@ -40,7 +40,6 @@
 #include <backend/cpp/interpret/function_return_type.h>
 #include <backend/cpp/interpret/function_parameters.h>
 #include <backend/cpp/interpret/function_parameter_item.h>
-#include <backend/cpp/interpret/function_common.h>
 #include <backend/cpp/interpret/program_root.h>
 #include <backend/cpp/interpret/arguments.h>
 #include <backend/cpp/interpret/return_stmt.h>
@@ -77,7 +76,7 @@ std::string dispatchExpound( ::tw::maple::as::ast::NodePtr node, ::tw::maple::ba
 		interpreterResolver[AST::Node::NodeType::T_FUNCTION_RETTYPE] = new FunctionReturnType();
 		interpreterResolver[AST::Node::NodeType::T_FUNCTION_PARAMETERS] = new FunctionParameter();
 		interpreterResolver[AST::Node::NodeType::T_FUNCTION_PARAMETER_ITEM] = new FunctionParameterItem();
-		interpreterResolver[AST::Node::NodeType::T_FUNCTION_COMMON] = new FunctionCommon();
+//		interpreterResolver[AST::Node::NodeType::T_FUNCTION_COMMON] = new FunctionCommon();
 //
 		interpreterResolver[AST::Node::NodeType::T_STMT_LIST] = new StatementList();
 		interpreterResolver[AST::Node::NodeType::T_EXPR_LIST] = new ExpressionList();

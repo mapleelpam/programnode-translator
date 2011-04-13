@@ -60,7 +60,7 @@ struct Context
 		{
 			std::string ans = "";
 			for( int idx = 0 ; idx < indent ; idx ++)
-				ans += " ";//TODO: replace by indent scape
+				ans += "\t";//TODO: replace by indent scape
             return ans;
 		}
 		private:

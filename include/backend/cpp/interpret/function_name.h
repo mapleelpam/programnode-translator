@@ -36,8 +36,6 @@ namespace AST = ::tw::maple::as::ast;
 
 struct FunctionName : public Interpreter
 {   
-
-
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
 	{
 		std::string result = "";

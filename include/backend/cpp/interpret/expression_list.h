@@ -53,7 +53,7 @@ struct ExpressionList : public Interpreter
 			}
 		}
 
-		return result+";\n";
+		return ctx->indent() +result+";\n";
 	}
 };
 
