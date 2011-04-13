@@ -49,11 +49,16 @@ struct FunctionDefinition : public Interpreter
 		std::tr1::shared_ptr < AST::FunctionSignature > fsig
 				= std::tr1::static_pointer_cast<AST::FunctionSignature>( fcommon -> FunctionSignature());
 
+        std::string str_func_name  = dispatchExpound(fdef->FunctionName(), ctx);
+        std::string str_func_body  = dispatchExpound(fcommon->FunctionBody(), ctx);
+        std::string str_func_type  = dispatchExpound(fsig->FunctionReturnType(), ctx);
+
+
 		result += "\n" + ctx->indent();
-		result += dispatchExpound(fsig->FunctionReturnType(), ctx); // Name
+		result += str_func_type;
 		result += " ";
 
-		result += dispatchExpound(fdef -> FunctionName(), ctx); // Name
+		result += str_func_name;
 		result +=  "(";
 
 		if (fsig->node_childs.size() > 1)
@@ -61,10 +66,10 @@ struct FunctionDefinition : public Interpreter
 
 		result +=  ")\n" + ctx->indent() + "{\n";
 
-		result += dispatchExpound(fcommon->FunctionBody(), ctx);
+		result += str_func_body;
 
 		result += "\n" + ctx->indent() + "}// (";
-		result += dispatchExpound( fdef -> FunctionName() , ctx);
+		result += str_func_name;
 
 		result += ") function_end\n";
 

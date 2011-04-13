@@ -42,16 +42,20 @@ struct IfStatement : public Interpreter
 		std::string result = "";
 
 		AST::IfStatementPtr IF = std::tr1::static_pointer_cast<AST::IfStatement>(node);
+		std::string str_if_condition = dispatchExpound(IF->ifCondition(), ctx);
+		std::string str_if_then = dispatchExpound(IF->ifThen(), ctx);
+		std::string str_if_else = dispatchExpound(IF->ifElse(), ctx);
+
 
 		result += ctx->indent() + "if( ";
-		result += dispatchExpound(IF->ifCondition(), ctx);
+		result += str_if_condition;
 		result += "){\n";
-		result += dispatchExpound(IF->ifThen(), ctx);
+		result += str_if_then;
 
 		result += ctx->indent()+"}";
 		if( IF->ifElse() ) {
 			result += ctx->indent() + " else\n" + ctx->indent()+ "{ \n";
-			result += dispatchExpound(IF->ifElse(), ctx);
+			result += str_if_else;
 			result +=  ctx->indent() + "}";
 		}
 
