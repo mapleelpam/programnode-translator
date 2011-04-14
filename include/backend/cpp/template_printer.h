@@ -40,8 +40,8 @@ struct Pattern
 	std::string pattern;
 	std::string content;
 };
-typedef std::tr1::shared_ptr<Pattern>    PatternPtr;
 
+typedef std::tr1::shared_ptr<Pattern>    PatternPtr;
 
 class TemplatePrinter
 {
