@@ -29,38 +29,44 @@
 #include <as/ast/if_stmt.h>
 #include <as/ast/call.h>
 #include <backend/cpp/interpret/interpreter.h>
+#include <backend/cpp/template_printer.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
 namespace AST = ::tw::maple::as::ast;
 
-struct IfStatement : public Interpreter
-{   
+struct IfStatement : public Interpreter, public TemplatePrinter
+{
 
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
 	{
 		std::string result = "";
 
 		AST::IfStatementPtr IF = std::tr1::static_pointer_cast<AST::IfStatement>(node);
-		std::string str_if_condition = dispatchExpound(IF->ifCondition(), ctx);
-		std::string str_if_then = dispatchExpound(IF->ifThen(), ctx);
-		std::string str_if_else = dispatchExpound(IF->ifElse(), ctx);
 
+		std::list<PatternPtr> patterns;
+		result = _stmt_template;
 
-		result += ctx->indent() + "if( ";
-		result += str_if_condition;
-		result += "){\n";
-		result += str_if_then;
+		patterns.push_back( PatternPtr( new Pattern("if_condition", dispatchExpound(IF->ifCondition(), ctx) ) ));
+		patterns.push_back( PatternPtr( new Pattern("then_stmt", dispatchExpound(IF->ifThen(), ctx) ) ));
+		patterns.push_back( PatternPtr( new Pattern("else_stmt", dispatchExpound(IF->ifElse(), ctx) ) ));
+		patterns.push_back( PatternPtr( new Pattern("endl", "\n") ));
+		patterns.push_back( PatternPtr( new Pattern("indent_tab", ctx->indent()) ));
 
-		result += ctx->indent()+"}";
-		if( IF->ifElse() ) {
-			result += ctx->indent() + " else\n" + ctx->indent()+ "{ \n";
-			result += str_if_else;
-			result +=  ctx->indent() + "}";
-		}
+		result = substitutePatterns( _stmt_template, patterns);
 
 		return result;
 	}
+
+	IfStatement()
+	{
+		_stmt_template = "%indent_tab%if(%if_condition%){%endl%"
+							"%then_stmt%%indent_tab%}else{%endl%"
+							"%else_stmt%}%endl%";
+	}
+
+private:
+	std::string _stmt_template;
 };
 
 };
