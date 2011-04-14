@@ -30,12 +30,13 @@
 #include <as/ast/call.h>
 #include <backend/cpp/interpret/interpreter.h>
 #include <backend/cpp/template_printer.h>
+#include <service/ConfigService.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
 namespace AST = ::tw::maple::as::ast;
 
-struct IfStatement : public Interpreter, public TemplatePrinter
+struct IfStatement : public Interpreter, public TemplatePrinter, public tw::maple::service::ConfigRequest
 {
 
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
@@ -58,6 +59,18 @@ struct IfStatement : public Interpreter, public TemplatePrinter
 							"%then_stmt%%indent_tab%}else{%endl%"
 							"%else_stmt%}%endl%";
 	}
+
+	bool readConfig( boost::property_tree::ptree& pt )
+	{
+		_stmt_template = pt.get<std::string>("if_stmt.template", _stmt_template);
+		return true;
+	}
+	bool writeConfig( boost::property_tree::ptree& pt )
+	{
+		pt.put<std::string>("if_stmt.template", _stmt_template);
+		return true;
+	}
+
 
 private:
 	std::string _stmt_template;

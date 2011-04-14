@@ -32,6 +32,7 @@
 
 #include <backend/cpp/interpret/interpreter.h>
 #include <backend/cpp/prepend_data.h>
+#include <service/ConfigService.h>
 
 #include <boost/program_options/options_description.hpp>
 #include <boost/program_options/variables_map.hpp>
@@ -80,6 +81,10 @@ int main(int argc, char **argv)
 
 	{
 		namespace INTERPRET = tw::maple::backend::cpp::interpret;
+
+		INTERPRET::initializeInterpreters();
+		SVC_CONFIG->load( "/tmp/settings.info");
+		SVC_CONFIG->save( "/tmp/settings.2.info");
 
 //		std::ofstream os_file;
 		tw::maple::backend::cpp::Context context;
