@@ -33,6 +33,7 @@
 #include <backend/cpp/interpret/interpreter.h>
 #include <backend/cpp/prepend_data.h>
 #include <service/ConfigService.h>
+#include <service/ArgumentsService.h>
 
 #include <boost/program_options/options_description.hpp>
 #include <boost/program_options/variables_map.hpp>
@@ -41,31 +42,94 @@
 
 namespace po = boost::program_options;
 
-int main(int argc, char **argv)
+class MajorClass : public tw::maple::service::ArgElementIface
 {
-
-	po::options_description 			m_options_desc;
-	po::positional_options_description	m_positional_options_desc;
-
-	m_options_desc.add_options()
-	    ("help,h",    "this help message")
-	    ("output,o",    po::value<std::string>(), "outputfiles")
-	    ("input,i",    po::value<std::vector<std::string> >(), "inputfiles")
-    ;
-	m_positional_options_desc.add("input", -1);
-
-
-	po::variables_map args;
-	po::store(po::command_line_parser(argc, argv).options(m_options_desc).positional(m_positional_options_desc).run(), args);
-	po::notify(args);
-
-
-	if (args.count("help") > 0)
+public:
+	MajorClass()
 	{
-		std::cout << m_options_desc << "\n";
-		return 0;
+		std::cout << "MajorClass::Constructor"<<std::endl;
+		SVC_ARGUMENTS->registerPass(this);
+
+		std::cout << "MajorClass::Constructor (end)"<<std::endl;
+	}
+	void init(po::options_description& optionDesc, po::positional_options_description& posOptionDesc)
+	{
+			optionDesc.add_options()
+	    	    ("help,h",    "this help message")
+	    	    ("output,o",    po::value<std::string>(), "outputfiles")
+	    	    ("input,i",    po::value<std::vector<std::string> >(), "inputfiles")
+	        ;
+			posOptionDesc.add("input", -1);
+	}
+	void pass(po::variables_map& args)
+	{
+		if (args.count("help") > 0) {
+			SVC_ARGUMENTS->print_out_help();
+			exit(1);
+		}
+		m_pnode_files = args["input"].as< std::vector<std::string > >();
+		m_out_file_path  = args["output"].as<std::string> ();
 	}
 
+	void exec()
+	{
+		// File Open
+		std::vector< std::tr1::shared_ptr< tw::maple::as::ast::Program > > pnode_list;
+		for (std::vector<std::string>::iterator fileItr = m_pnode_files.begin()
+				; fileItr != m_pnode_files.end(); fileItr++)
+		{
+			std::tr1::shared_ptr< tw::maple::as::ast::Program > proot = tw::maple::PNodeReader::open( *fileItr );
+			pnode_list . push_back( proot );
+		}
+
+		{
+			namespace INTERPRET = tw::maple::backend::cpp::interpret;
+
+			INTERPRET::initializeInterpreters();
+			SVC_CONFIG->load( "/tmp/settings.info");
+			SVC_CONFIG->save( "/tmp/settings.2.info");
+
+	//		std::ofstream os_file;
+			tw::maple::backend::cpp::Context context;
+			context.ofs_stream.open( m_out_file_path.c_str() );
+			// Interpret/Explain - Invoke Back-end Stream Out
+
+			tw::maple::backend::cpp::PrependData pd;
+			pd.execute( context.ofs_stream );
+
+
+			for (std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Program> >::iterator
+					nodeItr = pnode_list.begin(); nodeItr != pnode_list.end(); nodeItr++) {
+				context.ofs_stream << INTERPRET::dispatchExpound(*nodeItr, &context);
+			}
+
+			context.ofs_stream.close();
+		}
+	}
+private:
+	std::vector<std::string> m_pnode_files;
+	std::string m_out_file_path;
+
+};
+
+int main(int argc, char **argv)
+{
+	MajorClass  major;
+
+	try {
+		SVC_ARGUMENTS->parse(argc,argv);
+	} catch (std::exception &e) {
+		std::cerr << "Unknown Arguments " << e.what()<< std::endl;
+		SVC_ARGUMENTS->print_out_help();
+		exit(1);
+	} catch (...) {
+		std::cout << "ERROR " << std::endl;
+		std::cout << "ERROR " << "Error while parsing zcc-flex options Exiting" << std::endl;
+		exit(0);
+	}
+
+	major.exec();
+#if 0
 	std::vector<std::string> m_pnode_files = args["input"].as< std::vector<std::string > >();
 	std::string out_file_path  = args["output"].as<std::string> ();
 
@@ -102,6 +166,6 @@ int main(int argc, char **argv)
 
 		context.ofs_stream.close();
 	}
-
+#endif
     return 0;
 }

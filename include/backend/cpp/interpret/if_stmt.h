@@ -30,13 +30,12 @@
 #include <as/ast/call.h>
 #include <backend/cpp/interpret/interpreter.h>
 #include <backend/cpp/template_printer.h>
-#include <service/ConfigService.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
 namespace AST = ::tw::maple::as::ast;
 
-struct IfStatement : public Interpreter, public TemplatePrinter, public tw::maple::service::ConfigRequest
+struct IfStatement : public Interpreter, public TemplatePrinter
 {
 
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)

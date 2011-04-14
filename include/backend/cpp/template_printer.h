@@ -30,6 +30,7 @@
 #include <fstream>
 #include <list>
 #include <tr1/memory>
+#include <service/ConfigService.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp {
 
@@ -43,7 +44,7 @@ struct Pattern
 
 typedef std::tr1::shared_ptr<Pattern>    PatternPtr;
 
-class TemplatePrinter
+class TemplatePrinter : public tw::maple::service::ConfigRequest
 {
 public:
 	std::string substitutePatterns( std::string& in, std::list<PatternPtr>& patterns)

@@ -74,6 +74,17 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 							;
 	}
 
+	bool readConfig( boost::property_tree::ptree& pt )
+	{
+		_stmt_template = pt.get<std::string>("func_def.template", _stmt_template);
+		return true;
+	}
+	bool writeConfig( boost::property_tree::ptree& pt )
+	{
+		pt.put<std::string>("func_def.template", _stmt_template);
+		return true;
+	}
+
 private:
 	std::string _stmt_template;
 };
