@@ -32,12 +32,13 @@
 #include <as/ast/function_common.h>
 #include <as/ast/call.h>
 #include <backend/cpp/interpret/interpreter.h>
+#include <backend/cpp/template_printer.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
 namespace AST = ::tw::maple::as::ast;
 
-struct FunctionDefinition : public Interpreter
+struct FunctionDefinition : public Interpreter, public TemplatePrinter
 {   
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
 	{
@@ -49,32 +50,32 @@ struct FunctionDefinition : public Interpreter
 		std::tr1::shared_ptr < AST::FunctionSignature > fsig
 				= std::tr1::static_pointer_cast<AST::FunctionSignature>( fcommon -> FunctionSignature());
 
-        std::string str_func_name  = dispatchExpound(fdef->FunctionName(), ctx);
-        std::string str_func_body  = dispatchExpound(fcommon->FunctionBody(), ctx);
-        std::string str_func_type  = dispatchExpound(fsig->FunctionReturnType(), ctx);
-
-
-		result += "\n" + ctx->indent();
-		result += str_func_type;
-		result += " ";
-
-		result += str_func_name;
-		result +=  "(";
-
+		std::string str_func_parameters = "";
 		if (fsig->node_childs.size() > 1)
-			result += dispatchExpound(fsig->FunctionParameter(), ctx); // parameters
+			str_func_parameters += dispatchExpound(fsig->FunctionParameter(), ctx); // parameters
 
-		result +=  ")\n" + ctx->indent() + "{\n";
+		std::list<PatternPtr> patterns;
 
-		result += str_func_body;
+		patterns.push_back( PatternPtr( new Pattern("func_name", dispatchExpound(fdef->FunctionName(), ctx) ) ));
+		patterns.push_back( PatternPtr( new Pattern("func_body", dispatchExpound(fcommon->FunctionBody(), ctx) ) ));
+		patterns.push_back( PatternPtr( new Pattern("func_parameters", str_func_parameters ) ));
+		patterns.push_back( PatternPtr( new Pattern("func_ret_type", dispatchExpound(fsig->FunctionReturnType(), ctx) ) ) );
+		patterns.push_back( PatternPtr( new Pattern("endl", ctx->endl() ) ));
+		patterns.push_back( PatternPtr( new Pattern("indent_tab", ctx->indent()) ));
 
-		result += "\n" + ctx->indent() + "}// (";
-		result += str_func_name;
-
-		result += ") function_end\n";
-
-		return result;
+		return substitutePatterns( _stmt_template, patterns);
 	}
+
+	FunctionDefinition()
+	{
+		_stmt_template = "%indent_tab%%func_ret_type% %func_name%(%func_parameters%){%endl%"
+							"%func_body%"
+							"%indent_tab%}"
+							;
+	}
+
+private:
+	std::string _stmt_template;
 };
 
 };

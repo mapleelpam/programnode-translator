@@ -72,6 +72,11 @@ struct Context
         return tree_depth.toString();
     }
 
+    std::string endl()
+    {
+        return "\n";
+    }
+
 
 	std::ofstream	ofs_stream;
 
