@@ -28,6 +28,8 @@
 
 #include <map>
 #include <list>
+#include <service/ArgumentsService.h>
+
 #include <boost/program_options/options_description.hpp>
 #include <boost/program_options/variables_map.hpp>
 #include <boost/program_options/parsers.hpp>
@@ -48,11 +50,39 @@ public:
 	virtual bool writeConfig( boost::property_tree::ptree& ) = 0;
 };
 
-struct ConfigService
+struct ConfigService  : public ArgElementIface
 {
 	void registerElement( ConfigRequest* creq )
 	{
 		m_config_elements.push_back( creq );
+	}
+
+	void init(po::options_description& optionDesc, po::positional_options_description& posOptionDesc)
+	{
+			optionDesc.add_options()
+	    	    ("load,l",    po::value<std::string>(),  "load template configuration")
+	    	    ("save,s",    po::value<std::string>(),  "save template configuration")
+	        ;
+	}
+
+	void pass(po::variables_map& args)
+	{
+		if (args.count("load") > 0) {
+			std::string config_file_r = args["load"].as<std::string>();
+			load(config_file_r);
+		}
+		if (args.count("save") > 0) {
+			std::string config_file_w = args["save"].as<std::string> ();
+			save(config_file_w);
+			exit(1);
+		}
+	}
+
+
+private:
+	ConfigService()
+	{
+		SVC_ARGUMENTS->registerPass(this);
 	}
 
 	void load( const std::string& filename )
@@ -61,8 +91,7 @@ struct ConfigService
 		read_info( filename, _ptree );
 
 		for( std::list<ConfigRequest*>::iterator citr = m_config_elements.begin();
-				citr != m_config_elements.end() ; citr ++ )
-		{
+				citr != m_config_elements.end() ; citr ++ )	{
 			(*citr)->readConfig( _ptree );
 		}
 	}
@@ -70,18 +99,14 @@ struct ConfigService
 	void save( const std::string& filename )
 	{
 		boost::property_tree::ptree _ptree;
-//		read_info( filename, _ptree );
-
 		for( std::list<ConfigRequest*>::iterator citr = m_config_elements.begin();
-				citr != m_config_elements.end() ; citr ++ )
-		{
+				citr != m_config_elements.end() ; citr ++ )	{
 			(*citr)->writeConfig( _ptree );
 		}
 		write_info( filename, _ptree);
 	}
-
-private:
 	std::list<ConfigRequest*> m_config_elements;
+
 
 public:
 	static ConfigService* instance()	{

@@ -47,10 +47,9 @@ class MajorClass : public tw::maple::service::ArgElementIface
 public:
 	MajorClass()
 	{
-		std::cout << "MajorClass::Constructor"<<std::endl;
 		SVC_ARGUMENTS->registerPass(this);
-
-		std::cout << "MajorClass::Constructor (end)"<<std::endl;
+		namespace INTERPRET = tw::maple::backend::cpp::interpret;
+		INTERPRET::initializeInterpreters();
 	}
 	void init(po::options_description& optionDesc, po::positional_options_description& posOptionDesc)
 	{
@@ -85,11 +84,6 @@ public:
 		{
 			namespace INTERPRET = tw::maple::backend::cpp::interpret;
 
-			INTERPRET::initializeInterpreters();
-			SVC_CONFIG->load( "/tmp/settings.info");
-			SVC_CONFIG->save( "/tmp/settings.2.info");
-
-	//		std::ofstream os_file;
 			tw::maple::backend::cpp::Context context;
 			context.ofs_stream.open( m_out_file_path.c_str() );
 			// Interpret/Explain - Invoke Back-end Stream Out
@@ -114,6 +108,8 @@ private:
 
 int main(int argc, char **argv)
 {
+	SVC_CONFIG;
+
 	MajorClass  major;
 
 	try {
