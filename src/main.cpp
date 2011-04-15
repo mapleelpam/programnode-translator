@@ -40,7 +40,7 @@
 #include <boost/program_options/parsers.hpp>
 #include <boost/program_options/value_semantic.hpp>
 
-namespace po = boost::program_options;
+//namespace po = boost::program_options;
 
 class MajorClass : public tw::maple::service::ArgElementIface
 {
@@ -77,7 +77,7 @@ public:
 		for (std::vector<std::string>::iterator fileItr = m_pnode_files.begin()
 				; fileItr != m_pnode_files.end(); fileItr++)
 		{
-			tw::maple::as::ast::ProgramPtr proot = tw::maple::PNodeReader::open( *fileItr );
+			tw::maple::as::ast::ProgramPtr  proot = tw::maple::PNodeReader::open( *fileItr );
 			pnode_list . push_back( proot );
 		}
 

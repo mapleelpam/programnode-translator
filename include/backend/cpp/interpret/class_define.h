@@ -29,12 +29,14 @@
 #include <as/ast/class_define.h>
 #include <as/ast/call.h>
 #include <backend/cpp/interpret/interpreter.h>
+#include <backend/cpp/template_printer.h>
+
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
 namespace AST = ::tw::maple::as::ast;
 
-struct ClassDefine : public Interpreter
+struct ClassDefine : public Interpreter, public TemplatePrinter
 {   
 
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
@@ -52,6 +54,15 @@ struct ClassDefine : public Interpreter
 					+ class_stmt +  "" +  ctx->indent() + "};" ;
 		}
 		return result;
+	}
+
+	ClassDefine()
+		: TemplatePrinter("ClassDefine")
+	{
+		setTemplateString( "%indent_tab%%func_ret_type% %func_name%(%func_parameters%){%endl%"
+							"%func_body%"
+							"%indent_tab%}" )
+							;
 	}
 };
 

@@ -61,7 +61,8 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 	}
 
 	VariableDeclare()
-		: _str_config_root( "variable_declare" )
+		: TemplatePrinter("VariableDeclare")
+		, _str_config_root( "VariableDeclare" )
 	{
 		_primitive_type_map[ "int" ] = "int";
 		_primitive_type_map[ "float" ] = "float";
@@ -75,7 +76,7 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 			BOOST_FOREACH(boost::property_tree::ptree::value_type &pitr, pt.get_child( str_config_primitive ))
 				_primitive_type_map[ pitr.first] = pitr.second.get<std::string>( "");
 		}
-		return true;
+		return TemplatePrinter::readConfig( pt );
 	}
 	bool writeConfig( boost::property_tree::ptree& pt )
 	{
@@ -86,9 +87,7 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 			pt.put( str_config_primitive+(*sitr).first,(*sitr).second);
 		}
 
-
-
-		return true;
+		return TemplatePrinter::writeConfig( pt );
 	}
 private:
 	bool is_primitive( std::string str )

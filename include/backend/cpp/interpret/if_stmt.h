@@ -49,30 +49,17 @@ struct IfStatement : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("endl", ctx->endl() ) ));
 		patterns.push_back( PatternPtr( new Pattern("indent_tab", ctx->indent()) ));
 
-		return substitutePatterns( _stmt_template, patterns);
+		return substitutePatterns( patterns );
 	}
 
 	IfStatement()
+		: TemplatePrinter("IfStatement")
 	{
-		_stmt_template = "%indent_tab%if(%if_condition%){%endl%"
+		setTemplateString( "%indent_tab%if(%if_condition%){%endl%"
 							"%then_stmt%%indent_tab%}else{%endl%"
-							"%else_stmt%%indent_tab%}%endl%";
+							"%else_stmt%%indent_tab%}%endl%" );
 	}
 
-	bool readConfig( boost::property_tree::ptree& pt )
-	{
-		_stmt_template = pt.get<std::string>("if_stmt.template", _stmt_template);
-		return true;
-	}
-	bool writeConfig( boost::property_tree::ptree& pt )
-	{
-		pt.put<std::string>("if_stmt.template", _stmt_template);
-		return true;
-	}
-
-
-private:
-	std::string _stmt_template;
 };
 
 };

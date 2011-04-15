@@ -55,6 +55,22 @@ public:
 
 		return out;
 	}
+	std::string substitutePatterns( std::list<PatternPtr>& patterns)
+	{
+		return substitutePatterns( _template, patterns );
+	}
+
+
+	virtual bool readConfig( boost::property_tree::ptree& pt )
+	{
+		_template = pt.get<std::string>( _name+".template", _template);
+		return true;
+	}
+	virtual bool writeConfig( boost::property_tree::ptree& pt )
+	{
+		pt.put<std::string>( _name+".template", _template);
+		return true;
+	}
 
 protected:
 	static void _replace_string(
@@ -68,6 +84,11 @@ protected:
 	        p++;
 	    }
 	}
+	void setTemplateString( std::string str ) {	_template = str;	}
+	TemplatePrinter( std::string n) : _name(n){}
+private:
+	std::string _name;
+	std::string _template;
 };
 
 } } } }
