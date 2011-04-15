@@ -54,10 +54,6 @@ struct Arguments : public Interpreter
 	}
 };
 
-
-typedef std::tr1::shared_ptr<Arguments>    ArgumentsPtr;
-
-
 } } } } }
 
 #endif 

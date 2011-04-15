@@ -49,7 +49,7 @@ struct VariableDeclare: public Expression
 
 };
 
-typedef std::tr1::shared_ptr<VariableDeclare> VariableDeclarePtr;
+typedef SHARED_PTR(VariableDeclare) VariableDeclarePtr;
 
 
 } } } }

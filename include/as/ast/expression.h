@@ -42,7 +42,7 @@ protected:
       Expression( int ntype ) : Node(ntype){}
 };
 
-typedef std::tr1::shared_ptr<Expression>    ExpressionPtr; 
+typedef SHARED_PTR(Expression)    ExpressionPtr;
 
 } } } }
 

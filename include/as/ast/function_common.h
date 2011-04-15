@@ -49,7 +49,7 @@ struct FunctionCommon: public Statement
     bool check(){	return node_childs.size() == 2;	};
 };
 
-//typedef std::tr1::shared_ptr<FunctionCommon> FunctionCommonPtr;
+typedef SHARED_PTR(FunctionCommon) FunctionCommonPtr;
 
 
 } } } }

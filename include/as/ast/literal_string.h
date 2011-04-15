@@ -45,6 +45,9 @@ struct LiteralString: public Expression
     std::string toString()  {	return "node::literal_string"; };
 };
 
+typedef SHARED_PTR(LiteralString)    LiteralStringPtr;
+
+
 } } } }
 
 #endif

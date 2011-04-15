@@ -72,11 +72,11 @@ struct ConfigService  : public ArgElementIface
 		//TODO: debug only, will remove after release
 		if (args.count("load") > 0) {
 			std::string config_file_r = args["load"].as<std::string>();
-			load(config_file_r);
+			(config_file_r);
 		}
 		if (args.count("save") > 0) {
 			std::string config_file_w = args["save"].as<std::string> ();
-			save(config_file_w);
+			saveConfig(config_file_w);
 			exit(1);
 		}
 	}
@@ -88,7 +88,7 @@ private:
 		SVC_ARGUMENTS->registerPass(this);
 	}
 
-	void load( const std::string& filename )
+	void loadConfig( const std::string& filename )
 	{
 		boost::property_tree::ptree _ptree;
 		read_info( filename, _ptree );
@@ -99,7 +99,7 @@ private:
 		}
 	}
 
-	void save( const std::string& filename )
+	void saveConfig( const std::string& filename )
 	{
 		boost::property_tree::ptree _ptree;
 		for( std::list<ConfigRequest*>::iterator citr = m_config_elements.begin();

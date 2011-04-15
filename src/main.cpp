@@ -73,11 +73,11 @@ public:
 	void exec()
 	{
 		// File Open
-		std::vector< std::tr1::shared_ptr< tw::maple::as::ast::Program > > pnode_list;
+		std::vector< tw::maple::as::ast::ProgramPtr > pnode_list;
 		for (std::vector<std::string>::iterator fileItr = m_pnode_files.begin()
 				; fileItr != m_pnode_files.end(); fileItr++)
 		{
-			std::tr1::shared_ptr< tw::maple::as::ast::Program > proot = tw::maple::PNodeReader::open( *fileItr );
+			tw::maple::as::ast::ProgramPtr proot = tw::maple::PNodeReader::open( *fileItr );
 			pnode_list . push_back( proot );
 		}
 
@@ -92,7 +92,7 @@ public:
 			pd.execute( context.ofs_stream );
 
 
-			for (std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Program> >::iterator
+			for (std::vector<tw::maple::as::ast::ProgramPtr>::iterator
 					nodeItr = pnode_list.begin(); nodeItr != pnode_list.end(); nodeItr++) {
 				context.ofs_stream << INTERPRET::dispatchExpound(*nodeItr, &context);
 			}
@@ -125,43 +125,6 @@ int main(int argc, char **argv)
 	}
 
 	major.exec();
-#if 0
-	std::vector<std::string> m_pnode_files = args["input"].as< std::vector<std::string > >();
-	std::string out_file_path  = args["output"].as<std::string> ();
 
-
-	// File Open
-	std::vector< std::tr1::shared_ptr< tw::maple::as::ast::Program > > pnode_list;
-	for (std::vector<std::string>::iterator fileItr = m_pnode_files.begin()
-			; fileItr != m_pnode_files.end(); fileItr++)
-	{
-		std::tr1::shared_ptr< tw::maple::as::ast::Program > proot = tw::maple::PNodeReader::open( *fileItr );
-		pnode_list . push_back( proot );
-	}
-
-	{
-		namespace INTERPRET = tw::maple::backend::cpp::interpret;
-
-		INTERPRET::initializeInterpreters();
-		SVC_CONFIG->load( "/tmp/settings.info");
-		SVC_CONFIG->save( "/tmp/settings.2.info");
-
-//		std::ofstream os_file;
-		tw::maple::backend::cpp::Context context;
-		context.ofs_stream.open( out_file_path.c_str() );
-		// Interpret/Explain - Invoke Back-end Stream Out
-
-		tw::maple::backend::cpp::PrependData pd;
-		pd.execute( context.ofs_stream );
-
-
-		for (std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Program> >::iterator
-				nodeItr = pnode_list.begin(); nodeItr != pnode_list.end(); nodeItr++) {
-			context.ofs_stream << INTERPRET::dispatchExpound(*nodeItr, &context);
-		}
-
-		context.ofs_stream.close();
-	}
-#endif
     return 0;
 }

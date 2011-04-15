@@ -31,9 +31,15 @@
 #include <iostream>
 #include <stack>
 
+#define USE_STD_SMART_PTR
 
-#define foreach( indexer, TYPE, contex ) \
-		for( TYPE::iterator indexer = contex.begin(); indexer != contex.end() ; indexer ++ )
+#ifdef USE_STD_SMART_PTR
+	#include <tr1/memory>
+	#define SHARED_PTR(X) std::tr1::shared_ptr<X>
+	#define STATIC_CAST(T,X) std::tr1::static_pointer_cast<T>(X)
+
+#endif
+
 
 
 #endif

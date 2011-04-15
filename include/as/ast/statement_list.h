@@ -45,6 +45,7 @@ struct StatementList : public Statement
 	std::string toString()  {	return "node::stmt_list"; };
 };
 
+typedef SHARED_PTR(StatementList) StatementListPtr;
 
 } } } }
 

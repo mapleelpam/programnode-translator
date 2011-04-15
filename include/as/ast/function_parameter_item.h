@@ -49,7 +49,7 @@ struct FunctionParameterItem : public Statement
 //    bool check()	{	return node_childs.size() == 1; 	}
 };
 
-typedef std::tr1::shared_ptr<FunctionParameterItem> FunctionParameterItemPtr;
+typedef SHARED_PTR(FunctionParameterItem) FunctionParameterItemPtr;
 
 
 } } } }

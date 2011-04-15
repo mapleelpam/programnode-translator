@@ -37,7 +37,8 @@ struct BinaryOperator : public Interpreter
 {   
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
 	{
-		AST::BinaryOperatorPtr bin = std::tr1::static_pointer_cast<AST::BinaryOperator>(node);
+		AST::BinaryOperatorPtr bin = STATIC_CAST( AST::BinaryOperator, node);
+
 
 		return dispatchExpound(bin->LHS(), ctx)
 				+ resolve_operator( bin->op_type )

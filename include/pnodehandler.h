@@ -324,7 +324,7 @@ public:
   {
 
       printf(" %lu startReturnStatement\n", _node_stack.size() );
-      std::tr1::shared_ptr<as::ast::ReturnStatement> op( new as::ast::ReturnStatement);
+      as::ast::ReturnStatementPtr op( new as::ast::ReturnStatement);
       _node_stack . top() -> addNodeChild(op);
       _node_stack . push(op);
   }
@@ -387,7 +387,7 @@ public:
 
       printf(" %lu startIfStatement\n", _node_stack.size() );
 
-      std::tr1::shared_ptr<as::ast::IfStatement> ifStmt( new as::ast::IfStatement );
+      as::ast::IfStatementPtr ifStmt( new as::ast::IfStatement );
       _node_stack . top() -> addNodeChild( ifStmt );
       _node_stack . push( ifStmt );
   }

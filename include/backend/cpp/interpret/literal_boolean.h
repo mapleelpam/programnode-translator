@@ -29,6 +29,7 @@
 #include <as/ast/expression.h>
 #include <backend/cpp/interpret/interpreter.h>
 #include <as/ast/literal_boolean.h>
+#include <global.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
@@ -38,7 +39,7 @@ struct LiteralBoolean : public Interpreter
 
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
 	{
-		std::tr1::shared_ptr<AST::LiteralBoolean> li = std::tr1::static_pointer_cast<AST::LiteralBoolean>(node);
+		SHARED_PTR(AST::LiteralBoolean) li = std::tr1::static_pointer_cast<AST::LiteralBoolean>(node);
 
 		if( li->value == "true" )
 			return "true";

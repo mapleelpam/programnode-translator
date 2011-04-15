@@ -51,6 +51,9 @@ struct FunctionDefinition: public Statement
     bool check(){	return node_childs.size() == 3;	};
 };
 
+typedef SHARED_PTR(FunctionDefinition) FunctionDefinitionPtr;
+
+
 } } } }
 
 #endif

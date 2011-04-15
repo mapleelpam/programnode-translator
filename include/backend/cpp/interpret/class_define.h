@@ -39,7 +39,8 @@ struct ClassDefine : public Interpreter
 
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
 	{
-		AST::ClassDefinePtr _class_define_ = std::tr1::static_pointer_cast<AST::ClassDefine>(node);
+		AST::ClassDefinePtr _class_define_ = STATIC_CAST( AST::ClassDefine, node);
+
 		std::string class_name = dispatchExpound(_class_define_->className(), ctx);
 		ctx->tree_depth ++;
 		std::string class_stmt = dispatchExpound(_class_define_->classStmt(), ctx);

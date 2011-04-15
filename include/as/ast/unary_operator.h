@@ -50,7 +50,7 @@ struct UnaryOperator: public Expression
     std::string op_type;
 };
 
-typedef std::tr1::shared_ptr<UnaryOperator> UnaryOperatorPtr;
+typedef std::tr1::shared_ptr<UnaryOperator>    UnaryOperatorPtr;
 
 
 } } } }

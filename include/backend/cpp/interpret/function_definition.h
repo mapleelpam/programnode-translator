@@ -44,8 +44,12 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 	{
 		std::string result;
 
-		std::tr1::shared_ptr < AST::FunctionDefinition > fdef = std::tr1::static_pointer_cast<AST::FunctionDefinition>(node);
-		std::tr1::shared_ptr < AST::FunctionCommon > fcommon= std::tr1::static_pointer_cast<AST::FunctionCommon>( fdef -> FunctionCommon());
+		AST::FunctionDefinitionPtr fdef = STATIC_CAST( AST::FunctionDefinition, node);
+
+//		std::tr1::shared_ptr < AST::FunctionCommon > fcommon= std::tr1::static_pointer_cast<AST::FunctionCommon>( fdef -> FunctionCommon());
+		AST::FunctionCommonPtr  fcommon = STATIC_CAST( AST::FunctionCommon, fdef -> FunctionCommon());
+
+
 		// Function Return Type
 		std::tr1::shared_ptr < AST::FunctionSignature > fsig
 				= std::tr1::static_pointer_cast<AST::FunctionSignature>( fcommon -> FunctionSignature());

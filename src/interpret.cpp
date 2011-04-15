@@ -40,7 +40,6 @@
 #include <backend/cpp/interpret/function_return_type.h>
 #include <backend/cpp/interpret/function_parameters.h>
 #include <backend/cpp/interpret/function_parameter_item.h>
-#include <backend/cpp/interpret/program_root.h>
 #include <backend/cpp/interpret/arguments.h>
 #include <backend/cpp/interpret/return_stmt.h>
 #include <backend/cpp/interpret/binary_operator.h>
@@ -62,7 +61,7 @@ void initializeInterpreters()
 		for (int idx = 0; idx < AST::Node::NodeType::T_NODE_TYPE_END; idx++)
 			interpreterResolver[idx] = NULL;
 
-		interpreterResolver[AST::Node::NodeType::T_PROGRAM] = new ProgramRoot();
+		interpreterResolver[AST::Node::NodeType::T_PROGRAM] = new Interpreter();
 		//
 		interpreterResolver[AST::Node::NodeType::T_FUNCTION_DEFINITION]
 				= new FunctionDefinition();

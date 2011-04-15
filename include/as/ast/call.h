@@ -46,6 +46,8 @@ private:
     bool _is_new;
 };
 
+typedef SHARED_PTR(Call) CallPtr;
+
 
 } } } }
 

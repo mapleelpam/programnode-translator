@@ -40,8 +40,7 @@ struct Assignment : public Interpreter
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
 	{
 		std::string result;
-		AST::AssignmentPtr assignment = std::tr1::static_pointer_cast<
-				AST::Assignment>(node);
+		AST::AssignmentPtr assignment = STATIC_CAST( AST::Assignment, node);
 
 		return dispatchExpound(assignment->LHS(), ctx) + " = "  + dispatchExpound(assignment->RHS(), ctx);
 	}

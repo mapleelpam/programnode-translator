@@ -26,7 +26,7 @@
 #ifndef __AS_AST_NODE_H__
 #define __AS_AST_NODE_H__
 
-#include <tr1/memory>
+#include <global.h>
 #include <as/ast/expression.h>
 
 
@@ -97,9 +97,9 @@ struct Node
 
     virtual int nodeType(){	return _node_type;	};
 
-    virtual void addNodeChild( std::tr1::shared_ptr< Node > c) { node_childs.push_back( c ); }
+    virtual void addNodeChild( SHARED_PTR(Node) c) { node_childs.push_back( c ); }
 
-    std::vector< std::tr1::shared_ptr< Node > >    node_childs;
+    std::vector< SHARED_PTR(Node) >    node_childs;
 
 //    std::ostream& operater<< ( std::ostream&, Node& );
     virtual std::string toString() = 0;
@@ -107,7 +107,7 @@ protected:
     int _node_type;
 };
 
-typedef std::tr1::shared_ptr<Node>    NodePtr;
+typedef SHARED_PTR(Node)    NodePtr;
 
 
 } } } }

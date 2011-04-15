@@ -44,6 +44,7 @@ struct ReturnStatement : public Statement
 	std::string toString()  {	return "node::return_stmt"; };
 };
 
+typedef SHARED_PTR(ReturnStatement) ReturnStatementPtr;
 
 } } } }
 

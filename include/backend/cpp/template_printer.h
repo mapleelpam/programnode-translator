@@ -51,10 +51,8 @@ public:
 	{
 		std::string out = in;
 		for( std::list<PatternPtr>::iterator itr = patterns.begin() ; itr != patterns.end() ; itr ++)
-		{
-
 			_replace_string( out, "%"+(*itr)->pattern+"%", (*itr)->content );
-		}
+
 		return out;
 	}
 

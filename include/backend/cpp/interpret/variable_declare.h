@@ -70,13 +70,10 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 
 	bool readConfig( boost::property_tree::ptree& pt )
 	{
-		std::string str_config_primitive = _str_config_root +".primitive";
-		boost::property_tree::ptree prim_tree = pt.get_child( str_config_primitive );
-
-		BOOST_FOREACH(boost::property_tree::ptree::value_type &pitr, pt.get_child( str_config_primitive ))
 		{
-			std::cout << " read " << pitr.first<<std::endl;
-			_primitive_type_map[ pitr.first] = pitr.second.get<std::string>( "");
+			std::string str_config_primitive = _str_config_root +".primitive";
+			BOOST_FOREACH(boost::property_tree::ptree::value_type &pitr, pt.get_child( str_config_primitive ))
+				_primitive_type_map[ pitr.first] = pitr.second.get<std::string>( "");
 		}
 		return true;
 	}

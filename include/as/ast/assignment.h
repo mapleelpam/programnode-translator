@@ -28,6 +28,7 @@
 
 #include <tr1/memory>
 #include <as/ast/expression.h>
+#include <global.h>
 
 
 namespace tw { namespace maple { namespace as { namespace ast {
@@ -44,7 +45,7 @@ struct Assignment : public Expression
 	 NodePtr RHS(){	return node_childs[1];	}
 };
 
-typedef std::tr1::shared_ptr<Assignment> AssignmentPtr;
+typedef SHARED_PTR(Assignment) AssignmentPtr;
 
 } } } }
 
