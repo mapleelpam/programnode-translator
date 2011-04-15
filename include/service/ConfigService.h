@@ -36,7 +36,9 @@
 #include <boost/program_options/value_semantic.hpp>
 
 #include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/ptree_fwd.hpp>
 #include <boost/property_tree/info_parser.hpp>
+#include <boost/property_tree/xml_parser.hpp>
 
 
 namespace tw { namespace maple { namespace service {
@@ -67,6 +69,7 @@ struct ConfigService  : public ArgElementIface
 
 	void pass(po::variables_map& args)
 	{
+		//TODO: debug only, will remove after release
 		if (args.count("load") > 0) {
 			std::string config_file_r = args["load"].as<std::string>();
 			load(config_file_r);
@@ -103,6 +106,7 @@ private:
 				citr != m_config_elements.end() ; citr ++ )	{
 			(*citr)->writeConfig( _ptree );
 		}
+		//write_xml( filename, _ptree);
 		write_info( filename, _ptree);
 	}
 	std::list<ConfigRequest*> m_config_elements;

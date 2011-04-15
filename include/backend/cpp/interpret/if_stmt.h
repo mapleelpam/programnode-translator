@@ -56,7 +56,7 @@ struct IfStatement : public Interpreter, public TemplatePrinter
 	{
 		_stmt_template = "%indent_tab%if(%if_condition%){%endl%"
 							"%then_stmt%%indent_tab%}else{%endl%"
-							"%else_stmt%}%endl%";
+							"%else_stmt%%indent_tab%}%endl%";
 	}
 
 	bool readConfig( boost::property_tree::ptree& pt )

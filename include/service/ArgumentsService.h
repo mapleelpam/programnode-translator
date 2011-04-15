@@ -78,14 +78,10 @@ struct ArgumentService
 public:
 	void registerPass( ArgElementIface* opt )
 	{
-		std::cout << __FILE__<<":"<<__LINE__<<std::endl;
-
 		m_elements.push_back( opt );
 		opt->init(m_args_desc, m_positional_argumnets_desc);
 
 		m_argument_elements.push_back( opt );
-
-		std::cout << __FILE__<<":"<<__LINE__<<std::endl;
 	}
 protected:
 	// collect stages options
