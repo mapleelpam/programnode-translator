@@ -63,12 +63,12 @@ public:
 
 	virtual bool readConfig( boost::property_tree::ptree& pt )
 	{
-		_template = pt.get<std::string>( _name+".template", _template);
+		_template = pt.get<std::string>( _config_name+".template", _template);
 		return true;
 	}
 	virtual bool writeConfig( boost::property_tree::ptree& pt )
 	{
-		pt.put<std::string>( _name+".template", _template);
+		pt.put<std::string>( _config_name+".template", _template);
 		return true;
 	}
 
@@ -84,10 +84,11 @@ protected:
 	        p++;
 	    }
 	}
+	std::string  configName(){	return _config_name;	}
 	void setTemplateString( std::string str ) {	_template = str;	}
-	TemplatePrinter( std::string n) : _name(n){}
+	TemplatePrinter( std::string n) : _config_name(n){}
 private:
-	std::string _name;
+	std::string _config_name;
 	std::string _template;
 };
 

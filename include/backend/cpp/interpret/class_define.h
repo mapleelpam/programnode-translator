@@ -45,15 +45,8 @@ struct ClassDefine : public Interpreter, public TemplatePrinter
 
 		std::string class_name = dispatchExpound(_class_define_->className(), ctx);
 		ctx->tree_depth ++;
-		std::string class_stmt = dispatchExpound(_class_define_->classStmt(), ctx);
+			std::string class_stmt = dispatchExpound(_class_define_->classStmt(), ctx);
 		ctx->tree_depth --;
-//		std::string result = "";
-//
-//		{
-//			result = ctx->indent() + "class  " +  class_name +"{\n"
-//					+ class_stmt +  "" +  ctx->indent() + "};" ;
-//		}
-//		return result;
 
 		std::list<PatternPtr> patterns;
 
@@ -72,7 +65,7 @@ struct ClassDefine : public Interpreter, public TemplatePrinter
 	{
 		setTemplateString( "%indent_tab%class %class_name%%endl%%indent_tab%{%endl%"
 							"%class_stmt%"
-							"%indent_tab%}%endl%" )
+							"%indent_tab%};%endl%" )
 							;
 	}
 };

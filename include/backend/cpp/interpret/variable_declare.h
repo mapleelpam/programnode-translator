@@ -48,6 +48,8 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 
 		AST::VariableDeclarePtr var = std::tr1::static_pointer_cast<AST::VariableDeclare>(node);
 		std::string var_type = dispatchExpound(var->varType(), ctx);
+		var_type = (is_primitive(var_type))? var_type : var_type+_str_ptr;
+
 		std::string var_name = dispatchExpound(var->varName(), ctx);
 
 		std::list<PatternPtr> patterns;
@@ -57,20 +59,11 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("indent_tab", ctx->indent()) ));
 
 		return substitutePatterns( patterns );
-
-
-        result += ctx->indent();
-		result += (is_primitive(var_type))? var_type : var_type+"*";
-		result += " " ;
-		result += var_name;
-		result += ";\n" ;
-
-		return result;
 	}
 
 	VariableDeclare()
 		: TemplatePrinter("VariableDeclare")
-		, _str_config_root( "VariableDeclare" )
+		, _str_ptr("*")
 	{
 		_primitive_type_map[ "int" ] = "int";
 		_primitive_type_map[ "float" ] = "float";
@@ -82,20 +75,26 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 	bool readConfig( boost::property_tree::ptree& pt )
 	{
 		{
-			std::string str_config_primitive = _str_config_root +".primitive";
+			std::string str_config_primitive = configName() +".primitive";
 			BOOST_FOREACH(boost::property_tree::ptree::value_type &pitr, pt.get_child( str_config_primitive ))
 				_primitive_type_map[ pitr.first] = pitr.second.get<std::string>( "");
 		}
+
+		_str_ptr = pt.get<std::string>(  configName()+".pointer", _str_ptr);
+
+
 		return TemplatePrinter::readConfig( pt );
 	}
 	bool writeConfig( boost::property_tree::ptree& pt )
 	{
 
-		std::string str_config_primitive = _str_config_root +".primitive.";
+		std::string str_config_primitive = configName() +".primitive.";
 		for( StringMap::iterator sitr = _primitive_type_map.begin(); sitr != _primitive_type_map.end() ; sitr ++ )
 		{
 			pt.put( str_config_primitive+(*sitr).first,(*sitr).second);
 		}
+
+		pt.put<std::string>( configName()+".pointer", _str_ptr);
 
 		return TemplatePrinter::writeConfig( pt );
 	}
@@ -111,8 +110,7 @@ private:
 	}
 
 	StringMap _primitive_type_map;
-
-	const std::string _str_config_root;
+	std::string _str_ptr;
 };
 
 };
