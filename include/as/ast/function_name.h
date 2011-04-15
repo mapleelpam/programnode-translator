@@ -46,6 +46,9 @@ struct FunctionName : public Statement
     std::string toString()  {	return "node::function_name"; };
 };
 
+typedef SHARED_PTR(FunctionName) FunctionNamePtr;
+
+
 } } } }
 
 #endif

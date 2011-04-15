@@ -45,7 +45,7 @@ struct FunctionParameters : public Statement
 
 //    bool check()	{	return node_childs.size() == 1; 	}
 };
-
+typedef SHARED_PTR(FunctionParameters) FunctionParametersPtr;
 } } } }
 
 #endif

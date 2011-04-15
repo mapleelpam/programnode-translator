@@ -43,7 +43,7 @@ struct IfStatementElse : public Statement
 
 	std::string toString()  {	return "node::if_stmt_else"; };
 };
-
+typedef SHARED_PTR(IfStatementElse) IfStatementElsePtr;
 
 } } } }
 

@@ -42,8 +42,7 @@ struct Arguments : public Expression
 	std::string toString()  {	return "node::arguments"; };
 };
 
-//typedef std::tr1::shared_ptr<Arguments> ArgumentsPtr;
-
+typedef SHARED_PTR(Arguments) ArgumentsPtr;
 } } } }
 
 #endif

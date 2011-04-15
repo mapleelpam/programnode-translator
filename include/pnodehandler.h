@@ -122,7 +122,7 @@ public:
       printf(" %lu startFunctionDefinition\n", _node_stack.size() );
 
 
-      std::tr1::shared_ptr<as::ast::FunctionDefinition> func_def( new as::ast::FunctionDefinition() );
+      as::ast::FunctionDefinitionPtr func_def( new as::ast::FunctionDefinition() );
       _node_stack . top() -> addNodeChild( func_def );
       _node_stack . push( func_def );
   }
@@ -131,7 +131,7 @@ public:
 
       printf(" %lu startFunctionName\n", _node_stack.size() );
 
-      std::tr1::shared_ptr<as::ast::FunctionName> func_name( new as::ast::FunctionName() );
+      as::ast::FunctionNamePtr func_name( new as::ast::FunctionName() );
       _node_stack . top() -> addNodeChild( func_name );
       _node_stack . push( func_name );
   }
@@ -148,7 +148,7 @@ public:
       printf(" %lu startFunctionSignature\n", _node_stack.size() );
 
 
-      std::tr1::shared_ptr<as::ast::FunctionSignature> fsig( new as::ast::FunctionSignature );
+      as::ast::FunctionSignaturePtr fsig( new as::ast::FunctionSignature );
       _node_stack . top() -> addNodeChild( fsig );
       _node_stack . push( fsig );
   }
@@ -165,7 +165,7 @@ public:
 
       std::cout << " current stack top is " << _node_stack . top() -> toString() << std::endl;
 
-      std::tr1::shared_ptr<as::ast::FunctionParameters> fsig_param( new as::ast::FunctionParameters );
+      as::ast::FunctionParametersPtr fsig_param( new as::ast::FunctionParameters );
       _node_stack . top() -> addNodeChild( fsig_param );
       _node_stack . push( fsig_param );
   }
@@ -173,7 +173,7 @@ public:
   void startFunctionSignatureParameterMember() {
 
       printf(" %lu startFunctionSignatureParameterMember\n", _node_stack.size() );
-      std::tr1::shared_ptr<as::ast::FunctionParameterItem> fsig( new as::ast::FunctionParameterItem );
+      as::ast::FunctionParameterItemPtr fsig( new as::ast::FunctionParameterItem );
       _node_stack . top() -> addNodeChild( fsig );
       _node_stack . push( fsig );
   }
@@ -194,7 +194,7 @@ public:
 
       printf(" %lu startFunctionSignatureReturnType\n", _node_stack.size() );
 
-      std::tr1::shared_ptr<as::ast::FunctionReturnType> exp_list( new as::ast::FunctionReturnType );
+      as::ast::FunctionReturnTypePtr exp_list( new as::ast::FunctionReturnType );
       _node_stack . top() -> addNodeChild( exp_list );
       _node_stack . push( exp_list );
   }
@@ -209,7 +209,7 @@ public:
 
       printf(" %lu startFunctionCommon\n", _node_stack.size() );
 
-      std::tr1::shared_ptr<as::ast::FunctionCommon> fCommon( new as::ast::FunctionCommon );
+      as::ast::FunctionCommonPtr fCommon( new as::ast::FunctionCommon );
       _node_stack . top() -> addNodeChild( fCommon );
       _node_stack . push( fCommon );
   }
@@ -229,7 +229,7 @@ public:
   void startExpressionList()
   {
       printf(" %lu startExpressionList\n", _node_stack.size() );
-      std::tr1::shared_ptr<as::ast::ExpressionList> exp_list( new as::ast::ExpressionList );
+      as::ast::ExpressionListPtr exp_list( new as::ast::ExpressionList );
       _node_stack . top() -> addNodeChild( exp_list );
       _node_stack . push( exp_list );
   }
@@ -239,7 +239,7 @@ public:
 
       printf(" %lu startCallExpression\n", _node_stack.size() );
 
-      std::tr1::shared_ptr < as::ast::Call > exp_call(new as::ast::Call(call.is_new));
+      as::ast::CallPtr exp_call(new as::ast::Call(call.is_new));
       _node_stack . top() -> addNodeChild(exp_call);
       _node_stack . push( exp_call );
   }
@@ -248,7 +248,7 @@ public:
 
       printf(" %lu startAgumentList\n", _node_stack.size() );
 
-      std::tr1::shared_ptr<as::ast::Arguments> args( new as::ast::Arguments);
+      as::ast::ArgumentsPtr args( new as::ast::Arguments);
       _node_stack . top () -> addNodeChild( args );
       _node_stack . push( args );
   }
@@ -340,23 +340,23 @@ public:
   {
 
       printf(" %lu identifierExpression\n", _node_stack.size() );
-      std::tr1::shared_ptr<as::ast::Identifier> exp_id( new as::ast::Identifier(id.name) );
+      as::ast::IdentifierPtr exp_id( new as::ast::Identifier(id.name) );
       _node_stack . top () -> addNodeChild( exp_id);
   }
 
   virtual void literalStringExpression(const generated::Literal& str)
   {
-      std::tr1::shared_ptr<as::ast::LiteralString> exp_literal( new as::ast::LiteralString( str.value ) );
+      as::ast::LiteralStringPtr exp_literal( new as::ast::LiteralString( str.value ) );
       _node_stack . top () -> addNodeChild( exp_literal);
   }
   virtual void literalNumberExpression(const generated::Literal& num)
   {
-      std::tr1::shared_ptr<as::ast::LiteralNumber> exp_literal( new as::ast::LiteralNumber( num.value ) );
+      as::ast::LiteralNumberPtr exp_literal( new as::ast::LiteralNumber( num.value ) );
       _node_stack . top () -> addNodeChild( exp_literal);
   }
   virtual void literalBooleanExpression(const generated::Literal& num)
   {
-      std::tr1::shared_ptr<as::ast::LiteralBoolean> exp_literal( new as::ast::LiteralBoolean( num.value ) );
+      as::ast::LiteralBooleanPtr exp_literal( new as::ast::LiteralBoolean( num.value ) );
       _node_stack . top () -> addNodeChild( exp_literal);
   }
   void endExpressionList() {
@@ -373,7 +373,7 @@ public:
   void startStmtList() {
 
       printf(" %lu startStmtList\n", _node_stack.size() );
-      std::tr1::shared_ptr<as::ast::StatementList> stmts( new as::ast::StatementList);
+      as::ast::StatementListPtr stmts( new as::ast::StatementList);
       _node_stack . top () -> addNodeChild( stmts );
       _node_stack . push( stmts );
   }
@@ -395,7 +395,7 @@ public:
 
       printf(" %lu startIfStatement_Condition\n", _node_stack.size() );
 
-      std::tr1::shared_ptr<as::ast::IfStatementCondition> ifStmt( new as::ast::IfStatementCondition );
+      as::ast::IfStatementConditionPtr ifStmt( new as::ast::IfStatementCondition );
       _node_stack . top() -> addNodeChild(ifStmt  );
       _node_stack . push( ifStmt );
   }
@@ -403,7 +403,7 @@ public:
 
       printf(" %lu startIfStatement_Then\n", _node_stack.size() );
 
-      std::tr1::shared_ptr<as::ast::IfStatementThen> ifStmt( new as::ast::IfStatementThen );
+      as::ast::IfStatementThenPtr ifStmt( new as::ast::IfStatementThen );
       _node_stack . top() -> addNodeChild(ifStmt  );
       _node_stack . push( ifStmt );
   }
@@ -411,7 +411,7 @@ public:
 
       printf(" %lu startIfStatement_Else\n", _node_stack.size() );
 
-      std::tr1::shared_ptr<as::ast::IfStatementElse> ifStmt( new as::ast::IfStatementElse );
+      as::ast::IfStatementElsePtr ifStmt( new as::ast::IfStatementElse );
       _node_stack . top() -> addNodeChild( ifStmt  );
       _node_stack . push( ifStmt );
   }
@@ -439,21 +439,21 @@ public:
   void startClassDefine()
   {
       printf(" %lu startClassDefine\n", _node_stack.size() );
-      std::tr1::shared_ptr<as::ast::ClassDefine> exp_list( new as::ast::ClassDefine );
+      as::ast::ClassDefinePtr exp_list( new as::ast::ClassDefine );
       _node_stack . top() -> addNodeChild( exp_list );
       _node_stack . push( exp_list );
   }
   void startClassName()
     {
         printf(" %lu startClassName\n", _node_stack.size() );
-        std::tr1::shared_ptr<as::ast::ClassName> exp_list( new as::ast::ClassName );
+        as::ast::ClassNamePtr exp_list( new as::ast::ClassName );
         _node_stack . top() -> addNodeChild( exp_list );
         _node_stack . push( exp_list );
     }
   void startClassStmt()
       {
           printf(" %lu startClassStmt\n", _node_stack.size() );
-          std::tr1::shared_ptr<as::ast::ClassStmt> exp_list( new as::ast::ClassStmt );
+          as::ast::ClassStmtPtr exp_list( new as::ast::ClassStmt );
           _node_stack . top() -> addNodeChild( exp_list );
           _node_stack . push( exp_list );
       }
@@ -473,12 +473,12 @@ public:
         _node_stack . pop ();
     }
 public:
-  std::tr1::shared_ptr< as::ast::Program > getProgramNode() {	return _program_root;	};
+   as::ast::ProgramPtr getProgramNode() {	return _program_root;	};
 
 private:
     std::stack< as::ast::NodePtr > 			_node_stack;
 
-    std::tr1::shared_ptr< as::ast::Program > _program_root;
+     as::ast::ProgramPtr _program_root;
 
 };
 

@@ -45,6 +45,9 @@ struct LiteralNumber: public Expression
     std::string toString()  {	return "node::literal_number"; };
 };
 
+typedef SHARED_PTR(LiteralNumber) LiteralNumberPtr;
+
+
 } } } }
 
 #endif

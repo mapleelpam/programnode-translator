@@ -43,6 +43,7 @@ struct ExpressionList : public Expression
     std::string toString()  {	return "node::expression_list"; };
 };
 
+typedef SHARED_PTR(ExpressionList) ExpressionListPtr;
 
 } } } }
 

@@ -44,6 +44,7 @@ struct IfStatementCondition : public Statement
 	std::string toString()  {	return "node::if_stmt_condition"; };
 };
 
+typedef SHARED_PTR(IfStatementCondition) IfStatementConditionPtr;
 
 } } } }
 

@@ -44,6 +44,7 @@ struct FunctionReturnType : public Statement
 
 	std::string toString()  {	return "node::function_return_type"; };
 };
+typedef SHARED_PTR(FunctionReturnType) FunctionReturnTypePtr;
 
 } } } }
 

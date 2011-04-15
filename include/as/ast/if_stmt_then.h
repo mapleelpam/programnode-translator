@@ -44,6 +44,7 @@ struct IfStatementThen : public Statement
 	std::string toString()  {	return "node::if_stmt_then"; };
 };
 
+typedef SHARED_PTR(IfStatementThen) IfStatementThenPtr;
 
 } } } }
 

@@ -45,6 +45,8 @@ struct LiteralBoolean: public Expression
     std::string toString()  {	return "node::literal_number"; };
 };
 
+typedef SHARED_PTR(LiteralBoolean) LiteralBooleanPtr;
+
 } } } }
 
 #endif
