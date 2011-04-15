@@ -47,21 +47,32 @@ struct ClassDefine : public Interpreter, public TemplatePrinter
 		ctx->tree_depth ++;
 		std::string class_stmt = dispatchExpound(_class_define_->classStmt(), ctx);
 		ctx->tree_depth --;
-		std::string result = "";
+//		std::string result = "";
+//
+//		{
+//			result = ctx->indent() + "class  " +  class_name +"{\n"
+//					+ class_stmt +  "" +  ctx->indent() + "};" ;
+//		}
+//		return result;
 
-		{
-			result = ctx->indent() + "class  " +  class_name +"{\n"
-					+ class_stmt +  "" +  ctx->indent() + "};" ;
-		}
-		return result;
+		std::list<PatternPtr> patterns;
+
+		patterns.push_back( PatternPtr( new Pattern("class_name", class_name ) ));
+		patterns.push_back( PatternPtr( new Pattern("class_stmt", class_stmt ) ));
+
+		patterns.push_back( PatternPtr( new Pattern("endl", ctx->endl() ) ));
+		patterns.push_back( PatternPtr( new Pattern("indent_tab", ctx->indent()) ));
+
+		return substitutePatterns( patterns );
+
 	}
 
 	ClassDefine()
 		: TemplatePrinter("ClassDefine")
 	{
-		setTemplateString( "%indent_tab%%func_ret_type% %func_name%(%func_parameters%){%endl%"
-							"%func_body%"
-							"%indent_tab%}" )
+		setTemplateString( "%indent_tab%class %class_name%%endl%%indent_tab%{%endl%"
+							"%class_stmt%"
+							"%indent_tab%}%endl%" )
 							;
 	}
 };

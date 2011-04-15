@@ -46,10 +46,18 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 		std::string result;
 
 
-		AST::VariableDeclarePtr var = std::tr1::static_pointer_cast<
-				AST::VariableDeclare>(node);
+		AST::VariableDeclarePtr var = std::tr1::static_pointer_cast<AST::VariableDeclare>(node);
 		std::string var_type = dispatchExpound(var->varType(), ctx);
 		std::string var_name = dispatchExpound(var->varName(), ctx);
+
+		std::list<PatternPtr> patterns;
+		patterns.push_back( PatternPtr( new Pattern("var_type", var_type) ));
+		patterns.push_back( PatternPtr( new Pattern("var_name", var_name) ));
+		patterns.push_back( PatternPtr( new Pattern("endl", ctx->endl() ) ));
+		patterns.push_back( PatternPtr( new Pattern("indent_tab", ctx->indent()) ));
+
+		return substitutePatterns( patterns );
+
 
         result += ctx->indent();
 		result += (is_primitive(var_type))? var_type : var_type+"*";
@@ -66,6 +74,8 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 	{
 		_primitive_type_map[ "int" ] = "int";
 		_primitive_type_map[ "float" ] = "float";
+
+		setTemplateString( "%indent_tab%%var_type% %var_name%;%endl%" );
 	}
 
 
@@ -92,8 +102,11 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 private:
 	bool is_primitive( std::string str )
 	{
-		if( str == "int" )
-			return true;
+		for( StringMap::iterator sitr = _primitive_type_map.begin(); sitr != _primitive_type_map.end() ; sitr ++ )
+		{
+			if( (*sitr).first == str )
+				return true;
+		}
 		return false;
 	}
 
