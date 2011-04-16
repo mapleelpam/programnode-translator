@@ -47,12 +47,15 @@ namespace tw { namespace maple { namespace service {
 class ConfigRequest
 {
 public:
-	ConfigRequest();
+	ConfigRequest( std::string n = "unknown");
 	virtual bool readConfig( boost::property_tree::ptree& ) = 0;
 	virtual bool writeConfig( boost::property_tree::ptree& ) = 0;
+	std::string getName()	{	return _name;	}
+private:
+	std::string _name;
 };
 
-struct ConfigService  : public ArgElementIface
+struct ConfigService  : public ArgElemenRequest
 {
 	void registerElement( ConfigRequest* creq )
 	{
@@ -72,7 +75,7 @@ struct ConfigService  : public ArgElementIface
 		//TODO: debug only, will remove after release
 		if (args.count("load") > 0) {
 			std::string config_file_r = args["load"].as<std::string>();
-			(config_file_r);
+			loadConfig(config_file_r);
 		}
 		if (args.count("save") > 0) {
 			std::string config_file_w = args["save"].as<std::string> ();
@@ -88,27 +91,9 @@ private:
 		SVC_ARGUMENTS->registerPass(this);
 	}
 
-	void loadConfig( const std::string& filename )
-	{
-		boost::property_tree::ptree _ptree;
-		read_info( filename, _ptree );
+	void loadConfig( const std::string& filename );
+	void saveConfig( const std::string& filename );
 
-		for( std::list<ConfigRequest*>::iterator citr = m_config_elements.begin();
-				citr != m_config_elements.end() ; citr ++ )	{
-			(*citr)->readConfig( _ptree );
-		}
-	}
-
-	void saveConfig( const std::string& filename )
-	{
-		boost::property_tree::ptree _ptree;
-		for( std::list<ConfigRequest*>::iterator citr = m_config_elements.begin();
-				citr != m_config_elements.end() ; citr ++ )	{
-			(*citr)->writeConfig( _ptree );
-		}
-		//write_xml( filename, _ptree);
-		write_info( filename, _ptree);
-	}
 	std::list<ConfigRequest*> m_config_elements;
 
 

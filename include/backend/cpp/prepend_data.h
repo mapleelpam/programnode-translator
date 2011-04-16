@@ -28,20 +28,27 @@
 #define __TW_MAPLE_BACKEDN_PREPEND_DATA_H_
 
 #include <fstream>
+#include <service/ConfigService.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp {
 
-struct PrependData
+struct PrependData : public tw::maple::service::ConfigRequest
 {
+	PrependData();
+
+	void execute( std::ofstream& os );
+
+private:
 	std::string PrefixWarning;
 	std::string LicenseDeclare;
 	std::string IncludeHeaders;
 	std::string Authors;
 	bool		ShowGeneratedTime;
+	std::string _config_name;
 
-	PrependData();
-
-	void execute( std::ofstream& os );
+protected:
+	virtual bool readConfig( boost::property_tree::ptree& pt );
+	virtual bool writeConfig( boost::property_tree::ptree& pt );
 };
 
 } } } }

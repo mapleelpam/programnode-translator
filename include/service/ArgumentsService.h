@@ -39,7 +39,7 @@ namespace tw { namespace maple { namespace service {
 
 //struct OptionElement;
 
-struct ArgElementIface
+struct ArgElemenRequest
 {
 	virtual void init(po::options_description&, po::positional_options_description&) = 0;
 	virtual void pass(po::variables_map&) = 0 ;
@@ -48,7 +48,7 @@ struct ArgElementIface
 
 struct ArgumentService
 {
-	std::vector< ArgElementIface* > m_elements;
+	std::vector< ArgElemenRequest* > m_elements;
 
 	void parse(int argc, char** argv)
 	{
@@ -56,7 +56,7 @@ struct ArgumentService
 		po::store(po::command_line_parser(argc, argv).options(m_args_desc).positional(m_positional_argumnets_desc).run(), args);
 		po::notify(args);
 
-		for(std::vector<ArgElementIface*>::iterator itr = m_argument_elements.begin();
+		for(std::vector<ArgElemenRequest*>::iterator itr = m_argument_elements.begin();
 				itr != m_argument_elements.end() ; itr ++ )
 		{
 			(*itr)->pass(args);
@@ -76,7 +76,7 @@ struct ArgumentService
 		return _instance;
 	}
 public:
-	void registerPass( ArgElementIface* opt )
+	void registerPass( ArgElemenRequest* opt )
 	{
 		m_elements.push_back( opt );
 		opt->init(m_args_desc, m_positional_argumnets_desc);
@@ -87,7 +87,7 @@ protected:
 	// collect stages options
 	po::options_description m_args_desc;
 	po::positional_options_description m_positional_argumnets_desc;
-	std::vector<ArgElementIface*> m_argument_elements;
+	std::vector<ArgElemenRequest*> m_argument_elements;
 };
 
 #define SVC_ARGUMENTS (tw::maple::service::ArgumentService::instance())

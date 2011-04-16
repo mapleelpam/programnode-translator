@@ -51,7 +51,7 @@ public:
 	{
 		std::string out = in;
 		for( std::list<PatternPtr>::iterator itr = patterns.begin() ; itr != patterns.end() ; itr ++)
-			_replace_string( out, "%"+(*itr)->pattern+"%", (*itr)->content );
+			out = _replace_string( out, "%"+(*itr)->pattern+"%", (*itr)->content );
 
 		return out;
 	}
@@ -73,20 +73,25 @@ public:
 	}
 
 protected:
-	static void _replace_string(
-	    std::string &s, const std::string &SearchString, const std::string &ReplaceString
+	std::string _replace_string(
+	    const std::string &s, const std::string &SearchString, const std::string &ReplaceString
 	    )
 	{
+		std::string result = s;
 	    std::string::size_type p = 0;
-	    while((p = s.find(SearchString, p)) != std::string::npos)
+	    while((p = result.find(SearchString, p)) != std::string::npos)
 	    {
-	        s.replace(p, SearchString.size(), ReplaceString);
+	        result.replace(p, SearchString.size(), ReplaceString);
 	        p++;
 	    }
+	    return result;
 	}
 	std::string  configName(){	return _config_name;	}
 	void setTemplateString( std::string str ) {	_template = str;	}
-	TemplatePrinter( std::string n) : _config_name(n){}
+
+	TemplatePrinter( std::string n)
+	: tw::maple::service::ConfigRequest("TemplatePrinter."+n), _config_name(n)
+	{}
 private:
 	std::string _config_name;
 	std::string _template;

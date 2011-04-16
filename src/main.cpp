@@ -42,7 +42,7 @@
 
 //namespace po = boost::program_options;
 
-class MajorClass : public tw::maple::service::ArgElementIface
+class MajorClass : public tw::maple::service::ArgElemenRequest
 {
 public:
 	MajorClass()
@@ -88,8 +88,7 @@ public:
 			context.ofs_stream.open( m_out_file_path.c_str() );
 			// Interpret/Explain - Invoke Back-end Stream Out
 
-			tw::maple::backend::cpp::PrependData pd;
-			pd.execute( context.ofs_stream );
+			m_prepend.execute( context.ofs_stream );
 
 
 			for (std::vector<tw::maple::as::ast::ProgramPtr>::iterator
@@ -103,6 +102,7 @@ public:
 private:
 	std::vector<std::string> m_pnode_files;
 	std::string m_out_file_path;
+	tw::maple::backend::cpp::PrependData m_prepend;
 
 };
 

@@ -45,10 +45,9 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 	{
 		std::string result;
 
-
 		AST::VariableDeclarePtr var = std::tr1::static_pointer_cast<AST::VariableDeclare>(node);
 		std::string var_type = dispatchExpound(var->varType(), ctx);
-		var_type = (is_primitive(var_type))? var_type : var_type+_str_ptr;
+		var_type = invoke_type_mapper( var_type );
 
 		std::string var_name = dispatchExpound(var->varName(), ctx);
 
@@ -63,54 +62,53 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 
 	VariableDeclare()
 		: TemplatePrinter("VariableDeclare")
-		, _str_ptr("*")
+		, _default_type_mapper("%type_name%*")
 	{
-		_primitive_type_map[ "int" ] = "int";
-		_primitive_type_map[ "float" ] = "float";
+		_primitive_type_mapper[ "int" ] = "int";
+		_primitive_type_mapper[ "float" ] = "float";
 
 		setTemplateString( "%indent_tab%%var_type% %var_name%;%endl%" );
 	}
 
 
-	bool readConfig( boost::property_tree::ptree& pt )
+	virtual bool readConfig( boost::property_tree::ptree& pt )
 	{
 		{
-			std::string str_config_primitive = configName() +".primitive";
+			std::string str_config_primitive = configName() +".type.mapper.";
 			BOOST_FOREACH(boost::property_tree::ptree::value_type &pitr, pt.get_child( str_config_primitive ))
-				_primitive_type_map[ pitr.first] = pitr.second.get<std::string>( "");
+				_primitive_type_mapper[ pitr.first] = pitr.second.get<std::string>( "");
 		}
 
-		_str_ptr = pt.get<std::string>(  configName()+".pointer", _str_ptr);
-
+		_default_type_mapper = pt.get<std::string>(  configName()+".type.mapper.__DEFAULT__", _default_type_mapper);
 
 		return TemplatePrinter::readConfig( pt );
 	}
-	bool writeConfig( boost::property_tree::ptree& pt )
+	virtual bool writeConfig( boost::property_tree::ptree& pt )
 	{
 
-		std::string str_config_primitive = configName() +".primitive.";
-		for( StringMap::iterator sitr = _primitive_type_map.begin(); sitr != _primitive_type_map.end() ; sitr ++ )
+		std::string str_config_primitive = configName() +".type.mapper.";
+		for( StringMap::iterator sitr = _primitive_type_mapper.begin(); sitr != _primitive_type_mapper.end() ; sitr ++ )
 		{
 			pt.put( str_config_primitive+(*sitr).first,(*sitr).second);
 		}
 
-		pt.put<std::string>( configName()+".pointer", _str_ptr);
+		pt.put<std::string>( configName()+".type.mapper.__DEFAULT__", _default_type_mapper);
 
 		return TemplatePrinter::writeConfig( pt );
 	}
 private:
-	bool is_primitive( std::string str )
+	std::string invoke_type_mapper( const std::string type_name )
 	{
-		for( StringMap::iterator sitr = _primitive_type_map.begin(); sitr != _primitive_type_map.end() ; sitr ++ )
-		{
-			if( (*sitr).first == str )
-				return true;
+		StringMap::iterator sitr = _primitive_type_mapper.find( type_name );
+		if( sitr == _primitive_type_mapper.end() ){
+			return _replace_string( _default_type_mapper, "%type_name%", type_name);
+		} else {
+			return sitr -> second;
 		}
-		return false;
 	}
 
-	StringMap _primitive_type_map;
-	std::string _str_ptr;
+	StringMap _primitive_type_mapper;
+	std::string _default_type_mapper;
 };
 
 };

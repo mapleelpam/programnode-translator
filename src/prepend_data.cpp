@@ -23,7 +23,6 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#include <string>
 #include <stdlib.h>
 
 #include <backend/cpp/prepend_data.h>
@@ -31,7 +30,9 @@
 namespace tw { namespace maple { namespace backend { namespace cpp {
 
 PrependData::PrependData()
-	: Authors( "Unknown" )
+	: tw::maple::service::ConfigRequest("PrependData")
+	, Authors( "Unknown" )
+	, _config_name("prepend_data")
 	, ShowGeneratedTime(false)
 {
 	PrefixWarning = "/* THIS FILE IS GENREATED BY pn-translater, you should not modify this file.*/";
@@ -49,6 +50,23 @@ void PrependData::execute( std::ofstream& os )
 	os << IncludeHeaders << std::endl;
 
 	//TODO: generated time
+}
+
+bool PrependData::readConfig( boost::property_tree::ptree& pt )
+{
+	PrefixWarning = pt.get<std::string>( _config_name+".prefix_warning", PrefixWarning);
+	LicenseDeclare = pt.get<std::string>( _config_name+".license_declare", LicenseDeclare);
+	Authors = pt.get<std::string>( _config_name+".authors", Authors);
+	IncludeHeaders = pt.get<std::string>( _config_name+".headers", IncludeHeaders);
+	return true;
+}
+bool PrependData::writeConfig( boost::property_tree::ptree& pt )
+{
+	pt.put<std::string>( _config_name+".prefix_warning", PrefixWarning);
+	pt.put<std::string>( _config_name+".license_declare", LicenseDeclare);
+	pt.put<std::string>( _config_name+".authors", Authors);
+	pt.put<std::string>( _config_name+".headers", IncludeHeaders);
+	return true;
 }
 
 } /*cpp*/ } /*backend*/ } /*maple*/ } /*tw*/
