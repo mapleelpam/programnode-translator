@@ -43,17 +43,26 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
 	{
+
 		std::string result;
 
 		AST::VariableDeclarePtr var = std::tr1::static_pointer_cast<AST::VariableDeclare>(node);
+
 		std::string var_type = dispatchExpound(var->varType(), ctx);
 		var_type = invoke_type_mapper( var_type );
 
 		std::string var_name = dispatchExpound(var->varName(), ctx);
+		std::string var_init = "";
+
+		if ( var->varInit() ) {
+			var_init = " = " + dispatchExpound( var->varInit(), ctx );
+		}
+
 
 		std::list<PatternPtr> patterns;
 		patterns.push_back( PatternPtr( new Pattern("var_type", var_type) ));
 		patterns.push_back( PatternPtr( new Pattern("var_name", var_name) ));
+		patterns.push_back( PatternPtr( new Pattern("var_init", var_init) ));
 		patterns.push_back( PatternPtr( new Pattern("endl", ctx->endl() ) ));
 		patterns.push_back( PatternPtr( new Pattern("indent_tab", ctx->indent()) ));
 
@@ -67,7 +76,8 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 		_primitive_type_mapper[ "int" ] = "int";
 		_primitive_type_mapper[ "float" ] = "float";
 
-		setTemplateString( "%indent_tab%%var_type% %var_name%;%endl%" );
+		setTemplateString( "%indent_tab%%var_type% %var_name% %var_init%;%endl%" );
+//		setTemplateString( "%indent_tab%%var_type% %var_name%;%endl%" );
 	}
 
 

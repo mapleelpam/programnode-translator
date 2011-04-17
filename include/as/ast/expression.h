@@ -35,10 +35,7 @@ namespace tw { namespace maple { namespace as { namespace ast {
 // Abstract
 struct Expression : public Node
 {
-    virtual int exprType() = 0;
-
 protected:
-//    Expression( Node::NodeType ntype ) : Node(ntype){}
       Expression( int ntype ) : Node(ntype){}
 };
 

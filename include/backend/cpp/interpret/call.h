@@ -39,6 +39,8 @@ struct Call : public Interpreter
 {   
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
 	{
+		std::cerr << " in call interpreter  = " << std::endl;
+
 		std::string result;
 		AST::CallPtr call = STATIC_CAST( AST::Call, node);
 
@@ -51,6 +53,8 @@ struct Call : public Interpreter
 			result += dispatchExpound( call->getArgs(), ctx);
 		}
 		result += " )";
+
+		std::cerr << " in call interpreter  = (end)" << std::endl;
 
 		return result;
 	}

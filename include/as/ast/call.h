@@ -35,7 +35,6 @@ struct Call : public Expression
 {
 	Call( bool is_new = false ) : Expression(Node::NodeType::T_CALL), _is_new(is_new)	{	}
 
-    int     exprType()   {   return NodeType::T_CALL;  }
     std::string toString()  {	return "node::call"; };
 
     NodePtr getCallee(){	return node_childs[0];	}

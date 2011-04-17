@@ -42,7 +42,7 @@ struct VariableDeclare: public Expression
 
     NodePtr varType(){	return node_childs[1];	}
     NodePtr varName(){	return node_childs[0];	}
-
+    NodePtr varInit(){	return node_childs.size() == 3 ? node_childs[2] : NodePtr();	}
 
     std::string toString()  {	return "node::variable_declare"; };
     bool check(){	return node_childs.size() == 2;	};

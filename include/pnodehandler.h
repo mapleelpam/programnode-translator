@@ -79,23 +79,29 @@ using namespace apache::thrift::transport;
 
 namespace AST = ::tw::maple::as::ast;
 
-#define CHECK_STACK_AND_POP( NODE_TYPE ) \
-        if(_node_stack.top()->nodeType() != NODE_TYPE ){ \
-            std::cerr << " protocol error ---- expect '"<<#NODE_TYPE<<"' but get '" << _node_stack . top() -> toString()<<"'"<<std::endl; \
-            exit(1); \
-        }
-
 #define PUSH_STACK( ClassName ) \
 		{ \
-		printf(" %lu start\n", _node_stack.size() ); \
+		std::cout << _node_stack.size() << "  start"<< #ClassName  <<" -> "<< _node_stack.top()->toString()<< std::endl; \
 		as::ast::ClassName##Ptr __node__( new as::ast::ClassName()  ); \
 		_node_stack . top() -> addNodeChild( __node__ ); \
 		_node_stack . push( __node__ ); }
 
-#define POP_STACK( ClassName ) \
+#define PUSH_STACK_WITH_INIT( ClassName, ARG ) \
 		{ \
+		std::cout << _node_stack.size() << "  start"<< #ClassName  <<" -> "<< _node_stack.top()->toString()<< std::endl; \
+		as::ast::ClassName##Ptr __node__( new as::ast::ClassName( ARG )  ); \
+		_node_stack . top() -> addNodeChild( __node__ ); \
+		_node_stack . push( __node__ ); }
+
+#define CHECK_STACK_AND_POP( ClassName, NODE_TYPE ) \
+		{ \
+			if(_node_stack.top()->nodeType() != NODE_TYPE ){ \
+	            std::cerr << " protocol error ---- expect '"<<#NODE_TYPE<<"' but get '" << _node_stack . top() -> toString()<<"'"<<std::endl; \
+	            exit(1); \
+	        } \
 		printf(" %lu end"#ClassName"\n", _node_stack.size() ); \
-		_node_stack . pop(); }\
+		_node_stack . pop(); \
+		}\
 
 namespace tw { namespace maple { 
 
@@ -249,21 +255,11 @@ public:
 
   void startCallExpression(const generated::CallExpression& call)
   {
-
-      printf(" %lu startCallExpression\n", _node_stack.size() );
-
-      as::ast::CallPtr exp_call(new as::ast::Call(call.is_new));
-      _node_stack . top() -> addNodeChild(exp_call);
-      _node_stack . push( exp_call );
+      PUSH_STACK_WITH_INIT( Call,  call.is_new);
   }
 
   void startAgumentList() {
-
-      printf(" %lu startAgumentList\n", _node_stack.size() );
-
-      as::ast::ArgumentsPtr args( new as::ast::Arguments);
-      _node_stack . top () -> addNodeChild( args );
-      _node_stack . push( args );
+      PUSH_STACK( Arguments );
   }
 
   void endAgumentList() {
@@ -294,10 +290,7 @@ public:
   }
   void startInstanceOfExpression()
   {
-      printf(" %lu startInstanceOfExpression\n", _node_stack.size() );
-      as::ast::InstanceOfPtr as_node( new as::ast::InstanceOf() );
-      _node_stack . top() -> addNodeChild(as_node);
-      _node_stack . push(as_node);
+      PUSH_STACK( InstanceOf );
   }
   void endInstanceOfExpression() {
 
@@ -306,19 +299,13 @@ public:
   }
   void startIsOperator()
   {
-	  PUSH_STACK( Is )
+	  PUSH_STACK( Is );
   }
   void endIsOperator() {
-
-	  POP_STACK( Is )
-//      printf(" %lu endInstanceOfExpression\n", _node_stack.size() );
-//      _node_stack . pop( );
+	  CHECK_STACK_AND_POP( Is, AST::Node::NodeType::T_IS );
   }
   void startVariableDeclare() {
-      printf(" %lu startVariableDeclare\n", _node_stack.size());
-      as::ast::VariableDeclarePtr as_node(new as::ast::VariableDeclare());
-      _node_stack . top() -> addNodeChild(as_node);
-      _node_stack . push(as_node);
+      PUSH_STACK( VariableDeclare );
   }
   void endVariableDeclare() {
 
@@ -328,10 +315,7 @@ public:
   }
 
   void startAssignment() {
-      printf(" %lu startAssignment\n", _node_stack.size());
-      as::ast::AssignmentPtr as_node(new as::ast::Assignment());
-      _node_stack . top() -> addNodeChild(as_node);
-      _node_stack . push(as_node);
+      PUSH_STACK( Assignment );
   }
   void endAssignment() {
       printf(" %lu endAssignment\n", _node_stack.size());
@@ -372,8 +356,7 @@ public:
 
   void identifierExpression(const generated::Identifier& id)
   {
-
-      printf(" %lu identifierExpression\n", _node_stack.size() );
+      std::cout << _node_stack.size() << "  identifierExpression"  <<" -> "<< _node_stack.top()->toString()<<":"<<_node_stack.top()->node_childs.size()<< std::endl;
       as::ast::IdentifierPtr exp_id( new as::ast::Identifier(id.name) );
       _node_stack . top () -> addNodeChild( exp_id);
   }
@@ -450,24 +433,16 @@ public:
       _node_stack . push( ifStmt );
   }
   void endIfStatement() {
-      printf(" %lu endIfStatement\n", _node_stack.size() );
-       CHECK_STACK_AND_POP( AST::Node::NodeType::T_IF_STMT );
-      _node_stack . pop ();
+       CHECK_STACK_AND_POP( IfStatement, AST::Node::NodeType::T_IF_STMT );
   }
   void endIfStatement_Condition() {
-      printf(" %lu endIfStatement_Condition\n", _node_stack.size() );
-       CHECK_STACK_AND_POP( AST::Node::NodeType::T_IF_STMT_CONDITION );
-      _node_stack . pop ();
+      CHECK_STACK_AND_POP( IfStatement_Condition, AST::Node::NodeType::T_IF_STMT_CONDITION );
   }
   void endIfStatement_Then() {
-      printf(" %lu endIfStatement_Then\n", _node_stack.size() );
-       CHECK_STACK_AND_POP( AST::Node::NodeType::T_IF_STMT_THEN );
-      _node_stack . pop ();
+      CHECK_STACK_AND_POP( IfStatement_Then, AST::Node::NodeType::T_IF_STMT_THEN );
   }
   void endtIfStatement_Else() {
-      printf(" %lu endIfStatement_Else\n", _node_stack.size() );
-       CHECK_STACK_AND_POP( AST::Node::NodeType::T_IF_STMT_ELSE );
-      _node_stack . pop ();
+      CHECK_STACK_AND_POP( IfStatement_Else, AST::Node::NodeType::T_IF_STMT_ELSE );
   }
 
   void startClassDefine()
@@ -492,19 +467,14 @@ public:
           _node_stack . push( exp_list );
       }
   void endClassDefine() {
-      printf(" %lu endClassDefine\n", _node_stack.size() );
-      CHECK_STACK_AND_POP( AST::Node::NodeType::T_CLASS_DEFINE );
-      _node_stack . pop ();
+      CHECK_STACK_AND_POP( ClassDefine, AST::Node::NodeType::T_CLASS_DEFINE );
+
   }
   void endClassName() {
-        printf(" %lu endClassName\n", _node_stack.size() );
-        CHECK_STACK_AND_POP( AST::Node::NodeType::T_CLASS_DEFINE_NAME );
-        _node_stack . pop ();
+        CHECK_STACK_AND_POP( ClassName, AST::Node::NodeType::T_CLASS_DEFINE_NAME );
     }
   void endClassStmt() {
-        printf(" %lu endClassDefine\n", _node_stack.size() );
-        CHECK_STACK_AND_POP( AST::Node::NodeType::T_CLASS_DEFINE_STMT );
-        _node_stack . pop ();
+        CHECK_STACK_AND_POP( ClassStmt, AST::Node::NodeType::T_CLASS_DEFINE_STMT );
     }
 public:
    as::ast::ProgramPtr getProgramNode() {	return _program_root;	};

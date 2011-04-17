@@ -39,8 +39,6 @@ struct BinaryOperator: public Expression
 	{
 	}
 
-    int exprType()   {   return Node::NodeType::T_BINARY_OPERATOR;  }
-
     NodePtr LHS(){	return node_childs[0];	}
     NodePtr RHS(){	return node_childs[1];	}
 
