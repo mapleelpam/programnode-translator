@@ -197,6 +197,16 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("endBinaryExpression\n");
   }
 
+  void startInstanceOfExpression() {
+    // Your implementation goes here
+    printf("startInstanceOfExpression\n");
+  }
+
+  void endInstanceOfExpression() {
+    // Your implementation goes here
+    printf("endInstanceOfExpression\n");
+  }
+
   void startUnaryExpression(const UnaryExpression& op) {
     // Your implementation goes here
     printf("startUnaryExpression\n");

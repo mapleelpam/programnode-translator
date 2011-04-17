@@ -53,6 +53,7 @@
 #include <as/ast/function_parameter_item.h>
 #include <as/ast/function_common.h>
 #include <as/ast/binary_operator.h>
+#include <as/ast/instanceof.h>
 #include <as/ast/unary_operator.h>
 #include <as/ast/variable_declare.h>
 #include <as/ast/statement.h>
@@ -278,7 +279,20 @@ public:
 
       printf(" %lu endBinaryExpression\n", _node_stack.size() );
       _node_stack . pop( );
+  }
+  void startInstanceOfExpression()
+  {
 
+      printf(" %lu startInstanceOfExpression\n", _node_stack.size() );
+
+      as::ast::InstanceOfPtr as_node( new as::ast::InstanceOf() );
+      _node_stack . top() -> addNodeChild(as_node);
+      _node_stack . push(as_node);
+  }
+  void endInstanceOfExpression() {
+
+      printf(" %lu endInstanceOfExpression\n", _node_stack.size() );
+      _node_stack . pop( );
   }
   void startVariableDeclare() {
       printf(" %lu startVariableDeclare\n", _node_stack.size());

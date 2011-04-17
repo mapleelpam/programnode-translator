@@ -47,6 +47,7 @@
 #include <backend/cpp/interpret/variable_declare.h>
 #include <backend/cpp/interpret/assignment.h>
 #include <backend/cpp/interpret/if_stmt.h>
+#include <backend/cpp/interpret/instanceof.h>
 #include <backend/cpp/interpret/class_define.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
@@ -90,6 +91,8 @@ void initializeInterpreters()
 				= new Identifier();
 		interpreterResolver[AST::Node::NodeType::T_BINARY_OPERATOR]
 				= new BinaryOperator();
+		interpreterResolver[AST::Node::NodeType::T_INSTANCEOF]
+						= new InstanceOf();
 		interpreterResolver[AST::Node::NodeType::T_UNARY_OPERATOR]
 				= new UnaryOperator();
 		interpreterResolver[AST::Node::NodeType::T_RETURN_STATEMENT]

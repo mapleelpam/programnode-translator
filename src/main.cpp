@@ -90,7 +90,6 @@ public:
 
 			m_prepend.execute( context.ofs_stream );
 
-
 			for (std::vector<tw::maple::as::ast::ProgramPtr>::iterator
 					nodeItr = pnode_list.begin(); nodeItr != pnode_list.end(); nodeItr++) {
 				context.ofs_stream << INTERPRET::dispatchExpound(*nodeItr, &context);
