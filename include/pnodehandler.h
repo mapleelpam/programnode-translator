@@ -54,6 +54,7 @@
 #include <as/ast/function_common.h>
 #include <as/ast/binary_operator.h>
 #include <as/ast/instanceof.h>
+#include <as/ast/is.h>
 #include <as/ast/unary_operator.h>
 #include <as/ast/variable_declare.h>
 #include <as/ast/statement.h>
@@ -83,6 +84,18 @@ namespace AST = ::tw::maple::as::ast;
             std::cerr << " protocol error ---- expect '"<<#NODE_TYPE<<"' but get '" << _node_stack . top() -> toString()<<"'"<<std::endl; \
             exit(1); \
         }
+
+#define PUSH_STACK( ClassName ) \
+		{ \
+		printf(" %lu start\n", _node_stack.size() ); \
+		as::ast::ClassName##Ptr __node__( new as::ast::ClassName()  ); \
+		_node_stack . top() -> addNodeChild( __node__ ); \
+		_node_stack . push( __node__ ); }
+
+#define POP_STACK( ClassName ) \
+		{ \
+		printf(" %lu end"#ClassName"\n", _node_stack.size() ); \
+		_node_stack . pop(); }\
 
 namespace tw { namespace maple { 
 
@@ -121,7 +134,6 @@ public:
   void startFunctionDefinition() {
 
       printf(" %lu startFunctionDefinition\n", _node_stack.size() );
-
 
       as::ast::FunctionDefinitionPtr func_def( new as::ast::FunctionDefinition() );
       _node_stack . top() -> addNodeChild( func_def );
@@ -282,9 +294,7 @@ public:
   }
   void startInstanceOfExpression()
   {
-
       printf(" %lu startInstanceOfExpression\n", _node_stack.size() );
-
       as::ast::InstanceOfPtr as_node( new as::ast::InstanceOf() );
       _node_stack . top() -> addNodeChild(as_node);
       _node_stack . push(as_node);
@@ -293,6 +303,16 @@ public:
 
       printf(" %lu endInstanceOfExpression\n", _node_stack.size() );
       _node_stack . pop( );
+  }
+  void startIsOperator()
+  {
+	  PUSH_STACK( Is )
+  }
+  void endIsOperator() {
+
+	  POP_STACK( Is )
+//      printf(" %lu endInstanceOfExpression\n", _node_stack.size() );
+//      _node_stack . pop( );
   }
   void startVariableDeclare() {
       printf(" %lu startVariableDeclare\n", _node_stack.size());

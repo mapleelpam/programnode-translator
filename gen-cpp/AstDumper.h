@@ -51,6 +51,8 @@ class AstDumperIf {
   virtual void endBinaryExpression() = 0;
   virtual void startInstanceOfExpression() = 0;
   virtual void endInstanceOfExpression() = 0;
+  virtual void startIsOperator() = 0;
+  virtual void endIsOperator() = 0;
   virtual void startUnaryExpression(const UnaryExpression& op) = 0;
   virtual void endUnaryExpression() = 0;
   virtual void startVariableDeclare() = 0;
@@ -185,6 +187,12 @@ class AstDumperNull : virtual public AstDumperIf {
     return;
   }
   void endInstanceOfExpression() {
+    return;
+  }
+  void startIsOperator() {
+    return;
+  }
+  void endIsOperator() {
     return;
   }
   void startUnaryExpression(const UnaryExpression& /* op */) {
@@ -1658,6 +1666,80 @@ class AstDumper_endInstanceOfExpression_pargs {
 
 };
 
+
+class AstDumper_startIsOperator_args {
+ public:
+
+  AstDumper_startIsOperator_args() {
+  }
+
+  virtual ~AstDumper_startIsOperator_args() throw() {}
+
+
+  bool operator == (const AstDumper_startIsOperator_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const AstDumper_startIsOperator_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_startIsOperator_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_startIsOperator_pargs {
+ public:
+
+
+  virtual ~AstDumper_startIsOperator_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_endIsOperator_args {
+ public:
+
+  AstDumper_endIsOperator_args() {
+  }
+
+  virtual ~AstDumper_endIsOperator_args() throw() {}
+
+
+  bool operator == (const AstDumper_endIsOperator_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const AstDumper_endIsOperator_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_endIsOperator_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_endIsOperator_pargs {
+ public:
+
+
+  virtual ~AstDumper_endIsOperator_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
 typedef struct _AstDumper_startUnaryExpression_args__isset {
   _AstDumper_startUnaryExpression_args__isset() : op(false) {}
   bool op;
@@ -2552,6 +2634,10 @@ class AstDumperClient : virtual public AstDumperIf {
   void send_startInstanceOfExpression();
   void endInstanceOfExpression();
   void send_endInstanceOfExpression();
+  void startIsOperator();
+  void send_startIsOperator();
+  void endIsOperator();
+  void send_endIsOperator();
   void startUnaryExpression(const UnaryExpression& op);
   void send_startUnaryExpression(const UnaryExpression& op);
   void endUnaryExpression();
@@ -2642,6 +2728,8 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
   void process_endBinaryExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_startInstanceOfExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_endInstanceOfExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_startIsOperator(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_endIsOperator(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_startUnaryExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_endUnaryExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_startVariableDeclare(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -2702,6 +2790,8 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
     processMap_["endBinaryExpression"] = &AstDumperProcessor::process_endBinaryExpression;
     processMap_["startInstanceOfExpression"] = &AstDumperProcessor::process_startInstanceOfExpression;
     processMap_["endInstanceOfExpression"] = &AstDumperProcessor::process_endInstanceOfExpression;
+    processMap_["startIsOperator"] = &AstDumperProcessor::process_startIsOperator;
+    processMap_["endIsOperator"] = &AstDumperProcessor::process_endIsOperator;
     processMap_["startUnaryExpression"] = &AstDumperProcessor::process_startUnaryExpression;
     processMap_["endUnaryExpression"] = &AstDumperProcessor::process_endUnaryExpression;
     processMap_["startVariableDeclare"] = &AstDumperProcessor::process_startVariableDeclare;
@@ -2996,6 +3086,20 @@ class AstDumperMultiface : virtual public AstDumperIf {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
       ifaces_[i]->endInstanceOfExpression();
+    }
+  }
+
+  void startIsOperator() {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->startIsOperator();
+    }
+  }
+
+  void endIsOperator() {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->endIsOperator();
     }
   }
 

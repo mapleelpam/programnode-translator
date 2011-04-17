@@ -47,6 +47,7 @@
 #include <backend/cpp/interpret/variable_declare.h>
 #include <backend/cpp/interpret/assignment.h>
 #include <backend/cpp/interpret/if_stmt.h>
+#include <backend/cpp/interpret/is.h>
 #include <backend/cpp/interpret/instanceof.h>
 #include <backend/cpp/interpret/class_define.h>
 
@@ -92,7 +93,9 @@ void initializeInterpreters()
 		interpreterResolver[AST::Node::NodeType::T_BINARY_OPERATOR]
 				= new BinaryOperator();
 		interpreterResolver[AST::Node::NodeType::T_INSTANCEOF]
-						= new InstanceOf();
+					= new InstanceOf();
+		interpreterResolver[AST::Node::NodeType::T_IS]
+					= new Is();
 		interpreterResolver[AST::Node::NodeType::T_UNARY_OPERATOR]
 				= new UnaryOperator();
 		interpreterResolver[AST::Node::NodeType::T_RETURN_STATEMENT]

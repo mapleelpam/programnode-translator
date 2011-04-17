@@ -59,6 +59,7 @@ struct Node
             // Expr
             T_BINARY_OPERATOR,
             T_INSTANCEOF,
+            T_IS,
             T_UNARY_OPERATOR,
             T_Assignment,
 

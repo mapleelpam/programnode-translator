@@ -207,6 +207,16 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("endInstanceOfExpression\n");
   }
 
+  void startIsOperator() {
+    // Your implementation goes here
+    printf("startIsOperator\n");
+  }
+
+  void endIsOperator() {
+    // Your implementation goes here
+    printf("endIsOperator\n");
+  }
+
   void startUnaryExpression(const UnaryExpression& op) {
     // Your implementation goes here
     printf("startUnaryExpression\n");
