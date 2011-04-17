@@ -115,28 +115,32 @@ class Literal {
 };
 
 typedef struct _CallExpression__isset {
-  _CallExpression__isset() : is_new(false) {}
+  _CallExpression__isset() : is_new(false), mode(false) {}
   bool is_new;
+  bool mode;
 } _CallExpression__isset;
 
 class CallExpression {
  public:
 
-  static const char* ascii_fingerprint; // = "5892306F7B861249AE8E27C8ED619593";
-  static const uint8_t binary_fingerprint[16]; // = {0x58,0x92,0x30,0x6F,0x7B,0x86,0x12,0x49,0xAE,0x8E,0x27,0xC8,0xED,0x61,0x95,0x93};
+  static const char* ascii_fingerprint; // = "1767FFB0CB3D9275BC64B198AB3B8A8B";
+  static const uint8_t binary_fingerprint[16]; // = {0x17,0x67,0xFF,0xB0,0xCB,0x3D,0x92,0x75,0xBC,0x64,0xB1,0x98,0xAB,0x3B,0x8A,0x8B};
 
-  CallExpression() : is_new(false) {
+  CallExpression() : is_new(false), mode("") {
   }
 
   virtual ~CallExpression() throw() {}
 
   bool is_new;
+  std::string mode;
 
   _CallExpression__isset __isset;
 
   bool operator == (const CallExpression & rhs) const
   {
     if (!(is_new == rhs.is_new))
+      return false;
+    if (!(mode == rhs.mode))
       return false;
     return true;
   }

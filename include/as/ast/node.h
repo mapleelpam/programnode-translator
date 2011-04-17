@@ -70,6 +70,7 @@ struct Node
             T_PostfixOperator,
             T_PrefixOperator,
 
+            T_STMT_EXPR,
             T_EXPR_LIST,
             T_ARGUMENTS,
 

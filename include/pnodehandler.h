@@ -63,6 +63,8 @@
 #include <as/ast/assignment.h>
 #include <as/ast/node.h>
 
+#include <as/ast/stmt_expression.h>
+
 #include <as/ast/if_stmt.h>
 #include <as/ast/if_stmt_condition.h>
 #include <as/ast/if_stmt_then.h>
@@ -81,14 +83,14 @@ namespace AST = ::tw::maple::as::ast;
 
 #define PUSH_STACK( ClassName ) \
 		{ \
-		std::cout << _node_stack.size() << "  start"<< #ClassName  <<" -> "<< _node_stack.top()->toString()<< std::endl; \
+		std::cout << _node_stack.size() << "  start"<< #ClassName  <<" -> "<< _node_stack.top()->toString()<<":"<<_node_stack.top()->node_childs.size()<< std::endl; \
 		as::ast::ClassName##Ptr __node__( new as::ast::ClassName()  ); \
 		_node_stack . top() -> addNodeChild( __node__ ); \
 		_node_stack . push( __node__ ); }
 
 #define PUSH_STACK_WITH_INIT( ClassName, ARG ) \
 		{ \
-		std::cout << _node_stack.size() << "  start"<< #ClassName  <<" -> "<< _node_stack.top()->toString()<< std::endl; \
+		std::cout << _node_stack.size() << "  start"<< #ClassName  <<" -> "<< _node_stack.top()->toString()<<":"<<_node_stack.top()->node_childs.size()<< std::endl; \
 		as::ast::ClassName##Ptr __node__( new as::ast::ClassName( ARG )  ); \
 		_node_stack . top() -> addNodeChild( __node__ ); \
 		_node_stack . push( __node__ ); }
@@ -253,6 +255,14 @@ public:
       _node_stack . push( exp_list );
   }
 
+  void startStmtExpression()
+  {
+        PUSH_STACK( StmtExpression );
+  }
+  void endStmtExpression()
+  {
+        CHECK_STACK_AND_POP( StmtExpression, AST::Node::NodeType::T_STMT_EXPR );
+  }
   void startCallExpression(const generated::CallExpression& call)
   {
       PUSH_STACK_WITH_INIT( Call,  call.is_new);

@@ -54,10 +54,8 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 		std::string var_name = dispatchExpound(var->varName(), ctx);
 		std::string var_init = "";
 
-		if ( var->varInit() ) {
+		if ( var->varInit() )
 			var_init = " = " + dispatchExpound( var->varInit(), ctx );
-		}
-
 
 		std::list<PatternPtr> patterns;
 		patterns.push_back( PatternPtr( new Pattern("var_type", var_type) ));

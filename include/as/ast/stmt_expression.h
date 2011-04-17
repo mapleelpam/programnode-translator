@@ -18,26 +18,30 @@
  */
 
 // ProgrameNode Translator
-// Copyright 2010 mapleellpam@gmail.com.  All rights reserved.
+// Copyright 2011 mapleellpam@gmail.com.  All rights reserved.
 // https://github.com/mapleelpam/programnode-translator
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#ifndef __TW_MAPLE_AS_AST_NODE_STATEMENT_H__
-#define __TW_MAPLE_AS_AST_NODE_STATEMENT_H__
+#ifndef __TW_MAPLE_AS_AST_SATEMENTS_STMT_EXPR_H__
+#define __TW_MAPLE_AS_AST_SATEMENTS_STMT_EXPR_H__
 
-#include <as/ast/node.h>
 #include <tr1/memory>
+#include <as/ast/statement.h>
 
 
 namespace tw { namespace maple { namespace as { namespace ast {
 
-struct Statement : public Node
+struct StmtExpression : public Statement
 {
-    Statement( int ntype ) : Node(ntype){}
-};
+	StmtExpression() :
+		Statement(Node::NodeType::T_STMT_EXPR) {
+	}
 
-typedef std::tr1::shared_ptr<Statement>    StatementPtr;
+	std::string toString()  {	return "node::stmt_expr"; };
+};
+typedef std::tr1::shared_ptr<StmtExpression> StmtExpressionPtr;
+
 
 } } } }
 

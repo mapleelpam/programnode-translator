@@ -47,6 +47,7 @@
 #include <backend/cpp/interpret/variable_declare.h>
 #include <backend/cpp/interpret/assignment.h>
 #include <backend/cpp/interpret/if_stmt.h>
+#include <backend/cpp/interpret/stmt_expression.h>
 #include <backend/cpp/interpret/is.h>
 #include <backend/cpp/interpret/instanceof.h>
 #include <backend/cpp/interpret/class_define.h>
@@ -107,6 +108,7 @@ void initializeInterpreters()
 				= new Assignment();
 		interpreterResolver[AST::Node::NodeType::T_CALL] = new Call();
 		interpreterResolver[AST::Node::NodeType::T_IF_STMT] = new IfStatement();
+		interpreterResolver[AST::Node::NodeType::T_STMT_EXPR] = new StmtExpression();
 
 		/* TODO: implement this */
 		interpreterResolver[AST::Node::NodeType::T_IF_STMT_CONDITION]

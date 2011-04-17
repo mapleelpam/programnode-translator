@@ -150,8 +150,8 @@ uint32_t Literal::write(::apache::thrift::protocol::TProtocol* oprot) const {
   return xfer;
 }
 
-const char* CallExpression::ascii_fingerprint = "5892306F7B861249AE8E27C8ED619593";
-const uint8_t CallExpression::binary_fingerprint[16] = {0x58,0x92,0x30,0x6F,0x7B,0x86,0x12,0x49,0xAE,0x8E,0x27,0xC8,0xED,0x61,0x95,0x93};
+const char* CallExpression::ascii_fingerprint = "1767FFB0CB3D9275BC64B198AB3B8A8B";
+const uint8_t CallExpression::binary_fingerprint[16] = {0x17,0x67,0xFF,0xB0,0xCB,0x3D,0x92,0x75,0xBC,0x64,0xB1,0x98,0xAB,0x3B,0x8A,0x8B};
 
 uint32_t CallExpression::read(::apache::thrift::protocol::TProtocol* iprot) {
 
@@ -181,6 +181,14 @@ uint32_t CallExpression::read(::apache::thrift::protocol::TProtocol* iprot) {
           xfer += iprot->skip(ftype);
         }
         break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->mode);
+          this->__isset.mode = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -198,6 +206,9 @@ uint32_t CallExpression::write(::apache::thrift::protocol::TProtocol* oprot) con
   xfer += oprot->writeStructBegin("CallExpression");
   xfer += oprot->writeFieldBegin("is_new", ::apache::thrift::protocol::T_BOOL, 1);
   xfer += oprot->writeBool(this->is_new);
+  xfer += oprot->writeFieldEnd();
+  xfer += oprot->writeFieldBegin("mode", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString(this->mode);
   xfer += oprot->writeFieldEnd();
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();

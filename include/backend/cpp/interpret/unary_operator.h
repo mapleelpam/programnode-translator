@@ -43,9 +43,13 @@ struct UnaryOperator : public Interpreter
 		AST::UnaryOperatorPtr bin = std::tr1::static_pointer_cast<
 				AST::UnaryOperator>(node);
 
-		result +=  " " + resolve_operator(bin->op_type) + " ";
-		result += dispatchExpound(bin->subExpr(), ctx); // sub expression
-
+		if( bin->op_type == "typeof" ) {
+//			return "false/*not support typeof*/";
+			result = dispatchExpound(bin->subExpr(), ctx) +" ->getType()" ;
+		} else {
+			result += " " + resolve_operator(bin->op_type) + " ";
+			result += dispatchExpound(bin->subExpr(), ctx); // sub expression
+		}
 		return result;
 	}
 

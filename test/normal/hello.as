@@ -8,5 +8,6 @@ package abc
     function main( ) : int
     {
         printf(" hello world"); // CHECK: hello world
+        printf(" hello mars"); // CHECK: hello mars
     }
 }

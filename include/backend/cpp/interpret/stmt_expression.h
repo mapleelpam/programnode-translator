@@ -23,8 +23,8 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_EXPR_LIST_H__
-#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_EXPR_LIST_H__
+#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_EXPR_H__
+#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_EXPR_H__
 
 #include <as/ast/expression.h>
 #include <as/ast/statement_list.h>
@@ -36,7 +36,7 @@ namespace AST = ::tw::maple::as::ast;
 
 
 // Abstract
-struct ExpressionList : public Interpreter
+struct StmtExpression : public Interpreter
 {   
 
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
@@ -49,11 +49,11 @@ struct ExpressionList : public Interpreter
 
 			for( nItr++ ; nItr != node->node_childs.end() ; nItr ++ )
 			{
-				result += "->" + dispatchExpound(*nItr, ctx);
+				result += ", " + dispatchExpound(*nItr, ctx);
 			}
 		}
 
-		return result;
+		return ctx->indent()+result+";\n";
 	}
 };
 
