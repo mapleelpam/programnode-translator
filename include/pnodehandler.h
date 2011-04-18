@@ -73,6 +73,8 @@
 #include <as/ast/class_define.h>
 #include <as/ast/class_name.h>
 #include <as/ast/class_stmt.h>
+#include <as/ast/class_base.h>
+#include <as/ast/class_interface.h>
 
 using namespace apache::thrift;
 using namespace apache::thrift::protocol;
@@ -326,6 +328,19 @@ public:
 
   void startAssignment() {
       PUSH_STACK( Assignment );
+  }
+  void startClassBase() {
+	  PUSH_STACK( ClassInheritBase );
+  }
+  void startClassInterface() {
+	  PUSH_STACK( ClassInheritInterface );
+  }
+  void endClassBase() {
+      CHECK_STACK_AND_POP( ClassInheritBase, AST::Node::NodeType::T_COMP_CLASS_BASE );
+
+  }
+  void endClassInterface() {
+      CHECK_STACK_AND_POP( ClassInheritInterface, AST::Node::NodeType::T_COMP_CLASS_INTERFACE );
   }
   void endAssignment() {
       printf(" %lu endAssignment\n", _node_stack.size());

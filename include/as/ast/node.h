@@ -94,6 +94,9 @@ struct Node
             T_CLASS_DEFINE_NAME,
             T_CLASS_DEFINE_STMT,
 
+            T_COMP_CLASS_INTERFACE,
+            T_COMP_CLASS_BASE,
+
             T_NODE_TYPE_END,
         };
     };

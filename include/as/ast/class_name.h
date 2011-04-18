@@ -40,11 +40,6 @@ struct ClassName : public Statement
 	int stmtType() {
 		return _node_type;
 	}
-
-//	NodePtr ifCondition(){	return node_childs[0];	}
-//	NodePtr ifThen(){	return node_childs[1];	}
-//	NodePtr ifElse(){	if(node_childs.size()<3)	return NodePtr(); else return node_childs[2];	}
-
 	std::string toString()  {	return "node::CLASS_NAME"; };
 };
 typedef std::tr1::shared_ptr<ClassName> ClassNamePtr;
