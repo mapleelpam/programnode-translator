@@ -51,6 +51,8 @@ struct ClassDefine : public Interpreter, public TemplatePrinter
 		std::string class_inherit = "";
 		if( _class_define_->hasBaseClass() ){
 			class_inherit = " : public "+ dispatchExpound(_class_define_->node_childs[1], ctx);
+		} else if( _default_base_object != ""){
+			class_inherit = " : public "+_default_base_object;
 		}
 
 		std::list<PatternPtr> patterns;
@@ -69,12 +71,31 @@ struct ClassDefine : public Interpreter, public TemplatePrinter
 
 	ClassDefine()
 		: TemplatePrinter("ClassDefine")
+		, _default_base_object("")
 	{
 		setTemplateString( "%indent_tab%class %class_name% %class_inherit% %endl%%indent_tab%{%endl%"
 							"%class_stmt%"
 							"%indent_tab%};%endl%" )
 							;
 	}
+
+	virtual bool readConfig( boost::property_tree::ptree& pt )
+	{
+
+		_default_base_object = pt.get<std::string>(  configName()+".inherit.base", _default_base_object);
+
+		return TemplatePrinter::readConfig( pt );
+	}
+	virtual bool writeConfig( boost::property_tree::ptree& pt )
+	{
+
+		pt.put<std::string>( configName()+".inherit.base", _default_base_object);
+
+		return TemplatePrinter::writeConfig( pt );
+	}
+
+private:
+	std::string _default_base_object;
 };
 
 };

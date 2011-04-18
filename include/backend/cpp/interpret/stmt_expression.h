@@ -53,7 +53,12 @@ struct StmtExpression : public Interpreter
 			}
 		}
 
-		return ctx->indent()+result+";\n";
+		{
+			ctx->tree_depth ++;
+			std::string aa = ctx->indent()+result+";\n";
+			ctx->tree_depth --;
+			return aa;
+		}
 	}
 };
 
