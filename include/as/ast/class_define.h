@@ -41,12 +41,21 @@ struct ClassDefine : public Statement
 		return _node_type;
 	}
 	NodePtr className(){	return node_childs[0];	}
-	NodePtr classStmt(){	return node_childs[1];	}
+	NodePtr classStmt(){	return node_childs[ node_childs.size() - 1];	}
 //	NodePtr ifCondition(){	return node_childs[0];	}
 //	NodePtr ifThen(){	return node_childs[1];	}
 //	NodePtr ifElse(){	if(node_childs.size()<3)	return NodePtr(); else return node_childs[2];	}
 
 	std::string toString()  {	return "node::class_define"; };
+
+	void setHasBaseClass( bool b )	{	_has_base_class = b;	}
+	void setHasInterface( bool b )	{	_has_base_interface = b;	}
+
+	bool hasBaseClass()	{	return _has_base_class; }
+	bool hasInterface()	{	return _has_base_interface;}
+private:
+	bool _has_base_class;
+	bool _has_base_interface;
 };
 typedef std::tr1::shared_ptr<ClassDefine> ClassDefinePtr;
 

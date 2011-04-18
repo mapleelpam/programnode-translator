@@ -69,7 +69,7 @@ class AstDumperIf {
   virtual void addImport(const StringList& packages) = 0;
   virtual void startStmtList() = 0;
   virtual void endStmtList() = 0;
-  virtual void startClassDefine() = 0;
+  virtual void startClassDefine(const ClassDefine& class_define) = 0;
   virtual void startClassName() = 0;
   virtual void endClassName() = 0;
   virtual void startClassBase() = 0;
@@ -249,7 +249,7 @@ class AstDumperNull : virtual public AstDumperIf {
   void endStmtList() {
     return;
   }
-  void startClassDefine() {
+  void startClassDefine(const ClassDefine& /* class_define */) {
     return;
   }
   void startClassName() {
@@ -2416,6 +2416,10 @@ class AstDumper_endStmtList_pargs {
 
 };
 
+typedef struct _AstDumper_startClassDefine_args__isset {
+  _AstDumper_startClassDefine_args__isset() : class_define(false) {}
+  bool class_define;
+} _AstDumper_startClassDefine_args__isset;
 
 class AstDumper_startClassDefine_args {
  public:
@@ -2425,9 +2429,14 @@ class AstDumper_startClassDefine_args {
 
   virtual ~AstDumper_startClassDefine_args() throw() {}
 
+  ClassDefine class_define;
 
-  bool operator == (const AstDumper_startClassDefine_args & /* rhs */) const
+  _AstDumper_startClassDefine_args__isset __isset;
+
+  bool operator == (const AstDumper_startClassDefine_args & rhs) const
   {
+    if (!(class_define == rhs.class_define))
+      return false;
     return true;
   }
   bool operator != (const AstDumper_startClassDefine_args &rhs) const {
@@ -2448,6 +2457,7 @@ class AstDumper_startClassDefine_pargs {
 
   virtual ~AstDumper_startClassDefine_pargs() throw() {}
 
+  const ClassDefine* class_define;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -2916,8 +2926,8 @@ class AstDumperClient : virtual public AstDumperIf {
   void send_startStmtList();
   void endStmtList();
   void send_endStmtList();
-  void startClassDefine();
-  void send_startClassDefine();
+  void startClassDefine(const ClassDefine& class_define);
+  void send_startClassDefine(const ClassDefine& class_define);
   void startClassName();
   void send_startClassName();
   void endClassName();
@@ -3485,10 +3495,10 @@ class AstDumperMultiface : virtual public AstDumperIf {
     }
   }
 
-  void startClassDefine() {
+  void startClassDefine(const ClassDefine& class_define) {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
-      ifaces_[i]->startClassDefine();
+      ifaces_[i]->startClassDefine(class_define);
     }
   }
 

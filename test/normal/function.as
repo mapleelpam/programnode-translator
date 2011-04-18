@@ -12,6 +12,6 @@ package abc
 
     function main( ) : int
     {
-        printf(" %d ", sum(1,2)); // CHECK: 3
+        wprintf(" %d ", sum(1,2)); // CHECK: 3
     }
 }

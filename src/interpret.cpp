@@ -51,6 +51,7 @@
 #include <backend/cpp/interpret/is.h>
 #include <backend/cpp/interpret/instanceof.h>
 #include <backend/cpp/interpret/class_define.h>
+#include <backend/cpp/interpret/class_base.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
@@ -124,6 +125,9 @@ void initializeInterpreters()
 				= new Interpreter();
 		interpreterResolver[AST::Node::NodeType::T_CLASS_DEFINE_STMT]
 				= new Interpreter();
+
+		interpreterResolver[AST::Node::NodeType::T_COMP_CLASS_BASE]
+				= new ClassInheritBase();
 	}
 }
 

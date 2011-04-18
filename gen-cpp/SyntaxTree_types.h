@@ -155,6 +155,55 @@ class CallExpression {
 
 };
 
+typedef struct _ClassDefine__isset {
+  _ClassDefine__isset() : has_attr(false), has_baseclass(false), has_interface(false), has_stmt(false) {}
+  bool has_attr;
+  bool has_baseclass;
+  bool has_interface;
+  bool has_stmt;
+} _ClassDefine__isset;
+
+class ClassDefine {
+ public:
+
+  static const char* ascii_fingerprint; // = "60C8B7522A9473DE859C625B1854C6CC";
+  static const uint8_t binary_fingerprint[16]; // = {0x60,0xC8,0xB7,0x52,0x2A,0x94,0x73,0xDE,0x85,0x9C,0x62,0x5B,0x18,0x54,0xC6,0xCC};
+
+  ClassDefine() : has_attr(0), has_baseclass(0), has_interface(0), has_stmt(0) {
+  }
+
+  virtual ~ClassDefine() throw() {}
+
+  bool has_attr;
+  bool has_baseclass;
+  bool has_interface;
+  bool has_stmt;
+
+  _ClassDefine__isset __isset;
+
+  bool operator == (const ClassDefine & rhs) const
+  {
+    if (!(has_attr == rhs.has_attr))
+      return false;
+    if (!(has_baseclass == rhs.has_baseclass))
+      return false;
+    if (!(has_interface == rhs.has_interface))
+      return false;
+    if (!(has_stmt == rhs.has_stmt))
+      return false;
+    return true;
+  }
+  bool operator != (const ClassDefine &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ClassDefine & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
 typedef struct _BinaryExpression__isset {
   _BinaryExpression__isset() : op(false) {}
   bool op;

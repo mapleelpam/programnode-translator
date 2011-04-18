@@ -2891,6 +2891,14 @@ uint32_t AstDumper_startClassDefine_args::read(::apache::thrift::protocol::TProt
     }
     switch (fid)
     {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->class_define.read(iprot);
+          this->__isset.class_define = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -2906,6 +2914,9 @@ uint32_t AstDumper_startClassDefine_args::read(::apache::thrift::protocol::TProt
 uint32_t AstDumper_startClassDefine_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   xfer += oprot->writeStructBegin("AstDumper_startClassDefine_args");
+  xfer += oprot->writeFieldBegin("class_define", ::apache::thrift::protocol::T_STRUCT, 1);
+  xfer += this->class_define.write(oprot);
+  xfer += oprot->writeFieldEnd();
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -2914,6 +2925,9 @@ uint32_t AstDumper_startClassDefine_args::write(::apache::thrift::protocol::TPro
 uint32_t AstDumper_startClassDefine_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   xfer += oprot->writeStructBegin("AstDumper_startClassDefine_pargs");
+  xfer += oprot->writeFieldBegin("class_define", ::apache::thrift::protocol::T_STRUCT, 1);
+  xfer += (*(this->class_define)).write(oprot);
+  xfer += oprot->writeFieldEnd();
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -4351,17 +4365,18 @@ void AstDumperClient::send_endStmtList()
   oprot_->getTransport()->flush();
 }
 
-void AstDumperClient::startClassDefine()
+void AstDumperClient::startClassDefine(const ClassDefine& class_define)
 {
-  send_startClassDefine();
+  send_startClassDefine(class_define);
 }
 
-void AstDumperClient::send_startClassDefine()
+void AstDumperClient::send_startClassDefine(const ClassDefine& class_define)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("startClassDefine", ::apache::thrift::protocol::T_CALL, cseqid);
 
   AstDumper_startClassDefine_pargs args;
+  args.class_define = &class_define;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -6633,7 +6648,7 @@ void AstDumperProcessor::process_startClassDefine(int32_t seqid, ::apache::thrif
   }
 
   try {
-    iface_->startClassDefine();
+    iface_->startClassDefine(args.class_define);
   } catch (const std::exception& e) {
     if (eventHandler_.get() != NULL) {
       eventHandler_->handlerError(ctx, "AstDumper.startClassDefine");

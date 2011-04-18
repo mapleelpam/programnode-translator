@@ -48,22 +48,29 @@ struct ClassDefine : public Interpreter, public TemplatePrinter
 			std::string class_stmt = dispatchExpound(_class_define_->classStmt(), ctx);
 		ctx->tree_depth --;
 
+		std::string class_inherit = "";
+		if( _class_define_->hasBaseClass() ){
+			class_inherit = " : public "+ dispatchExpound(_class_define_->node_childs[1], ctx);
+		}
+
 		std::list<PatternPtr> patterns;
 
 		patterns.push_back( PatternPtr( new Pattern("class_name", class_name ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_stmt", class_stmt ) ));
+		patterns.push_back( PatternPtr( new Pattern("class_inherit", class_inherit ) ));
 
 		patterns.push_back( PatternPtr( new Pattern("endl", ctx->endl() ) ));
 		patterns.push_back( PatternPtr( new Pattern("indent_tab", ctx->indent()) ));
 
-		return substitutePatterns( patterns );
+		std::string result = substitutePatterns( patterns );
 
+		return result;
 	}
 
 	ClassDefine()
 		: TemplatePrinter("ClassDefine")
 	{
-		setTemplateString( "%indent_tab%class %class_name%%endl%%indent_tab%{%endl%"
+		setTemplateString( "%indent_tab%class %class_name% %class_inherit% %endl%%indent_tab%{%endl%"
 							"%class_stmt%"
 							"%indent_tab%};%endl%" )
 							;

@@ -143,11 +143,14 @@ public:
 
   void startFunctionDefinition() {
 
-      printf(" %lu startFunctionDefinition\n", _node_stack.size() );
+//      printf(" %lu startFunctionDefinition\n", _node_stack.size() );
+//
+//      as::ast::FunctionDefinitionPtr func_def( new as::ast::FunctionDefinition() );
+//      _node_stack . top() -> addNodeChild( func_def );
+//      _node_stack . push( func_def );
 
-      as::ast::FunctionDefinitionPtr func_def( new as::ast::FunctionDefinition() );
-      _node_stack . top() -> addNodeChild( func_def );
-      _node_stack . push( func_def );
+      PUSH_STACK( FunctionDefinition );
+
   }
 
   void startFunctionName() {
@@ -194,11 +197,7 @@ public:
   }
 
   void startFunctionSignatureParameterMember() {
-
-      printf(" %lu startFunctionSignatureParameterMember\n", _node_stack.size() );
-      as::ast::FunctionParameterItemPtr fsig( new as::ast::FunctionParameterItem );
-      _node_stack . top() -> addNodeChild( fsig );
-      _node_stack . push( fsig );
+      PUSH_STACK( FunctionParameterItem );
   }
 
   void endFunctionSignatureParameterMember() {
@@ -214,12 +213,8 @@ public:
   }
 
   void startFunctionSignatureReturnType() {
+      PUSH_STACK( FunctionReturnType );
 
-      printf(" %lu startFunctionSignatureReturnType\n", _node_stack.size() );
-
-      as::ast::FunctionReturnTypePtr exp_list( new as::ast::FunctionReturnType );
-      _node_stack . top() -> addNodeChild( exp_list );
-      _node_stack . push( exp_list );
   }
 
   void endFunctionSignatureReturnType() {
@@ -381,7 +376,7 @@ public:
 
   void identifierExpression(const generated::Identifier& id)
   {
-      std::cout << _node_stack.size() << "  identifierExpression"  <<" -> "<< _node_stack.top()->toString()<<":"<<_node_stack.top()->node_childs.size()<< std::endl;
+      std::cout << _node_stack.size() << "  identifierExpression"  <<" -> "<< _node_stack.top()->toString()<<":"<<_node_stack.top()->node_childs.size()<<":"<<id.name<< std::endl;
       as::ast::IdentifierPtr exp_id( new as::ast::Identifier(id.name) );
       _node_stack . top () -> addNodeChild( exp_id);
   }
@@ -470,12 +465,16 @@ public:
       CHECK_STACK_AND_POP( IfStatement_Else, AST::Node::NodeType::T_IF_STMT_ELSE );
   }
 
-  void startClassDefine()
+  void startClassDefine( const generated::ClassDefine& class_define )
   {
       printf(" %lu startClassDefine\n", _node_stack.size() );
       as::ast::ClassDefinePtr exp_list( new as::ast::ClassDefine );
+
       _node_stack . top() -> addNodeChild( exp_list );
       _node_stack . push( exp_list );
+
+      exp_list->setHasBaseClass( class_define.has_baseclass );
+      exp_list->setHasInterface( class_define.has_interface );
   }
   void startClassName()
     {

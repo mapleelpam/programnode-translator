@@ -7,7 +7,7 @@ package abc
 {
     function hello( ):void
     {
-        printf(" hello ");
+        wprintf(" hello ");
     }
 
     function main( ) : int

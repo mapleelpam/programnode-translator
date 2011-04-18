@@ -215,6 +215,93 @@ uint32_t CallExpression::write(::apache::thrift::protocol::TProtocol* oprot) con
   return xfer;
 }
 
+const char* ClassDefine::ascii_fingerprint = "60C8B7522A9473DE859C625B1854C6CC";
+const uint8_t ClassDefine::binary_fingerprint[16] = {0x60,0xC8,0xB7,0x52,0x2A,0x94,0x73,0xDE,0x85,0x9C,0x62,0x5B,0x18,0x54,0xC6,0xCC};
+
+uint32_t ClassDefine::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->has_attr);
+          this->__isset.has_attr = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->has_baseclass);
+          this->__isset.has_baseclass = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->has_interface);
+          this->__isset.has_interface = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->has_stmt);
+          this->__isset.has_stmt = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ClassDefine::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  xfer += oprot->writeStructBegin("ClassDefine");
+  xfer += oprot->writeFieldBegin("has_attr", ::apache::thrift::protocol::T_BOOL, 1);
+  xfer += oprot->writeBool(this->has_attr);
+  xfer += oprot->writeFieldEnd();
+  xfer += oprot->writeFieldBegin("has_baseclass", ::apache::thrift::protocol::T_BOOL, 2);
+  xfer += oprot->writeBool(this->has_baseclass);
+  xfer += oprot->writeFieldEnd();
+  xfer += oprot->writeFieldBegin("has_interface", ::apache::thrift::protocol::T_BOOL, 3);
+  xfer += oprot->writeBool(this->has_interface);
+  xfer += oprot->writeFieldEnd();
+  xfer += oprot->writeFieldBegin("has_stmt", ::apache::thrift::protocol::T_BOOL, 4);
+  xfer += oprot->writeBool(this->has_stmt);
+  xfer += oprot->writeFieldEnd();
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
 const char* BinaryExpression::ascii_fingerprint = "EFB929595D312AC8F305D5A794CFEDA1";
 const uint8_t BinaryExpression::binary_fingerprint[16] = {0xEF,0xB9,0x29,0x59,0x5D,0x31,0x2A,0xC8,0xF3,0x05,0xD5,0xA7,0x94,0xCF,0xED,0xA1};
 

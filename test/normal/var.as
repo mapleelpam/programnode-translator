@@ -14,7 +14,7 @@ package abc
 
     function main( ) : int
     {
-        printf(" %d ", sum_add_one(1,2)); // CHECK: 4
-        printf(" %d ", sum_add_one(10,2)); // CHECK: 13
+        wprintf(" %d ", sum_add_one(1,2)); // CHECK: 4
+        wprintf(" %d ", sum_add_one(10,2)); // CHECK: 13
     }
 }

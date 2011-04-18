@@ -44,10 +44,14 @@ struct StatementList : public Interpreter
 
 		bool is_first = true;
         int _idx = 0;
+		printf("%s:%d\n",__FILE__,__LINE__);
+
 		for (std::vector<std::tr1::shared_ptr<AST::Node> >::iterator nItr =
 				node->node_childs.begin(); nItr != node->node_childs.end(); nItr++)
 		{
-            std::cerr << " in stmt list's interpret - "<<ctx->tree_depth.toInt() << " ---- counter "<<_idx++<< " listsize "<<node->node_childs.size()<<std::endl;
+			printf("%s:%d\n",__FILE__,__LINE__);
+
+            std::cerr << "@@in stmt list's interpret - "<<ctx->tree_depth.toInt() << " ---- counter "<<_idx++<< " listsize "<<node->node_childs.size()<<std::endl;
 			result += dispatchExpound(*nItr, ctx);
 
 			// Tail Dirty Flag Handle
@@ -55,9 +59,14 @@ struct StatementList : public Interpreter
 				is_first = false;
 			else
 				result += "\n";
+			printf("%s:%d\n",__FILE__,__LINE__);
+
 		}
 
 		ctx->tree_depth --;
+
+		printf("%s:%d\n",__FILE__,__LINE__);
+
 
 		return result;
 	}

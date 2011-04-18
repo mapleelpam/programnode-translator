@@ -8,7 +8,7 @@ package abc
 
     function main( ) : int
     {
-        printf(" %d\n", true );  // CHECK: 1
-        printf(" %d\n", false );  // CHECK: 0
+        wprintf(" %d\n", true );  // CHECK: 1
+        wprintf(" %d\n", false );  // CHECK: 0
     }
 }

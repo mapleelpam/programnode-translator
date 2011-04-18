@@ -35,13 +35,13 @@ namespace tw { namespace maple { namespace as { namespace ast {
 struct ClassInheritBase : public Statement
 {
 	ClassInheritBase() :
-		Statement(Node::NodeType::T_CLASS_DEFINE_NAME) {
+		Statement(Node::NodeType::T_COMP_CLASS_BASE) {
 	}
 	int stmtType() {
 		return _node_type;
 	}
 
-	std::string toString()  {	return "node::CLASS_NAME"; };
+	std::string toString()  {	return "node::CLASS_BASE"; };
 };
 typedef std::tr1::shared_ptr<ClassInheritBase> ClassInheritBasePtr;
 

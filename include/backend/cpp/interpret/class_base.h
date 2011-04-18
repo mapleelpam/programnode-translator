@@ -23,45 +23,39 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_LITERAL_STRING_H__
-#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_LITERAL_STRING_H__
+#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_CLASS_BASE_H__
+#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_CLASS_BASE_H__
 
-#include <as/ast/expression.h>
+#include <as/ast/class_base.h>
+#include <as/ast/call.h>
 #include <backend/cpp/interpret/interpreter.h>
-#include <as/ast/literal_string.h>
-#include <global.h>
+#include <backend/cpp/template_printer.h>
 
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
-// Abstract
-struct LiteralString : public Interpreter
+namespace AST = ::tw::maple::as::ast;
+
+struct ClassInheritBase : public Interpreter
 {   
+
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
 	{
-		SHARED_PTR(AST::LiteralString) li = std::tr1::static_pointer_cast<AST::LiteralString>(node);
+		AST::ClassInheritBasePtr _class_base_ = STATIC_CAST( AST::ClassInheritBase, node);
 
-		_replace_string( li->value, "\n", "\\n");
-		return  "L\"" + li->value + "\"";
+		std::string class_name = dispatchExpound(_class_base_->node_childs[0], ctx);
+
+		return class_name;
 	}
 
-private:
-	static void _replace_string(
-	    std::string &s, const std::string &SearchString, const std::string &ReplaceString
-	    )
+	ClassInheritBase()
 	{
-	    std::string::size_type p = 0;
-	    while((p = s.find(SearchString, p)) != std::string::npos)
-	    {
-	        s.replace(p, SearchString.size(), ReplaceString);
-	        p++;
-	    }
 	}
+};
 
 };
 
 
-} } } } }
+} } } } 
 
 #endif 
-

@@ -24,15 +24,15 @@ package abc
 
     function main( ) : int
     {
-        printf(" %d\n", unary_minus(1)); // CHECK: -1
-        printf(" %d\n", unary_minus(-11)); // CHECK: 11
-        printf(" %d\n", unary_minus(-4)); // CHECK: 4
+        wprintf(" %d\n", unary_minus(1)); // CHECK: -1
+        wprintf(" %d\n", unary_minus(-11)); // CHECK: 11
+        wprintf(" %d\n", unary_minus(-4)); // CHECK: 4
 
-        printf(" %d\n", unary_plus(1)); // CHECK: 1
-        printf(" %d\n", unary_plus(-11)); // CHECK: -11
-        printf(" %d\n", unary_plus(-4)); // CHECK: -4
+        wprintf(" %d\n", unary_plus(1)); // CHECK: 1
+        wprintf(" %d\n", unary_plus(-11)); // CHECK: -11
+        wprintf(" %d\n", unary_plus(-4)); // CHECK: -4
 
-        printf(" %d\n", unary_not(0)); // CHECK: 1
-        printf(" %d\n", unary_logical_not(1)); // CHECK: -2
+        wprintf(" %d\n", unary_not(0)); // CHECK: 1
+        wprintf(" %d\n", unary_logical_not(1)); // CHECK: -2
     }
 }
