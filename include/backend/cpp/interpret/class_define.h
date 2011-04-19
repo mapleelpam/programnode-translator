@@ -49,10 +49,13 @@ struct ClassDefine : public Interpreter, public TemplatePrinter
 		ctx->tree_depth --;
 
 		std::string class_inherit = "";
+		std::string class_inherit_token = "";
 		if( _class_define_->hasBaseClass() ){
-			class_inherit = " : public "+ dispatchExpound(_class_define_->node_childs[1], ctx);
+			class_inherit = dispatchExpound(_class_define_->node_childs[1], ctx);
+			class_inherit_token = " : public ";
 		} else if( _default_base_object != ""){
-			class_inherit = " : public "+_default_base_object;
+			class_inherit = _default_base_object;
+			class_inherit_token = " : public ";
 		}
 
 		std::list<PatternPtr> patterns;
@@ -60,6 +63,7 @@ struct ClassDefine : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("class_name", class_name ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_stmt", class_stmt ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_inherit", class_inherit ) ));
+		patterns.push_back( PatternPtr( new Pattern("class_inherit_token", class_inherit_token ) ));
 
 		patterns.push_back( PatternPtr( new Pattern("endl", ctx->endl() ) ));
 		patterns.push_back( PatternPtr( new Pattern("indent_tab", ctx->indent()) ));
@@ -73,7 +77,7 @@ struct ClassDefine : public Interpreter, public TemplatePrinter
 		: TemplatePrinter("ClassDefine")
 		, _default_base_object("")
 	{
-		setTemplateString( "%indent_tab%class %class_name% %class_inherit% %endl%%indent_tab%{%endl%"
+		setTemplateString( "%indent_tab%class %class_name% %class_inherit_token% %class_inherit% %endl%%indent_tab%{%endl%"
 							"%class_stmt%"
 							"%indent_tab%};%endl%" )
 							;
