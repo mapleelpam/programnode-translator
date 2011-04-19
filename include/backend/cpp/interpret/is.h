@@ -52,7 +52,6 @@ struct Is : public Interpreter, public TemplatePrinter
 	Is()
 		: TemplatePrinter("Is")
 	{
-//		setTemplateString( "(%instance_name%)->is(\"%type_name%\" )" );
 		setTemplateString( "false/*not support instanceof*/" );
 	}
 private:

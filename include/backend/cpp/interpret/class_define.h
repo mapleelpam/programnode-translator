@@ -77,9 +77,9 @@ struct ClassDefine : public Interpreter, public TemplatePrinter
 		: TemplatePrinter("ClassDefine")
 		, _default_base_object("")
 	{
-		setTemplateString( "%(indent_tab)class %(class_name) %(class_inherit_token) %(class_inherit) %(endl)%(indent_tab){%(endl)"
-							"%(class_stmt)"
-							"%(indent_tab)};%(endl)" )
+		setTemplateString( "#(indent_tab)class #(class_name) #(class_inherit_token) #(class_inherit) #(endl)#(indent_tab){#(endl)"
+							"#(class_stmt)"
+							"#(indent_tab)};#(endl)" )
 							;
 	}
 

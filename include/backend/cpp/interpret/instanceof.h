@@ -52,7 +52,6 @@ struct InstanceOf : public Interpreter, public TemplatePrinter
 	InstanceOf()
 		: TemplatePrinter("InstanceOf")
 	{
-//		setTemplateString( "(%instance_name%)->isInstanceOf(\"%type_name%\" )" );
 		setTemplateString( "false/*not support instanceof*/" );
 	}
 private:

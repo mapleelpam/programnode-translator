@@ -51,7 +51,7 @@ public:
 	{
 		std::string out = in;
 		for( std::list<PatternPtr>::iterator itr = patterns.begin() ; itr != patterns.end() ; itr ++)
-			out = _replace_string( out, "%("+(*itr)->pattern+")", (*itr)->content );
+			out = _replace_string( out, "#("+(*itr)->pattern+")", (*itr)->content );
 
 		return out;
 	}
