@@ -55,9 +55,9 @@ struct IfStatement : public Interpreter, public TemplatePrinter
 	IfStatement()
 		: TemplatePrinter("IfStatement")
 	{
-		setTemplateString( "%indent_tab%if(%if_condition%){%endl%"
-							"%then_stmt%%indent_tab%}else{%endl%"
-							"%else_stmt%%indent_tab%}%endl%" );
+		setTemplateString( "%(indent_tab)if(%(if_condition)){%(endl)"
+							"%(then_stmt)%(indent_tab)}else{%(endl)"
+							"%(else_stmt)%(indent_tab)}%(endl)" );
 	}
 
 };

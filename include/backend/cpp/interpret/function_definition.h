@@ -73,9 +73,9 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 	FunctionDefinition()
 		: TemplatePrinter("FunctionDefinition")
 	{
-		setTemplateString( "%indent_tab%%func_ret_type% %func_name%(%func_parameters%)%endl%%indent_tab%{%endl%"
-							"%func_body%"
-							"%indent_tab%}%endl%" )
+		setTemplateString( "%(indent_tab)%(func_ret_type) %(func_name)(%(func_parameters))%(endl)%(indent_tab){%(endl)"
+							"%(func_body)"
+							"%(indent_tab)}%(endl)" )
 							;
 	}
 };

@@ -48,8 +48,6 @@ struct StatementList : public Interpreter
 		for (std::vector<std::tr1::shared_ptr<AST::Node> >::iterator nItr =
 				node->node_childs.begin(); nItr != node->node_childs.end(); nItr++)
 		{
-
-            std::cerr << "@@in stmt list's interpret - "<<ctx->tree_depth.toInt() << " ---- counter "<<_idx++<< " listsize "<<node->node_childs.size()<<std::endl;
 			result += dispatchExpound(*nItr, ctx);
 
 			// Tail Dirty Flag Handle

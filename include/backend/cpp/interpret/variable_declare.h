@@ -69,12 +69,12 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 
 	VariableDeclare()
 		: TemplatePrinter("VariableDeclare")
-		, _default_type_mapper("%type_name%*")
+		, _default_type_mapper("%(type_name)*")
 	{
 		_primitive_type_mapper[ "int" ] = "int";
 		_primitive_type_mapper[ "float" ] = "float";
 
-		setTemplateString( "%indent_tab%%var_type% %var_name% %var_init%;%endl%" );
+		setTemplateString( "%(indent_tab)%(var_type) %(var_name) %(var_init);%(endl)" );
 //		setTemplateString( "%indent_tab%%var_type% %var_name%;%endl%" );
 	}
 
@@ -109,7 +109,7 @@ private:
 	{
 		StringMap::iterator sitr = _primitive_type_mapper.find( type_name );
 		if( sitr == _primitive_type_mapper.end() ){
-			return _replace_string( _default_type_mapper, "%type_name%", type_name);
+			return _replace_string( _default_type_mapper, "%(type_name)", type_name);
 		} else {
 			return sitr -> second;
 		}
