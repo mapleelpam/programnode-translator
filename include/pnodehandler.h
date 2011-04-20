@@ -75,6 +75,9 @@
 #include <as/ast/class_stmt.h>
 #include <as/ast/class_base.h>
 #include <as/ast/class_interface.h>
+#include <as/ast/attribute_list.h>
+
+#include <as/ast/function_attribute.h>
 
 using namespace apache::thrift;
 using namespace apache::thrift::protocol;
@@ -475,7 +478,10 @@ public:
 
       exp_list->setHasBaseClass( class_define.has_baseclass );
       exp_list->setHasInterface( class_define.has_interface );
+      exp_list->setHasAttribute( class_define.has_attr );
+
   }
+
   void startClassName()
     {
         printf(" %lu startClassName\n", _node_stack.size() );
@@ -500,6 +506,20 @@ public:
   void endClassStmt() {
         CHECK_STACK_AND_POP( ClassStmt, AST::Node::NodeType::T_CLASS_DEFINE_STMT );
     }
+
+  void startAttributeList() {
+		PUSH_STACK( AttributeList );
+  }
+  void endAttributelist() {
+	  CHECK_STACK_AND_POP( AttributeList, AST::Node::NodeType::T_COMP_CLASS_ATTRIBUTE );
+  }
+  void startFunctionAttribute() {
+		PUSH_STACK( FunctionAttribute );
+  }
+  void endFunctionAttribute() {
+	  CHECK_STACK_AND_POP( FunctionAttribute, AST::Node::NodeType::T_COMP_FUNCTION_ATTRIBUTE );
+  }
+
 public:
    as::ast::ProgramPtr getProgramNode() {	return _program_root;	};
 

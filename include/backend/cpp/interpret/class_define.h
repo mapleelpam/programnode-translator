@@ -51,7 +51,7 @@ struct ClassDefine : public Interpreter, public TemplatePrinter
 		std::string class_inherit = "";
 		std::string class_inherit_token = "";
 		if( _class_define_->hasBaseClass() ){
-			class_inherit = dispatchExpound(_class_define_->node_childs[1], ctx);
+			class_inherit = dispatchExpound(_class_define_->classInherit(), ctx);
 			class_inherit_token = " : public ";
 		} else if( _default_base_object != ""){
 			class_inherit = _default_base_object;

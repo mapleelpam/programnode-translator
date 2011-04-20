@@ -47,6 +47,16 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("startFunctionDefinition\n");
   }
 
+  void startFunctionAttribute() {
+    // Your implementation goes here
+    printf("startFunctionAttribute\n");
+  }
+
+  void endFunctionAttribute() {
+    // Your implementation goes here
+    printf("endFunctionAttribute\n");
+  }
+
   void startFunctionName() {
     // Your implementation goes here
     printf("startFunctionName\n");
@@ -345,6 +355,16 @@ class AstDumperHandler : virtual public AstDumperIf {
   void endClassDefine() {
     // Your implementation goes here
     printf("endClassDefine\n");
+  }
+
+  void startAttributeList() {
+    // Your implementation goes here
+    printf("startAttributeList\n");
+  }
+
+  void endAttributelist() {
+    // Your implementation goes here
+    printf("endAttributelist\n");
   }
 
 };

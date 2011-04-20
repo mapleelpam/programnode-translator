@@ -97,6 +97,10 @@ struct Node
             T_COMP_CLASS_INTERFACE,
             T_COMP_CLASS_BASE,
 
+            T_COMP_CLASS_ATTRIBUTE,
+
+            T_COMP_FUNCTION_ATTRIBUTE,
+
             T_NODE_TYPE_END,
         };
     };

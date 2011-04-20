@@ -29,6 +29,7 @@
 #include <as/ast/function_definition.h>
 #include <as/ast/function_signature.h>
 #include <as/ast/function_rettype.h>
+#include <as/ast/function_attribute.h>
 #include <as/ast/function_common.h>
 #include <as/ast/call.h>
 #include <backend/cpp/interpret/interpreter.h>
@@ -45,10 +46,8 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		std::string result;
 
 		AST::FunctionDefinitionPtr fdef = STATIC_CAST( AST::FunctionDefinition, node);
-
-//		std::tr1::shared_ptr < AST::FunctionCommon > fcommon= std::tr1::static_pointer_cast<AST::FunctionCommon>( fdef -> FunctionCommon());
+		AST::FunctionAttributePtr fattr = STATIC_CAST( AST::FunctionAttribute, fdef->FunctionAttr());
 		AST::FunctionCommonPtr  fcommon = STATIC_CAST( AST::FunctionCommon, fdef -> FunctionCommon());
-
 
 		// Function Return Type
 		std::tr1::shared_ptr < AST::FunctionSignature > fsig
@@ -60,7 +59,15 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 
 		std::list<PatternPtr> patterns;
 
-		patterns.push_back( PatternPtr( new Pattern("func_name", dispatchExpound(fdef->FunctionName(), ctx) ) ));
+
+		std::string str_func_name = dispatchExpound(fdef->FunctionName(), ctx) ;
+
+		std::string str_function_attribute = dispatchExpound( fattr, ctx) ;
+		if( str_function_attribute != "")
+			str_function_attribute+=":";
+
+		patterns.push_back( PatternPtr( new Pattern("function_attribute", str_function_attribute+ ctx->endl()) ));
+		patterns.push_back( PatternPtr( new Pattern("func_name", str_func_name+ "   ") ));
 		patterns.push_back( PatternPtr( new Pattern("func_body", dispatchExpound(fcommon->FunctionBody(), ctx) ) ));
 		patterns.push_back( PatternPtr( new Pattern("func_parameters", str_func_parameters ) ));
 		patterns.push_back( PatternPtr( new Pattern("func_ret_type", dispatchExpound(fsig->FunctionReturnType(), ctx) ) ) );
@@ -73,7 +80,8 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 	FunctionDefinition()
 		: TemplatePrinter("FunctionDefinition")
 	{
-		setTemplateString( "#(indent_tab)#(func_ret_type) #(func_name)(#(func_parameters))#(endl)#(indent_tab){#(endl)"
+		setTemplateString(  "#(function_attribute)"
+							"#(indent_tab)#(func_ret_type) #(func_name)(#(func_parameters))#(endl)#(indent_tab){#(endl)"
 							"#(func_body)"
 							"#(indent_tab)}#(endl)" )
 							;

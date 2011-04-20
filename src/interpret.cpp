@@ -128,6 +128,12 @@ void initializeInterpreters()
 
 		interpreterResolver[AST::Node::NodeType::T_COMP_CLASS_BASE]
 				= new ClassInheritBase();
+
+		interpreterResolver[AST::Node::NodeType::T_COMP_CLASS_ATTRIBUTE]
+				= new Interpreter();
+
+		interpreterResolver[AST::Node::NodeType::T_COMP_FUNCTION_ATTRIBUTE]
+				= new Interpreter();
 	}
 }
 

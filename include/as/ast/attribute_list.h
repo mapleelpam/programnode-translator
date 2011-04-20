@@ -18,41 +18,30 @@
  */
 
 // ProgrameNode Translator
-// Copyright 2010 mapleellpam@gmail.com.  All rights reserved.
+// Copyright 2011 mapleellpam@gmail.com.  All rights reserved.
 // https://github.com/mapleelpam/programnode-translator
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-
-#ifndef __AS_AST_FUNCTION_DEFINITION_H__
-#define __AS_AST_FUNCTION_DEFINITION_H__
+#ifndef __TW_MAPLE_AS_AST_NODE_COMP_CLASS_ATTR_H__
+#define __TW_MAPLE_AS_AST_NODE_COMP_CLASS_ATTR_H__
 
 #include <tr1/memory>
 #include <as/ast/statement.h>
 
+
 namespace tw { namespace maple { namespace as { namespace ast {
 
-// Abstract
-struct FunctionDefinition: public Statement
+struct AttributeList : public Node
 {
-	FunctionDefinition() :
-		Statement(Node::NodeType::T_FUNCTION_DEFINITION) {
-
+	AttributeList() :
+		Node(Node::NodeType::T_COMP_CLASS_ATTRIBUTE) {
 	}
-    int stmtType()   {   return Node::NodeType::T_FUNCTION_DEFINITION;  }
 
 
-    // Public Assert !!
-    NodePtr FunctionAttr(){	return node_childs[0];	}
-    NodePtr FunctionName(){	return node_childs[1];	}
-//    NodePtr FunctionSignature(){	return node_childs[1];	}
-    NodePtr FunctionCommon(){	return node_childs[2];	}
-
-    std::string toString()  {	return "node::function_definition"; };
-    bool check(){	return node_childs.size() == 3;	};
+	std::string toString()  {	return "node::comp_attr_list"; };
 };
-
-typedef SHARED_PTR(FunctionDefinition) FunctionDefinitionPtr;
+typedef std::tr1::shared_ptr<AttributeList> AttributeListPtr;
 
 
 } } } }

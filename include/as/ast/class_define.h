@@ -35,27 +35,50 @@ namespace tw { namespace maple { namespace as { namespace ast {
 struct ClassDefine : public Statement
 {
 	ClassDefine() :
-		Statement(Node::NodeType::T_CLASS_DEFINE) {
+		Statement(Node::NodeType::T_CLASS_DEFINE)
+	 	, _has_base_class( false )
+		, _has_base_interface( false )
+		, _has_attribute( false )
+	{
 	}
-	int stmtType() {
-		return _node_type;
+
+	NodePtr classAttribute(){
+		return _has_base_class?  node_childs[0] :NodePtr();
 	}
-	NodePtr className(){	return node_childs[0];	}
-	NodePtr classStmt(){	return node_childs[ node_childs.size() - 1];	}
-//	NodePtr ifCondition(){	return node_childs[0];	}
-//	NodePtr ifThen(){	return node_childs[1];	}
-//	NodePtr ifElse(){	if(node_childs.size()<3)	return NodePtr(); else return node_childs[2];	}
+	NodePtr className(){
+		unsigned idx = 0;
+		if( _has_attribute ) idx ++;
+		return node_childs[idx];
+	}
+	NodePtr classStmt(){
+		return node_childs[ node_childs.size() - 1];
+	}
+
+
+	NodePtr classInherit(){
+		unsigned idx = 0;
+		if( _has_attribute ) idx ++;
+		if( _has_base_class ) idx ++;
+		else
+			return NodePtr();
+
+		std::cout << "in class define - class inherit : "<<idx << std::endl;
+		return node_childs[idx];
+	}
 
 	std::string toString()  {	return "node::class_define"; };
 
 	void setHasBaseClass( bool b )	{	_has_base_class = b;	}
 	void setHasInterface( bool b )	{	_has_base_interface = b;	}
+	void setHasAttribute( bool b )	{	_has_attribute = b;	}
 
 	bool hasBaseClass()	{	return _has_base_class; }
 	bool hasInterface()	{	return _has_base_interface;}
+	bool hasAttribute()	{	return _has_attribute;	}
 private:
 	bool _has_base_class;
 	bool _has_base_interface;
+	bool _has_attribute;
 };
 typedef std::tr1::shared_ptr<ClassDefine> ClassDefinePtr;
 
