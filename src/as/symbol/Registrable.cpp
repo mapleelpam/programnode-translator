@@ -1,4 +1,11 @@
 /*
+ * Symbol.cpp
+ *
+ *  Created on: Apr 21, 2011
+ *      Author: maple
+ */
+
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements. See the NOTICE file
  * distributed with this work for additional information
@@ -24,37 +31,27 @@
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
 
-#ifndef __TW_MAPLE_AS_SYMBOL_SCOPE_H__
-#define __TW_MAPLE_AS_SYMBOL_SCOPE_H__
-
 #include <boost/assert.hpp>
 #include <string>
 #include <as/symbol/Symbol.h>
+#include <as/symbol/Scope.h>
 #include <as/symbol/Registrable.h>
 
 namespace tw { namespace maple { namespace as { namespace symbol {
 
-struct Scope : public Symbol, public Registrable
+Scope* Registrable::addFunction(std::string Name)
 {
-	enum Properties
-	{
-		T_PACKAGE,
-		T_FUNCTIONE,
-		T_CLASS,
-	};
 
-	Scope( std::string n )
-		: Symbol( n )
-	{
-		Registrable::setInstance( this );
+}
+Scope* Registrable::addPakage(std::string Name)
+{
 
-	}
+}
+Symbol* Registrable::addVariable(std::string Name)
+{
 
-};
+}
 
 
 }}}}//tw/maple/as/symbol
-
-#endif
-
 

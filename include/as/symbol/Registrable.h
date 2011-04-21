@@ -24,37 +24,32 @@
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
 
-#ifndef __TW_MAPLE_AS_SYMBOL_SCOPE_H__
-#define __TW_MAPLE_AS_SYMBOL_SCOPE_H__
+#ifndef __TW_MAPLE_AS_SYMBOL_REGISTRABLE_H__
+#define __TW_MAPLE_AS_SYMBOL_REGISTRABLE_H__
 
 #include <boost/assert.hpp>
 #include <string>
 #include <as/symbol/Symbol.h>
-#include <as/symbol/Registrable.h>
 
 namespace tw { namespace maple { namespace as { namespace symbol {
 
-struct Scope : public Symbol, public Registrable
+class Scope;
+struct Registrable
 {
-	enum Properties
-	{
-		T_PACKAGE,
-		T_FUNCTIONE,
-		T_CLASS,
-	};
+friend class Scope;
+public:
+	Scope* addFunction( std::string Name );
+	Scope* addPakage( std::string Name );
+	Symbol* addVariable( std::string Name );
 
-	Scope( std::string n )
-		: Symbol( n )
-	{
-		Registrable::setInstance( this );
-
-	}
+	Registrable() : _me(NULL) {}
+private:
+	void setInstance( Scope* me ) { _me = me; }
+	const Scope* _me;
 
 };
-
 
 }}}}//tw/maple/as/symbol
 
 #endif
-
 

@@ -24,28 +24,14 @@
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
 
-#ifndef __TW_MAPLE_AS_SYMBOL_SYMBOL_H__
-#define __TW_MAPLE_AS_SYMBOL_SYMBOL_H__
+#ifndef __TW_MAPLE_AS_SYMBOL__SYMBOL_H__
+#define __TW_MAPLE_AS_SYMBOL__SYMBOL_H__
 
 #include <boost/assert.hpp>
 #include <string>
+#include <stdlib.h>
 
-//namespace zs = zillians::zscript;
 namespace tw { namespace maple { namespace as { namespace symbol {
-
-class Symbol;
-class Scope;
-struct Registrable
-{
-public:
-	Scope* addFunction( std::string Name );
-	Scope* addPakage( std::string Name );
-	Symbol* addVariable( std::string Name );
-
-	Registrable( Scope* me ) : _me(me) {}
-private:
-	const Scope* _me;
-};
 
 struct Symbol
 {
@@ -61,7 +47,6 @@ struct Symbol
 	Symbol( std::string n )
 		: _m_name( n )
 	{
-
 	}
 
 private:
@@ -69,9 +54,7 @@ private:
 };
 
 
-};//Symbol
-
-}}}//tw/maple/as/symbol
+}}}}//tw/maple/as/symbol
 
 #endif
 
