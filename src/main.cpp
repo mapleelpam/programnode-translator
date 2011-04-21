@@ -40,6 +40,9 @@
 #include <boost/program_options/parsers.hpp>
 #include <boost/program_options/value_semantic.hpp>
 
+#include <as/symbol/Scope.h>
+#include <as/symbol/Symbol.h>
+
 //namespace po = boost::program_options;
 
 class MajorClass : public tw::maple::service::ArgElemenRequest
