@@ -39,17 +39,23 @@
 
 namespace tw { namespace maple { namespace as { namespace symbol {
 
-Scope* Registrable::addFunction(std::string Name)
+Scope* Registrable::addFunction(std::string name )
 {
-
+	ScopePtr s( new Scope( name ) );
+	s -> setProperties( Scope::T_FUNCTIONE);
+	_m_childs . push_back( s );
 }
-Scope* Registrable::addPakage(std::string Name)
+Scope* Registrable::addPakage(std::string name)
 {
-
+	ScopePtr s( new Scope( name ) );
+	s -> setProperties( Scope::T_PACKAGE);
+	_m_childs . push_back( s );
 }
-Symbol* Registrable::addVariable(std::string Name)
+Symbol* Registrable::addVariable(std::string name)
 {
-
+//	ScopePtr s( new Scope( name ) );
+//	s -> setProperties( Scope::T_FUNCTIONE);
+//	_m_childs . push_back( s );
 }
 
 

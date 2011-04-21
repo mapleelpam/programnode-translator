@@ -30,6 +30,7 @@
 #include <boost/assert.hpp>
 #include <string>
 #include <stdlib.h>
+#include <global.h>
 
 namespace tw { namespace maple { namespace as { namespace symbol {
 
@@ -53,6 +54,7 @@ private:
 	std::string _m_name;
 };
 
+typedef SHARED_PTR(Symbol) SymbolPtr;
 
 }}}}//tw/maple/as/symbol
 

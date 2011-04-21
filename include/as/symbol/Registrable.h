@@ -29,6 +29,7 @@
 
 #include <boost/assert.hpp>
 #include <string>
+#include <list>
 #include <as/symbol/Symbol.h>
 
 namespace tw { namespace maple { namespace as { namespace symbol {
@@ -47,6 +48,7 @@ private:
 	void setInstance( Scope* me ) { _me = me; }
 	const Scope* _me;
 
+	std::list<SymbolPtr>	_m_childs;
 };
 
 }}}}//tw/maple/as/symbol

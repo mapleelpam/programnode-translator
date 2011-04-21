@@ -38,19 +38,26 @@ struct Scope : public Symbol, public Registrable
 {
 	enum Properties
 	{
-		T_PACKAGE,
-		T_FUNCTIONE,
-		T_CLASS,
+		T_NONE			= 0x0000,
+		T_PACKAGE 		= 0x0001,
+		T_FUNCTIONE		= 0x0002,
+		T_CLASS			= 0x0004,
 	};
 
 	Scope( std::string n )
 		: Symbol( n )
+		, _m_prop( T_NONE )
 	{
 		Registrable::setInstance( this );
 
 	}
+	void setProperties( Properties p ) {	_m_prop = p;	};
 
+private:
+	Properties _m_prop;
 };
+
+typedef SHARED_PTR(Scope) ScopePtr;
 
 
 }}}}//tw/maple/as/symbol
