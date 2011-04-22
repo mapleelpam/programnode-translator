@@ -41,6 +41,7 @@ struct Program : public Node
     std::string toString()  {	return "node::program"; };
 };
 typedef SHARED_PTR(Program) ProgramPtr;
+typedef std::vector< ProgramPtr> ProgramList;
 
 } } } }
 

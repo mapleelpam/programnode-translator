@@ -38,20 +38,26 @@ struct Symbol
 {
 	enum Properties
 	{
-		T_SCOPE,
-		T_VARIABLE,
-		T_PRIMITIVE,
+		T_NONE			= 0x0000,
+		T_SCOPE			= 0x0001,
+		T_VARIABLE		= 0x0002,
+		T_PRIMITIVE		= 0x0004,
 	};
 
 	std::string name() {	return _m_name;	}
 
 	Symbol( std::string n )
 		: _m_name( n )
+		, _m_prop( T_NONE )
 	{
 	}
 
+	Properties getSymbolProperties( ) {	return _m_prop;	}
+	void setSymbolProperties( Properties p ) {	_m_prop = p;	};
+
 private:
-	std::string _m_name;
+	std::string	_m_name;
+	Properties	_m_prop;
 };
 
 typedef SHARED_PTR(Symbol) SymbolPtr;

@@ -30,6 +30,8 @@
 
 #include <iostream>
 #include <stack>
+#include <vector>
+#include <list>
 
 #define USE_STD_SMART_PTR
 

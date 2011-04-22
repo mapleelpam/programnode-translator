@@ -27,8 +27,6 @@
 #define __AS_AST_NODE_H__
 
 #include <global.h>
-#include <as/ast/expression.h>
-
 
 namespace tw { namespace maple { namespace as { namespace ast {
 

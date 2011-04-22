@@ -18,53 +18,49 @@
  */
 
 // ProgrameNode Translator
-// Copyright 2010 mapleellpam@gmail.com.  All rights reserved.
+// Copyright 2011 mapleellpam@gmail.com.  All rights reserved.
 // https://github.com/mapleelpam/programnode-translator
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#include <iostream>
-#include <fstream>
-
-#include "AstDumper.h"  
+#ifndef __TW_MAPLE_SERVICE_BACKEND_MANAGER_H__
+#define __TW_MAPLE_SERVICE_BACKEND_MANAGER_H__
 
 #include <backend/cpp/interpret/interpreter.h>
 #include <backend/cpp/prepend_data.h>
-#include <service/ConfigService.h>
-#include <service/ArgumentsService.h>
-
-#include <boost/program_options/options_description.hpp>
-#include <boost/program_options/variables_map.hpp>
-#include <boost/program_options/parsers.hpp>
-#include <boost/program_options/value_semantic.hpp>
-
-#include <as/symbol/Scope.h>
-#include <as/symbol/Symbol.h>
-
-#include <service/PassManagerService.h>
-
-//namespace po = boost::program_options;
 
 
-int main(int argc, char **argv)
-{
-	SVC_CONFIG;
+#include "pnodehandler.h"
 
-	tw::maple::service::PassManagerService  major;
+namespace tw { namespace maple { namespace service { namespace pass {
 
-	try {
-		SVC_ARGUMENTS->parse(argc,argv);
-	} catch (std::exception &e) {
-		std::cerr << "Unknown Arguments " << e.what()<< std::endl;
-		SVC_ARGUMENTS->print_out_help();
-		exit(1);
-	} catch (...) {
-		std::cout << "ERROR " << std::endl;
-		std::cout << "ERROR " << "Error while parsing zcc-flex options Exiting" << std::endl;
-		exit(0);
+
+struct BackendManager {
+
+	static void exec(
+			tw::maple::as::ast::ProgramList& pnode_list /* input program node */
+			, tw::maple::backend::cpp::PrependData prepend_data
+			, std::string file_name /* write to */
+			)
+	{
+		namespace INTERPRET = tw::maple::backend::cpp::interpret;
+
+		tw::maple::backend::cpp::Context context;
+		context.ofs_stream.open( file_name.c_str() );
+		// Interpret/Explain - Invoke Back-end Stream Out
+
+		prepend_data.execute( context.ofs_stream );
+
+		for (std::vector<tw::maple::as::ast::ProgramPtr>::iterator
+				nodeItr = pnode_list.begin(); nodeItr != pnode_list.end(); nodeItr++) {
+			context.ofs_stream << INTERPRET::dispatchExpound(*nodeItr, &context);
+		}
+
+		context.ofs_stream.close();
 	}
 
-	major.exec();
 
-    return 0;
-}
+};
+
+} } } } // pass.service.maple.tw
+#endif /* PROGRAMNODELOADER_H_ */

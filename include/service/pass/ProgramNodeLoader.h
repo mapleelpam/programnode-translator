@@ -23,8 +23,8 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#ifndef __TW_MAPLE_AST_DUMPER_READER_
-#define __TW_MAPLE_AST_DUMPER_READER_
+#ifndef __TW_MAPLE_SERVICE_PROGRAMNODELOADER_H_
+#define __TW_MAPLE_SERVICE_PROGRAMNODELOADER_H_
 
 #include <transport/TSocket.h>
 #include <transport/TBufferTransports.h>
@@ -32,21 +32,29 @@
 #include <protocol/TBinaryProtocol.h>
 #include <protocol/TJSONProtocol.h>
 
-#include "pnodehandler.h" 
 
-#include <as/ast/program.h>
+#include "pnodehandler.h"
 
-using namespace apache::thrift;
-using namespace apache::thrift::protocol;
-using namespace apache::thrift::transport;
-
-namespace tw { namespace maple { 
+namespace tw { namespace maple { namespace service { namespace pass {
 
 
-class PNodeReader 
-{
-public:
-    static std::tr1::shared_ptr< as::ast::Program > open( std::string file )
+struct ProgramNodeLoader {
+
+	static void exec(
+			std::vector<std::string> file_list  /* input */
+			, tw::maple::as::ast::ProgramList& pnode_list /* output */
+			)
+	{
+		// File Open
+		for (std::vector<std::string>::iterator fileItr = file_list.begin()
+				; fileItr != file_list.end(); fileItr++)
+		{
+			pnode_list . push_back(  exec_one( *fileItr ) );
+		}
+	}
+
+private:
+	static as::ast::ProgramPtr exec_one( std::string file )
     {
         boost::shared_ptr<tw::maple::PNodeHandler> something( new tw::maple::PNodeHandler() );
         boost::shared_ptr<TSimpleFileTransport> transport(new TSimpleFileTransport(file,true,true));
@@ -62,13 +70,12 @@ public:
             std::cout << "handler: " << ex.what()<<std::endl;
         }
 
-        transport->close(); 
+        transport->close();
 
 //        return  std::tr1::shared_ptr< as::ast::Program >();
         return something->getProgramNode();
     }
-
 };
 
-} }
-#endif
+} } } } // pass.service.maple.tw
+#endif /* PROGRAMNODELOADER_H_ */

@@ -27,14 +27,16 @@
 #ifndef __TW_MAPLE_AS_SYMBOL_SCOPE_H__
 #define __TW_MAPLE_AS_SYMBOL_SCOPE_H__
 
+#include "global.h"
 #include <boost/assert.hpp>
-#include <string>
 #include <as/symbol/Symbol.h>
-#include <as/symbol/Registrable.h>
 
 namespace tw { namespace maple { namespace as { namespace symbol {
 
-struct Scope : public Symbol, public Registrable
+struct Scope;
+typedef SHARED_PTR(Scope) ScopePtr;
+
+struct Scope : public Symbol
 {
 	enum Properties
 	{
@@ -42,24 +44,62 @@ struct Scope : public Symbol, public Registrable
 		T_PACKAGE 		= 0x0001,
 		T_FUNCTIONE		= 0x0002,
 		T_CLASS			= 0x0004,
+
+		T_PROGRAM_ROOT	= 0x0008,
 	};
 
 	Scope( std::string n )
 		: Symbol( n )
 		, _m_prop( T_NONE )
 	{
-		Registrable::setInstance( this );
-
 	}
 	void setProperties( Properties p ) {	_m_prop = p;	};
+	Properties getProperties( ) {	return _m_prop;	}
 
+	static ScopePtr rootScope()
+	{
+		ScopePtr root( new Scope("root") );
+		root->setProperties( T_PROGRAM_ROOT );
+		return root;
+	}
+
+	ScopePtr registerFunction(std::string name )
+	{
+		ScopePtr s( new Scope( name ) );
+		s -> setProperties( Scope::T_FUNCTIONE);
+		_m_childs . push_back( s );
+		return s;
+	}
+	SymbolPtr registerVariable(std::string name )
+	{
+		SymbolPtr symbol( new Symbol( name ) );
+		symbol -> setSymbolProperties( Symbol::T_VARIABLE);
+		_m_childs . push_back( symbol );
+		return symbol;
+	}
 private:
 	Properties _m_prop;
+	std::list<SymbolPtr>	_m_childs;
+
+friend ScopePtr registerFunction(std::string);
+
 };
 
-typedef SHARED_PTR(Scope) ScopePtr;
 
-
+//ScopePtr registerPakage(std::string name)
+//{
+//	ScopePtr s( new Scope( name ) );
+//	s -> setProperties( Scope::T_PACKAGE);
+//	_m_childs . push_back( s );
+//	return s;
+//}
+//SymbolPtr registerVariable(std::string name)
+//{
+//	ScopePtr s( new Scope( name ) );
+//	s -> setProperties( Scope::T_CLASS );
+//	_m_childs . push_back( s );
+//	return s;
+//}
 }}}}//tw/maple/as/symbol
 
 #endif
