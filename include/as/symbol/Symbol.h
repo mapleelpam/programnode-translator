@@ -44,11 +44,11 @@ struct Symbol
 		T_PRIMITIVE		= 0x0004,
 	};
 
-	std::string name() {	return _m_name;	}
+	const std::string name() const {	return _m_name;	}
 
-	Symbol( std::string n )
+	Symbol( std::string n,  Properties p = T_NONE )
 		: _m_name( n )
-		, _m_prop( T_NONE )
+		, _m_prop( p )
 	{
 	}
 

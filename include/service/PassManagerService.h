@@ -43,6 +43,7 @@
 #include <service/pass/ProgramNodeLoader.h>
 #include <service/pass/BackendManager.h>
 #include <service/pass/SymbolTableConstructor.h>
+#include <as/symbol/Debug.h>
 
 namespace tw { namespace maple { namespace service {
 
@@ -50,6 +51,7 @@ class PassManagerService : public tw::maple::service::ArgElemenRequest
 {
 public:
 	PassManagerService()
+		: m_dump_symbol_table_only(false)
 	{
 		SVC_ARGUMENTS->registerPass(this);
 		namespace INTERPRET = tw::maple::backend::cpp::interpret;
@@ -61,6 +63,7 @@ public:
 	    	    ("help,h",    "this help message")
 	    	    ("output,o",    po::value<std::string>(), "outputfiles")
 	    	    ("input,i",    po::value<std::vector<std::string> >(), "inputfiles")
+	    	    ("symbol",   " dump symbol table only (and exit)")
 	        ;
 			posOptionDesc.add("input", -1);
 	}
@@ -70,8 +73,13 @@ public:
 			SVC_ARGUMENTS->print_out_help();
 			exit(1);
 		}
+		if (args.count("symbol") > 0) {
+			m_dump_symbol_table_only = true;
+		}
 		m_pnode_files = args["input"].as< std::vector<std::string > >();
-		m_out_file_path  = args["output"].as<std::string> ();
+		if (args.count("output") > 0) {
+			m_out_file_path  = args["output"].as<std::string> ();
+		}
 	}
 
 	void exec()
@@ -81,13 +89,20 @@ public:
 		tw::maple::as::symbol::ScopePtr				symbol_table = tw::maple::as::symbol::Scope::rootScope(); // Initialize is null
 
 		tw::maple::service::pass::ProgramNodeLoader::exec( m_pnode_files, pnode_list/*out*/ );
+
 		tw::maple::service::pass::SymbolTableConstructor::exec( pnode_list, symbol_table /* out */ );
+		if( m_dump_symbol_table_only ) {
+			tw::maple::as::symbol::Debug::dump_symboltable( symbol_table );
+			exit(0);
+		}
+
 		tw::maple::service::pass::BackendManager::exec( pnode_list, m_prepend,  m_out_file_path /* out */ );
 
 	}
 private:
 	std::vector<std::string> m_pnode_files;
 	std::string m_out_file_path;
+	bool 		m_dump_symbol_table_only;
 	tw::maple::backend::cpp::PrependData m_prepend;
 
 };

@@ -24,67 +24,52 @@
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
 
-#ifndef __TW_MAPLE_AS_SYMBOL_SCOPE_H__
-#define __TW_MAPLE_AS_SYMBOL_SCOPE_H__
+#ifndef __TW_MAPLE_AS_SYMBOL_DEBUG_H__
+#define __TW_MAPLE_AS_SYMBOL_DEBUG_H__
 
 #include "global.h"
 #include <boost/assert.hpp>
-#include <as/symbol/Symbol.h>
+#include <as/symbol/Scope.h>
 
 namespace tw { namespace maple { namespace as { namespace symbol {
 
 struct Scope;
 typedef SHARED_PTR(Scope) ScopePtr;
 
-struct Scope : public Symbol
+struct Debug
 {
-	enum Properties
+	static void dump_symboltable(
+			tw::maple::as::symbol::ScopePtr root
+			, int depth = 0
+			)
 	{
-		T_NONE			= 0x0000,
-		T_PACKAGE 		= 0x0001,
-		T_FUNCTIONE		= 0x0002,
-		T_CLASS			= 0x0004,
 
-		T_PROGRAM_ROOT	= 0x0008,
-	};
+		std::vector<SymbolPtr> childs;
+		root->getChilds( childs/*out*/ );
+		namespace AST = tw::maple::as::ast;
+		for (std::vector<SymbolPtr>::iterator
+				child_itr = childs.begin(); child_itr != childs.end(); child_itr++) {
 
-	Scope( std::string n )
-		: Symbol( n, Symbol::T_SCOPE )
-		, _m_prop( T_NONE )
-	{
+			std::cout << indent(depth) << (*child_itr)->name() <<std::endl;
+
+			if( ((*child_itr)->getSymbolProperties() & Symbol::T_SCOPE ) )
+			{
+				ScopePtr scope = STATIC_CAST( Scope, *child_itr );
+				if( scope )
+					dump_symboltable( scope, depth+1 );
+			}
+		}
 	}
-
-	void setProperties( Properties p ) {	_m_prop = p;	};
-	Properties getProperties( ) {	return _m_prop;	}
-
-	static ScopePtr rootScope()
-	{
-		ScopePtr root( new Scope("root") );
-		root->setProperties( T_PROGRAM_ROOT );
-		return root;
-	}
-
-	ScopePtr registerFunction(std::string name )
-	{
-		ScopePtr s( new Scope( name ) );
-		s -> setProperties( Scope::T_FUNCTIONE);
-		_m_childs . push_back( s );
-		return s;
-	}
-	SymbolPtr registerVariable(std::string name )
-	{
-		SymbolPtr symbol( new Symbol( name ) );
-		symbol -> setSymbolProperties( Symbol::T_VARIABLE);
-		_m_childs . push_back( symbol );
-		return symbol;
-	}
-
-	void getChilds( std::vector<SymbolPtr>& childs /*out*/ )	{	childs = _m_childs;	}
 private:
-	Properties _m_prop;
-	std::vector<SymbolPtr>	_m_childs;
+	static std::string indent( int dpeth )
+	{
 
-friend ScopePtr registerFunction(std::string);
+			std::string ans = "";
+			for( int idx = 0 ; idx < dpeth ; idx ++)
+				ans += "-";//TODO: replace by indent scape
+            return ans;
+
+	}
 
 };
 
