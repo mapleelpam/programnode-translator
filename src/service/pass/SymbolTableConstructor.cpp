@@ -26,6 +26,10 @@
 #include <service/pass/SymbolTableConstructor.h>
 #include <backend/cpp/interpret/interpreter.h>
 #include <as/ast/function_definition.h>
+#include <as/ast/function_common.h>
+#include <as/ast/function_signature.h>
+#include <as/ast/function_parameters.h>
+#include <as/ast/function_parameter_item.h>
 #include <as/ast/variable_declare.h>
 #include <as/symbol/Scope.h>
 
@@ -41,6 +45,8 @@ void SymbolTableConstructor:: constructSymbols(
 	namespace CPP = tw::maple::backend::cpp::interpret;
 	namespace ASY = tw::maple::as::symbol;
 
+	if( node->node_childs.size() == 0 )
+		return;
 	for (std::vector< AST::NodePtr >::iterator nItr =
 			node->node_childs.begin(); nItr != node->node_childs.end(); nItr++) {
 
@@ -50,14 +56,32 @@ void SymbolTableConstructor:: constructSymbols(
 			case AST::Node::NodeType::T_FUNCTION_DEFINITION:
 			{
 				AST::FunctionDefinitionPtr fdef = STATIC_CAST( AST::FunctionDefinition, *nItr);
+				AST::FunctionCommonPtr fcommon  = STATIC_CAST( AST::FunctionCommon, fdef->FunctionCommon() );
+				AST::FunctionSignaturePtr fsig  = STATIC_CAST( AST::FunctionSignature, fcommon->FunctionSignature() );
+
+
 				std::string str_func_name = CPP::dispatchExpound(fdef->FunctionName(), NULL) ;
 				std::cout << " get a function name = " << str_func_name << std::endl;
+
 				ASY::ScopePtr scope_func( symboltable->registerFunction( str_func_name ) );
-				constructSymbols( *nItr, scope_func );
+
+				if(	fsig->FunctionParameter() )
+					constructSymbols( fsig->FunctionParameter(), scope_func );
+				constructSymbols( fcommon->FunctionBody(), scope_func );
 			} 	break;
+			case AST::Node::NodeType::T_FUNCTION_SIGNATURE:
+			{
+				std::cout <<" hey it's function sigantur " << std::endl;
+			}	break;
 			case AST::Node::NodeType::T_CLASS_DEFINE:
 			{
 
+			}	break;
+			case AST::Node::NodeType::T_FUNCTION_PARAMETER_ITEM:
+			{
+				AST::FunctionParameterItemPtr pitem = std::tr1::static_pointer_cast<AST::FunctionParameterItem>(*nItr);
+				std::string str_varname = CPP::dispatchExpound(pitem->ParamName(), NULL);
+				symboltable->registerVariable( str_varname );
 			}	break;
 			case AST::Node::NodeType::T_VARIABLE_DECLARE:
 			{

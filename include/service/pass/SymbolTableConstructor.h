@@ -50,9 +50,6 @@ struct SymbolTableConstructor {
 			for (std::vector< AST::NodePtr >::iterator nItr =
 					node->node_childs.begin(); nItr != node->node_childs.end(); nItr++) {
 //				result += dispatchExpound(*nItr, ctx);
-
-				std::cout << "->>>>>      node -> name " << (*nItr)->toString() << std::endl;
-
 				constructSymbols( *nItr, root);
 			}
 		}

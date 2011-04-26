@@ -92,7 +92,10 @@ public:
 
 		tw::maple::service::pass::SymbolTableConstructor::exec( pnode_list, symbol_table /* out */ );
 		if( m_dump_symbol_table_only ) {
-			tw::maple::as::symbol::Debug::dump_symboltable( symbol_table );
+			std::ofstream ofs;
+			if( m_out_file_path != "" )
+				ofs.open(m_out_file_path.c_str());
+			tw::maple::as::symbol::Debug::dump_symboltable( symbol_table, ofs );
 			exit(0);
 		}
 

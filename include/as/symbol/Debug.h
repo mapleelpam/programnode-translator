@@ -40,6 +40,7 @@ struct Debug
 {
 	static void dump_symboltable(
 			tw::maple::as::symbol::ScopePtr root
+			, std::ofstream& ofs
 			, int depth = 0
 			)
 	{
@@ -50,13 +51,13 @@ struct Debug
 		for (std::vector<SymbolPtr>::iterator
 				child_itr = childs.begin(); child_itr != childs.end(); child_itr++) {
 
-			std::cout << indent(depth) << (*child_itr)->name() <<std::endl;
+			ofs << indent(depth) << (*child_itr)->name() <<std::endl;
 
 			if( ((*child_itr)->getSymbolProperties() & Symbol::T_SCOPE ) )
 			{
 				ScopePtr scope = STATIC_CAST( Scope, *child_itr );
 				if( scope )
-					dump_symboltable( scope, depth+1 );
+					dump_symboltable( scope, ofs, depth+1 );
 			}
 		}
 	}

@@ -42,7 +42,12 @@ struct FunctionSignature : public Statement
 	int stmtType()   {   return Node::NodeType::T_FUNCTION_SIGNATURE;  }
 
     NodePtr FunctionReturnType(){	return node_childs[0];	}
-    NodePtr FunctionParameter(){	return node_childs[1];	}
+    NodePtr FunctionParameter(){
+    	if( node_childs.size() >= 2)
+    		return node_childs[1];
+    	else
+    		return NodePtr();
+    }
 
     std::string toString()  {	return "node::function_signature"; };
 
