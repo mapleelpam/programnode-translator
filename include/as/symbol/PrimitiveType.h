@@ -23,48 +23,31 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#include <iostream>
-#include <fstream>
 
-#include "AstDumper.h"  
+#ifndef __TW_MAPLE_AS_SYMBOL_PRIMITIVE_TYPE_H__
+#define __TW_MAPLE_AS_SYMBOL_PRIMITIVE_TYPE_H__
 
-#include <backend/cpp/interpret/interpreter.h>
-#include <backend/cpp/prepend_data.h>
-#include <service/ConfigService.h>
-#include <service/ArgumentsService.h>
-
-#include <boost/program_options/options_description.hpp>
-#include <boost/program_options/variables_map.hpp>
-#include <boost/program_options/parsers.hpp>
-#include <boost/program_options/value_semantic.hpp>
-
-#include <as/symbol/Scope.h>
 #include <as/symbol/Symbol.h>
 
-#include <service/PassManagerService.h>
+namespace tw { namespace maple { namespace as { namespace symbol {
 
-//namespace po = boost::program_options;
-
-
-int main(int argc, char **argv)
+struct PrimitiveType : public Symbol
 {
-	SVC_CONFIG;
-
-	tw::maple::service::PassManagerService  major;
-
-	try {
-		SVC_ARGUMENTS->parse(argc,argv);
-	} catch (std::exception &e) {
-		std::cerr << "Unknown Arguments " << e.what()<< std::endl;
-		SVC_ARGUMENTS->print_out_help();
-		exit(1);
-	} catch (...) {
-		std::cout << "ERROR " << std::endl;
-		std::cout << "ERROR " << "Error while parsing zcc-flex options Exiting" << std::endl;
-		exit(0);
+	PrimitiveType( std::string n )
+		: Symbol( n, Symbol::T_PRIMITIVE_TYPE )
+	{
 	}
 
-	major.exec();
 
-    return 0;
-}
+	virtual std::string toString()
+	{
+		return "type:"+name();
+	}
+};
+
+typedef SHARED_PTR(PrimitiveType) TypePtr;
+
+}}}}//tw/maple/as/symbol
+
+#endif
+

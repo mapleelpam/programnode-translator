@@ -81,7 +81,7 @@ struct Scope : public Symbol, public Registrable<Scope>
 			std::cerr<<"can't resolve Scope Type" << _m_scope_type <<std::endl;
 		}
 
-		return ans+Symbol::toString();
+		return ans+name();
 	}
 
 

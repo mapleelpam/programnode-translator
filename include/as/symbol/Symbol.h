@@ -41,8 +41,9 @@ struct Symbol
 		T_NONE			= 0x0000,
 		T_SCOPE			= 0x0001,
 		T_VARIABLE		= 0x0002,
-		T_PRARAMETER	= 0x0004,
-		T_PRIMITIVE		= 0x0008,
+		T_PRIMITIVE_TYPE= 0x0004,
+		T_PRARAMETER	= 0x0008,
+		T_PRIMITIVE		= 0x0010,
 	};
 
 	const std::string name() const {	return _m_name;	}
@@ -56,19 +57,9 @@ struct Symbol
 	uint getSymbolProperties( ) const {	return _m_prop;	}
 	void setSymbolProperties( uint p ) {	_m_prop = p;	};
 
-	virtual std::string toString()
-	{
-		std::string s_attr = "";
-		if( _m_prop & T_VARIABLE ) {
-			if( _m_prop & T_PRARAMETER )
-				s_attr = "param";
-			else
-				s_attr = "local";
-		}
+	virtual std::string toString() = 0;
 
-		return name()+","+s_attr;
-	}
-private:
+protected:
 	std::string	_m_name;
 	uint	_m_prop;
 };

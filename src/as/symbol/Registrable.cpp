@@ -1,4 +1,11 @@
 /*
+ * Symbol.cpp
+ *
+ *  Created on: Apr 21, 2011
+ *      Author: maple
+ */
+
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements. See the NOTICE file
  * distributed with this work for additional information
@@ -23,48 +30,37 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#include <iostream>
-#include <fstream>
 
-#include "AstDumper.h"  
-
-#include <backend/cpp/interpret/interpreter.h>
-#include <backend/cpp/prepend_data.h>
-#include <service/ConfigService.h>
-#include <service/ArgumentsService.h>
-
-#include <boost/program_options/options_description.hpp>
-#include <boost/program_options/variables_map.hpp>
-#include <boost/program_options/parsers.hpp>
-#include <boost/program_options/value_semantic.hpp>
-
-#include <as/symbol/Scope.h>
+#include <boost/assert.hpp>
+#include <string>
 #include <as/symbol/Symbol.h>
+#include <as/symbol/Scope.h>
+#include <as/symbol/action/Registrable.h>
 
-#include <service/PassManagerService.h>
+namespace tw { namespace maple { namespace as { namespace symbol {
 
-//namespace po = boost::program_options;
+//
+//SHARED_PTR(T) Registrable::rootScope()
+//{
+//	SHARED_PTR(T) root( new T("root") );
+//	root->setProperties( T::T_PROGRAM_ROOT );
+//	return root;
+//}
+//
+//SHARED_PTR(T) Registrable::registerFunction(std::string name )
+//{
+//	SHARED_PTR(T) s( new T( name ) );
+//	s -> setProperties( T::T_FUNCTIONE);
+//	_m_childs . push_back( s );
+//	return s;
+//}
+//SymbolPtr Registrable::registerVariable(std::string name )
+//{
+//	SymbolPtr symbol( new Symbol( name ) );
+//	symbol -> setSymbolProperties( T::T_VARIABLE);
+//	_m_childs . push_back( symbol );
+//	return symbol;
+//}
 
+}}}}//tw/maple/as/symbol
 
-int main(int argc, char **argv)
-{
-	SVC_CONFIG;
-
-	tw::maple::service::PassManagerService  major;
-
-	try {
-		SVC_ARGUMENTS->parse(argc,argv);
-	} catch (std::exception &e) {
-		std::cerr << "Unknown Arguments " << e.what()<< std::endl;
-		SVC_ARGUMENTS->print_out_help();
-		exit(1);
-	} catch (...) {
-		std::cout << "ERROR " << std::endl;
-		std::cout << "ERROR " << "Error while parsing zcc-flex options Exiting" << std::endl;
-		exit(0);
-	}
-
-	major.exec();
-
-    return 0;
-}

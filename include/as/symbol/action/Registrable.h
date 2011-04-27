@@ -9,6 +9,8 @@
 #define REGISTRABLE_H_
 
 #include <as/symbol/Symbol.h>
+#include <as/symbol/PrimitiveType.h>
+#include <as/symbol/Variable.h>
 
 namespace tw {
 namespace maple {
@@ -24,6 +26,8 @@ struct Registrable {
 
 	static SHARED_PTR(T) rootScope() {
 		SHARED_PTR(T) root(new T("root", T::T_PROGRAM_ROOT));
+		root->addChild(  TypePtr(new PrimitiveType("int") ) );
+		root->addChild(  TypePtr(new PrimitiveType("float") ) );
 		return root;
 	}
 
@@ -43,15 +47,15 @@ struct Registrable {
 		return s;
 	}
 	SymbolPtr registerVariable(std::string name) {
-		SymbolPtr symbol(new Symbol(name));
-		symbol -> setSymbolProperties( Symbol::T_VARIABLE );
+		SymbolPtr symbol(new Variable(name));
+//		symbol -> setSymbolProperties( Symbol::T_VARIABLE );
 		_instance->addChild(symbol);
 		return symbol;
 	}
 
 	SymbolPtr registerFunctionParameter(std::string name) {
-		SymbolPtr symbol(new Symbol(name));
-		symbol -> setSymbolProperties( Symbol::T_VARIABLE | Symbol::T_PRARAMETER);
+		SymbolPtr symbol(new Variable(name, Symbol::T_PRARAMETER));
+//		symbol -> setSymbolProperties( Symbol::T_VARIABLE | Symbol::T_PRARAMETER);
 		_instance->addChild(symbol);
 		return symbol;
 	}

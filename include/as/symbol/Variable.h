@@ -23,48 +23,39 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#include <iostream>
-#include <fstream>
 
-#include "AstDumper.h"  
+#ifndef __TW_MAPLE_AS_SYMBOL_VARIABLE_H__
+#define __TW_MAPLE_AS_SYMBOL_VARIABLE_H__
 
-#include <backend/cpp/interpret/interpreter.h>
-#include <backend/cpp/prepend_data.h>
-#include <service/ConfigService.h>
-#include <service/ArgumentsService.h>
-
-#include <boost/program_options/options_description.hpp>
-#include <boost/program_options/variables_map.hpp>
-#include <boost/program_options/parsers.hpp>
-#include <boost/program_options/value_semantic.hpp>
-
-#include <as/symbol/Scope.h>
 #include <as/symbol/Symbol.h>
 
-#include <service/PassManagerService.h>
+namespace tw { namespace maple { namespace as { namespace symbol {
 
-//namespace po = boost::program_options;
-
-
-int main(int argc, char **argv)
+struct Variable : public Symbol
 {
-	SVC_CONFIG;
-
-	tw::maple::service::PassManagerService  major;
-
-	try {
-		SVC_ARGUMENTS->parse(argc,argv);
-	} catch (std::exception &e) {
-		std::cerr << "Unknown Arguments " << e.what()<< std::endl;
-		SVC_ARGUMENTS->print_out_help();
-		exit(1);
-	} catch (...) {
-		std::cout << "ERROR " << std::endl;
-		std::cout << "ERROR " << "Error while parsing zcc-flex options Exiting" << std::endl;
-		exit(0);
+	Variable( std::string n,  uint p = Symbol::T_NONE )
+		: Symbol( n, p | Symbol::T_VARIABLE )
+	{
 	}
 
-	major.exec();
 
-    return 0;
-}
+	virtual std::string toString()
+	{
+		std::string s_attr = "";
+		if( _m_prop & T_VARIABLE ) {
+			if( _m_prop & T_PRARAMETER )
+				s_attr = "param";
+			else
+				s_attr = "local";
+		}
+
+		return "variable:"+name()+","+s_attr;
+	}
+};
+
+typedef SHARED_PTR(Variable) VariablePtr;
+
+}}}}//tw/maple/as/symbol
+
+#endif
+
