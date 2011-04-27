@@ -18,7 +18,7 @@ package abc
 	function main():int
 	{
 
-        wprintf(" %d\n", fib(1)); // CHECK: 1
+        printf(" %d\n", fib(1)); // CHECK: 1
 	}
 
 

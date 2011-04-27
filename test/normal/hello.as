@@ -7,7 +7,7 @@ package abc
 {
     function main( ) : int
     {
-        wprintf(" hello world"); // CHECK: hello world
-        wprintf(" hello mars"); // CHECK: hello mars
+        printf(" hello world"); // CHECK: hello world
+        printf(" hello mars"); // CHECK: hello mars
     }
 }

@@ -42,7 +42,7 @@ struct LiteralString : public Interpreter
 		SHARED_PTR(AST::LiteralString) li = std::tr1::static_pointer_cast<AST::LiteralString>(node);
 
 		_replace_string( li->value, "\n", "\\n");
-		return  "L\"" + li->value + "\"";
+		return  "\"" + li->value + "\"";
 	}
 
 private:
