@@ -12,10 +12,7 @@
 #include <as/symbol/PrimitiveType.h>
 #include <as/symbol/Variable.h>
 
-namespace tw {
-namespace maple {
-namespace as {
-namespace symbol {
+namespace tw {namespace maple {namespace as {namespace symbol {
 
 template<typename T>
 struct Registrable {
@@ -64,9 +61,6 @@ private:
 	T* _instance;
 };
 
-}
-}
-}
-}//tw/maple/as/symbol
+}}}}//tw/maple/as/symbol
 
 #endif /* REGISTRABLE_H_ */

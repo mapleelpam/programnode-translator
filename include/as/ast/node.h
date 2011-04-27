@@ -18,17 +18,21 @@
  */
 
 // ProgrameNode Translator
-// Copyright 2010 mapleellpam@gmail.com.  All rights reserved.
+// Copyright 2011 mapleellpam@gmail.com.  All rights reserved.
 // https://github.com/mapleelpam/programnode-translator
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#ifndef __AS_AST_NODE_H__
-#define __AS_AST_NODE_H__
+#ifndef __TW_MAPLE_AS_AST_NODE_H__
+#define __TW_MAPLE_AS_AST_NODE_H__
 
 #include <global.h>
+#include <as/symbol/Symbol.h>
+
 
 namespace tw { namespace maple { namespace as { namespace ast {
+
+namespace ASYM = tw::maple::as::symbol;
 
 // Abstract Class
 struct Node
@@ -109,10 +113,17 @@ struct Node
 
     std::vector< SHARED_PTR(Node) >    node_childs;
 
-//    std::ostream& operater<< ( std::ostream&, Node& );
     virtual std::string toString() = 0;
 protected:
-    int _node_type;
+    int 			_node_type;
+
+public:
+    void setSymbol( ASYM::SymbolPtr s )	{	_related_symbol = s;	}
+    ASYM::SymbolPtr getSymbol( )	{	return _related_symbol;	}
+
+protected:
+    ASYM::SymbolPtr	_related_symbol;
+
 };
 
 typedef SHARED_PTR(Node)    NodePtr;

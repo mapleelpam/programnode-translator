@@ -69,6 +69,7 @@ void SymbolTableConstructor:: constructSymbols(
 				std::cout << " get a function name = " << str_func_name << std::endl;
 
 				ASY::ScopePtr scope_func( symboltable->registerFunction( str_func_name ) );
+				fdef -> setSymbol( scope_func );
 
 				if(	fsig->FunctionParameter() )
 					constructSymbols( fsig->FunctionParameter(), scope_func );
@@ -85,7 +86,7 @@ void SymbolTableConstructor:: constructSymbols(
 				std::string class_name = CPP::dispatchExpound(_class_define_->className(), &tmp_contexts);
 
 				ASY::ScopePtr scope_class( symboltable->registerClass( class_name ) );
-
+				_class_define_ -> setSymbol( scope_class );
 
 				constructSymbols( _class_define_, scope_class );
 
@@ -94,18 +95,20 @@ void SymbolTableConstructor:: constructSymbols(
 			{
 				AST::FunctionParameterItemPtr pitem = std::tr1::static_pointer_cast<AST::FunctionParameterItem>(*nItr);
 				std::string str_varname = CPP::dispatchExpound(pitem->ParamName(), NULL);
-				symboltable->registerFunctionParameter( str_varname );
+				pitem -> setSymbol( symboltable->registerFunctionParameter( str_varname ) );
+
 			}	break;
 			case AST::Node::NodeType::T_VARIABLE_DECLARE:
 			{
 				AST::VariableDeclarePtr var = std::tr1::static_pointer_cast<AST::VariableDeclare>(*nItr);
 				std::string str_varname = CPP::dispatchExpound(var->varName(), NULL);
-				symboltable->registerVariable( str_varname );
+				var->setSymbol( symboltable->registerVariable( str_varname ) );
 			}	break;
 			case AST::Node::NodeType::T_IF_STMT_THEN:
 			case AST::Node::NodeType::T_IF_STMT_ELSE:
 			{
 				ASY::ScopePtr scope_stmt( symboltable->registerAnonymousScope( ) );
+				(*nItr) -> setSymbol( scope_stmt );
 				constructSymbols( *nItr, scope_stmt );
 
 				if( scope_stmt->isDeletable() )
@@ -115,6 +118,23 @@ void SymbolTableConstructor:: constructSymbols(
 				constructSymbols( *nItr, symboltable);
 				break;
 		}
+	}
+}
+
+void SymbolTableConstructor::linkVariableType(
+		tw::maple::as::ast::NodePtr node /* input program node */
+		, tw::maple::as::symbol::ScopePtr symboltable
+		)
+{
+	namespace AST = tw::maple::as::ast;
+	namespace CPP = tw::maple::backend::cpp::interpret;
+	namespace ASY = tw::maple::as::symbol;
+
+	if( node->node_childs.size() == 0 )
+		return;
+	for (std::vector< AST::NodePtr >::iterator nItr =
+			node->node_childs.begin(); nItr != node->node_childs.end(); nItr++) {
+
 	}
 }
 

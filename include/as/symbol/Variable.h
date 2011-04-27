@@ -51,6 +51,9 @@ struct Variable : public Symbol
 
 		return "variable:"+name()+","+s_attr;
 	}
+
+private:
+	SymbolPtr	m_type_symbol;
 };
 
 typedef SHARED_PTR(Variable) VariablePtr;
