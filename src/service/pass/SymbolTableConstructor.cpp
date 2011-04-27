@@ -23,16 +23,21 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
+
 #include <service/pass/SymbolTableConstructor.h>
 #include <backend/cpp/interpret/interpreter.h>
+
 #include <as/ast/function_definition.h>
 #include <as/ast/function_common.h>
 #include <as/ast/function_signature.h>
 #include <as/ast/function_parameters.h>
 #include <as/ast/function_parameter_item.h>
+
+#include <as/ast/class_define.h>
+
 #include <as/ast/variable_declare.h>
 #include <as/symbol/Scope.h>
-
+#include <backend/cpp/context.h>
 
 namespace tw { namespace maple { namespace service { namespace pass {
 
@@ -75,6 +80,14 @@ void SymbolTableConstructor:: constructSymbols(
 			}	break;
 			case AST::Node::NodeType::T_CLASS_DEFINE:
 			{
+				::tw::maple::backend::cpp::Context tmp_contexts;
+				AST::ClassDefinePtr _class_define_ = STATIC_CAST( AST::ClassDefine, *nItr);
+				std::string class_name = CPP::dispatchExpound(_class_define_->className(), &tmp_contexts);
+
+				ASY::ScopePtr scope_class( symboltable->registerClass( class_name ) );
+
+
+				constructSymbols( _class_define_, scope_class );
 
 			}	break;
 			case AST::Node::NodeType::T_FUNCTION_PARAMETER_ITEM:

@@ -32,6 +32,11 @@ struct Registrable {
 		_instance->addChild(s);
 		return s;
 	}
+	SHARED_PTR(T) registerClass(std::string name) {
+		SHARED_PTR(T) s(new T(name, T::T_CLASS));
+		_instance->addChild(s);
+		return s;
+	}
 	SHARED_PTR(T) registerAnonymousScope() {
 		SHARED_PTR(T) s(new T("", T::T_ANONYMOUS));
 		_instance->addChild(s);
