@@ -33,9 +33,6 @@
 
 namespace tw { namespace maple { namespace as { namespace symbol {
 
-struct Scope;
-typedef SHARED_PTR(Scope) ScopePtr;
-
 struct Debug
 {
 	static void dump_symboltable(
@@ -74,21 +71,6 @@ private:
 
 };
 
-
-//ScopePtr registerPakage(std::string name)
-//{
-//	ScopePtr s( new Scope( name ) );
-//	s -> setProperties( Scope::T_PACKAGE);
-//	_m_childs . push_back( s );
-//	return s;
-//}
-//SymbolPtr registerVariable(std::string name)
-//{
-//	ScopePtr s( new Scope( name ) );
-//	s -> setProperties( Scope::T_CLASS );
-//	_m_childs . push_back( s );
-//	return s;
-//}
 }}}}//tw/maple/as/symbol
 
 #endif

@@ -49,6 +49,7 @@
 int main(int argc, char **argv)
 {
 	SVC_CONFIG;
+	SVC_SYMBOLTABLE;
 
 	tw::maple::service::PassManagerService  major;
 

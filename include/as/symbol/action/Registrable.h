@@ -21,31 +21,23 @@ struct Registrable {
 		_instance(instance) {
 	}
 
-	static SHARED_PTR(T) rootScope() {
-		SHARED_PTR(T) root(new T("root", T::T_PROGRAM_ROOT));
-		root->addChild(  TypePtr(new PrimitiveType("int") ) );
-		root->addChild(  TypePtr(new PrimitiveType("float") ) );
-		return root;
-	}
-
 	SHARED_PTR(T) registerFunction(std::string name) {
-		SHARED_PTR(T) s(new T(name, T::T_FUNCTION));
+		SHARED_PTR(T) s(new T(name, T::T_FUNCTION, _instance));
 		_instance->addChild(s);
 		return s;
 	}
 	SHARED_PTR(T) registerClass(std::string name) {
-		SHARED_PTR(T) s(new T(name, T::T_CLASS));
+		SHARED_PTR(T) s(new T(name, T::T_CLASS, _instance));
 		_instance->addChild(s);
 		return s;
 	}
 	SHARED_PTR(T) registerAnonymousScope() {
-		SHARED_PTR(T) s(new T("", T::T_ANONYMOUS));
+		SHARED_PTR(T) s(new T("", T::T_ANONYMOUS, _instance));
 		_instance->addChild(s);
 		return s;
 	}
 	SymbolPtr registerVariable(std::string name) {
 		SymbolPtr symbol(new Variable(name));
-//		symbol -> setSymbolProperties( Symbol::T_VARIABLE );
 		_instance->addChild(symbol);
 		return symbol;
 	}

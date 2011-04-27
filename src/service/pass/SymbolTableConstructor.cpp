@@ -55,7 +55,7 @@ void SymbolTableConstructor:: constructSymbols(
 	for (std::vector< AST::NodePtr >::iterator nItr =
 			node->node_childs.begin(); nItr != node->node_childs.end(); nItr++) {
 
-		std::cout << "->>>>>      node -> name " << (*nItr)->toString() << std::endl;
+//		std::cout << "->>>>>      node -> name " << (*nItr)->toString() << std::endl;
 
 		switch( (*nItr) -> nodeType() ) {
 			case AST::Node::NodeType::T_FUNCTION_DEFINITION:
@@ -128,13 +128,41 @@ void SymbolTableConstructor::linkVariableType(
 {
 	namespace AST = tw::maple::as::ast;
 	namespace CPP = tw::maple::backend::cpp::interpret;
-	namespace ASY = tw::maple::as::symbol;
+	namespace ASYM = tw::maple::as::symbol;
+
+
+	std::cout << "2---------->>>>>      node -> name " << node->toString() << std::endl;
 
 	if( node->node_childs.size() == 0 )
 		return;
 	for (std::vector< AST::NodePtr >::iterator nItr =
 			node->node_childs.begin(); nItr != node->node_childs.end(); nItr++) {
 
+
+		ASYM::SymbolPtr symbol = (*nItr)->getSymbol();
+
+		if(  symbol &&
+			(symbol->getSymbolProperties() & ASYM::Symbol::T_VARIABLE) )
+		{
+			AST::VariableDeclarePtr var = std::tr1::static_pointer_cast<AST::VariableDeclare>(*nItr);
+			std::string str_vartype = CPP::dispatchExpound(var->varType(), NULL);
+			std::cout << "--------------------------> variable type name = "<<str_vartype<<std::endl;
+
+
+			ASYM::SymbolPtr p_type = symboltable->findType( str_vartype );
+			if( p_type )
+				symbol->bindType( p_type );
+			else {
+				std::cerr<<" can't find type - "<< str_vartype<<std::endl;
+				exit(1);
+			}
+		} else if(  symbol &&
+			(symbol->getSymbolProperties() & ASYM::Symbol::T_SCOPE) )
+		{
+			ASYM::ScopePtr p_scope = STATIC_CAST( ASYM::Scope, symbol );
+			linkVariableType( *nItr, p_scope);
+		} else
+			linkVariableType( *nItr, symboltable);
 	}
 }
 

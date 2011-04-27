@@ -44,6 +44,7 @@
 #include <service/pass/BackendManager.h>
 #include <service/pass/SymbolTableConstructor.h>
 #include <as/symbol/Debug.h>
+#include <as/symbol/SymbolTable.h>
 
 namespace tw { namespace maple { namespace service {
 
@@ -86,7 +87,7 @@ public:
 	{
 		// File Open
 		std::vector< tw::maple::as::ast::ProgramPtr > pnode_list;
-		tw::maple::as::symbol::ScopePtr				symbol_table = tw::maple::as::symbol::Scope::rootScope() ; // Initialize is null
+		tw::maple::as::symbol::ScopePtr				symbol_table = SVC_SYMBOLTABLE->getRoot() ; // Initialize is null
 
 		tw::maple::service::pass::ProgramNodeLoader::exec( m_pnode_files, pnode_list/*out*/ );
 

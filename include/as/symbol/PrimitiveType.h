@@ -33,8 +33,9 @@ namespace tw { namespace maple { namespace as { namespace symbol {
 
 struct PrimitiveType : public Symbol
 {
-	PrimitiveType( std::string n )
+	PrimitiveType( std::string n, bool _is_pointer = false )
 		: Symbol( n, Symbol::T_PRIMITIVE_TYPE )
+		, is_pointer( _is_pointer )
 	{
 	}
 
@@ -43,6 +44,8 @@ struct PrimitiveType : public Symbol
 	{
 		return "type:"+name();
 	}
+
+	bool is_pointer;
 };
 
 typedef SHARED_PTR(PrimitiveType) TypePtr;

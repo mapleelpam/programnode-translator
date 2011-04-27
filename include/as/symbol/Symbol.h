@@ -34,6 +34,9 @@
 
 namespace tw { namespace maple { namespace as { namespace symbol {
 
+struct Symbol;
+typedef SHARED_PTR(Symbol) SymbolPtr;
+
 struct Symbol
 {
 	enum Properties
@@ -43,7 +46,6 @@ struct Symbol
 		T_VARIABLE		= 0x0002,
 		T_PRIMITIVE_TYPE= 0x0004,
 		T_PRARAMETER	= 0x0008,
-		T_PRIMITIVE		= 0x0010,
 	};
 
 	const std::string name() const {	return _m_name;	}
@@ -58,13 +60,12 @@ struct Symbol
 	void setSymbolProperties( uint p ) {	_m_prop = p;	};
 
 	virtual std::string toString() = 0;
+	virtual void bindType( SymbolPtr ){}
 
 protected:
 	std::string	_m_name;
 	uint	_m_prop;
 };
-
-typedef SHARED_PTR(Symbol) SymbolPtr;
 
 }}}}//tw/maple/as/symbol
 

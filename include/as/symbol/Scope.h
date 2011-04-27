@@ -31,6 +31,7 @@
 #include <boost/assert.hpp>
 #include <as/symbol/Symbol.h>
 #include <as/symbol/action/Registrable.h>
+#include <as/symbol/PrimitiveType.h>
 
 namespace tw { namespace maple { namespace as { namespace symbol {
 
@@ -39,26 +40,24 @@ typedef SHARED_PTR(Scope) ScopePtr;
 
 struct Scope : public Symbol, public Registrable<Scope>
 {
-	enum Properties
+	enum ScopeType
 	{
 		T_NONE			,
 		T_PACKAGE 		,
 		T_FUNCTION		,
 		T_CLASS			,
 		T_ANONYMOUS		,
-
 		T_PROGRAM_ROOT	,
 	};
 
-	Scope( std::string n, Properties t = T_NONE )
+	Scope( std::string n, ScopeType t = T_NONE, Scope *parent = NULL )
 		: Symbol( n, Symbol::T_SCOPE ), Registrable<Scope>( this )
 		, _m_scope_type( t )
+		, m_parent( parent )
 	{	}
 
-//	void setProperties( Properties p ) {	_m_scope_type = p;	};
-	Properties getProperties( ) const {	return _m_scope_type;	}
-
-	void getChilds( std::vector<SymbolPtr>& childs /*out*/ )	{	childs = _m_childs;	}
+//	void setScopeType( ScopeType p ) {	_m_scope_type = p;	};
+	ScopeType getScopeType( ) const {	return _m_scope_type;	}
 
 	virtual std::string toString()
 	{
@@ -121,13 +120,40 @@ struct Scope : public Symbol, public Registrable<Scope>
 	{
 		_m_childs . push_back( s );
 	}
+
+	void getChilds( std::vector<SymbolPtr>& childs /*out*/ )
+	{
+		childs = _m_childs;
+	}
+
+	SymbolPtr findType( std::string type_name )
+	{
+		for( std::vector<SymbolPtr>::iterator sitr = _m_childs.begin() ; sitr != _m_childs.end() ; sitr++)
+		{
+			if( (*sitr)->name() != type_name )
+				continue;
+
+			if( (*sitr)->getSymbolProperties() & Symbol::T_PRIMITIVE_TYPE )
+			{
+				return (*sitr);
+			}
+			else if( (*sitr)->getSymbolProperties() & Symbol::T_SCOPE )
+			{
+				ScopePtr scope = STATIC_CAST( Scope, *sitr );
+				if( scope->getScopeType() == T_CLASS )
+				{
+					return (*sitr);
+				}
+			}
+		}
+
+		return ( m_parent == NULL )? SymbolPtr() : m_parent->findType( type_name ) ;
+	}
 private:
-	Properties _m_scope_type;
+	ScopeType _m_scope_type;
 	std::vector<SymbolPtr>	_m_childs;
 
-friend ScopePtr registerFunction(std::string);
-friend class Registrable<Scope>;
-
+	Scope*	m_parent;
 };
 
 }}}}//tw/maple/as/symbol

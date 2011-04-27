@@ -40,9 +40,7 @@
 	#define SHARED_PTR(X) std::tr1::shared_ptr<X>
 	#define STATIC_CAST(T,X) std::tr1::static_pointer_cast<T>(X)
 	#define DYNA_CAST(T,X) std::tr1::dynamic_pointer_cast<T>(X)
-
+	#define CONST_CAST(T,X) std::tr1::const_pointer_cast<T>(X)
 #endif
-
-
 
 #endif

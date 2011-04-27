@@ -52,6 +52,10 @@ struct Variable : public Symbol
 		return "variable:"+name()+","+s_attr;
 	}
 
+	virtual void bindType( SymbolPtr type)
+	{
+			m_type_symbol = type;
+	}
 private:
 	SymbolPtr	m_type_symbol;
 };
