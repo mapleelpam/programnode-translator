@@ -41,25 +41,88 @@ struct Scope : public Symbol, public Registrable<Scope>
 {
 	enum Properties
 	{
-		T_NONE			= 0x0000,
-		T_PACKAGE 		= 0x0001,
-		T_FUNCTIONE		= 0x0002,
-		T_CLASS			= 0x0004,
+		T_NONE			,
+		T_PACKAGE 		,
+		T_FUNCTION		,
+		T_CLASS			,
+		T_ANONYMOUS		,
 
-		T_PROGRAM_ROOT	= 0x0008,
+		T_PROGRAM_ROOT	,
 	};
 
-	Scope( std::string n )
+	Scope( std::string n, Properties t = T_NONE )
 		: Symbol( n, Symbol::T_SCOPE ), Registrable<Scope>( this )
-		, _m_prop( T_NONE )
+		, _m_scope_type( t )
 	{	}
 
-	void setProperties( Properties p ) {	_m_prop = p;	};
-	Properties getProperties( ) const {	return _m_prop;	}
+//	void setProperties( Properties p ) {	_m_scope_type = p;	};
+	Properties getProperties( ) const {	return _m_scope_type;	}
 
 	void getChilds( std::vector<SymbolPtr>& childs /*out*/ )	{	childs = _m_childs;	}
+
+	virtual std::string toString()
+	{
+		std::string ans = "";
+
+		switch( _m_scope_type ){
+		case T_PACKAGE:
+			ans += "package:";
+			break;
+		case T_FUNCTION:
+			ans += "function:";
+			break;
+		case T_CLASS:
+			ans += "class:";
+			break;
+		case T_ANONYMOUS:
+			ans += "anonymous:";
+			break;
+		default:
+			std::cerr<<"can't resolve Scope Type" << _m_scope_type <<std::endl;
+		}
+
+		return ans+Symbol::toString();
+	}
+
+
+	bool isDeletable()
+	{
+		if( _m_scope_type != T_ANONYMOUS )	return false;
+		if( _m_childs . size() == 0 )	return true;
+
+		for( std::vector<SymbolPtr>::iterator sItr = _m_childs.begin() ; sItr != _m_childs.end() ; sItr++)
+		{
+			if( ((*sItr)->getSymbolProperties() & Symbol::T_SCOPE ) )
+			{
+				ScopePtr scope = STATIC_CAST( Scope, *sItr );
+				if( scope->isDeletable() )
+					continue;
+				else
+					return false;
+			} else
+				return false;
+
+		}
+		return true;
+	}
+
+	bool removeChild( SymbolPtr s )
+	{
+		for( std::vector<SymbolPtr>::iterator sItr = _m_childs.begin() ; sItr != _m_childs.end() ; sItr++)
+		{
+			if( s == *sItr ) {
+				_m_childs.erase( sItr );
+				return true;
+			}
+		}
+		return false;
+	}
+	void addChild( SymbolPtr s )
+	{
+		_m_childs . push_back( s );
+	}
 private:
-	Properties _m_prop;
+	Properties _m_scope_type;
 	std::vector<SymbolPtr>	_m_childs;
 
 friend ScopePtr registerFunction(std::string);

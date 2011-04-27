@@ -41,23 +41,36 @@ struct Symbol
 		T_NONE			= 0x0000,
 		T_SCOPE			= 0x0001,
 		T_VARIABLE		= 0x0002,
-		T_PRIMITIVE		= 0x0004,
+		T_PRARAMETER	= 0x0004,
+		T_PRIMITIVE		= 0x0008,
 	};
 
 	const std::string name() const {	return _m_name;	}
 
-	Symbol( std::string n,  Properties p = T_NONE )
+	Symbol( std::string n,  uint p = T_NONE )
 		: _m_name( n )
 		, _m_prop( p )
 	{
 	}
 
-	Properties getSymbolProperties( ) {	return _m_prop;	}
-	void setSymbolProperties( Properties p ) {	_m_prop = p;	};
+	uint getSymbolProperties( ) const {	return _m_prop;	}
+	void setSymbolProperties( uint p ) {	_m_prop = p;	};
 
+	virtual std::string toString()
+	{
+		std::string s_attr = "";
+		if( _m_prop & T_VARIABLE ) {
+			if( _m_prop & T_PRARAMETER )
+				s_attr = "param";
+			else
+				s_attr = "local";
+		}
+
+		return name()+","+s_attr;
+	}
 private:
 	std::string	_m_name;
-	Properties	_m_prop;
+	uint	_m_prop;
 };
 
 typedef SHARED_PTR(Symbol) SymbolPtr;

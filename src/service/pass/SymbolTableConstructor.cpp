@@ -81,13 +81,22 @@ void SymbolTableConstructor:: constructSymbols(
 			{
 				AST::FunctionParameterItemPtr pitem = std::tr1::static_pointer_cast<AST::FunctionParameterItem>(*nItr);
 				std::string str_varname = CPP::dispatchExpound(pitem->ParamName(), NULL);
-				symboltable->registerVariable( str_varname );
+				symboltable->registerFunctionParameter( str_varname );
 			}	break;
 			case AST::Node::NodeType::T_VARIABLE_DECLARE:
 			{
 				AST::VariableDeclarePtr var = std::tr1::static_pointer_cast<AST::VariableDeclare>(*nItr);
 				std::string str_varname = CPP::dispatchExpound(var->varName(), NULL);
 				symboltable->registerVariable( str_varname );
+			}	break;
+			case AST::Node::NodeType::T_IF_STMT_THEN:
+			case AST::Node::NodeType::T_IF_STMT_ELSE:
+			{
+				ASY::ScopePtr scope_stmt( symboltable->registerAnonymousScope( ) );
+				constructSymbols( *nItr, scope_stmt );
+
+				if( scope_stmt->isDeletable() )
+					symboltable->removeChild( scope_stmt );
 			}	break;
 			default:
 				constructSymbols( *nItr, symboltable);

@@ -51,7 +51,7 @@ struct Debug
 		for (std::vector<SymbolPtr>::iterator
 				child_itr = childs.begin(); child_itr != childs.end(); child_itr++) {
 
-			ofs << indent(depth) << (*child_itr)->name() <<std::endl;
+			ofs << indent(depth) << (*child_itr)->toString() <<std::endl;
 
 			if( ((*child_itr)->getSymbolProperties() & Symbol::T_SCOPE ) )
 			{
