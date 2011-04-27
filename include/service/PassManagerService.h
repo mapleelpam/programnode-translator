@@ -86,7 +86,7 @@ public:
 	{
 		// File Open
 		std::vector< tw::maple::as::ast::ProgramPtr > pnode_list;
-		tw::maple::as::symbol::ScopePtr				symbol_table = tw::maple::as::symbol::Scope::rootScope(); // Initialize is null
+		tw::maple::as::symbol::ScopePtr				symbol_table = tw::maple::as::symbol::Scope::rootScope() ; // Initialize is null
 
 		tw::maple::service::pass::ProgramNodeLoader::exec( m_pnode_files, pnode_list/*out*/ );
 

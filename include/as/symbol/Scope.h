@@ -30,13 +30,14 @@
 #include "global.h"
 #include <boost/assert.hpp>
 #include <as/symbol/Symbol.h>
+#include <as/symbol/action/Registrable.h>
 
 namespace tw { namespace maple { namespace as { namespace symbol {
 
 struct Scope;
 typedef SHARED_PTR(Scope) ScopePtr;
 
-struct Scope : public Symbol
+struct Scope : public Symbol, public Registrable<Scope>
 {
 	enum Properties
 	{
@@ -49,35 +50,12 @@ struct Scope : public Symbol
 	};
 
 	Scope( std::string n )
-		: Symbol( n, Symbol::T_SCOPE )
+		: Symbol( n, Symbol::T_SCOPE ), Registrable<Scope>( this )
 		, _m_prop( T_NONE )
-	{
-	}
+	{	}
 
 	void setProperties( Properties p ) {	_m_prop = p;	};
-	Properties getProperties( ) {	return _m_prop;	}
-
-	static ScopePtr rootScope()
-	{
-		ScopePtr root( new Scope("root") );
-		root->setProperties( T_PROGRAM_ROOT );
-		return root;
-	}
-
-	ScopePtr registerFunction(std::string name )
-	{
-		ScopePtr s( new Scope( name ) );
-		s -> setProperties( Scope::T_FUNCTIONE);
-		_m_childs . push_back( s );
-		return s;
-	}
-	SymbolPtr registerVariable(std::string name )
-	{
-		SymbolPtr symbol( new Symbol( name ) );
-		symbol -> setSymbolProperties( Symbol::T_VARIABLE);
-		_m_childs . push_back( symbol );
-		return symbol;
-	}
+	Properties getProperties( ) const {	return _m_prop;	}
 
 	void getChilds( std::vector<SymbolPtr>& childs /*out*/ )	{	childs = _m_childs;	}
 private:
@@ -85,24 +63,10 @@ private:
 	std::vector<SymbolPtr>	_m_childs;
 
 friend ScopePtr registerFunction(std::string);
+friend class Registrable<Scope>;
 
 };
 
-
-//ScopePtr registerPakage(std::string name)
-//{
-//	ScopePtr s( new Scope( name ) );
-//	s -> setProperties( Scope::T_PACKAGE);
-//	_m_childs . push_back( s );
-//	return s;
-//}
-//SymbolPtr registerVariable(std::string name)
-//{
-//	ScopePtr s( new Scope( name ) );
-//	s -> setProperties( Scope::T_CLASS );
-//	_m_childs . push_back( s );
-//	return s;
-//}
 }}}}//tw/maple/as/symbol
 
 #endif
