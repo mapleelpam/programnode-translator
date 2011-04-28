@@ -47,6 +47,8 @@ struct Node
         	T_PROGRAM ,
 
         	// Stmt
+        	T_PACKAGE_DEFINITION,
+
             T_FUNCTION_DEFINITION ,
             T_FUNCTION_NAME ,
             T_FUNCTION_SIGNATURE ,

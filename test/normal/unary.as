@@ -3,8 +3,6 @@
 // RUN: gcc -o %t %t.c
 // RUN: %t | FileCheck -input-file=- %s 
 
-package abc
-{
     function unary_minus( a:int ):int
     {
         return -a;
@@ -35,4 +33,3 @@ package abc
         printf(" %d\n", unary_not(0)); // CHECK: 1
         printf(" %d\n", unary_logical_not(1)); // CHECK: -2
     }
-}

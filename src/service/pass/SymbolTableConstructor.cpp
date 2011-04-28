@@ -131,7 +131,7 @@ void SymbolTableConstructor::linkVariableType(
 	namespace ASYM = tw::maple::as::symbol;
 
 
-	std::cout << "2---------->>>>>      node -> name " << node->toString() << std::endl;
+//	std::cout << "2---------->>>>>      node -> name " << node->toString() << std::endl;
 
 	if( node->node_childs.size() == 0 )
 		return;

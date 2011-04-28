@@ -52,6 +52,8 @@
 #include <backend/cpp/interpret/instanceof.h>
 #include <backend/cpp/interpret/class_define.h>
 #include <backend/cpp/interpret/class_base.h>
+#include <backend/cpp/interpret/stmt/package_definition.h>
+
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
@@ -134,6 +136,9 @@ void initializeInterpreters()
 
 		interpreterResolver[AST::Node::NodeType::T_COMP_FUNCTION_ATTRIBUTE]
 				= new Interpreter();
+
+		interpreterResolver[AST::Node::NodeType::T_PACKAGE_DEFINITION]
+		        = new PackageDefinition();
 	}
 }
 

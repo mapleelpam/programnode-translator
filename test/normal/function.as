@@ -3,8 +3,6 @@
 // RUN: gcc -o %t %t.c
 // RUN: %t | FileCheck -input-file=- %s 
 
-package abc
-{
     function sum( a:int, b:int ):int
     {
         return a+b;
@@ -14,4 +12,3 @@ package abc
     {
         printf(" %d ", sum(1,2)); // CHECK: 3
     }
-}

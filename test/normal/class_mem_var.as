@@ -3,7 +3,6 @@
 // RUN: g++ -o %t %t.cpp
 // : %t | FileCheck -input-file=- %s 
 
-package test1{
 
     class Maple
     {
@@ -38,5 +37,3 @@ package test1{
 
         m.test( 123 );
     }
-}
-

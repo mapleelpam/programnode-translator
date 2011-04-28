@@ -78,6 +78,7 @@
 #include <as/ast/attribute_list.h>
 
 #include <as/ast/function_attribute.h>
+#include <as/ast/stmt/package_definition.h>
 
 using namespace apache::thrift;
 using namespace apache::thrift::protocol;
@@ -136,12 +137,19 @@ public:
 
   void startPackage(const generated::StringList& id) {
 
-      printf(" %lu startPackage\n", _node_stack.size() );
+//      printf(" %lu startPackage\n", _node_stack.size() );
+      std::cout << " package name  " << *(id.begin()) << std::endl;
+
+//      PUSH_STACK( PackageDefinition );
+
+      as::ast::PackageDefinitionPtr pkg( new as::ast::PackageDefinition(id) );
+      _node_stack . top() -> addNodeChild( pkg );
+      _node_stack . push( pkg );
   }
 
-  void endPackage(const generated::StringList& IDs) {
-
-      printf(" %lu endPackage\n", _node_stack.size() );
+  void endPackage(const generated::StringList& IDs)
+  {
+      CHECK_STACK_AND_POP( PackageDefinition, AST::Node::NodeType::T_PACKAGE_DEFINITION );
   }
 
   void startFunctionDefinition() {

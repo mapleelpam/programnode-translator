@@ -3,8 +3,6 @@
 // RUN: gcc -o %t %t.c
 // RUN: %t | FileCheck -input-file=- %s 
 
-package abc
-{
 	function fib( v:int): int
 	{
 		var ret:int = 1;
@@ -22,4 +20,3 @@ package abc
 	}
 
 
-}

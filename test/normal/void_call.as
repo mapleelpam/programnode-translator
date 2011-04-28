@@ -3,8 +3,6 @@
 // RUN: gcc -o %t %t.c
 // RUN: %t | FileCheck -input-file=- %s 
 
-package abc
-{
     function hello( ):void
     {
         printf(" hello ");
@@ -14,4 +12,3 @@ package abc
     {
         hello(); // CHECK: hello
     }
-}

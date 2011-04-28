@@ -3,11 +3,8 @@
 // RUN: gcc -o %t %t.c
 // RUN: %t | FileCheck -input-file=- %s 
 
-package abc
-{
     function main( ) : int
     {
         printf(" hello world"); // CHECK: hello world
         printf(" hello mars"); // CHECK: hello mars
     }
-}
