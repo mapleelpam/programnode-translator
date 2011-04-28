@@ -31,7 +31,7 @@ ADD_EXECUTABLE( pn-translator
     ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/backend/cpp/interpret/Interpret.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/backend/cpp/prepend_data.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/ConfigService.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/service/ConfigService.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/service/pass/SymbolTableConstructor.cpp
     #${CMAKE_CURRENT_SOURCE_DIR}/src/as/symbol/Registrable.cpp
     ${AST_THRIFT_SRC} 

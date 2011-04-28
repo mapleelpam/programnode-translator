@@ -47,8 +47,8 @@ private:
 	std::string _config_name;
 
 protected:
-	virtual bool readConfig( boost::property_tree::ptree& pt );
-	virtual bool writeConfig( boost::property_tree::ptree& pt );
+	virtual bool readConfig( boost::property_tree::ptree& pt ); 		//inherit::ConfigRequest
+	virtual bool writeConfig( boost::property_tree::ptree& pt );		//inherit::ConfigRequest
 };
 
 } } } }

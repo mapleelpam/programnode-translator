@@ -61,12 +61,12 @@ public:
 	}
 
 
-	virtual bool readConfig( boost::property_tree::ptree& pt )
+	virtual bool readConfig( boost::property_tree::ptree& pt )	//inherit::ConfigRequest
 	{
 		_template = pt.get<std::string>( _config_name+".template", _template);
 		return true;
 	}
-	virtual bool writeConfig( boost::property_tree::ptree& pt )
+	virtual bool writeConfig( boost::property_tree::ptree& pt )	//inherit::ConfigRequest
 	{
 		pt.put<std::string>( _config_name+".template", _template);
 		return true;

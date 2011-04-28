@@ -39,28 +39,5 @@
 
 namespace tw { namespace maple { namespace as { namespace symbol {
 
-//
-//SHARED_PTR(T) Registrable::rootScope()
-//{
-//	SHARED_PTR(T) root( new T("root") );
-//	root->setProperties( T::T_PROGRAM_ROOT );
-//	return root;
-//}
-//
-//SHARED_PTR(T) Registrable::registerFunction(std::string name )
-//{
-//	SHARED_PTR(T) s( new T( name ) );
-//	s -> setProperties( T::T_FUNCTIONE);
-//	_m_childs . push_back( s );
-//	return s;
-//}
-//SymbolPtr Registrable::registerVariable(std::string name )
-//{
-//	SymbolPtr symbol( new Symbol( name ) );
-//	symbol -> setSymbolProperties( T::T_VARIABLE);
-//	_m_childs . push_back( symbol );
-//	return symbol;
-//}
-
 }}}}//tw/maple/as/symbol
 
