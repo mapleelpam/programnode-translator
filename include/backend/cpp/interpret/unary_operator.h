@@ -45,7 +45,7 @@ struct UnaryOperator : public Interpreter
 
 		if( bin->op_type == "typeof" ) {
 //			return "false/*not support typeof*/";
-			result = dispatchExpound(bin->subExpr(), ctx) +" ->getType()" ;
+			result = dispatchExpound(bin->subExpr(), ctx) +" ->__get_type__()" ;
 		} else {
 			result += " " + resolve_operator(bin->op_type) + " ";
 			result += dispatchExpound(bin->subExpr(), ctx); // sub expression
