@@ -48,7 +48,7 @@ struct Identifier: public Expression
     std::string value;
     std::string qualifier;
 
-    std::string toString()  {	return "node::identifier"; };
+    std::string toString()  {	return "node::identifier-"+qualifier+"-"+value; };
 };
 
 typedef SHARED_PTR(Identifier) IdentifierPtr;

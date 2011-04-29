@@ -43,8 +43,28 @@ struct Identifier : public Interpreter
 		SHARED_PTR(AST::Identifier) li = std::tr1::static_pointer_cast<AST::Identifier>(node);
 
 		if(li->qualifier != "")
-			return li->qualifier+"::"+li->value;
+		{
+			std::string left = _replace_string( li->qualifier, ".", "::");
+
+			return left+"::"+li->value;
+		}
+
 		return li->value;
+	}
+
+private:
+	std::string _replace_string(
+	    const std::string &s, const std::string &SearchString, const std::string &ReplaceString
+	    )
+	{
+		std::string result = s;
+	    std::string::size_type p = 0;
+	    while((p = result.find(SearchString, p)) != std::string::npos)
+	    {
+	        result.replace(p, SearchString.size(), ReplaceString);
+	        p++;
+	    }
+	    return result;
 	}
 };
 
