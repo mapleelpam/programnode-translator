@@ -2995,7 +2995,7 @@ uint32_t AstDumper_startClassDefine_pargs::write(::apache::thrift::protocol::TPr
   return xfer;
 }
 
-uint32_t AstDumper_startClassName_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t AstDumper_className_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   uint32_t xfer = 0;
   std::string fname;
@@ -3015,6 +3015,14 @@ uint32_t AstDumper_startClassName_args::read(::apache::thrift::protocol::TProtoc
     }
     switch (fid)
     {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->name);
+          this->__isset.name = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -3027,65 +3035,23 @@ uint32_t AstDumper_startClassName_args::read(::apache::thrift::protocol::TProtoc
   return xfer;
 }
 
-uint32_t AstDumper_startClassName_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t AstDumper_className_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
-  xfer += oprot->writeStructBegin("AstDumper_startClassName_args");
+  xfer += oprot->writeStructBegin("AstDumper_className_args");
+  xfer += oprot->writeFieldBegin("name", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->name);
+  xfer += oprot->writeFieldEnd();
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
 }
 
-uint32_t AstDumper_startClassName_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t AstDumper_className_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
-  xfer += oprot->writeStructBegin("AstDumper_startClassName_pargs");
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  return xfer;
-}
-
-uint32_t AstDumper_endClassName_args::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-  uint32_t xfer = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TType ftype;
-  int16_t fid;
-
-  xfer += iprot->readStructBegin(fname);
-
-  using ::apache::thrift::protocol::TProtocolException;
-
-
-  while (true)
-  {
-    xfer += iprot->readFieldBegin(fname, ftype, fid);
-    if (ftype == ::apache::thrift::protocol::T_STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      default:
-        xfer += iprot->skip(ftype);
-        break;
-    }
-    xfer += iprot->readFieldEnd();
-  }
-
-  xfer += iprot->readStructEnd();
-
-  return xfer;
-}
-
-uint32_t AstDumper_endClassName_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
-  uint32_t xfer = 0;
-  xfer += oprot->writeStructBegin("AstDumper_endClassName_args");
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  return xfer;
-}
-
-uint32_t AstDumper_endClassName_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
-  uint32_t xfer = 0;
-  xfer += oprot->writeStructBegin("AstDumper_endClassName_pargs");
+  xfer += oprot->writeStructBegin("AstDumper_className_pargs");
+  xfer += oprot->writeFieldBegin("name", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString((*(this->name)));
+  xfer += oprot->writeFieldEnd();
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -4561,35 +4527,18 @@ void AstDumperClient::send_startClassDefine(const ClassDefine& class_define)
   oprot_->getTransport()->flush();
 }
 
-void AstDumperClient::startClassName()
+void AstDumperClient::className(const std::string& name)
 {
-  send_startClassName();
+  send_className(name);
 }
 
-void AstDumperClient::send_startClassName()
+void AstDumperClient::send_className(const std::string& name)
 {
   int32_t cseqid = 0;
-  oprot_->writeMessageBegin("startClassName", ::apache::thrift::protocol::T_CALL, cseqid);
+  oprot_->writeMessageBegin("className", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  AstDumper_startClassName_pargs args;
-  args.write(oprot_);
-
-  oprot_->writeMessageEnd();
-  oprot_->getTransport()->writeEnd();
-  oprot_->getTransport()->flush();
-}
-
-void AstDumperClient::endClassName()
-{
-  send_endClassName();
-}
-
-void AstDumperClient::send_endClassName()
-{
-  int32_t cseqid = 0;
-  oprot_->writeMessageBegin("endClassName", ::apache::thrift::protocol::T_CALL, cseqid);
-
-  AstDumper_endClassName_pargs args;
+  AstDumper_className_pargs args;
+  args.name = &name;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -6913,75 +6862,38 @@ void AstDumperProcessor::process_startClassDefine(int32_t seqid, ::apache::thrif
   return;
 }
 
-void AstDumperProcessor::process_startClassName(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+void AstDumperProcessor::process_className(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = NULL;
   if (eventHandler_.get() != NULL) {
-    ctx = eventHandler_->getContext("AstDumper.startClassName", callContext);
+    ctx = eventHandler_->getContext("AstDumper.className", callContext);
   }
-  ::apache::thrift::TProcessorContextFreer freer(eventHandler_.get(), ctx, "AstDumper.startClassName");
+  ::apache::thrift::TProcessorContextFreer freer(eventHandler_.get(), ctx, "AstDumper.className");
 
   if (eventHandler_.get() != NULL) {
-    eventHandler_->preRead(ctx, "AstDumper.startClassName");
+    eventHandler_->preRead(ctx, "AstDumper.className");
   }
 
-  AstDumper_startClassName_args args;
+  AstDumper_className_args args;
   args.read(iprot);
   iprot->readMessageEnd();
   uint32_t bytes = iprot->getTransport()->readEnd();
 
   if (eventHandler_.get() != NULL) {
-    eventHandler_->postRead(ctx, "AstDumper.startClassName", bytes);
+    eventHandler_->postRead(ctx, "AstDumper.className", bytes);
   }
 
   try {
-    iface_->startClassName();
+    iface_->className(args.name);
   } catch (const std::exception& e) {
     if (eventHandler_.get() != NULL) {
-      eventHandler_->handlerError(ctx, "AstDumper.startClassName");
+      eventHandler_->handlerError(ctx, "AstDumper.className");
     }
     return;
   }
 
   if (eventHandler_.get() != NULL) {
-    eventHandler_->asyncComplete(ctx, "AstDumper.startClassName");
-  }
-
-  return;
-}
-
-void AstDumperProcessor::process_endClassName(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
-{
-  void* ctx = NULL;
-  if (eventHandler_.get() != NULL) {
-    ctx = eventHandler_->getContext("AstDumper.endClassName", callContext);
-  }
-  ::apache::thrift::TProcessorContextFreer freer(eventHandler_.get(), ctx, "AstDumper.endClassName");
-
-  if (eventHandler_.get() != NULL) {
-    eventHandler_->preRead(ctx, "AstDumper.endClassName");
-  }
-
-  AstDumper_endClassName_args args;
-  args.read(iprot);
-  iprot->readMessageEnd();
-  uint32_t bytes = iprot->getTransport()->readEnd();
-
-  if (eventHandler_.get() != NULL) {
-    eventHandler_->postRead(ctx, "AstDumper.endClassName", bytes);
-  }
-
-  try {
-    iface_->endClassName();
-  } catch (const std::exception& e) {
-    if (eventHandler_.get() != NULL) {
-      eventHandler_->handlerError(ctx, "AstDumper.endClassName");
-    }
-    return;
-  }
-
-  if (eventHandler_.get() != NULL) {
-    eventHandler_->asyncComplete(ctx, "AstDumper.endClassName");
+    eventHandler_->asyncComplete(ctx, "AstDumper.className");
   }
 
   return;

@@ -71,8 +71,7 @@ class AstDumperIf {
   virtual void startStmtList() = 0;
   virtual void endStmtList() = 0;
   virtual void startClassDefine(const ClassDefine& class_define) = 0;
-  virtual void startClassName() = 0;
-  virtual void endClassName() = 0;
+  virtual void className(const std::string& name) = 0;
   virtual void startClassBase() = 0;
   virtual void endClassBase() = 0;
   virtual void startClassInterface() = 0;
@@ -258,10 +257,7 @@ class AstDumperNull : virtual public AstDumperIf {
   void startClassDefine(const ClassDefine& /* class_define */) {
     return;
   }
-  void startClassName() {
-    return;
-  }
-  void endClassName() {
+  void className(const std::string& /* name */) {
     return;
   }
   void startClassBase() {
@@ -2522,25 +2518,34 @@ class AstDumper_startClassDefine_pargs {
 
 };
 
+typedef struct _AstDumper_className_args__isset {
+  _AstDumper_className_args__isset() : name(false) {}
+  bool name;
+} _AstDumper_className_args__isset;
 
-class AstDumper_startClassName_args {
+class AstDumper_className_args {
  public:
 
-  AstDumper_startClassName_args() {
+  AstDumper_className_args() : name("") {
   }
 
-  virtual ~AstDumper_startClassName_args() throw() {}
+  virtual ~AstDumper_className_args() throw() {}
 
+  std::string name;
 
-  bool operator == (const AstDumper_startClassName_args & /* rhs */) const
+  _AstDumper_className_args__isset __isset;
+
+  bool operator == (const AstDumper_className_args & rhs) const
   {
+    if (!(name == rhs.name))
+      return false;
     return true;
   }
-  bool operator != (const AstDumper_startClassName_args &rhs) const {
+  bool operator != (const AstDumper_className_args &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const AstDumper_startClassName_args & ) const;
+  bool operator < (const AstDumper_className_args & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -2548,49 +2553,13 @@ class AstDumper_startClassName_args {
 };
 
 
-class AstDumper_startClassName_pargs {
+class AstDumper_className_pargs {
  public:
 
 
-  virtual ~AstDumper_startClassName_pargs() throw() {}
+  virtual ~AstDumper_className_pargs() throw() {}
 
-
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-
-class AstDumper_endClassName_args {
- public:
-
-  AstDumper_endClassName_args() {
-  }
-
-  virtual ~AstDumper_endClassName_args() throw() {}
-
-
-  bool operator == (const AstDumper_endClassName_args & /* rhs */) const
-  {
-    return true;
-  }
-  bool operator != (const AstDumper_endClassName_args &rhs) const {
-    return !(*this == rhs);
-  }
-
-  bool operator < (const AstDumper_endClassName_args & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-
-class AstDumper_endClassName_pargs {
- public:
-
-
-  virtual ~AstDumper_endClassName_pargs() throw() {}
-
+  const std::string* name;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -3063,10 +3032,8 @@ class AstDumperClient : virtual public AstDumperIf {
   void send_endStmtList();
   void startClassDefine(const ClassDefine& class_define);
   void send_startClassDefine(const ClassDefine& class_define);
-  void startClassName();
-  void send_startClassName();
-  void endClassName();
-  void send_endClassName();
+  void className(const std::string& name);
+  void send_className(const std::string& name);
   void startClassBase();
   void send_startClassBase();
   void endClassBase();
@@ -3155,8 +3122,7 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
   void process_startStmtList(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_endStmtList(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_startClassDefine(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
-  void process_startClassName(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
-  void process_endClassName(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_className(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_startClassBase(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_endClassBase(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_startClassInterface(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -3226,8 +3192,7 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
     processMap_["startStmtList"] = &AstDumperProcessor::process_startStmtList;
     processMap_["endStmtList"] = &AstDumperProcessor::process_endStmtList;
     processMap_["startClassDefine"] = &AstDumperProcessor::process_startClassDefine;
-    processMap_["startClassName"] = &AstDumperProcessor::process_startClassName;
-    processMap_["endClassName"] = &AstDumperProcessor::process_endClassName;
+    processMap_["className"] = &AstDumperProcessor::process_className;
     processMap_["startClassBase"] = &AstDumperProcessor::process_startClassBase;
     processMap_["endClassBase"] = &AstDumperProcessor::process_endClassBase;
     processMap_["startClassInterface"] = &AstDumperProcessor::process_startClassInterface;
@@ -3654,17 +3619,10 @@ class AstDumperMultiface : virtual public AstDumperIf {
     }
   }
 
-  void startClassName() {
+  void className(const std::string& name) {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
-      ifaces_[i]->startClassName();
-    }
-  }
-
-  void endClassName() {
-    uint32_t sz = ifaces_.size();
-    for (uint32_t i = 0; i < sz; ++i) {
-      ifaces_[i]->endClassName();
+      ifaces_[i]->className(name);
     }
   }
 

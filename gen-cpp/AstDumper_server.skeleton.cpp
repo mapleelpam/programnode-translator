@@ -307,14 +307,9 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("startClassDefine\n");
   }
 
-  void startClassName() {
+  void className(const std::string& name) {
     // Your implementation goes here
-    printf("startClassName\n");
-  }
-
-  void endClassName() {
-    // Your implementation goes here
-    printf("endClassName\n");
+    printf("className\n");
   }
 
   void startClassBase() {

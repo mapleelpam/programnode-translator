@@ -1,10 +1,10 @@
 // RUN: java -jar %ASC_JAR -x -z %t.pn  %s 
-// -RUN: pn-translator --symbol %t.pn -o %t.sym
-// -RUN: cat %t.sym | FileCheck -input-file=- %s 
+// RUN: pn-translator --symbol %t.pn -o %t.sym
+// RUN: cat %t.sym | FileCheck -input-file=- %s 
 
 package abc
 {
-    public class TestClass                  //CHECK: class:TestClass
+    class TestClass                  //CHECK: class:TestClass
     {
         function fib( v:int): int           //CHECK: -function:fib
         {                                   //CHECK: --variable:v,param

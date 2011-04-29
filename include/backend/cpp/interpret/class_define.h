@@ -44,6 +44,8 @@ struct ClassDefine : public Interpreter, public TemplatePrinter
 		AST::ClassDefinePtr _class_define_ = STATIC_CAST( AST::ClassDefine, node);
 
 		std::string class_name = dispatchExpound(_class_define_->className(), ctx);
+		std::cerr<<" interpret hey ---> class_name = '"<<class_name<<"'"<<std::endl;
+
 		ctx->tree_depth ++;
 			std::string class_stmt = dispatchExpound(_class_define_->classStmt(), ctx);
 		ctx->tree_depth --;

@@ -23,34 +23,31 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#ifndef __TW_MAPLE_AS_AST_SATEMENTS_CLASS_NAME_H__
-#define __TW_MAPLE_AS_AST_SATEMENTS_CLASS_NAME_H__
+#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_CLASS_NAME_H__
+#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_CLASS_NAME_H__
 
-#include <tr1/memory>
-#include <as/ast/statement.h>
+#include <as/ast/class_name.h>
+#include <as/ast/call.h>
+#include <backend/cpp/interpret/interpreter.h>
 
+namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
-namespace tw { namespace maple { namespace as { namespace ast {
+namespace AST = ::tw::maple::as::ast;
 
-struct ClassName : public Statement
-{
-	ClassName( std::string name )
-		: Statement(Node::NodeType::T_CLASS_DEFINE_NAME)
-		, class_name( name )
+struct ClassName : public Interpreter
+{   
+	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
 	{
-	}
-	int stmtType() {
-		return _node_type;
-	}
-	std::string toString()  {	return "node::CLASS_NAME"; };
 
+		AST::ClassNamePtr class_name = STATIC_CAST( AST::ClassName, node);
 
-    std::string class_name;
+		return class_name->class_name;
+	}
+};
 
 };
-typedef std::tr1::shared_ptr<ClassName> ClassNamePtr;
 
 
-} } } }
+} } } } 
 
-#endif
+#endif 

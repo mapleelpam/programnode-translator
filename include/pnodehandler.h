@@ -119,401 +119,383 @@ public:
     // Your initialization goes here
   }
 
-  void startProgram()
-  {
-      printf(" %lu startProgram\n", _node_stack.size() );
+  void startProgram() {
+		printf(" %lu startProgram\n", _node_stack.size());
 
-      _program_root . reset( new as::ast::Program() );
-      _node_stack.push( _program_root );
-  }
+		_program_root . reset(new as::ast::Program());
+		_node_stack.push(_program_root);
+	}
 
-  void endProgram()
-  {
+	void endProgram() {
 
-      printf(" %lu endProgram\n", _node_stack.size() );
+		printf(" %lu endProgram\n", _node_stack.size());
 
-      // DO FOR WHAT?
-  }
+		// DO FOR WHAT?
+	}
 
-  void startPackage(const generated::StringList& id) {
+	void startPackage(const generated::StringList& id) {
 
-//      printf(" %lu startPackage\n", _node_stack.size() );
-      std::cout << " package name  " << *(id.begin()) << std::endl;
+		//      printf(" %lu startPackage\n", _node_stack.size() );
+		std::cout << " package name  " << *(id.begin()) << std::endl;
 
-//      PUSH_STACK( PackageDefinition );
+		//      PUSH_STACK( PackageDefinition );
 
-      as::ast::PackageDefinitionPtr pkg( new as::ast::PackageDefinition(id) );
-      _node_stack . top() -> addNodeChild( pkg );
-      _node_stack . push( pkg );
-  }
+		as::ast::PackageDefinitionPtr pkg(new as::ast::PackageDefinition(id));
+		_node_stack . top() -> addNodeChild(pkg);
+		_node_stack . push(pkg);
+	}
 
-  void endPackage(const generated::StringList& IDs)
-  {
-      CHECK_STACK_AND_POP( PackageDefinition, AST::Node::NodeType::T_PACKAGE_DEFINITION );
-  }
+	void endPackage(const generated::StringList& IDs) {
+		CHECK_STACK_AND_POP( PackageDefinition, AST::Node::NodeType::T_PACKAGE_DEFINITION );
+	}
 
-  void startFunctionDefinition() {
+	void startFunctionDefinition() {
 
-//      printf(" %lu startFunctionDefinition\n", _node_stack.size() );
-//
-//      as::ast::FunctionDefinitionPtr func_def( new as::ast::FunctionDefinition() );
-//      _node_stack . top() -> addNodeChild( func_def );
-//      _node_stack . push( func_def );
+		//      printf(" %lu startFunctionDefinition\n", _node_stack.size() );
+		//
+		//      as::ast::FunctionDefinitionPtr func_def( new as::ast::FunctionDefinition() );
+		//      _node_stack . top() -> addNodeChild( func_def );
+		//      _node_stack . push( func_def );
+		PUSH_STACK( FunctionDefinition );
 
-      PUSH_STACK( FunctionDefinition );
+	}
 
-  }
+	void functionName(const std::string& name) {
 
-  void functionName( const std::string& name ) {
+		printf(" %lu startFunctionName\n", _node_stack.size());
 
-      printf(" %lu startFunctionName\n", _node_stack.size() );
+		as::ast::FunctionNamePtr func_name(new as::ast::FunctionName(name));
+		_node_stack . top() -> addNodeChild(func_name);
+	}
 
-      as::ast::FunctionNamePtr func_name( new as::ast::FunctionName(name ) );
-      _node_stack . top() -> addNodeChild( func_name );
-  }
+	void startFunctionSignature() {
+		PUSH_STACK( FunctionSignature );
+	}
 
+	void endFunctionSignature() {
 
-  void startFunctionSignature() {
-      PUSH_STACK( FunctionSignature );
-  }
+		printf(" %lu endFunctionSignature\n", _node_stack.size());
+		_node_stack . pop();
+	}
 
-  void endFunctionSignature() {
+	void startFunctionSignatureParameters() {
 
-      printf(" %lu endFunctionSignature\n", _node_stack.size() );
-      _node_stack . pop();
-  }
+		printf(" %lu startFunctionSignatureParameters\n", _node_stack.size());
 
-  void startFunctionSignatureParameters() {
+		std::cout << " current stack top is "
+				<< _node_stack . top() -> toString() << std::endl;
 
-      printf(" %lu startFunctionSignatureParameters\n", _node_stack.size() );
+		as::ast::FunctionParametersPtr fsig_param(
+				new as::ast::FunctionParameters);
+		_node_stack . top() -> addNodeChild(fsig_param);
+		_node_stack . push(fsig_param);
+	}
 
-      std::cout << " current stack top is " << _node_stack . top() -> toString() << std::endl;
+	void startFunctionSignatureParameterMember() {
+		PUSH_STACK( FunctionParameterItem );
+	}
 
-      as::ast::FunctionParametersPtr fsig_param( new as::ast::FunctionParameters );
-      _node_stack . top() -> addNodeChild( fsig_param );
-      _node_stack . push( fsig_param );
-  }
+	void endFunctionSignatureParameterMember() {
 
-  void startFunctionSignatureParameterMember() {
-      PUSH_STACK( FunctionParameterItem );
-  }
+		printf(" %lu endFunctionSignatureParameterMember\n", _node_stack.size());
+		_node_stack . pop();
+	}
 
-  void endFunctionSignatureParameterMember() {
+	void endFunctionSignatureParameters() {
 
-      printf(" %lu endFunctionSignatureParameterMember\n", _node_stack.size() );
-      _node_stack . pop();
-  }
+		printf(" %lu endFunctionSignatureParameters\n", _node_stack.size());
+		_node_stack . pop();
+	}
 
-  void endFunctionSignatureParameters() {
+	void startFunctionSignatureReturnType() {
+		PUSH_STACK( FunctionReturnType );
 
-      printf(" %lu endFunctionSignatureParameters\n", _node_stack.size() );
-      _node_stack . pop();
-  }
+	}
 
-  void startFunctionSignatureReturnType() {
-      PUSH_STACK( FunctionReturnType );
+	void endFunctionSignatureReturnType() {
 
-  }
+		printf(" %lu endFunctionSignatureReturnType\n", _node_stack.size());
+		_node_stack . pop();
+	}
 
-  void endFunctionSignatureReturnType() {
+	void startFunctionCommon() {
 
-      printf(" %lu endFunctionSignatureReturnType\n", _node_stack.size() );
-      _node_stack . pop();
-  }
-
-  void startFunctionCommon() {
-
-      printf(" %lu startFunctionCommon\n", _node_stack.size() );
-
-      as::ast::FunctionCommonPtr fCommon( new as::ast::FunctionCommon );
-      _node_stack . top() -> addNodeChild( fCommon );
-      _node_stack . push( fCommon );
-  }
-
-  void endFunctionCommon() {
-
-      printf(" %lu endFunctionCommon\n", _node_stack.size() );
-      _node_stack . pop();
-  }
-
-  void endFunctionDefinition() {
-
-      printf(" %lu endFunctionDefinition\n", _node_stack.size() );
-      _node_stack . pop( );
-  }
-
-  void startExpressionList()
-  {
-      printf(" %lu startExpressionList\n", _node_stack.size() );
-      as::ast::ExpressionListPtr exp_list( new as::ast::ExpressionList );
-      _node_stack . top() -> addNodeChild( exp_list );
-      _node_stack . push( exp_list );
-  }
-
-  void startStmtExpression()
-  {
-        PUSH_STACK( StmtExpression );
-  }
-  void endStmtExpression()
-  {
-        CHECK_STACK_AND_POP( StmtExpression, AST::Node::NodeType::T_STMT_EXPR );
-  }
-  void startCallExpression(const generated::CallExpression& call)
-  {
-      PUSH_STACK_WITH_INIT( Call,  call.is_new);
-  }
-
-  void startAgumentList() {
-      PUSH_STACK( Arguments );
-  }
-
-  void endAgumentList() {
-
-      printf(" %lu endAgumentList\n", _node_stack.size() );
-      _node_stack . pop( );
-  }
-
-  void endCallExpression()
-  {
-
-      printf(" %lu endCallExpression\n", _node_stack.size() );
-      _node_stack . pop( );
-  }
-  void startBinaryExpression(const generated::BinaryExpression& op)
-  {
-
-      printf(" %lu startBinaryExpression\n", _node_stack.size() );
-
-      as::ast::BinaryOperatorPtr as_node( new as::ast::BinaryOperator(op.op));
-      _node_stack . top() -> addNodeChild(as_node);
-      _node_stack . push(as_node);
-  }
-  void endBinaryExpression() {
-
-      printf(" %lu endBinaryExpression\n", _node_stack.size() );
-      _node_stack . pop( );
-  }
-  void startInstanceOfExpression()
-  {
-      PUSH_STACK( InstanceOf );
-  }
-  void endInstanceOfExpression() {
-
-      printf(" %lu endInstanceOfExpression\n", _node_stack.size() );
-      _node_stack . pop( );
-  }
-  void startIsOperator()
-  {
-	  PUSH_STACK( Is );
-  }
-  void endIsOperator() {
-	  CHECK_STACK_AND_POP( Is, AST::Node::NodeType::T_IS );
-  }
-  void startVariableDeclare() {
-      PUSH_STACK( VariableDeclare );
-  }
-  void endVariableDeclare() {
-
-      printf(" %lu endVariableDeclare\n", _node_stack.size());
-      _node_stack . pop();
-
-  }
-
-  void startAssignment() {
-      PUSH_STACK( Assignment );
-  }
-  void startClassBase() {
-	  PUSH_STACK( ClassInheritBase );
-  }
-  void startClassInterface() {
-	  PUSH_STACK( ClassInheritInterface );
-  }
-  void endClassBase() {
-      CHECK_STACK_AND_POP( ClassInheritBase, AST::Node::NodeType::T_COMP_CLASS_BASE );
-
-  }
-  void endClassInterface() {
-      CHECK_STACK_AND_POP( ClassInheritInterface, AST::Node::NodeType::T_COMP_CLASS_INTERFACE );
-  }
-  void endAssignment() {
-      printf(" %lu endAssignment\n", _node_stack.size());
-      _node_stack . pop();
-
-  }
-  void startUnaryExpression(const generated::UnaryExpression& op)
-  {
-
-      printf("startUnaryExpression\n");
-      as::ast::UnaryOperatorPtr as_node( new as::ast::UnaryOperator(op.op));
-      _node_stack . top() -> addNodeChild(as_node);
-      _node_stack . push(as_node);
-  }
-  void endUnaryExpression() {
-
-      printf("endUnaryExpression\n");
-      _node_stack . pop( );
-
-  }
-
-
-  void startReturnStatement()
-  {
-
-      printf(" %lu startReturnStatement\n", _node_stack.size() );
-      as::ast::ReturnStatementPtr op( new as::ast::ReturnStatement);
-      _node_stack . top() -> addNodeChild(op);
-      _node_stack . push(op);
-  }
-
-  void endReturnStatement()
-  {
-
-      printf(" %lu endReturnStatement\n", _node_stack.size() );
-      _node_stack . pop();
-  }
-
-  void identifierExpression(const generated::Identifier& id)
-  {
-      std::cout << _node_stack.size() << "  identifierExpression"  <<" -> "<< _node_stack.top()->toString()<<":"<<_node_stack.top()->node_childs.size()<<":"<<id.name<< std::endl;
-      as::ast::IdentifierPtr exp_id( new as::ast::Identifier(id.name,id.qualifier) );
-      _node_stack . top () -> addNodeChild( exp_id);
-  }
-
-  virtual void literalStringExpression(const generated::Literal& str)
-  {
-      as::ast::LiteralStringPtr exp_literal( new as::ast::LiteralString( str.value ) );
-      _node_stack . top () -> addNodeChild( exp_literal);
-  }
-  virtual void literalNumberExpression(const generated::Literal& num)
-  {
-      as::ast::LiteralNumberPtr exp_literal( new as::ast::LiteralNumber( num.value ) );
-      _node_stack . top () -> addNodeChild( exp_literal);
-  }
-  virtual void literalBooleanExpression(const generated::Literal& num)
-  {
-      as::ast::LiteralBooleanPtr exp_literal( new as::ast::LiteralBoolean( num.value ) );
-      _node_stack . top () -> addNodeChild( exp_literal);
-  }
-  void endExpressionList() {
-
-      printf(" %lu endExpressionList\n", _node_stack.size() );
-      _node_stack . pop ();
-  }
-
-  void addImport(const generated::StringList& packages) {
-
-      printf(" %lu addImport\n", _node_stack.size() );
-  }
-
-  void startStmtList() {
-
-      printf(" %lu startStmtList\n", _node_stack.size() );
-      as::ast::StatementListPtr stmts( new as::ast::StatementList);
-      _node_stack . top () -> addNodeChild( stmts );
-      _node_stack . push( stmts );
-  }
-
-  void endStmtList() {
-      printf(" %lu endStmtList\n", _node_stack.size() );
-      _node_stack . pop ();
-  }
-
-  void startIfStatement() {
-
-      printf(" %lu startIfStatement\n", _node_stack.size() );
-
-      as::ast::IfStatementPtr ifStmt( new as::ast::IfStatement );
-      _node_stack . top() -> addNodeChild( ifStmt );
-      _node_stack . push( ifStmt );
-  }
-  void startIfStatement_Condition() {
-
-      printf(" %lu startIfStatement_Condition\n", _node_stack.size() );
-
-      as::ast::IfStatementConditionPtr ifStmt( new as::ast::IfStatementCondition );
-      _node_stack . top() -> addNodeChild(ifStmt  );
-      _node_stack . push( ifStmt );
-  }
-  void startIfStatement_Then() {
-
-      printf(" %lu startIfStatement_Then\n", _node_stack.size() );
-
-      as::ast::IfStatementThenPtr ifStmt( new as::ast::IfStatementThen );
-      _node_stack . top() -> addNodeChild(ifStmt  );
-      _node_stack . push( ifStmt );
-  }
-  void startIfStatement_Else() {
-
-      printf(" %lu startIfStatement_Else\n", _node_stack.size() );
-
-      as::ast::IfStatementElsePtr ifStmt( new as::ast::IfStatementElse );
-      _node_stack . top() -> addNodeChild( ifStmt  );
-      _node_stack . push( ifStmt );
-  }
-  void endIfStatement() {
-       CHECK_STACK_AND_POP( IfStatement, AST::Node::NodeType::T_IF_STMT );
-  }
-  void endIfStatement_Condition() {
-      CHECK_STACK_AND_POP( IfStatement_Condition, AST::Node::NodeType::T_IF_STMT_CONDITION );
-  }
-  void endIfStatement_Then() {
-      CHECK_STACK_AND_POP( IfStatement_Then, AST::Node::NodeType::T_IF_STMT_THEN );
-  }
-  void endtIfStatement_Else() {
-      CHECK_STACK_AND_POP( IfStatement_Else, AST::Node::NodeType::T_IF_STMT_ELSE );
-  }
-
-  void startClassDefine( const generated::ClassDefine& class_define )
-  {
-      printf(" %lu startClassDefine\n", _node_stack.size() );
-      as::ast::ClassDefinePtr exp_list( new as::ast::ClassDefine );
-
-      _node_stack . top() -> addNodeChild( exp_list );
-      _node_stack . push( exp_list );
-
-      exp_list->setHasBaseClass( class_define.has_baseclass );
-      exp_list->setHasInterface( class_define.has_interface );
-      exp_list->setHasAttribute( class_define.has_attr );
-
-  }
-
-  void startClassName()
-    {
-        printf(" %lu startClassName\n", _node_stack.size() );
-        as::ast::ClassNamePtr exp_list( new as::ast::ClassName );
-        _node_stack . top() -> addNodeChild( exp_list );
-        _node_stack . push( exp_list );
-    }
-  void startClassStmt()
-      {
-          printf(" %lu startClassStmt\n", _node_stack.size() );
-          as::ast::ClassStmtPtr exp_list( new as::ast::ClassStmt );
-          _node_stack . top() -> addNodeChild( exp_list );
-          _node_stack . push( exp_list );
-      }
-  void endClassDefine() {
-      CHECK_STACK_AND_POP( ClassDefine, AST::Node::NodeType::T_CLASS_DEFINE );
-
-  }
-  void endClassName() {
-        CHECK_STACK_AND_POP( ClassName, AST::Node::NodeType::T_CLASS_DEFINE_NAME );
-    }
-  void endClassStmt() {
-        CHECK_STACK_AND_POP( ClassStmt, AST::Node::NodeType::T_CLASS_DEFINE_STMT );
-    }
-
-  void startAttributeList() {
+		printf(" %lu startFunctionCommon\n", _node_stack.size());
+
+		as::ast::FunctionCommonPtr fCommon(new as::ast::FunctionCommon);
+		_node_stack . top() -> addNodeChild(fCommon);
+		_node_stack . push(fCommon);
+	}
+
+	void endFunctionCommon() {
+
+		printf(" %lu endFunctionCommon\n", _node_stack.size());
+		_node_stack . pop();
+	}
+
+	void endFunctionDefinition() {
+
+		printf(" %lu endFunctionDefinition\n", _node_stack.size());
+		_node_stack . pop();
+	}
+
+	void startExpressionList() {
+		printf(" %lu startExpressionList\n", _node_stack.size());
+		as::ast::ExpressionListPtr exp_list(new as::ast::ExpressionList);
+		_node_stack . top() -> addNodeChild(exp_list);
+		_node_stack . push(exp_list);
+	}
+
+	void startStmtExpression() {
+		PUSH_STACK( StmtExpression );
+	}
+	void endStmtExpression() {
+		CHECK_STACK_AND_POP( StmtExpression, AST::Node::NodeType::T_STMT_EXPR );
+	}
+	void startCallExpression(const generated::CallExpression& call) {
+		PUSH_STACK_WITH_INIT( Call, call.is_new);
+	}
+
+	void startAgumentList() {
+		PUSH_STACK( Arguments );
+	}
+
+	void endAgumentList() {
+
+		printf(" %lu endAgumentList\n", _node_stack.size());
+		_node_stack . pop();
+	}
+
+	void endCallExpression() {
+
+		printf(" %lu endCallExpression\n", _node_stack.size());
+		_node_stack . pop();
+	}
+	void startBinaryExpression(const generated::BinaryExpression& op) {
+
+		printf(" %lu startBinaryExpression\n", _node_stack.size());
+
+		as::ast::BinaryOperatorPtr as_node(new as::ast::BinaryOperator(op.op));
+		_node_stack . top() -> addNodeChild(as_node);
+		_node_stack . push(as_node);
+	}
+	void endBinaryExpression() {
+
+		printf(" %lu endBinaryExpression\n", _node_stack.size());
+		_node_stack . pop();
+	}
+	void startInstanceOfExpression() {
+		PUSH_STACK( InstanceOf );
+	}
+	void endInstanceOfExpression() {
+
+		printf(" %lu endInstanceOfExpression\n", _node_stack.size());
+		_node_stack . pop();
+	}
+	void startIsOperator() {
+		PUSH_STACK( Is );
+	}
+	void endIsOperator() {
+		CHECK_STACK_AND_POP( Is, AST::Node::NodeType::T_IS );
+	}
+	void startVariableDeclare() {
+		PUSH_STACK( VariableDeclare );
+	}
+	void endVariableDeclare() {
+
+		printf(" %lu endVariableDeclare\n", _node_stack.size());
+		_node_stack . pop();
+
+	}
+
+	void startAssignment() {
+		PUSH_STACK( Assignment );
+	}
+	void startClassBase() {
+		PUSH_STACK( ClassInheritBase );
+	}
+	void startClassInterface() {
+		PUSH_STACK( ClassInheritInterface );
+	}
+	void endClassBase() {
+		CHECK_STACK_AND_POP( ClassInheritBase, AST::Node::NodeType::T_COMP_CLASS_BASE );
+
+	}
+	void endClassInterface() {
+		CHECK_STACK_AND_POP( ClassInheritInterface, AST::Node::NodeType::T_COMP_CLASS_INTERFACE );
+	}
+	void endAssignment() {
+		printf(" %lu endAssignment\n", _node_stack.size());
+		_node_stack . pop();
+
+	}
+	void startUnaryExpression(const generated::UnaryExpression& op) {
+
+		printf("startUnaryExpression\n");
+		as::ast::UnaryOperatorPtr as_node(new as::ast::UnaryOperator(op.op));
+		_node_stack . top() -> addNodeChild(as_node);
+		_node_stack . push(as_node);
+	}
+	void endUnaryExpression() {
+
+		printf("endUnaryExpression\n");
+		_node_stack . pop();
+
+	}
+
+	void startReturnStatement() {
+
+		printf(" %lu startReturnStatement\n", _node_stack.size());
+		as::ast::ReturnStatementPtr op(new as::ast::ReturnStatement);
+		_node_stack . top() -> addNodeChild(op);
+		_node_stack . push(op);
+	}
+
+	void endReturnStatement() {
+
+		printf(" %lu endReturnStatement\n", _node_stack.size());
+		_node_stack . pop();
+	}
+
+	void identifierExpression(const generated::Identifier& id) {
+		std::cout << _node_stack.size() << "  identifierExpression" << " -> "
+				<< _node_stack.top()->toString() << ":"
+				<< _node_stack.top()->node_childs.size() << ":" << id.name
+				<< std::endl;
+		as::ast::IdentifierPtr exp_id(
+				new as::ast::Identifier(id.name, id.qualifier));
+		_node_stack . top() -> addNodeChild(exp_id);
+	}
+
+	virtual void literalStringExpression(const generated::Literal& str) {
+		as::ast::LiteralStringPtr exp_literal(
+				new as::ast::LiteralString(str.value));
+		_node_stack . top() -> addNodeChild(exp_literal);
+	}
+	virtual void literalNumberExpression(const generated::Literal& num) {
+		as::ast::LiteralNumberPtr exp_literal(
+				new as::ast::LiteralNumber(num.value));
+		_node_stack . top() -> addNodeChild(exp_literal);
+	}
+	virtual void literalBooleanExpression(const generated::Literal& num) {
+		as::ast::LiteralBooleanPtr exp_literal(
+				new as::ast::LiteralBoolean(num.value));
+		_node_stack . top() -> addNodeChild(exp_literal);
+	}
+	void endExpressionList() {
+
+		printf(" %lu endExpressionList\n", _node_stack.size());
+		_node_stack . pop();
+	}
+
+	void addImport(const generated::StringList& packages) {
+
+		printf(" %lu addImport\n", _node_stack.size());
+	}
+
+	void startStmtList() {
+
+		printf(" %lu startStmtList\n", _node_stack.size());
+		as::ast::StatementListPtr stmts(new as::ast::StatementList);
+		_node_stack . top() -> addNodeChild(stmts);
+		_node_stack . push(stmts);
+	}
+
+	void endStmtList() {
+		printf(" %lu endStmtList\n", _node_stack.size());
+		_node_stack . pop();
+	}
+
+	void startIfStatement() {
+
+		printf(" %lu startIfStatement\n", _node_stack.size());
+
+		as::ast::IfStatementPtr ifStmt(new as::ast::IfStatement);
+		_node_stack . top() -> addNodeChild(ifStmt);
+		_node_stack . push(ifStmt);
+	}
+	void startIfStatement_Condition() {
+
+		printf(" %lu startIfStatement_Condition\n", _node_stack.size());
+
+		as::ast::IfStatementConditionPtr ifStmt(
+				new as::ast::IfStatementCondition);
+		_node_stack . top() -> addNodeChild(ifStmt);
+		_node_stack . push(ifStmt);
+	}
+	void startIfStatement_Then() {
+
+		printf(" %lu startIfStatement_Then\n", _node_stack.size());
+
+		as::ast::IfStatementThenPtr ifStmt(new as::ast::IfStatementThen);
+		_node_stack . top() -> addNodeChild(ifStmt);
+		_node_stack . push(ifStmt);
+	}
+	void startIfStatement_Else() {
+
+		printf(" %lu startIfStatement_Else\n", _node_stack.size());
+
+		as::ast::IfStatementElsePtr ifStmt(new as::ast::IfStatementElse);
+		_node_stack . top() -> addNodeChild(ifStmt);
+		_node_stack . push(ifStmt);
+	}
+	void endIfStatement() {
+		CHECK_STACK_AND_POP( IfStatement, AST::Node::NodeType::T_IF_STMT );
+	}
+	void endIfStatement_Condition() {
+		CHECK_STACK_AND_POP( IfStatement_Condition, AST::Node::NodeType::T_IF_STMT_CONDITION );
+	}
+	void endIfStatement_Then() {
+		CHECK_STACK_AND_POP( IfStatement_Then, AST::Node::NodeType::T_IF_STMT_THEN );
+	}
+	void endtIfStatement_Else() {
+		CHECK_STACK_AND_POP( IfStatement_Else, AST::Node::NodeType::T_IF_STMT_ELSE );
+	}
+
+	void startClassDefine(const generated::ClassDefine& class_define) {
+		printf(" %lu startClassDefine\n", _node_stack.size());
+		as::ast::ClassDefinePtr exp_list(new as::ast::ClassDefine);
+
+		_node_stack . top() -> addNodeChild(exp_list);
+		_node_stack . push(exp_list);
+
+		exp_list->setHasBaseClass(class_define.has_baseclass);
+		exp_list->setHasInterface(class_define.has_interface);
+		exp_list->setHasAttribute(class_define.has_attr);
+
+	}
+
+	void className(const std::string& name) {
+		printf(" %lu className\n", _node_stack.size());
+		as::ast::ClassNamePtr exp_list(new as::ast::ClassName(name));
+		_node_stack . top() -> addNodeChild(exp_list);
+	}
+	void startClassStmt() {
+		printf(" %lu startClassStmt\n", _node_stack.size());
+		as::ast::ClassStmtPtr exp_list(new as::ast::ClassStmt);
+		_node_stack . top() -> addNodeChild(exp_list);
+		_node_stack . push(exp_list);
+	}
+	void endClassDefine() {
+		CHECK_STACK_AND_POP( ClassDefine, AST::Node::NodeType::T_CLASS_DEFINE );
+	}
+
+	void endClassStmt() {
+		CHECK_STACK_AND_POP( ClassStmt, AST::Node::NodeType::T_CLASS_DEFINE_STMT );
+	}
+
+	void startAttributeList() {
 		PUSH_STACK( AttributeList );
-  }
-  void endAttributelist() {
-	  CHECK_STACK_AND_POP( AttributeList, AST::Node::NodeType::T_COMP_CLASS_ATTRIBUTE );
-  }
-  void startFunctionAttribute() {
+	}
+	void endAttributelist() {
+		CHECK_STACK_AND_POP( AttributeList, AST::Node::NodeType::T_COMP_CLASS_ATTRIBUTE );
+	}
+	void startFunctionAttribute() {
 		PUSH_STACK( FunctionAttribute );
-  }
-  void endFunctionAttribute() {
-	  CHECK_STACK_AND_POP( FunctionAttribute, AST::Node::NodeType::T_COMP_FUNCTION_ATTRIBUTE );
-  }
+	}
+	void endFunctionAttribute() {
+		CHECK_STACK_AND_POP( FunctionAttribute, AST::Node::NodeType::T_COMP_FUNCTION_ATTRIBUTE );
+	}
 
 public:
    as::ast::ProgramPtr getProgramNode() {	return _program_root;	};
