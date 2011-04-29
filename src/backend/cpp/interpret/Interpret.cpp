@@ -80,8 +80,7 @@ void initializeInterpreters()
 				= new FunctionParameter();
 		interpreterResolver[AST::Node::NodeType::T_FUNCTION_PARAMETER_ITEM]
 				= new FunctionParameterItem();
-		//		interpreterResolver[AST::Node::NodeType::T_FUNCTION_COMMON] = new FunctionCommon();
-		//
+
 		interpreterResolver[AST::Node::NodeType::T_STMT_LIST]
 				= new StatementList();
 		interpreterResolver[AST::Node::NodeType::T_EXPR_LIST]

@@ -490,12 +490,19 @@ public:
 	void endAttributelist() {
 		CHECK_STACK_AND_POP( AttributeList, AST::Node::NodeType::T_COMP_CLASS_ATTRIBUTE );
 	}
-	void startFunctionAttribute() {
-		PUSH_STACK( FunctionAttribute );
+	void functionAttribute( const generated::StringList& sv ) {
+//		PUSH_STACK_WITH_INIT( FunctionAttribute, sv );
+
+		std::cout << _node_stack.size() << "  start"<< "FunctionAttribute"  <<" -> "<< _node_stack.top()->toString()<<":"<<_node_stack.top()->node_childs.size()<<" "<<sv.size()<< std::endl;
+		as::ast::FunctionAttributePtr __node__( new as::ast::FunctionAttribute( sv )  );
+		_node_stack . top() -> addNodeChild( __node__ );
+//		for(generated::StringList::iterator sItr = sv.begin()
+//				; sItr != sv.end() ; sItr++ )
+//		{
+//			std::cout << "-------------------------------------------> "<<*sItr<<std::endl;
+//		}
 	}
-	void endFunctionAttribute() {
-		CHECK_STACK_AND_POP( FunctionAttribute, AST::Node::NodeType::T_COMP_FUNCTION_ATTRIBUTE );
-	}
+
 
 public:
    as::ast::ProgramPtr getProgramNode() {	return _program_root;	};

@@ -48,23 +48,34 @@ struct Symbol
 		T_PRARAMETER	= 0x0008,
 	};
 
+	enum Attributes
+	{
+		ATTR_NONE,
+		ATTR_PUBLIC,
+		ATTR_PRIVATE,
+	};
+
 	const std::string name() const {	return _m_name;	}
 
-	Symbol( std::string n,  uint p = T_NONE )
+	Symbol( std::string n,  uint p = T_NONE, Attributes attr = ATTR_NONE )
 		: _m_name( n )
-		, _m_prop( p )
+		, m_properties( p )
+		, m_attributes( attr )
 	{
 	}
 
-	uint getSymbolProperties( ) const {	return _m_prop;	}
-	void setSymbolProperties( uint p ) {	_m_prop = p;	};
+	uint getSymbolProperties( ) const {	return m_properties;	}
+	void setSymbolProperties( uint p ) {	m_properties = p;	};
 
 	virtual std::string toString() = 0;
 	virtual void bindType( SymbolPtr ){}
 
+	Attributes getSymbolAttribtues( ) const {	return m_attributes;	}
+	void setSymbolAttributes( Attributes p ) {	m_attributes = p;	};
 protected:
-	std::string	_m_name;
-	uint	_m_prop;
+	std::string		_m_name;
+	uint			m_properties;
+	Attributes		m_attributes;
 };
 
 }}}}//tw/maple/as/symbol

@@ -47,14 +47,9 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("startFunctionDefinition\n");
   }
 
-  void startFunctionAttribute() {
+  void functionAttribute(const StringList& attrs) {
     // Your implementation goes here
-    printf("startFunctionAttribute\n");
-  }
-
-  void endFunctionAttribute() {
-    // Your implementation goes here
-    printf("endFunctionAttribute\n");
+    printf("functionAttribute\n");
   }
 
   void functionName(const std::string& name) {

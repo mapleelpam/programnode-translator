@@ -19,8 +19,7 @@ class AstDumperIf {
   virtual void startPackage(const StringList& id) = 0;
   virtual void endPackage(const StringList& IDs) = 0;
   virtual void startFunctionDefinition() = 0;
-  virtual void startFunctionAttribute() = 0;
-  virtual void endFunctionAttribute() = 0;
+  virtual void functionAttribute(const StringList& attrs) = 0;
   virtual void functionName(const std::string& name) = 0;
   virtual void startFunctionCommon() = 0;
   virtual void startFunctionSignature() = 0;
@@ -101,10 +100,7 @@ class AstDumperNull : virtual public AstDumperIf {
   void startFunctionDefinition() {
     return;
   }
-  void startFunctionAttribute() {
-    return;
-  }
-  void endFunctionAttribute() {
+  void functionAttribute(const StringList& /* attrs */) {
     return;
   }
   void functionName(const std::string& /* name */) {
@@ -494,25 +490,34 @@ class AstDumper_startFunctionDefinition_pargs {
 
 };
 
+typedef struct _AstDumper_functionAttribute_args__isset {
+  _AstDumper_functionAttribute_args__isset() : attrs(false) {}
+  bool attrs;
+} _AstDumper_functionAttribute_args__isset;
 
-class AstDumper_startFunctionAttribute_args {
+class AstDumper_functionAttribute_args {
  public:
 
-  AstDumper_startFunctionAttribute_args() {
+  AstDumper_functionAttribute_args() {
   }
 
-  virtual ~AstDumper_startFunctionAttribute_args() throw() {}
+  virtual ~AstDumper_functionAttribute_args() throw() {}
 
+  StringList attrs;
 
-  bool operator == (const AstDumper_startFunctionAttribute_args & /* rhs */) const
+  _AstDumper_functionAttribute_args__isset __isset;
+
+  bool operator == (const AstDumper_functionAttribute_args & rhs) const
   {
+    if (!(attrs == rhs.attrs))
+      return false;
     return true;
   }
-  bool operator != (const AstDumper_startFunctionAttribute_args &rhs) const {
+  bool operator != (const AstDumper_functionAttribute_args &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const AstDumper_startFunctionAttribute_args & ) const;
+  bool operator < (const AstDumper_functionAttribute_args & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -520,49 +525,13 @@ class AstDumper_startFunctionAttribute_args {
 };
 
 
-class AstDumper_startFunctionAttribute_pargs {
+class AstDumper_functionAttribute_pargs {
  public:
 
 
-  virtual ~AstDumper_startFunctionAttribute_pargs() throw() {}
+  virtual ~AstDumper_functionAttribute_pargs() throw() {}
 
-
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-
-class AstDumper_endFunctionAttribute_args {
- public:
-
-  AstDumper_endFunctionAttribute_args() {
-  }
-
-  virtual ~AstDumper_endFunctionAttribute_args() throw() {}
-
-
-  bool operator == (const AstDumper_endFunctionAttribute_args & /* rhs */) const
-  {
-    return true;
-  }
-  bool operator != (const AstDumper_endFunctionAttribute_args &rhs) const {
-    return !(*this == rhs);
-  }
-
-  bool operator < (const AstDumper_endFunctionAttribute_args & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-
-class AstDumper_endFunctionAttribute_pargs {
- public:
-
-
-  virtual ~AstDumper_endFunctionAttribute_pargs() throw() {}
-
+  const StringList* attrs;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -2928,10 +2897,8 @@ class AstDumperClient : virtual public AstDumperIf {
   void send_endPackage(const StringList& IDs);
   void startFunctionDefinition();
   void send_startFunctionDefinition();
-  void startFunctionAttribute();
-  void send_startFunctionAttribute();
-  void endFunctionAttribute();
-  void send_endFunctionAttribute();
+  void functionAttribute(const StringList& attrs);
+  void send_functionAttribute(const StringList& attrs);
   void functionName(const std::string& name);
   void send_functionName(const std::string& name);
   void startFunctionCommon();
@@ -3070,8 +3037,7 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
   void process_startPackage(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_endPackage(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_startFunctionDefinition(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
-  void process_startFunctionAttribute(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
-  void process_endFunctionAttribute(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_functionAttribute(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_functionName(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_startFunctionCommon(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_startFunctionSignature(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -3140,8 +3106,7 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
     processMap_["startPackage"] = &AstDumperProcessor::process_startPackage;
     processMap_["endPackage"] = &AstDumperProcessor::process_endPackage;
     processMap_["startFunctionDefinition"] = &AstDumperProcessor::process_startFunctionDefinition;
-    processMap_["startFunctionAttribute"] = &AstDumperProcessor::process_startFunctionAttribute;
-    processMap_["endFunctionAttribute"] = &AstDumperProcessor::process_endFunctionAttribute;
+    processMap_["functionAttribute"] = &AstDumperProcessor::process_functionAttribute;
     processMap_["functionName"] = &AstDumperProcessor::process_functionName;
     processMap_["startFunctionCommon"] = &AstDumperProcessor::process_startFunctionCommon;
     processMap_["startFunctionSignature"] = &AstDumperProcessor::process_startFunctionSignature;
@@ -3255,17 +3220,10 @@ class AstDumperMultiface : virtual public AstDumperIf {
     }
   }
 
-  void startFunctionAttribute() {
+  void functionAttribute(const StringList& attrs) {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
-      ifaces_[i]->startFunctionAttribute();
-    }
-  }
-
-  void endFunctionAttribute() {
-    uint32_t sz = ifaces_.size();
-    for (uint32_t i = 0; i < sz; ++i) {
-      ifaces_[i]->endFunctionAttribute();
+      ifaces_[i]->functionAttribute(attrs);
     }
   }
 

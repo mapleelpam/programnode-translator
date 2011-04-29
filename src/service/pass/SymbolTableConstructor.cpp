@@ -32,6 +32,7 @@
 #include <as/ast/function_signature.h>
 #include <as/ast/function_parameters.h>
 #include <as/ast/function_parameter_item.h>
+#include <as/ast/function_attribute.h>
 
 #include <as/ast/class_define.h>
 
@@ -73,6 +74,18 @@ void SymbolTableConstructor:: constructSymbols(
 				std::cout << " get a function name = " << str_func_name << std::endl;
 
 				ASY::ScopePtr scope_func( symboltable->registerFunction( str_func_name ) );
+				{
+					AST::FunctionAttributePtr fattrs = STATIC_CAST( AST::FunctionAttribute, fdef->FunctionAttr());
+					for( std::vector<std::string>::iterator sItr = fattrs->attrs.begin()
+							; sItr != fattrs->attrs.end() ; sItr ++ )
+					{
+						std::cerr << " attributes " << *sItr <<std::endl;
+						if( ((*sItr) == "public") )
+							scope_func->setSymbolAttributes( ASY::Symbol::ATTR_PUBLIC);
+						else if( ((*sItr) == "private") )
+							scope_func->setSymbolAttributes( ASY::Symbol::ATTR_PRIVATE);
+					}
+				}
 				fdef -> setSymbol( scope_func );
 
 				if(	fsig->FunctionParameter() )

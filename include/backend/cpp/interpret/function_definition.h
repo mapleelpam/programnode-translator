@@ -34,6 +34,7 @@
 #include <as/ast/call.h>
 #include <backend/cpp/interpret/interpreter.h>
 #include <backend/cpp/template_printer.h>
+#include <as/symbol/Scope.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
@@ -43,10 +44,12 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 {   
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
 	{
+		namespace ASY = tw::maple::as::symbol;
+
 		std::string result;
 
 		AST::FunctionDefinitionPtr fdef = STATIC_CAST( AST::FunctionDefinition, node);
-		AST::FunctionAttributePtr fattr = STATIC_CAST( AST::FunctionAttribute, fdef->FunctionAttr());
+//		AST::FunctionAttributePtr fattr = STATIC_CAST( AST::FunctionAttribute, fdef->FunctionAttr());
 		AST::FunctionCommonPtr  fcommon = STATIC_CAST( AST::FunctionCommon, fdef -> FunctionCommon());
 		if( fcommon == NULL ){
 			printf(" hey !!!!!,  i cna't cast function common \n");
@@ -66,7 +69,14 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 
 		std::string str_func_name = dispatchExpound(fdef->FunctionName(), ctx) ;
 
-		std::string str_function_attribute = dispatchExpound( fattr, ctx) ;
+		ASY::SymbolPtr symbol_function = node->getSymbol();
+		std::string str_function_attribute;
+		switch( symbol_function->getSymbolAttribtues() )
+		{
+			case ASY::Symbol::ATTR_NONE:	str_function_attribute="";	break;
+			case ASY::Symbol::ATTR_PRIVATE:	str_function_attribute="private";	break;
+			case ASY::Symbol::ATTR_PUBLIC:	str_function_attribute="public";	break;
+		}
 		if( str_function_attribute != "")
 			str_function_attribute+=":";
 

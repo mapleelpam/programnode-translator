@@ -42,8 +42,8 @@ struct Variable : public Symbol
 	virtual std::string toString()
 	{
 		std::string s_attr = "";
-		if( _m_prop & T_VARIABLE ) {
-			if( _m_prop & T_PRARAMETER )
+		if( m_properties & T_VARIABLE ) {
+			if( m_properties & T_PRARAMETER )
 				s_attr = "param";
 			else
 				s_attr = "local";

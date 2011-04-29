@@ -331,7 +331,7 @@ uint32_t AstDumper_startFunctionDefinition_pargs::write(::apache::thrift::protoc
   return xfer;
 }
 
-uint32_t AstDumper_startFunctionAttribute_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t AstDumper_functionAttribute_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   uint32_t xfer = 0;
   std::string fname;
@@ -351,6 +351,26 @@ uint32_t AstDumper_startFunctionAttribute_args::read(::apache::thrift::protocol:
     }
     switch (fid)
     {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_LIST) {
+          {
+            this->attrs.clear();
+            uint32_t _size15;
+            ::apache::thrift::protocol::TType _etype18;
+            iprot->readListBegin(_etype18, _size15);
+            this->attrs.resize(_size15);
+            uint32_t _i19;
+            for (_i19 = 0; _i19 < _size15; ++_i19)
+            {
+              xfer += iprot->readString(this->attrs[_i19]);
+            }
+            iprot->readListEnd();
+          }
+          this->__isset.attrs = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -363,65 +383,39 @@ uint32_t AstDumper_startFunctionAttribute_args::read(::apache::thrift::protocol:
   return xfer;
 }
 
-uint32_t AstDumper_startFunctionAttribute_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t AstDumper_functionAttribute_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
-  xfer += oprot->writeStructBegin("AstDumper_startFunctionAttribute_args");
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  return xfer;
-}
-
-uint32_t AstDumper_startFunctionAttribute_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
-  uint32_t xfer = 0;
-  xfer += oprot->writeStructBegin("AstDumper_startFunctionAttribute_pargs");
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  return xfer;
-}
-
-uint32_t AstDumper_endFunctionAttribute_args::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-  uint32_t xfer = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TType ftype;
-  int16_t fid;
-
-  xfer += iprot->readStructBegin(fname);
-
-  using ::apache::thrift::protocol::TProtocolException;
-
-
-  while (true)
+  xfer += oprot->writeStructBegin("AstDumper_functionAttribute_args");
+  xfer += oprot->writeFieldBegin("attrs", ::apache::thrift::protocol::T_LIST, 1);
   {
-    xfer += iprot->readFieldBegin(fname, ftype, fid);
-    if (ftype == ::apache::thrift::protocol::T_STOP) {
-      break;
-    }
-    switch (fid)
+    xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, this->attrs.size());
+    std::vector<std::string> ::const_iterator _iter20;
+    for (_iter20 = this->attrs.begin(); _iter20 != this->attrs.end(); ++_iter20)
     {
-      default:
-        xfer += iprot->skip(ftype);
-        break;
+      xfer += oprot->writeString((*_iter20));
     }
-    xfer += iprot->readFieldEnd();
+    xfer += oprot->writeListEnd();
   }
-
-  xfer += iprot->readStructEnd();
-
-  return xfer;
-}
-
-uint32_t AstDumper_endFunctionAttribute_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
-  uint32_t xfer = 0;
-  xfer += oprot->writeStructBegin("AstDumper_endFunctionAttribute_args");
+  xfer += oprot->writeFieldEnd();
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
 }
 
-uint32_t AstDumper_endFunctionAttribute_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t AstDumper_functionAttribute_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
-  xfer += oprot->writeStructBegin("AstDumper_endFunctionAttribute_pargs");
+  xfer += oprot->writeStructBegin("AstDumper_functionAttribute_pargs");
+  xfer += oprot->writeFieldBegin("attrs", ::apache::thrift::protocol::T_LIST, 1);
+  {
+    xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, (*(this->attrs)).size());
+    std::vector<std::string> ::const_iterator _iter21;
+    for (_iter21 = (*(this->attrs)).begin(); _iter21 != (*(this->attrs)).end(); ++_iter21)
+    {
+      xfer += oprot->writeString((*_iter21));
+    }
+    xfer += oprot->writeListEnd();
+  }
+  xfer += oprot->writeFieldEnd();
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -2771,14 +2765,14 @@ uint32_t AstDumper_addImport_args::read(::apache::thrift::protocol::TProtocol* i
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->packages.clear();
-            uint32_t _size15;
-            ::apache::thrift::protocol::TType _etype18;
-            iprot->readListBegin(_etype18, _size15);
-            this->packages.resize(_size15);
-            uint32_t _i19;
-            for (_i19 = 0; _i19 < _size15; ++_i19)
+            uint32_t _size22;
+            ::apache::thrift::protocol::TType _etype25;
+            iprot->readListBegin(_etype25, _size22);
+            this->packages.resize(_size22);
+            uint32_t _i26;
+            for (_i26 = 0; _i26 < _size22; ++_i26)
             {
-              xfer += iprot->readString(this->packages[_i19]);
+              xfer += iprot->readString(this->packages[_i26]);
             }
             iprot->readListEnd();
           }
@@ -2805,10 +2799,10 @@ uint32_t AstDumper_addImport_args::write(::apache::thrift::protocol::TProtocol* 
   xfer += oprot->writeFieldBegin("packages", ::apache::thrift::protocol::T_LIST, 1);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, this->packages.size());
-    std::vector<std::string> ::const_iterator _iter20;
-    for (_iter20 = this->packages.begin(); _iter20 != this->packages.end(); ++_iter20)
+    std::vector<std::string> ::const_iterator _iter27;
+    for (_iter27 = this->packages.begin(); _iter27 != this->packages.end(); ++_iter27)
     {
-      xfer += oprot->writeString((*_iter20));
+      xfer += oprot->writeString((*_iter27));
     }
     xfer += oprot->writeListEnd();
   }
@@ -2824,10 +2818,10 @@ uint32_t AstDumper_addImport_pargs::write(::apache::thrift::protocol::TProtocol*
   xfer += oprot->writeFieldBegin("packages", ::apache::thrift::protocol::T_LIST, 1);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, (*(this->packages)).size());
-    std::vector<std::string> ::const_iterator _iter21;
-    for (_iter21 = (*(this->packages)).begin(); _iter21 != (*(this->packages)).end(); ++_iter21)
+    std::vector<std::string> ::const_iterator _iter28;
+    for (_iter28 = (*(this->packages)).begin(); _iter28 != (*(this->packages)).end(); ++_iter28)
     {
-      xfer += oprot->writeString((*_iter21));
+      xfer += oprot->writeString((*_iter28));
     }
     xfer += oprot->writeListEnd();
   }
@@ -3581,35 +3575,18 @@ void AstDumperClient::send_startFunctionDefinition()
   oprot_->getTransport()->flush();
 }
 
-void AstDumperClient::startFunctionAttribute()
+void AstDumperClient::functionAttribute(const StringList& attrs)
 {
-  send_startFunctionAttribute();
+  send_functionAttribute(attrs);
 }
 
-void AstDumperClient::send_startFunctionAttribute()
+void AstDumperClient::send_functionAttribute(const StringList& attrs)
 {
   int32_t cseqid = 0;
-  oprot_->writeMessageBegin("startFunctionAttribute", ::apache::thrift::protocol::T_CALL, cseqid);
+  oprot_->writeMessageBegin("functionAttribute", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  AstDumper_startFunctionAttribute_pargs args;
-  args.write(oprot_);
-
-  oprot_->writeMessageEnd();
-  oprot_->getTransport()->writeEnd();
-  oprot_->getTransport()->flush();
-}
-
-void AstDumperClient::endFunctionAttribute()
-{
-  send_endFunctionAttribute();
-}
-
-void AstDumperClient::send_endFunctionAttribute()
-{
-  int32_t cseqid = 0;
-  oprot_->writeMessageBegin("endFunctionAttribute", ::apache::thrift::protocol::T_CALL, cseqid);
-
-  AstDumper_endFunctionAttribute_pargs args;
+  AstDumper_functionAttribute_pargs args;
+  args.attrs = &attrs;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -4938,75 +4915,38 @@ void AstDumperProcessor::process_startFunctionDefinition(int32_t seqid, ::apache
   return;
 }
 
-void AstDumperProcessor::process_startFunctionAttribute(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+void AstDumperProcessor::process_functionAttribute(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = NULL;
   if (eventHandler_.get() != NULL) {
-    ctx = eventHandler_->getContext("AstDumper.startFunctionAttribute", callContext);
+    ctx = eventHandler_->getContext("AstDumper.functionAttribute", callContext);
   }
-  ::apache::thrift::TProcessorContextFreer freer(eventHandler_.get(), ctx, "AstDumper.startFunctionAttribute");
+  ::apache::thrift::TProcessorContextFreer freer(eventHandler_.get(), ctx, "AstDumper.functionAttribute");
 
   if (eventHandler_.get() != NULL) {
-    eventHandler_->preRead(ctx, "AstDumper.startFunctionAttribute");
+    eventHandler_->preRead(ctx, "AstDumper.functionAttribute");
   }
 
-  AstDumper_startFunctionAttribute_args args;
+  AstDumper_functionAttribute_args args;
   args.read(iprot);
   iprot->readMessageEnd();
   uint32_t bytes = iprot->getTransport()->readEnd();
 
   if (eventHandler_.get() != NULL) {
-    eventHandler_->postRead(ctx, "AstDumper.startFunctionAttribute", bytes);
+    eventHandler_->postRead(ctx, "AstDumper.functionAttribute", bytes);
   }
 
   try {
-    iface_->startFunctionAttribute();
+    iface_->functionAttribute(args.attrs);
   } catch (const std::exception& e) {
     if (eventHandler_.get() != NULL) {
-      eventHandler_->handlerError(ctx, "AstDumper.startFunctionAttribute");
+      eventHandler_->handlerError(ctx, "AstDumper.functionAttribute");
     }
     return;
   }
 
   if (eventHandler_.get() != NULL) {
-    eventHandler_->asyncComplete(ctx, "AstDumper.startFunctionAttribute");
-  }
-
-  return;
-}
-
-void AstDumperProcessor::process_endFunctionAttribute(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
-{
-  void* ctx = NULL;
-  if (eventHandler_.get() != NULL) {
-    ctx = eventHandler_->getContext("AstDumper.endFunctionAttribute", callContext);
-  }
-  ::apache::thrift::TProcessorContextFreer freer(eventHandler_.get(), ctx, "AstDumper.endFunctionAttribute");
-
-  if (eventHandler_.get() != NULL) {
-    eventHandler_->preRead(ctx, "AstDumper.endFunctionAttribute");
-  }
-
-  AstDumper_endFunctionAttribute_args args;
-  args.read(iprot);
-  iprot->readMessageEnd();
-  uint32_t bytes = iprot->getTransport()->readEnd();
-
-  if (eventHandler_.get() != NULL) {
-    eventHandler_->postRead(ctx, "AstDumper.endFunctionAttribute", bytes);
-  }
-
-  try {
-    iface_->endFunctionAttribute();
-  } catch (const std::exception& e) {
-    if (eventHandler_.get() != NULL) {
-      eventHandler_->handlerError(ctx, "AstDumper.endFunctionAttribute");
-    }
-    return;
-  }
-
-  if (eventHandler_.get() != NULL) {
-    eventHandler_->asyncComplete(ctx, "AstDumper.endFunctionAttribute");
+    eventHandler_->asyncComplete(ctx, "AstDumper.functionAttribute");
   }
 
   return;

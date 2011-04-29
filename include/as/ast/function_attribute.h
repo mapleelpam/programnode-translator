@@ -35,8 +35,10 @@ namespace tw { namespace maple { namespace as { namespace ast {
 // Abstract
 struct FunctionAttribute : public Statement
 {
-	FunctionAttribute() :
-		Statement(Node::NodeType::T_COMP_FUNCTION_ATTRIBUTE) {
+	FunctionAttribute( std::vector<std::string> values )
+		: Statement(Node::NodeType::T_COMP_FUNCTION_ATTRIBUTE)
+		, attrs( values )
+	{
 
 	}
     int stmtType() {
@@ -44,6 +46,8 @@ struct FunctionAttribute : public Statement
 	}
 
     std::string toString()  {	return "node::function_attribute"; };
+
+    std::vector<std::string>	attrs;
 };
 
 typedef SHARED_PTR(FunctionAttribute) FunctionAttributePtr;
