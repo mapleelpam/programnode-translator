@@ -42,7 +42,10 @@ struct FunctionCommon: public Statement
 
     int stmtType()   {   return Node::NodeType::T_FUNCTION_COMMON;  }
 
-    NodePtr FunctionSignature(){	return node_childs[0];	}
+    NodePtr FunctionSignature(){
+    	std::cout << "   <<<<<<<<<<<,, function common child size   " << node_childs.size()<<std::endl;
+    	return node_childs[0];
+    }
     NodePtr FunctionBody(){	return node_childs[1];	}
 
     std::string toString()  {	return "node::function_common"; };

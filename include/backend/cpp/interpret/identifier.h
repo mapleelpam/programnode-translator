@@ -41,6 +41,9 @@ struct Identifier : public Interpreter
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
 	{
 		SHARED_PTR(AST::Identifier) li = std::tr1::static_pointer_cast<AST::Identifier>(node);
+
+		if(li->qualifier != "")
+			return li->qualifier+"::"+li->value;
 		return li->value;
 	}
 };

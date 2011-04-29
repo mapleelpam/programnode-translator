@@ -35,14 +35,18 @@ namespace tw { namespace maple { namespace as { namespace ast {
 // Abstract
 struct Identifier: public Expression
 {
-	Identifier(std::string v) :
-		Expression(Node::NodeType::T_IDENTIFIER), value(v) {
+	Identifier(std::string v, std::string q )
+		: Expression(Node::NodeType::T_IDENTIFIER)
+		, value(v)
+		, qualifier( q )
+	{
 	}
 	int exprType() {
 		return Node::NodeType::T_IDENTIFIER;
 	}
 
     std::string value;
+    std::string qualifier;
 
     std::string toString()  {	return "node::identifier"; };
 };

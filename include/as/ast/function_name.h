@@ -35,15 +35,19 @@ namespace tw { namespace maple { namespace as { namespace ast {
 // Abstract
 struct FunctionName : public Statement
 {
-	FunctionName() :
-		Statement(Node::NodeType::T_FUNCTION_NAME) {
-
+	FunctionName( std::string fname = "dummy ")
+		: Statement(Node::NodeType::T_FUNCTION_NAME)
+		, function_name( fname )
+	{
 	}
+
     int stmtType() {
 		return Node::NodeType::T_FUNCTION_NAME;
 	}
 
     std::string toString()  {	return "node::function_name"; };
+
+    std::string function_name;
 };
 
 typedef SHARED_PTR(FunctionName) FunctionNamePtr;

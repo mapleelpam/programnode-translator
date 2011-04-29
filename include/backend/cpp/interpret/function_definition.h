@@ -48,6 +48,10 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		AST::FunctionDefinitionPtr fdef = STATIC_CAST( AST::FunctionDefinition, node);
 		AST::FunctionAttributePtr fattr = STATIC_CAST( AST::FunctionAttribute, fdef->FunctionAttr());
 		AST::FunctionCommonPtr  fcommon = STATIC_CAST( AST::FunctionCommon, fdef -> FunctionCommon());
+		if( fcommon == NULL ){
+			printf(" hey !!!!!,  i cna't cast function common \n");
+			exit(1);
+		}
 
 		// Function Return Type
 		std::tr1::shared_ptr < AST::FunctionSignature > fsig

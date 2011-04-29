@@ -37,24 +37,26 @@ extern const std::map<int, const char*> _IdentifierType_VALUES_TO_NAMES;
 typedef std::vector<std::string>  StringList;
 
 typedef struct _Identifier__isset {
-  _Identifier__isset() : type(false), name(false) {}
+  _Identifier__isset() : type(false), name(false), qualifier(false) {}
   bool type;
   bool name;
+  bool qualifier;
 } _Identifier__isset;
 
 class Identifier {
  public:
 
-  static const char* ascii_fingerprint; // = "19B5240589E680301A7E32DF3971EFBE";
-  static const uint8_t binary_fingerprint[16]; // = {0x19,0xB5,0x24,0x05,0x89,0xE6,0x80,0x30,0x1A,0x7E,0x32,0xDF,0x39,0x71,0xEF,0xBE};
+  static const char* ascii_fingerprint; // = "38C252E94E93B69D04EB3A6EE2F9EDFB";
+  static const uint8_t binary_fingerprint[16]; // = {0x38,0xC2,0x52,0xE9,0x4E,0x93,0xB6,0x9D,0x04,0xEB,0x3A,0x6E,0xE2,0xF9,0xED,0xFB};
 
-  Identifier() : name("") {
+  Identifier() : name(""), qualifier("") {
   }
 
   virtual ~Identifier() throw() {}
 
   IdentifierType::type type;
   std::string name;
+  std::string qualifier;
 
   _Identifier__isset __isset;
 
@@ -63,6 +65,8 @@ class Identifier {
     if (!(type == rhs.type))
       return false;
     if (!(name == rhs.name))
+      return false;
+    if (!(qualifier == rhs.qualifier))
       return false;
     return true;
   }

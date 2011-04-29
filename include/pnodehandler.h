@@ -164,30 +164,17 @@ public:
 
   }
 
-  void startFunctionName() {
+  void functionName( const std::string& name ) {
 
       printf(" %lu startFunctionName\n", _node_stack.size() );
 
-      as::ast::FunctionNamePtr func_name( new as::ast::FunctionName() );
+      as::ast::FunctionNamePtr func_name( new as::ast::FunctionName(name ) );
       _node_stack . top() -> addNodeChild( func_name );
-      _node_stack . push( func_name );
   }
 
-  void endFunctionName() {
-
-      printf(" %lu endFunctionName\n", _node_stack.size() );
-
-      _node_stack . pop();
-  }
 
   void startFunctionSignature() {
-
-      printf(" %lu startFunctionSignature\n", _node_stack.size() );
-
-
-      as::ast::FunctionSignaturePtr fsig( new as::ast::FunctionSignature );
-      _node_stack . top() -> addNodeChild( fsig );
-      _node_stack . push( fsig );
+      PUSH_STACK( FunctionSignature );
   }
 
   void endFunctionSignature() {
@@ -388,7 +375,7 @@ public:
   void identifierExpression(const generated::Identifier& id)
   {
       std::cout << _node_stack.size() << "  identifierExpression"  <<" -> "<< _node_stack.top()->toString()<<":"<<_node_stack.top()->node_childs.size()<<":"<<id.name<< std::endl;
-      as::ast::IdentifierPtr exp_id( new as::ast::Identifier(id.name) );
+      as::ast::IdentifierPtr exp_id( new as::ast::Identifier(id.name,id.qualifier) );
       _node_stack . top () -> addNodeChild( exp_id);
   }
 

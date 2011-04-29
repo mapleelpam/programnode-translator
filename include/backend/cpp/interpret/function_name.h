@@ -26,7 +26,7 @@
 #ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_FUNCTION_NAME_H__
 #define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_FUNCTION_NAME_H__
 
-#include <as/ast/function_definition.h>
+#include <as/ast/function_name.h>
 #include <as/ast/call.h>
 #include <backend/cpp/interpret/interpreter.h>
 
@@ -38,13 +38,16 @@ struct FunctionName : public Interpreter
 {   
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
 	{
-		std::string result = "";
+//		std::string result = "";
+//
+//		for (std::vector<std::tr1::shared_ptr<AST::Node> >::iterator nItr =
+//				node->node_childs.begin(); nItr != node->node_childs.end(); nItr++)
+//			result += dispatchExpound(*nItr, ctx);
+//
+//		return result;
+		AST::FunctionNamePtr func_name = STATIC_CAST( AST::FunctionName, node);
 
-		for (std::vector<std::tr1::shared_ptr<AST::Node> >::iterator nItr =
-				node->node_childs.begin(); nItr != node->node_childs.end(); nItr++)
-			result += dispatchExpound(*nItr, ctx);
-
-		return result;
+		return func_name->function_name;
 	}
 };
 

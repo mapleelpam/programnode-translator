@@ -29,8 +29,8 @@ const char* _kIdentifierTypeNames[] = {
 };
 const std::map<int, const char*> _IdentifierType_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(3, _kIdentifierTypeValues, _kIdentifierTypeNames), ::apache::thrift::TEnumIterator(-1, NULL, NULL));
 
-const char* Identifier::ascii_fingerprint = "19B5240589E680301A7E32DF3971EFBE";
-const uint8_t Identifier::binary_fingerprint[16] = {0x19,0xB5,0x24,0x05,0x89,0xE6,0x80,0x30,0x1A,0x7E,0x32,0xDF,0x39,0x71,0xEF,0xBE};
+const char* Identifier::ascii_fingerprint = "38C252E94E93B69D04EB3A6EE2F9EDFB";
+const uint8_t Identifier::binary_fingerprint[16] = {0x38,0xC2,0x52,0xE9,0x4E,0x93,0xB6,0x9D,0x04,0xEB,0x3A,0x6E,0xE2,0xF9,0xED,0xFB};
 
 uint32_t Identifier::read(::apache::thrift::protocol::TProtocol* iprot) {
 
@@ -70,6 +70,14 @@ uint32_t Identifier::read(::apache::thrift::protocol::TProtocol* iprot) {
           xfer += iprot->skip(ftype);
         }
         break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->qualifier);
+          this->__isset.qualifier = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -90,6 +98,9 @@ uint32_t Identifier::write(::apache::thrift::protocol::TProtocol* oprot) const {
   xfer += oprot->writeFieldEnd();
   xfer += oprot->writeFieldBegin("name", ::apache::thrift::protocol::T_STRING, 2);
   xfer += oprot->writeString(this->name);
+  xfer += oprot->writeFieldEnd();
+  xfer += oprot->writeFieldBegin("qualifier", ::apache::thrift::protocol::T_STRING, 3);
+  xfer += oprot->writeString(this->qualifier);
   xfer += oprot->writeFieldEnd();
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();

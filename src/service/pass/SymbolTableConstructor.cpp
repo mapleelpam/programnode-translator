@@ -62,6 +62,10 @@ void SymbolTableConstructor:: constructSymbols(
 			{
 				AST::FunctionDefinitionPtr fdef = STATIC_CAST( AST::FunctionDefinition, *nItr);
 				AST::FunctionCommonPtr fcommon  = STATIC_CAST( AST::FunctionCommon, fdef->FunctionCommon() );
+				if( fcommon == NULL ){
+					printf(" fcommon == NULL @@\n" );
+					exit(1);
+				}
 				AST::FunctionSignaturePtr fsig  = STATIC_CAST( AST::FunctionSignature, fcommon->FunctionSignature() );
 
 
