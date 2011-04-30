@@ -41,12 +41,8 @@ struct FunctionParameterItem : public Interpreter
 		std::string result = "";
 
 		AST::FunctionParameterItemPtr fParam = std::tr1::static_pointer_cast<AST::FunctionParameterItem>(node);
-		result += dispatchExpound(fParam->ParamType(), ctx);
-		result += " ";
-		result += dispatchExpound(fParam->ParamName(), ctx);
 
-
-		return result;
+		return fParam->ParamType()+" "+fParam->ParamName();
 	}
 };
 

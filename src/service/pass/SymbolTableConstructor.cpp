@@ -33,6 +33,7 @@
 #include <as/ast/function_parameters.h>
 #include <as/ast/function_parameter_item.h>
 #include <as/ast/function_attribute.h>
+#include <as/ast/function_name.h>
 
 #include <as/ast/class_define.h>
 
@@ -56,8 +57,6 @@ void SymbolTableConstructor:: constructSymbols(
 	for (std::vector< AST::NodePtr >::iterator nItr =
 			node->node_childs.begin(); nItr != node->node_childs.end(); nItr++) {
 
-//		std::cout << "->>>>>      node -> name " << (*nItr)->toString() << std::endl;
-
 		switch( (*nItr) -> nodeType() ) {
 			case AST::Node::NodeType::T_FUNCTION_DEFINITION:
 			{
@@ -67,10 +66,15 @@ void SymbolTableConstructor:: constructSymbols(
 					printf(" fcommon == NULL @@\n" );
 					exit(1);
 				}
-				AST::FunctionSignaturePtr fsig  = STATIC_CAST( AST::FunctionSignature, fcommon->FunctionSignature() );
 
 
-				std::string str_func_name = CPP::dispatchExpound(fdef->FunctionName(), NULL) ;
+				AST::FunctionNamePtr fname  = STATIC_CAST( AST::FunctionName, fdef->FunctionName() );
+				if( fname == NULL )
+				{
+					std::cerr << "error !! to get fname \n"<<std::endl;
+					exit(1);
+				}
+				std::string str_func_name = fname->function_name ;
 				std::cout << " get a function name = " << str_func_name << std::endl;
 
 				ASY::ScopePtr scope_func( symboltable->registerFunction( str_func_name ) );
@@ -88,6 +92,7 @@ void SymbolTableConstructor:: constructSymbols(
 				}
 				fdef -> setSymbol( scope_func );
 
+				AST::FunctionSignaturePtr fsig  = STATIC_CAST( AST::FunctionSignature, fcommon->FunctionSignature() );
 				if(	fsig->FunctionParameter() )
 					constructSymbols( fsig->FunctionParameter(), scope_func );
 				constructSymbols( fcommon->FunctionBody(), scope_func );
@@ -110,14 +115,14 @@ void SymbolTableConstructor:: constructSymbols(
 			case AST::Node::NodeType::T_FUNCTION_PARAMETER_ITEM:
 			{
 				AST::FunctionParameterItemPtr pitem = std::tr1::static_pointer_cast<AST::FunctionParameterItem>(*nItr);
-				std::string str_varname = CPP::dispatchExpound(pitem->ParamName(), NULL);
+				std::string str_varname = pitem->ParamName();
 				pitem -> setSymbol( symboltable->registerFunctionParameter( str_varname ) );
 
 			}	break;
 			case AST::Node::NodeType::T_VARIABLE_DECLARE:
 			{
 				AST::VariableDeclarePtr var = std::tr1::static_pointer_cast<AST::VariableDeclare>(*nItr);
-				std::string str_varname = CPP::dispatchExpound(var->varName(), NULL);
+				std::string str_varname = var->VariableName;
 				var->setSymbol( symboltable->registerVariable( str_varname ) );
 			}	break;
 			case AST::Node::NodeType::T_IF_STMT_THEN:
@@ -146,9 +151,6 @@ void SymbolTableConstructor::linkVariableType(
 	namespace CPP = tw::maple::backend::cpp::interpret;
 	namespace ASYM = tw::maple::as::symbol;
 
-
-//	std::cout << "2---------->>>>>      node -> name " << node->toString() << std::endl;
-
 	if( node->node_childs.size() == 0 )
 		return;
 	for (std::vector< AST::NodePtr >::iterator nItr =
@@ -161,15 +163,13 @@ void SymbolTableConstructor::linkVariableType(
 			(symbol->getSymbolProperties() & ASYM::Symbol::T_VARIABLE) )
 		{
 			AST::VariableDeclarePtr var = std::tr1::static_pointer_cast<AST::VariableDeclare>(*nItr);
-			std::string str_vartype = CPP::dispatchExpound(var->varType(), NULL);
-			std::cout << "--------------------------> variable type name = "<<str_vartype<<std::endl;
-
+			std::string str_vartype = var->VariableType;
 
 			ASYM::SymbolPtr p_type = symboltable->findType( str_vartype );
 			if( p_type )
 				symbol->bindType( p_type );
 			else {
-				std::cerr<<" can't find type - "<< str_vartype<<std::endl;
+				std::cerr<<var->VariableName <<" can't find type - "<< str_vartype<<std::endl;
 				exit(1);
 			}
 		} else if(  symbol &&

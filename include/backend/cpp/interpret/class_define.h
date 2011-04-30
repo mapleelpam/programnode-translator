@@ -50,7 +50,9 @@ struct ClassDefine : public Interpreter, public TemplatePrinter
 		std::string class_inherit = "";
 		std::string class_inherit_token = "";
 		if( _class_define_->hasBaseClass() ){
-			class_inherit = dispatchExpound(_class_define_->classInherit(), ctx);
+			for( int idx = 0 ; idx < _class_define_->Inherits().size() ; idx ++){
+				class_inherit = _class_define_->Inherits()[idx];
+			}
 			class_inherit_token = " : public ";
 		} else if( _default_base_object != ""){
 			class_inherit = _default_base_object;
@@ -67,7 +69,7 @@ struct ClassDefine : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("endl", ctx->endl() ) ));
 		patterns.push_back( PatternPtr( new Pattern("indent_tab", ctx->indent()) ));
 
-		std::string result = substitutePatterns( patterns );
+		std::string result = "\n/*begin*/\n"+substitutePatterns( patterns )+"\n/*end*/\n";
 
 		return result;
 	}

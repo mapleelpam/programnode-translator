@@ -8,12 +8,7 @@ class A
 {
 }
 
-interface I
-{
-}
-
-
-class B extends A implements I
+class B extends A 
 {
 }
 

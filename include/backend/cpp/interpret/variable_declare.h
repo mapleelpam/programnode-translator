@@ -48,10 +48,10 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 
 		AST::VariableDeclarePtr var = std::tr1::static_pointer_cast<AST::VariableDeclare>(node);
 
-		std::string var_type = dispatchExpound(var->varType(), ctx);
+		std::string var_type = var->VariableType;
 		var_type = invoke_type_mapper( var_type );
 
-		std::string var_name = dispatchExpound(var->varName(), ctx);
+		std::string var_name = var->VariableName;
 		std::string var_init = "";
 
 		if ( var->varInit() )

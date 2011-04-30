@@ -72,6 +72,8 @@ void initializeInterpreters()
 				= new FunctionDefinition();
 		interpreterResolver[AST::Node::NodeType::T_FUNCTION_NAME]
 				= new FunctionName();
+		interpreterResolver[AST::Node::NodeType::T_FUNCTION_COMMON]
+						= new Interpreter();
 		interpreterResolver[AST::Node::NodeType::T_FUNCTION_RETTYPE]
 				= new FunctionReturnType();
 		interpreterResolver[AST::Node::NodeType::T_FUNCTION_PARAMETERS]

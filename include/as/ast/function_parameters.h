@@ -41,7 +41,7 @@ struct FunctionParameters : public Statement
 
 	int stmtType()   {   return Node::NodeType::T_FUNCTION_PARAMETERS;  }
 
-    std::string toString()  {	return "node::function_signature_parameter"; };
+    std::string toString()  {	return "node::function_signature_parameters"; };
 
 //    bool check()	{	return node_childs.size() == 1; 	}
 };

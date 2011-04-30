@@ -82,6 +82,8 @@ struct ClassDefine : public Statement
 	bool hasAttribute()	{	return _has_attribute;	}
 
 	std::string getClassName()	const {	return m_classname;	}
+	const std::vector<std::string>& Inherits()	{	return m_inherits;	}
+	const std::vector<std::string>& Implements()	{	return m_implements;	}
 private:
 	bool _has_base_class;
 	bool _has_base_interface;

@@ -35,18 +35,23 @@ namespace tw { namespace maple { namespace as { namespace ast {
 // Abstract
 struct FunctionParameterItem : public Statement
 {
-	FunctionParameterItem() :
-		Statement(Node::NodeType::T_FUNCTION_PARAMETER_ITEM) {
+	FunctionParameterItem( std::string name, std::string type )
+		: Statement(Node::NodeType::T_FUNCTION_PARAMETER_ITEM)
+		, m_param_name( name )
+		, m_param_type( type )
+	{
 	}
 
 	int stmtType()   {   return Node::NodeType::T_FUNCTION_PARAMETER_ITEM;  }
 
-	NodePtr ParamType(){	return node_childs[1];	}
-	NodePtr ParamName(){	return node_childs[0];	}
+	std::string ParamType(){	return m_param_type;	}
+	std::string ParamName(){	return m_param_name;	}
 
     std::string toString()  {	return "node::function_signature_parameter_item"; };
 
-//    bool check()	{	return node_childs.size() == 1; 	}
+private:
+    std::string m_param_name;
+    std::string m_param_type;
 };
 
 typedef SHARED_PTR(FunctionParameterItem) FunctionParameterItemPtr;

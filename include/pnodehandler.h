@@ -91,17 +91,30 @@ namespace AST = ::tw::maple::as::ast;
 		_node_stack . top() -> addNodeChild( __node__ ); \
 		_node_stack . push( __node__ ); }
 
-#define PUSH_STACK_WITH_INIT( ClassName, ARG ) \
+#define ADD_2_TOP( ClassName ) \
 		{ \
 		std::cout << _node_stack.size() << "  start"<< #ClassName  <<" -> "<< _node_stack.top()->toString()<<":"<<_node_stack.top()->node_childs.size()<< std::endl; \
-		as::ast::ClassName##Ptr __node__( new as::ast::ClassName( ARG )  ); \
+		as::ast::ClassName##Ptr __node__( new as::ast::ClassName()  ); \
+		_node_stack . top() -> addNodeChild( __node__ ); }
+
+#define PUSH_STACK_WITH_INIT( ClassName, ... ) \
+		{ \
+		std::cout << _node_stack.size() << "  start"<< #ClassName  <<" -> "<< _node_stack.top()->toString()<<":"<<_node_stack.top()->node_childs.size()<< std::endl; \
+		as::ast::ClassName##Ptr __node__( new as::ast::ClassName(  __VA_ARGS__ )  ); \
 		_node_stack . top() -> addNodeChild( __node__ ); \
 		_node_stack . push( __node__ ); }
+
+#define ADD_2_TOP_WITH_INIT( ClassName, ... ) \
+		{ \
+		std::cout << _node_stack.size() << "  start"<< #ClassName  <<" -> "<< _node_stack.top()->toString()<<":"<<_node_stack.top()->node_childs.size()<< std::endl; \
+		as::ast::ClassName##Ptr __node__( new as::ast::ClassName(  __VA_ARGS__ )  ); \
+		_node_stack . top() -> addNodeChild( __node__ ); }
 
 #define CHECK_STACK_AND_POP( ClassName, NODE_TYPE ) \
 		{ \
 			if(_node_stack.top()->nodeType() != NODE_TYPE ){ \
 	            std::cerr << " protocol error ---- expect '"<<#NODE_TYPE<<"' but get '" << _node_stack . top() -> toString()<<"'"<<std::endl; \
+	            std::cerr << "please contact mapleelpam at gmail com"<<std::endl; \
 	            exit(1); \
 	        } \
 		printf(" %lu end"#ClassName"\n", _node_stack.size() ); \
@@ -147,22 +160,11 @@ public:
 	}
 
 	void startFunctionDefinition() {
-
-		//      printf(" %lu startFunctionDefinition\n", _node_stack.size() );
-		//
-		//      as::ast::FunctionDefinitionPtr func_def( new as::ast::FunctionDefinition() );
-		//      _node_stack . top() -> addNodeChild( func_def );
-		//      _node_stack . push( func_def );
 		PUSH_STACK( FunctionDefinition );
-
 	}
 
 	void functionName(const std::string& name) {
-
-		printf(" %lu startFunctionName\n", _node_stack.size());
-
-		as::ast::FunctionNamePtr func_name(new as::ast::FunctionName(name));
-		_node_stack . top() -> addNodeChild(func_name);
+		ADD_2_TOP_WITH_INIT( FunctionName, name );
 	}
 
 	void startFunctionSignature() {
@@ -170,38 +172,23 @@ public:
 	}
 
 	void endFunctionSignature() {
-
-		printf(" %lu endFunctionSignature\n", _node_stack.size());
-		_node_stack . pop();
+		CHECK_STACK_AND_POP( FunctionSignature, AST::Node::NodeType::T_FUNCTION_SIGNATURE );
 	}
 
 	void startFunctionSignatureParameters() {
-
-		printf(" %lu startFunctionSignatureParameters\n", _node_stack.size());
-
-		std::cout << " current stack top is "
-				<< _node_stack . top() -> toString() << std::endl;
-
-		as::ast::FunctionParametersPtr fsig_param(
-				new as::ast::FunctionParameters);
-		_node_stack . top() -> addNodeChild(fsig_param);
-		_node_stack . push(fsig_param);
+		PUSH_STACK( FunctionParameters );
 	}
 
-	void startFunctionSignatureParameterMember() {
-		PUSH_STACK( FunctionParameterItem );
+	void startFunctionSignatureParameterMember( const std::string& name, const std::string& type ) {
+		PUSH_STACK_WITH_INIT( FunctionParameterItem, name, type );
 	}
 
 	void endFunctionSignatureParameterMember() {
-
-		printf(" %lu endFunctionSignatureParameterMember\n", _node_stack.size());
-		_node_stack . pop();
+		CHECK_STACK_AND_POP( FunctionParameterItem, AST::Node::NodeType::T_FUNCTION_PARAMETER_ITEM );
 	}
 
 	void endFunctionSignatureParameters() {
-
-		printf(" %lu endFunctionSignatureParameters\n", _node_stack.size());
-		_node_stack . pop();
+		CHECK_STACK_AND_POP( FunctionParameters, AST::Node::NodeType::T_FUNCTION_PARAMETERS );
 	}
 
 	void startFunctionSignatureReturnType() {
@@ -216,12 +203,7 @@ public:
 	}
 
 	void startFunctionCommon() {
-
-		printf(" %lu startFunctionCommon\n", _node_stack.size());
-
-		as::ast::FunctionCommonPtr fCommon(new as::ast::FunctionCommon);
-		_node_stack . top() -> addNodeChild(fCommon);
-		_node_stack . push(fCommon);
+		PUSH_STACK( FunctionCommon );
 	}
 
 	void endFunctionCommon() {
@@ -237,10 +219,7 @@ public:
 	}
 
 	void startExpressionList() {
-		printf(" %lu startExpressionList\n", _node_stack.size());
-		as::ast::ExpressionListPtr exp_list(new as::ast::ExpressionList);
-		_node_stack . top() -> addNodeChild(exp_list);
-		_node_stack . push(exp_list);
+		PUSH_STACK( ExpressionList );
 	}
 
 	void startStmtExpression() {
@@ -295,8 +274,8 @@ public:
 	void endIsOperator() {
 		CHECK_STACK_AND_POP( Is, AST::Node::NodeType::T_IS );
 	}
-	void startVariableDeclare() {
-		PUSH_STACK( VariableDeclare );
+	void startVariableDeclare( const std::string& name, const std::string& type ) {
+		PUSH_STACK_WITH_INIT( VariableDeclare, name, type );
 	}
 	void endVariableDeclare() {
 
@@ -379,10 +358,7 @@ public:
 
 	void startStmtList() {
 
-		printf(" %lu startStmtList\n", _node_stack.size());
-		as::ast::StatementListPtr stmts(new as::ast::StatementList);
-		_node_stack . top() -> addNodeChild(stmts);
-		_node_stack . push(stmts);
+		PUSH_STACK( StatementList );
 	}
 
 	void endStmtList() {

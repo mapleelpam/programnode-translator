@@ -647,6 +647,22 @@ uint32_t AstDumper_startFunctionSignatureParameterMember_args::read(::apache::th
     }
     switch (fid)
     {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->name);
+          this->__isset.name = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->type);
+          this->__isset.type = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -662,6 +678,12 @@ uint32_t AstDumper_startFunctionSignatureParameterMember_args::read(::apache::th
 uint32_t AstDumper_startFunctionSignatureParameterMember_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   xfer += oprot->writeStructBegin("AstDumper_startFunctionSignatureParameterMember_args");
+  xfer += oprot->writeFieldBegin("name", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->name);
+  xfer += oprot->writeFieldEnd();
+  xfer += oprot->writeFieldBegin("type", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString(this->type);
+  xfer += oprot->writeFieldEnd();
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -670,6 +692,12 @@ uint32_t AstDumper_startFunctionSignatureParameterMember_args::write(::apache::t
 uint32_t AstDumper_startFunctionSignatureParameterMember_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   xfer += oprot->writeStructBegin("AstDumper_startFunctionSignatureParameterMember_pargs");
+  xfer += oprot->writeFieldBegin("name", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString((*(this->name)));
+  xfer += oprot->writeFieldEnd();
+  xfer += oprot->writeFieldBegin("type", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString((*(this->type)));
+  xfer += oprot->writeFieldEnd();
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -2273,6 +2301,22 @@ uint32_t AstDumper_startVariableDeclare_args::read(::apache::thrift::protocol::T
     }
     switch (fid)
     {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->name);
+          this->__isset.name = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->type);
+          this->__isset.type = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -2288,6 +2332,12 @@ uint32_t AstDumper_startVariableDeclare_args::read(::apache::thrift::protocol::T
 uint32_t AstDumper_startVariableDeclare_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   xfer += oprot->writeStructBegin("AstDumper_startVariableDeclare_args");
+  xfer += oprot->writeFieldBegin("name", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->name);
+  xfer += oprot->writeFieldEnd();
+  xfer += oprot->writeFieldBegin("type", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString(this->type);
+  xfer += oprot->writeFieldEnd();
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -2296,6 +2346,12 @@ uint32_t AstDumper_startVariableDeclare_args::write(::apache::thrift::protocol::
 uint32_t AstDumper_startVariableDeclare_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   xfer += oprot->writeStructBegin("AstDumper_startVariableDeclare_pargs");
+  xfer += oprot->writeFieldBegin("name", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString((*(this->name)));
+  xfer += oprot->writeFieldEnd();
+  xfer += oprot->writeFieldBegin("type", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString((*(this->type)));
+  xfer += oprot->writeFieldEnd();
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -3413,17 +3469,19 @@ void AstDumperClient::send_startFunctionSignatureParameters()
   oprot_->getTransport()->flush();
 }
 
-void AstDumperClient::startFunctionSignatureParameterMember()
+void AstDumperClient::startFunctionSignatureParameterMember(const std::string& name, const std::string& type)
 {
-  send_startFunctionSignatureParameterMember();
+  send_startFunctionSignatureParameterMember(name, type);
 }
 
-void AstDumperClient::send_startFunctionSignatureParameterMember()
+void AstDumperClient::send_startFunctionSignatureParameterMember(const std::string& name, const std::string& type)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("startFunctionSignatureParameterMember", ::apache::thrift::protocol::T_CALL, cseqid);
 
   AstDumper_startFunctionSignatureParameterMember_pargs args;
+  args.name = &name;
+  args.type = &type;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -4010,17 +4068,19 @@ void AstDumperClient::send_endUnaryExpression()
   oprot_->getTransport()->flush();
 }
 
-void AstDumperClient::startVariableDeclare()
+void AstDumperClient::startVariableDeclare(const std::string& name, const std::string& type)
 {
-  send_startVariableDeclare();
+  send_startVariableDeclare(name, type);
 }
 
-void AstDumperClient::send_startVariableDeclare()
+void AstDumperClient::send_startVariableDeclare(const std::string& name, const std::string& type)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("startVariableDeclare", ::apache::thrift::protocol::T_CALL, cseqid);
 
   AstDumper_startVariableDeclare_pargs args;
+  args.name = &name;
+  args.type = &type;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -4777,7 +4837,7 @@ void AstDumperProcessor::process_startFunctionSignatureParameterMember(int32_t s
   }
 
   try {
-    iface_->startFunctionSignatureParameterMember();
+    iface_->startFunctionSignatureParameterMember(args.name, args.type);
   } catch (const std::exception& e) {
     if (eventHandler_.get() != NULL) {
       eventHandler_->handlerError(ctx, "AstDumper.startFunctionSignatureParameterMember");
@@ -5998,7 +6058,7 @@ void AstDumperProcessor::process_startVariableDeclare(int32_t seqid, ::apache::t
   }
 
   try {
-    iface_->startVariableDeclare();
+    iface_->startVariableDeclare(args.name, args.type);
   } catch (const std::exception& e) {
     if (eventHandler_.get() != NULL) {
       eventHandler_->handlerError(ctx, "AstDumper.startVariableDeclare");

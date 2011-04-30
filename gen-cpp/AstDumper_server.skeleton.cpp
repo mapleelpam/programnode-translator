@@ -72,7 +72,7 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("startFunctionSignatureParameters\n");
   }
 
-  void startFunctionSignatureParameterMember() {
+  void startFunctionSignatureParameterMember(const std::string& name, const std::string& type) {
     // Your implementation goes here
     printf("startFunctionSignatureParameterMember\n");
   }
@@ -237,7 +237,7 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("endUnaryExpression\n");
   }
 
-  void startVariableDeclare() {
+  void startVariableDeclare(const std::string& name, const std::string& type) {
     // Your implementation goes here
     printf("startVariableDeclare\n");
   }
