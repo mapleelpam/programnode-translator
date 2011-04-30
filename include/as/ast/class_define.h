@@ -48,27 +48,10 @@ struct ClassDefine : public Statement
 	}
 
 	NodePtr classAttribute(){
-		return _has_base_class?  node_childs[0] :NodePtr();
-	}
-	NodePtr className(){
-		unsigned idx = 0;
-		if( _has_attribute ) idx ++;
-		return node_childs[idx];
+		return _has_attribute?  node_childs[0] :NodePtr();
 	}
 	NodePtr classStmt(){
 		return node_childs[ node_childs.size() - 1];
-	}
-
-
-	NodePtr classInherit(){
-		unsigned idx = 0;
-		if( _has_attribute ) idx ++;
-		if( _has_base_class ) idx ++;
-		else
-			return NodePtr();
-
-		std::cout << "in class define - class inherit : "<<idx << std::endl;
-		return node_childs[idx];
 	}
 
 	std::string toString()  {	return "node::class_define"; };
