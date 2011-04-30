@@ -26,7 +26,7 @@
 #ifndef __TW_MAPLE_AS_AST_SATEMENTS_CLASS_DEFINE_H__
 #define __TW_MAPLE_AS_AST_SATEMENTS_CLASS_DEFINE_H__
 
-#include <tr1/memory>
+#include <global.h>
 #include <as/ast/statement.h>
 
 
@@ -34,11 +34,16 @@ namespace tw { namespace maple { namespace as { namespace ast {
 
 struct ClassDefine : public Statement
 {
-	ClassDefine() :
-		Statement(Node::NodeType::T_CLASS_DEFINE)
+	ClassDefine( std::string name
+			, const std::vector<std::string>& inherits
+			, const std::vector<std::string>& interfaces)
+		: Statement(Node::NodeType::T_CLASS_DEFINE)
 	 	, _has_base_class( false )
 		, _has_base_interface( false )
 		, _has_attribute( false )
+		, m_classname( name )
+		, m_inherits( inherits )
+		, m_implements( interfaces )
 	{
 	}
 
@@ -75,10 +80,17 @@ struct ClassDefine : public Statement
 	bool hasBaseClass()	{	return _has_base_class; }
 	bool hasInterface()	{	return _has_base_interface;}
 	bool hasAttribute()	{	return _has_attribute;	}
+
+	std::string getClassName()	const {	return m_classname;	}
 private:
 	bool _has_base_class;
 	bool _has_base_interface;
 	bool _has_attribute;
+
+	std::string					m_classname;
+    std::vector<std::string>	m_inherits;
+    std::vector<std::string>	m_implements;
+
 };
 typedef std::tr1::shared_ptr<ClassDefine> ClassDefinePtr;
 

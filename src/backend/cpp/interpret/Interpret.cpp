@@ -51,8 +51,6 @@
 #include <backend/cpp/interpret/is.h>
 #include <backend/cpp/interpret/instanceof.h>
 #include <backend/cpp/interpret/class_define.h>
-#include <backend/cpp/interpret/class_base.h>
-#include <backend/cpp/interpret/class_name.h>
 #include <backend/cpp/interpret/stmt/package_definition.h>
 
 
@@ -123,13 +121,8 @@ void initializeInterpreters()
 
 		interpreterResolver[AST::Node::NodeType::T_CLASS_DEFINE]
 				= new ClassDefine();
-		interpreterResolver[AST::Node::NodeType::T_CLASS_DEFINE_NAME]
-				= new ClassName();
 		interpreterResolver[AST::Node::NodeType::T_CLASS_DEFINE_STMT]
 				= new Interpreter();
-
-		interpreterResolver[AST::Node::NodeType::T_COMP_CLASS_BASE]
-				= new ClassInheritBase();
 
 		interpreterResolver[AST::Node::NodeType::T_COMP_CLASS_ATTRIBUTE]
 				= new Interpreter();

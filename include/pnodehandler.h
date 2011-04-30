@@ -71,10 +71,7 @@
 #include <as/ast/if_stmt_else.h>
 
 #include <as/ast/class_define.h>
-#include <as/ast/class_name.h>
 #include <as/ast/class_stmt.h>
-#include <as/ast/class_base.h>
-#include <as/ast/class_interface.h>
 #include <as/ast/attribute_list.h>
 
 #include <as/ast/function_attribute.h>
@@ -311,19 +308,6 @@ public:
 	void startAssignment() {
 		PUSH_STACK( Assignment );
 	}
-	void startClassBase() {
-		PUSH_STACK( ClassInheritBase );
-	}
-	void startClassInterface() {
-		PUSH_STACK( ClassInheritInterface );
-	}
-	void endClassBase() {
-		CHECK_STACK_AND_POP( ClassInheritBase, AST::Node::NodeType::T_COMP_CLASS_BASE );
-
-	}
-	void endClassInterface() {
-		CHECK_STACK_AND_POP( ClassInheritInterface, AST::Node::NodeType::T_COMP_CLASS_INTERFACE );
-	}
 	void endAssignment() {
 		printf(" %lu endAssignment\n", _node_stack.size());
 		_node_stack . pop();
@@ -454,7 +438,8 @@ public:
 
 	void startClassDefine(const generated::ClassDefine& class_define) {
 		printf(" %lu startClassDefine\n", _node_stack.size());
-		as::ast::ClassDefinePtr exp_list(new as::ast::ClassDefine);
+		as::ast::ClassDefinePtr exp_list(
+				new as::ast::ClassDefine(class_define.name, class_define.inherits, class_define.interfaces));
 
 		_node_stack . top() -> addNodeChild(exp_list);
 		_node_stack . push(exp_list);
@@ -465,11 +450,6 @@ public:
 
 	}
 
-	void className(const std::string& name) {
-		printf(" %lu className\n", _node_stack.size());
-		as::ast::ClassNamePtr exp_list(new as::ast::ClassName(name));
-		_node_stack . top() -> addNodeChild(exp_list);
-	}
 	void startClassStmt() {
 		printf(" %lu startClassStmt\n", _node_stack.size());
 		as::ast::ClassStmtPtr exp_list(new as::ast::ClassStmt);
@@ -491,16 +471,9 @@ public:
 		CHECK_STACK_AND_POP( AttributeList, AST::Node::NodeType::T_COMP_CLASS_ATTRIBUTE );
 	}
 	void functionAttribute( const generated::StringList& sv ) {
-//		PUSH_STACK_WITH_INIT( FunctionAttribute, sv );
-
 		std::cout << _node_stack.size() << "  start"<< "FunctionAttribute"  <<" -> "<< _node_stack.top()->toString()<<":"<<_node_stack.top()->node_childs.size()<<" "<<sv.size()<< std::endl;
 		as::ast::FunctionAttributePtr __node__( new as::ast::FunctionAttribute( sv )  );
 		_node_stack . top() -> addNodeChild( __node__ );
-//		for(generated::StringList::iterator sItr = sv.begin()
-//				; sItr != sv.end() ; sItr++ )
-//		{
-//			std::cout << "-------------------------------------------> "<<*sItr<<std::endl;
-//		}
 	}
 
 

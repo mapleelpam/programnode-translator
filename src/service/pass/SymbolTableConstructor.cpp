@@ -100,10 +100,8 @@ void SymbolTableConstructor:: constructSymbols(
 			{
 				::tw::maple::backend::cpp::Context tmp_contexts;
 				AST::ClassDefinePtr _class_define_ = STATIC_CAST( AST::ClassDefine, *nItr);
-				std::string class_name = CPP::dispatchExpound(_class_define_->className(), &tmp_contexts);
-				std::cerr<<" hey ---> class_name = '"<<class_name<<"'"<<std::endl;
 
-				ASY::ScopePtr scope_class( symboltable->registerClass( class_name ) );
+				ASY::ScopePtr scope_class( symboltable->registerClass( _class_define_->getClassName() ) );
 				_class_define_ -> setSymbol( scope_class );
 
 				constructSymbols( _class_define_, scope_class );

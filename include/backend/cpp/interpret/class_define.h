@@ -43,9 +43,6 @@ struct ClassDefine : public Interpreter, public TemplatePrinter
 	{
 		AST::ClassDefinePtr _class_define_ = STATIC_CAST( AST::ClassDefine, node);
 
-		std::string class_name = dispatchExpound(_class_define_->className(), ctx);
-		std::cerr<<" interpret hey ---> class_name = '"<<class_name<<"'"<<std::endl;
-
 		ctx->tree_depth ++;
 			std::string class_stmt = dispatchExpound(_class_define_->classStmt(), ctx);
 		ctx->tree_depth --;
@@ -62,7 +59,7 @@ struct ClassDefine : public Interpreter, public TemplatePrinter
 
 		std::list<PatternPtr> patterns;
 
-		patterns.push_back( PatternPtr( new Pattern("class_name", class_name ) ));
+		patterns.push_back( PatternPtr( new Pattern("class_name", _class_define_->getClassName() ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_stmt", class_stmt ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_inherit", class_inherit ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_inherit_token", class_inherit_token ) ));

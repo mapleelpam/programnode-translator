@@ -160,33 +160,41 @@ class CallExpression {
 };
 
 typedef struct _ClassDefine__isset {
-  _ClassDefine__isset() : has_attr(false), has_baseclass(false), has_interface(false), has_stmt(false) {}
+  _ClassDefine__isset() : name(false), has_attr(false), has_baseclass(false), has_interface(false), has_stmt(false), inherits(false), interfaces(false) {}
+  bool name;
   bool has_attr;
   bool has_baseclass;
   bool has_interface;
   bool has_stmt;
+  bool inherits;
+  bool interfaces;
 } _ClassDefine__isset;
 
 class ClassDefine {
  public:
 
-  static const char* ascii_fingerprint; // = "60C8B7522A9473DE859C625B1854C6CC";
-  static const uint8_t binary_fingerprint[16]; // = {0x60,0xC8,0xB7,0x52,0x2A,0x94,0x73,0xDE,0x85,0x9C,0x62,0x5B,0x18,0x54,0xC6,0xCC};
+  static const char* ascii_fingerprint; // = "2F8B63A4C797555146D85AE546A74556";
+  static const uint8_t binary_fingerprint[16]; // = {0x2F,0x8B,0x63,0xA4,0xC7,0x97,0x55,0x51,0x46,0xD8,0x5A,0xE5,0x46,0xA7,0x45,0x56};
 
-  ClassDefine() : has_attr(0), has_baseclass(0), has_interface(0), has_stmt(0) {
+  ClassDefine() : name(""), has_attr(0), has_baseclass(0), has_interface(0), has_stmt(0) {
   }
 
   virtual ~ClassDefine() throw() {}
 
+  std::string name;
   bool has_attr;
   bool has_baseclass;
   bool has_interface;
   bool has_stmt;
+  StringList inherits;
+  StringList interfaces;
 
   _ClassDefine__isset __isset;
 
   bool operator == (const ClassDefine & rhs) const
   {
+    if (!(name == rhs.name))
+      return false;
     if (!(has_attr == rhs.has_attr))
       return false;
     if (!(has_baseclass == rhs.has_baseclass))
@@ -194,6 +202,10 @@ class ClassDefine {
     if (!(has_interface == rhs.has_interface))
       return false;
     if (!(has_stmt == rhs.has_stmt))
+      return false;
+    if (!(inherits == rhs.inherits))
+      return false;
+    if (!(interfaces == rhs.interfaces))
       return false;
     return true;
   }

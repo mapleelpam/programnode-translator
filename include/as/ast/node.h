@@ -95,11 +95,7 @@ struct Node
             T_IF_STMT_ELSE,
 
             T_CLASS_DEFINE,
-            T_CLASS_DEFINE_NAME,
             T_CLASS_DEFINE_STMT,
-
-            T_COMP_CLASS_INTERFACE,
-            T_COMP_CLASS_BASE,
 
             T_COMP_CLASS_ATTRIBUTE,
 

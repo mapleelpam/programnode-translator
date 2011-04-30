@@ -226,8 +226,8 @@ uint32_t CallExpression::write(::apache::thrift::protocol::TProtocol* oprot) con
   return xfer;
 }
 
-const char* ClassDefine::ascii_fingerprint = "60C8B7522A9473DE859C625B1854C6CC";
-const uint8_t ClassDefine::binary_fingerprint[16] = {0x60,0xC8,0xB7,0x52,0x2A,0x94,0x73,0xDE,0x85,0x9C,0x62,0x5B,0x18,0x54,0xC6,0xCC};
+const char* ClassDefine::ascii_fingerprint = "2F8B63A4C797555146D85AE546A74556";
+const uint8_t ClassDefine::binary_fingerprint[16] = {0x2F,0x8B,0x63,0xA4,0xC7,0x97,0x55,0x51,0x46,0xD8,0x5A,0xE5,0x46,0xA7,0x45,0x56};
 
 uint32_t ClassDefine::read(::apache::thrift::protocol::TProtocol* iprot) {
 
@@ -250,6 +250,14 @@ uint32_t ClassDefine::read(::apache::thrift::protocol::TProtocol* iprot) {
     switch (fid)
     {
       case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->name);
+          this->__isset.name = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
         if (ftype == ::apache::thrift::protocol::T_BOOL) {
           xfer += iprot->readBool(this->has_attr);
           this->__isset.has_attr = true;
@@ -257,7 +265,7 @@ uint32_t ClassDefine::read(::apache::thrift::protocol::TProtocol* iprot) {
           xfer += iprot->skip(ftype);
         }
         break;
-      case 2:
+      case 3:
         if (ftype == ::apache::thrift::protocol::T_BOOL) {
           xfer += iprot->readBool(this->has_baseclass);
           this->__isset.has_baseclass = true;
@@ -265,7 +273,7 @@ uint32_t ClassDefine::read(::apache::thrift::protocol::TProtocol* iprot) {
           xfer += iprot->skip(ftype);
         }
         break;
-      case 3:
+      case 4:
         if (ftype == ::apache::thrift::protocol::T_BOOL) {
           xfer += iprot->readBool(this->has_interface);
           this->__isset.has_interface = true;
@@ -273,10 +281,50 @@ uint32_t ClassDefine::read(::apache::thrift::protocol::TProtocol* iprot) {
           xfer += iprot->skip(ftype);
         }
         break;
-      case 4:
+      case 5:
         if (ftype == ::apache::thrift::protocol::T_BOOL) {
           xfer += iprot->readBool(this->has_stmt);
           this->__isset.has_stmt = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 6:
+        if (ftype == ::apache::thrift::protocol::T_LIST) {
+          {
+            this->inherits.clear();
+            uint32_t _size1;
+            ::apache::thrift::protocol::TType _etype4;
+            iprot->readListBegin(_etype4, _size1);
+            this->inherits.resize(_size1);
+            uint32_t _i5;
+            for (_i5 = 0; _i5 < _size1; ++_i5)
+            {
+              xfer += iprot->readString(this->inherits[_i5]);
+            }
+            iprot->readListEnd();
+          }
+          this->__isset.inherits = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 7:
+        if (ftype == ::apache::thrift::protocol::T_LIST) {
+          {
+            this->interfaces.clear();
+            uint32_t _size6;
+            ::apache::thrift::protocol::TType _etype9;
+            iprot->readListBegin(_etype9, _size6);
+            this->interfaces.resize(_size6);
+            uint32_t _i10;
+            for (_i10 = 0; _i10 < _size6; ++_i10)
+            {
+              xfer += iprot->readString(this->interfaces[_i10]);
+            }
+            iprot->readListEnd();
+          }
+          this->__isset.interfaces = true;
         } else {
           xfer += iprot->skip(ftype);
         }
@@ -296,17 +344,42 @@ uint32_t ClassDefine::read(::apache::thrift::protocol::TProtocol* iprot) {
 uint32_t ClassDefine::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   xfer += oprot->writeStructBegin("ClassDefine");
-  xfer += oprot->writeFieldBegin("has_attr", ::apache::thrift::protocol::T_BOOL, 1);
+  xfer += oprot->writeFieldBegin("name", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->name);
+  xfer += oprot->writeFieldEnd();
+  xfer += oprot->writeFieldBegin("has_attr", ::apache::thrift::protocol::T_BOOL, 2);
   xfer += oprot->writeBool(this->has_attr);
   xfer += oprot->writeFieldEnd();
-  xfer += oprot->writeFieldBegin("has_baseclass", ::apache::thrift::protocol::T_BOOL, 2);
+  xfer += oprot->writeFieldBegin("has_baseclass", ::apache::thrift::protocol::T_BOOL, 3);
   xfer += oprot->writeBool(this->has_baseclass);
   xfer += oprot->writeFieldEnd();
-  xfer += oprot->writeFieldBegin("has_interface", ::apache::thrift::protocol::T_BOOL, 3);
+  xfer += oprot->writeFieldBegin("has_interface", ::apache::thrift::protocol::T_BOOL, 4);
   xfer += oprot->writeBool(this->has_interface);
   xfer += oprot->writeFieldEnd();
-  xfer += oprot->writeFieldBegin("has_stmt", ::apache::thrift::protocol::T_BOOL, 4);
+  xfer += oprot->writeFieldBegin("has_stmt", ::apache::thrift::protocol::T_BOOL, 5);
   xfer += oprot->writeBool(this->has_stmt);
+  xfer += oprot->writeFieldEnd();
+  xfer += oprot->writeFieldBegin("inherits", ::apache::thrift::protocol::T_LIST, 6);
+  {
+    xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, this->inherits.size());
+    std::vector<std::string> ::const_iterator _iter11;
+    for (_iter11 = this->inherits.begin(); _iter11 != this->inherits.end(); ++_iter11)
+    {
+      xfer += oprot->writeString((*_iter11));
+    }
+    xfer += oprot->writeListEnd();
+  }
+  xfer += oprot->writeFieldEnd();
+  xfer += oprot->writeFieldBegin("interfaces", ::apache::thrift::protocol::T_LIST, 7);
+  {
+    xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, this->interfaces.size());
+    std::vector<std::string> ::const_iterator _iter12;
+    for (_iter12 = this->interfaces.begin(); _iter12 != this->interfaces.end(); ++_iter12)
+    {
+      xfer += oprot->writeString((*_iter12));
+    }
+    xfer += oprot->writeListEnd();
+  }
   xfer += oprot->writeFieldEnd();
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
