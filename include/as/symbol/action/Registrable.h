@@ -32,7 +32,7 @@ struct Registrable {
 		return s;
 	}
 	SHARED_PTR(T) registerAnonymousScope() {
-		SHARED_PTR(T) s(new T("", T::T_ANONYMOUS, _instance));
+		SHARED_PTR(T) s(new T(_instance) );
 		_instance->addChild(s);
 		return s;
 	}

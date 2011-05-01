@@ -86,16 +86,12 @@ struct ClassDefine : public Interpreter, public TemplatePrinter
 
 	virtual bool readConfig( boost::property_tree::ptree& pt )
 	{
-
 		_default_base_object = pt.get<std::string>(  configName()+".inherit.base", _default_base_object);
-
 		return TemplatePrinter::readConfig( pt );
 	}
 	virtual bool writeConfig( boost::property_tree::ptree& pt )
 	{
-
 		pt.put<std::string>( configName()+".inherit.base", _default_base_object);
-
 		return TemplatePrinter::writeConfig( pt );
 	}
 

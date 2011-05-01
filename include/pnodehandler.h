@@ -65,10 +65,10 @@
 
 #include <as/ast/stmt_expression.h>
 
-#include <as/ast/if_stmt.h>
-#include <as/ast/if_stmt_condition.h>
-#include <as/ast/if_stmt_then.h>
-#include <as/ast/if_stmt_else.h>
+#include <as/ast/stmt/if_stmt.h>
+#include <as/ast/stmt/if_stmt_condition.h>
+#include <as/ast/stmt/if_stmt_then.h>
+#include <as/ast/stmt/if_stmt_else.h>
 
 #include <as/ast/class_define.h>
 #include <as/ast/class_stmt.h>

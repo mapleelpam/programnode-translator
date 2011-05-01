@@ -16,6 +16,10 @@ class TestClass                  //CHECK: class:TestClass
         {                               //CHECK: --anonymous
             var local_var:int = 2;      //CHECK: ---variable:local_var,local
         }
+        else
+        {
+            var local_var:int = 2;      //CHECK: ---variable:local_var,local
+        }
         return ret;
     }
 }

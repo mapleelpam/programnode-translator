@@ -55,10 +55,10 @@ struct Symbol
 		ATTR_PRIVATE,
 	};
 
-	const std::string name() const {	return _m_name;	}
+	const std::string name() const {	return m_name;	}
 
 	Symbol( std::string n,  uint p = T_NONE, Attributes attr = ATTR_NONE )
-		: _m_name( n )
+		: m_name( n )
 		, m_properties( p )
 		, m_attributes( attr )
 	{
@@ -72,8 +72,12 @@ struct Symbol
 
 	Attributes getSymbolAttribtues( ) const {	return m_attributes;	}
 	void setSymbolAttributes( Attributes p ) {	m_attributes = p;	};
+	virtual std::string getFQN()
+	{
+			return name();
+	}
 protected:
-	std::string		_m_name;
+	std::string		m_name;
 	uint			m_properties;
 	Attributes		m_attributes;
 };

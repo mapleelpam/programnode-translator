@@ -48,20 +48,24 @@ struct Debug
 		for (std::vector<SymbolPtr>::iterator
 				child_itr = childs.begin(); child_itr != childs.end(); child_itr++) {
 
-			ofs << indent(depth) << (*child_itr)->toString() <<std::endl;
+
 
 			if( ((*child_itr)->getSymbolProperties() & Symbol::T_SCOPE ) )
 			{
 				ScopePtr scope = STATIC_CAST( Scope, *child_itr );
+
+				ofs << indent(depth) << (*child_itr)->toString() << " FQN->"<<scope->getFQN() <<std::endl;
+
 				if( scope )
 					dump_symboltable( scope, ofs, depth+1 );
+			} else {
+				ofs << indent(depth) << (*child_itr)->toString() <<std::endl;
 			}
 		}
 	}
 private:
 	static std::string indent( int dpeth )
 	{
-
 			std::string ans = "";
 			for( int idx = 0 ; idx < dpeth ; idx ++)
 				ans += "-";//TODO: replace by indent scape

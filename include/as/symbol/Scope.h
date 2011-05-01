@@ -32,6 +32,7 @@
 #include <as/symbol/Symbol.h>
 #include <as/symbol/action/Registrable.h>
 #include <as/symbol/PrimitiveType.h>
+#include <sstream>
 
 namespace tw { namespace maple { namespace as { namespace symbol {
 
@@ -52,18 +53,28 @@ struct Scope : public Symbol, public Registrable<Scope>
 
 	Scope( std::string n, ScopeType t = T_NONE, Scope *parent = NULL )
 		: Symbol( n, Symbol::T_SCOPE ), Registrable<Scope>( this )
-		, _m_scope_type( t )
+		, m_scope_type( t )
 		, m_parent( parent )
 	{	}
 
-//	void setScopeType( ScopeType p ) {	_m_scope_type = p;	};
-	ScopeType getScopeType( ) const {	return _m_scope_type;	}
+	Scope( Scope *parent = NULL )
+			: Symbol( "", Symbol::T_SCOPE ), Registrable<Scope>( this )
+			, m_scope_type( T_ANONYMOUS )
+			, m_parent( parent )
+	{
+		std::ostringstream ss;
+		ss << "anonymous"<<m_parent->m_childs.size();
+		m_name = ss.str();
+	}
+
+//	void setScopeType( ScopeType p ) {	m_scope_type = p;	};
+	ScopeType getScopeType( ) const {	return m_scope_type;	}
 
 	virtual std::string toString()
 	{
 		std::string ans = "";
 
-		switch( _m_scope_type ){
+		switch( m_scope_type ){
 		case T_PACKAGE:
 			ans += "package:";
 			break;
@@ -77,7 +88,7 @@ struct Scope : public Symbol, public Registrable<Scope>
 			ans += "anonymous:";
 			break;
 		default:
-			std::cerr<<"can't resolve Scope Type" << _m_scope_type <<std::endl;
+			std::cerr<<"can't resolve Scope Type" << m_scope_type <<std::endl;
 		}
 
 		return ans+name();
@@ -86,10 +97,10 @@ struct Scope : public Symbol, public Registrable<Scope>
 
 	bool isDeletable()
 	{
-		if( _m_scope_type != T_ANONYMOUS )	return false;
-		if( _m_childs . size() == 0 )	return true;
+		if( m_scope_type != T_ANONYMOUS )	return false;
+		if( m_childs . size() == 0 )	return true;
 
-		for( std::vector<SymbolPtr>::iterator sItr = _m_childs.begin() ; sItr != _m_childs.end() ; sItr++)
+		for( std::vector<SymbolPtr>::iterator sItr = m_childs.begin() ; sItr != m_childs.end() ; sItr++)
 		{
 			if( ((*sItr)->getSymbolProperties() & Symbol::T_SCOPE ) )
 			{
@@ -107,10 +118,10 @@ struct Scope : public Symbol, public Registrable<Scope>
 
 	bool removeChild( SymbolPtr s )
 	{
-		for( std::vector<SymbolPtr>::iterator sItr = _m_childs.begin() ; sItr != _m_childs.end() ; sItr++)
+		for( std::vector<SymbolPtr>::iterator sItr = m_childs.begin() ; sItr != m_childs.end() ; sItr++)
 		{
 			if( s == *sItr ) {
-				_m_childs.erase( sItr );
+				m_childs.erase( sItr );
 				return true;
 			}
 		}
@@ -118,17 +129,17 @@ struct Scope : public Symbol, public Registrable<Scope>
 	}
 	void addChild( SymbolPtr s )
 	{
-		_m_childs . push_back( s );
+		m_childs . push_back( s );
 	}
 
 	void getChilds( std::vector<SymbolPtr>& childs /*out*/ )
 	{
-		childs = _m_childs;
+		childs = m_childs;
 	}
 
 	SymbolPtr findType( std::string type_name )
 	{
-		for( std::vector<SymbolPtr>::iterator sitr = _m_childs.begin() ; sitr != _m_childs.end() ; sitr++)
+		for( std::vector<SymbolPtr>::iterator sitr = m_childs.begin() ; sitr != m_childs.end() ; sitr++)
 		{
 			if( (*sitr)->name() != type_name )
 				continue;
@@ -149,11 +160,21 @@ struct Scope : public Symbol, public Registrable<Scope>
 
 		return ( m_parent == NULL )? SymbolPtr() : m_parent->findType( type_name ) ;
 	}
+	virtual std::string getFQN()
+	{
+		if( m_parent )
+			return m_parent->getFQN()+"::"+name();
+		else if( m_scope_type == T_PROGRAM_ROOT)
+			return "";
+		else
+			return name();
+	}
 private:
-	ScopeType _m_scope_type;
-	std::vector<SymbolPtr>	_m_childs;
+	ScopeType m_scope_type;
+	std::vector<SymbolPtr>	m_childs;
 
 	Scope*	m_parent;
+//friend class Scope;
 };
 
 }}}}//tw/maple/as/symbol

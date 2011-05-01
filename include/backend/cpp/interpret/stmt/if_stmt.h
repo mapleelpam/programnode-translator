@@ -26,7 +26,7 @@
 #ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_IF_STMT_H__
 #define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_IF_STMT_H__
 
-#include <as/ast/if_stmt.h>
+#include <as/ast/stmt/if_stmt.h>
 #include <as/ast/call.h>
 #include <backend/cpp/interpret/interpreter.h>
 #include <backend/cpp/template_printer.h>

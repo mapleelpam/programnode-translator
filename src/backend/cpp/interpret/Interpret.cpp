@@ -46,7 +46,7 @@
 #include <backend/cpp/interpret/unary_operator.h>
 #include <backend/cpp/interpret/variable_declare.h>
 #include <backend/cpp/interpret/assignment.h>
-#include <backend/cpp/interpret/if_stmt.h>
+#include <backend/cpp/interpret/stmt/if_stmt.h>
 #include <backend/cpp/interpret/stmt_expression.h>
 #include <backend/cpp/interpret/is.h>
 #include <backend/cpp/interpret/instanceof.h>

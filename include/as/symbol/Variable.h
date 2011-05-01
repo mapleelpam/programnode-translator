@@ -49,7 +49,7 @@ struct Variable : public Symbol
 				s_attr = "local";
 		}
 
-		return "variable:"+name()+","+s_attr;
+		return "variable:"+name()+","+s_attr+" type:"+m_type_symbol->getFQN();
 	}
 
 	virtual void bindType( SymbolPtr type)

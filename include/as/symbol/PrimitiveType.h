@@ -45,6 +45,10 @@ struct PrimitiveType : public Symbol
 		return "type:"+name();
 	}
 
+	virtual std::string getFQN()
+	{
+		return name();
+	}
 	bool is_pointer;
 };
 
