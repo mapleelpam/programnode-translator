@@ -56,7 +56,7 @@ class AstDumperIf {
   virtual void endIsOperator() = 0;
   virtual void startUnaryExpression(const UnaryExpression& op) = 0;
   virtual void endUnaryExpression() = 0;
-  virtual void startVariableDeclare(const std::string& name, const std::string& type) = 0;
+  virtual void startVariableDeclare(const std::string& name, const std::string& type, const std::string& attributes) = 0;
   virtual void endVariableDeclare() = 0;
   virtual void startAssignment() = 0;
   virtual void endAssignment() = 0;
@@ -205,7 +205,7 @@ class AstDumperNull : virtual public AstDumperIf {
   void endUnaryExpression() {
     return;
   }
-  void startVariableDeclare(const std::string& /* name */, const std::string& /* type */) {
+  void startVariableDeclare(const std::string& /* name */, const std::string& /* type */, const std::string& /* attributes */) {
     return;
   }
   void endVariableDeclare() {
@@ -1911,21 +1911,23 @@ class AstDumper_endUnaryExpression_pargs {
 };
 
 typedef struct _AstDumper_startVariableDeclare_args__isset {
-  _AstDumper_startVariableDeclare_args__isset() : name(false), type(false) {}
+  _AstDumper_startVariableDeclare_args__isset() : name(false), type(false), attributes(false) {}
   bool name;
   bool type;
+  bool attributes;
 } _AstDumper_startVariableDeclare_args__isset;
 
 class AstDumper_startVariableDeclare_args {
  public:
 
-  AstDumper_startVariableDeclare_args() : name(""), type("") {
+  AstDumper_startVariableDeclare_args() : name(""), type(""), attributes("") {
   }
 
   virtual ~AstDumper_startVariableDeclare_args() throw() {}
 
   std::string name;
   std::string type;
+  std::string attributes;
 
   _AstDumper_startVariableDeclare_args__isset __isset;
 
@@ -1934,6 +1936,8 @@ class AstDumper_startVariableDeclare_args {
     if (!(name == rhs.name))
       return false;
     if (!(type == rhs.type))
+      return false;
+    if (!(attributes == rhs.attributes))
       return false;
     return true;
   }
@@ -1957,6 +1961,7 @@ class AstDumper_startVariableDeclare_pargs {
 
   const std::string* name;
   const std::string* type;
+  const std::string* attributes;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -2755,8 +2760,8 @@ class AstDumperClient : virtual public AstDumperIf {
   void send_startUnaryExpression(const UnaryExpression& op);
   void endUnaryExpression();
   void send_endUnaryExpression();
-  void startVariableDeclare(const std::string& name, const std::string& type);
-  void send_startVariableDeclare(const std::string& name, const std::string& type);
+  void startVariableDeclare(const std::string& name, const std::string& type, const std::string& attributes);
+  void send_startVariableDeclare(const std::string& name, const std::string& type, const std::string& attributes);
   void endVariableDeclare();
   void send_endVariableDeclare();
   void startAssignment();
@@ -3239,10 +3244,10 @@ class AstDumperMultiface : virtual public AstDumperIf {
     }
   }
 
-  void startVariableDeclare(const std::string& name, const std::string& type) {
+  void startVariableDeclare(const std::string& name, const std::string& type, const std::string& attributes) {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
-      ifaces_[i]->startVariableDeclare(name, type);
+      ifaces_[i]->startVariableDeclare(name, type, attributes);
     }
   }
 

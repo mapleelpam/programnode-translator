@@ -268,8 +268,8 @@ public:
 	void endIsOperator() {
 		CHECK_STACK_AND_POP( Is, AST::Node::NodeType::T_IS );
 	}
-	void startVariableDeclare( const std::string& name, const std::string& type ) {
-		PUSH_STACK_WITH_INIT( VariableDeclare, name, type );
+	void startVariableDeclare( const std::string& name, const std::string& type, const std::string& attrs ) {
+		PUSH_STACK_WITH_INIT( VariableDeclare, name, type, attrs );
 	}
 	void endVariableDeclare() {
 

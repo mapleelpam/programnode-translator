@@ -2283,6 +2283,14 @@ uint32_t AstDumper_startVariableDeclare_args::read(::apache::thrift::protocol::T
           xfer += iprot->skip(ftype);
         }
         break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->attributes);
+          this->__isset.attributes = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -2304,6 +2312,9 @@ uint32_t AstDumper_startVariableDeclare_args::write(::apache::thrift::protocol::
   xfer += oprot->writeFieldBegin("type", ::apache::thrift::protocol::T_STRING, 2);
   xfer += oprot->writeString(this->type);
   xfer += oprot->writeFieldEnd();
+  xfer += oprot->writeFieldBegin("attributes", ::apache::thrift::protocol::T_STRING, 3);
+  xfer += oprot->writeString(this->attributes);
+  xfer += oprot->writeFieldEnd();
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -2317,6 +2328,9 @@ uint32_t AstDumper_startVariableDeclare_pargs::write(::apache::thrift::protocol:
   xfer += oprot->writeFieldEnd();
   xfer += oprot->writeFieldBegin("type", ::apache::thrift::protocol::T_STRING, 2);
   xfer += oprot->writeString((*(this->type)));
+  xfer += oprot->writeFieldEnd();
+  xfer += oprot->writeFieldBegin("attributes", ::apache::thrift::protocol::T_STRING, 3);
+  xfer += oprot->writeString((*(this->attributes)));
   xfer += oprot->writeFieldEnd();
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
@@ -4017,12 +4031,12 @@ void AstDumperClient::send_endUnaryExpression()
   oprot_->getTransport()->flush();
 }
 
-void AstDumperClient::startVariableDeclare(const std::string& name, const std::string& type)
+void AstDumperClient::startVariableDeclare(const std::string& name, const std::string& type, const std::string& attributes)
 {
-  send_startVariableDeclare(name, type);
+  send_startVariableDeclare(name, type, attributes);
 }
 
-void AstDumperClient::send_startVariableDeclare(const std::string& name, const std::string& type)
+void AstDumperClient::send_startVariableDeclare(const std::string& name, const std::string& type, const std::string& attributes)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("startVariableDeclare", ::apache::thrift::protocol::T_CALL, cseqid);
@@ -4030,6 +4044,7 @@ void AstDumperClient::send_startVariableDeclare(const std::string& name, const s
   AstDumper_startVariableDeclare_pargs args;
   args.name = &name;
   args.type = &type;
+  args.attributes = &attributes;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -5970,7 +5985,7 @@ void AstDumperProcessor::process_startVariableDeclare(int32_t seqid, ::apache::t
   }
 
   try {
-    iface_->startVariableDeclare(args.name, args.type);
+    iface_->startVariableDeclare(args.name, args.type, args.attributes);
   } catch (const std::exception& e) {
     if (eventHandler_.get() != NULL) {
       eventHandler_->handlerError(ctx, "AstDumper.startVariableDeclare");

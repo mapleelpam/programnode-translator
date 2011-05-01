@@ -25,7 +25,12 @@
                 return y;
         }
 
-//        public var member:int;
+        public function getType():int
+        {
+            return m_type;
+        } 
+
+        private var m_type:int;
 //        public var member2:int = 2;
 
     }

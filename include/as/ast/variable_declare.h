@@ -33,10 +33,11 @@ namespace tw { namespace maple { namespace as { namespace ast {
 
 struct VariableDeclare: public Expression
 {
-	VariableDeclare( std::string name, std::string type )
+	VariableDeclare( std::string name, std::string type, std::string attrs )
 		: Expression(Node::NodeType::T_VARIABLE_DECLARE)
 		, VariableName( name )
 		, VariableType( type )
+		, VariableAttribute( attrs )
 	{
 	}
 
@@ -51,6 +52,7 @@ struct VariableDeclare: public Expression
 
     const std::string VariableName;
     const std::string VariableType;
+    const std::string VariableAttribute;
 };
 
 typedef SHARED_PTR(VariableDeclare) VariableDeclarePtr;

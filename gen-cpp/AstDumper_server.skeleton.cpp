@@ -232,7 +232,7 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("endUnaryExpression\n");
   }
 
-  void startVariableDeclare(const std::string& name, const std::string& type) {
+  void startVariableDeclare(const std::string& name, const std::string& type, const std::string& attributes) {
     // Your implementation goes here
     printf("startVariableDeclare\n");
   }

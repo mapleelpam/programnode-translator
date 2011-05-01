@@ -52,12 +52,14 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 		var_type = invoke_type_mapper( var_type );
 
 		std::string var_name = var->VariableName;
+		std::string var_attr = var->VariableAttribute!=""?var->VariableAttribute+":":"";
 		std::string var_init = "";
 
 		if ( var->varInit() )
-			var_init = " = " + dispatchExpound( var->varInit(), ctx );
+	 		var_init = " = " + dispatchExpound( var->varInit(), ctx );
 
 		std::list<PatternPtr> patterns;
+		patterns.push_back( PatternPtr( new Pattern("var_attribute", var_attr) ));
 		patterns.push_back( PatternPtr( new Pattern("var_type", var_type) ));
 		patterns.push_back( PatternPtr( new Pattern("var_name", var_name) ));
 		patterns.push_back( PatternPtr( new Pattern("var_init", var_init) ));
@@ -74,7 +76,7 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 		_primitive_type_mapper[ "int" ] = "int";
 		_primitive_type_mapper[ "float" ] = "float";
 
-		setTemplateString( "#(indent_tab)#(var_type) #(var_name) #(var_init);#(endl)" );
+		setTemplateString( "#(var_attribute)#(endl)#(indent_tab)#(var_type) #(var_name) #(var_init);#(endl)" );
 //		setTemplateString( "#indent_tab##var_type# #var_name#;#endl#" );
 	}
 
