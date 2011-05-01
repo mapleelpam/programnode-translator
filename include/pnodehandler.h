@@ -191,15 +191,9 @@ public:
 		CHECK_STACK_AND_POP( FunctionParameters, AST::Node::NodeType::T_FUNCTION_PARAMETERS );
 	}
 
-	void startFunctionSignatureReturnType() {
-		PUSH_STACK( FunctionReturnType );
-
-	}
-
-	void endFunctionSignatureReturnType() {
-
-		printf(" %lu endFunctionSignatureReturnType\n", _node_stack.size());
-		_node_stack . pop();
+	void functionSignatureReturnType( const std::string& name)
+	{
+		ADD_2_TOP_WITH_INIT( FunctionReturnType, name  );
 	}
 
 	void startFunctionCommon() {

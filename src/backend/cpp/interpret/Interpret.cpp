@@ -37,7 +37,7 @@
 #include <backend/cpp/interpret/statement_list.h>
 #include <backend/cpp/interpret/function_definition.h>
 #include <backend/cpp/interpret/function_name.h>
-#include <backend/cpp/interpret/function_return_type.h>
+#include <backend/cpp/interpret/function_rettype.h>
 #include <backend/cpp/interpret/function_parameters.h>
 #include <backend/cpp/interpret/function_parameter_item.h>
 #include <backend/cpp/interpret/arguments.h>

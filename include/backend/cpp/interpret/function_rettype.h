@@ -38,15 +38,9 @@ struct FunctionReturnType : public Interpreter
 {
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
 	{
-		std::string result = "";
+		AST::FunctionReturnTypePtr ret_type = std::tr1::static_pointer_cast<AST::FunctionReturnType>(node);
 
-		for (std::vector<std::tr1::shared_ptr<AST::Node> >::iterator nItr =
-				node->node_childs.begin(); nItr != node->node_childs.end(); nItr++)
-			result += dispatchExpound(*nItr, ctx);
-
-
-		//TODO: default void should be om settings.ini
-		return (result == "") ? "void" : result;
+		return ret_type->type_name;
 	}
 };
 

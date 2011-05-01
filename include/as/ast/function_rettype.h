@@ -35,14 +35,18 @@ namespace tw { namespace maple { namespace as { namespace ast {
 // Abstract
 struct FunctionReturnType : public Statement
 {
-	FunctionReturnType() :
-		Statement(Node::NodeType::T_FUNCTION_RETTYPE) {
+	FunctionReturnType( const std::string v)
+		: Statement(Node::NodeType::T_FUNCTION_RETTYPE)
+		, type_name(v)
+	{
 	}
 	int stmtType() {
 		return Node::NodeType::T_FUNCTION_RETTYPE;
 	}
 
-	std::string toString()  {	return "node::function_return_type"; };
+	std::string toString()  {	return "node::function_return_type:"+type_name; };
+
+	std::string type_name;
 };
 typedef SHARED_PTR(FunctionReturnType) FunctionReturnTypePtr;
 
