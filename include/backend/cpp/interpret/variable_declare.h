@@ -41,7 +41,9 @@ typedef std::map< std::string,std::string > StringMap;
 struct VariableDeclare : public Interpreter, public TemplatePrinter
 {   
 
-	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
+	virtual std::string expound(::tw::maple::as::ast::NodePtr node
+			, tw::maple::as::symbol::ScopePtr symbol_table
+			, tw::maple::backend::cpp::Context* ctx)
 	{
 
 		std::string result;
@@ -56,7 +58,7 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 		std::string var_init = "";
 
 		if ( var->varInit() )
-	 		var_init = " = " + dispatchExpound( var->varInit(), ctx );
+	 		var_init = " = " + dispatchExpound( var->varInit(), symbol_table, ctx );
 
 		std::list<PatternPtr> patterns;
 		patterns.push_back( PatternPtr( new Pattern("var_attribute", var_attr) ));

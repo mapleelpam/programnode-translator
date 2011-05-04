@@ -36,12 +36,14 @@ namespace AST = ::tw::maple::as::ast;
 
 struct Is : public Interpreter, public TemplatePrinter
 {   
-	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
+	virtual std::string expound(::tw::maple::as::ast::NodePtr node
+			, tw::maple::as::symbol::ScopePtr symbol_table
+			, tw::maple::backend::cpp::Context* ctx)
 	{
 		AST::IsPtr bin = STATIC_CAST( AST::Is, node);
 
-		std::string instance_name = dispatchExpound(bin->LHS(), ctx);
-		std::string type_name = dispatchExpound(bin->RHS(), ctx);
+		std::string instance_name = dispatchExpound(bin->LHS(), symbol_table, ctx);
+		std::string type_name = dispatchExpound(bin->RHS(), symbol_table, ctx);
 
 		std::list<PatternPtr> patterns;
 		patterns.push_back( PatternPtr( new Pattern("instance_name", instance_name ) ));

@@ -37,12 +37,15 @@ namespace AST = ::tw::maple::as::ast;
 
 struct Assignment : public Interpreter
 {   
-	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
+	virtual std::string expound(
+			::tw::maple::as::ast::NodePtr node
+			, tw::maple::as::symbol::ScopePtr symbol_table
+			, tw::maple::backend::cpp::Context* ctx)
 	{
 		std::string result;
 		AST::AssignmentPtr assignment = STATIC_CAST( AST::Assignment, node);
 
-		return dispatchExpound(assignment->LHS(), ctx) + " = "  + dispatchExpound(assignment->RHS(), ctx);
+		return dispatchExpound(assignment->LHS(), symbol_table, ctx) + " = "  + dispatchExpound(assignment->RHS(),symbol_table, ctx);
 	}
 };
 

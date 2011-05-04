@@ -39,6 +39,7 @@ struct BackendManager {
 
 	static void exec(
 			tw::maple::as::ast::ProgramList& pnode_list /* input program node */
+			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::PrependData prepend_data
 			, std::string file_name /* write to */
 			)
@@ -53,7 +54,7 @@ struct BackendManager {
 
 		for (std::vector<tw::maple::as::ast::ProgramPtr>::iterator
 				nodeItr = pnode_list.begin(); nodeItr != pnode_list.end(); nodeItr++) {
-			context.ofs_stream << INTERPRET::dispatchExpound(*nodeItr, &context);
+			context.ofs_stream << INTERPRET::dispatchExpound(*nodeItr, symbol_table, &context);
 		}
 
 		context.ofs_stream.close();

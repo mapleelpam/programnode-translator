@@ -37,7 +37,9 @@ namespace tw { namespace maple { namespace backend { namespace cpp { namespace i
 struct LiteralBoolean : public Interpreter
 {   
 
-	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
+	virtual std::string expound(::tw::maple::as::ast::NodePtr node
+			, tw::maple::as::symbol::ScopePtr symbol_table
+			, tw::maple::backend::cpp::Context* ctx)
 	{
 		SHARED_PTR(AST::LiteralBoolean) li = std::tr1::static_pointer_cast<AST::LiteralBoolean>(node);
 

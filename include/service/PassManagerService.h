@@ -100,7 +100,7 @@ public:
 			exit(0);
 		}
 
-		tw::maple::service::pass::BackendManager::exec( pnode_list, m_prepend,  m_out_file_path /* out */ );
+		tw::maple::service::pass::BackendManager::exec( pnode_list, symbol_table, m_prepend,  m_out_file_path /* out */ );
 
 	}
 private:

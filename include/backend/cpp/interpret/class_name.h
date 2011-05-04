@@ -36,7 +36,9 @@ namespace AST = ::tw::maple::as::ast;
 
 struct ClassName : public Interpreter
 {   
-	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
+	virtual std::string expound(::tw::maple::as::ast::NodePtr node
+			, tw::maple::as::symbol::ScopePtr symbol_table
+			, tw::maple::backend::cpp::Context* ctx)
 	{
 
 		AST::ClassNamePtr class_name = STATIC_CAST( AST::ClassName, node);

@@ -38,14 +38,16 @@ namespace AST = ::tw::maple::as::ast;
 struct IfStatement : public Interpreter, public TemplatePrinter
 {
 
-	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
+	virtual std::string expound(::tw::maple::as::ast::NodePtr node
+			, tw::maple::as::symbol::ScopePtr symbol_table
+			, tw::maple::backend::cpp::Context* ctx)
 	{
 		AST::IfStatementPtr IF = std::tr1::static_pointer_cast<AST::IfStatement>(node);
 		std::list<PatternPtr> patterns;
 
-		patterns.push_back( PatternPtr( new Pattern("if_condition", dispatchExpound(IF->ifCondition(), ctx) ) ));
-		patterns.push_back( PatternPtr( new Pattern("then_stmt", dispatchExpound(IF->ifThen(), ctx) ) ));
-		patterns.push_back( PatternPtr( new Pattern("else_stmt", dispatchExpound(IF->ifElse(), ctx) ) ));
+		patterns.push_back( PatternPtr( new Pattern("if_condition", dispatchExpound(IF->ifCondition(), symbol_table, ctx) ) ));
+		patterns.push_back( PatternPtr( new Pattern("then_stmt", dispatchExpound(IF->ifThen(), symbol_table, ctx) ) ));
+		patterns.push_back( PatternPtr( new Pattern("else_stmt", dispatchExpound(IF->ifElse(), symbol_table, ctx) ) ));
 		patterns.push_back( PatternPtr( new Pattern("endl", ctx->endl() ) ));
 		patterns.push_back( PatternPtr( new Pattern("indent_tab", ctx->indent()) ));
 

@@ -39,14 +39,16 @@ namespace AST = ::tw::maple::as::ast;
 struct ClassDefine : public Interpreter, public TemplatePrinter
 {   
 
-	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
+	virtual std::string expound(::tw::maple::as::ast::NodePtr node
+			, tw::maple::as::symbol::ScopePtr symbol_table
+			, tw::maple::backend::cpp::Context* ctx)
 	{
 		AST::ClassDefinePtr _class_define_ = STATIC_CAST( AST::ClassDefine, node);
 
 		std::string class_stmt = "";
 		if( _class_define_->hasStatement() ) {
 			ctx->tree_depth ++;
-				class_stmt = dispatchExpound(_class_define_->classStmt(), ctx);
+				class_stmt = dispatchExpound(_class_define_->classStmt(), symbol_table, ctx);
 			ctx->tree_depth --;
 		}
 

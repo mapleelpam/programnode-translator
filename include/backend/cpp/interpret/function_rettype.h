@@ -36,7 +36,9 @@ namespace AST = ::tw::maple::as::ast;
 
 struct FunctionReturnType : public Interpreter
 {
-	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
+	virtual std::string expound(::tw::maple::as::ast::NodePtr node
+			, tw::maple::as::symbol::ScopePtr symbol_table
+			, tw::maple::backend::cpp::Context* ctx)
 	{
 		AST::FunctionReturnTypePtr ret_type = std::tr1::static_pointer_cast<AST::FunctionReturnType>(node);
 

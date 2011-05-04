@@ -44,7 +44,9 @@ namespace AST = ::tw::maple::as::ast;
 
 struct FunctionDefinition : public Interpreter, public TemplatePrinter
 {   
-	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
+	virtual std::string expound(::tw::maple::as::ast::NodePtr node
+			, tw::maple::as::symbol::ScopePtr symbol_table
+			, tw::maple::backend::cpp::Context* ctx)
 	{
 		namespace ASY = tw::maple::as::symbol;
 
@@ -60,11 +62,11 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 
 		std::string str_func_parameters = "";
 		if (fsig->node_childs.size() > 1)
-			str_func_parameters += dispatchExpound(fsig->FunctionParameter(), ctx); // parameters
+			str_func_parameters += dispatchExpound(fsig->FunctionParameter(), symbol_table, ctx); // parameters
 
 		std::list<PatternPtr> patterns;
 
-		std::string str_func_name = dispatchExpound(fdef->FunctionName(), ctx) ;
+		std::string str_func_name = dispatchExpound(fdef->FunctionName(), symbol_table, ctx) ;
 
 		ASY::SymbolPtr symbol_function = node->getSymbol();
 		std::string str_function_attribute;
@@ -77,13 +79,13 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		if( str_function_attribute != "")
 			str_function_attribute+=":";
 
-		std::string str_function_body = (fdef->isAbstract)? " = 0;#(endl)" : "#(endl)#(indent_tab){#(endl)" + dispatchExpound(fcommon->FunctionBody(), ctx) + "#(indent_tab)}#(endl)";
+		std::string str_function_body = (fdef->isAbstract)? " = 0;#(endl)" : "#(endl)#(indent_tab){#(endl)" + dispatchExpound(fcommon->FunctionBody(), symbol_table, ctx) + "#(indent_tab)}#(endl)";
 
 		patterns.push_back( PatternPtr( new Pattern("function_attribute", str_function_attribute+ ctx->endl()) ));
 		patterns.push_back( PatternPtr( new Pattern("func_name", str_func_name+ "   ") ));
 		patterns.push_back( PatternPtr( new Pattern("func_body",  str_function_body )) );
 		patterns.push_back( PatternPtr( new Pattern("func_parameters", str_func_parameters ) ));
-		patterns.push_back( PatternPtr( new Pattern("func_ret_type", dispatchExpound(fsig->FunctionReturnType(), ctx) ) ) );
+		patterns.push_back( PatternPtr( new Pattern("func_ret_type", dispatchExpound(fsig->FunctionReturnType(), symbol_table, ctx) ) ) );
 		patterns.push_back( PatternPtr( new Pattern("function_is_virtual", (fdef->isAbstract)? "virtual":"") ) );
 		patterns.push_back( PatternPtr( new Pattern("endl", ctx->endl() )) );
 		patterns.push_back( PatternPtr( new Pattern("indent_tab", ctx->indent()) ));

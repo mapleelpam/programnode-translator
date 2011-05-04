@@ -37,7 +37,9 @@ namespace tw { namespace maple { namespace backend { namespace cpp { namespace i
 // Abstract
 struct Call : public Interpreter
 {   
-	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
+	virtual std::string expound(::tw::maple::as::ast::NodePtr node
+			, tw::maple::as::symbol::ScopePtr symbol_table
+			, tw::maple::backend::cpp::Context* ctx)
 	{
 		std::cerr << " in call interpreter  = " << std::endl;
 
@@ -47,10 +49,10 @@ struct Call : public Interpreter
 
 		if (call->isObjectConsturct())
 			result +=  " new ";
-		result += dispatchExpound(call->getCallee(), ctx);
+		result += dispatchExpound(call->getCallee(), symbol_table, ctx);
 		result +=  "( ";
 		if (call->getArgs()) {
-			result += dispatchExpound( call->getArgs(), ctx);
+			result += dispatchExpound( call->getArgs(), symbol_table, ctx);
 		}
 		result += " )";
 

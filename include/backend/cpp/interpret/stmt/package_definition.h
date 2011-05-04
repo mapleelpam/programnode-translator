@@ -35,7 +35,9 @@ namespace AST = ::tw::maple::as::ast;
 
 struct PackageDefinition : public Interpreter
 {   
-	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
+	virtual std::string expound(::tw::maple::as::ast::NodePtr node
+			, tw::maple::as::symbol::ScopePtr symbol_table
+			, tw::maple::backend::cpp::Context* ctx)
 	{
 		std::cerr << " in PackageDefinition scope!!" << std::endl;
 
@@ -53,8 +55,8 @@ struct PackageDefinition : public Interpreter
 			ctx->tree_depth ++;
 			for (std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr =
 					node->node_childs.begin(); nItr != node->node_childs.end(); nItr++) {
-				std::cerr << "-------------------------------------> in PackageDefinition scope!!" << std::endl;
-				result += dispatchExpound(*nItr, ctx);
+//				std::cerr << "-------------------------------------> in PackageDefinition scope!!" << std::endl;
+				result += dispatchExpound(*nItr, symbol_table,  ctx);
 			}
 			ctx->tree_depth --;
 

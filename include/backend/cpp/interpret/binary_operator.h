@@ -35,14 +35,16 @@ namespace AST = ::tw::maple::as::ast;
 
 struct BinaryOperator : public Interpreter
 {   
-	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
+	virtual std::string expound(::tw::maple::as::ast::NodePtr node
+			, tw::maple::as::symbol::ScopePtr symbol_table
+			, tw::maple::backend::cpp::Context* ctx)
 	{
 		AST::BinaryOperatorPtr bin = STATIC_CAST( AST::BinaryOperator, node);
 
 
-		return dispatchExpound(bin->LHS(), ctx)
+		return dispatchExpound(bin->LHS(), symbol_table, ctx)
 				+ resolve_operator( bin->op_type )
-				+ dispatchExpound(bin->RHS(), ctx);
+				+ dispatchExpound(bin->RHS(), symbol_table, ctx);
 	}
 private:
 	std::string resolve_operator( std::string str )

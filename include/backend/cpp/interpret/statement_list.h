@@ -36,11 +36,13 @@ namespace AST = ::tw::maple::as::ast;
 
 struct StatementList : public Interpreter
 {   
-	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
+	virtual std::string expound(::tw::maple::as::ast::NodePtr node
+			, tw::maple::as::symbol::ScopePtr symbol_table
+			, tw::maple::backend::cpp::Context* ctx)
 	{
 		std::string result;
 
-//		ctx->tree_depth ++;
+		ctx->tree_depth ++;
 
 		bool is_first = true;
         int _idx = 0;
@@ -48,7 +50,7 @@ struct StatementList : public Interpreter
 		for (std::vector<std::tr1::shared_ptr<AST::Node> >::iterator nItr =
 				node->node_childs.begin(); nItr != node->node_childs.end(); nItr++)
 		{
-			result += dispatchExpound(*nItr, ctx);
+			result += dispatchExpound(*nItr, symbol_table, ctx);
 
 			// Tail Dirty Flag Handle
 			if( is_first )
@@ -57,7 +59,7 @@ struct StatementList : public Interpreter
 				result += "\n";
 		}
 
-//		ctx->tree_depth --;
+		ctx->tree_depth --;
 
 		return result;
 	}

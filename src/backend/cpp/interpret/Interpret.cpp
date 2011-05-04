@@ -138,7 +138,7 @@ void initializeInterpreters()
 }
 
 
-std::string dispatchExpound( ::tw::maple::as::ast::NodePtr node, ::tw::maple::backend::cpp::Context* ctx )
+std::string dispatchExpound( ::tw::maple::as::ast::NodePtr node, tw::maple::as::symbol::ScopePtr symbol_table, ::tw::maple::backend::cpp::Context* ctx )
 {
 	if( node == NULL ){
 		std::cerr << "error: dispatchDo - can't get null node"<<std::endl;
@@ -152,7 +152,7 @@ std::string dispatchExpound( ::tw::maple::as::ast::NodePtr node, ::tw::maple::ba
 		exit(1);
 	} else {
 		std::cout <<" dispatch - " << node->toString() << " number " << node->nodeType()<<std::endl;
-		return to->expound(node,ctx);
+		return to->expound(node,symbol_table,ctx);
 	}
 
 }

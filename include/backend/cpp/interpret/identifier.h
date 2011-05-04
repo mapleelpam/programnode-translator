@@ -38,7 +38,9 @@ namespace AST = ::tw::maple::as::ast;
 // Abstract
 struct Identifier : public Interpreter
 {
-	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
+	virtual std::string expound(::tw::maple::as::ast::NodePtr node
+			, tw::maple::as::symbol::ScopePtr symbol_table
+			,	tw::maple::backend::cpp::Context* ctx)
 	{
 		SHARED_PTR(AST::Identifier) li = std::tr1::static_pointer_cast<AST::Identifier>(node);
 
@@ -48,8 +50,10 @@ struct Identifier : public Interpreter
 
 			return left+"::"+li->value;
 		}
-
-		return li->value;
+		else
+		{
+			return li->value;
+		}
 	}
 
 private:

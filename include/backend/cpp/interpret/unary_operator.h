@@ -36,7 +36,9 @@ namespace AST = ::tw::maple::as::ast;
 struct UnaryOperator : public Interpreter
 {   
 
-	virtual std::string expound(::tw::maple::as::ast::NodePtr node,	tw::maple::backend::cpp::Context* ctx)
+	virtual std::string expound(::tw::maple::as::ast::NodePtr node
+			, tw::maple::as::symbol::ScopePtr symbol_table
+			, tw::maple::backend::cpp::Context* ctx)
 	{
 		std::string result;
 
@@ -45,10 +47,10 @@ struct UnaryOperator : public Interpreter
 
 		if( bin->op_type == "typeof" ) {
 //			return "false/*not support typeof*/";
-			result = dispatchExpound(bin->subExpr(), ctx) +" ->__get_type__()" ;
+			result = dispatchExpound(bin->subExpr(), symbol_table, ctx) +" ->__get_type__()" ;
 		} else {
 			result += " " + resolve_operator(bin->op_type) + " ";
-			result += dispatchExpound(bin->subExpr(), ctx); // sub expression
+			result += dispatchExpound(bin->subExpr(),symbol_table, ctx); // sub expression
 		}
 		return result;
 	}
