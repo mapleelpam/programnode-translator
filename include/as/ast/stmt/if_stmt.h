@@ -37,9 +37,6 @@ struct IfStatement : public Statement
 	IfStatement() :
 		Statement(Node::NodeType::T_IF_STMT) {
 	}
-	int stmtType() {
-		return _node_type;
-	}
 
 	NodePtr ifCondition(){	return node_childs[0];	}
 	NodePtr ifThen(){	return node_childs[1];	}

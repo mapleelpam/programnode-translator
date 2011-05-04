@@ -38,7 +38,6 @@ struct Arguments : public Expression
 	Arguments() : Expression(Node::NodeType::T_ARGUMENTS)
 	{
 	}
-	int exprType() {	return Node::NodeType::T_ARGUMENTS;	}
 	std::string toString()  {	return "node::arguments"; };
 };
 

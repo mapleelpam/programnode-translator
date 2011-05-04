@@ -37,9 +37,6 @@ struct IfStatementElse : public Statement
 	IfStatementElse() :
 		Statement(Node::NodeType::T_IF_STMT_ELSE) {
 	}
-	int stmtType() {
-		return _node_type;
-	}
 
 	std::string toString()  {	return "node::if_stmt_else"; };
 };

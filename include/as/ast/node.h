@@ -52,7 +52,6 @@ struct Node
             T_FUNCTION_DEFINITION ,
             T_FUNCTION_NAME ,
             T_FUNCTION_SIGNATURE ,
-            T_FUNCTION_RETTYPE ,
             T_FUNCTION_PARAMETERS ,
             T_FUNCTION_PARAMETER_ITEM ,
             T_FUNCTION_COMMON ,
@@ -106,6 +105,7 @@ struct Node
     };
 
     virtual int nodeType(){	return _node_type;	};
+    bool is(	int t	) {	return _node_type == t;	}
 
     virtual void addNodeChild( SHARED_PTR(Node) c) { node_childs.push_back( c ); }
 
@@ -113,7 +113,7 @@ struct Node
 
     virtual std::string toString() = 0;
 protected:
-    int 			_node_type;
+    int	_node_type;
 
 public:
     void setSymbol( ASYM::SymbolPtr s )	{	_related_symbol = s;	}

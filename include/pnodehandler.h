@@ -111,7 +111,7 @@ namespace AST = ::tw::maple::as::ast;
 
 #define CHECK_STACK_AND_POP( ClassName, NODE_TYPE ) \
 		{ \
-			if(_node_stack.top()->nodeType() != NODE_TYPE ){ \
+			if( ! _node_stack.top()->is( NODE_TYPE)  ){ \
 	            std::cerr << " protocol error ---- expect '"<<#NODE_TYPE<<"' but get '" << _node_stack . top() -> toString()<<"'"<<std::endl; \
 	            std::cerr << "please contact mapleelpam at gmail com"<<std::endl; \
 	            exit(1); \

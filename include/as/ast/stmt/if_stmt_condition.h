@@ -37,9 +37,6 @@ struct IfStatementCondition : public Statement
 	IfStatementCondition() :
 		Statement(Node::NodeType::T_IF_STMT_CONDITION) {
 	}
-	int stmtType() {
-		return _node_type;
-	}
 
 	std::string toString()  {	return "node::if_stmt_condition"; };
 };

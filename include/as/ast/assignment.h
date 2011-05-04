@@ -38,7 +38,6 @@ struct Assignment : public Expression
 	Assignment() : Expression(Node::NodeType::T_ASSIGNMENT)
 	{
 	}
-	int exprType() {	return _node_type;	}
 	std::string toString()  {	return "node::assignment"; };
 
 	 NodePtr LHS(){	return node_childs[0];	}

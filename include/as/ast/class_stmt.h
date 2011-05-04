@@ -37,9 +37,6 @@ struct ClassStmt : public Statement
 	ClassStmt() :
 		Statement(Node::NodeType::T_CLASS_DEFINE_STMT) {
 	}
-	int stmtType() {
-		return _node_type;
-	}
 
 	std::string toString()  {	return "node::class_stmt"; };
 };
