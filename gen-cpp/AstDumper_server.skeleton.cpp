@@ -62,7 +62,7 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("startFunctionCommon\n");
   }
 
-  void startFunctionSignature() {
+  void startFunctionSignature(const std::string& type) {
     // Your implementation goes here
     printf("startFunctionSignature\n");
   }
@@ -85,11 +85,6 @@ class AstDumperHandler : virtual public AstDumperIf {
   void endFunctionSignatureParameters() {
     // Your implementation goes here
     printf("endFunctionSignatureParameters\n");
-  }
-
-  void functionSignatureReturnType(const std::string& name) {
-    // Your implementation goes here
-    printf("functionSignatureReturnType\n");
   }
 
   void endFunctionSignature() {

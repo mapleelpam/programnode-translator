@@ -67,6 +67,7 @@ struct SymbolTable : public tw::maple::service::ConfigRequest
 	{
 		m_primitive_types["int"] = false;
 		m_primitive_types["float"] = false;
+		m_primitive_types["void"] = false;
 	}
 	virtual bool readConfig( boost::property_tree::ptree& pt )
 	{

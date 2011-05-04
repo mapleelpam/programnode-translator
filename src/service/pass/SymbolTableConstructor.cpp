@@ -39,6 +39,7 @@
 
 #include <as/ast/variable_declare.h>
 #include <as/symbol/Scope.h>
+#include <as/symbol/Function.h>
 #include <backend/cpp/context.h>
 
 namespace tw { namespace maple { namespace service { namespace pass {
@@ -62,37 +63,30 @@ void SymbolTableConstructor:: constructSymbols(
 			{
 				AST::FunctionDefinitionPtr fdef = STATIC_CAST( AST::FunctionDefinition, *nItr);
 				AST::FunctionCommonPtr fcommon  = STATIC_CAST( AST::FunctionCommon, fdef->FunctionCommon() );
-				if( fcommon == NULL ){
-					printf(" fcommon == NULL @@\n" );
-					exit(1);
-				}
+				BOOST_ASSERT( fcommon != NULL );
 
 
 				AST::FunctionNamePtr fname  = STATIC_CAST( AST::FunctionName, fdef->FunctionName() );
-				if( fname == NULL )
-				{
-					std::cerr << "error !! to get fname \n"<<std::endl;
-					exit(1);
-				}
+				BOOST_ASSERT( fname != NULL );
 				std::string str_func_name = fname->function_name ;
-				std::cout << " get a function name = " << str_func_name << std::endl;
 
 				ASY::ScopePtr scope_func( symboltable->registerFunction( str_func_name ) );
 				{
 					AST::FunctionAttributePtr fattrs = STATIC_CAST( AST::FunctionAttribute, fdef->FunctionAttr());
 					for( std::vector<std::string>::iterator sItr = fattrs->attrs.begin()
-							; sItr != fattrs->attrs.end() ; sItr ++ )
-					{
-						std::cerr << " attributes " << *sItr <<std::endl;
+							; sItr != fattrs->attrs.end() ; sItr ++ ) {
+//						std::cerr << " attributes " << *sItr <<std::endl;
 						if( ((*sItr) == "public") )
-							scope_func->setSymbolAttributes( ASY::Symbol::ATTR_PUBLIC);
+							scope_func->setSymbolAttributes( ASY::Symbol::ATTR_PUBLIC );
 						else if( ((*sItr) == "private") )
-							scope_func->setSymbolAttributes( ASY::Symbol::ATTR_PRIVATE);
+							scope_func->setSymbolAttributes( ASY::Symbol::ATTR_PRIVATE );
 					}
 				}
 				fdef -> setSymbol( scope_func );
 
 				AST::FunctionSignaturePtr fsig  = STATIC_CAST( AST::FunctionSignature, fcommon->FunctionSignature() );
+				ASY::FunctionPtr ptr_function =  STATIC_CAST( ASY::Function, scope_func );
+//				ASYM::SymbolPtr p_type = symboltable->findType( fsig->FunctionReturnType );
 				if(	fsig->FunctionParameter() )
 					constructSymbols( fsig->FunctionParameter(), scope_func );
 				constructSymbols( fcommon->FunctionBody(), scope_func );

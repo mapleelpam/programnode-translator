@@ -37,7 +37,6 @@
 #include <backend/cpp/interpret/statement_list.h>
 #include <backend/cpp/interpret/function_definition.h>
 #include <backend/cpp/interpret/function_name.h>
-#include <backend/cpp/interpret/function_rettype.h>
 #include <backend/cpp/interpret/function_parameters.h>
 #include <backend/cpp/interpret/function_parameter_item.h>
 #include <backend/cpp/interpret/arguments.h>
@@ -74,8 +73,8 @@ void initializeInterpreters()
 				= new FunctionName();
 		interpreterResolver[AST::Node::NodeType::T_FUNCTION_COMMON]
 						= new Interpreter();
-		interpreterResolver[AST::Node::NodeType::T_FUNCTION_RETTYPE]
-				= new FunctionReturnType();
+//		interpreterResolver[AST::Node::NodeType::T_FUNCTION_RETTYPE]
+//				= new FunctionReturnType();
 		interpreterResolver[AST::Node::NodeType::T_FUNCTION_PARAMETERS]
 				= new FunctionParameter();
 		interpreterResolver[AST::Node::NodeType::T_FUNCTION_PARAMETER_ITEM]
