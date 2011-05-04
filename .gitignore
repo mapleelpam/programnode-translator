@@ -1,0 +1,7 @@
+.project
+.cproject
+.cdtproject
+.csettings/*
+*.swp
+.pydevproject
+.pyc
