@@ -51,18 +51,17 @@ struct ClassDefine : public Interpreter, public TemplatePrinter
 		}
 
 		std::string class_inherit = "";
-		std::string class_inherit_token = "";
 		if( _class_define_->hasBaseClass() | _class_define_->hasInterface() ){
 			for( int idx = 0 ; idx < _class_define_->Inherits().size() ; idx ++){
-				class_inherit = _class_define_->Inherits()[idx];
+				class_inherit += class_inherit=="" ? " : " : " , ";
+				class_inherit += " public "+ _class_define_->Inherits()[idx];
 			}
-			for( int idx = 0 ; idx < _class_define_->Implements().size() ; idx ++){
-				class_inherit = _class_define_->Implements()[idx];
+			for( int idx = 0 ; idx < _class_define_->Implements ().size() ; idx ++){
+				class_inherit += class_inherit=="" ? " : " : " , ";
+				class_inherit += " public "+ _class_define_->Implements()[idx];
 			}
-			class_inherit_token = " : public ";
 		} else if( _default_base_object != ""){
-			class_inherit = _default_base_object;
-			class_inherit_token = " : public ";
+			class_inherit = " : public " + _default_base_object;
 		}
 
 		std::list<PatternPtr> patterns;
@@ -70,7 +69,6 @@ struct ClassDefine : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("class_name", _class_define_->getClassName() ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_stmt", class_stmt ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_inherit", class_inherit ) ));
-		patterns.push_back( PatternPtr( new Pattern("class_inherit_token", class_inherit_token ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_type", _class_define_->isAbstract()?"struct":"class" ) ));
 
 		patterns.push_back( PatternPtr( new Pattern("endl", ctx->endl() ) ));
@@ -85,7 +83,7 @@ struct ClassDefine : public Interpreter, public TemplatePrinter
 		: TemplatePrinter("ClassDefine")
 		, _default_base_object("")
 	{
-		setTemplateString( "#(indent_tab) #(class_type) #(class_name) #(class_inherit_token) #(class_inherit) #(endl)#(indent_tab){#(endl)"
+		setTemplateString( "#(indent_tab) #(class_type) #(class_name)  #(class_inherit) #(endl)#(indent_tab){#(endl)"
 							"#(class_stmt)"
 							"#(indent_tab)};#(endl)" )
 							;
