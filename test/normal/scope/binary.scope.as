@@ -1,5 +1,5 @@
 // RUN: java -jar %ASC_JAR -x -z %t.pn  %s 
-// RUN: pn-translator %t.pn -o %t.cpp
+// RUN: pnc %t.pn -o %t.cpp
 // RUN: g++ -o %t %t.cpp
 // RUN: %t | FileCheck -input-file=- %s 
 

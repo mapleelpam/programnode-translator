@@ -5,7 +5,7 @@
 
 # Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-PROJECT( pn-translator )
+PROJECT( pnc )
 
 execute_process( COMMAND ${THRIFT_COMPILER} -r -o ${CMAKE_CURRENT_SOURCE_DIR} --gen cpp ${AST_THRIFT}) 
 
@@ -27,7 +27,7 @@ INCLUDE_DIRECTORIES(
     ${THRIFT_INCLUDE_DIR}
     )
 
-ADD_EXECUTABLE( pn-translator
+ADD_EXECUTABLE( pnc
     ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/backend/cpp/interpret/Interpret.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/backend/cpp/prepend_data.cpp
@@ -37,7 +37,7 @@ ADD_EXECUTABLE( pn-translator
     ${AST_THRIFT_SRC} 
     )
 
-TARGET_LINK_LIBRARIES( pn-translator
+TARGET_LINK_LIBRARIES( pnc
     ${THRIFT_LIBS}
     ${Boost_LIBRARIES}
     )

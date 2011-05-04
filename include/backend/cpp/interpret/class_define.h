@@ -64,11 +64,19 @@ struct ClassDefine : public Interpreter, public TemplatePrinter
 			class_inherit = " : public " + _default_base_object;
 		}
 
+		std::string class_base = "";
+		if (_class_define_->hasBaseClass() ) {
+			class_base += _class_define_->Inherits()[0];
+		} else if (_default_base_object != "") {
+			class_base = _default_base_object;
+		}
+
 		std::list<PatternPtr> patterns;
 
 		patterns.push_back( PatternPtr( new Pattern("class_name", _class_define_->getClassName() ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_stmt", class_stmt ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_inherit", class_inherit ) ));
+		patterns.push_back( PatternPtr( new Pattern("class_base", class_base ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_type", _class_define_->isAbstract()?"struct":"class" ) ));
 
 		patterns.push_back( PatternPtr( new Pattern("endl", ctx->endl() ) ));
