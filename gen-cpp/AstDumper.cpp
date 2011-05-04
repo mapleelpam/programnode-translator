@@ -565,6 +565,14 @@ uint32_t AstDumper_startFunctionSignature_args::read(::apache::thrift::protocol:
     }
     switch (fid)
     {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->type);
+          this->__isset.type = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -580,6 +588,9 @@ uint32_t AstDumper_startFunctionSignature_args::read(::apache::thrift::protocol:
 uint32_t AstDumper_startFunctionSignature_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   xfer += oprot->writeStructBegin("AstDumper_startFunctionSignature_args");
+  xfer += oprot->writeFieldBegin("type", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->type);
+  xfer += oprot->writeFieldEnd();
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -588,6 +599,9 @@ uint32_t AstDumper_startFunctionSignature_args::write(::apache::thrift::protocol
 uint32_t AstDumper_startFunctionSignature_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   xfer += oprot->writeStructBegin("AstDumper_startFunctionSignature_pargs");
+  xfer += oprot->writeFieldBegin("type", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString((*(this->type)));
+  xfer += oprot->writeFieldEnd();
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -808,68 +822,6 @@ uint32_t AstDumper_endFunctionSignatureParameters_args::write(::apache::thrift::
 uint32_t AstDumper_endFunctionSignatureParameters_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   xfer += oprot->writeStructBegin("AstDumper_endFunctionSignatureParameters_pargs");
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  return xfer;
-}
-
-uint32_t AstDumper_functionSignatureReturnType_args::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-  uint32_t xfer = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TType ftype;
-  int16_t fid;
-
-  xfer += iprot->readStructBegin(fname);
-
-  using ::apache::thrift::protocol::TProtocolException;
-
-
-  while (true)
-  {
-    xfer += iprot->readFieldBegin(fname, ftype, fid);
-    if (ftype == ::apache::thrift::protocol::T_STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 1:
-        if (ftype == ::apache::thrift::protocol::T_STRING) {
-          xfer += iprot->readString(this->name);
-          this->__isset.name = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      default:
-        xfer += iprot->skip(ftype);
-        break;
-    }
-    xfer += iprot->readFieldEnd();
-  }
-
-  xfer += iprot->readStructEnd();
-
-  return xfer;
-}
-
-uint32_t AstDumper_functionSignatureReturnType_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
-  uint32_t xfer = 0;
-  xfer += oprot->writeStructBegin("AstDumper_functionSignatureReturnType_args");
-  xfer += oprot->writeFieldBegin("name", ::apache::thrift::protocol::T_STRING, 1);
-  xfer += oprot->writeString(this->name);
-  xfer += oprot->writeFieldEnd();
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  return xfer;
-}
-
-uint32_t AstDumper_functionSignatureReturnType_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
-  uint32_t xfer = 0;
-  xfer += oprot->writeStructBegin("AstDumper_functionSignatureReturnType_pargs");
-  xfer += oprot->writeFieldBegin("name", ::apache::thrift::protocol::T_STRING, 1);
-  xfer += oprot->writeString((*(this->name)));
-  xfer += oprot->writeFieldEnd();
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -3428,17 +3380,18 @@ void AstDumperClient::send_startFunctionCommon()
   oprot_->getTransport()->flush();
 }
 
-void AstDumperClient::startFunctionSignature()
+void AstDumperClient::startFunctionSignature(const std::string& type)
 {
-  send_startFunctionSignature();
+  send_startFunctionSignature(type);
 }
 
-void AstDumperClient::send_startFunctionSignature()
+void AstDumperClient::send_startFunctionSignature(const std::string& type)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("startFunctionSignature", ::apache::thrift::protocol::T_CALL, cseqid);
 
   AstDumper_startFunctionSignature_pargs args;
+  args.type = &type;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -3513,25 +3466,6 @@ void AstDumperClient::send_endFunctionSignatureParameters()
   oprot_->writeMessageBegin("endFunctionSignatureParameters", ::apache::thrift::protocol::T_CALL, cseqid);
 
   AstDumper_endFunctionSignatureParameters_pargs args;
-  args.write(oprot_);
-
-  oprot_->writeMessageEnd();
-  oprot_->getTransport()->writeEnd();
-  oprot_->getTransport()->flush();
-}
-
-void AstDumperClient::functionSignatureReturnType(const std::string& name)
-{
-  send_functionSignatureReturnType(name);
-}
-
-void AstDumperClient::send_functionSignatureReturnType(const std::string& name)
-{
-  int32_t cseqid = 0;
-  oprot_->writeMessageBegin("functionSignatureReturnType", ::apache::thrift::protocol::T_CALL, cseqid);
-
-  AstDumper_functionSignatureReturnType_pargs args;
-  args.name = &name;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -4742,7 +4676,7 @@ void AstDumperProcessor::process_startFunctionSignature(int32_t seqid, ::apache:
   }
 
   try {
-    iface_->startFunctionSignature();
+    iface_->startFunctionSignature(args.type);
   } catch (const std::exception& e) {
     if (eventHandler_.get() != NULL) {
       eventHandler_->handlerError(ctx, "AstDumper.startFunctionSignature");
@@ -4900,43 +4834,6 @@ void AstDumperProcessor::process_endFunctionSignatureParameters(int32_t seqid, :
 
   if (eventHandler_.get() != NULL) {
     eventHandler_->asyncComplete(ctx, "AstDumper.endFunctionSignatureParameters");
-  }
-
-  return;
-}
-
-void AstDumperProcessor::process_functionSignatureReturnType(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
-{
-  void* ctx = NULL;
-  if (eventHandler_.get() != NULL) {
-    ctx = eventHandler_->getContext("AstDumper.functionSignatureReturnType", callContext);
-  }
-  ::apache::thrift::TProcessorContextFreer freer(eventHandler_.get(), ctx, "AstDumper.functionSignatureReturnType");
-
-  if (eventHandler_.get() != NULL) {
-    eventHandler_->preRead(ctx, "AstDumper.functionSignatureReturnType");
-  }
-
-  AstDumper_functionSignatureReturnType_args args;
-  args.read(iprot);
-  iprot->readMessageEnd();
-  uint32_t bytes = iprot->getTransport()->readEnd();
-
-  if (eventHandler_.get() != NULL) {
-    eventHandler_->postRead(ctx, "AstDumper.functionSignatureReturnType", bytes);
-  }
-
-  try {
-    iface_->functionSignatureReturnType(args.name);
-  } catch (const std::exception& e) {
-    if (eventHandler_.get() != NULL) {
-      eventHandler_->handlerError(ctx, "AstDumper.functionSignatureReturnType");
-    }
-    return;
-  }
-
-  if (eventHandler_.get() != NULL) {
-    eventHandler_->asyncComplete(ctx, "AstDumper.functionSignatureReturnType");
   }
 
   return;

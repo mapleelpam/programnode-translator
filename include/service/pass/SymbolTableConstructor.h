@@ -24,7 +24,7 @@
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
 #include <as/symbol/Scope.h>
-#include <as/symbol/Scope.h>
+#include <as/symbol/Function.h>
 #include <as/ast/node.h>
 #include <as/ast/program.h>
 

@@ -24,32 +24,37 @@
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
 
-#ifndef __AS_AST_FUNCTION_RETTYPE_H__
-#define __AS_AST_FUNCTION_RETTYPE_H__
+#ifndef __TW_MAPLE_AS_SYMBOL_SCOPE_FUNCTION_H__
+#define __TW_MAPLE_AS_SYMBOL_SCOPE_FUNCTION_H__
 
-#include <tr1/memory>
-#include <as/ast/statement.h>
+#include <as/symbol/Scope.h>
 
-namespace tw { namespace maple { namespace as { namespace ast {
+namespace tw { namespace maple { namespace as { namespace symbol {
 
-// Abstract
-struct FunctionReturnType : public Statement
+struct Function : public Scope
 {
-	FunctionReturnType( const std::string v)
-		: Statement(Node::NodeType::T_FUNCTION_RETTYPE)
-		, type_name(v)
+	Function( std::string n, Scope *parent = NULL  )
+		: Scope( n, Scope::T_FUNCTION, parent )
 	{
 	}
-	int stmtType() {
-		return Node::NodeType::T_FUNCTION_RETTYPE;
+
+
+	virtual std::string toString()
+	{
+		return "function:"+name();
 	}
 
-	std::string toString()  {	return "node::function_return_type:"+type_name; };
-
-	std::string type_name;
+	virtual void bindReturnType( SymbolPtr type)
+	{
+		m_return_type_symbol = type;
+	}
+private:
+	SymbolPtr	m_return_type_symbol;
 };
-typedef SHARED_PTR(FunctionReturnType) FunctionReturnTypePtr;
 
-} } } }
+typedef SHARED_PTR(Function) FunctionPtr;
+
+}}}}//tw/maple/as/symbol
 
 #endif
+

@@ -28,7 +28,6 @@
 
 #include <as/ast/function_definition.h>
 #include <as/ast/function_signature.h>
-#include <as/ast/function_rettype.h>
 #include <as/ast/function_attribute.h>
 #include <as/ast/function_common.h>
 #include <as/ast/call.h>
@@ -60,13 +59,14 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		std::tr1::shared_ptr < AST::FunctionSignature > fsig
 				= std::tr1::static_pointer_cast<AST::FunctionSignature>( fcommon -> FunctionSignature());
 
-		std::string str_func_parameters = "";
-		if (fsig->node_childs.size() > 1)
-			str_func_parameters += dispatchExpound(fsig->FunctionParameter(), symbol_table, ctx); // parameters
+		std::string str_func_parameters = fsig->node_childs.size()
+				? dispatchExpound(fsig->FunctionParameter(), symbol_table, ctx)
+				:"";
 
 		std::list<PatternPtr> patterns;
 
-		std::string str_func_name = dispatchExpound(fdef->FunctionName(), symbol_table, ctx) ;
+//		std::string str_func_name = dispatchExpound(fdef->FunctionName(), symbol_table, ctx) ;
+		std::string str_func_name = fdef->getSymbol()->name();
 
 		ASY::SymbolPtr symbol_function = node->getSymbol();
 		std::string str_function_attribute;
@@ -85,7 +85,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("func_name", str_func_name+ "   ") ));
 		patterns.push_back( PatternPtr( new Pattern("func_body",  str_function_body )) );
 		patterns.push_back( PatternPtr( new Pattern("func_parameters", str_func_parameters ) ));
-		patterns.push_back( PatternPtr( new Pattern("func_ret_type", dispatchExpound(fsig->FunctionReturnType(), symbol_table, ctx) ) ) );
+		patterns.push_back( PatternPtr( new Pattern("func_ret_type", fsig->ReturnType ) ) );
 		patterns.push_back( PatternPtr( new Pattern("function_is_virtual", (fdef->isAbstract)? "virtual":"") ) );
 		patterns.push_back( PatternPtr( new Pattern("endl", ctx->endl() )) );
 		patterns.push_back( PatternPtr( new Pattern("indent_tab", ctx->indent()) ));

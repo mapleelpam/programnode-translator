@@ -35,23 +35,23 @@ namespace tw { namespace maple { namespace as { namespace ast {
 // Abstract
 struct FunctionSignature : public Statement
 {
-	FunctionSignature() :
-		Statement(Node::NodeType::T_FUNCTION_SIGNATURE) {
+	FunctionSignature( const std::string& return_type)
+		: Statement(Node::NodeType::T_FUNCTION_SIGNATURE)
+		, ReturnType( return_type )
+	{
 	}
 
-	int stmtType()   {   return Node::NodeType::T_FUNCTION_SIGNATURE;  }
 
-    NodePtr FunctionReturnType(){	return node_childs[0];	}
+//    NodePtr FunctionReturnType(){	return node_childs[0];	}
     NodePtr FunctionParameter(){
-    	if( node_childs.size() >= 2)
-    		return node_childs[1];
-    	else
-    		return NodePtr();
+    	return node_childs.size() ? node_childs[0] : NodePtr();
     }
 
-    std::string toString()  {	return "node::function_signature"; };
+    std::string toString()  {	return "node::function_signature - "+ReturnType; };
 
     bool check()	{	return node_childs.size() == 1; 	}
+
+    const std::string ReturnType;
 };
 
 typedef SHARED_PTR(FunctionSignature) FunctionSignaturePtr;

@@ -47,7 +47,6 @@
 #include <as/ast/arguments.h>
 #include <as/ast/function_definition.h>
 #include <as/ast/function_name.h>
-#include <as/ast/function_rettype.h>
 #include <as/ast/function_signature.h>
 #include <as/ast/function_parameters.h>
 #include <as/ast/function_parameter_item.h>
@@ -167,8 +166,8 @@ public:
 		ADD_2_TOP_WITH_INIT( FunctionName, name );
 	}
 
-	void startFunctionSignature() {
-		PUSH_STACK( FunctionSignature );
+	void startFunctionSignature( const std::string& return_type_name ) {
+		PUSH_STACK_WITH_INIT( FunctionSignature, return_type_name );
 	}
 
 	void endFunctionSignature() {
@@ -191,10 +190,10 @@ public:
 		CHECK_STACK_AND_POP( FunctionParameters, AST::Node::NodeType::T_FUNCTION_PARAMETERS );
 	}
 
-	void functionSignatureReturnType( const std::string& name)
-	{
-		ADD_2_TOP_WITH_INIT( FunctionReturnType, name  );
-	}
+//	void functionSignatureReturnType( const std::string& name)
+//	{
+//		ADD_2_TOP_WITH_INIT( FunctionReturnType, name  );
+//	}
 
 	void startFunctionCommon() {
 		PUSH_STACK( FunctionCommon );
