@@ -29,6 +29,16 @@ const char* _kIdentifierTypeNames[] = {
 };
 const std::map<int, const char*> _IdentifierType_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(3, _kIdentifierTypeValues, _kIdentifierTypeNames), ::apache::thrift::TEnumIterator(-1, NULL, NULL));
 
+int _kObjectTypeValues[] = {
+  ObjectType::TYPE_CLASS,
+  ObjectType::TYPE_INTERFACE
+};
+const char* _kObjectTypeNames[] = {
+  "TYPE_CLASS",
+  "TYPE_INTERFACE"
+};
+const std::map<int, const char*> _ObjectType_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(2, _kObjectTypeValues, _kObjectTypeNames), ::apache::thrift::TEnumIterator(-1, NULL, NULL));
+
 const char* Identifier::ascii_fingerprint = "38C252E94E93B69D04EB3A6EE2F9EDFB";
 const uint8_t Identifier::binary_fingerprint[16] = {0x38,0xC2,0x52,0xE9,0x4E,0x93,0xB6,0x9D,0x04,0xEB,0x3A,0x6E,0xE2,0xF9,0xED,0xFB};
 
@@ -226,8 +236,8 @@ uint32_t CallExpression::write(::apache::thrift::protocol::TProtocol* oprot) con
   return xfer;
 }
 
-const char* ClassDefine::ascii_fingerprint = "2F8B63A4C797555146D85AE546A74556";
-const uint8_t ClassDefine::binary_fingerprint[16] = {0x2F,0x8B,0x63,0xA4,0xC7,0x97,0x55,0x51,0x46,0xD8,0x5A,0xE5,0x46,0xA7,0x45,0x56};
+const char* ClassDefine::ascii_fingerprint = "3D1A03A57BB5264A3273C36DC88C2985";
+const uint8_t ClassDefine::binary_fingerprint[16] = {0x3D,0x1A,0x03,0xA5,0x7B,0xB5,0x26,0x4A,0x32,0x73,0xC3,0x6D,0xC8,0x8C,0x29,0x85};
 
 uint32_t ClassDefine::read(::apache::thrift::protocol::TProtocol* iprot) {
 
@@ -329,6 +339,16 @@ uint32_t ClassDefine::read(::apache::thrift::protocol::TProtocol* iprot) {
           xfer += iprot->skip(ftype);
         }
         break;
+      case 8:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          int32_t ecast11;
+          xfer += iprot->readI32(ecast11);
+          this->object_type = (ObjectType::type)ecast11;
+          this->__isset.object_type = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -362,10 +382,10 @@ uint32_t ClassDefine::write(::apache::thrift::protocol::TProtocol* oprot) const 
   xfer += oprot->writeFieldBegin("inherits", ::apache::thrift::protocol::T_LIST, 6);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, this->inherits.size());
-    std::vector<std::string> ::const_iterator _iter11;
-    for (_iter11 = this->inherits.begin(); _iter11 != this->inherits.end(); ++_iter11)
+    std::vector<std::string> ::const_iterator _iter12;
+    for (_iter12 = this->inherits.begin(); _iter12 != this->inherits.end(); ++_iter12)
     {
-      xfer += oprot->writeString((*_iter11));
+      xfer += oprot->writeString((*_iter12));
     }
     xfer += oprot->writeListEnd();
   }
@@ -373,13 +393,16 @@ uint32_t ClassDefine::write(::apache::thrift::protocol::TProtocol* oprot) const 
   xfer += oprot->writeFieldBegin("interfaces", ::apache::thrift::protocol::T_LIST, 7);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, this->interfaces.size());
-    std::vector<std::string> ::const_iterator _iter12;
-    for (_iter12 = this->interfaces.begin(); _iter12 != this->interfaces.end(); ++_iter12)
+    std::vector<std::string> ::const_iterator _iter13;
+    for (_iter13 = this->interfaces.begin(); _iter13 != this->interfaces.end(); ++_iter13)
     {
-      xfer += oprot->writeString((*_iter12));
+      xfer += oprot->writeString((*_iter13));
     }
     xfer += oprot->writeListEnd();
   }
+  xfer += oprot->writeFieldEnd();
+  xfer += oprot->writeFieldBegin("object_type", ::apache::thrift::protocol::T_I32, 8);
+  xfer += oprot->writeI32((int32_t)this->object_type);
   xfer += oprot->writeFieldEnd();
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();

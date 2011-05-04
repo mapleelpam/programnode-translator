@@ -36,6 +36,8 @@
 #include <backend/cpp/template_printer.h>
 #include <as/symbol/Scope.h>
 
+#include <global.h>
+
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
 namespace AST = ::tw::maple::as::ast;
@@ -49,12 +51,8 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		std::string result;
 
 		AST::FunctionDefinitionPtr fdef = STATIC_CAST( AST::FunctionDefinition, node);
-//		AST::FunctionAttributePtr fattr = STATIC_CAST( AST::FunctionAttribute, fdef->FunctionAttr());
 		AST::FunctionCommonPtr  fcommon = STATIC_CAST( AST::FunctionCommon, fdef -> FunctionCommon());
-		if( fcommon == NULL ){
-			printf(" hey !!!!!,  i cna't cast function common \n");
-			exit(1);
-		}
+		BOOST_ASSERT( fcommon != NULL );
 
 		// Function Return Type
 		std::tr1::shared_ptr < AST::FunctionSignature > fsig
@@ -65,7 +63,6 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 			str_func_parameters += dispatchExpound(fsig->FunctionParameter(), ctx); // parameters
 
 		std::list<PatternPtr> patterns;
-
 
 		std::string str_func_name = dispatchExpound(fdef->FunctionName(), ctx) ;
 
@@ -80,12 +77,15 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		if( str_function_attribute != "")
 			str_function_attribute+=":";
 
+		std::string str_function_body = (fdef->isAbstract)? " = 0;#(endl)" : "#(endl)#(indent_tab){#(endl)" + dispatchExpound(fcommon->FunctionBody(), ctx) + "#(indent_tab)}#(endl)";
+
 		patterns.push_back( PatternPtr( new Pattern("function_attribute", str_function_attribute+ ctx->endl()) ));
 		patterns.push_back( PatternPtr( new Pattern("func_name", str_func_name+ "   ") ));
-		patterns.push_back( PatternPtr( new Pattern("func_body", dispatchExpound(fcommon->FunctionBody(), ctx) ) ));
+		patterns.push_back( PatternPtr( new Pattern("func_body",  str_function_body )) );
 		patterns.push_back( PatternPtr( new Pattern("func_parameters", str_func_parameters ) ));
 		patterns.push_back( PatternPtr( new Pattern("func_ret_type", dispatchExpound(fsig->FunctionReturnType(), ctx) ) ) );
-		patterns.push_back( PatternPtr( new Pattern("endl", ctx->endl() ) ));
+		patterns.push_back( PatternPtr( new Pattern("function_is_virtual", (fdef->isAbstract)? "virtual":"") ) );
+		patterns.push_back( PatternPtr( new Pattern("endl", ctx->endl() )) );
 		patterns.push_back( PatternPtr( new Pattern("indent_tab", ctx->indent()) ));
 
 		return substitutePatterns( patterns );
@@ -95,9 +95,10 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		: TemplatePrinter("FunctionDefinition")
 	{
 		setTemplateString(  "#(function_attribute)"
-							"#(indent_tab)#(func_ret_type) #(func_name)(#(func_parameters))#(endl)#(indent_tab){#(endl)"
+							"#(function_is_virtual)"
+							"#(indent_tab)#(func_ret_type) #(func_name)(#(func_parameters))"
 							"#(func_body)"
-							"#(indent_tab)}#(endl)" )
+							 )
 							;
 	}
 };

@@ -159,8 +159,8 @@ public:
 		CHECK_STACK_AND_POP( PackageDefinition, AST::Node::NodeType::T_PACKAGE_DEFINITION );
 	}
 
-	void startFunctionDefinition() {
-		PUSH_STACK( FunctionDefinition );
+	void startFunctionDefinition( bool is_abstract ) {
+		PUSH_STACK_WITH_INIT( FunctionDefinition, is_abstract );
 	}
 
 	void functionName(const std::string& name) {
@@ -417,7 +417,8 @@ public:
 		exp_list->setHasBaseClass(class_define.has_baseclass);
 		exp_list->setHasInterface(class_define.has_interface);
 		exp_list->setHasAttribute(class_define.has_attr);
-
+		exp_list->setHasStatement(class_define.has_stmt);
+		exp_list->setIsAbstract( class_define.object_type == generated::ObjectType::TYPE_CLASS ? false : true );
 	}
 
 	void startClassStmt() {

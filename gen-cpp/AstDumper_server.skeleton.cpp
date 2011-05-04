@@ -42,7 +42,7 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("endPackage\n");
   }
 
-  void startFunctionDefinition() {
+  void startFunctionDefinition(const bool isAbstract) {
     // Your implementation goes here
     printf("startFunctionDefinition\n");
   }

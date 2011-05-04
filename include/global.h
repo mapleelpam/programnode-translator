@@ -43,4 +43,6 @@
 	#define CONST_CAST(T,X) std::tr1::const_pointer_cast<T>(X)
 #endif
 
+#include <boost/assert.hpp>
+
 #endif

@@ -35,12 +35,11 @@ namespace tw { namespace maple { namespace as { namespace ast {
 // Abstract
 struct FunctionDefinition: public Statement
 {
-	FunctionDefinition() :
-		Statement(Node::NodeType::T_FUNCTION_DEFINITION) {
-
+	FunctionDefinition( bool is_abstract )
+		: Statement(Node::NodeType::T_FUNCTION_DEFINITION)
+		, isAbstract( is_abstract )
+	{
 	}
-    int stmtType()   {   return Node::NodeType::T_FUNCTION_DEFINITION;  }
-
 
     // Public Assert !!
     NodePtr FunctionAttr(){	return node_childs[0];	}
@@ -48,7 +47,8 @@ struct FunctionDefinition: public Statement
     NodePtr FunctionCommon(){	return node_childs[2];	}
 
     std::string toString()  {	return "node::function_definition"; };
-    bool check(){	return node_childs.size() == 3;	};
+
+    const bool isAbstract;
 };
 
 typedef SHARED_PTR(FunctionDefinition) FunctionDefinitionPtr;

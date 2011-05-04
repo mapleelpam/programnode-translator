@@ -34,6 +34,15 @@ struct IdentifierType {
 
 extern const std::map<int, const char*> _IdentifierType_VALUES_TO_NAMES;
 
+struct ObjectType {
+  enum type {
+    TYPE_CLASS = 0,
+    TYPE_INTERFACE = 1
+  };
+};
+
+extern const std::map<int, const char*> _ObjectType_VALUES_TO_NAMES;
+
 typedef std::vector<std::string>  StringList;
 
 typedef struct _Identifier__isset {
@@ -160,7 +169,7 @@ class CallExpression {
 };
 
 typedef struct _ClassDefine__isset {
-  _ClassDefine__isset() : name(false), has_attr(false), has_baseclass(false), has_interface(false), has_stmt(false), inherits(false), interfaces(false) {}
+  _ClassDefine__isset() : name(false), has_attr(false), has_baseclass(false), has_interface(false), has_stmt(false), inherits(false), interfaces(false), object_type(false) {}
   bool name;
   bool has_attr;
   bool has_baseclass;
@@ -168,13 +177,14 @@ typedef struct _ClassDefine__isset {
   bool has_stmt;
   bool inherits;
   bool interfaces;
+  bool object_type;
 } _ClassDefine__isset;
 
 class ClassDefine {
  public:
 
-  static const char* ascii_fingerprint; // = "2F8B63A4C797555146D85AE546A74556";
-  static const uint8_t binary_fingerprint[16]; // = {0x2F,0x8B,0x63,0xA4,0xC7,0x97,0x55,0x51,0x46,0xD8,0x5A,0xE5,0x46,0xA7,0x45,0x56};
+  static const char* ascii_fingerprint; // = "3D1A03A57BB5264A3273C36DC88C2985";
+  static const uint8_t binary_fingerprint[16]; // = {0x3D,0x1A,0x03,0xA5,0x7B,0xB5,0x26,0x4A,0x32,0x73,0xC3,0x6D,0xC8,0x8C,0x29,0x85};
 
   ClassDefine() : name(""), has_attr(0), has_baseclass(0), has_interface(0), has_stmt(0) {
   }
@@ -188,6 +198,7 @@ class ClassDefine {
   bool has_stmt;
   StringList inherits;
   StringList interfaces;
+  ObjectType::type object_type;
 
   _ClassDefine__isset __isset;
 
@@ -206,6 +217,8 @@ class ClassDefine {
     if (!(inherits == rhs.inherits))
       return false;
     if (!(interfaces == rhs.interfaces))
+      return false;
+    if (!(object_type == rhs.object_type))
       return false;
     return true;
   }

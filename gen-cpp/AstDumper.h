@@ -18,7 +18,7 @@ class AstDumperIf {
   virtual void endProgram() = 0;
   virtual void startPackage(const StringList& id) = 0;
   virtual void endPackage(const StringList& IDs) = 0;
-  virtual void startFunctionDefinition() = 0;
+  virtual void startFunctionDefinition(const bool isAbstract) = 0;
   virtual void functionAttribute(const StringList& attrs) = 0;
   virtual void functionName(const std::string& name) = 0;
   virtual void startFunctionCommon() = 0;
@@ -91,7 +91,7 @@ class AstDumperNull : virtual public AstDumperIf {
   void endPackage(const StringList& /* IDs */) {
     return;
   }
-  void startFunctionDefinition() {
+  void startFunctionDefinition(const bool /* isAbstract */) {
     return;
   }
   void functionAttribute(const StringList& /* attrs */) {
@@ -429,18 +429,27 @@ class AstDumper_endPackage_pargs {
 
 };
 
+typedef struct _AstDumper_startFunctionDefinition_args__isset {
+  _AstDumper_startFunctionDefinition_args__isset() : isAbstract(false) {}
+  bool isAbstract;
+} _AstDumper_startFunctionDefinition_args__isset;
 
 class AstDumper_startFunctionDefinition_args {
  public:
 
-  AstDumper_startFunctionDefinition_args() {
+  AstDumper_startFunctionDefinition_args() : isAbstract(0) {
   }
 
   virtual ~AstDumper_startFunctionDefinition_args() throw() {}
 
+  bool isAbstract;
 
-  bool operator == (const AstDumper_startFunctionDefinition_args & /* rhs */) const
+  _AstDumper_startFunctionDefinition_args__isset __isset;
+
+  bool operator == (const AstDumper_startFunctionDefinition_args & rhs) const
   {
+    if (!(isAbstract == rhs.isAbstract))
+      return false;
     return true;
   }
   bool operator != (const AstDumper_startFunctionDefinition_args &rhs) const {
@@ -461,6 +470,7 @@ class AstDumper_startFunctionDefinition_pargs {
 
   virtual ~AstDumper_startFunctionDefinition_pargs() throw() {}
 
+  const bool* isAbstract;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -2684,8 +2694,8 @@ class AstDumperClient : virtual public AstDumperIf {
   void send_startPackage(const StringList& id);
   void endPackage(const StringList& IDs);
   void send_endPackage(const StringList& IDs);
-  void startFunctionDefinition();
-  void send_startFunctionDefinition();
+  void startFunctionDefinition(const bool isAbstract);
+  void send_startFunctionDefinition(const bool isAbstract);
   void functionAttribute(const StringList& attrs);
   void send_functionAttribute(const StringList& attrs);
   void functionName(const std::string& name);
@@ -2978,10 +2988,10 @@ class AstDumperMultiface : virtual public AstDumperIf {
     }
   }
 
-  void startFunctionDefinition() {
+  void startFunctionDefinition(const bool isAbstract) {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
-      ifaces_[i]->startFunctionDefinition();
+      ifaces_[i]->startFunctionDefinition(isAbstract);
     }
   }
 

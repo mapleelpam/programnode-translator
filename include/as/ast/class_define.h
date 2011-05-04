@@ -41,6 +41,8 @@ struct ClassDefine : public Statement
 	 	, _has_base_class( false )
 		, _has_base_interface( false )
 		, _has_attribute( false )
+		, _has_statement( false )
+		, _is_abstract( false )
 		, m_classname( name )
 		, m_inherits( inherits )
 		, m_implements( interfaces )
@@ -48,10 +50,10 @@ struct ClassDefine : public Statement
 	}
 
 	NodePtr classAttribute(){
-		return _has_attribute?  node_childs[0] :NodePtr();
+		return _has_attribute?  node_childs[0] : NodePtr();
 	}
 	NodePtr classStmt(){
-		return node_childs[ node_childs.size() - 1];
+		return _has_statement? node_childs[ node_childs.size() - 1] : NodePtr();
 	}
 
 	std::string toString()  {	return "node::class_define"; };
@@ -59,10 +61,15 @@ struct ClassDefine : public Statement
 	void setHasBaseClass( bool b )	{	_has_base_class = b;	}
 	void setHasInterface( bool b )	{	_has_base_interface = b;	}
 	void setHasAttribute( bool b )	{	_has_attribute = b;	}
+	void setHasStatement( bool b )	{	_has_statement = b;	}
+	void setIsAbstract( bool b) 	{	_is_abstract = b;	}
+
 
 	bool hasBaseClass()	{	return _has_base_class; }
 	bool hasInterface()	{	return _has_base_interface;}
 	bool hasAttribute()	{	return _has_attribute;	}
+	bool hasStatement()	{	return _has_statement;	}
+	bool isAbstract()	{	return _is_abstract;	}
 
 	std::string getClassName()	const {	return m_classname;	}
 	const std::vector<std::string>& Inherits()	{	return m_inherits;	}
@@ -71,6 +78,8 @@ private:
 	bool _has_base_class;
 	bool _has_base_interface;
 	bool _has_attribute;
+	bool _has_statement;
+	bool _is_abstract;
 
 	std::string					m_classname;
     std::vector<std::string>	m_inherits;
