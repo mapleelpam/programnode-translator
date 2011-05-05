@@ -77,9 +77,7 @@ struct Context
         return "\n";
     }
 
-
 	std::ofstream	ofs_stream;
-
 	IndentContext	tree_depth;
 };
 
