@@ -190,17 +190,11 @@ public:
 		CHECK_STACK_AND_POP( FunctionParameters, AST::Node::NodeType::T_FUNCTION_PARAMETERS );
 	}
 
-//	void functionSignatureReturnType( const std::string& name)
-//	{
-//		ADD_2_TOP_WITH_INIT( FunctionReturnType, name  );
-//	}
-
 	void startFunctionCommon() {
 		PUSH_STACK( FunctionCommon );
 	}
 
 	void endFunctionCommon() {
-
 		printf(" %lu endFunctionCommon\n", _node_stack.size());
 		_node_stack . pop();
 	}
@@ -241,12 +235,8 @@ public:
 		_node_stack . pop();
 	}
 	void startBinaryExpression(const generated::BinaryExpression& op) {
+		PUSH_STACK_WITH_INIT( BinaryOperator, op.op );
 
-		printf(" %lu startBinaryExpression\n", _node_stack.size());
-
-		as::ast::BinaryOperatorPtr as_node(new as::ast::BinaryOperator(op.op));
-		_node_stack . top() -> addNodeChild(as_node);
-		_node_stack . push(as_node);
 	}
 	void endBinaryExpression() {
 
@@ -360,37 +350,17 @@ public:
 	}
 
 	void startIfStatement() {
-
-		printf(" %lu startIfStatement\n", _node_stack.size());
-
-		as::ast::IfStatementPtr ifStmt(new as::ast::IfStatement);
-		_node_stack . top() -> addNodeChild(ifStmt);
-		_node_stack . push(ifStmt);
+		PUSH_STACK( IfStatement );
 	}
 	void startIfStatement_Condition() {
+		PUSH_STACK( IfStatementCondition );
 
-		printf(" %lu startIfStatement_Condition\n", _node_stack.size());
-
-		as::ast::IfStatementConditionPtr ifStmt(
-				new as::ast::IfStatementCondition);
-		_node_stack . top() -> addNodeChild(ifStmt);
-		_node_stack . push(ifStmt);
 	}
 	void startIfStatement_Then() {
-
-		printf(" %lu startIfStatement_Then\n", _node_stack.size());
-
-		as::ast::IfStatementThenPtr ifStmt(new as::ast::IfStatementThen);
-		_node_stack . top() -> addNodeChild(ifStmt);
-		_node_stack . push(ifStmt);
+		PUSH_STACK( IfStatementThen );
 	}
 	void startIfStatement_Else() {
-
-		printf(" %lu startIfStatement_Else\n", _node_stack.size());
-
-		as::ast::IfStatementElsePtr ifStmt(new as::ast::IfStatementElse);
-		_node_stack . top() -> addNodeChild(ifStmt);
-		_node_stack . push(ifStmt);
+		PUSH_STACK( IfStatementElse );
 	}
 	void endIfStatement() {
 		CHECK_STACK_AND_POP( IfStatement, AST::Node::NodeType::T_IF_STMT );
