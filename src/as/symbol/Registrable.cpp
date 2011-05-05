@@ -36,8 +36,38 @@
 #include <as/symbol/Symbol.h>
 #include <as/symbol/Scope.h>
 #include <as/symbol/action/Registrable.h>
+#include <as/symbol/Function.h>
 
-namespace tw { namespace maple { namespace as { namespace symbol {
+namespace tw { namespace maple {namespace as {namespace symbol {
 
+FunctionPtr Registrable::registerFunction(std::string name) {
+	FunctionPtr s(new Function(name, _instance));
+	_instance->addChild(s);
+	return s;
+}
+
+ScopePtr Registrable::registerClass(std::string name) {
+	ScopePtr s(new Scope(name, Scope::T_CLASS, _instance));
+	_instance->addChild(s);
+	return s;
+}
+ScopePtr Registrable::registerAnonymousScope() {
+	ScopePtr s(new Scope(_instance));
+	_instance->addChild(s);
+	return s;
+}
+
+SymbolPtr Registrable::registerVariable(std::string name) {
+		SymbolPtr symbol(new Variable(name));
+		_instance->addChild(symbol);
+		return symbol;
+	}
+
+SymbolPtr Registrable::registerFunctionParameter(std::string name) {
+	SymbolPtr symbol(new Variable(name, Symbol::T_PRARAMETER));
+//		symbol -> setSymbolProperties( Symbol::T_VARIABLE | Symbol::T_PRARAMETER);
+	_instance->addChild(symbol);
+	return symbol;
+}
 }}}}//tw/maple/as/symbol
 

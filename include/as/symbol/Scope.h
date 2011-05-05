@@ -39,7 +39,7 @@ namespace tw { namespace maple { namespace as { namespace symbol {
 struct Scope;
 typedef SHARED_PTR(Scope) ScopePtr;
 
-struct Scope : public Symbol, public Registrable<Scope>
+struct Scope : public Symbol, public Registrable
 {
 	enum ScopeType
 	{
@@ -52,13 +52,13 @@ struct Scope : public Symbol, public Registrable<Scope>
 	};
 
 	Scope( std::string n, ScopeType t = T_NONE, Scope *parent = NULL )
-		: Symbol( n, Symbol::T_SCOPE ), Registrable<Scope>( this )
+		: Symbol( n, Symbol::T_SCOPE ), Registrable( this )
 		, m_scope_type( t )
 		, m_parent( parent )
 	{	}
 
 	Scope( Scope *parent = NULL )
-			: Symbol( "", Symbol::T_SCOPE ), Registrable<Scope>( this )
+			: Symbol( "", Symbol::T_SCOPE ), Registrable( this )
 			, m_scope_type( T_ANONYMOUS )
 			, m_parent( parent )
 	{

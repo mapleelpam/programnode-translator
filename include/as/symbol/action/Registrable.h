@@ -9,48 +9,32 @@
 #define REGISTRABLE_H_
 
 #include <as/symbol/Symbol.h>
-#include <as/symbol/PrimitiveType.h>
+//#include <as/symbol/PrimitiveType.h>
 #include <as/symbol/Variable.h>
-
 namespace tw {namespace maple {namespace as {namespace symbol {
 
-template<typename T>
+class Function;
+typedef SHARED_PTR(Function) FunctionPtr;
+
+class Scope;
+typedef SHARED_PTR(Scope) ScopePtr;
+
 struct Registrable {
 
-	Registrable(T* instance) :
+	Registrable(Scope* instance) :
 		_instance(instance) {
 	}
 
-	SHARED_PTR(T) registerFunction(std::string name) {
-		SHARED_PTR(T) s(new T(name, T::T_FUNCTION, _instance));
-		_instance->addChild(s);
-		return s;
-	}
-	SHARED_PTR(T) registerClass(std::string name) {
-		SHARED_PTR(T) s(new T(name, T::T_CLASS, _instance));
-		_instance->addChild(s);
-		return s;
-	}
-	SHARED_PTR(T) registerAnonymousScope() {
-		SHARED_PTR(T) s(new T(_instance) );
-		_instance->addChild(s);
-		return s;
-	}
-	SymbolPtr registerVariable(std::string name) {
-		SymbolPtr symbol(new Variable(name));
-		_instance->addChild(symbol);
-		return symbol;
-	}
+	FunctionPtr registerFunction(std::string name);
+	ScopePtr registerClass(std::string name);
+	ScopePtr registerAnonymousScope();
 
-	SymbolPtr registerFunctionParameter(std::string name) {
-		SymbolPtr symbol(new Variable(name, Symbol::T_PRARAMETER));
-//		symbol -> setSymbolProperties( Symbol::T_VARIABLE | Symbol::T_PRARAMETER);
-		_instance->addChild(symbol);
-		return symbol;
-	}
+	SymbolPtr registerVariable(std::string name);
+
+	SymbolPtr registerFunctionParameter(std::string name);
 
 private:
-	T* _instance;
+	Scope* _instance;
 };
 
 }}}}//tw/maple/as/symbol
