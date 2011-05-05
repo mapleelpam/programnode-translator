@@ -4,7 +4,7 @@
 
 class TestClass                  //CHECK: class:TestClass
 {
-    function fib( v:int): int           //CHECK: -function:fib
+    function fib( v:int): int           //CHECK: -function:fib return:int
     {                                   //CHECK: --variable:v,param
         var ret:int = 1;                //CHECK: --variable:ret,local
         if( v < 3 )	
@@ -22,9 +22,12 @@ class TestClass                  //CHECK: class:TestClass
         }
         return ret;
     }
+    function test( v:int ):void     //CHECK: -function:test return:void
+    {
+    }
 }
 
-function main():int                 //CHECK: function:main
+function main():int                 //CHECK: function:main return:int
 {
     var tc : TestClass;             //CHECK: -variable:tc,local
 

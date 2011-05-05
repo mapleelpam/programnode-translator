@@ -70,7 +70,7 @@ void SymbolTableConstructor:: constructSymbols(
 				BOOST_ASSERT( fname != NULL );
 				std::string str_func_name = fname->function_name ;
 
-				ASY::ScopePtr scope_func( symboltable->registerFunction( str_func_name ) );
+				ASY::FunctionPtr scope_func( symboltable->registerFunction( str_func_name ) );
 				{
 					AST::FunctionAttributePtr fattrs = STATIC_CAST( AST::FunctionAttribute, fdef->FunctionAttr());
 					for( std::vector<std::string>::iterator sItr = fattrs->attrs.begin()
@@ -170,7 +170,25 @@ void SymbolTableConstructor::linkVariableType(
 			(symbol->getSymbolProperties() & ASYM::Symbol::T_SCOPE) )
 		{
 			ASYM::ScopePtr p_scope = STATIC_CAST( ASYM::Scope, symbol );
-			linkVariableType( *nItr, p_scope);
+			switch( p_scope->getScopeType() ) {
+			case ASYM::Scope::T_FUNCTION:
+			{
+				AST::FunctionDefinitionPtr fdef = STATIC_CAST( AST::FunctionDefinition, *nItr);
+				AST::FunctionCommonPtr fcommon  = STATIC_CAST( AST::FunctionCommon, fdef->FunctionCommon() );
+				BOOST_ASSERT( fcommon != NULL );
+				AST::FunctionSignaturePtr fsig  = STATIC_CAST( AST::FunctionSignature, fcommon->FunctionSignature() );
+
+				ASYM::SymbolPtr p_type = symboltable->findType( fsig->ReturnType );
+				std::cerr << " try to bind function return type !!! "<<p_type->getFQN()<<std::endl;
+				BOOST_ASSERT( p_type );
+				symbol->bindType( p_type );
+
+				// don't break!! trace to next
+			}
+			default:
+				linkVariableType( *nItr, p_scope);
+				break;
+			}
 		} else
 			linkVariableType( *nItr, symboltable);
 	}

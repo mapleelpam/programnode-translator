@@ -41,12 +41,21 @@ struct Function : public Scope
 
 	virtual std::string toString()
 	{
-		return "function:"+name();
+		return "function:"+name() + " return:"+m_return_type_symbol->getFQN();
 	}
 
+	virtual void bindType( SymbolPtr sType )
+	{
+		m_return_type_symbol = sType;
+	}
 	virtual void bindReturnType( SymbolPtr type)
 	{
 		m_return_type_symbol = type;
+	}
+
+	SymbolPtr ReturnType()
+	{
+		return m_return_type_symbol;
 	}
 private:
 	SymbolPtr	m_return_type_symbol;
