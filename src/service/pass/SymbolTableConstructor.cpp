@@ -35,7 +35,7 @@
 #include <as/ast/function_attribute.h>
 #include <as/ast/function_name.h>
 
-#include <as/ast/class_definition.h>
+#include <as/ast/stmt/class_definition.h>
 
 #include <as/ast/variable_declare.h>
 #include <as/symbol/Scope.h>
@@ -178,7 +178,9 @@ void SymbolTableConstructor::linkVariableType(
 				BOOST_ASSERT( fcommon != NULL );
 				AST::FunctionSignaturePtr fsig  = STATIC_CAST( AST::FunctionSignature, fcommon->FunctionSignature() );
 
+				std::cerr << " try to bind function return type !!! "<<fsig->ReturnType<<std::endl;
 				ASYM::SymbolPtr p_type = symboltable->findType( fsig->ReturnType );
+				BOOST_ASSERT( p_type != NULL && "can't find symbol" );
 				std::cerr << " try to bind function return type !!! "<<p_type->getFQN()<<std::endl;
 				BOOST_ASSERT( p_type );
 				symbol->bindType( p_type );

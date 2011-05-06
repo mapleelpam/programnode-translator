@@ -26,7 +26,7 @@
 #ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_CLASS_DEFINE_H__
 #define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_CLASS_DEFINE_H__
 
-#include <as/ast/class_definition.h>
+#include <as/ast/stmt/class_definition.h>
 #include <as/ast/call.h>
 #include <backend/cpp/interpret/interpreter.h>
 #include <backend/cpp/template_printer.h>
@@ -43,8 +43,12 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context* ctx)
 	{
-		AST::ClassDefinitionPtr _class_define_ = STATIC_CAST( AST::ClassDefinition, node);
 
+		AST::ClassDefinitionPtr _class_define_ = STATIC_CAST( AST::ClassDefinition, node);
+		if( _class_define_->isIntrinsic())
+		{
+			return "";
+		}
 		std::string class_stmt = "";
 		if( _class_define_->hasStatement() ) {
 			ctx->tree_depth ++;

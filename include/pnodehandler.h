@@ -69,8 +69,8 @@
 #include <as/ast/stmt/if_stmt_then.h>
 #include <as/ast/stmt/if_stmt_else.h>
 
-#include <as/ast/class_definition.h>
-#include <as/ast/class_stmt.h>
+#include <as/ast/stmt/class_definition.h>
+#include <as/ast/stmt/class_stmt.h>
 #include <as/ast/attribute_list.h>
 
 #include <as/ast/function_attribute.h>
@@ -380,6 +380,7 @@ public:
 		as::ast::ClassDefinitionPtr exp_list(
 				new as::ast::ClassDefinition(class_define.name, class_define.inherits, class_define.interfaces));
 
+		std::cerr <<" class define attribute "<<class_define.attribute<<std::endl;
 		_node_stack . top() -> addNodeChild(exp_list);
 		_node_stack . push(exp_list);
 
@@ -387,6 +388,7 @@ public:
 		exp_list->setHasInterface(class_define.has_interface);
 		exp_list->setHasAttribute(class_define.has_attr);
 		exp_list->setHasStatement(class_define.has_stmt);
+		exp_list->setIntrinsic(class_define.attribute == "intrinsic" );
 		exp_list->setIsAbstract( class_define.object_type == generated::ObjectType::TYPE_CLASS ? false : true );
 	}
 

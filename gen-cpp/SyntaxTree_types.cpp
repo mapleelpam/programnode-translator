@@ -236,8 +236,8 @@ uint32_t CallExpression::write(::apache::thrift::protocol::TProtocol* oprot) con
   return xfer;
 }
 
-const char* ClassDefinition::ascii_fingerprint = "3D1A03A57BB5264A3273C36DC88C2985";
-const uint8_t ClassDefinition::binary_fingerprint[16] = {0x3D,0x1A,0x03,0xA5,0x7B,0xB5,0x26,0x4A,0x32,0x73,0xC3,0x6D,0xC8,0x8C,0x29,0x85};
+const char* ClassDefinition::ascii_fingerprint = "58E54FF8DCDC3623BDFE36875B69BA33";
+const uint8_t ClassDefinition::binary_fingerprint[16] = {0x58,0xE5,0x4F,0xF8,0xDC,0xDC,0x36,0x23,0xBD,0xFE,0x36,0x87,0x5B,0x69,0xBA,0x33};
 
 uint32_t ClassDefinition::read(::apache::thrift::protocol::TProtocol* iprot) {
 
@@ -349,6 +349,14 @@ uint32_t ClassDefinition::read(::apache::thrift::protocol::TProtocol* iprot) {
           xfer += iprot->skip(ftype);
         }
         break;
+      case 9:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->attribute);
+          this->__isset.attribute = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -403,6 +411,9 @@ uint32_t ClassDefinition::write(::apache::thrift::protocol::TProtocol* oprot) co
   xfer += oprot->writeFieldEnd();
   xfer += oprot->writeFieldBegin("object_type", ::apache::thrift::protocol::T_I32, 8);
   xfer += oprot->writeI32((int32_t)this->object_type);
+  xfer += oprot->writeFieldEnd();
+  xfer += oprot->writeFieldBegin("attribute", ::apache::thrift::protocol::T_STRING, 9);
+  xfer += oprot->writeString(this->attribute);
   xfer += oprot->writeFieldEnd();
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
