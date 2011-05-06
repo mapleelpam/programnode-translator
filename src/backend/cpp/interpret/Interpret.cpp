@@ -72,9 +72,7 @@ void initializeInterpreters()
 		interpreterResolver[AST::Node::NodeType::T_FUNCTION_NAME]
 				= new FunctionName();
 		interpreterResolver[AST::Node::NodeType::T_FUNCTION_COMMON]
-						= new Interpreter();
-//		interpreterResolver[AST::Node::NodeType::T_FUNCTION_RETTYPE]
-//				= new FunctionReturnType();
+				= new Interpreter();
 		interpreterResolver[AST::Node::NodeType::T_FUNCTION_PARAMETERS]
 				= new FunctionParameter();
 		interpreterResolver[AST::Node::NodeType::T_FUNCTION_PARAMETER_ITEM]
@@ -96,14 +94,13 @@ void initializeInterpreters()
 		interpreterResolver[AST::Node::NodeType::T_BINARY_OPERATOR]
 				= new BinaryOperator();
 		interpreterResolver[AST::Node::NodeType::T_INSTANCEOF]
-					= new InstanceOf();
+				= new InstanceOf();
 		interpreterResolver[AST::Node::NodeType::T_IS]
-					= new Is();
+				= new Is();
 		interpreterResolver[AST::Node::NodeType::T_UNARY_OPERATOR]
 				= new UnaryOperator();
 		interpreterResolver[AST::Node::NodeType::T_RETURN_STATEMENT]
 				= new ReturnStatement();
-
 		interpreterResolver[AST::Node::NodeType::T_VARIABLE_DECLARE]
 				= new VariableDeclare();
 		interpreterResolver[AST::Node::NodeType::T_ASSIGNMENT]
@@ -139,13 +136,11 @@ void initializeInterpreters()
 
 std::string dispatchExpound( ::tw::maple::as::ast::NodePtr node, tw::maple::as::symbol::ScopePtr symbol_table, ::tw::maple::backend::cpp::Context* ctx )
 {
-	if( node == NULL ){
-		std::cerr << "error: dispatchDo - can't get null node"<<std::endl;
-		exit(1);
-	}
+	BOOST_ASSERT( node != NULL );
 
 	namespace AST = ::tw::maple::as::ast;
 	Interpreter* to = interpreterResolver[ node->nodeType() ];
+
 	if( to == NULL ){
 		std::cerr << "error: can't resolve expound - type id = "<<node->toString()<<std::endl;
 		exit(1);

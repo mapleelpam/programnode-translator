@@ -37,8 +37,7 @@ PrependData::PrependData()
 {
 	PrefixWarning = "/* THIS FILE IS GENREATED BY pn-translater, you should not modify this file.*/";
 	LicenseDeclare = "/* NO LICNESE DECLARE */";
-//	IncludeHeaders = "#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>";
-	IncludeHeaders = "#include <stdio.h>\n#include <wchar.h>\n";
+	IncludeHeaders = "#include <stdio.h>\n";
 }
 
 
