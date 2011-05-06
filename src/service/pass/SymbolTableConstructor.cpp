@@ -35,7 +35,7 @@
 #include <as/ast/function_attribute.h>
 #include <as/ast/function_name.h>
 
-#include <as/ast/class_define.h>
+#include <as/ast/class_definition.h>
 
 #include <as/ast/variable_declare.h>
 #include <as/symbol/Scope.h>
@@ -98,7 +98,7 @@ void SymbolTableConstructor:: constructSymbols(
 			case AST::Node::NodeType::T_CLASS_DEFINE:
 			{
 				::tw::maple::backend::cpp::Context tmp_contexts;
-				AST::ClassDefinePtr _class_define_ = STATIC_CAST( AST::ClassDefine, *nItr);
+				AST::ClassDefinitionPtr _class_define_ = STATIC_CAST( AST::ClassDefinition, *nItr);
 
 				ASY::ScopePtr scope_class( symboltable->registerClass( _class_define_->getClassName() ) );
 				_class_define_ -> setSymbol( scope_class );

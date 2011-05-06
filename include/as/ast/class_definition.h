@@ -32,9 +32,9 @@
 
 namespace tw { namespace maple { namespace as { namespace ast {
 
-struct ClassDefine : public Statement
+struct ClassDefinition : public Statement
 {
-	ClassDefine( std::string name
+	ClassDefinition( std::string name
 			, const std::vector<std::string>& inherits
 			, const std::vector<std::string>& interfaces)
 		: Statement(Node::NodeType::T_CLASS_DEFINE)
@@ -86,7 +86,7 @@ private:
     std::vector<std::string>	m_implements;
 
 };
-typedef std::tr1::shared_ptr<ClassDefine> ClassDefinePtr;
+typedef std::tr1::shared_ptr<ClassDefinition> ClassDefinitionPtr;
 
 
 } } } }
