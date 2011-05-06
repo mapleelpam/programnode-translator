@@ -87,6 +87,8 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("func_parameters", str_func_parameters ) ));
 		patterns.push_back( PatternPtr( new Pattern("func_ret_type", fsig->ReturnType ) ) );
 		patterns.push_back( PatternPtr( new Pattern("function_is_virtual", (fdef->isAbstract)? "virtual":"") ) );
+		patterns.push_back( PatternPtr( new Pattern("function_enter", (fdef->isAbstract)? "" : m_tpl_enter_function) ) );
+		patterns.push_back( PatternPtr( new Pattern("function_leave", (fdef->isAbstract)? "" : m_tpl_leave_function) ) );
 		patterns.push_back( PatternPtr( new Pattern("endl", ctx->endl() )) );
 		patterns.push_back( PatternPtr( new Pattern("indent_tab", ctx->indent()) ));
 
@@ -97,12 +99,39 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		: TemplatePrinter("FunctionDefinition")
 	{
 		setTemplateString(  "#(function_attribute)"
-							"#(function_is_virtual)"
-							"#(indent_tab)#(func_ret_type) #(func_name)(#(func_parameters))"
+
+							"#(indent_tab)"
+							"#(function_is_virtual) "
+							"#(func_ret_type) #(func_name)(#(func_parameters))"
+
+							"#(function_enter)"
 							"#(func_body)"
+							"#(function_leave)"
 							 )
 							;
+		m_tpl_enter_function = "#(endl)#(indent_tab){/*enter function*/";
+		m_tpl_leave_function = "#(indent_tab)/*enter function*/#(endl)#(indent_tab)}";
 	}
+
+	virtual bool readConfig( boost::property_tree::ptree& pt )
+	{
+		m_tpl_enter_function = pt.get<std::string>(  configName()+".template.enter_function", m_tpl_enter_function);
+		m_tpl_leave_function = pt.get<std::string>(  configName()+".template.leave_function", m_tpl_leave_function);
+
+		return TemplatePrinter::readConfig( pt );
+	}
+	virtual bool writeConfig( boost::property_tree::ptree& pt )
+	{
+		pt.put<std::string>( configName()+".template.enter_function", m_tpl_enter_function);
+		pt.put<std::string>( configName()+".template.leave_function", m_tpl_leave_function);
+
+		return TemplatePrinter::writeConfig( pt );
+	}
+
+private:
+	std::string m_tpl_enter_function;
+	std::string m_tpl_leave_function;
+
 };
 
 };
