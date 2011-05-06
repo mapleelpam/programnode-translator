@@ -89,6 +89,8 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("function_is_virtual", (fdef->isAbstract)? "virtual":"") ) );
 		patterns.push_back( PatternPtr( new Pattern("function_enter", (fdef->isAbstract)? "" : m_tpl_enter_function) ) );
 		patterns.push_back( PatternPtr( new Pattern("function_leave", (fdef->isAbstract)? "" : m_tpl_leave_function) ) );
+		patterns.push_back( PatternPtr( new Pattern("prefix_arguments", m_tpl_args_prefix) ) );
+		patterns.push_back( PatternPtr( new Pattern("postfix_arguments", m_tpl_args_postfix) ) );
 		patterns.push_back( PatternPtr( new Pattern("endl", ctx->endl() )) );
 		patterns.push_back( PatternPtr( new Pattern("indent_tab", ctx->indent()) ));
 
@@ -102,7 +104,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 
 							"#(indent_tab)"
 							"#(function_is_virtual) "
-							"#(func_ret_type) #(func_name)(#(func_parameters))"
+							"#(func_ret_type) #(func_name)(#(prefix_arguments)#(func_parameters)#(postfix_arguments))"
 
 							"#(function_enter)"
 							"#(func_body)"
@@ -111,6 +113,18 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 							;
 		m_tpl_enter_function = "#(endl)#(indent_tab){/*enter function*/";
 		m_tpl_leave_function = "#(indent_tab)/*enter function*/#(endl)#(indent_tab)}";
+
+		if(0)
+		{
+			m_tpl_args_prefix = "/*prefix_args*/";
+			m_tpl_args_postfix = "/*postfix_args*/";
+		}
+		else
+		{
+			m_tpl_args_prefix = "";
+			m_tpl_args_postfix = "";
+		}
+
 	}
 
 	virtual bool readConfig( boost::property_tree::ptree& pt )
@@ -118,6 +132,8 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		m_tpl_enter_function = pt.get<std::string>(  configName()+".template.enter_function", m_tpl_enter_function);
 		m_tpl_leave_function = pt.get<std::string>(  configName()+".template.leave_function", m_tpl_leave_function);
 
+		m_tpl_args_prefix = pt.get<std::string>(  configName()+".template.prefix_arguments", m_tpl_args_prefix);
+		m_tpl_args_postfix = pt.get<std::string>(  configName()+".template.postfix_argumetns", m_tpl_args_postfix);
 		return TemplatePrinter::readConfig( pt );
 	}
 	virtual bool writeConfig( boost::property_tree::ptree& pt )
@@ -125,6 +141,8 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		pt.put<std::string>( configName()+".template.enter_function", m_tpl_enter_function);
 		pt.put<std::string>( configName()+".template.leave_function", m_tpl_leave_function);
 
+		pt.put<std::string>( configName()+".template.prefix_arguments", m_tpl_args_prefix);
+		pt.put<std::string>( configName()+".template.postfix_argumetns", m_tpl_args_postfix);
 		return TemplatePrinter::writeConfig( pt );
 	}
 
@@ -132,6 +150,8 @@ private:
 	std::string m_tpl_enter_function;
 	std::string m_tpl_leave_function;
 
+	std::string m_tpl_args_prefix;
+	std::string m_tpl_args_postfix;
 };
 
 };

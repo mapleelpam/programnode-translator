@@ -26,7 +26,7 @@
 #ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_CLASS_DEFINE_H__
 #define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_CLASS_DEFINE_H__
 
-#include <as/ast/class_define.h>
+#include <as/ast/class_definition.h>
 #include <as/ast/call.h>
 #include <backend/cpp/interpret/interpreter.h>
 #include <backend/cpp/template_printer.h>
@@ -36,14 +36,14 @@ namespace tw { namespace maple { namespace backend { namespace cpp { namespace i
 
 namespace AST = ::tw::maple::as::ast;
 
-struct ClassDefine : public Interpreter, public TemplatePrinter
+struct ClassDefinition : public Interpreter, public TemplatePrinter
 {   
 
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context* ctx)
 	{
-		AST::ClassDefinePtr _class_define_ = STATIC_CAST( AST::ClassDefine, node);
+		AST::ClassDefinitionPtr _class_define_ = STATIC_CAST( AST::ClassDefinition, node);
 
 		std::string class_stmt = "";
 		if( _class_define_->hasStatement() ) {
@@ -95,8 +95,8 @@ struct ClassDefine : public Interpreter, public TemplatePrinter
 		return result;
 	}
 
-	ClassDefine()
-		: TemplatePrinter("ClassDefine")
+	ClassDefinition()
+		: TemplatePrinter("ClassDefinition")
 		, _default_base_object("")
 	{
 		_template_class = ( "#(indent_tab) #(class_type) #(class_name)  #(class_inherit) #(endl)#(indent_tab){#(endl)"

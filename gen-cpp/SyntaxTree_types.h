@@ -168,8 +168,8 @@ class CallExpression {
 
 };
 
-typedef struct _ClassDefine__isset {
-  _ClassDefine__isset() : name(false), has_attr(false), has_baseclass(false), has_interface(false), has_stmt(false), inherits(false), interfaces(false), object_type(false) {}
+typedef struct _ClassDefinition__isset {
+  _ClassDefinition__isset() : name(false), has_attr(false), has_baseclass(false), has_interface(false), has_stmt(false), inherits(false), interfaces(false), object_type(false) {}
   bool name;
   bool has_attr;
   bool has_baseclass;
@@ -178,18 +178,18 @@ typedef struct _ClassDefine__isset {
   bool inherits;
   bool interfaces;
   bool object_type;
-} _ClassDefine__isset;
+} _ClassDefinition__isset;
 
-class ClassDefine {
+class ClassDefinition {
  public:
 
   static const char* ascii_fingerprint; // = "3D1A03A57BB5264A3273C36DC88C2985";
   static const uint8_t binary_fingerprint[16]; // = {0x3D,0x1A,0x03,0xA5,0x7B,0xB5,0x26,0x4A,0x32,0x73,0xC3,0x6D,0xC8,0x8C,0x29,0x85};
 
-  ClassDefine() : name(""), has_attr(0), has_baseclass(0), has_interface(0), has_stmt(0) {
+  ClassDefinition() : name(""), has_attr(0), has_baseclass(0), has_interface(0), has_stmt(0) {
   }
 
-  virtual ~ClassDefine() throw() {}
+  virtual ~ClassDefinition() throw() {}
 
   std::string name;
   bool has_attr;
@@ -200,9 +200,9 @@ class ClassDefine {
   StringList interfaces;
   ObjectType::type object_type;
 
-  _ClassDefine__isset __isset;
+  _ClassDefinition__isset __isset;
 
-  bool operator == (const ClassDefine & rhs) const
+  bool operator == (const ClassDefinition & rhs) const
   {
     if (!(name == rhs.name))
       return false;
@@ -222,11 +222,11 @@ class ClassDefine {
       return false;
     return true;
   }
-  bool operator != (const ClassDefine &rhs) const {
+  bool operator != (const ClassDefinition &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const ClassDefine & ) const;
+  bool operator < (const ClassDefinition & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;

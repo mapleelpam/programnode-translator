@@ -49,7 +49,7 @@
 #include <backend/cpp/interpret/stmt_expression.h>
 #include <backend/cpp/interpret/is.h>
 #include <backend/cpp/interpret/instanceof.h>
-#include <backend/cpp/interpret/class_define.h>
+#include <backend/cpp/interpret/class_definition.h>
 #include <backend/cpp/interpret/stmt/package_definition.h>
 
 
@@ -118,7 +118,7 @@ void initializeInterpreters()
 				= new Interpreter();
 
 		interpreterResolver[AST::Node::NodeType::T_CLASS_DEFINE]
-				= new ClassDefine();
+				= new ClassDefinition();
 		interpreterResolver[AST::Node::NodeType::T_CLASS_DEFINE_STMT]
 				= new Interpreter();
 

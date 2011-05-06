@@ -236,10 +236,10 @@ uint32_t CallExpression::write(::apache::thrift::protocol::TProtocol* oprot) con
   return xfer;
 }
 
-const char* ClassDefine::ascii_fingerprint = "3D1A03A57BB5264A3273C36DC88C2985";
-const uint8_t ClassDefine::binary_fingerprint[16] = {0x3D,0x1A,0x03,0xA5,0x7B,0xB5,0x26,0x4A,0x32,0x73,0xC3,0x6D,0xC8,0x8C,0x29,0x85};
+const char* ClassDefinition::ascii_fingerprint = "3D1A03A57BB5264A3273C36DC88C2985";
+const uint8_t ClassDefinition::binary_fingerprint[16] = {0x3D,0x1A,0x03,0xA5,0x7B,0xB5,0x26,0x4A,0x32,0x73,0xC3,0x6D,0xC8,0x8C,0x29,0x85};
 
-uint32_t ClassDefine::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t ClassDefinition::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   uint32_t xfer = 0;
   std::string fname;
@@ -361,9 +361,9 @@ uint32_t ClassDefine::read(::apache::thrift::protocol::TProtocol* iprot) {
   return xfer;
 }
 
-uint32_t ClassDefine::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t ClassDefinition::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
-  xfer += oprot->writeStructBegin("ClassDefine");
+  xfer += oprot->writeStructBegin("ClassDefinition");
   xfer += oprot->writeFieldBegin("name", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString(this->name);
   xfer += oprot->writeFieldEnd();

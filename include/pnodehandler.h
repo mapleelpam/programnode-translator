@@ -69,7 +69,7 @@
 #include <as/ast/stmt/if_stmt_then.h>
 #include <as/ast/stmt/if_stmt_else.h>
 
-#include <as/ast/class_define.h>
+#include <as/ast/class_definition.h>
 #include <as/ast/class_stmt.h>
 #include <as/ast/attribute_list.h>
 
@@ -375,10 +375,10 @@ public:
 		CHECK_STACK_AND_POP( IfStatement_Else, AST::Node::NodeType::T_IF_STMT_ELSE );
 	}
 
-	void startClassDefine(const generated::ClassDefine& class_define) {
+	void startClassDefinition(const generated::ClassDefinition& class_define) {
 		printf(" %lu startClassDefine\n", _node_stack.size());
-		as::ast::ClassDefinePtr exp_list(
-				new as::ast::ClassDefine(class_define.name, class_define.inherits, class_define.interfaces));
+		as::ast::ClassDefinitionPtr exp_list(
+				new as::ast::ClassDefinition(class_define.name, class_define.inherits, class_define.interfaces));
 
 		_node_stack . top() -> addNodeChild(exp_list);
 		_node_stack . push(exp_list);
@@ -396,7 +396,7 @@ public:
 		_node_stack . top() -> addNodeChild(exp_list);
 		_node_stack . push(exp_list);
 	}
-	void endClassDefine() {
+	void endClassDefinition() {
 		CHECK_STACK_AND_POP( ClassDefine, AST::Node::NodeType::T_CLASS_DEFINE );
 	}
 

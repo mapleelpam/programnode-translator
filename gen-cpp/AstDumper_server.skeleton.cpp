@@ -287,9 +287,9 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("endStmtList\n");
   }
 
-  void startClassDefine(const ClassDefine& class_define) {
+  void startClassDefinition(const ClassDefinition& class_define) {
     // Your implementation goes here
-    printf("startClassDefine\n");
+    printf("startClassDefinition\n");
   }
 
   void startClassStmt() {
@@ -302,9 +302,9 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("endClassStmt\n");
   }
 
-  void endClassDefine() {
+  void endClassDefinition() {
     // Your implementation goes here
-    printf("endClassDefine\n");
+    printf("endClassDefinition\n");
   }
 
   void startAttributeList() {
