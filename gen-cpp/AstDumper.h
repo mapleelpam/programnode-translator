@@ -24,7 +24,7 @@ class AstDumperIf {
   virtual void startFunctionCommon() = 0;
   virtual void startFunctionSignature(const std::string& type) = 0;
   virtual void startFunctionSignatureParameters() = 0;
-  virtual void startFunctionSignatureParameterMember(const std::string& name, const std::string& type) = 0;
+  virtual void startFunctionSignatureParameterMember(const std::string& name, const StringList& type) = 0;
   virtual void endFunctionSignatureParameterMember() = 0;
   virtual void endFunctionSignatureParameters() = 0;
   virtual void endFunctionSignature() = 0;
@@ -55,7 +55,7 @@ class AstDumperIf {
   virtual void endIsOperator() = 0;
   virtual void startUnaryExpression(const UnaryExpression& op) = 0;
   virtual void endUnaryExpression() = 0;
-  virtual void startVariableDeclare(const std::string& name, const std::string& type, const std::string& attributes) = 0;
+  virtual void startVariableDeclare(const std::string& name, const StringList& type, const std::string& attributes) = 0;
   virtual void endVariableDeclare() = 0;
   virtual void startAssignment() = 0;
   virtual void endAssignment() = 0;
@@ -108,7 +108,7 @@ class AstDumperNull : virtual public AstDumperIf {
   void startFunctionSignatureParameters() {
     return;
   }
-  void startFunctionSignatureParameterMember(const std::string& /* name */, const std::string& /* type */) {
+  void startFunctionSignatureParameterMember(const std::string& /* name */, const StringList& /* type */) {
     return;
   }
   void endFunctionSignatureParameterMember() {
@@ -201,7 +201,7 @@ class AstDumperNull : virtual public AstDumperIf {
   void endUnaryExpression() {
     return;
   }
-  void startVariableDeclare(const std::string& /* name */, const std::string& /* type */, const std::string& /* attributes */) {
+  void startVariableDeclare(const std::string& /* name */, const StringList& /* type */, const std::string& /* attributes */) {
     return;
   }
   void endVariableDeclare() {
@@ -696,13 +696,13 @@ typedef struct _AstDumper_startFunctionSignatureParameterMember_args__isset {
 class AstDumper_startFunctionSignatureParameterMember_args {
  public:
 
-  AstDumper_startFunctionSignatureParameterMember_args() : name(""), type("") {
+  AstDumper_startFunctionSignatureParameterMember_args() : name("") {
   }
 
   virtual ~AstDumper_startFunctionSignatureParameterMember_args() throw() {}
 
   std::string name;
-  std::string type;
+  StringList type;
 
   _AstDumper_startFunctionSignatureParameterMember_args__isset __isset;
 
@@ -733,7 +733,7 @@ class AstDumper_startFunctionSignatureParameterMember_pargs {
   virtual ~AstDumper_startFunctionSignatureParameterMember_pargs() throw() {}
 
   const std::string* name;
-  const std::string* type;
+  const StringList* type;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -1889,13 +1889,13 @@ typedef struct _AstDumper_startVariableDeclare_args__isset {
 class AstDumper_startVariableDeclare_args {
  public:
 
-  AstDumper_startVariableDeclare_args() : name(""), type(""), attributes("") {
+  AstDumper_startVariableDeclare_args() : name(""), attributes("") {
   }
 
   virtual ~AstDumper_startVariableDeclare_args() throw() {}
 
   std::string name;
-  std::string type;
+  StringList type;
   std::string attributes;
 
   _AstDumper_startVariableDeclare_args__isset __isset;
@@ -1929,7 +1929,7 @@ class AstDumper_startVariableDeclare_pargs {
   virtual ~AstDumper_startVariableDeclare_pargs() throw() {}
 
   const std::string* name;
-  const std::string* type;
+  const StringList* type;
   const std::string* attributes;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -2665,8 +2665,8 @@ class AstDumperClient : virtual public AstDumperIf {
   void send_startFunctionSignature(const std::string& type);
   void startFunctionSignatureParameters();
   void send_startFunctionSignatureParameters();
-  void startFunctionSignatureParameterMember(const std::string& name, const std::string& type);
-  void send_startFunctionSignatureParameterMember(const std::string& name, const std::string& type);
+  void startFunctionSignatureParameterMember(const std::string& name, const StringList& type);
+  void send_startFunctionSignatureParameterMember(const std::string& name, const StringList& type);
   void endFunctionSignatureParameterMember();
   void send_endFunctionSignatureParameterMember();
   void endFunctionSignatureParameters();
@@ -2727,8 +2727,8 @@ class AstDumperClient : virtual public AstDumperIf {
   void send_startUnaryExpression(const UnaryExpression& op);
   void endUnaryExpression();
   void send_endUnaryExpression();
-  void startVariableDeclare(const std::string& name, const std::string& type, const std::string& attributes);
-  void send_startVariableDeclare(const std::string& name, const std::string& type, const std::string& attributes);
+  void startVariableDeclare(const std::string& name, const StringList& type, const std::string& attributes);
+  void send_startVariableDeclare(const std::string& name, const StringList& type, const std::string& attributes);
   void endVariableDeclare();
   void send_endVariableDeclare();
   void startAssignment();
@@ -2985,7 +2985,7 @@ class AstDumperMultiface : virtual public AstDumperIf {
     }
   }
 
-  void startFunctionSignatureParameterMember(const std::string& name, const std::string& type) {
+  void startFunctionSignatureParameterMember(const std::string& name, const StringList& type) {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
       ifaces_[i]->startFunctionSignatureParameterMember(name, type);
@@ -3202,7 +3202,7 @@ class AstDumperMultiface : virtual public AstDumperIf {
     }
   }
 
-  void startVariableDeclare(const std::string& name, const std::string& type, const std::string& attributes) {
+  void startVariableDeclare(const std::string& name, const StringList& type, const std::string& attributes) {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
       ifaces_[i]->startVariableDeclare(name, type, attributes);

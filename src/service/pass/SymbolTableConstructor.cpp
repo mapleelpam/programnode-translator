@@ -157,7 +157,12 @@ void SymbolTableConstructor::linkVariableType(
 			(symbol->getSymbolProperties() & ASYM::Symbol::T_VARIABLE) )
 		{
 			AST::VariableDeclarePtr var = std::tr1::static_pointer_cast<AST::VariableDeclare>(*nItr);
-			std::string str_vartype = var->VariableType;
+
+			{
+				std::cerr << " variable name = "<<var->VariableName<<std::endl;
+				std::cerr << " variable type size = "<<var->VariableType.size()<<std::endl;
+			}
+			std::string str_vartype = var->VariableType[0];
 
 			ASYM::SymbolPtr p_type = symboltable->findType( str_vartype );
 			if( p_type )

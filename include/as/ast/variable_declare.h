@@ -33,7 +33,7 @@ namespace tw { namespace maple { namespace as { namespace ast {
 
 struct VariableDeclare: public Expression
 {
-	VariableDeclare( std::string name, std::string type, std::string attrs )
+	VariableDeclare( std::string name, std::vector<std::string> type, std::string attrs )
 		: Expression(Node::NodeType::T_VARIABLE_DECLARE)
 		, VariableName( name )
 		, VariableType( type )
@@ -51,7 +51,7 @@ struct VariableDeclare: public Expression
     std::string toString()  {	return "node::variable_declare"; };
 
     const std::string VariableName;
-    const std::string VariableType;
+    const std::vector<std::string> VariableType;
     const std::string VariableAttribute;
 };
 

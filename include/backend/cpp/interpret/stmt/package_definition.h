@@ -51,7 +51,7 @@ struct PackageDefinition : public Interpreter
 		{
 			result += "namespace "+ *sItr+ "{ ";
 		}
-
+		result +="\n";
 			ctx->tree_depth ++;
 			for (std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr =
 					node->node_childs.begin(); nItr != node->node_childs.end(); nItr++) {
@@ -66,7 +66,7 @@ struct PackageDefinition : public Interpreter
 			result += "} /* "+ *sItr+ "*/ ";
 		}
 
-		return result;
+		return result+"\n";
 	}
 
 	PackageDefinition()
