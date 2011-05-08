@@ -45,6 +45,22 @@ FunctionPtr Registrable::registerFunction(std::string name) {
 	_instance->addChild(s);
 	return s;
 }
+ScopePtr Registrable::registerPackage(std::string name) {
+	ScopePtr s(new Scope(name, Scope::T_PACKAGE, _instance));
+	_instance->addChild(s);
+	return s;
+}
+ScopePtr Registrable::registerPackage( std::vector<std::string> names ) {
+
+	ScopePtr s0 = registerPackage( names[0] );
+
+	ScopePtr cur = s0;
+	for( int idx = 1 ; idx < names.size() ; idx ++) {
+		ScopePtr next = cur->registerPackage( names[idx] );
+		cur = next;
+	}
+	return cur;
+}
 
 ScopePtr Registrable::registerClass(std::string name) {
 	ScopePtr s(new Scope(name, Scope::T_CLASS, _instance));

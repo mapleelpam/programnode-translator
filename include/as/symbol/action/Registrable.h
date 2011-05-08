@@ -26,6 +26,8 @@ struct Registrable {
 	}
 
 	FunctionPtr registerFunction(std::string name);
+	ScopePtr registerPackage( std::vector<std::string> names );
+	ScopePtr registerPackage( std::string names );
 	ScopePtr registerClass(std::string name);
 	ScopePtr registerAnonymousScope();
 

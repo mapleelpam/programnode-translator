@@ -34,6 +34,7 @@
 #include <as/ast/function_parameter_item.h>
 #include <as/ast/function_attribute.h>
 #include <as/ast/function_name.h>
+#include <as/ast/stmt/package_definition.h>
 
 #include <as/ast/stmt/class_definition.h>
 
@@ -128,6 +129,12 @@ void SymbolTableConstructor:: constructSymbols(
 
 				if( scope_stmt->isDeletable() )
 					symboltable->removeChild( scope_stmt );
+			}	break;
+			case AST::Node::NodeType::T_PACKAGE_DEFINITION:
+			{
+				AST::PackageDefinitionPtr pkg = std::tr1::static_pointer_cast<AST::PackageDefinition>(*nItr);
+				ASY::ScopePtr scope_pkg( symboltable->registerPackage( pkg->package_names ) );
+				constructSymbols( *nItr, symboltable);
 			}	break;
 			default:
 				constructSymbols( *nItr, symboltable);

@@ -116,6 +116,46 @@ struct Scope : public Symbol, public Registrable
 		return true;
 	}
 
+	bool isInstance( std::string query, std::string delimiter )
+	{
+		std::vector<std::string> query_tokens = tokenize(query,delimiter,false);
+
+		std::cerr << " query "<<query<<std::endl;
+		return isInstance( query_tokens, delimiter );
+	}
+	bool isInstance( std::vector<std::string> query, std::string delimiter )
+	{
+		std::cerr << " query " <<std::endl;
+		for( int idx = 0 ; idx < query.size() ; idx ++ )
+		{
+			std::cerr << " query "<<query[idx]<<std::endl;
+		}
+		SymbolPtr child = findSymbol( query[0] );
+		if( child && child->getSymbolProperties() == T_VARIABLE)
+		{
+			if(query.size() == 1 )
+				return true;
+			else
+				return false;
+		} else if( child && child->getSymbolProperties() == T_SCOPE) {
+			if (query.size() == 1)
+				return false;
+			else {
+				ScopePtr child_scope = STATIC_CAST( Scope, child );
+				std::vector < std::string > second_query = query;
+				second_query . erase(second_query.begin());
+				return child_scope->isInstance(second_query, delimiter);
+			}
+		} else {
+			if( child == NULL)
+				std::cerr << "  = = 2" << std::endl;
+			else
+				std::cerr << "  = = " << child->getSymbolProperties() << std::endl;
+		}
+		return true;
+	}
+
+
 	bool removeChild( SymbolPtr s )
 	{
 		for( std::vector<SymbolPtr>::iterator sItr = m_childs.begin() ; sItr != m_childs.end() ; sItr++)
@@ -168,6 +208,66 @@ struct Scope : public Symbol, public Registrable
 			return "";
 		else
 			return name();
+	}
+	SymbolPtr findSymbol( std::string type_name )
+	{
+		for( std::vector<SymbolPtr>::iterator sitr = m_childs.begin() ; sitr != m_childs.end() ; sitr++)
+		{
+			std::cout << name() << " child "<<(*sitr)->name()<<std::endl;
+			if( (*sitr)->name() == type_name ) {
+				return (*sitr);
+			}
+		}
+		std::cout << "can't find type_name "<<type_name<< " in this scope "<<name()<<std::endl;
+		return ( m_parent == NULL )? SymbolPtr() : m_parent->findSymbol( type_name ) ;
+	}
+private:
+	std::vector<std::string> tokenize(const std::string& str, const std::string& delimiters, bool allowEmptyTokenString) const
+	{
+		std::vector<std::string> tokens;
+		std::string::size_type delimPos = 0, tokenPos = 0, pos = 0;
+
+		if (str.length() < 1)
+			return tokens;
+
+		while (true)
+		{
+			delimPos = str.find_first_of(delimiters, pos);
+			tokenPos = str.find_first_not_of(delimiters, pos);
+
+			if (std::string::npos != delimPos)
+			{
+				if (std::string::npos != tokenPos)
+				{
+					if (tokenPos < delimPos)
+					{
+						tokens.push_back(str.substr(pos, delimPos - pos));
+					}
+					else
+					{
+						if (allowEmptyTokenString)	tokens.push_back("");
+					}
+				}
+				else
+				{
+					if (allowEmptyTokenString) tokens.push_back("");
+				}
+				pos = delimPos + 1;
+			}
+			else
+			{
+				if (std::string::npos != tokenPos)
+				{
+					tokens.push_back(str.substr(pos));
+				}
+				else
+				{
+					if (allowEmptyTokenString) tokens.push_back("");
+				}
+				break;
+			}
+		}
+		return tokens;
 	}
 private:
 	ScopeType m_scope_type;
