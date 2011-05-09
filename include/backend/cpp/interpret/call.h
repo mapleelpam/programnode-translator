@@ -49,7 +49,7 @@ struct Call : public Interpreter
 
 		if (call->isObjectConsturct())
 			result +=  " new ";
-		result += dispatchExpound(call->getCallee(), symbol_table, ctx);
+		result += "/*1*/" + dispatchExpound(call->getCallee(), symbol_table, ctx) + "/*2*/";
 		result +=  "( ";
 		if (call->getArgs()) {
 			result += dispatchExpound( call->getArgs(), symbol_table, ctx);

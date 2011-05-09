@@ -61,6 +61,7 @@ struct Symbol
 		: m_name( n )
 		, m_properties( p )
 		, m_attributes( attr )
+		, m_is_static( false )
 	{
 	}
 
@@ -72,6 +73,10 @@ struct Symbol
 
 	Attributes getSymbolAttribtues( ) const {	return m_attributes;	}
 	void setSymbolAttributes( Attributes p ) {	m_attributes = p;	};
+
+	void setIsStatic( bool b ){	m_is_static = b;	}
+	bool isStatic()	{	return m_is_static;	}
+
 	virtual std::string getFQN()
 	{
 			return name();
@@ -80,6 +85,7 @@ protected:
 	std::string		m_name;
 	uint			m_properties;
 	Attributes		m_attributes;
+	bool			m_is_static;
 };
 
 }}}}//tw/maple/as/symbol

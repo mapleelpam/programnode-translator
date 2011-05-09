@@ -414,6 +414,9 @@ public:
 		CHECK_STACK_AND_POP( AttributeList, AST::Node::NodeType::T_COMP_CLASS_ATTRIBUTE );
 	}
 	void functionAttribute( const generated::StringList& sv ) {
+		for( int idx = 0 ; idx < sv.size() ; idx ++ ) {
+			std::cerr<< "function attr "<< sv[idx]<<std::endl;
+		}
 		ADD_2_TOP_WITH_INIT( FunctionAttribute, sv );
 	}
 
