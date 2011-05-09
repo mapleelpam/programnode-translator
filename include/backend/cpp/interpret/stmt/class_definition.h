@@ -48,8 +48,6 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 		if( _class_define_->isIntrinsic())
 			return "";  // Ignore Intrinsic
 
-		std::cerr << " classname " << _class_define_->getClassName() << "  size "<<_class_define_->Namespaces().size()<<std::endl;
-
 		std::string class_stmt = "";
 		if( _class_define_->hasStatement() ) {
 			ctx->tree_depth ++;
