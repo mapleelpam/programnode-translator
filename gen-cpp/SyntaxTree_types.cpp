@@ -236,8 +236,8 @@ uint32_t CallExpression::write(::apache::thrift::protocol::TProtocol* oprot) con
   return xfer;
 }
 
-const char* ClassDefinition::ascii_fingerprint = "58E54FF8DCDC3623BDFE36875B69BA33";
-const uint8_t ClassDefinition::binary_fingerprint[16] = {0x58,0xE5,0x4F,0xF8,0xDC,0xDC,0x36,0x23,0xBD,0xFE,0x36,0x87,0x5B,0x69,0xBA,0x33};
+const char* ClassDefinition::ascii_fingerprint = "A92C2B6DAE803E0EFC5675D1FD99BE17";
+const uint8_t ClassDefinition::binary_fingerprint[16] = {0xA9,0x2C,0x2B,0x6D,0xAE,0x80,0x3E,0x0E,0xFC,0x56,0x75,0xD1,0xFD,0x99,0xBE,0x17};
 
 uint32_t ClassDefinition::read(::apache::thrift::protocol::TProtocol* iprot) {
 
@@ -357,6 +357,26 @@ uint32_t ClassDefinition::read(::apache::thrift::protocol::TProtocol* iprot) {
           xfer += iprot->skip(ftype);
         }
         break;
+      case 10:
+        if (ftype == ::apache::thrift::protocol::T_LIST) {
+          {
+            this->prefix_packages.clear();
+            uint32_t _size12;
+            ::apache::thrift::protocol::TType _etype15;
+            iprot->readListBegin(_etype15, _size12);
+            this->prefix_packages.resize(_size12);
+            uint32_t _i16;
+            for (_i16 = 0; _i16 < _size12; ++_i16)
+            {
+              xfer += iprot->readString(this->prefix_packages[_i16]);
+            }
+            iprot->readListEnd();
+          }
+          this->__isset.prefix_packages = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -390,10 +410,10 @@ uint32_t ClassDefinition::write(::apache::thrift::protocol::TProtocol* oprot) co
   xfer += oprot->writeFieldBegin("inherits", ::apache::thrift::protocol::T_LIST, 6);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, this->inherits.size());
-    std::vector<std::string> ::const_iterator _iter12;
-    for (_iter12 = this->inherits.begin(); _iter12 != this->inherits.end(); ++_iter12)
+    std::vector<std::string> ::const_iterator _iter17;
+    for (_iter17 = this->inherits.begin(); _iter17 != this->inherits.end(); ++_iter17)
     {
-      xfer += oprot->writeString((*_iter12));
+      xfer += oprot->writeString((*_iter17));
     }
     xfer += oprot->writeListEnd();
   }
@@ -401,10 +421,10 @@ uint32_t ClassDefinition::write(::apache::thrift::protocol::TProtocol* oprot) co
   xfer += oprot->writeFieldBegin("interfaces", ::apache::thrift::protocol::T_LIST, 7);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, this->interfaces.size());
-    std::vector<std::string> ::const_iterator _iter13;
-    for (_iter13 = this->interfaces.begin(); _iter13 != this->interfaces.end(); ++_iter13)
+    std::vector<std::string> ::const_iterator _iter18;
+    for (_iter18 = this->interfaces.begin(); _iter18 != this->interfaces.end(); ++_iter18)
     {
-      xfer += oprot->writeString((*_iter13));
+      xfer += oprot->writeString((*_iter18));
     }
     xfer += oprot->writeListEnd();
   }
@@ -414,6 +434,17 @@ uint32_t ClassDefinition::write(::apache::thrift::protocol::TProtocol* oprot) co
   xfer += oprot->writeFieldEnd();
   xfer += oprot->writeFieldBegin("attribute", ::apache::thrift::protocol::T_STRING, 9);
   xfer += oprot->writeString(this->attribute);
+  xfer += oprot->writeFieldEnd();
+  xfer += oprot->writeFieldBegin("prefix_packages", ::apache::thrift::protocol::T_LIST, 10);
+  {
+    xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, this->prefix_packages.size());
+    std::vector<std::string> ::const_iterator _iter19;
+    for (_iter19 = this->prefix_packages.begin(); _iter19 != this->prefix_packages.end(); ++_iter19)
+    {
+      xfer += oprot->writeString((*_iter19));
+    }
+    xfer += oprot->writeListEnd();
+  }
   xfer += oprot->writeFieldEnd();
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();

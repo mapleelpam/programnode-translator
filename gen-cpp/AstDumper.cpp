@@ -127,14 +127,14 @@ uint32_t AstDumper_startPackage_args::read(::apache::thrift::protocol::TProtocol
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->id.clear();
-            uint32_t _size14;
-            ::apache::thrift::protocol::TType _etype17;
-            iprot->readListBegin(_etype17, _size14);
-            this->id.resize(_size14);
-            uint32_t _i18;
-            for (_i18 = 0; _i18 < _size14; ++_i18)
+            uint32_t _size20;
+            ::apache::thrift::protocol::TType _etype23;
+            iprot->readListBegin(_etype23, _size20);
+            this->id.resize(_size20);
+            uint32_t _i24;
+            for (_i24 = 0; _i24 < _size20; ++_i24)
             {
-              xfer += iprot->readString(this->id[_i18]);
+              xfer += iprot->readString(this->id[_i24]);
             }
             iprot->readListEnd();
           }
@@ -161,10 +161,10 @@ uint32_t AstDumper_startPackage_args::write(::apache::thrift::protocol::TProtoco
   xfer += oprot->writeFieldBegin("id", ::apache::thrift::protocol::T_LIST, 1);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, this->id.size());
-    std::vector<std::string> ::const_iterator _iter19;
-    for (_iter19 = this->id.begin(); _iter19 != this->id.end(); ++_iter19)
+    std::vector<std::string> ::const_iterator _iter25;
+    for (_iter25 = this->id.begin(); _iter25 != this->id.end(); ++_iter25)
     {
-      xfer += oprot->writeString((*_iter19));
+      xfer += oprot->writeString((*_iter25));
     }
     xfer += oprot->writeListEnd();
   }
@@ -180,10 +180,10 @@ uint32_t AstDumper_startPackage_pargs::write(::apache::thrift::protocol::TProtoc
   xfer += oprot->writeFieldBegin("id", ::apache::thrift::protocol::T_LIST, 1);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, (*(this->id)).size());
-    std::vector<std::string> ::const_iterator _iter20;
-    for (_iter20 = (*(this->id)).begin(); _iter20 != (*(this->id)).end(); ++_iter20)
+    std::vector<std::string> ::const_iterator _iter26;
+    for (_iter26 = (*(this->id)).begin(); _iter26 != (*(this->id)).end(); ++_iter26)
     {
-      xfer += oprot->writeString((*_iter20));
+      xfer += oprot->writeString((*_iter26));
     }
     xfer += oprot->writeListEnd();
   }
@@ -217,14 +217,14 @@ uint32_t AstDumper_endPackage_args::read(::apache::thrift::protocol::TProtocol* 
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->IDs.clear();
-            uint32_t _size21;
-            ::apache::thrift::protocol::TType _etype24;
-            iprot->readListBegin(_etype24, _size21);
-            this->IDs.resize(_size21);
-            uint32_t _i25;
-            for (_i25 = 0; _i25 < _size21; ++_i25)
+            uint32_t _size27;
+            ::apache::thrift::protocol::TType _etype30;
+            iprot->readListBegin(_etype30, _size27);
+            this->IDs.resize(_size27);
+            uint32_t _i31;
+            for (_i31 = 0; _i31 < _size27; ++_i31)
             {
-              xfer += iprot->readString(this->IDs[_i25]);
+              xfer += iprot->readString(this->IDs[_i31]);
             }
             iprot->readListEnd();
           }
@@ -251,10 +251,10 @@ uint32_t AstDumper_endPackage_args::write(::apache::thrift::protocol::TProtocol*
   xfer += oprot->writeFieldBegin("IDs", ::apache::thrift::protocol::T_LIST, 1);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, this->IDs.size());
-    std::vector<std::string> ::const_iterator _iter26;
-    for (_iter26 = this->IDs.begin(); _iter26 != this->IDs.end(); ++_iter26)
+    std::vector<std::string> ::const_iterator _iter32;
+    for (_iter32 = this->IDs.begin(); _iter32 != this->IDs.end(); ++_iter32)
     {
-      xfer += oprot->writeString((*_iter26));
+      xfer += oprot->writeString((*_iter32));
     }
     xfer += oprot->writeListEnd();
   }
@@ -270,10 +270,10 @@ uint32_t AstDumper_endPackage_pargs::write(::apache::thrift::protocol::TProtocol
   xfer += oprot->writeFieldBegin("IDs", ::apache::thrift::protocol::T_LIST, 1);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, (*(this->IDs)).size());
-    std::vector<std::string> ::const_iterator _iter27;
-    for (_iter27 = (*(this->IDs)).begin(); _iter27 != (*(this->IDs)).end(); ++_iter27)
+    std::vector<std::string> ::const_iterator _iter33;
+    for (_iter33 = (*(this->IDs)).begin(); _iter33 != (*(this->IDs)).end(); ++_iter33)
     {
-      xfer += oprot->writeString((*_iter27));
+      xfer += oprot->writeString((*_iter33));
     }
     xfer += oprot->writeListEnd();
   }
@@ -369,14 +369,14 @@ uint32_t AstDumper_functionAttribute_args::read(::apache::thrift::protocol::TPro
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->attrs.clear();
-            uint32_t _size28;
-            ::apache::thrift::protocol::TType _etype31;
-            iprot->readListBegin(_etype31, _size28);
-            this->attrs.resize(_size28);
-            uint32_t _i32;
-            for (_i32 = 0; _i32 < _size28; ++_i32)
+            uint32_t _size34;
+            ::apache::thrift::protocol::TType _etype37;
+            iprot->readListBegin(_etype37, _size34);
+            this->attrs.resize(_size34);
+            uint32_t _i38;
+            for (_i38 = 0; _i38 < _size34; ++_i38)
             {
-              xfer += iprot->readString(this->attrs[_i32]);
+              xfer += iprot->readString(this->attrs[_i38]);
             }
             iprot->readListEnd();
           }
@@ -403,10 +403,10 @@ uint32_t AstDumper_functionAttribute_args::write(::apache::thrift::protocol::TPr
   xfer += oprot->writeFieldBegin("attrs", ::apache::thrift::protocol::T_LIST, 1);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, this->attrs.size());
-    std::vector<std::string> ::const_iterator _iter33;
-    for (_iter33 = this->attrs.begin(); _iter33 != this->attrs.end(); ++_iter33)
+    std::vector<std::string> ::const_iterator _iter39;
+    for (_iter39 = this->attrs.begin(); _iter39 != this->attrs.end(); ++_iter39)
     {
-      xfer += oprot->writeString((*_iter33));
+      xfer += oprot->writeString((*_iter39));
     }
     xfer += oprot->writeListEnd();
   }
@@ -422,10 +422,10 @@ uint32_t AstDumper_functionAttribute_pargs::write(::apache::thrift::protocol::TP
   xfer += oprot->writeFieldBegin("attrs", ::apache::thrift::protocol::T_LIST, 1);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, (*(this->attrs)).size());
-    std::vector<std::string> ::const_iterator _iter34;
-    for (_iter34 = (*(this->attrs)).begin(); _iter34 != (*(this->attrs)).end(); ++_iter34)
+    std::vector<std::string> ::const_iterator _iter40;
+    for (_iter40 = (*(this->attrs)).begin(); _iter40 != (*(this->attrs)).end(); ++_iter40)
     {
-      xfer += oprot->writeString((*_iter34));
+      xfer += oprot->writeString((*_iter40));
     }
     xfer += oprot->writeListEnd();
   }
@@ -687,14 +687,14 @@ uint32_t AstDumper_startFunctionSignatureParameterMember_args::read(::apache::th
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->type.clear();
-            uint32_t _size35;
-            ::apache::thrift::protocol::TType _etype38;
-            iprot->readListBegin(_etype38, _size35);
-            this->type.resize(_size35);
-            uint32_t _i39;
-            for (_i39 = 0; _i39 < _size35; ++_i39)
+            uint32_t _size41;
+            ::apache::thrift::protocol::TType _etype44;
+            iprot->readListBegin(_etype44, _size41);
+            this->type.resize(_size41);
+            uint32_t _i45;
+            for (_i45 = 0; _i45 < _size41; ++_i45)
             {
-              xfer += iprot->readString(this->type[_i39]);
+              xfer += iprot->readString(this->type[_i45]);
             }
             iprot->readListEnd();
           }
@@ -724,10 +724,10 @@ uint32_t AstDumper_startFunctionSignatureParameterMember_args::write(::apache::t
   xfer += oprot->writeFieldBegin("type", ::apache::thrift::protocol::T_LIST, 2);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, this->type.size());
-    std::vector<std::string> ::const_iterator _iter40;
-    for (_iter40 = this->type.begin(); _iter40 != this->type.end(); ++_iter40)
+    std::vector<std::string> ::const_iterator _iter46;
+    for (_iter46 = this->type.begin(); _iter46 != this->type.end(); ++_iter46)
     {
-      xfer += oprot->writeString((*_iter40));
+      xfer += oprot->writeString((*_iter46));
     }
     xfer += oprot->writeListEnd();
   }
@@ -746,10 +746,10 @@ uint32_t AstDumper_startFunctionSignatureParameterMember_pargs::write(::apache::
   xfer += oprot->writeFieldBegin("type", ::apache::thrift::protocol::T_LIST, 2);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, (*(this->type)).size());
-    std::vector<std::string> ::const_iterator _iter41;
-    for (_iter41 = (*(this->type)).begin(); _iter41 != (*(this->type)).end(); ++_iter41)
+    std::vector<std::string> ::const_iterator _iter47;
+    for (_iter47 = (*(this->type)).begin(); _iter47 != (*(this->type)).end(); ++_iter47)
     {
-      xfer += oprot->writeString((*_iter41));
+      xfer += oprot->writeString((*_iter47));
     }
     xfer += oprot->writeListEnd();
   }
@@ -2369,14 +2369,14 @@ uint32_t AstDumper_startVariableDeclare_args::read(::apache::thrift::protocol::T
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->type.clear();
-            uint32_t _size42;
-            ::apache::thrift::protocol::TType _etype45;
-            iprot->readListBegin(_etype45, _size42);
-            this->type.resize(_size42);
-            uint32_t _i46;
-            for (_i46 = 0; _i46 < _size42; ++_i46)
+            uint32_t _size48;
+            ::apache::thrift::protocol::TType _etype51;
+            iprot->readListBegin(_etype51, _size48);
+            this->type.resize(_size48);
+            uint32_t _i52;
+            for (_i52 = 0; _i52 < _size48; ++_i52)
             {
-              xfer += iprot->readString(this->type[_i46]);
+              xfer += iprot->readString(this->type[_i52]);
             }
             iprot->readListEnd();
           }
@@ -2414,10 +2414,10 @@ uint32_t AstDumper_startVariableDeclare_args::write(::apache::thrift::protocol::
   xfer += oprot->writeFieldBegin("type", ::apache::thrift::protocol::T_LIST, 2);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, this->type.size());
-    std::vector<std::string> ::const_iterator _iter47;
-    for (_iter47 = this->type.begin(); _iter47 != this->type.end(); ++_iter47)
+    std::vector<std::string> ::const_iterator _iter53;
+    for (_iter53 = this->type.begin(); _iter53 != this->type.end(); ++_iter53)
     {
-      xfer += oprot->writeString((*_iter47));
+      xfer += oprot->writeString((*_iter53));
     }
     xfer += oprot->writeListEnd();
   }
@@ -2439,10 +2439,10 @@ uint32_t AstDumper_startVariableDeclare_pargs::write(::apache::thrift::protocol:
   xfer += oprot->writeFieldBegin("type", ::apache::thrift::protocol::T_LIST, 2);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, (*(this->type)).size());
-    std::vector<std::string> ::const_iterator _iter48;
-    for (_iter48 = (*(this->type)).begin(); _iter48 != (*(this->type)).end(); ++_iter48)
+    std::vector<std::string> ::const_iterator _iter54;
+    for (_iter54 = (*(this->type)).begin(); _iter54 != (*(this->type)).end(); ++_iter54)
     {
-      xfer += oprot->writeString((*_iter48));
+      xfer += oprot->writeString((*_iter54));
     }
     xfer += oprot->writeListEnd();
   }
@@ -2919,14 +2919,14 @@ uint32_t AstDumper_addImport_args::read(::apache::thrift::protocol::TProtocol* i
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->packages.clear();
-            uint32_t _size49;
-            ::apache::thrift::protocol::TType _etype52;
-            iprot->readListBegin(_etype52, _size49);
-            this->packages.resize(_size49);
-            uint32_t _i53;
-            for (_i53 = 0; _i53 < _size49; ++_i53)
+            uint32_t _size55;
+            ::apache::thrift::protocol::TType _etype58;
+            iprot->readListBegin(_etype58, _size55);
+            this->packages.resize(_size55);
+            uint32_t _i59;
+            for (_i59 = 0; _i59 < _size55; ++_i59)
             {
-              xfer += iprot->readString(this->packages[_i53]);
+              xfer += iprot->readString(this->packages[_i59]);
             }
             iprot->readListEnd();
           }
@@ -2953,10 +2953,10 @@ uint32_t AstDumper_addImport_args::write(::apache::thrift::protocol::TProtocol* 
   xfer += oprot->writeFieldBegin("packages", ::apache::thrift::protocol::T_LIST, 1);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, this->packages.size());
-    std::vector<std::string> ::const_iterator _iter54;
-    for (_iter54 = this->packages.begin(); _iter54 != this->packages.end(); ++_iter54)
+    std::vector<std::string> ::const_iterator _iter60;
+    for (_iter60 = this->packages.begin(); _iter60 != this->packages.end(); ++_iter60)
     {
-      xfer += oprot->writeString((*_iter54));
+      xfer += oprot->writeString((*_iter60));
     }
     xfer += oprot->writeListEnd();
   }
@@ -2972,10 +2972,10 @@ uint32_t AstDumper_addImport_pargs::write(::apache::thrift::protocol::TProtocol*
   xfer += oprot->writeFieldBegin("packages", ::apache::thrift::protocol::T_LIST, 1);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, (*(this->packages)).size());
-    std::vector<std::string> ::const_iterator _iter55;
-    for (_iter55 = (*(this->packages)).begin(); _iter55 != (*(this->packages)).end(); ++_iter55)
+    std::vector<std::string> ::const_iterator _iter61;
+    for (_iter61 = (*(this->packages)).begin(); _iter61 != (*(this->packages)).end(); ++_iter61)
     {
-      xfer += oprot->writeString((*_iter55));
+      xfer += oprot->writeString((*_iter61));
     }
     xfer += oprot->writeListEnd();
   }
@@ -3407,14 +3407,14 @@ uint32_t AstDumper_startMemberExpression_args::read(::apache::thrift::protocol::
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->bases.clear();
-            uint32_t _size56;
-            ::apache::thrift::protocol::TType _etype59;
-            iprot->readListBegin(_etype59, _size56);
-            this->bases.resize(_size56);
-            uint32_t _i60;
-            for (_i60 = 0; _i60 < _size56; ++_i60)
+            uint32_t _size62;
+            ::apache::thrift::protocol::TType _etype65;
+            iprot->readListBegin(_etype65, _size62);
+            this->bases.resize(_size62);
+            uint32_t _i66;
+            for (_i66 = 0; _i66 < _size62; ++_i66)
             {
-              xfer += iprot->readString(this->bases[_i60]);
+              xfer += iprot->readString(this->bases[_i66]);
             }
             iprot->readListEnd();
           }
@@ -3441,10 +3441,10 @@ uint32_t AstDumper_startMemberExpression_args::write(::apache::thrift::protocol:
   xfer += oprot->writeFieldBegin("bases", ::apache::thrift::protocol::T_LIST, 1);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, this->bases.size());
-    std::vector<std::string> ::const_iterator _iter61;
-    for (_iter61 = this->bases.begin(); _iter61 != this->bases.end(); ++_iter61)
+    std::vector<std::string> ::const_iterator _iter67;
+    for (_iter67 = this->bases.begin(); _iter67 != this->bases.end(); ++_iter67)
     {
-      xfer += oprot->writeString((*_iter61));
+      xfer += oprot->writeString((*_iter67));
     }
     xfer += oprot->writeListEnd();
   }
@@ -3460,10 +3460,10 @@ uint32_t AstDumper_startMemberExpression_pargs::write(::apache::thrift::protocol
   xfer += oprot->writeFieldBegin("bases", ::apache::thrift::protocol::T_LIST, 1);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, (*(this->bases)).size());
-    std::vector<std::string> ::const_iterator _iter62;
-    for (_iter62 = (*(this->bases)).begin(); _iter62 != (*(this->bases)).end(); ++_iter62)
+    std::vector<std::string> ::const_iterator _iter68;
+    for (_iter68 = (*(this->bases)).begin(); _iter68 != (*(this->bases)).end(); ++_iter68)
     {
-      xfer += oprot->writeString((*_iter62));
+      xfer += oprot->writeString((*_iter68));
     }
     xfer += oprot->writeListEnd();
   }

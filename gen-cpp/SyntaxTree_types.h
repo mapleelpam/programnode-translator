@@ -169,7 +169,7 @@ class CallExpression {
 };
 
 typedef struct _ClassDefinition__isset {
-  _ClassDefinition__isset() : name(false), has_attr(false), has_baseclass(false), has_interface(false), has_stmt(false), inherits(false), interfaces(false), object_type(false), attribute(false) {}
+  _ClassDefinition__isset() : name(false), has_attr(false), has_baseclass(false), has_interface(false), has_stmt(false), inherits(false), interfaces(false), object_type(false), attribute(false), prefix_packages(false) {}
   bool name;
   bool has_attr;
   bool has_baseclass;
@@ -179,13 +179,14 @@ typedef struct _ClassDefinition__isset {
   bool interfaces;
   bool object_type;
   bool attribute;
+  bool prefix_packages;
 } _ClassDefinition__isset;
 
 class ClassDefinition {
  public:
 
-  static const char* ascii_fingerprint; // = "58E54FF8DCDC3623BDFE36875B69BA33";
-  static const uint8_t binary_fingerprint[16]; // = {0x58,0xE5,0x4F,0xF8,0xDC,0xDC,0x36,0x23,0xBD,0xFE,0x36,0x87,0x5B,0x69,0xBA,0x33};
+  static const char* ascii_fingerprint; // = "A92C2B6DAE803E0EFC5675D1FD99BE17";
+  static const uint8_t binary_fingerprint[16]; // = {0xA9,0x2C,0x2B,0x6D,0xAE,0x80,0x3E,0x0E,0xFC,0x56,0x75,0xD1,0xFD,0x99,0xBE,0x17};
 
   ClassDefinition() : name(""), has_attr(0), has_baseclass(0), has_interface(0), has_stmt(0), attribute("") {
   }
@@ -201,6 +202,7 @@ class ClassDefinition {
   StringList interfaces;
   ObjectType::type object_type;
   std::string attribute;
+  StringList prefix_packages;
 
   _ClassDefinition__isset __isset;
 
@@ -223,6 +225,8 @@ class ClassDefinition {
     if (!(object_type == rhs.object_type))
       return false;
     if (!(attribute == rhs.attribute))
+      return false;
+    if (!(prefix_packages == rhs.prefix_packages))
       return false;
     return true;
   }

@@ -36,7 +36,8 @@ struct ClassDefinition : public Statement
 {
 	ClassDefinition( std::string name
 			, const std::vector<std::string>& inherits
-			, const std::vector<std::string>& interfaces)
+			, const std::vector<std::string>& interfaces
+			, const std::vector<std::string>& pkgs )
 		: Statement(Node::NodeType::T_CLASS_DEFINE)
 	 	, m_has_base_class( false )
 		, m_has_base_interface( false )
@@ -44,6 +45,7 @@ struct ClassDefinition : public Statement
 		, m_has_statement( false )
 		, m_is_abstract( false )
 		, m_is_intrinsic( false )
+		, m_namespaces( pkgs )
 		, m_classname( name )
 		, m_inherits( inherits )
 		, m_implements( interfaces )
@@ -76,6 +78,7 @@ struct ClassDefinition : public Statement
 	std::string getClassName()	const {	return m_classname;	}
 	const std::vector<std::string>& Inherits()	{	return m_inherits;	}
 	const std::vector<std::string>& Implements()	{	return m_implements;	}
+	const std::vector<std::string>& Namespaces()	{	return m_namespaces;	}
 private:
 	bool m_has_base_class;
 	bool m_has_base_interface;
@@ -84,6 +87,7 @@ private:
 	bool m_is_abstract;
 	bool m_is_intrinsic;
 
+	std::vector<std::string>	m_namespaces;
 	std::string					m_classname;
     std::vector<std::string>	m_inherits;
     std::vector<std::string>	m_implements;

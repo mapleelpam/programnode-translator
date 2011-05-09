@@ -367,7 +367,7 @@ public:
 	void startClassDefinition(const generated::ClassDefinition& class_define) {
 		printf(" %lu startClassDefine\n", _node_stack.size());
 		as::ast::ClassDefinitionPtr exp_list(
-				new as::ast::ClassDefinition(class_define.name, class_define.inherits, class_define.interfaces));
+				new as::ast::ClassDefinition(class_define.name, class_define.inherits, class_define.interfaces, class_define.prefix_packages ));
 
 		std::cerr <<" class define attribute "<<class_define.attribute<<std::endl;
 		_node_stack . top() -> addNodeChild(exp_list);
