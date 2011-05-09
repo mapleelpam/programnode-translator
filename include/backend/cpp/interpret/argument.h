@@ -50,7 +50,10 @@ struct Argument : public Interpreter
 
 			for( nItr++ ; nItr != node->node_childs.end() ; nItr ++ )
 			{
-				result += "::" + dispatchExpound(*nItr, symbol_table, ctx);
+				if( symbol_table->isInstance( result, "::"))
+					result += "->" + dispatchExpound(*nItr, symbol_table, ctx);
+				else
+					result += "::" + dispatchExpound(*nItr, symbol_table, ctx);
 			}
 		}
 		return result;
