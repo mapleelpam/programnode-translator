@@ -64,7 +64,6 @@ struct Node
             T_INSTANCEOF,
             T_IS,
             T_UNARY_OPERATOR,
-            T_Assignment,
 
             T_CALL,
             T_CompareOperator,
@@ -76,6 +75,7 @@ struct Node
             T_STMT_EXPR,
             T_EXPR_LIST,
             T_ARGUMENTS,
+            T_ARGUMENT,
 
             T_LITERAL_STRING,
             T_LITERAL_NUMBER,
@@ -100,7 +100,11 @@ struct Node
 
             T_COMP_FUNCTION_ATTRIBUTE,
 
+
+            T_EXPR_MEMBER,
+
             T_NODE_TYPE_END,
+
         };
     };
 

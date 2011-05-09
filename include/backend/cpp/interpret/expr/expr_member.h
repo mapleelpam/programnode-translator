@@ -1,4 +1,4 @@
-	/*
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements. See the NOTICE file
  * distributed with this work for additional information
@@ -23,46 +23,53 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_CALL_H
-#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_CALL_H
+#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_EXPR_EXPRMEMBER_H_
+#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_EXPR_EXPRMEMBER_H_
 
+#include <as/ast/expr/expr_member.h>
 #include <backend/cpp/interpret/interpreter.h>
-#include <as/ast/expression.h>
-#include <as/ast/call.h>
+#include <backend/cpp/template_printer.h>
+#include <as/symbol/Scope.h>
 
-namespace AST = ::tw::maple::as::ast;
+#include <global.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
-// Abstract
-struct Call : public Interpreter
+namespace AST = ::tw::maple::as::ast;
+
+struct ExpressionMember : public Interpreter
 {   
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context* ctx)
 	{
-		std::cerr << " in call interpreter  = " << std::endl;
+		namespace ASY = tw::maple::as::symbol;
 
 		std::string result;
-		AST::CallPtr call = STATIC_CAST( AST::Call, node);
 
+		AST::ExpressionMemberPtr expr_mem = STATIC_CAST( AST::ExpressionMember, node);
 
-		if (call->isObjectConsturct())
-			result +=  " new ";
-		result += dispatchExpound(call->getCallee(), symbol_table, ctx);
-		result +=  "( ";
-		if (call->getArgs()) {
-			result += dispatchExpound( call->getArgs(), symbol_table, ctx);
+		for( int idx = 0 ; idx < expr_mem->m_bases.size() ; idx ++ )
+			result += expr_mem->m_bases[idx];
+
+		std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr = expr_mem->node_childs.begin();
+		if( nItr != node->node_childs.end() ) {
+			result += dispatchExpound(*nItr, symbol_table, ctx);
+
+			for( nItr++ ; nItr != node->node_childs.end() ; nItr ++ )
+			{
+					result += "->" + dispatchExpound(*nItr, symbol_table, ctx);
+			}
 		}
-		result += " )";
 
-		std::cerr << " in call interpreter  = (end)" << std::endl;
 
 		return result;
 	}
 };
 
+};
 
-} } } } }
+
+} } } } 
 
 #endif 

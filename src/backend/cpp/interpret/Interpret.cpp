@@ -40,6 +40,7 @@
 #include <backend/cpp/interpret/function_parameters.h>
 #include <backend/cpp/interpret/function_parameter_item.h>
 #include <backend/cpp/interpret/arguments.h>
+#include <backend/cpp/interpret/argument.h>
 #include <backend/cpp/interpret/return_stmt.h>
 #include <backend/cpp/interpret/binary_operator.h>
 #include <backend/cpp/interpret/unary_operator.h>
@@ -51,6 +52,7 @@
 #include <backend/cpp/interpret/instanceof.h>
 #include <backend/cpp/interpret/stmt/class_definition.h>
 #include <backend/cpp/interpret/stmt/package_definition.h>
+#include <backend/cpp/interpret/expr/expr_member.h>
 
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
@@ -83,6 +85,7 @@ void initializeInterpreters()
 		interpreterResolver[AST::Node::NodeType::T_EXPR_LIST]
 				= new ExpressionList();
 		interpreterResolver[AST::Node::NodeType::T_ARGUMENTS] = new Arguments();
+		interpreterResolver[AST::Node::NodeType::T_ARGUMENT] = new Argument();
 		interpreterResolver[AST::Node::NodeType::T_LITERAL_STRING]
 				= new LiteralString();
 		interpreterResolver[AST::Node::NodeType::T_LITERAL_NUMBER]
@@ -130,6 +133,11 @@ void initializeInterpreters()
 
 		interpreterResolver[AST::Node::NodeType::T_PACKAGE_DEFINITION]
 		        = new PackageDefinition();
+
+
+		interpreterResolver[AST::Node::NodeType::T_EXPR_MEMBER]
+		        = new ExpressionMember();
+
 	}
 }
 

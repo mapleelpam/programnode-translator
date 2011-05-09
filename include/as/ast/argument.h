@@ -1,4 +1,4 @@
-	/*
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements. See the NOTICE file
  * distributed with this work for additional information
@@ -23,46 +23,25 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_CALL_H
-#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_CALL_H
+#ifndef __AS_AST_ARGUMENT_H_
+#define __AS_AST_ARGUMENT_H_
 
-#include <backend/cpp/interpret/interpreter.h>
+#include <tr1/memory>
 #include <as/ast/expression.h>
-#include <as/ast/call.h>
 
-namespace AST = ::tw::maple::as::ast;
 
-namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
+namespace tw { namespace maple { namespace as { namespace ast {
 
 // Abstract
-struct Call : public Interpreter
-{   
-	virtual std::string expound(::tw::maple::as::ast::NodePtr node
-			, tw::maple::as::symbol::ScopePtr symbol_table
-			, tw::maple::backend::cpp::Context* ctx)
+struct Argument : public Expression
+{
+	Argument() : Expression(Node::NodeType::T_ARGUMENT)
 	{
-		std::cerr << " in call interpreter  = " << std::endl;
-
-		std::string result;
-		AST::CallPtr call = STATIC_CAST( AST::Call, node);
-
-
-		if (call->isObjectConsturct())
-			result +=  " new ";
-		result += dispatchExpound(call->getCallee(), symbol_table, ctx);
-		result +=  "( ";
-		if (call->getArgs()) {
-			result += dispatchExpound( call->getArgs(), symbol_table, ctx);
-		}
-		result += " )";
-
-		std::cerr << " in call interpreter  = (end)" << std::endl;
-
-		return result;
 	}
+	std::string toString()  {	return "node::argument"; };
 };
 
+typedef SHARED_PTR(Argument) ArgumentPtr;
+} } } }
 
-} } } } }
-
-#endif 
+#endif

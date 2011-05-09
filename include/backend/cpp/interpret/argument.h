@@ -1,4 +1,4 @@
-	/*
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements. See the NOTICE file
  * distributed with this work for additional information
@@ -23,45 +23,39 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_CALL_H
-#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_CALL_H
+#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_ARGUMENT_H_
+#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_ARGUMENT_H_
 
-#include <backend/cpp/interpret/interpreter.h>
-#include <as/ast/expression.h>
+#include <as/ast/argument.h>
 #include <as/ast/call.h>
-
-namespace AST = ::tw::maple::as::ast;
+#include <backend/cpp/interpret/interpreter.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
+namespace AST = ::tw::maple::as::ast;
+
+
 // Abstract
-struct Call : public Interpreter
+struct Argument : public Interpreter
 {   
-	virtual std::string expound(::tw::maple::as::ast::NodePtr node
+	virtual std::string expound(
+			::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
-			, tw::maple::backend::cpp::Context* ctx)
+			,	tw::maple::backend::cpp::Context* ctx)
 	{
-		std::cerr << " in call interpreter  = " << std::endl;
+		std::string result = "";
+		std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr = node->node_childs.begin();
+		if( nItr != node->node_childs.end() ) {
+			result += dispatchExpound(*nItr, symbol_table, ctx);
 
-		std::string result;
-		AST::CallPtr call = STATIC_CAST( AST::Call, node);
-
-
-		if (call->isObjectConsturct())
-			result +=  " new ";
-		result += dispatchExpound(call->getCallee(), symbol_table, ctx);
-		result +=  "( ";
-		if (call->getArgs()) {
-			result += dispatchExpound( call->getArgs(), symbol_table, ctx);
+			for( nItr++ ; nItr != node->node_childs.end() ; nItr ++ )
+			{
+				result += "::" + dispatchExpound(*nItr, symbol_table, ctx);
+			}
 		}
-		result += " )";
-
-		std::cerr << " in call interpreter  = (end)" << std::endl;
-
 		return result;
 	}
 };
-
 
 } } } } }
 

@@ -172,14 +172,24 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("startCallExpression\n");
   }
 
-  void startAgumentList() {
+  void startArgumentList() {
     // Your implementation goes here
-    printf("startAgumentList\n");
+    printf("startArgumentList\n");
   }
 
-  void endAgumentList() {
+  void startOneArgument() {
     // Your implementation goes here
-    printf("endAgumentList\n");
+    printf("startOneArgument\n");
+  }
+
+  void endOneArgument() {
+    // Your implementation goes here
+    printf("endOneArgument\n");
+  }
+
+  void endArgumentList() {
+    // Your implementation goes here
+    printf("endArgumentList\n");
   }
 
   void endCallExpression() {
@@ -315,6 +325,16 @@ class AstDumperHandler : virtual public AstDumperIf {
   void endAttributelist() {
     // Your implementation goes here
     printf("endAttributelist\n");
+  }
+
+  void startMemberExpression(const StringList& bases) {
+    // Your implementation goes here
+    printf("startMemberExpression\n");
+  }
+
+  void endMemberExpression() {
+    // Your implementation goes here
+    printf("endMemberExpression\n");
   }
 
 };

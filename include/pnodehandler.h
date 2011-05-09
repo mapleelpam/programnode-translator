@@ -45,6 +45,7 @@
 #include <as/ast/identifier.h>
 #include <as/ast/program.h>
 #include <as/ast/arguments.h>
+#include <as/ast/argument.h>
 #include <as/ast/function_definition.h>
 #include <as/ast/function_name.h>
 #include <as/ast/function_signature.h>
@@ -76,6 +77,8 @@
 #include <as/ast/function_attribute.h>
 #include <as/ast/stmt/package_definition.h>
 
+#include <as/ast/expr/expr_member.h>
+
 using namespace apache::thrift;
 using namespace apache::thrift::protocol;
 using namespace apache::thrift::transport;
@@ -85,27 +88,27 @@ namespace AST = ::tw::maple::as::ast;
 
 #define PUSH_STACK( ClassName ) \
 		{ \
-		std::cout << _node_stack.size() << "  start"<< #ClassName  <<" -> "<< _node_stack.top()->toString()<<":"<<_node_stack.top()->node_childs.size()<< std::endl; \
+		std::cout << _node_stack.size() << "  start"<< #ClassName  <<" -> "<< _node_stack.top()->toString()<<" -:"<<_node_stack.top()->node_childs.size()<< std::endl; \
 		as::ast::ClassName##Ptr __node__( new as::ast::ClassName()  ); \
 		_node_stack . top() -> addNodeChild( __node__ ); \
 		_node_stack . push( __node__ ); }
 
 #define ADD_2_TOP( ClassName ) \
 		{ \
-		std::cout << _node_stack.size() << "  start"<< #ClassName  <<" -> "<< _node_stack.top()->toString()<<":"<<_node_stack.top()->node_childs.size()<< std::endl; \
+		std::cout << _node_stack.size() << "  start"<< #ClassName  <<" -> "<< _node_stack.top()->toString()<<" -:"<<_node_stack.top()->node_childs.size()<< std::endl; \
 		as::ast::ClassName##Ptr __node__( new as::ast::ClassName()  ); \
 		_node_stack . top() -> addNodeChild( __node__ ); }
 
 #define PUSH_STACK_WITH_INIT( ClassName, ... ) \
 		{ \
-		std::cout << _node_stack.size() << "  start"<< #ClassName  <<" -> "<< _node_stack.top()->toString()<<":"<<_node_stack.top()->node_childs.size()<< std::endl; \
+		std::cout << _node_stack.size() << "  start"<< #ClassName  <<" -> "<< _node_stack.top()->toString()<<" -:"<<_node_stack.top()->node_childs.size()<< std::endl; \
 		as::ast::ClassName##Ptr __node__( new as::ast::ClassName(  __VA_ARGS__ )  ); \
 		_node_stack . top() -> addNodeChild( __node__ ); \
 		_node_stack . push( __node__ ); }
 
 #define ADD_2_TOP_WITH_INIT( ClassName, ... ) \
 		{ \
-		std::cout << _node_stack.size() << "  start"<< #ClassName  <<" -> "<< _node_stack.top()->toString()<<":"<<_node_stack.top()->node_childs.size()<< std::endl; \
+		std::cout << _node_stack.size() << "  start"<< #ClassName  <<" -> "<< _node_stack.top()->toString()<<" -:"<<_node_stack.top()->node_childs.size()<< std::endl; \
 		as::ast::ClassName##Ptr __node__( new as::ast::ClassName(  __VA_ARGS__ )  ); \
 		_node_stack . top() -> addNodeChild( __node__ ); }
 
@@ -219,29 +222,28 @@ public:
 		PUSH_STACK_WITH_INIT( Call, call.is_new);
 	}
 
-	void startAgumentList() {
+	void startArgumentList() {
 		PUSH_STACK( Arguments );
 	}
-
-	void endAgumentList() {
-
-		printf(" %lu endAgumentList\n", _node_stack.size());
-		_node_stack . pop();
+	void endArgumentList() {
+		CHECK_STACK_AND_POP( ArgumentList, AST::Node::NodeType::T_ARGUMENTS );
+	}
+	void startOneArgument() {
+		PUSH_STACK( Argument );
+	}
+	void endOneArgument() {
+		CHECK_STACK_AND_POP( Argument, AST::Node::NodeType::T_ARGUMENT );
 	}
 
 	void endCallExpression() {
-
-		printf(" %lu endCallExpression\n", _node_stack.size());
-		_node_stack . pop();
+		CHECK_STACK_AND_POP( CallExpression, AST::Node::NodeType::T_CALL );
 	}
 	void startBinaryExpression(const generated::BinaryExpression& op) {
 		PUSH_STACK_WITH_INIT( BinaryOperator, op.op );
 
 	}
 	void endBinaryExpression() {
-
-		printf(" %lu endBinaryExpression\n", _node_stack.size());
-		_node_stack . pop();
+		CHECK_STACK_AND_POP( StmtExpression, AST::Node::NodeType::T_BINARY_OPERATOR );
 	}
 	void startInstanceOfExpression() {
 		PUSH_STACK( InstanceOf );
@@ -272,22 +274,13 @@ public:
 		PUSH_STACK( Assignment );
 	}
 	void endAssignment() {
-		printf(" %lu endAssignment\n", _node_stack.size());
-		_node_stack . pop();
-
+		CHECK_STACK_AND_POP( Assignment, AST::Node::NodeType::T_ASSIGNMENT );
 	}
 	void startUnaryExpression(const generated::UnaryExpression& op) {
-
-		printf("startUnaryExpression\n");
-		as::ast::UnaryOperatorPtr as_node(new as::ast::UnaryOperator(op.op));
-		_node_stack . top() -> addNodeChild(as_node);
-		_node_stack . push(as_node);
+		PUSH_STACK_WITH_INIT( UnaryOperator, op.op );
 	}
 	void endUnaryExpression() {
-
-		printf("endUnaryExpression\n");
-		_node_stack . pop();
-
+		CHECK_STACK_AND_POP( UnaryOperator, AST::Node::NodeType::T_UNARY_OPERATOR );
 	}
 
 	void startReturnStatement() {
@@ -299,15 +292,14 @@ public:
 	}
 
 	void endReturnStatement() {
+		CHECK_STACK_AND_POP( ReturnStatement, AST::Node::NodeType::T_RETURN_STATEMENT );
 
-		printf(" %lu endReturnStatement\n", _node_stack.size());
-		_node_stack . pop();
 	}
 
 	void identifierExpression(const generated::Identifier& id) {
 		std::cout << _node_stack.size() << "  identifierExpression" << " -> "
 				<< _node_stack.top()->toString() << ":"
-				<< _node_stack.top()->node_childs.size() << ":" << id.name
+				<< _node_stack.top()->node_childs.size() << ":" << id.name << " qualifier "<<id.qualifier
 				<< std::endl;
 		as::ast::IdentifierPtr exp_id(
 				new as::ast::Identifier(id.name, id.qualifier));
@@ -330,13 +322,10 @@ public:
 		_node_stack . top() -> addNodeChild(exp_literal);
 	}
 	void endExpressionList() {
-
-		printf(" %lu endExpressionList\n", _node_stack.size());
-		_node_stack . pop();
+		CHECK_STACK_AND_POP( ExpressionList, AST::Node::NodeType::T_EXPR_LIST );
 	}
 
 	void addImport(const generated::StringList& packages) {
-
 		printf(" %lu addImport\n", _node_stack.size());
 	}
 
@@ -346,8 +335,7 @@ public:
 	}
 
 	void endStmtList() {
-		printf(" %lu endStmtList\n", _node_stack.size());
-		_node_stack . pop();
+		CHECK_STACK_AND_POP( StmtList, AST::Node::NodeType::T_STMT_LIST );
 	}
 
 	void startIfStatement() {
@@ -418,6 +406,15 @@ public:
 			std::cerr<< "function attr "<< sv[idx]<<std::endl;
 		}
 		ADD_2_TOP_WITH_INIT( FunctionAttribute, sv );
+	}
+
+
+	void startMemberExpression(const std::vector<std::string>& bases) {
+		PUSH_STACK_WITH_INIT( ExpressionMember, bases );
+	}
+
+	void endMemberExpression() {
+		CHECK_STACK_AND_POP( MemberExpression, AST::Node::NodeType::T_EXPR_MEMBER );
 	}
 
 
