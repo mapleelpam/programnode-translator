@@ -173,13 +173,24 @@ void SymbolTableConstructor::linkVariableType(
 				std::cerr << " variable name = "<<var->VariableName<<std::endl;
 				std::cerr << " variable type size = "<<var->VariableType.size()<<std::endl;
 			}
-			std::string str_vartype = var->VariableType[0];
 
-			ASYM::SymbolPtr p_type = symboltable->findType( str_vartype );
+			ASYM::ScopePtr var_type_scope = symboltable;
+			for( int idx = 0 ; idx < var->VariableType.size() - 1 ; idx ++ )
+			{
+				ASYM::SymbolPtr temp_pkg = var_type_scope->findSymbol( var->VariableType[idx] );
+				if( temp_pkg && temp_pkg ->getSymbolProperties() == ASYM::Symbol::T_SCOPE )
+				{
+					var_type_scope = STATIC_CAST( ASYM::Scope , temp_pkg );
+				} else {
+					std::cerr<<var->VariableName <<" can't find scope - "<< var->VariableType[idx] << " "<< var->toString() <<std::endl;
+				}
+			}
+			ASYM::SymbolPtr p_type = var_type_scope->findType( var->VariableType[var->VariableType.size() - 1]  );
+
 			if( p_type )
 				symbol->bindType( p_type );
 			else {
-				std::cerr<<var->VariableName <<" can't find type - "<< str_vartype<<std::endl;
+				std::cerr<<var->VariableName <<" can't find type - "<< var->toString() <<std::endl;
 				exit(1);
 			}
 		} else if(  symbol &&

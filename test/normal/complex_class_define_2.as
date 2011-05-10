@@ -4,7 +4,7 @@
 // : %t | FileCheck -input-file=- %s 
 
 
-class a.Maple
+class a.b.c.Maple
 {
     function hello():void
     {
@@ -15,6 +15,6 @@ class a.Maple
 function main():int
 {
     
-    var m:a.Maple;
+    var m:a.b.c.Maple;
 //    m = new a.Maple();
 }

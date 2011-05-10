@@ -48,7 +48,21 @@ struct VariableDeclare: public Expression
     		return NodePtr();
     }
 
-    std::string toString()  {	return "node::variable_declare"; };
+    std::string toString()  {
+    	if( 0 )
+    		return "node::variable_declare";
+    	else {
+    		std::string answer = "node::variable_declare";
+    		answer += "(name:"+VariableName+") (";
+    		for( int idx = 0 ; idx < VariableType.size() ; idx ++ )
+    		{
+    			answer += ":"+VariableType[idx];
+    		}
+    		answer += ")";
+    		return answer;
+    	}
+
+    };
 
     const std::string VariableName;
     const std::vector<std::string> VariableType;

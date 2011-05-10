@@ -58,8 +58,8 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 		} else
 		{
 
-			var_type +=  _replace_string((var->VariableType)[1], ".","::");
-			var_type += "::" + (var->VariableType)[0];
+			var_type +=  _replace_string((var->VariableType)[0], ".","::");
+			var_type += "::" + (var->VariableType)[1];
 			var_type = invoke_type_mapper( var_type );
 		}
 
