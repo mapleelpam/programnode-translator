@@ -58,10 +58,14 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 		} else
 		{
 
-			var_type +=  _replace_string((var->VariableType)[0], ".","::");
-			var_type += "::" + (var->VariableType)[1];
+			var_type += (var->VariableType)[0];
+			for( int idx = 1 ; idx < var->VariableType.size()  ; idx ++ )
+			{
+				var_type += "::" + (var->VariableType)[idx];
+			}
 			var_type = invoke_type_mapper( var_type );
 		}
+
 
 		std::string var_name = var->VariableName;
 		std::string var_attr = var->VariableAttribute!=""?var->VariableAttribute+":":"";
