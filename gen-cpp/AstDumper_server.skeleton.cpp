@@ -327,7 +327,7 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("endAttributelist\n");
   }
 
-  void startMemberExpression(const StringList& bases) {
+  void startMemberExpression() {
     // Your implementation goes here
     printf("startMemberExpression\n");
   }

@@ -49,25 +49,56 @@ struct ExpressionMember : public Interpreter
 
 		AST::ExpressionMemberPtr expr_mem = STATIC_CAST( AST::ExpressionMember, node);
 
-		for( int idx = 0 ; idx < expr_mem->m_bases.size() ; idx ++ )
-			result += expr_mem->m_bases[idx];
-
-		std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr = expr_mem->node_childs.begin();
-		if( nItr != node->node_childs.end() )
+		if( expr_mem->node_childs.size() == 1 )
 		{
-			result += dispatchExpound(*nItr, symbol_table, ctx);
+			result += dispatchExpound(*(expr_mem->node_childs.begin()), symbol_table, ctx);
+		}
+		else if( expr_mem->node_childs.size() == 2 )
+		{
+			std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr = expr_mem->node_childs.begin();
 
-			for( nItr++ ; nItr != node->node_childs.end() ; nItr ++ )
+			result += dispatchExpound(*nItr, symbol_table, ctx);
+			nItr ++;
+
+			if(  (*nItr)->nodeType() == AST::Node::NodeType::T_CALL
+				&& STATIC_CAST( AST::Call, *nItr)->isObjectConsturct() )
 			{
-					if( symbol_table->isInstance( result, "::"))
-						result += "->" + dispatchExpound(*nItr, symbol_table, ctx);
-					else
-						result += "::" + dispatchExpound(*nItr, symbol_table, ctx);
+				return constructor_work_around(result,dispatchExpound(*nItr, symbol_table, ctx));
+			}
+			else
+			{
+				if( symbol_table->isInstance( result, "::"))
+					result += "->" + dispatchExpound(*nItr, symbol_table, ctx);
+				else
+					result += "::" + dispatchExpound(*nItr, symbol_table, ctx);
 			}
 		}
-
+		else
+		{
+			std::cerr << "there's some strange in member get expression"<<std::endl;
+			std::cerr << "pls contact mapleelpam at gmail.com" << std::endl;
+			exit(1);
+		}
 
 		return result;
+	}
+private:
+	std::string constructor_work_around( std::string base, std::string callee )
+	{
+		return _replace_string( callee, "new ", "new "+base+"::");
+	}
+	std::string _replace_string(
+	    const std::string &s, const std::string &SearchString, const std::string &ReplaceString
+	    )
+	{
+		std::string result = s;
+	    std::string::size_type p = 0;
+	    while((p = result.find(SearchString, p)) != std::string::npos)
+	    {
+	        result.replace(p, SearchString.size(), ReplaceString);
+	        p++;
+	    }
+	    return result;
 	}
 };
 

@@ -34,16 +34,16 @@ namespace tw { namespace maple { namespace as { namespace ast {
 
 struct ExpressionMember : public Expression
 {
-	ExpressionMember( std::vector<std::string> bases )
+	ExpressionMember( /*std::vector<std::string> bases*/ )
 		: Expression(Node::NodeType::T_EXPR_MEMBER)
-		, m_bases( bases )
+//		, m_bases( bases )
 	{
 	}
 
 
     std::string toString()  {	return "node::expression_member"; };
 
-    std::vector<std::string>	m_bases;
+//    std::vector<std::string>	m_bases;
 };
 
 typedef SHARED_PTR(ExpressionMember) ExpressionMemberPtr;

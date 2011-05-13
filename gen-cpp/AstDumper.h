@@ -75,7 +75,7 @@ class AstDumperIf {
   virtual void endClassDefinition() = 0;
   virtual void startAttributeList() = 0;
   virtual void endAttributelist() = 0;
-  virtual void startMemberExpression(const StringList& bases) = 0;
+  virtual void startMemberExpression() = 0;
   virtual void endMemberExpression() = 0;
 };
 
@@ -265,7 +265,7 @@ class AstDumperNull : virtual public AstDumperIf {
   void endAttributelist() {
     return;
   }
-  void startMemberExpression(const StringList& /* bases */) {
+  void startMemberExpression() {
     return;
   }
   void endMemberExpression() {
@@ -2715,10 +2715,6 @@ class AstDumper_endAttributelist_pargs {
 
 };
 
-typedef struct _AstDumper_startMemberExpression_args__isset {
-  _AstDumper_startMemberExpression_args__isset() : bases(false) {}
-  bool bases;
-} _AstDumper_startMemberExpression_args__isset;
 
 class AstDumper_startMemberExpression_args {
  public:
@@ -2728,14 +2724,9 @@ class AstDumper_startMemberExpression_args {
 
   virtual ~AstDumper_startMemberExpression_args() throw() {}
 
-  StringList bases;
 
-  _AstDumper_startMemberExpression_args__isset __isset;
-
-  bool operator == (const AstDumper_startMemberExpression_args & rhs) const
+  bool operator == (const AstDumper_startMemberExpression_args & /* rhs */) const
   {
-    if (!(bases == rhs.bases))
-      return false;
     return true;
   }
   bool operator != (const AstDumper_startMemberExpression_args &rhs) const {
@@ -2756,7 +2747,6 @@ class AstDumper_startMemberExpression_pargs {
 
   virtual ~AstDumper_startMemberExpression_pargs() throw() {}
 
-  const StringList* bases;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -2941,8 +2931,8 @@ class AstDumperClient : virtual public AstDumperIf {
   void send_startAttributeList();
   void endAttributelist();
   void send_endAttributelist();
-  void startMemberExpression(const StringList& bases);
-  void send_startMemberExpression(const StringList& bases);
+  void startMemberExpression();
+  void send_startMemberExpression();
   void endMemberExpression();
   void send_endMemberExpression();
  protected:
@@ -3532,10 +3522,10 @@ class AstDumperMultiface : virtual public AstDumperIf {
     }
   }
 
-  void startMemberExpression(const StringList& bases) {
+  void startMemberExpression() {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
-      ifaces_[i]->startMemberExpression(bases);
+      ifaces_[i]->startMemberExpression();
     }
   }
 

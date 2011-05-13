@@ -409,8 +409,8 @@ public:
 	}
 
 
-	void startMemberExpression(const std::vector<std::string>& bases) {
-		PUSH_STACK_WITH_INIT( ExpressionMember, bases );
+	void startMemberExpression() {
+		PUSH_STACK( ExpressionMember );
 	}
 
 	void endMemberExpression() {

@@ -3403,26 +3403,6 @@ uint32_t AstDumper_startMemberExpression_args::read(::apache::thrift::protocol::
     }
     switch (fid)
     {
-      case 1:
-        if (ftype == ::apache::thrift::protocol::T_LIST) {
-          {
-            this->bases.clear();
-            uint32_t _size56;
-            ::apache::thrift::protocol::TType _etype59;
-            iprot->readListBegin(_etype59, _size56);
-            this->bases.resize(_size56);
-            uint32_t _i60;
-            for (_i60 = 0; _i60 < _size56; ++_i60)
-            {
-              xfer += iprot->readString(this->bases[_i60]);
-            }
-            iprot->readListEnd();
-          }
-          this->__isset.bases = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -3438,17 +3418,6 @@ uint32_t AstDumper_startMemberExpression_args::read(::apache::thrift::protocol::
 uint32_t AstDumper_startMemberExpression_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   xfer += oprot->writeStructBegin("AstDumper_startMemberExpression_args");
-  xfer += oprot->writeFieldBegin("bases", ::apache::thrift::protocol::T_LIST, 1);
-  {
-    xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, this->bases.size());
-    std::vector<std::string> ::const_iterator _iter61;
-    for (_iter61 = this->bases.begin(); _iter61 != this->bases.end(); ++_iter61)
-    {
-      xfer += oprot->writeString((*_iter61));
-    }
-    xfer += oprot->writeListEnd();
-  }
-  xfer += oprot->writeFieldEnd();
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -3457,17 +3426,6 @@ uint32_t AstDumper_startMemberExpression_args::write(::apache::thrift::protocol:
 uint32_t AstDumper_startMemberExpression_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   xfer += oprot->writeStructBegin("AstDumper_startMemberExpression_pargs");
-  xfer += oprot->writeFieldBegin("bases", ::apache::thrift::protocol::T_LIST, 1);
-  {
-    xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, (*(this->bases)).size());
-    std::vector<std::string> ::const_iterator _iter62;
-    for (_iter62 = (*(this->bases)).begin(); _iter62 != (*(this->bases)).end(); ++_iter62)
-    {
-      xfer += oprot->writeString((*_iter62));
-    }
-    xfer += oprot->writeListEnd();
-  }
-  xfer += oprot->writeFieldEnd();
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -4639,18 +4597,17 @@ void AstDumperClient::send_endAttributelist()
   oprot_->getTransport()->flush();
 }
 
-void AstDumperClient::startMemberExpression(const StringList& bases)
+void AstDumperClient::startMemberExpression()
 {
-  send_startMemberExpression(bases);
+  send_startMemberExpression();
 }
 
-void AstDumperClient::send_startMemberExpression(const StringList& bases)
+void AstDumperClient::send_startMemberExpression()
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("startMemberExpression", ::apache::thrift::protocol::T_CALL, cseqid);
 
   AstDumper_startMemberExpression_pargs args;
-  args.bases = &bases;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -7000,7 +6957,7 @@ void AstDumperProcessor::process_startMemberExpression(int32_t seqid, ::apache::
   }
 
   try {
-    iface_->startMemberExpression(args.bases);
+    iface_->startMemberExpression();
   } catch (const std::exception& e) {
     if (eventHandler_.get() != NULL) {
       eventHandler_->handlerError(ctx, "AstDumper.startMemberExpression");
