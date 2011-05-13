@@ -337,6 +337,56 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("endMemberExpression\n");
   }
 
+  void startForStatement() {
+    // Your implementation goes here
+    printf("startForStatement\n");
+  }
+
+  void startForInit() {
+    // Your implementation goes here
+    printf("startForInit\n");
+  }
+
+  void endForInit() {
+    // Your implementation goes here
+    printf("endForInit\n");
+  }
+
+  void startForCondition() {
+    // Your implementation goes here
+    printf("startForCondition\n");
+  }
+
+  void endForCondition() {
+    // Your implementation goes here
+    printf("endForCondition\n");
+  }
+
+  void startForStep() {
+    // Your implementation goes here
+    printf("startForStep\n");
+  }
+
+  void endForStep() {
+    // Your implementation goes here
+    printf("endForStep\n");
+  }
+
+  void startForBody() {
+    // Your implementation goes here
+    printf("startForBody\n");
+  }
+
+  void endForBody() {
+    // Your implementation goes here
+    printf("endForBody\n");
+  }
+
+  void endForStatement() {
+    // Your implementation goes here
+    printf("endForStatement\n");
+  }
+
 };
 
 int main(int argc, char **argv) {

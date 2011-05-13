@@ -23,55 +23,34 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_EXPR_UNARY_OPERATOR_H__
-#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_EXPR_UNARY_OPERATOR_H__
+#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_FUNCTION_NAME_H__
+#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_FUNCTION_NAME_H__
 
-#include <as/ast/unary_operator.h>
+#include <as/ast/func/function_name.h>
+#include <as/ast/call.h>
 #include <backend/cpp/interpret/interpreter.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
 namespace AST = ::tw::maple::as::ast;
 
-struct UnaryOperator : public Interpreter
+struct FunctionName : public Interpreter
 {   
-
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
-			, tw::maple::backend::cpp::Context* ctx)
+			,	tw::maple::backend::cpp::Context* ctx)
 	{
-		std::string result;
+//		std::string result = "";
+//
+//		for (std::vector<std::tr1::shared_ptr<AST::Node> >::iterator nItr =
+//				node->node_childs.begin(); nItr != node->node_childs.end(); nItr++)
+//			result += dispatchExpound(*nItr, ctx);
+//
+//		return result;
+		AST::FunctionNamePtr func_name = STATIC_CAST( AST::FunctionName, node);
 
-		AST::UnaryOperatorPtr bin = std::tr1::static_pointer_cast<
-				AST::UnaryOperator>(node);
-
-		if( bin->op_type == "typeof" ) {
-//			return "false/*not support typeof*/";
-			result = dispatchExpound(bin->subExpr(), symbol_table, ctx) +" ->__get_type__()" ;
-		} else {
-			result += " " + resolve_operator(bin->op_type) + " ";
-			result += dispatchExpound(bin->subExpr(),symbol_table, ctx); // sub expression
-		}
-		return result;
+		return func_name->function_name;
 	}
-
-private:
-	std::string resolve_operator( std::string str )
-	{
-		if( str == "plus")
-			return "+";
-		else if( str == "minus")
-			return "-";
-		else if( str == "not")
-			return "!";
-		else if( str == "bitwisenot")
-			return "~";
-		else {
-			std::cerr << " can't resolve unary op string " << str << std::endl;
-			exit(1);
-		}
-	}
-
 };
 
 };

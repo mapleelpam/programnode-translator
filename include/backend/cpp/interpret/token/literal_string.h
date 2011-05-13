@@ -28,7 +28,7 @@
 
 #include <as/ast/expression.h>
 #include <backend/cpp/interpret/interpreter.h>
-#include <as/ast/literal_string.h>
+#include <as/ast/token/literal_string.h>
 #include <global.h>
 
 

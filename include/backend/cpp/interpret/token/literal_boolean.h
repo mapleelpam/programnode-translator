@@ -28,7 +28,7 @@
 
 #include <as/ast/expression.h>
 #include <backend/cpp/interpret/interpreter.h>
-#include <as/ast/literal_boolean.h>
+#include <as/ast/token/literal_boolean.h>
 #include <global.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {

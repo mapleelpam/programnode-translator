@@ -23,34 +23,52 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_FUNCTION_NAME_H__
-#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_FUNCTION_NAME_H__
+#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_EXPR_BINARY_OPERATOR_H__
+#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_EXPR_BINARY_OPERATOR_H__
 
-#include <as/ast/function_name.h>
-#include <as/ast/call.h>
+#include <as/ast/expr/binary_operator.h>
 #include <backend/cpp/interpret/interpreter.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
 namespace AST = ::tw::maple::as::ast;
 
-struct FunctionName : public Interpreter
+struct BinaryOperator : public Interpreter
 {   
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
-			,	tw::maple::backend::cpp::Context* ctx)
+			, tw::maple::backend::cpp::Context* ctx)
 	{
-//		std::string result = "";
-//
-//		for (std::vector<std::tr1::shared_ptr<AST::Node> >::iterator nItr =
-//				node->node_childs.begin(); nItr != node->node_childs.end(); nItr++)
-//			result += dispatchExpound(*nItr, ctx);
-//
-//		return result;
-		AST::FunctionNamePtr func_name = STATIC_CAST( AST::FunctionName, node);
+		AST::BinaryOperatorPtr bin = STATIC_CAST( AST::BinaryOperator, node);
 
-		return func_name->function_name;
+
+		return dispatchExpound(bin->LHS(), symbol_table, ctx)
+				+ resolve_operator( bin->op_type )
+				+ dispatchExpound(bin->RHS(), symbol_table, ctx);
 	}
+private:
+	std::string resolve_operator( std::string str )
+	{
+		if( str == "plus")
+			return "+";
+		else if( str == "minus")
+			return "-";
+		else if( str == "mult")
+			return "*";
+		else if( str == "div")
+			return "/";
+		else if( str == "modulus")
+			return "%";
+		else if( str == "lessthan")
+			return "<";
+		else if( str == "equals")
+			return "==";
+		else {
+			std::cerr << " can't resolve binary op string '" << str << "'"<<std::endl;
+			exit(1);
+		}
+	}
+
 };
 
 };

@@ -23,51 +23,40 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_EXPR_BINARY_OPERATOR_H__
-#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_EXPR_BINARY_OPERATOR_H__
+#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_EXPR_IS_H__
+#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_EXPR_IS_H__
 
-#include <as/ast/binary_operator.h>
+#include <as/ast/expr/is.h>
 #include <backend/cpp/interpret/interpreter.h>
+#include <backend/cpp/template_printer.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
 namespace AST = ::tw::maple::as::ast;
 
-struct BinaryOperator : public Interpreter
+struct Is : public Interpreter, public TemplatePrinter
 {   
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context* ctx)
 	{
-		AST::BinaryOperatorPtr bin = STATIC_CAST( AST::BinaryOperator, node);
+		AST::IsPtr bin = STATIC_CAST( AST::Is, node);
 
+		std::string instance_name = dispatchExpound(bin->LHS(), symbol_table, ctx);
+		std::string type_name = dispatchExpound(bin->RHS(), symbol_table, ctx);
 
-		return dispatchExpound(bin->LHS(), symbol_table, ctx)
-				+ resolve_operator( bin->op_type )
-				+ dispatchExpound(bin->RHS(), symbol_table, ctx);
+		std::list<PatternPtr> patterns;
+		patterns.push_back( PatternPtr( new Pattern("instance_name", instance_name ) ));
+		patterns.push_back( PatternPtr( new Pattern("type_name", type_name) ));
+
+		return substitutePatterns( patterns );
+	}
+	Is()
+		: TemplatePrinter("Is")
+	{
+		setTemplateString( "false/*not support instanceof*/" );
 	}
 private:
-	std::string resolve_operator( std::string str )
-	{
-		if( str == "plus")
-			return "+";
-		else if( str == "minus")
-			return "-";
-		else if( str == "mult")
-			return "*";
-		else if( str == "div")
-			return "/";
-		else if( str == "modulus")
-			return "%";
-		else if( str == "lessthan")
-			return "<";
-		else if( str == "equals")
-			return "==";
-		else {
-			std::cerr << " can't resolve binary op string '" << str << "'"<<std::endl;
-			exit(1);
-		}
-	}
 
 };
 

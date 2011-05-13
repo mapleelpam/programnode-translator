@@ -35,7 +35,7 @@ namespace tw { namespace maple { namespace as { namespace ast {
 struct IfStatement : public Statement
 {
 	IfStatement() :
-		Statement(Node::NodeType::T_IF_STMT) {
+		Statement(Node::NodeType::T_STMT_IF) {
 	}
 
 	NodePtr ifCondition(){	return node_childs[0];	}

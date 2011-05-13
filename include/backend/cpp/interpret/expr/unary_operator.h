@@ -23,40 +23,54 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_EXPR_INSTANCEOF_H__
-#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_EXPR_INSTANCEOF_H__
+#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_EXPR_UNARY_OPERATOR_H__
+#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_EXPR_UNARY_OPERATOR_H__
 
-#include <as/ast/instanceof.h>
+#include <as/ast/expr/unary_operator.h>
 #include <backend/cpp/interpret/interpreter.h>
-#include <backend/cpp/template_printer.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
 namespace AST = ::tw::maple::as::ast;
 
-struct InstanceOf : public Interpreter, public TemplatePrinter
+struct UnaryOperator : public Interpreter
 {   
+
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context* ctx)
 	{
-		AST::InstanceOfPtr bin = STATIC_CAST( AST::InstanceOf, node);
+		std::string result;
 
-		std::string instance_name = dispatchExpound(bin->LHS(), symbol_table, ctx);
-		std::string type_name = dispatchExpound(bin->RHS(), symbol_table, ctx);
+		AST::UnaryOperatorPtr bin = std::tr1::static_pointer_cast<
+				AST::UnaryOperator>(node);
 
-		std::list<PatternPtr> patterns;
-		patterns.push_back( PatternPtr( new Pattern("instance_name", instance_name ) ));
-		patterns.push_back( PatternPtr( new Pattern("type_name", type_name) ));
-
-		return substitutePatterns( patterns );
+		if( bin->op_type == "typeof" ) {
+//			return "false/*not support typeof*/";
+			result = dispatchExpound(bin->subExpr(), symbol_table, ctx) +" ->__get_type__()" ;
+		} else {
+			result += " " + resolve_operator(bin->op_type) + " ";
+			result += dispatchExpound(bin->subExpr(),symbol_table, ctx); // sub expression
+		}
+		return result;
 	}
-	InstanceOf()
-		: TemplatePrinter("InstanceOf")
-	{
-		setTemplateString( "false/*not support instanceof*/" );
-	}
+
 private:
+	std::string resolve_operator( std::string str )
+	{
+		if( str == "plus")
+			return "+";
+		else if( str == "minus")
+			return "-";
+		else if( str == "not")
+			return "!";
+		else if( str == "bitwisenot")
+			return "~";
+		else {
+			std::cerr << " can't resolve unary op string " << str << std::endl;
+			exit(1);
+		}
+	}
 
 };
 

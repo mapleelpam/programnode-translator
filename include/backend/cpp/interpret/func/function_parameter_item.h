@@ -23,41 +23,29 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_EXPR_IS_H__
-#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_EXPR_IS_H__
+#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_FUNCTION_PARAMETER_ITEM_H__
+#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_FUNCTION_PARAMETER_ITEM_H__
 
-#include <as/ast/is.h>
+#include <as/ast/func/function_parameter_item.h>
+#include <as/ast/call.h>
 #include <backend/cpp/interpret/interpreter.h>
-#include <backend/cpp/template_printer.h>
-
-namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
 namespace AST = ::tw::maple::as::ast;
 
-struct Is : public Interpreter, public TemplatePrinter
-{   
+namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
+
+struct FunctionParameterItem : public Interpreter
+{
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context* ctx)
 	{
-		AST::IsPtr bin = STATIC_CAST( AST::Is, node);
+		std::string result = "";
 
-		std::string instance_name = dispatchExpound(bin->LHS(), symbol_table, ctx);
-		std::string type_name = dispatchExpound(bin->RHS(), symbol_table, ctx);
+		AST::FunctionParameterItemPtr fParam = std::tr1::static_pointer_cast<AST::FunctionParameterItem>(node);
 
-		std::list<PatternPtr> patterns;
-		patterns.push_back( PatternPtr( new Pattern("instance_name", instance_name ) ));
-		patterns.push_back( PatternPtr( new Pattern("type_name", type_name) ));
-
-		return substitutePatterns( patterns );
+		return fParam->ParamType()+" "+fParam->ParamName();
 	}
-	Is()
-		: TemplatePrinter("Is")
-	{
-		setTemplateString( "false/*not support instanceof*/" );
-	}
-private:
-
 };
 
 };

@@ -38,24 +38,24 @@
 #include <protocol/TBinaryProtocol.h>
 
 #include <as/ast/call.h>
-#include <as/ast/literal_string.h>
-#include <as/ast/literal_number.h>
-#include <as/ast/literal_boolean.h>
+#include <as/ast/token/literal_string.h>
+#include <as/ast/token/literal_number.h>
+#include <as/ast/token/literal_boolean.h>
 #include <as/ast/expression_list.h>
 #include <as/ast/identifier.h>
 #include <as/ast/program.h>
 #include <as/ast/arguments.h>
 #include <as/ast/argument.h>
-#include <as/ast/function_definition.h>
-#include <as/ast/function_name.h>
-#include <as/ast/function_signature.h>
-#include <as/ast/function_parameters.h>
-#include <as/ast/function_parameter_item.h>
-#include <as/ast/function_common.h>
-#include <as/ast/binary_operator.h>
-#include <as/ast/instanceof.h>
-#include <as/ast/is.h>
-#include <as/ast/unary_operator.h>
+#include <as/ast/func/function_definition.h>
+#include <as/ast/func/function_name.h>
+#include <as/ast/func/function_signature.h>
+#include <as/ast/func/function_parameters.h>
+#include <as/ast/func/function_parameter_item.h>
+#include <as/ast/func/function_common.h>
+#include <as/ast/expr/binary_operator.h>
+#include <as/ast/expr/instanceof.h>
+#include <as/ast/expr/is.h>
+#include <as/ast/expr/unary_operator.h>
 #include <as/ast/variable_declare.h>
 #include <as/ast/statement.h>
 #include <as/ast/return_stmt.h>
@@ -74,7 +74,7 @@
 #include <as/ast/stmt/class_stmt.h>
 #include <as/ast/attribute_list.h>
 
-#include <as/ast/function_attribute.h>
+#include <as/ast/func/function_attribute.h>
 #include <as/ast/stmt/package_definition.h>
 
 #include <as/ast/expr/expr_member.h>
@@ -352,7 +352,7 @@ public:
 		PUSH_STACK( IfStatementElse );
 	}
 	void endIfStatement() {
-		CHECK_STACK_AND_POP( IfStatement, AST::Node::NodeType::T_IF_STMT );
+		CHECK_STACK_AND_POP( IfStatement, AST::Node::NodeType::T_STMT_IF );
 	}
 	void endIfStatement_Condition() {
 		CHECK_STACK_AND_POP( IfStatement_Condition, AST::Node::NodeType::T_IF_STMT_CONDITION );
@@ -417,6 +417,55 @@ public:
 		CHECK_STACK_AND_POP( MemberExpression, AST::Node::NodeType::T_EXPR_MEMBER );
 	}
 
+	void startForStatement() {
+		// Your implementation goes here
+		printf("startForStatement\n");
+	}
+
+	void startForInit() {
+		// Your implementation goes here
+		printf("startForInit\n");
+	}
+
+	void endForInit() {
+		// Your implementation goes here
+		printf("endForInit\n");
+	}
+
+	void startForCondition() {
+		// Your implementation goes here
+		printf("startForCondition\n");
+	}
+
+	void endForCondition() {
+		// Your implementation goes here
+		printf("endForCondition\n");
+	}
+
+	void startForStep() {
+		// Your implementation goes here
+		printf("startForStep\n");
+	}
+
+	void endForStep() {
+		// Your implementation goes here
+		printf("endForStep\n");
+	}
+
+	void startForBody() {
+		// Your implementation goes here
+		printf("startForBody\n");
+	}
+
+	void endForBody() {
+		// Your implementation goes here
+		printf("endForBody\n");
+	}
+
+	void endForStatement() {
+		// Your implementation goes here
+		printf("endForStatement\n");
+	}
 
 public:
    as::ast::ProgramPtr getProgramNode() {	return _program_root;	};

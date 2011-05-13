@@ -35,21 +35,21 @@
 #include <backend/cpp/interpret/token/literal_boolean.h>
 #include <backend/cpp/interpret/identifier.h>
 #include <backend/cpp/interpret/statement_list.h>
-#include <backend/cpp/interpret/function_definition.h>
-#include <backend/cpp/interpret/function_name.h>
-#include <backend/cpp/interpret/function_parameters.h>
-#include <backend/cpp/interpret/function_parameter_item.h>
+#include <backend/cpp/interpret/func/function_definition.h>
+#include <backend/cpp/interpret/func/function_name.h>
+#include <backend/cpp/interpret/func/function_parameters.h>
+#include <backend/cpp/interpret/func/function_parameter_item.h>
 #include <backend/cpp/interpret/arguments.h>
 #include <backend/cpp/interpret/argument.h>
 #include <backend/cpp/interpret/return_stmt.h>
-#include <backend/cpp/interpret/binary_operator.h>
-#include <backend/cpp/interpret/unary_operator.h>
+#include <backend/cpp/interpret/expr/binary_operator.h>
+#include <backend/cpp/interpret/expr/unary_operator.h>
 #include <backend/cpp/interpret/variable_declare.h>
 #include <backend/cpp/interpret/assignment.h>
 #include <backend/cpp/interpret/stmt/if_stmt.h>
 #include <backend/cpp/interpret/stmt_expression.h>
-#include <backend/cpp/interpret/is.h>
-#include <backend/cpp/interpret/instanceof.h>
+#include <backend/cpp/interpret/expr/is.h>
+#include <backend/cpp/interpret/expr/instanceof.h>
 #include <backend/cpp/interpret/stmt/class_definition.h>
 #include <backend/cpp/interpret/stmt/package_definition.h>
 #include <backend/cpp/interpret/expr/expr_member.h>
@@ -109,7 +109,7 @@ void initializeInterpreters()
 		interpreterResolver[AST::Node::NodeType::T_ASSIGNMENT]
 				= new Assignment();
 		interpreterResolver[AST::Node::NodeType::T_CALL] = new Call();
-		interpreterResolver[AST::Node::NodeType::T_IF_STMT] = new IfStatement();
+		interpreterResolver[AST::Node::NodeType::T_STMT_IF] = new IfStatement();
 		interpreterResolver[AST::Node::NodeType::T_STMT_EXPR] = new StmtExpression();
 
 		/* TODO: implement this */

@@ -27,13 +27,13 @@
 #include <service/pass/SymbolTableConstructor.h>
 #include <backend/cpp/interpret/interpreter.h>
 
-#include <as/ast/function_definition.h>
-#include <as/ast/function_common.h>
-#include <as/ast/function_signature.h>
-#include <as/ast/function_parameters.h>
-#include <as/ast/function_parameter_item.h>
-#include <as/ast/function_attribute.h>
-#include <as/ast/function_name.h>
+#include <as/ast/func/function_definition.h>
+#include <as/ast/func/function_common.h>
+#include <as/ast/func/function_signature.h>
+#include <as/ast/func/function_parameters.h>
+#include <as/ast/func/function_parameter_item.h>
+#include <as/ast/func/function_attribute.h>
+#include <as/ast/func/function_name.h>
 #include <as/ast/stmt/package_definition.h>
 
 #include <as/ast/stmt/class_definition.h>

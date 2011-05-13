@@ -26,10 +26,10 @@
 #ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_FUNCTION_DEFINITION_H__
 #define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_FUNCTION_DEFINITION_H__
 
-#include <as/ast/function_definition.h>
-#include <as/ast/function_signature.h>
-#include <as/ast/function_attribute.h>
-#include <as/ast/function_common.h>
+#include <as/ast/func/function_definition.h>
+#include <as/ast/func/function_signature.h>
+#include <as/ast/func/function_attribute.h>
+#include <as/ast/func/function_common.h>
 #include <as/ast/call.h>
 #include <backend/cpp/interpret/interpreter.h>
 #include <backend/cpp/template_printer.h>
