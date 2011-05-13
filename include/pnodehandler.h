@@ -423,7 +423,7 @@ public:
 	}
 
 	void startForInit() {
-		PUSH_STACK( ForStatement );
+		PUSH_STACK( ForInit );
 	}
 
 	void endForInit() {
@@ -451,7 +451,7 @@ public:
 	}
 
 	void endForBody() {
-		CHECK_STACK_AND_POP( ForStep, AST::Node::NodeType::T_FOR_STEP );
+		CHECK_STACK_AND_POP( ForBody, AST::Node::NodeType::T_FOR_BODY );
 	}
 
 	void endForStatement() {

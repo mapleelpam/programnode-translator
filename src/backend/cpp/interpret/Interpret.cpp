@@ -47,6 +47,7 @@
 #include <backend/cpp/interpret/variable_declare.h>
 #include <backend/cpp/interpret/assignment.h>
 #include <backend/cpp/interpret/stmt/if_stmt.h>
+#include <backend/cpp/interpret/stmt/for_stmt.h>
 #include <backend/cpp/interpret/stmt_expression.h>
 #include <backend/cpp/interpret/expr/is.h>
 #include <backend/cpp/interpret/expr/instanceof.h>
@@ -138,6 +139,17 @@ void initializeInterpreters()
 		interpreterResolver[AST::Node::NodeType::T_EXPR_MEMBER]
 		        = new ExpressionMember();
 
+		interpreterResolver[AST::Node::NodeType::T_FOR_INIT]
+						= new Interpreter();
+		interpreterResolver[AST::Node::NodeType::T_FOR_STEP]
+						= new Interpreter();
+		interpreterResolver[AST::Node::NodeType::T_FOR_CONDITION]
+						= new Interpreter();
+		interpreterResolver[AST::Node::NodeType::T_FOR_BODY]
+						= new Interpreter();
+
+		interpreterResolver[AST::Node::NodeType::T_STMT_FOR]
+						= new ForStatement();
 	}
 }
 
