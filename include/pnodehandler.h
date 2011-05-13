@@ -250,9 +250,8 @@ public:
 		PUSH_STACK( InstanceOf );
 	}
 	void endInstanceOfExpression() {
+		CHECK_STACK_AND_POP( InstanceOf, AST::Node::NodeType::T_INSTANCEOF );
 
-		printf(" %lu endInstanceOfExpression\n", _node_stack.size());
-		_node_stack . pop();
 	}
 	void startIsOperator() {
 		PUSH_STACK( Is );
@@ -265,10 +264,7 @@ public:
 		std::cout << "variable dec -> "<< name << " types " << type[0] << " typesize "<<type.size()<<std::endl;
 	}
 	void endVariableDeclare() {
-
-		printf(" %lu endVariableDeclare\n", _node_stack.size());
-		_node_stack . pop();
-
+		CHECK_STACK_AND_POP( Variable, AST::Node::NodeType::T_VARIABLE_DECLARE );
 	}
 
 	void startAssignment() {
@@ -426,28 +422,24 @@ public:
 		PUSH_STACK( ForInit );
 	}
 
-	void endForInit() {
-		CHECK_STACK_AND_POP( ForInit, AST::Node::NodeType::T_FOR_INIT );
-	}
-
 	void startForCondition() {
 		PUSH_STACK( ForCondition );
 	}
 
-	void endForCondition() {
-		CHECK_STACK_AND_POP( ForCondition, AST::Node::NodeType::T_FOR_CONDITION );
+	void startForBody() {
+		PUSH_STACK( ForBody );
 	}
 
 	void startForStep() {
 		PUSH_STACK( ForStep );
 	}
 
-	void endForStep() {
-		CHECK_STACK_AND_POP( ForStep, AST::Node::NodeType::T_FOR_STEP );
+	void endForCondition() {
+		CHECK_STACK_AND_POP( ForCondition, AST::Node::NodeType::T_FOR_CONDITION );
 	}
 
-	void startForBody() {
-		PUSH_STACK( ForBody );
+	void endForStep() {
+		CHECK_STACK_AND_POP( ForStep, AST::Node::NodeType::T_FOR_STEP );
 	}
 
 	void endForBody() {
@@ -457,7 +449,9 @@ public:
 	void endForStatement() {
 		CHECK_STACK_AND_POP( ForStatement, AST::Node::NodeType::T_STMT_FOR );
 	}
-
+	void endForInit() {
+		CHECK_STACK_AND_POP( ForInit, AST::Node::NodeType::T_FOR_INIT );
+	}
 public:
    as::ast::ProgramPtr getProgramNode() {	return _program_root;	};
 

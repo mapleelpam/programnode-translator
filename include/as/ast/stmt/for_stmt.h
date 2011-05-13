@@ -68,7 +68,7 @@ typedef std::tr1::shared_ptr<ForStep> ForStepPtr;
 struct ForCondition : public Expression
 {
 	ForCondition() :
-		Expression(Node::NodeType::T_FOR_STEP) {
+		Expression(Node::NodeType::T_FOR_CONDITION) {
 	}
 	std::string toString()  {	return "node::for_cond"; };
 };

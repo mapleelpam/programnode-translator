@@ -67,7 +67,6 @@ struct Node
 
             T_CALL,
             T_CompareOperator,
-            T_InstanceOf,
 
             T_PostfixOperator,
             T_PrefixOperator,
