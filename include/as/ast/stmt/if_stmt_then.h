@@ -26,7 +26,6 @@
 #ifndef __AS_AST_SATEMENTS_IF_STMT_THEN_H__
 #define __AS_AST_SATEMENTS_IF_STMT_THEN_H__
 
-#include <tr1/memory>
 #include <as/ast/statement.h>
 
 

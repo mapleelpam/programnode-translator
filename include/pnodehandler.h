@@ -76,6 +76,7 @@
 
 #include <as/ast/func/function_attribute.h>
 #include <as/ast/stmt/package_definition.h>
+#include <as/ast/stmt/for_stmt.h>
 
 #include <as/ast/expr/expr_member.h>
 
@@ -418,53 +419,43 @@ public:
 	}
 
 	void startForStatement() {
-		// Your implementation goes here
-		printf("startForStatement\n");
+		PUSH_STACK( ForStatement );
 	}
 
 	void startForInit() {
-		// Your implementation goes here
-		printf("startForInit\n");
+		PUSH_STACK( ForStatement );
 	}
 
 	void endForInit() {
-		// Your implementation goes here
-		printf("endForInit\n");
+		CHECK_STACK_AND_POP( ForInit, AST::Node::NodeType::T_FOR_INIT );
 	}
 
 	void startForCondition() {
-		// Your implementation goes here
-		printf("startForCondition\n");
+		PUSH_STACK( ForCondition );
 	}
 
 	void endForCondition() {
-		// Your implementation goes here
-		printf("endForCondition\n");
+		CHECK_STACK_AND_POP( ForCondition, AST::Node::NodeType::T_FOR_CONDITION );
 	}
 
 	void startForStep() {
-		// Your implementation goes here
-		printf("startForStep\n");
+		PUSH_STACK( ForStep );
 	}
 
 	void endForStep() {
-		// Your implementation goes here
-		printf("endForStep\n");
+		CHECK_STACK_AND_POP( ForStep, AST::Node::NodeType::T_FOR_STEP );
 	}
 
 	void startForBody() {
-		// Your implementation goes here
-		printf("startForBody\n");
+		PUSH_STACK( ForBody );
 	}
 
 	void endForBody() {
-		// Your implementation goes here
-		printf("endForBody\n");
+		CHECK_STACK_AND_POP( ForStep, AST::Node::NodeType::T_FOR_STEP );
 	}
 
 	void endForStatement() {
-		// Your implementation goes here
-		printf("endForStatement\n");
+		CHECK_STACK_AND_POP( ForStatement, AST::Node::NodeType::T_STMT_FOR );
 	}
 
 public:
