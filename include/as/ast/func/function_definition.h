@@ -18,7 +18,7 @@
  */
 
 // ProgrameNode Translator
-// Copyright 2010 mapleellpam@gmail.com.  All rights reserved.
+// Copyright 2011 mapleellpam at gmail dot com   All rights reserved.
 // https://github.com/mapleelpam/programnode-translator
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
