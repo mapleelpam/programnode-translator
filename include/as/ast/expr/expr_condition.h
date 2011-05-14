@@ -18,29 +18,29 @@
  */
 
 // ProgrameNode Translator
-// Copyright 2010 mapleellpam@gmail.com.  All rights reserved.
+// Copyright 2011 mapleellpam at gmail.com.  All rights reserved.
 // https://github.com/mapleelpam/programnode-translator
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#ifndef __AS_AST_SATEMENTS_IF_STMT_CONDITION_H__
-#define __AS_AST_SATEMENTS_IF_STMT_CONDITION_H__
+#ifndef __AS_AST_SATEMENTS_EXPR_CONDITION_H__
+#define __AS_AST_SATEMENTS_EXPR_CONDITION_H__
 
 #include <as/ast/statement.h>
 
 
 namespace tw { namespace maple { namespace as { namespace ast {
 
-struct IfStatementCondition : public Statement
+struct ConditionExpression : public Expression
 {
-	IfStatementCondition() :
-		Statement(Node::NodeType::T_IF_STMT_CONDITION) {
+	ConditionExpression() :
+		Expression(Node::NodeType::T_EXPR_CONDITION) {
 	}
 
-	std::string toString()  {	return "node::if_stmt_condition"; };
+	std::string toString()  {	return "node::expr_condition"; };
 };
 
-typedef SHARED_PTR(IfStatementCondition) IfStatementConditionPtr;
+typedef SHARED_PTR(ConditionExpression) ConditionExpressionPtr;
 
 } } } }
 

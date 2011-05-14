@@ -62,13 +62,13 @@ static Interpreter* interpreterResolver[ ::tw::maple::as::ast::Node::NodeType::T
 
 void initializeInterpreters()
 {
-	static bool _1st_enter = true;
-	if (_1st_enter) { // Initialize
-		_1st_enter = false;
+	static Interpreter* p_def_expounder = NULL;
+	if (p_def_expounder == NULL) { // Initialize
+		p_def_expounder = new Interpreter();
 		for (int idx = 0; idx < AST::Node::NodeType::T_NODE_TYPE_END; idx++)
-			interpreterResolver[idx] = NULL;
+			interpreterResolver[idx] = p_def_expounder;
 
-		interpreterResolver[AST::Node::NodeType::T_PROGRAM] = new Interpreter();
+//		interpreterResolver[AST::Node::NodeType::T_PROGRAM] = new Interpreter();
 		//
 		interpreterResolver[AST::Node::NodeType::T_FUNCTION_DEFINITION]
 				= new FunctionDefinition();
@@ -114,23 +114,23 @@ void initializeInterpreters()
 		interpreterResolver[AST::Node::NodeType::T_STMT_EXPR] = new StmtExpression();
 
 		/* TODO: implement this */
-		interpreterResolver[AST::Node::NodeType::T_IF_STMT_CONDITION]
-				= new Interpreter();
-		interpreterResolver[AST::Node::NodeType::T_IF_STMT_THEN]
-				= new Interpreter();
-		interpreterResolver[AST::Node::NodeType::T_IF_STMT_ELSE]
-				= new Interpreter();
+//		interpreterResolver[AST::Node::NodeType::T_IF_STMT_CONDITION]
+//				= new Interpreter();
+//		interpreterResolver[AST::Node::NodeType::T_IF_STMT_THEN]
+//				= new Interpreter();
+//		interpreterResolver[AST::Node::NodeType::T_IF_STMT_ELSE]
+//				= new Interpreter();
 
 		interpreterResolver[AST::Node::NodeType::T_CLASS_DEFINE]
 				= new ClassDefinition();
-		interpreterResolver[AST::Node::NodeType::T_CLASS_DEFINE_STMT]
-				= new Interpreter();
-
-		interpreterResolver[AST::Node::NodeType::T_COMP_CLASS_ATTRIBUTE]
-				= new Interpreter();
-
-		interpreterResolver[AST::Node::NodeType::T_COMP_FUNCTION_ATTRIBUTE]
-				= new Interpreter();
+//		interpreterResolver[AST::Node::NodeType::T_CLASS_DEFINE_STMT]
+//				= new Interpreter();
+//
+//		interpreterResolver[AST::Node::NodeType::T_COMP_CLASS_ATTRIBUTE]
+//				= new Interpreter();
+//
+//		interpreterResolver[AST::Node::NodeType::T_COMP_FUNCTION_ATTRIBUTE]
+//				= new Interpreter();
 
 		interpreterResolver[AST::Node::NodeType::T_PACKAGE_DEFINITION]
 		        = new PackageDefinition();
@@ -139,14 +139,14 @@ void initializeInterpreters()
 		interpreterResolver[AST::Node::NodeType::T_EXPR_MEMBER]
 		        = new ExpressionMember();
 
-		interpreterResolver[AST::Node::NodeType::T_FOR_INIT]
-						= new Interpreter();
-		interpreterResolver[AST::Node::NodeType::T_FOR_STEP]
-						= new Interpreter();
-		interpreterResolver[AST::Node::NodeType::T_FOR_CONDITION]
-						= new Interpreter();
-		interpreterResolver[AST::Node::NodeType::T_FOR_BODY]
-						= new Interpreter();
+//		interpreterResolver[AST::Node::NodeType::T_FOR_INIT]
+//						= new Interpreter();
+//		interpreterResolver[AST::Node::NodeType::T_FOR_STEP]
+//						= new Interpreter();
+//		interpreterResolver[AST::Node::NodeType::T_FOR_CONDITION]
+//						= new Interpreter();
+//		interpreterResolver[AST::Node::NodeType::T_FOR_BODY]
+//						= new Interpreter();
 
 		interpreterResolver[AST::Node::NodeType::T_STMT_FOR]
 						= new ForStatement();

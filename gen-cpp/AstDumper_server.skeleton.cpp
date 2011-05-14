@@ -112,19 +112,19 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("endReturnStatement\n");
   }
 
+  void startExprCondition() {
+    // Your implementation goes here
+    printf("startExprCondition\n");
+  }
+
+  void endExprCondition() {
+    // Your implementation goes here
+    printf("endExprCondition\n");
+  }
+
   void startIfStatement() {
     // Your implementation goes here
     printf("startIfStatement\n");
-  }
-
-  void startIfStatement_Condition() {
-    // Your implementation goes here
-    printf("startIfStatement_Condition\n");
-  }
-
-  void endIfStatement_Condition() {
-    // Your implementation goes here
-    printf("endIfStatement_Condition\n");
   }
 
   void startIfStatement_Then() {
@@ -352,16 +352,6 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("endForInit\n");
   }
 
-  void startForCondition() {
-    // Your implementation goes here
-    printf("startForCondition\n");
-  }
-
-  void endForCondition() {
-    // Your implementation goes here
-    printf("endForCondition\n");
-  }
-
   void startForStep() {
     // Your implementation goes here
     printf("startForStep\n");
@@ -372,19 +362,19 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("endForStep\n");
   }
 
-  void startForBody() {
-    // Your implementation goes here
-    printf("startForBody\n");
-  }
-
-  void endForBody() {
-    // Your implementation goes here
-    printf("endForBody\n");
-  }
-
   void endForStatement() {
     // Your implementation goes here
     printf("endForStatement\n");
+  }
+
+  void startDoStatement() {
+    // Your implementation goes here
+    printf("startDoStatement\n");
+  }
+
+  void endDoStatement() {
+    // Your implementation goes here
+    printf("endDoStatement\n");
   }
 
 };

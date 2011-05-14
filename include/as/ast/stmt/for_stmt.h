@@ -65,23 +65,23 @@ struct ForStep : public Expression
 };
 typedef std::tr1::shared_ptr<ForStep> ForStepPtr;
 
-struct ForCondition : public Expression
-{
-	ForCondition() :
-		Expression(Node::NodeType::T_FOR_CONDITION) {
-	}
-	std::string toString()  {	return "node::for_cond"; };
-};
-typedef std::tr1::shared_ptr<ForCondition> ForConditionPtr;
-
-struct ForBody : public Expression
-{
-	ForBody() :
-		Expression(Node::NodeType::T_FOR_BODY) {
-	}
-	std::string toString()  {	return "node::for_body"; };
-};
-typedef std::tr1::shared_ptr<ForBody> ForBodyPtr;
+//struct ForCondition : public Expression
+//{
+//	ForCondition() :
+//		Expression(Node::NodeType::T_FOR_CONDITION) {
+//	}
+//	std::string toString()  {	return "node::for_cond"; };
+//};
+//typedef std::tr1::shared_ptr<ForCondition> ForConditionPtr;
+//
+//struct ForBody : public Expression
+//{
+//	ForBody() :
+//		Expression(Node::NodeType::T_FOR_BODY) {
+//	}
+//	std::string toString()  {	return "node::for_body"; };
+//};
+//typedef std::tr1::shared_ptr<ForBody> ForBodyPtr;
 } } } }
 
 #endif

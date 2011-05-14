@@ -66,7 +66,7 @@
 #include <as/ast/stmt_expression.h>
 
 #include <as/ast/stmt/if_stmt.h>
-#include <as/ast/stmt/if_stmt_condition.h>
+#include <as/ast/expr/expr_condition.h>
 #include <as/ast/stmt/if_stmt_then.h>
 #include <as/ast/stmt/if_stmt_else.h>
 
@@ -338,9 +338,11 @@ public:
 	void startIfStatement() {
 		PUSH_STACK( IfStatement );
 	}
-	void startIfStatement_Condition() {
-		PUSH_STACK( IfStatementCondition );
-
+	void startExprCondition() {
+		PUSH_STACK( ConditionExpression );
+	}
+	void endExprCondition() {
+		CHECK_STACK_AND_POP( ConditionExpression, AST::Node::NodeType::T_EXPR_CONDITION );
 	}
 	void startIfStatement_Then() {
 		PUSH_STACK( IfStatementThen );
@@ -351,9 +353,7 @@ public:
 	void endIfStatement() {
 		CHECK_STACK_AND_POP( IfStatement, AST::Node::NodeType::T_STMT_IF );
 	}
-	void endIfStatement_Condition() {
-		CHECK_STACK_AND_POP( IfStatement_Condition, AST::Node::NodeType::T_IF_STMT_CONDITION );
-	}
+
 	void endIfStatement_Then() {
 		CHECK_STACK_AND_POP( IfStatement_Then, AST::Node::NodeType::T_IF_STMT_THEN );
 	}
@@ -422,29 +422,29 @@ public:
 		PUSH_STACK( ForInit );
 	}
 
-	void startForCondition() {
-		PUSH_STACK( ForCondition );
-	}
+//	void startForCondition() {
+//		PUSH_STACK( ForCondition );
+//	}
 
-	void startForBody() {
-		PUSH_STACK( ForBody );
-	}
+//	void startForBody() {
+//		PUSH_STACK( ForBody );
+//	}
 
 	void startForStep() {
 		PUSH_STACK( ForStep );
 	}
 
-	void endForCondition() {
-		CHECK_STACK_AND_POP( ForCondition, AST::Node::NodeType::T_FOR_CONDITION );
-	}
+//	void endForCondition() {
+//		CHECK_STACK_AND_POP( ForCondition, AST::Node::NodeType::T_FOR_CONDITION );
+//	}
 
 	void endForStep() {
 		CHECK_STACK_AND_POP( ForStep, AST::Node::NodeType::T_FOR_STEP );
 	}
 
-	void endForBody() {
-		CHECK_STACK_AND_POP( ForBody, AST::Node::NodeType::T_FOR_BODY );
-	}
+//	void endForBody() {
+//		CHECK_STACK_AND_POP( ForBody, AST::Node::NodeType::T_FOR_BODY );
+//	}
 
 	void endForStatement() {
 		CHECK_STACK_AND_POP( ForStatement, AST::Node::NodeType::T_STMT_FOR );
@@ -452,6 +452,15 @@ public:
 	void endForInit() {
 		CHECK_STACK_AND_POP( ForInit, AST::Node::NodeType::T_FOR_INIT );
 	}
+    void startDoStatement( )
+    {
+
+    }
+    void endDoStatement( )
+    {
+
+    }
+
 public:
    as::ast::ProgramPtr getProgramNode() {	return _program_root;	};
 
