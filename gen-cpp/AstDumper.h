@@ -85,6 +85,8 @@ class AstDumperIf {
   virtual void endForStatement() = 0;
   virtual void startDoStatement() = 0;
   virtual void endDoStatement() = 0;
+  virtual void startWhileStatement() = 0;
+  virtual void endWhileStatement() = 0;
 };
 
 class AstDumperNull : virtual public AstDumperIf {
@@ -301,6 +303,12 @@ class AstDumperNull : virtual public AstDumperIf {
     return;
   }
   void endDoStatement() {
+    return;
+  }
+  void startWhileStatement() {
+    return;
+  }
+  void endWhileStatement() {
     return;
   }
 };
@@ -3117,6 +3125,80 @@ class AstDumper_endDoStatement_pargs {
 
 };
 
+
+class AstDumper_startWhileStatement_args {
+ public:
+
+  AstDumper_startWhileStatement_args() {
+  }
+
+  virtual ~AstDumper_startWhileStatement_args() throw() {}
+
+
+  bool operator == (const AstDumper_startWhileStatement_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const AstDumper_startWhileStatement_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_startWhileStatement_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_startWhileStatement_pargs {
+ public:
+
+
+  virtual ~AstDumper_startWhileStatement_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_endWhileStatement_args {
+ public:
+
+  AstDumper_endWhileStatement_args() {
+  }
+
+  virtual ~AstDumper_endWhileStatement_args() throw() {}
+
+
+  bool operator == (const AstDumper_endWhileStatement_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const AstDumper_endWhileStatement_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_endWhileStatement_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_endWhileStatement_pargs {
+ public:
+
+
+  virtual ~AstDumper_endWhileStatement_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
 class AstDumperClient : virtual public AstDumperIf {
  public:
   AstDumperClient(boost::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) :
@@ -3279,6 +3361,10 @@ class AstDumperClient : virtual public AstDumperIf {
   void send_startDoStatement();
   void endDoStatement();
   void send_endDoStatement();
+  void startWhileStatement();
+  void send_startWhileStatement();
+  void endWhileStatement();
+  void send_endWhileStatement();
  protected:
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -3363,6 +3449,8 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
   void process_endForStatement(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_startDoStatement(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_endDoStatement(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_startWhileStatement(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_endWhileStatement(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
   AstDumperProcessor(boost::shared_ptr<AstDumperIf> iface) :
     iface_(iface) {
@@ -3437,6 +3525,8 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
     processMap_["endForStatement"] = &AstDumperProcessor::process_endForStatement;
     processMap_["startDoStatement"] = &AstDumperProcessor::process_startDoStatement;
     processMap_["endDoStatement"] = &AstDumperProcessor::process_endDoStatement;
+    processMap_["startWhileStatement"] = &AstDumperProcessor::process_startWhileStatement;
+    processMap_["endWhileStatement"] = &AstDumperProcessor::process_endWhileStatement;
   }
 
   virtual bool process(boost::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot, boost::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot, void* callContext);
@@ -3949,6 +4039,20 @@ class AstDumperMultiface : virtual public AstDumperIf {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
       ifaces_[i]->endDoStatement();
+    }
+  }
+
+  void startWhileStatement() {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->startWhileStatement();
+    }
+  }
+
+  void endWhileStatement() {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->endWhileStatement();
     }
   }
 

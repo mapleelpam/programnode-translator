@@ -89,14 +89,13 @@ struct Node
 
             T_EXPR_CONDITION,
             T_STMT_IF,
-//            	T_IF_STMT_CONDITION,
             	T_IF_STMT_THEN,
             	T_IF_STMT_ELSE,
             T_STMT_FOR,
             	T_FOR_INIT,
-//            	T_FOR_CONDITION,
             	T_FOR_STEP,
-//            	T_FOR_BODY,
+            T_STMT_DO,
+            T_STMT_WHILE,
 
             T_CLASS_DEFINE,
             T_CLASS_DEFINE_STMT,

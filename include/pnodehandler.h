@@ -77,6 +77,8 @@
 #include <as/ast/func/function_attribute.h>
 #include <as/ast/stmt/package_definition.h>
 #include <as/ast/stmt/for_stmt.h>
+#include <as/ast/stmt/do_stmt.h>
+#include <as/ast/stmt/while_stmt.h>
 
 #include <as/ast/expr/expr_member.h>
 
@@ -149,13 +151,13 @@ public:
 	void startPackage(const generated::StringList& id) {
 
 		//      printf(" %lu startPackage\n", _node_stack.size() );
-		std::cout << " package name  " << *(id.begin()) << std::endl;
+//		std::cout << " package name  " << *(id.begin()) << std::endl;
 
-		//      PUSH_STACK( PackageDefinition );
+		      PUSH_STACK_WITH_INIT( PackageDefinition, id );
 
-		as::ast::PackageDefinitionPtr pkg(new as::ast::PackageDefinition(id));
-		_node_stack . top() -> addNodeChild(pkg);
-		_node_stack . push(pkg);
+//		as::ast::PackageDefinitionPtr pkg(new as::ast::PackageDefinition(id));
+//		_node_stack . top() -> addNodeChild(pkg);
+//		_node_stack . push(pkg);
 	}
 
 	void endPackage(const generated::StringList& IDs) {
@@ -422,29 +424,13 @@ public:
 		PUSH_STACK( ForInit );
 	}
 
-//	void startForCondition() {
-//		PUSH_STACK( ForCondition );
-//	}
-
-//	void startForBody() {
-//		PUSH_STACK( ForBody );
-//	}
-
 	void startForStep() {
 		PUSH_STACK( ForStep );
 	}
 
-//	void endForCondition() {
-//		CHECK_STACK_AND_POP( ForCondition, AST::Node::NodeType::T_FOR_CONDITION );
-//	}
-
 	void endForStep() {
 		CHECK_STACK_AND_POP( ForStep, AST::Node::NodeType::T_FOR_STEP );
 	}
-
-//	void endForBody() {
-//		CHECK_STACK_AND_POP( ForBody, AST::Node::NodeType::T_FOR_BODY );
-//	}
 
 	void endForStatement() {
 		CHECK_STACK_AND_POP( ForStatement, AST::Node::NodeType::T_STMT_FOR );
@@ -452,15 +438,20 @@ public:
 	void endForInit() {
 		CHECK_STACK_AND_POP( ForInit, AST::Node::NodeType::T_FOR_INIT );
 	}
-    void startDoStatement( )
-    {
-
+    void startDoStatement( ) {
+		PUSH_STACK( DoStatement );
     }
-    void endDoStatement( )
-    {
-
+    void endDoStatement( )  {
+    	CHECK_STACK_AND_POP( DoStatement, AST::Node::NodeType::T_STMT_DO );
     }
 
+    void startWhileStatement() {
+    	PUSH_STACK( WhileStatement );
+    }
+
+    void endWhileStatement() {
+    	CHECK_STACK_AND_POP( WhileStatement, AST::Node::NodeType::T_STMT_WHILE );
+    }
 public:
    as::ast::ProgramPtr getProgramNode() {	return _program_root;	};
 

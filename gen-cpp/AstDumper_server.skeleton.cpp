@@ -377,6 +377,16 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("endDoStatement\n");
   }
 
+  void startWhileStatement() {
+    // Your implementation goes here
+    printf("startWhileStatement\n");
+  }
+
+  void endWhileStatement() {
+    // Your implementation goes here
+    printf("endWhileStatement\n");
+  }
+
 };
 
 int main(int argc, char **argv) {

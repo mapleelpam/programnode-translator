@@ -48,6 +48,8 @@
 #include <backend/cpp/interpret/assignment.h>
 #include <backend/cpp/interpret/stmt/if_stmt.h>
 #include <backend/cpp/interpret/stmt/for_stmt.h>
+#include <backend/cpp/interpret/stmt/while_stmt.h>
+#include <backend/cpp/interpret/stmt/do_stmt.h>
 #include <backend/cpp/interpret/stmt_expression.h>
 #include <backend/cpp/interpret/expr/is.h>
 #include <backend/cpp/interpret/expr/instanceof.h>
@@ -113,24 +115,8 @@ void initializeInterpreters()
 		interpreterResolver[AST::Node::NodeType::T_STMT_IF] = new IfStatement();
 		interpreterResolver[AST::Node::NodeType::T_STMT_EXPR] = new StmtExpression();
 
-		/* TODO: implement this */
-//		interpreterResolver[AST::Node::NodeType::T_IF_STMT_CONDITION]
-//				= new Interpreter();
-//		interpreterResolver[AST::Node::NodeType::T_IF_STMT_THEN]
-//				= new Interpreter();
-//		interpreterResolver[AST::Node::NodeType::T_IF_STMT_ELSE]
-//				= new Interpreter();
-
 		interpreterResolver[AST::Node::NodeType::T_CLASS_DEFINE]
 				= new ClassDefinition();
-//		interpreterResolver[AST::Node::NodeType::T_CLASS_DEFINE_STMT]
-//				= new Interpreter();
-//
-//		interpreterResolver[AST::Node::NodeType::T_COMP_CLASS_ATTRIBUTE]
-//				= new Interpreter();
-//
-//		interpreterResolver[AST::Node::NodeType::T_COMP_FUNCTION_ATTRIBUTE]
-//				= new Interpreter();
 
 		interpreterResolver[AST::Node::NodeType::T_PACKAGE_DEFINITION]
 		        = new PackageDefinition();
@@ -139,17 +125,12 @@ void initializeInterpreters()
 		interpreterResolver[AST::Node::NodeType::T_EXPR_MEMBER]
 		        = new ExpressionMember();
 
-//		interpreterResolver[AST::Node::NodeType::T_FOR_INIT]
-//						= new Interpreter();
-//		interpreterResolver[AST::Node::NodeType::T_FOR_STEP]
-//						= new Interpreter();
-//		interpreterResolver[AST::Node::NodeType::T_FOR_CONDITION]
-//						= new Interpreter();
-//		interpreterResolver[AST::Node::NodeType::T_FOR_BODY]
-//						= new Interpreter();
-
 		interpreterResolver[AST::Node::NodeType::T_STMT_FOR]
-						= new ForStatement();
+				= new ForStatement();
+		interpreterResolver[AST::Node::NodeType::T_STMT_DO]
+				= new DoStatement();
+		interpreterResolver[AST::Node::NodeType::T_STMT_WHILE]
+				= new WhileStatement();
 	}
 }
 

@@ -23,8 +23,8 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#ifndef __TW_MAPLE_AS_AST_SATEMENTS_FOR_STMT_H__
-#define __TW_MAPLE_AS_AST_SATEMENTS_FOR_STMT_H__
+#ifndef __TW_MAPLE_AS_AST_SATEMENTS_WHILE_STMT_H__
+#define __TW_MAPLE_AS_AST_SATEMENTS_WHILE_STMT_H__
 
 #include <as/ast/statement.h>
 #include <as/ast/expression.h>
@@ -32,38 +32,18 @@
 
 namespace tw { namespace maple { namespace as { namespace ast {
 
-struct ForStatement : public Statement
+struct WhileStatement : public Statement
 {
-	ForStatement() :
-		Statement(Node::NodeType::T_STMT_FOR) {
+	WhileStatement() :
+		Statement(Node::NodeType::T_STMT_WHILE) {
 	}
 
-	NodePtr ForInit()	{	return node_childs[0];	}
-	NodePtr ForCondition()	{	return node_childs[1];	}
-	NodePtr ForStep()	{	return node_childs[2];	}
-	NodePtr ForBody()	{	return node_childs[3];	}
-	std::string toString()  {	return "node::for_stmt"; };
-};
-typedef std::tr1::shared_ptr<ForStatement> ForStatementPtr;
+	NodePtr WhileCondition()	{	return node_childs[0];	}
+	NodePtr WhileBody()			{	return node_childs[1];	}
 
-struct ForInit : public Expression
-{
-	ForInit() :
-		Expression(Node::NodeType::T_FOR_INIT) {
-	}
-	std::string toString()  {	return "node::for_init"; };
+	std::string toString() 		{	return "node::do_stmt"; };
 };
-typedef std::tr1::shared_ptr<ForInit> ForInitPtr;
-
-
-struct ForStep : public Expression
-{
-	ForStep() :
-		Expression(Node::NodeType::T_FOR_STEP) {
-	}
-	std::string toString()  {	return "node::for_step"; };
-};
-typedef std::tr1::shared_ptr<ForStep> ForStepPtr;
+typedef std::tr1::shared_ptr<WhileStatement> WhileStatementPtr;
 
 
 } } } }
