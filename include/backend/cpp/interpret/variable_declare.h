@@ -26,11 +26,12 @@
 #ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_VARIABLE_DECLARE_H__
 #define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_VARIABLE_DECLARE_H__
 
+#include <global.h>
 #include <as/ast/variable_declare.h>
 #include <backend/cpp/interpret/interpreter.h>
 #include <backend/cpp/templateprinter.h>
-#include <global.h>
 #include <boost/foreach.hpp>
+#include <as/symbol/variable.h>
 
 namespace AST = ::tw::maple::as::ast;
 
@@ -45,6 +46,8 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context* ctx)
 	{
+
+		namespace ASY = tw::maple::as::symbol;
 
 		std::string result;
 
@@ -67,6 +70,7 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 			var_type = invoke_type_mapper( var_type );
 		}
 
+		ASY::SymbolPtr symbol_var = node->getSymbol();
 
 		std::string var_name = var->VariableName;
 		std::string var_attr = var->VariableAttribute!=""?var->VariableAttribute+":":"";
@@ -80,6 +84,7 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("var_type", var_type) ));
 		patterns.push_back( PatternPtr( new Pattern("var_name", var_name) ));
 		patterns.push_back( PatternPtr( new Pattern("var_init", var_init) ));
+		patterns.push_back( PatternPtr( new Pattern("var_is_static", (symbol_var->isStatic())? "static ":"") ) );
 		patterns.push_back( PatternPtr( new Pattern("endl", ctx->endl() ) ));
 		patterns.push_back( PatternPtr( new Pattern("indent_tab", ctx->indent()) ));
 
@@ -93,7 +98,7 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 		_primitive_type_mapper[ "int" ] = "int";
 		_primitive_type_mapper[ "float" ] = "float";
 
-		setTemplateString( "#(var_attribute)#(endl)#(indent_tab)#(var_type) #(var_name) #(var_init);#(endl)" );
+		setTemplateString( "#(var_attribute)#(endl)#(indent_tab)#(var_is_static)#(var_type) #(var_name) #(var_init);#(endl)" );
 //		setTemplateString( "#indent_tab##var_type# #var_name#;#endl#" );
 	}
 
