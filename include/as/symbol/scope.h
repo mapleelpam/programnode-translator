@@ -29,9 +29,9 @@
 
 #include "global.h"
 #include <boost/assert.hpp>
-#include <as/symbol/Symbol.h>
-#include <as/symbol/action/Registrable.h>
-#include <as/symbol/PrimitiveType.h>
+#include <as/symbol/symbol.h>
+#include <as/symbol/action/registrable.h>
+#include <as/symbol/primitivetype.h>
 #include <sstream>
 
 namespace tw { namespace maple { namespace as { namespace symbol {

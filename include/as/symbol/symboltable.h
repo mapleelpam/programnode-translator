@@ -28,12 +28,11 @@
 #define __TW_MAPLE_AS_SYMBOL_SYMBOLTABLE_H__
 
 #include "global.h"
-#include <boost/assert.hpp>
-#include <as/symbol/Symbol.h>
-#include <as/symbol/Scope.h>
-#include <as/symbol/action/Registrable.h>
-#include <as/symbol/PrimitiveType.h>
-#include <service/ConfigService.h>
+#include <as/symbol/symbol.h>
+#include <as/symbol/scope.h>
+#include <as/symbol/action/registrable.h>
+#include <as/symbol/primitivetype.h>
+#include <service/configservice.h>
 #include <boost/foreach.hpp>
 
 namespace tw { namespace maple { namespace as { namespace symbol {

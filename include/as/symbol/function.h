@@ -24,33 +24,46 @@
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
 
-#ifndef __TW_MAPLE_BACKEDN_PREPEND_DATA_H_
-#define __TW_MAPLE_BACKEDN_PREPEND_DATA_H_
+#ifndef __TW_MAPLE_AS_SYMBOL_SCOPE_FUNCTION_H__
+#define __TW_MAPLE_AS_SYMBOL_SCOPE_FUNCTION_H__
 
-#include <fstream>
-#include <service/ConfigService.h>
+#include <as/symbol/scope.h>
 
-namespace tw { namespace maple { namespace backend { namespace cpp {
+namespace tw { namespace maple { namespace as { namespace symbol {
 
-struct PrependData : public tw::maple::service::ConfigRequest
+struct Function : public Scope
 {
-	PrependData();
+	Function( std::string n, Scope *parent = NULL  )
+		: Scope( n, Scope::T_FUNCTION, parent )
+	{
+	}
 
-	void execute( std::ofstream& os );
 
+	virtual std::string toString()
+	{
+		return "function:"+name() + " return:"+m_return_type_symbol->getFQN();
+	}
+
+	virtual void bindType( SymbolPtr sType )
+	{
+		m_return_type_symbol = sType;
+	}
+	virtual void bindReturnType( SymbolPtr type)
+	{
+		m_return_type_symbol = type;
+	}
+
+	SymbolPtr ReturnType()
+	{
+		return m_return_type_symbol;
+	}
 private:
-	std::string PrefixWarning;
-	std::string LicenseDeclare;
-	std::string IncludeHeaders;
-	std::string Authors;
-	bool		ShowGeneratedTime;
-	std::string _config_name;
-
-protected:
-	virtual bool readConfig( boost::property_tree::ptree& pt ); 		//inherit::ConfigRequest
-	virtual bool writeConfig( boost::property_tree::ptree& pt );		//inherit::ConfigRequest
+	SymbolPtr	m_return_type_symbol;
 };
 
-} } } }
+typedef SHARED_PTR(Function) FunctionPtr;
 
-#endif 
+}}}}//tw/maple/as/symbol
+
+#endif
+

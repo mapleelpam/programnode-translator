@@ -23,10 +23,9 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#include <iostream>
-#include <vector>
+#include <global.h>
 #include <backend/cpp/interpret/interpreter.h>
-#include <stdlib.h>
+
 
 #include <backend/cpp/interpret/expression_list.h>
 #include <backend/cpp/interpret/expr/call.h>
@@ -45,7 +44,6 @@
 #include <backend/cpp/interpret/expr/binary_operator.h>
 #include <backend/cpp/interpret/expr/unary_operator.h>
 #include <backend/cpp/interpret/variable_declare.h>
-#include <backend/cpp/interpret/assignment.h>
 #include <backend/cpp/interpret/stmt/if_stmt.h>
 #include <backend/cpp/interpret/stmt/for_stmt.h>
 #include <backend/cpp/interpret/stmt/while_stmt.h>
@@ -56,7 +54,7 @@
 #include <backend/cpp/interpret/stmt/class_definition.h>
 #include <backend/cpp/interpret/stmt/package_definition.h>
 #include <backend/cpp/interpret/expr/expr_member.h>
-
+#include <backend/cpp/interpret/expr/assignment.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 

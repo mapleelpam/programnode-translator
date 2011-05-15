@@ -24,8 +24,8 @@
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
 
-#ifndef __BACKEDN_CONTEXT_H__
-#define __BACKEDN_CONTEXT_H__
+#ifndef __PNC_TW_MAPLE_BACKEDN_CONTEXT_H__
+#define __PNC_TW_MAPLE_BACKEDN_CONTEXT_H__
 
 #include <fstream>
 

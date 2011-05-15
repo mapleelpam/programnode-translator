@@ -29,7 +29,7 @@
 
 #include "global.h"
 #include <boost/assert.hpp>
-#include <as/symbol/Scope.h>
+#include <as/symbol/scope.h>
 
 namespace tw { namespace maple { namespace as { namespace symbol {
 

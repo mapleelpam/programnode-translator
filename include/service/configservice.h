@@ -26,9 +26,8 @@
 #ifndef __TW_MAPLE_SERVICE_CONFIGSERVICE_H__
 #define __TW_MAPLE_SERVICE_CONFIGSERVICE_H__
 
-#include <map>
-#include <list>
-#include <service/ArgumentsService.h>
+#include <global.h>
+#include <service/argumentsservice.h>
 
 #include <boost/program_options/options_description.hpp>
 #include <boost/program_options/variables_map.hpp>

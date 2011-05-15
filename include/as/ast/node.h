@@ -27,7 +27,7 @@
 #define __TW_MAPLE_AS_AST_NODE_H__
 
 #include <global.h>
-#include <as/symbol/Symbol.h>
+#include <as/symbol/symbol.h>
 
 
 namespace tw { namespace maple { namespace as { namespace ast {

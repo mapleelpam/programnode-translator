@@ -26,9 +26,7 @@
 #ifndef __TW_MAPLE_SERVICE_PASS_MANAGER_SVC_H__
 #define __TW_MAPLE_SERVICE_PASS_MANAGER_SVC_H__
 
-#include <map>
-#include <list>
-#include <service/ArgumentsService.h>
+#include <global.h>
 
 #include <boost/program_options/options_description.hpp>
 #include <boost/program_options/variables_map.hpp>
@@ -40,11 +38,12 @@
 #include <boost/property_tree/info_parser.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 
-#include <service/pass/ProgramNodeLoader.h>
-#include <service/pass/BackendManager.h>
-#include <service/pass/SymbolTableConstructor.h>
-#include <as/symbol/Debug.h>
-#include <as/symbol/SymbolTable.h>
+#include <service/pass/programnodeloader.h>
+#include <service/pass/backendmanager.h>
+#include <service/pass/symboltableconstructor.h>
+#include <service/argumentsservice.h>
+#include <as/symbol/debug.h>
+#include <as/symbol/symboltable.h>
 
 namespace tw { namespace maple { namespace service {
 

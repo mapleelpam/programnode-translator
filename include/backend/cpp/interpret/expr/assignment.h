@@ -23,46 +23,33 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
+#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_ASSIGNMENT_H__
+#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_ASSIGNMENT_H__
 
-#ifndef __TW_MAPLE_AS_SYMBOL_VARIABLE_H__
-#define __TW_MAPLE_AS_SYMBOL_VARIABLE_H__
+#include <as/ast/expr/assignment.h>
+#include <as/ast/call.h>
+#include <backend/cpp/interpret/interpreter.h>
 
-#include <as/symbol/Symbol.h>
+namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
-namespace tw { namespace maple { namespace as { namespace symbol {
+namespace AST = ::tw::maple::as::ast;
 
-struct Variable : public Symbol
-{
-	Variable( std::string n,  uint p = Symbol::T_NONE )
-		: Symbol( n, p | Symbol::T_VARIABLE )
+
+struct Assignment : public Interpreter
+{   
+	virtual std::string expound(
+			::tw::maple::as::ast::NodePtr node
+			, tw::maple::as::symbol::ScopePtr symbol_table
+			, tw::maple::backend::cpp::Context* ctx)
 	{
+		std::string result;
+		AST::AssignmentPtr assignment = STATIC_CAST( AST::Assignment, node);
+
+		return dispatchExpound(assignment->LHS(), symbol_table, ctx) + " = "  + dispatchExpound(assignment->RHS(),symbol_table, ctx);
 	}
-
-
-	virtual std::string toString()
-	{
-		std::string s_attr = "";
-		if( m_properties & T_VARIABLE ) {
-			if( m_properties & T_PRARAMETER )
-				s_attr = "param";
-			else
-				s_attr = "local";
-		}
-
-		return "variable:"+name()+","+s_attr+" type:"+m_type_symbol->getFQN();
-	}
-
-	virtual void bindType( SymbolPtr type)
-	{
-			m_type_symbol = type;
-	}
-private:
-	SymbolPtr	m_type_symbol;
 };
 
-typedef SHARED_PTR(Variable) VariablePtr;
 
-}}}}//tw/maple/as/symbol
+} } } } }
 
-#endif
-
+#endif 

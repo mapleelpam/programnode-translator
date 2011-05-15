@@ -8,9 +8,8 @@
 #ifndef REGISTRABLE_H_
 #define REGISTRABLE_H_
 
-#include <as/symbol/Symbol.h>
-//#include <as/symbol/PrimitiveType.h>
-#include <as/symbol/Variable.h>
+#include <as/symbol/symbol.h>
+#include <as/symbol/variable.h>
 namespace tw {namespace maple {namespace as {namespace symbol {
 
 class Function;

@@ -28,7 +28,7 @@
 
 #include <as/ast/variable_declare.h>
 #include <backend/cpp/interpret/interpreter.h>
-#include <backend/cpp/template_printer.h>
+#include <backend/cpp/templateprinter.h>
 #include <global.h>
 #include <boost/foreach.hpp>
 
@@ -55,7 +55,8 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 		if( (var->VariableType).size() == 1 )
 		{
 			var_type = invoke_type_mapper( (var->VariableType)[0] );
-		} else
+		}
+		else
 		{
 
 			var_type += (var->VariableType)[0];

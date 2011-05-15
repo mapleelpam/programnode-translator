@@ -24,35 +24,43 @@
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
 
-#ifndef __TW_MAPLE_AS_SYMBOL_PRIMITIVE_TYPE_H__
-#define __TW_MAPLE_AS_SYMBOL_PRIMITIVE_TYPE_H__
+#ifndef __TW_MAPLE_AS_SYMBOL_VARIABLE_H__
+#define __TW_MAPLE_AS_SYMBOL_VARIABLE_H__
 
-#include <as/symbol/Symbol.h>
+#include <as/symbol/symbol.h>
 
 namespace tw { namespace maple { namespace as { namespace symbol {
 
-struct PrimitiveType : public Symbol
+struct Variable : public Symbol
 {
-	PrimitiveType( std::string n, bool _is_pointer = false )
-		: Symbol( n, Symbol::T_PRIMITIVE_TYPE )
-		, is_pointer( _is_pointer )
+	Variable( std::string n,  uint p = Symbol::T_NONE )
+		: Symbol( n, p | Symbol::T_VARIABLE )
 	{
 	}
 
 
 	virtual std::string toString()
 	{
-		return "type:"+name();
+		std::string s_attr = "";
+		if( m_properties & T_VARIABLE ) {
+			if( m_properties & T_PRARAMETER )
+				s_attr = "param";
+			else
+				s_attr = "local";
+		}
+
+		return "variable:"+name()+","+s_attr+" type:"+m_type_symbol->getFQN();
 	}
 
-	virtual std::string getFQN()
+	virtual void bindType( SymbolPtr type)
 	{
-		return name();
+			m_type_symbol = type;
 	}
-	bool is_pointer;
+private:
+	SymbolPtr	m_type_symbol;
 };
 
-typedef SHARED_PTR(PrimitiveType) TypePtr;
+typedef SHARED_PTR(Variable) VariablePtr;
 
 }}}}//tw/maple/as/symbol
 

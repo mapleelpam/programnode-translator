@@ -23,44 +23,43 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#include <as/symbol/Scope.h>
-#include <as/symbol/Function.h>
-#include <as/ast/node.h>
-#include <as/ast/program.h>
+#ifndef __TW_MAPLE_SERVICE_BACKEND_MANAGER_H__
+#define __TW_MAPLE_SERVICE_BACKEND_MANAGER_H__
 
-
-#ifndef __TW_MAPLE_SERVICE_SYMBOL_TABLE_CONSTRUCTOR_H__
-#define __TW_MAPLE_SERVICE_SYMBOL_TABLE_CONSTRUCTOR_H__
+#include <backend/cpp/interpret/interpreter.h>
+#include <backend/cpp/prependdata.h>
+#include <pnodehandler.h>
 
 namespace tw { namespace maple { namespace service { namespace pass {
 
-struct SymbolTableConstructor {
+
+struct BackendManager {
+
 	static void exec(
 			tw::maple::as::ast::ProgramList& pnode_list /* input program node */
-			, tw::maple::as::symbol::ScopePtr root
+			, tw::maple::as::symbol::ScopePtr symbol_table
+			, tw::maple::backend::cpp::PrependData prepend_data
+			, std::string file_name /* write to */
 			)
 	{
-		namespace AST = tw::maple::as::ast;
+		namespace INTERPRET = tw::maple::backend::cpp::interpret;
 
-		for (std::vector< AST::ProgramPtr>::iterator nodeItr = pnode_list.begin()
-			; nodeItr != pnode_list.end(); nodeItr++)
-			constructSymbols( *nodeItr, root);
+		tw::maple::backend::cpp::Context context;
+		context.ofs_stream.open( file_name.c_str() );
+		// Interpret/Explain - Invoke Back-end Stream Out
 
-		for (std::vector< AST::ProgramPtr>::iterator nodeItr = pnode_list.begin()
-			; nodeItr != pnode_list.end(); nodeItr++)
-			linkVariableType( *nodeItr, root);
+		prepend_data.execute( context.ofs_stream );
+
+		for (std::vector<tw::maple::as::ast::ProgramPtr>::iterator
+				nodeItr = pnode_list.begin(); nodeItr != pnode_list.end(); nodeItr++) {
+			context.ofs_stream << INTERPRET::dispatchExpound(*nodeItr, symbol_table, &context);
+		}
+
+		context.ofs_stream.close();
 	}
 
-private:
-	static void constructSymbols(
-			tw::maple::as::ast::NodePtr node /* input program node */
-			, tw::maple::as::symbol::ScopePtr symboltable
-			);
-	static void linkVariableType(
-			tw::maple::as::ast::NodePtr node /* input program node */
-			, tw::maple::as::symbol::ScopePtr symboltable
-			);
+
 };
 
-} } } }//pass.service.maple.tw
-#endif /* INFOMATIONCONSTRUCTOR_H_ */
+} } } } // pass.service.maple.tw
+#endif /* PROGRAMNODELOADER_H_ */

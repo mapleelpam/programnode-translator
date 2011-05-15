@@ -23,33 +23,38 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_ASSIGNMENT_H__
-#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_ASSIGNMENT_H__
 
-#include <as/ast/assignment.h>
-#include <as/ast/call.h>
-#include <backend/cpp/interpret/interpreter.h>
+#ifndef __TW_MAPLE_AS_SYMBOL_PRIMITIVE_TYPE_H__
+#define __TW_MAPLE_AS_SYMBOL_PRIMITIVE_TYPE_H__
 
-namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
+#include <as/symbol/symbol.h>
 
-namespace AST = ::tw::maple::as::ast;
+namespace tw { namespace maple { namespace as { namespace symbol {
 
-
-struct Assignment : public Interpreter
-{   
-	virtual std::string expound(
-			::tw::maple::as::ast::NodePtr node
-			, tw::maple::as::symbol::ScopePtr symbol_table
-			, tw::maple::backend::cpp::Context* ctx)
+struct PrimitiveType : public Symbol
+{
+	PrimitiveType( std::string n, bool _is_pointer = false )
+		: Symbol( n, Symbol::T_PRIMITIVE_TYPE )
+		, is_pointer( _is_pointer )
 	{
-		std::string result;
-		AST::AssignmentPtr assignment = STATIC_CAST( AST::Assignment, node);
-
-		return dispatchExpound(assignment->LHS(), symbol_table, ctx) + " = "  + dispatchExpound(assignment->RHS(),symbol_table, ctx);
 	}
+
+
+	virtual std::string toString()
+	{
+		return "type:"+name();
+	}
+
+	virtual std::string getFQN()
+	{
+		return name();
+	}
+	bool is_pointer;
 };
 
+typedef SHARED_PTR(PrimitiveType) TypePtr;
 
-} } } } }
+}}}}//tw/maple/as/symbol
 
-#endif 
+#endif
+

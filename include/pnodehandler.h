@@ -42,7 +42,7 @@
 #include <as/ast/token/literal_number.h>
 #include <as/ast/token/literal_boolean.h>
 #include <as/ast/expression_list.h>
-#include <as/ast/identifier.h>
+#include <as/ast/token/identifier.h>
 #include <as/ast/program.h>
 #include <as/ast/arguments.h>
 #include <as/ast/argument.h>
@@ -56,10 +56,10 @@
 #include <as/ast/expr/instanceof.h>
 #include <as/ast/expr/is.h>
 #include <as/ast/expr/unary_operator.h>
+#include <as/ast/expr/assignment.h>
 #include <as/ast/variable_declare.h>
 #include <as/ast/return_stmt.h>
 #include <as/ast/statement_list.h>
-#include <as/ast/assignment.h>
 #include <as/ast/node.h>
 
 #include <as/ast/stmt_expression.h>

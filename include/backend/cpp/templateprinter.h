@@ -30,7 +30,7 @@
 #include <fstream>
 #include <list>
 #include <tr1/memory>
-#include <service/ConfigService.h>
+#include <service/configservice.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp {
 

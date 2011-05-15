@@ -27,9 +27,6 @@
 #ifndef __TW_MAPLE_AS_SYMBOL__SYMBOL_H__
 #define __TW_MAPLE_AS_SYMBOL__SYMBOL_H__
 
-#include <boost/assert.hpp>
-#include <string>
-#include <stdlib.h>
 #include <global.h>
 
 namespace tw { namespace maple { namespace as { namespace symbol {

@@ -28,8 +28,8 @@
 
 #include <as/ast/expr/expr_member.h>
 #include <backend/cpp/interpret/interpreter.h>
-#include <backend/cpp/template_printer.h>
-#include <as/symbol/Scope.h>
+#include <backend/cpp/templateprinter.h>
+#include <as/symbol/scope.h>
 
 #include <global.h>
 

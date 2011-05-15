@@ -24,7 +24,7 @@
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
 
-#include <service/pass/SymbolTableConstructor.h>
+#include <service/pass/symboltableconstructor.h>
 #include <backend/cpp/interpret/interpreter.h>
 
 #include <as/ast/func/function_definition.h>
@@ -39,8 +39,8 @@
 #include <as/ast/stmt/class_definition.h>
 
 #include <as/ast/variable_declare.h>
-#include <as/symbol/Scope.h>
-#include <as/symbol/Function.h>
+#include <as/symbol/scope.h>
+#include <as/symbol/function.h>
 #include <backend/cpp/context.h>
 
 namespace tw { namespace maple { namespace service { namespace pass {

@@ -29,11 +29,11 @@ INCLUDE_DIRECTORIES(
 
 ADD_EXECUTABLE( pnc
     ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/backend/cpp/interpret/Interpret.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/backend/cpp/prepend_data.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/service/ConfigService.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/service/pass/SymbolTableConstructor.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/as/symbol/Registrable.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/backend/cpp/interpret/interpret.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/backend/cpp/prependdata.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/service/configservice.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/service/pass/symboltableconstructor.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/as/symbol/registrable.cpp
     ${AST_THRIFT_SRC} 
     )
 

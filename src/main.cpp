@@ -23,25 +23,19 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#include <iostream>
-#include <fstream>
-
-#include "AstDumper.h"  
-
+#include <global.h>
 #include <backend/cpp/interpret/interpreter.h>
-#include <backend/cpp/prepend_data.h>
-#include <service/ConfigService.h>
-#include <service/ArgumentsService.h>
+#include <backend/cpp/prependdata.h>
+#include <service/configservice.h>
+#include <service/argumentsservice.h>
+#include <service/passmanagerservice.h>
+#include <as/symbol/scope.h>
+#include <as/symbol/symbol.h>
 
 #include <boost/program_options/options_description.hpp>
 #include <boost/program_options/variables_map.hpp>
 #include <boost/program_options/parsers.hpp>
 #include <boost/program_options/value_semantic.hpp>
-
-#include <as/symbol/Scope.h>
-#include <as/symbol/Symbol.h>
-
-#include <service/PassManagerService.h>
 
 //namespace po = boost::program_options;
 

@@ -25,13 +25,16 @@
 
 
 
-#ifndef __TW_MAPLE_GLOBAL_H__
-#define __TW_MAPLE_GLOBAL_H__
+#ifndef __PNC_TW_MAPLE_GLOBAL_H__
+#define __PNC_TW_MAPLE_GLOBAL_H__
 
 #include <iostream>
 #include <stack>
 #include <vector>
 #include <list>
+#include <string>
+#include <stdlib.h>
+#include <fstream>
 
 #define USE_STD_SMART_PTR
 
@@ -44,5 +47,6 @@
 #endif
 
 #include <boost/assert.hpp>
+
 
 #endif

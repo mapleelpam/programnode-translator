@@ -29,7 +29,7 @@
 #include <as/ast/stmt/class_definition.h>
 #include <as/ast/call.h>
 #include <backend/cpp/interpret/interpreter.h>
-#include <backend/cpp/template_printer.h>
+#include <backend/cpp/templateprinter.h>
 
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {

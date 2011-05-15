@@ -31,12 +31,11 @@
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
 
-#include <boost/assert.hpp>
-#include <string>
-#include <as/symbol/Symbol.h>
-#include <as/symbol/Scope.h>
-#include <as/symbol/action/Registrable.h>
-#include <as/symbol/Function.h>
+#include <global.h>
+#include <as/symbol/symbol.h>
+#include <as/symbol/scope.h>
+#include <as/symbol/action/registrable.h>
+#include <as/symbol/function.h>
 
 namespace tw { namespace maple {namespace as {namespace symbol {
 

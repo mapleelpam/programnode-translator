@@ -23,9 +23,7 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#include <stdlib.h>
-
-#include <backend/cpp/prepend_data.h>
+#include <backend/cpp/prependdata.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp {
 

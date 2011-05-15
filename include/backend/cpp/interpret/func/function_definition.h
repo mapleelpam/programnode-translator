@@ -32,8 +32,8 @@
 #include <as/ast/func/function_common.h>
 #include <as/ast/call.h>
 #include <backend/cpp/interpret/interpreter.h>
-#include <backend/cpp/template_printer.h>
-#include <as/symbol/Scope.h>
+#include <backend/cpp/templateprinter.h>
+#include <as/symbol/scope.h>
 
 #include <global.h>
 

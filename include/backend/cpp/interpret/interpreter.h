@@ -30,7 +30,7 @@
 #include <as/ast/abstract/expression.h>
 #include <as/ast/call.h>
 #include <backend/cpp/context.h>
-#include <as/symbol/Scope.h>
+#include <as/symbol/scope.h>
 
 #define DEBUG_INTERPRET_ENTRY {std::cout << typeid(*this).name() << "::"<<__FUNCTION__<< " enter function" <<std::endl;	}
 #define DEBUG_INTERPRET_LEAVE {std::cout << typeid(*this).name() << "::"<<__FUNCTION__<< " leave function" <<std::endl;	}

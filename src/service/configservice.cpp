@@ -23,7 +23,7 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#include <service/ConfigService.h>
+#include <service/configservice.h>
 
 namespace tw { namespace maple { namespace service {
 
