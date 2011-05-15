@@ -26,8 +26,7 @@
 #ifndef __TW_MAPLE_AS_AST_NODE_COMP_CLASS_ATTR_H__
 #define __TW_MAPLE_AS_AST_NODE_COMP_CLASS_ATTR_H__
 
-#include <tr1/memory>
-#include <as/ast/statement.h>
+#include <as/ast/abstract/statement.h>
 
 
 namespace tw { namespace maple { namespace as { namespace ast {

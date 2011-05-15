@@ -124,8 +124,7 @@ void SymbolTableConstructor:: constructSymbols(
 				std::string str_varname = var->VariableName;
 				var->setSymbol( symboltable->registerVariable( str_varname ) );
 			}	break;
-			case AST::Node::NodeType::T_IF_STMT_THEN:
-			case AST::Node::NodeType::T_IF_STMT_ELSE:
+			case AST::Node::NodeType::T_SCOPE:
 			{
 				ASY::ScopePtr scope_stmt( symboltable->registerAnonymousScope( ) );
 				(*nItr) -> setSymbol( scope_stmt );

@@ -57,7 +57,6 @@
 #include <as/ast/expr/is.h>
 #include <as/ast/expr/unary_operator.h>
 #include <as/ast/variable_declare.h>
-#include <as/ast/statement.h>
 #include <as/ast/return_stmt.h>
 #include <as/ast/statement_list.h>
 #include <as/ast/assignment.h>
@@ -67,8 +66,6 @@
 
 #include <as/ast/stmt/if_stmt.h>
 #include <as/ast/expr/expr_condition.h>
-#include <as/ast/stmt/if_stmt_then.h>
-#include <as/ast/stmt/if_stmt_else.h>
 
 #include <as/ast/stmt/class_definition.h>
 #include <as/ast/stmt/class_stmt.h>
@@ -79,6 +76,7 @@
 #include <as/ast/stmt/for_stmt.h>
 #include <as/ast/stmt/do_stmt.h>
 #include <as/ast/stmt/while_stmt.h>
+#include <as/ast/stmt/scope_statement.h>
 
 #include <as/ast/expr/expr_member.h>
 
@@ -149,15 +147,7 @@ public:
 	}
 
 	void startPackage(const generated::StringList& id) {
-
-		//      printf(" %lu startPackage\n", _node_stack.size() );
-//		std::cout << " package name  " << *(id.begin()) << std::endl;
-
-		      PUSH_STACK_WITH_INIT( PackageDefinition, id );
-
-//		as::ast::PackageDefinitionPtr pkg(new as::ast::PackageDefinition(id));
-//		_node_stack . top() -> addNodeChild(pkg);
-//		_node_stack . push(pkg);
+      PUSH_STACK_WITH_INIT( PackageDefinition, id );
 	}
 
 	void endPackage(const generated::StringList& IDs) {
@@ -346,22 +336,22 @@ public:
 	void endExprCondition() {
 		CHECK_STACK_AND_POP( ConditionExpression, AST::Node::NodeType::T_EXPR_CONDITION );
 	}
-	void startIfStatement_Then() {
-		PUSH_STACK( IfStatementThen );
-	}
-	void startIfStatement_Else() {
-		PUSH_STACK( IfStatementElse );
-	}
+//	void startIfStatement_Then() {
+//		PUSH_STACK( IfStatementThen );
+//	}
+//	void startIfStatement_Else() {
+//		PUSH_STACK( IfStatementElse );
+//	}
 	void endIfStatement() {
 		CHECK_STACK_AND_POP( IfStatement, AST::Node::NodeType::T_STMT_IF );
 	}
 
-	void endIfStatement_Then() {
-		CHECK_STACK_AND_POP( IfStatement_Then, AST::Node::NodeType::T_IF_STMT_THEN );
-	}
-	void endtIfStatement_Else() {
-		CHECK_STACK_AND_POP( IfStatement_Else, AST::Node::NodeType::T_IF_STMT_ELSE );
-	}
+//	void endIfStatement_Then() {
+//		CHECK_STACK_AND_POP( IfStatement_Then, AST::Node::NodeType::T_IF_STMT_THEN );
+//	}
+//	void endtIfStatement_Else() {
+//		CHECK_STACK_AND_POP( IfStatement_Else, AST::Node::NodeType::T_IF_STMT_ELSE );
+//	}
 
 	void startClassDefinition(const generated::ClassDefinition& class_define) {
 		printf(" %lu startClassDefine\n", _node_stack.size());
@@ -451,6 +441,13 @@ public:
 
     void endWhileStatement() {
     	CHECK_STACK_AND_POP( WhileStatement, AST::Node::NodeType::T_STMT_WHILE );
+    }
+    void startScope() {
+    	PUSH_STACK( ScopeStatement );
+    }
+
+    void endScope() {
+    	CHECK_STACK_AND_POP( ScopeStatement, AST::Node::NodeType::T_SCOPE );
     }
 public:
    as::ast::ProgramPtr getProgramNode() {	return _program_root;	};

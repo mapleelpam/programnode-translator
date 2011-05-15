@@ -26,7 +26,6 @@
 #ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_LITERAL_BOOL_H_
 #define __TW_MAPLE_BACKEDN_CPP_INTERPRET_LITERAL_BOOL_H__
 
-#include <as/ast/expression.h>
 #include <backend/cpp/interpret/interpreter.h>
 #include <as/ast/token/literal_boolean.h>
 #include <global.h>

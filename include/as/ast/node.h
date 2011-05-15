@@ -57,6 +57,7 @@ struct Node
             T_FUNCTION_COMMON ,
 
             T_STMT_LIST ,
+            T_SCOPE,
             T_ConstantNumber,
 
             // Expr
@@ -89,8 +90,7 @@ struct Node
 
             T_EXPR_CONDITION,
             T_STMT_IF,
-            	T_IF_STMT_THEN,
-            	T_IF_STMT_ELSE,
+
             T_STMT_FOR,
             	T_FOR_INIT,
             	T_FOR_STEP,

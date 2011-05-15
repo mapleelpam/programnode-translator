@@ -26,8 +26,7 @@
 #ifndef __TW_MAPLE_AS_AST_ASSIGNMENT_H__
 #define __TW_MAPLE_AS_AST_ASSIGNMENT_H__
 
-#include <tr1/memory>
-#include <as/ast/expression.h>
+#include <as/ast/abstract/expression.h>
 #include <global.h>
 
 

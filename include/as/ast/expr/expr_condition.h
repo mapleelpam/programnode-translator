@@ -26,7 +26,7 @@
 #ifndef __AS_AST_SATEMENTS_EXPR_CONDITION_H__
 #define __AS_AST_SATEMENTS_EXPR_CONDITION_H__
 
-#include <as/ast/statement.h>
+#include <as/ast/abstract/expression.h>
 
 
 namespace tw { namespace maple { namespace as { namespace ast {

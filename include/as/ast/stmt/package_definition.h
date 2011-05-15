@@ -27,7 +27,7 @@
 #ifndef __AS_AST_STMT_PACKAGE_DEFINITION_H__
 #define __AS_AST_STMT_PACKAGE_DEFINITION_H__
 
-#include <as/ast/statement.h>
+#include <as/ast/abstract/statement.h>
 
 namespace tw { namespace maple { namespace as { namespace ast {
 

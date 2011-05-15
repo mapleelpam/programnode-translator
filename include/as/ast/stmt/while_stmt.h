@@ -26,8 +26,7 @@
 #ifndef __TW_MAPLE_AS_AST_SATEMENTS_WHILE_STMT_H__
 #define __TW_MAPLE_AS_AST_SATEMENTS_WHILE_STMT_H__
 
-#include <as/ast/statement.h>
-#include <as/ast/expression.h>
+#include <as/ast/abstract/statement.h>
 
 
 namespace tw { namespace maple { namespace as { namespace ast {

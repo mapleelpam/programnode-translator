@@ -26,7 +26,6 @@
 #ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_EXPR_H__
 #define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_EXPR_H__
 
-#include <as/ast/expression.h>
 #include <as/ast/statement_list.h>
 #include <backend/cpp/interpret/interpreter.h>
 

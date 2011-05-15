@@ -127,26 +127,6 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("startIfStatement\n");
   }
 
-  void startIfStatement_Then() {
-    // Your implementation goes here
-    printf("startIfStatement_Then\n");
-  }
-
-  void endIfStatement_Then() {
-    // Your implementation goes here
-    printf("endIfStatement_Then\n");
-  }
-
-  void startIfStatement_Else() {
-    // Your implementation goes here
-    printf("startIfStatement_Else\n");
-  }
-
-  void endtIfStatement_Else() {
-    // Your implementation goes here
-    printf("endtIfStatement_Else\n");
-  }
-
   void endIfStatement() {
     // Your implementation goes here
     printf("endIfStatement\n");
@@ -295,6 +275,16 @@ class AstDumperHandler : virtual public AstDumperIf {
   void endStmtList() {
     // Your implementation goes here
     printf("endStmtList\n");
+  }
+
+  void startScope() {
+    // Your implementation goes here
+    printf("startScope\n");
+  }
+
+  void endScope() {
+    // Your implementation goes here
+    printf("endScope\n");
   }
 
   void startClassDefinition(const ClassDefinition& class_define) {

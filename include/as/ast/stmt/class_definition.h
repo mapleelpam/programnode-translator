@@ -27,7 +27,7 @@
 #define __TW_MAPLE_AS_AST_SATEMENTS_CLASS_DEFINE_H__
 
 #include <global.h>
-#include <as/ast/statement.h>
+#include <as/ast/abstract/statement.h>
 
 
 namespace tw { namespace maple { namespace as { namespace ast {

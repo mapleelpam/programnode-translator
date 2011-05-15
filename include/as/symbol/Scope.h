@@ -148,7 +148,7 @@ struct Scope : public Symbol, public Registrable
 			}
 		} else {
 			if( child == NULL)
-				std::cerr << "  = = 2" << std::endl;
+				std::cerr << "  = = 2'" << query[0] <<"'" << std::endl;
 			else
 				std::cerr << "  = = " << child->getSymbolProperties() << std::endl;
 		}

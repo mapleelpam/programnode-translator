@@ -28,7 +28,7 @@
 #define __AS_AST_EXPR_MEMBERS_H__
 
 #include <tr1/memory>
-#include <as/ast/expression.h>
+#include <as/ast/abstract/expression.h>
 
 namespace tw { namespace maple { namespace as { namespace ast {
 

@@ -26,8 +26,7 @@
 #ifndef __AS_AST_SATEMENTS_ERTURN_STMT_H__
 #define __AS_AST_SATEMENTS_ERTURN_STMT_H__
 
-#include <tr1/memory>
-#include <as/ast/statement.h>
+#include <as/ast/abstract/statement.h>
 
 
 namespace tw { namespace maple { namespace as { namespace ast {

@@ -26,7 +26,7 @@
 #ifndef __TW_MAPLE_AS_AST_CALL_
 #define __TW_MAPLE_AS_AST_CALL_
 
-#include <as/ast/expression.h>
+#include <as/ast/abstract/expression.h>
 
 namespace tw { namespace maple { namespace as { namespace ast {
 

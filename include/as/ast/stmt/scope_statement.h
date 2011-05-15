@@ -23,23 +23,28 @@
 
 // Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
 
-#ifndef __AS_AST_SATEMENTS_IF_STMT_ELSE_H__
-#define __AS_AST_SATEMENTS_IF_STMT_ELSE_H__
+#ifndef __AS_AST_SATEMENTS_SCOPE_STMT_H__
+#define __AS_AST_SATEMENTS_SCOPE_STMT_H__
 
-#include <as/ast/statement.h>
+#include <as/ast/abstract/statement.h>
 
 
 namespace tw { namespace maple { namespace as { namespace ast {
 
-struct IfStatementElse : public Statement
+// Abstract
+struct ScopeStatement : public Statement
 {
-	IfStatementElse() :
-		Statement(Node::NodeType::T_IF_STMT_ELSE) {
+	ScopeStatement() :
+		Statement(Node::NodeType::T_SCOPE) {
+	}
+	int stmtType() {
+		return Node::NodeType::T_SCOPE;
 	}
 
-	std::string toString()  {	return "node::if_stmt_else"; };
+	std::string toString()  {	return "node::scope_stmt"; };
 };
-typedef SHARED_PTR(IfStatementElse) IfStatementElsePtr;
+
+typedef SHARED_PTR(ScopeStatement) ScopeStatementPtr;
 
 } } } }
 
