@@ -43,8 +43,6 @@ struct ObjectType {
 
 extern const std::map<int, const char*> _ObjectType_VALUES_TO_NAMES;
 
-typedef std::vector<std::string>  StringList;
-
 typedef struct _Identifier__isset {
   _Identifier__isset() : type(false), name(false), qualifier(false) {}
   bool type;
@@ -197,8 +195,8 @@ class ClassDefinition {
   bool has_baseclass;
   bool has_interface;
   bool has_stmt;
-  StringList inherits;
-  StringList interfaces;
+  std::vector<std::string>  inherits;
+  std::vector<std::string>  interfaces;
   ObjectType::type object_type;
   std::string attribute;
 
@@ -231,6 +229,55 @@ class ClassDefinition {
   }
 
   bool operator < (const ClassDefinition & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _VariableDeclare__isset {
+  _VariableDeclare__isset() : name(false), type(false), attributes(false), has_initialize(false) {}
+  bool name;
+  bool type;
+  bool attributes;
+  bool has_initialize;
+} _VariableDeclare__isset;
+
+class VariableDeclare {
+ public:
+
+  static const char* ascii_fingerprint; // = "246E3DA277034CB0FF77EE09B6CC4A7B";
+  static const uint8_t binary_fingerprint[16]; // = {0x24,0x6E,0x3D,0xA2,0x77,0x03,0x4C,0xB0,0xFF,0x77,0xEE,0x09,0xB6,0xCC,0x4A,0x7B};
+
+  VariableDeclare() : name(""), has_initialize(0) {
+  }
+
+  virtual ~VariableDeclare() throw() {}
+
+  std::string name;
+  std::vector<std::string>  type;
+  std::vector<std::string>  attributes;
+  bool has_initialize;
+
+  _VariableDeclare__isset __isset;
+
+  bool operator == (const VariableDeclare & rhs) const
+  {
+    if (!(name == rhs.name))
+      return false;
+    if (!(type == rhs.type))
+      return false;
+    if (!(attributes == rhs.attributes))
+      return false;
+    if (!(has_initialize == rhs.has_initialize))
+      return false;
+    return true;
+  }
+  bool operator != (const VariableDeclare &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const VariableDeclare & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;

@@ -41,7 +41,8 @@
 #include <as/ast/variable_declare.h>
 #include <as/symbol/scope.h>
 #include <as/symbol/function.h>
-#include <backend/cpp/context.h>
+#include <as/symbol/variable.h>
+//#include <backend/cpp/context.h>
 
 namespace tw { namespace maple { namespace service { namespace pass {
 
@@ -123,10 +124,13 @@ void SymbolTableConstructor:: constructSymbols(
 				AST::VariableDeclarePtr var = std::tr1::static_pointer_cast<AST::VariableDeclare>(*nItr);
 				std::string str_varname = var->VariableName;
 
-				ASY::SymbolPtr symbol_var( symboltable->registerVariable( str_varname ) );
+				ASY::VariablePtr symbol_var( symboltable->registerVariable( str_varname ) );
 				var->setSymbol( symbol_var );
 
 				symbol_var->setIsStatic( var->isStatic() );
+				if( var->varInit() )
+					symbol_var->setInitializeNode( var->varInit() );
+
 //				std::cerr <<" variable's attribute = "<<var->VariableAttribute<<std::endl;
 			}	break;
 			case AST::Node::NodeType::T_SCOPE:

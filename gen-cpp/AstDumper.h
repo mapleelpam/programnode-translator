@@ -16,15 +16,15 @@ class AstDumperIf {
   virtual ~AstDumperIf() {}
   virtual void startProgram() = 0;
   virtual void endProgram() = 0;
-  virtual void startPackage(const StringList& id) = 0;
-  virtual void endPackage(const StringList& IDs) = 0;
+  virtual void startPackage(const std::vector<std::string> & id) = 0;
+  virtual void endPackage(const std::vector<std::string> & IDs) = 0;
   virtual void startFunctionDefinition(const bool isAbstract) = 0;
-  virtual void functionAttribute(const StringList& attrs) = 0;
+  virtual void functionAttribute(const std::vector<std::string> & attrs) = 0;
   virtual void functionName(const std::string& name) = 0;
   virtual void startFunctionCommon() = 0;
   virtual void startFunctionSignature(const std::string& type) = 0;
   virtual void startFunctionSignatureParameters() = 0;
-  virtual void startFunctionSignatureParameterMember(const std::string& name, const StringList& type) = 0;
+  virtual void startFunctionSignatureParameterMember(const std::string& name, const std::vector<std::string> & type) = 0;
   virtual void endFunctionSignatureParameterMember() = 0;
   virtual void endFunctionSignatureParameters() = 0;
   virtual void endFunctionSignature() = 0;
@@ -53,7 +53,7 @@ class AstDumperIf {
   virtual void endIsOperator() = 0;
   virtual void startUnaryExpression(const UnaryExpression& op) = 0;
   virtual void endUnaryExpression() = 0;
-  virtual void startVariableDeclare(const std::string& name, const StringList& type, const std::vector<std::string> & attributes) = 0;
+  virtual void startVariableDeclare(const VariableDeclare& var_decl) = 0;
   virtual void endVariableDeclare() = 0;
   virtual void startAssignment() = 0;
   virtual void endAssignment() = 0;
@@ -62,7 +62,7 @@ class AstDumperIf {
   virtual void literalNumberExpression(const Literal& str) = 0;
   virtual void literalBooleanExpression(const Literal& str) = 0;
   virtual void endExpressionList() = 0;
-  virtual void addImport(const StringList& packages) = 0;
+  virtual void addImport(const std::vector<std::string> & packages) = 0;
   virtual void startStmtList() = 0;
   virtual void endStmtList() = 0;
   virtual void startScope() = 0;
@@ -96,16 +96,16 @@ class AstDumperNull : virtual public AstDumperIf {
   void endProgram() {
     return;
   }
-  void startPackage(const StringList& /* id */) {
+  void startPackage(const std::vector<std::string> & /* id */) {
     return;
   }
-  void endPackage(const StringList& /* IDs */) {
+  void endPackage(const std::vector<std::string> & /* IDs */) {
     return;
   }
   void startFunctionDefinition(const bool /* isAbstract */) {
     return;
   }
-  void functionAttribute(const StringList& /* attrs */) {
+  void functionAttribute(const std::vector<std::string> & /* attrs */) {
     return;
   }
   void functionName(const std::string& /* name */) {
@@ -120,7 +120,7 @@ class AstDumperNull : virtual public AstDumperIf {
   void startFunctionSignatureParameters() {
     return;
   }
-  void startFunctionSignatureParameterMember(const std::string& /* name */, const StringList& /* type */) {
+  void startFunctionSignatureParameterMember(const std::string& /* name */, const std::vector<std::string> & /* type */) {
     return;
   }
   void endFunctionSignatureParameterMember() {
@@ -207,7 +207,7 @@ class AstDumperNull : virtual public AstDumperIf {
   void endUnaryExpression() {
     return;
   }
-  void startVariableDeclare(const std::string& /* name */, const StringList& /* type */, const std::vector<std::string> & /* attributes */) {
+  void startVariableDeclare(const VariableDeclare& /* var_decl */) {
     return;
   }
   void endVariableDeclare() {
@@ -234,7 +234,7 @@ class AstDumperNull : virtual public AstDumperIf {
   void endExpressionList() {
     return;
   }
-  void addImport(const StringList& /* packages */) {
+  void addImport(const std::vector<std::string> & /* packages */) {
     return;
   }
   void startStmtList() {
@@ -392,7 +392,7 @@ class AstDumper_startPackage_args {
 
   virtual ~AstDumper_startPackage_args() throw() {}
 
-  StringList id;
+  std::vector<std::string>  id;
 
   _AstDumper_startPackage_args__isset __isset;
 
@@ -420,7 +420,7 @@ class AstDumper_startPackage_pargs {
 
   virtual ~AstDumper_startPackage_pargs() throw() {}
 
-  const StringList* id;
+  const std::vector<std::string> * id;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -439,7 +439,7 @@ class AstDumper_endPackage_args {
 
   virtual ~AstDumper_endPackage_args() throw() {}
 
-  StringList IDs;
+  std::vector<std::string>  IDs;
 
   _AstDumper_endPackage_args__isset __isset;
 
@@ -467,7 +467,7 @@ class AstDumper_endPackage_pargs {
 
   virtual ~AstDumper_endPackage_pargs() throw() {}
 
-  const StringList* IDs;
+  const std::vector<std::string> * IDs;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -533,7 +533,7 @@ class AstDumper_functionAttribute_args {
 
   virtual ~AstDumper_functionAttribute_args() throw() {}
 
-  StringList attrs;
+  std::vector<std::string>  attrs;
 
   _AstDumper_functionAttribute_args__isset __isset;
 
@@ -561,7 +561,7 @@ class AstDumper_functionAttribute_pargs {
 
   virtual ~AstDumper_functionAttribute_pargs() throw() {}
 
-  const StringList* attrs;
+  const std::vector<std::string> * attrs;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -750,7 +750,7 @@ class AstDumper_startFunctionSignatureParameterMember_args {
   virtual ~AstDumper_startFunctionSignatureParameterMember_args() throw() {}
 
   std::string name;
-  StringList type;
+  std::vector<std::string>  type;
 
   _AstDumper_startFunctionSignatureParameterMember_args__isset __isset;
 
@@ -781,7 +781,7 @@ class AstDumper_startFunctionSignatureParameterMember_pargs {
   virtual ~AstDumper_startFunctionSignatureParameterMember_pargs() throw() {}
 
   const std::string* name;
-  const StringList* type;
+  const std::vector<std::string> * type;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -1854,33 +1854,25 @@ class AstDumper_endUnaryExpression_pargs {
 };
 
 typedef struct _AstDumper_startVariableDeclare_args__isset {
-  _AstDumper_startVariableDeclare_args__isset() : name(false), type(false), attributes(false) {}
-  bool name;
-  bool type;
-  bool attributes;
+  _AstDumper_startVariableDeclare_args__isset() : var_decl(false) {}
+  bool var_decl;
 } _AstDumper_startVariableDeclare_args__isset;
 
 class AstDumper_startVariableDeclare_args {
  public:
 
-  AstDumper_startVariableDeclare_args() : name("") {
+  AstDumper_startVariableDeclare_args() {
   }
 
   virtual ~AstDumper_startVariableDeclare_args() throw() {}
 
-  std::string name;
-  StringList type;
-  std::vector<std::string>  attributes;
+  VariableDeclare var_decl;
 
   _AstDumper_startVariableDeclare_args__isset __isset;
 
   bool operator == (const AstDumper_startVariableDeclare_args & rhs) const
   {
-    if (!(name == rhs.name))
-      return false;
-    if (!(type == rhs.type))
-      return false;
-    if (!(attributes == rhs.attributes))
+    if (!(var_decl == rhs.var_decl))
       return false;
     return true;
   }
@@ -1902,9 +1894,7 @@ class AstDumper_startVariableDeclare_pargs {
 
   virtual ~AstDumper_startVariableDeclare_pargs() throw() {}
 
-  const std::string* name;
-  const StringList* type;
-  const std::vector<std::string> * attributes;
+  const VariableDeclare* var_decl;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -2259,7 +2249,7 @@ class AstDumper_addImport_args {
 
   virtual ~AstDumper_addImport_args() throw() {}
 
-  StringList packages;
+  std::vector<std::string>  packages;
 
   _AstDumper_addImport_args__isset __isset;
 
@@ -2287,7 +2277,7 @@ class AstDumper_addImport_pargs {
 
   virtual ~AstDumper_addImport_pargs() throw() {}
 
-  const StringList* packages;
+  const std::vector<std::string> * packages;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -3141,14 +3131,14 @@ class AstDumperClient : virtual public AstDumperIf {
   void send_startProgram();
   void endProgram();
   void send_endProgram();
-  void startPackage(const StringList& id);
-  void send_startPackage(const StringList& id);
-  void endPackage(const StringList& IDs);
-  void send_endPackage(const StringList& IDs);
+  void startPackage(const std::vector<std::string> & id);
+  void send_startPackage(const std::vector<std::string> & id);
+  void endPackage(const std::vector<std::string> & IDs);
+  void send_endPackage(const std::vector<std::string> & IDs);
   void startFunctionDefinition(const bool isAbstract);
   void send_startFunctionDefinition(const bool isAbstract);
-  void functionAttribute(const StringList& attrs);
-  void send_functionAttribute(const StringList& attrs);
+  void functionAttribute(const std::vector<std::string> & attrs);
+  void send_functionAttribute(const std::vector<std::string> & attrs);
   void functionName(const std::string& name);
   void send_functionName(const std::string& name);
   void startFunctionCommon();
@@ -3157,8 +3147,8 @@ class AstDumperClient : virtual public AstDumperIf {
   void send_startFunctionSignature(const std::string& type);
   void startFunctionSignatureParameters();
   void send_startFunctionSignatureParameters();
-  void startFunctionSignatureParameterMember(const std::string& name, const StringList& type);
-  void send_startFunctionSignatureParameterMember(const std::string& name, const StringList& type);
+  void startFunctionSignatureParameterMember(const std::string& name, const std::vector<std::string> & type);
+  void send_startFunctionSignatureParameterMember(const std::string& name, const std::vector<std::string> & type);
   void endFunctionSignatureParameterMember();
   void send_endFunctionSignatureParameterMember();
   void endFunctionSignatureParameters();
@@ -3215,8 +3205,8 @@ class AstDumperClient : virtual public AstDumperIf {
   void send_startUnaryExpression(const UnaryExpression& op);
   void endUnaryExpression();
   void send_endUnaryExpression();
-  void startVariableDeclare(const std::string& name, const StringList& type, const std::vector<std::string> & attributes);
-  void send_startVariableDeclare(const std::string& name, const StringList& type, const std::vector<std::string> & attributes);
+  void startVariableDeclare(const VariableDeclare& var_decl);
+  void send_startVariableDeclare(const VariableDeclare& var_decl);
   void endVariableDeclare();
   void send_endVariableDeclare();
   void startAssignment();
@@ -3233,8 +3223,8 @@ class AstDumperClient : virtual public AstDumperIf {
   void send_literalBooleanExpression(const Literal& str);
   void endExpressionList();
   void send_endExpressionList();
-  void addImport(const StringList& packages);
-  void send_addImport(const StringList& packages);
+  void addImport(const std::vector<std::string> & packages);
+  void send_addImport(const std::vector<std::string> & packages);
   void startStmtList();
   void send_startStmtList();
   void endStmtList();
@@ -3469,14 +3459,14 @@ class AstDumperMultiface : virtual public AstDumperIf {
     }
   }
 
-  void startPackage(const StringList& id) {
+  void startPackage(const std::vector<std::string> & id) {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
       ifaces_[i]->startPackage(id);
     }
   }
 
-  void endPackage(const StringList& IDs) {
+  void endPackage(const std::vector<std::string> & IDs) {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
       ifaces_[i]->endPackage(IDs);
@@ -3490,7 +3480,7 @@ class AstDumperMultiface : virtual public AstDumperIf {
     }
   }
 
-  void functionAttribute(const StringList& attrs) {
+  void functionAttribute(const std::vector<std::string> & attrs) {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
       ifaces_[i]->functionAttribute(attrs);
@@ -3525,7 +3515,7 @@ class AstDumperMultiface : virtual public AstDumperIf {
     }
   }
 
-  void startFunctionSignatureParameterMember(const std::string& name, const StringList& type) {
+  void startFunctionSignatureParameterMember(const std::string& name, const std::vector<std::string> & type) {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
       ifaces_[i]->startFunctionSignatureParameterMember(name, type);
@@ -3728,10 +3718,10 @@ class AstDumperMultiface : virtual public AstDumperIf {
     }
   }
 
-  void startVariableDeclare(const std::string& name, const StringList& type, const std::vector<std::string> & attributes) {
+  void startVariableDeclare(const VariableDeclare& var_decl) {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
-      ifaces_[i]->startVariableDeclare(name, type, attributes);
+      ifaces_[i]->startVariableDeclare(var_decl);
     }
   }
 
@@ -3791,7 +3781,7 @@ class AstDumperMultiface : virtual public AstDumperIf {
     }
   }
 
-  void addImport(const StringList& packages) {
+  void addImport(const std::vector<std::string> & packages) {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
       ifaces_[i]->addImport(packages);

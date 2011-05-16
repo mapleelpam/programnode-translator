@@ -146,11 +146,11 @@ public:
 		// DO FOR WHAT?
 	}
 
-	void startPackage(const generated::StringList& id) {
+	void startPackage(const std::vector<std::string>& id) {
       PUSH_STACK_WITH_INIT( PackageDefinition, id );
 	}
 
-	void endPackage(const generated::StringList& IDs) {
+	void endPackage(const std::vector<std::string>& IDs) {
 		CHECK_STACK_AND_POP( PackageDefinition, AST::Node::NodeType::T_PACKAGE_DEFINITION );
 	}
 
@@ -251,14 +251,12 @@ public:
 	void endIsOperator() {
 		CHECK_STACK_AND_POP( Is, AST::Node::NodeType::T_IS );
 	}
-	void startVariableDeclare( const std::string& name, const generated::StringList& type, const std::vector<std::string>& attrs ) {
-		PUSH_STACK_WITH_INIT( VariableDeclare, name, type, attrs );
-		std::cout << "variable dec -> "<< name << " types " << type[0] << " typesize "<<type.size()<<std::endl;
+	void startVariableDeclare( const generated::VariableDeclare& var_decl ) {
+		PUSH_STACK_WITH_INIT( VariableDeclare, var_decl );
 	}
 	void endVariableDeclare() {
 		CHECK_STACK_AND_POP( Variable, AST::Node::NodeType::T_VARIABLE_DECLARE );
 	}
-
 	void startAssignment() {
 		PUSH_STACK( Assignment );
 	}
@@ -271,18 +269,11 @@ public:
 	void endUnaryExpression() {
 		CHECK_STACK_AND_POP( UnaryOperator, AST::Node::NodeType::T_UNARY_OPERATOR );
 	}
-
 	void startReturnStatement() {
-
-		printf(" %lu startReturnStatement\n", _node_stack.size());
-		as::ast::ReturnStatementPtr op(new as::ast::ReturnStatement);
-		_node_stack . top() -> addNodeChild(op);
-		_node_stack . push(op);
+		PUSH_STACK( ReturnStatement);
 	}
-
 	void endReturnStatement() {
 		CHECK_STACK_AND_POP( ReturnStatement, AST::Node::NodeType::T_RETURN_STATEMENT );
-
 	}
 
 	void identifierExpression(const generated::Identifier& id) {
@@ -314,7 +305,7 @@ public:
 		CHECK_STACK_AND_POP( ExpressionList, AST::Node::NodeType::T_EXPR_LIST );
 	}
 
-	void addImport(const generated::StringList& packages) {
+	void addImport(const std::vector<std::string>& packages) {
 		printf(" %lu addImport\n", _node_stack.size());
 	}
 
@@ -378,7 +369,7 @@ public:
 	void endAttributelist() {
 		CHECK_STACK_AND_POP( AttributeList, AST::Node::NodeType::T_COMP_CLASS_ATTRIBUTE );
 	}
-	void functionAttribute( const generated::StringList& sv ) {
+	void functionAttribute( const std::vector<std::string>& sv ) {
 		for( int idx = 0 ; idx < sv.size() ; idx ++ ) {
 			std::cerr<< "function attr "<< sv[idx]<<std::endl;
 		}

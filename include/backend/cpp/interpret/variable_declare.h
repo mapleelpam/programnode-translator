@@ -70,13 +70,13 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 			var_type = invoke_type_mapper( var_type );
 		}
 
-		ASY::SymbolPtr symbol_var = node->getSymbol();
+		ASY::VariablePtr symbol_var = STATIC_CAST( ASY::Variable, node->getSymbol() );
 
 		std::string var_name = var->VariableName;
 		std::string var_attr = var->isPublic()?"public:":"";
 		std::string var_init = "";
 
-		if ( var->varInit() )
+		if ( var->varInit() && symbol_var && !(symbol_var->isClassMember()) )
 	 		var_init = " = " + dispatchExpound( var->varInit(), symbol_table, ctx );
 
 		std::list<PatternPtr> patterns;

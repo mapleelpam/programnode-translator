@@ -67,6 +67,7 @@ private:
 			)
 	{
 		namespace ASYM = tw::maple::as::symbol;
+		namespace INTERPRET = tw::maple::backend::cpp::interpret;
 
 		std::vector<ASYM::SymbolPtr> childs;
 		symbol_table->getChilds( childs/*out*/ );
@@ -82,7 +83,12 @@ private:
 
 				ASYM::VariablePtr variable = STATIC_CAST( ASYM::Variable, *child_itr );
 				if( variable->isStatic() ){
-					ctx.ofs_stream << variable ->getTypeSymbol()->getFQN() << " "<<variable->getFQN()<<";"<<std::endl;
+					ctx.ofs_stream << variable ->getTypeSymbol()->getFQN() << " "<<variable->getFQN();
+					if(variable->getInitializeNode())
+					{
+						ctx.ofs_stream << " = " << INTERPRET::dispatchExpound(variable->getInitializeNode(), symbol_table, &ctx);
+					}
+					ctx.ofs_stream << ";" <<std::endl;
 				}
 			} else {
 //				ofs << indent(depth) << (*child_itr)->toString() <<std::endl;

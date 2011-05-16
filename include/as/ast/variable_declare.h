@@ -27,16 +27,17 @@
 #define __TW_MAPLE_AS_AST_VARIABLE_DECLARE_H__
 
 #include <as/ast/abstract/expression.h>
+#include <SyntaxTree_types.h>
 
 namespace tw { namespace maple { namespace as { namespace ast {
 
 struct VariableDeclare: public Expression
 {
-	VariableDeclare( std::string name,  std::vector<std::string> type,  std::vector<std::string> attrs )
+	VariableDeclare( tw::maple::generated::VariableDeclare var_decl )
 		: Expression(Node::NodeType::T_VARIABLE_DECLARE)
-		, VariableName( name )
-		, VariableType( type )
-		, VariableAttribute( attrs )
+		, VariableName( var_decl.name )
+		, VariableType( var_decl.type )
+		, VariableAttribute( var_decl.attributes )
 	{
 	}
 

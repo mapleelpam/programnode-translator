@@ -12,11 +12,14 @@
 //#include <as/symbol/variable.h>
 namespace tw {namespace maple {namespace as {namespace symbol {
 
-class Function;
+struct Function;
 typedef SHARED_PTR(Function) FunctionPtr;
 
-class Scope;
+struct Scope;
 typedef SHARED_PTR(Scope) ScopePtr;
+
+struct Variable;
+typedef SHARED_PTR(Variable) VariablePtr;
 
 struct Registrable {
 
@@ -30,7 +33,7 @@ struct Registrable {
 	ScopePtr registerClass(std::string name);
 	ScopePtr registerAnonymousScope();
 
-	SymbolPtr registerVariable(std::string name);
+	VariablePtr registerVariable(std::string name);
 
 	SymbolPtr registerFunctionParameter(std::string name);
 

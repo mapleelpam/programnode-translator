@@ -32,12 +32,12 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("endProgram\n");
   }
 
-  void startPackage(const StringList& id) {
+  void startPackage(const std::vector<std::string> & id) {
     // Your implementation goes here
     printf("startPackage\n");
   }
 
-  void endPackage(const StringList& IDs) {
+  void endPackage(const std::vector<std::string> & IDs) {
     // Your implementation goes here
     printf("endPackage\n");
   }
@@ -47,7 +47,7 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("startFunctionDefinition\n");
   }
 
-  void functionAttribute(const StringList& attrs) {
+  void functionAttribute(const std::vector<std::string> & attrs) {
     // Your implementation goes here
     printf("functionAttribute\n");
   }
@@ -72,7 +72,7 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("startFunctionSignatureParameters\n");
   }
 
-  void startFunctionSignatureParameterMember(const std::string& name, const StringList& type) {
+  void startFunctionSignatureParameterMember(const std::string& name, const std::vector<std::string> & type) {
     // Your implementation goes here
     printf("startFunctionSignatureParameterMember\n");
   }
@@ -217,7 +217,7 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("endUnaryExpression\n");
   }
 
-  void startVariableDeclare(const std::string& name, const StringList& type, const std::vector<std::string> & attributes) {
+  void startVariableDeclare(const VariableDeclare& var_decl) {
     // Your implementation goes here
     printf("startVariableDeclare\n");
   }
@@ -262,7 +262,7 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("endExpressionList\n");
   }
 
-  void addImport(const StringList& packages) {
+  void addImport(const std::vector<std::string> & packages) {
     // Your implementation goes here
     printf("addImport\n");
   }

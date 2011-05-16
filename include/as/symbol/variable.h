@@ -28,10 +28,11 @@
 #define __TW_MAPLE_AS_SYMBOL_VARIABLE_H__
 
 #include <as/symbol/symbol.h>
-#include <as/symbol/scope.h>
+//#include <as/symbol/scope.h>
+#include <as/ast/node.h>
 
 namespace tw { namespace maple { namespace as { namespace symbol {
-
+struct Scope;
 struct Variable : public Symbol
 {
 	Variable( std::string n, Scope *parent,  uint p = Symbol::T_NONE )
@@ -69,9 +70,31 @@ struct Variable : public Symbol
 	{
 		return m_type_symbol;
 	}
+	bool isClassMember()
+	{
+		if(m_parent)
+		{
+			if( m_parent->getScopeType() == Scope::T_CLASS )
+				return true;
+		}
+		return false;
+	}
+
 private:
 	SymbolPtr	m_type_symbol;
 	Scope*		m_parent;
+
+public:
+	void setInitializeNode( tw::maple::as::ast::NodePtr node )
+	{
+		m_initialize_node = node;
+	}
+	tw::maple::as::ast::NodePtr getInitializeNode()
+	{
+		return m_initialize_node;
+	}
+private:
+	tw::maple::as::ast::NodePtr 	m_initialize_node;
 };
 
 typedef SHARED_PTR(Variable) VariablePtr;

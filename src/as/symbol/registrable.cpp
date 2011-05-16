@@ -73,8 +73,8 @@ ScopePtr Registrable::registerAnonymousScope() {
 	return s;
 }
 
-SymbolPtr Registrable::registerVariable(std::string name) {
-		SymbolPtr symbol(new Variable(name, _instance));
+VariablePtr Registrable::registerVariable(std::string name) {
+	VariablePtr symbol(new Variable(name, _instance));
 		_instance->addChild(symbol);
 		return symbol;
 	}
