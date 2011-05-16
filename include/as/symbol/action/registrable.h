@@ -9,7 +9,7 @@
 #define REGISTRABLE_H_
 
 #include <as/symbol/symbol.h>
-#include <as/symbol/variable.h>
+//#include <as/symbol/variable.h>
 namespace tw {namespace maple {namespace as {namespace symbol {
 
 class Function;

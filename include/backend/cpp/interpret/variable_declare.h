@@ -73,7 +73,7 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 		ASY::SymbolPtr symbol_var = node->getSymbol();
 
 		std::string var_name = var->VariableName;
-		std::string var_attr = var->VariableAttribute!=""?var->VariableAttribute+":":"";
+		std::string var_attr = var->isPublic()?"public:":"";
 		std::string var_init = "";
 
 		if ( var->varInit() )
@@ -84,7 +84,7 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("var_type", var_type) ));
 		patterns.push_back( PatternPtr( new Pattern("var_name", var_name) ));
 		patterns.push_back( PatternPtr( new Pattern("var_init", var_init) ));
-		patterns.push_back( PatternPtr( new Pattern("var_is_static", (symbol_var->isStatic())? "static ":"") ) );
+		patterns.push_back( PatternPtr( new Pattern("var_is_static", (var->isStatic())? "static ":"") ) );
 		patterns.push_back( PatternPtr( new Pattern("endl", ctx->endl() ) ));
 		patterns.push_back( PatternPtr( new Pattern("indent_tab", ctx->indent()) ));
 

@@ -251,7 +251,7 @@ public:
 	void endIsOperator() {
 		CHECK_STACK_AND_POP( Is, AST::Node::NodeType::T_IS );
 	}
-	void startVariableDeclare( const std::string& name, const generated::StringList& type, const std::string& attrs ) {
+	void startVariableDeclare( const std::string& name, const generated::StringList& type, const std::vector<std::string>& attrs ) {
 		PUSH_STACK_WITH_INIT( VariableDeclare, name, type, attrs );
 		std::cout << "variable dec -> "<< name << " types " << type[0] << " typesize "<<type.size()<<std::endl;
 	}
@@ -336,22 +336,10 @@ public:
 	void endExprCondition() {
 		CHECK_STACK_AND_POP( ConditionExpression, AST::Node::NodeType::T_EXPR_CONDITION );
 	}
-//	void startIfStatement_Then() {
-//		PUSH_STACK( IfStatementThen );
-//	}
-//	void startIfStatement_Else() {
-//		PUSH_STACK( IfStatementElse );
-//	}
+
 	void endIfStatement() {
 		CHECK_STACK_AND_POP( IfStatement, AST::Node::NodeType::T_STMT_IF );
 	}
-
-//	void endIfStatement_Then() {
-//		CHECK_STACK_AND_POP( IfStatement_Then, AST::Node::NodeType::T_IF_STMT_THEN );
-//	}
-//	void endtIfStatement_Else() {
-//		CHECK_STACK_AND_POP( IfStatement_Else, AST::Node::NodeType::T_IF_STMT_ELSE );
-//	}
 
 	void startClassDefinition(const generated::ClassDefinition& class_define) {
 		printf(" %lu startClassDefine\n", _node_stack.size());

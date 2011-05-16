@@ -32,7 +32,7 @@ namespace tw { namespace maple { namespace as { namespace ast {
 
 struct VariableDeclare: public Expression
 {
-	VariableDeclare( std::string name, std::vector<std::string> type, std::string attrs )
+	VariableDeclare( std::string name,  std::vector<std::string> type,  std::vector<std::string> attrs )
 		: Expression(Node::NodeType::T_VARIABLE_DECLARE)
 		, VariableName( name )
 		, VariableType( type )
@@ -62,10 +62,30 @@ struct VariableDeclare: public Expression
     	}
 
     };
+    bool isPublic()
+    {
+    	for( std::vector<std::string>::iterator sItr = VariableAttribute.begin()
+    			; sItr != VariableAttribute.end() ; sItr++ )
+    	{
+    		if( *sItr == "public")
+    			return true;
+    	}
+    	return false;
+    }
+    bool isStatic()
+    {
+    	for( std::vector<std::string>::iterator sItr = VariableAttribute.begin()
+    	    			; sItr != VariableAttribute.end() ; sItr++ )
+    	{
+    		if( *sItr == "static")
+    			return true;
+    	}
+    	return false;
+    }
 
     const std::string VariableName;
-    const std::vector<std::string> VariableType;
-    const std::string VariableAttribute;
+    std::vector<std::string> VariableType;
+    std::vector<std::string> VariableAttribute;
 };
 
 typedef SHARED_PTR(VariableDeclare) VariableDeclarePtr;

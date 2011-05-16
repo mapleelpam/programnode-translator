@@ -122,7 +122,12 @@ void SymbolTableConstructor:: constructSymbols(
 			{
 				AST::VariableDeclarePtr var = std::tr1::static_pointer_cast<AST::VariableDeclare>(*nItr);
 				std::string str_varname = var->VariableName;
-				var->setSymbol( symboltable->registerVariable( str_varname ) );
+
+				ASY::SymbolPtr symbol_var( symboltable->registerVariable( str_varname ) );
+				var->setSymbol( symbol_var );
+
+				symbol_var->setIsStatic( var->isStatic() );
+//				std::cerr <<" variable's attribute = "<<var->VariableAttribute<<std::endl;
 			}	break;
 			case AST::Node::NodeType::T_SCOPE:
 			{
@@ -137,7 +142,7 @@ void SymbolTableConstructor:: constructSymbols(
 			{
 				AST::PackageDefinitionPtr pkg = std::tr1::static_pointer_cast<AST::PackageDefinition>(*nItr);
 				ASY::ScopePtr scope_pkg( symboltable->registerPackage( pkg->package_names ) );
-				constructSymbols( *nItr, symboltable);
+				constructSymbols( *nItr, scope_pkg);
 			}	break;
 			default:
 				constructSymbols( *nItr, symboltable);

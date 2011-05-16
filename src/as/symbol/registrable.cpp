@@ -34,6 +34,7 @@
 #include <global.h>
 #include <as/symbol/symbol.h>
 #include <as/symbol/scope.h>
+#include <as/symbol/variable.h>
 #include <as/symbol/action/registrable.h>
 #include <as/symbol/function.h>
 
@@ -73,13 +74,13 @@ ScopePtr Registrable::registerAnonymousScope() {
 }
 
 SymbolPtr Registrable::registerVariable(std::string name) {
-		SymbolPtr symbol(new Variable(name));
+		SymbolPtr symbol(new Variable(name, _instance));
 		_instance->addChild(symbol);
 		return symbol;
 	}
 
 SymbolPtr Registrable::registerFunctionParameter(std::string name) {
-	SymbolPtr symbol(new Variable(name, Symbol::T_PRARAMETER));
+	SymbolPtr symbol(new Variable(name, _instance, Symbol::T_PRARAMETER));
 //		symbol -> setSymbolProperties( Symbol::T_VARIABLE | Symbol::T_PRARAMETER);
 	_instance->addChild(symbol);
 	return symbol;

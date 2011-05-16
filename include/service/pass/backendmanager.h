@@ -29,6 +29,7 @@
 #include <backend/cpp/interpret/interpreter.h>
 #include <backend/cpp/prependdata.h>
 #include <pnodehandler.h>
+#include <as/symbol/variable.h>
 
 namespace tw { namespace maple { namespace service { namespace pass {
 
@@ -54,10 +55,40 @@ struct BackendManager {
 				nodeItr = pnode_list.begin(); nodeItr != pnode_list.end(); nodeItr++) {
 			context.ofs_stream << INTERPRET::dispatchExpound(*nodeItr, symbol_table, &context);
 		}
+		declareStaticVariables( symbol_table, context );
 
 		context.ofs_stream.close();
 	}
 
+private:
+	static void declareStaticVariables(
+			tw::maple::as::symbol::ScopePtr symbol_table
+			, tw::maple::backend::cpp::Context& ctx
+			)
+	{
+		namespace ASYM = tw::maple::as::symbol;
+
+		std::vector<ASYM::SymbolPtr> childs;
+		symbol_table->getChilds( childs/*out*/ );
+		for (std::vector<ASYM::SymbolPtr>::iterator
+				child_itr = childs.begin(); child_itr != childs.end(); child_itr++) {
+
+			if( ((*child_itr)->getSymbolProperties() & ASYM::Symbol::T_SCOPE ) )
+			{
+				ASYM::ScopePtr scope = STATIC_CAST(ASYM:: Scope, *child_itr );
+				if( scope )
+					declareStaticVariables( scope, ctx );
+			} else if( ((*child_itr)->getSymbolProperties() & ASYM::Symbol::T_VARIABLE ) ) {
+
+				ASYM::VariablePtr variable = STATIC_CAST( ASYM::Variable, *child_itr );
+				if( variable->isStatic() ){
+					ctx.ofs_stream << variable ->getTypeSymbol()->getFQN() << " "<<variable->getFQN()<<";"<<std::endl;
+				}
+			} else {
+//				ofs << indent(depth) << (*child_itr)->toString() <<std::endl;
+			}
+		}
+	}
 
 };
 

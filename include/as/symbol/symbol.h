@@ -76,7 +76,7 @@ struct Symbol
 
 	virtual std::string getFQN()
 	{
-			return name();
+		return name();
 	}
 protected:
 	std::string		m_name;
