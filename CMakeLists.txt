@@ -40,9 +40,12 @@ ADD_EXECUTABLE( pnc
 TARGET_LINK_LIBRARIES( pnc
     ${THRIFT_LIBS}
     ${Boost_LIBRARIES}
+    thriftnb
     )
 
 
 ADD_SUBDIRECTORY( test )
 ADD_SUBDIRECTORY( test_framework )
+ADD_SUBDIRECTORY( builtin )
+
 
