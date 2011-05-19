@@ -1,0 +1,3 @@
+debian/asc.sh /usr/bin
+lib/asc.jar /usr/share/pnc/
+bin/pnc	/usr/bin

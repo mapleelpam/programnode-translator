@@ -1,0 +1,10 @@
+Source: pnc
+Section: universe/utils
+Priority: extra
+Maintainer: Kai-Feng Chou <mapleelpam@gmail.com>
+Depends: libboost-serialization1.42.0, libboost-filesystem1.42.0, libboost-regex1.42.0
+Build-Depends: debhelper (>= 7.0.50~), cmake, libthrift-dev (>= 0.6.0), thrift-compiler (>= 0.6.0)
+Standards-Version: 0.1.0
+Homepage: http://github.com/mapleelpam/programnode-translator
+Vcs-Browser: https://github.com/mapleelpam/programnode-translator
+

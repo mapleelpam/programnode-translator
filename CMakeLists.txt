@@ -1,4 +1,6 @@
 
+CMAKE_MINIMUM_REQUIRED(VERSION 2.6.3)
+
 # ProgrameNode Translator 
 # Copyright 2010 mapleellpam@gmail.com.  All rights reserved.
 # https://github.com/mapleelpam/programnode-translator
@@ -7,7 +9,16 @@
 
 PROJECT( pnc )
 
-execute_process( COMMAND ${THRIFT_COMPILER} -r -o ${CMAKE_CURRENT_SOURCE_DIR} --gen cpp ${AST_THRIFT}) 
+SET(CMAKE_MODULE_PATH
+    "${CMAKE_CURRENT_SOURCE_DIR}/CMake"
+    "${CMAKE_CURRENT_SOURCE_DIR}/CMake/Packages"
+    )
+
+include( Dependencies )
+
+if( ${AST_THRIFT} )
+    execute_process( COMMAND ${THRIFT_COMPILER} -r -o ${CMAKE_CURRENT_SOURCE_DIR} --gen cpp ${AST_THRIFT}) 
+endif()
 
 #ADD_CUSTOM_TARGET(cpp-thrift-update ALL echo
 #    DEPENDS ${AST_THRIFT}
