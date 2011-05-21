@@ -3,7 +3,7 @@ Section: universe/utils
 Priority: extra
 Maintainer: Kai-Feng Chou <mapleelpam@gmail.com>
 Build-Depends: debhelper (>= 7.0.50~), cmake, libthrift-dev (>= 0.6.0), thrift-compiler (>= 0.6.0), libboost1.42-all-dev
-Standards-Version: 0.1.1
+Standards-Version: 0.1.2-1
 Homepage: http://github.com/mapleelpam/programnode-translator
 Vcs-Browser: https://github.com/mapleelpam/programnode-translator
 

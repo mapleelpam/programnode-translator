@@ -1,3 +1,15 @@
+pnc (0.1.2-1) natty; urgency=low
+
+  * fix debuild compile missed files
+
+ -- Kai-Feng Chou <mapleelpam@gmail.com>  Sat, 21 May 2011 20:54:48 +0800
+
+pnc (0.1.2) natty; urgency=low
+
+  * for ppa update reason, i add the vnumber
+
+ -- Kai-Feng Chou <mapleelpam@gmail.com>  Sat, 21 May 2011 20:32:27 +0800
+
 pnc (0.1.1) natty; urgency=low
 
   * fix build rule for ppa

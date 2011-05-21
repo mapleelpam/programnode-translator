@@ -15,6 +15,16 @@ override_dh_auto_configure:
 override_dh_auto_build:
 override_dh_auto_test:
 
+install-arch:
+	dh_testdir
+	dh_testroot
+	dh_clean -k -s
+	dh_installdirs -s
+	mkdir -p $(CURDIR)/debian/pnc/usr/bin && \
+		cp $(CURDIR)/bin/pnc \
+		$(CURDIR)/debian/pnc/usr/bin/
+
+
 
 %:
 	dh $@ 
