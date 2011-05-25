@@ -44,7 +44,7 @@ struct SymbolTableConstructor {
 
 		for (std::vector< AST::ProgramPtr>::iterator nodeItr = pnode_list.begin()
 			; nodeItr != pnode_list.end(); nodeItr++)
-			constructSymbols( *nodeItr, root);
+			constructSymbols( *nodeItr, root, "");
 
 		for (std::vector< AST::ProgramPtr>::iterator nodeItr = pnode_list.begin()
 			; nodeItr != pnode_list.end(); nodeItr++)
@@ -55,6 +55,7 @@ private:
 	static void constructSymbols(
 			tw::maple::as::ast::NodePtr node /* input program node */
 			, tw::maple::as::symbol::ScopePtr symboltable
+			, std::string className
 			);
 	static void linkVariableType(
 			tw::maple::as::ast::NodePtr node /* input program node */

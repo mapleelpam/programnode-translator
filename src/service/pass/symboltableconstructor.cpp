@@ -49,6 +49,7 @@ namespace tw { namespace maple { namespace service { namespace pass {
 void SymbolTableConstructor:: constructSymbols(
 		tw::maple::as::ast::NodePtr node /* input program node */
 		, tw::maple::as::symbol::ScopePtr symboltable
+		, std::string classname
 		)
 {
 	namespace AST = tw::maple::as::ast;
@@ -88,14 +89,16 @@ void SymbolTableConstructor:: constructSymbols(
 							std::cerr << " unknow attribute " << *sItr << std::endl;
 					}
 				}
+				if( classname!="" && classname == str_func_name )
+					scope_func -> setIsConstructor( true );
 				fdef -> setSymbol( scope_func );
 
 				AST::FunctionSignaturePtr fsig  = STATIC_CAST( AST::FunctionSignature, fcommon->FunctionSignature() );
 				ASY::FunctionPtr ptr_function =  STATIC_CAST( ASY::Function, scope_func );
 //				ASYM::SymbolPtr p_type = symboltable->findType( fsig->FunctionReturnType );
 				if(	fsig->FunctionParameter() )
-					constructSymbols( fsig->FunctionParameter(), scope_func );
-				constructSymbols( fcommon->FunctionBody(), scope_func );
+					constructSymbols( fsig->FunctionParameter(), scope_func, classname );
+				constructSymbols( fcommon->FunctionBody(), scope_func, classname );
 			} 	break;
 			case AST::Node::NodeType::T_FUNCTION_SIGNATURE:
 			{
@@ -109,7 +112,7 @@ void SymbolTableConstructor:: constructSymbols(
 				ASY::ScopePtr scope_class( symboltable->registerClass( _class_define_->getClassName() ) );
 				_class_define_ -> setSymbol( scope_class );
 
-				constructSymbols( _class_define_, scope_class );
+				constructSymbols( _class_define_, scope_class, _class_define_->getClassName() );
 
 			}	break;
 			case AST::Node::NodeType::T_FUNCTION_PARAMETER_ITEM:
@@ -137,7 +140,7 @@ void SymbolTableConstructor:: constructSymbols(
 			{
 				ASY::ScopePtr scope_stmt( symboltable->registerAnonymousScope( ) );
 				(*nItr) -> setSymbol( scope_stmt );
-				constructSymbols( *nItr, scope_stmt );
+				constructSymbols( *nItr, scope_stmt, classname );
 
 				if( scope_stmt->isDeletable() )
 					symboltable->removeChild( scope_stmt );
@@ -146,10 +149,10 @@ void SymbolTableConstructor:: constructSymbols(
 			{
 				AST::PackageDefinitionPtr pkg = std::tr1::static_pointer_cast<AST::PackageDefinition>(*nItr);
 				ASY::ScopePtr scope_pkg( symboltable->registerPackage( pkg->package_names ) );
-				constructSymbols( *nItr, scope_pkg);
+				constructSymbols( *nItr, scope_pkg, classname);
 			}	break;
 			default:
-				constructSymbols( *nItr, symboltable);
+				constructSymbols( *nItr, symboltable, classname);
 				break;
 		}
 	}
