@@ -40,6 +40,7 @@
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
 namespace AST = ::tw::maple::as::ast;
+namespace ASY = tw::maple::as::symbol;
 
 struct FunctionDefinition : public Interpreter, public TemplatePrinter
 {   
@@ -47,7 +48,6 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context* ctx)
 	{
-		namespace ASY = tw::maple::as::symbol;
 
 		std::string result;
 
@@ -90,6 +90,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("function_is_virtual", (fdef->isAbstract)? "virtual":"") ) );
 		patterns.push_back( PatternPtr( new Pattern("function_enter", (fdef->isAbstract)? "" : m_tpl_enter_function) ) );
 		patterns.push_back( PatternPtr( new Pattern("function_leave", (fdef->isAbstract)? "" : m_tpl_leave_function) ) );
+		patterns.push_back( PatternPtr( new Pattern("member_initial", (symbol_function->isConstructor())? "" : "") ) );
 		patterns.push_back( PatternPtr( new Pattern("prefix_arguments", m_tpl_args_prefix) ) );
 		patterns.push_back( PatternPtr( new Pattern("postfix_arguments", m_tpl_args_postfix) ) );
 		patterns.push_back( PatternPtr( new Pattern("endl", ctx->endl() )) );
@@ -107,6 +108,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 							"#(function_is_static)"
 							"#(function_is_virtual) "
 							"#(func_ret_type) #(func_name)(#(prefix_arguments)#(func_parameters)#(postfix_arguments))"
+							"#(member_initial)"
 
 							"#(function_enter)"
 							"#(func_body)"
@@ -154,6 +156,13 @@ private:
 
 	std::string m_tpl_args_prefix;
 	std::string m_tpl_args_postfix;
+
+private:
+	std::string getMemberInitializer( ASY::SymbolPtr symbol_function )
+	{
+//		ASY::Function* real_function_symbol = static_cast<ASY::Function*>(symbol_function.get());
+		return "";
+	}
 };
 
 };
