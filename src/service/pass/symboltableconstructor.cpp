@@ -92,9 +92,10 @@ void SymbolTableConstructor:: constructSymbols(
 				if( classname!="" && classname == str_func_name )
 					scope_func -> setIsConstructor( true );
 				fdef -> setSymbol( scope_func );
+				fdef -> setFunctionSymbol( scope_func );
 
 				AST::FunctionSignaturePtr fsig  = STATIC_CAST( AST::FunctionSignature, fcommon->FunctionSignature() );
-				ASY::FunctionPtr ptr_function =  STATIC_CAST( ASY::Function, scope_func );
+
 //				ASYM::SymbolPtr p_type = symboltable->findType( fsig->FunctionReturnType );
 				if(	fsig->FunctionParameter() )
 					constructSymbols( fsig->FunctionParameter(), scope_func, classname );

@@ -48,6 +48,12 @@ struct FunctionDefinition: public Statement
     std::string toString()  {	return "node::function_definition"; };
 
     const bool isAbstract;
+
+public:
+    void setFunctionSymbol( ASYM::FunctionPtr s )	{	_related_function_symbol = s;	}
+    ASYM::FunctionPtr getFunctionSymbol( )	{	return _related_function_symbol;	}
+protected:
+    ASYM::FunctionPtr	_related_function_symbol;
 };
 
 typedef SHARED_PTR(FunctionDefinition) FunctionDefinitionPtr;

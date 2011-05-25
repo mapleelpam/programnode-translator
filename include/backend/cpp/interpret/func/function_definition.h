@@ -33,7 +33,8 @@
 #include <as/ast/call.h>
 #include <backend/cpp/interpret/interpreter.h>
 #include <backend/cpp/templateprinter.h>
-#include <as/symbol/scope.h>
+#include <as/symbol/function.h>
+#include <as/symbol/variable.h>
 
 #include <global.h>
 
@@ -68,7 +69,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 //		std::string str_func_name = dispatchExpound(fdef->FunctionName(), symbol_table, ctx) ;
 		std::string str_func_name = fdef->getSymbol()->name();
 
-		ASY::SymbolPtr symbol_function = node->getSymbol();
+		ASY::FunctionPtr symbol_function = fdef->getFunctionSymbol();
 		std::string str_function_attribute;
 		switch( symbol_function->getSymbolAttribtues() )
 		{
@@ -90,7 +91,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("function_is_virtual", (fdef->isAbstract)? "virtual":"") ) );
 		patterns.push_back( PatternPtr( new Pattern("function_enter", (fdef->isAbstract)? "" : m_tpl_enter_function) ) );
 		patterns.push_back( PatternPtr( new Pattern("function_leave", (fdef->isAbstract)? "" : m_tpl_leave_function) ) );
-		patterns.push_back( PatternPtr( new Pattern("member_initial", (symbol_function->isConstructor())? "" : "") ) );
+		patterns.push_back( PatternPtr( new Pattern("member_initial", (symbol_function->isConstructor())? getMemberInitializer(symbol_function) : "") ) );
 		patterns.push_back( PatternPtr( new Pattern("prefix_arguments", m_tpl_args_prefix) ) );
 		patterns.push_back( PatternPtr( new Pattern("postfix_arguments", m_tpl_args_postfix) ) );
 		patterns.push_back( PatternPtr( new Pattern("endl", ctx->endl() )) );
@@ -158,10 +159,28 @@ private:
 	std::string m_tpl_args_postfix;
 
 private:
-	std::string getMemberInitializer( ASY::SymbolPtr symbol_function )
+	std::string getMemberInitializer( ASY::FunctionPtr symbol_function )
 	{
-//		ASY::Function* real_function_symbol = static_cast<ASY::Function*>(symbol_function.get());
-		return "";
+		std::cout << "--------------- getMemberInitializer "<< std::endl;
+
+		std::string answer = "";
+		std::vector<ASY::SymbolPtr> childs;
+		symbol_function->getChilds( childs/*out*/ );
+		for (std::vector<ASY::SymbolPtr>::iterator child_itr = childs.begin(); child_itr
+				!= childs.end(); child_itr++) {
+
+			std::cout << "symbol name = "<< (*child_itr)->name()<<std::endl;
+			if (((*child_itr)->getSymbolProperties() & ASY::Symbol::T_VARIABLE))
+			{
+				ASY::VariablePtr var = STATIC_CAST( ASY::Variable, *child_itr );
+				if( var->getInitializeNode() != NULL )
+				{
+					answer += ":" + var->name() + "(" + ")";
+				}
+			}
+		}
+
+		return answer;
 	}
 };
 
