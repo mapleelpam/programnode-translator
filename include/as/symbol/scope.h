@@ -269,6 +269,11 @@ private:
 		}
 		return tokens;
 	}
+public:
+	Scope* getParent()
+	{
+		return m_parent;
+	}
 private:
 	ScopeType m_scope_type;
 	std::vector<SymbolPtr>	m_childs;

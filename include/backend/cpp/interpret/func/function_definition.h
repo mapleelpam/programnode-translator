@@ -34,6 +34,7 @@
 #include <backend/cpp/templateprinter.h>
 #include <as/symbol/function.h>
 #include <as/symbol/variable.h>
+#include <backend/cpp/interpret/interpreter.h>
 
 #include <global.h>
 
@@ -90,7 +91,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("function_is_virtual", (fdef->isAbstract)? "virtual":"") ) );
 		patterns.push_back( PatternPtr( new Pattern("function_enter", (fdef->isAbstract)? "" : m_tpl_enter_function) ) );
 		patterns.push_back( PatternPtr( new Pattern("function_leave", (fdef->isAbstract)? "" : m_tpl_leave_function) ) );
-		patterns.push_back( PatternPtr( new Pattern("member_initial", (symbol_function->isConstructor())? getMemberInitializer(symbol_function) : "") ) );
+		patterns.push_back( PatternPtr( new Pattern("member_initial", (symbol_function->isConstructor())? getMemberInitializer(symbol_function,ctx) : "") ) );
 		patterns.push_back( PatternPtr( new Pattern("prefix_arguments", m_tpl_args_prefix) ) );
 		patterns.push_back( PatternPtr( new Pattern("postfix_arguments", m_tpl_args_postfix) ) );
 		patterns.push_back( PatternPtr( new Pattern("endl", ctx->endl() )) );
@@ -158,13 +159,13 @@ private:
 	std::string m_tpl_args_postfix;
 
 private:
-	std::string getMemberInitializer( ASY::FunctionPtr symbol_function )
+	std::string getMemberInitializer( ASY::FunctionPtr symbol_function, tw::maple::backend::cpp::Context* ctx )
 	{
 		std::cout << "--------------- getMemberInitializer "<< std::endl;
 
 		std::string answer = "";
 		std::vector<ASY::SymbolPtr> childs;
-		symbol_function->getChilds( childs/*out*/ );
+		symbol_function->getParent()->getChilds( childs/*out*/ );
 		for (std::vector<ASY::SymbolPtr>::iterator child_itr = childs.begin(); child_itr
 				!= childs.end(); child_itr++) {
 
@@ -174,7 +175,9 @@ private:
 				ASY::VariablePtr var = STATIC_CAST( ASY::Variable, *child_itr );
 				if( var->getInitializeNode() != NULL )
 				{
-					answer += ":" + var->name() + "(" + ")";
+					answer += ":" + var->name() + "("
+						+ dispatchExpound(var->getInitializeNode(), symbol_function/*TODO: should use function's parent*/, ctx)
+						+")";
 				}
 			}
 		}
