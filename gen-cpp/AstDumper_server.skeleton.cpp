@@ -22,7 +22,7 @@ class AstDumperHandler : virtual public AstDumperIf {
     // Your initialization goes here
   }
 
-  void startProgram() {
+  void startProgram(const std::string& version, const int64_t counter) {
     // Your implementation goes here
     printf("startProgram\n");
   }
@@ -375,6 +375,11 @@ class AstDumperHandler : virtual public AstDumperIf {
   void endWhileStatement() {
     // Your implementation goes here
     printf("endWhileStatement\n");
+  }
+
+  void defineMetaData(const MetaData& metadata) {
+    // Your implementation goes here
+    printf("defineMetaData\n");
   }
 
 };

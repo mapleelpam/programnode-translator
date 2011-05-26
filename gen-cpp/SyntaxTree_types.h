@@ -235,6 +235,51 @@ class ClassDefinition {
 
 };
 
+typedef struct _MetaData__isset {
+  _MetaData__isset() : id(false), kayvalues(false), values(false) {}
+  bool id;
+  bool kayvalues;
+  bool values;
+} _MetaData__isset;
+
+class MetaData {
+ public:
+
+  static const char* ascii_fingerprint; // = "11FD4C7541350B1F99928E3475DD29B4";
+  static const uint8_t binary_fingerprint[16]; // = {0x11,0xFD,0x4C,0x75,0x41,0x35,0x0B,0x1F,0x99,0x92,0x8E,0x34,0x75,0xDD,0x29,0xB4};
+
+  MetaData() : id("") {
+  }
+
+  virtual ~MetaData() throw() {}
+
+  std::string id;
+  std::map<std::string, std::string>  kayvalues;
+  std::vector<std::string>  values;
+
+  _MetaData__isset __isset;
+
+  bool operator == (const MetaData & rhs) const
+  {
+    if (!(id == rhs.id))
+      return false;
+    if (!(kayvalues == rhs.kayvalues))
+      return false;
+    if (!(values == rhs.values))
+      return false;
+    return true;
+  }
+  bool operator != (const MetaData &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const MetaData & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
 typedef struct _VariableDeclare__isset {
   _VariableDeclare__isset() : name(false), type(false), attributes(false), has_initialize(false) {}
   bool name;

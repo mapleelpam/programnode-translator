@@ -26,7 +26,6 @@
 #ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_RETURN_STATEMENT_H__
 #define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_RETURN_STATEMENT_H__
 
-#include <as/ast/call.h>
 #include <backend/cpp/interpret/interpreter.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {

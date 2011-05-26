@@ -28,7 +28,7 @@
 
 #include <global.h>
 #include <as/ast/abstract/statement.h>
-
+#include "SyntaxTree_types.h"
 
 namespace tw { namespace maple { namespace as { namespace ast {
 
@@ -77,6 +77,11 @@ struct ClassDefinition : public Statement
 	std::string getClassName()	const {	return m_classname;	}
 	const std::vector<std::string>& Inherits()	{	return m_inherits;	}
 	const std::vector<std::string>& Implements()	{	return m_implements;	}
+
+	void setMetaData( tw::maple::generated::MetaData& md )
+	{
+		m_metadata = md;
+	}
 private:
 	bool m_has_base_class;
 	bool m_has_base_interface;
@@ -89,8 +94,9 @@ private:
     std::vector<std::string>	m_inherits;
     std::vector<std::string>	m_implements;
 
+    tw::maple::generated::MetaData	m_metadata;
 };
-typedef std::tr1::shared_ptr<ClassDefinition> ClassDefinitionPtr;
+typedef SHARED_PTR(ClassDefinition) ClassDefinitionPtr;
 
 
 } } } }

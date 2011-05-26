@@ -14,7 +14,7 @@ namespace tw { namespace maple { namespace generated {
 class AstDumperIf {
  public:
   virtual ~AstDumperIf() {}
-  virtual void startProgram() = 0;
+  virtual void startProgram(const std::string& version, const int64_t counter) = 0;
   virtual void endProgram() = 0;
   virtual void startPackage(const std::vector<std::string> & id) = 0;
   virtual void endPackage(const std::vector<std::string> & IDs) = 0;
@@ -85,12 +85,13 @@ class AstDumperIf {
   virtual void endDoStatement() = 0;
   virtual void startWhileStatement() = 0;
   virtual void endWhileStatement() = 0;
+  virtual void defineMetaData(const MetaData& metadata) = 0;
 };
 
 class AstDumperNull : virtual public AstDumperIf {
  public:
   virtual ~AstDumperNull() {}
-  void startProgram() {
+  void startProgram(const std::string& /* version */, const int64_t /* counter */) {
     return;
   }
   void endProgram() {
@@ -303,20 +304,36 @@ class AstDumperNull : virtual public AstDumperIf {
   void endWhileStatement() {
     return;
   }
+  void defineMetaData(const MetaData& /* metadata */) {
+    return;
+  }
 };
 
+typedef struct _AstDumper_startProgram_args__isset {
+  _AstDumper_startProgram_args__isset() : version(false), counter(false) {}
+  bool version;
+  bool counter;
+} _AstDumper_startProgram_args__isset;
 
 class AstDumper_startProgram_args {
  public:
 
-  AstDumper_startProgram_args() {
+  AstDumper_startProgram_args() : version("0.0.1"), counter(1LL) {
   }
 
   virtual ~AstDumper_startProgram_args() throw() {}
 
+  std::string version;
+  int64_t counter;
 
-  bool operator == (const AstDumper_startProgram_args & /* rhs */) const
+  _AstDumper_startProgram_args__isset __isset;
+
+  bool operator == (const AstDumper_startProgram_args & rhs) const
   {
+    if (!(version == rhs.version))
+      return false;
+    if (!(counter == rhs.counter))
+      return false;
     return true;
   }
   bool operator != (const AstDumper_startProgram_args &rhs) const {
@@ -337,6 +354,8 @@ class AstDumper_startProgram_pargs {
 
   virtual ~AstDumper_startProgram_pargs() throw() {}
 
+  const std::string* version;
+  const int64_t* counter;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -3107,6 +3126,53 @@ class AstDumper_endWhileStatement_pargs {
 
 };
 
+typedef struct _AstDumper_defineMetaData_args__isset {
+  _AstDumper_defineMetaData_args__isset() : metadata(false) {}
+  bool metadata;
+} _AstDumper_defineMetaData_args__isset;
+
+class AstDumper_defineMetaData_args {
+ public:
+
+  AstDumper_defineMetaData_args() {
+  }
+
+  virtual ~AstDumper_defineMetaData_args() throw() {}
+
+  MetaData metadata;
+
+  _AstDumper_defineMetaData_args__isset __isset;
+
+  bool operator == (const AstDumper_defineMetaData_args & rhs) const
+  {
+    if (!(metadata == rhs.metadata))
+      return false;
+    return true;
+  }
+  bool operator != (const AstDumper_defineMetaData_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_defineMetaData_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_defineMetaData_pargs {
+ public:
+
+
+  virtual ~AstDumper_defineMetaData_pargs() throw() {}
+
+  const MetaData* metadata;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
 class AstDumperClient : virtual public AstDumperIf {
  public:
   AstDumperClient(boost::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) :
@@ -3127,8 +3193,8 @@ class AstDumperClient : virtual public AstDumperIf {
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> getOutputProtocol() {
     return poprot_;
   }
-  void startProgram();
-  void send_startProgram();
+  void startProgram(const std::string& version, const int64_t counter);
+  void send_startProgram(const std::string& version, const int64_t counter);
   void endProgram();
   void send_endProgram();
   void startPackage(const std::vector<std::string> & id);
@@ -3269,6 +3335,8 @@ class AstDumperClient : virtual public AstDumperIf {
   void send_startWhileStatement();
   void endWhileStatement();
   void send_endWhileStatement();
+  void defineMetaData(const MetaData& metadata);
+  void send_defineMetaData(const MetaData& metadata);
  protected:
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -3353,6 +3421,7 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
   void process_endDoStatement(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_startWhileStatement(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_endWhileStatement(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_defineMetaData(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
   AstDumperProcessor(boost::shared_ptr<AstDumperIf> iface) :
     iface_(iface) {
@@ -3427,6 +3496,7 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
     processMap_["endDoStatement"] = &AstDumperProcessor::process_endDoStatement;
     processMap_["startWhileStatement"] = &AstDumperProcessor::process_startWhileStatement;
     processMap_["endWhileStatement"] = &AstDumperProcessor::process_endWhileStatement;
+    processMap_["defineMetaData"] = &AstDumperProcessor::process_defineMetaData;
   }
 
   virtual bool process(boost::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot, boost::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot, void* callContext);
@@ -3445,10 +3515,10 @@ class AstDumperMultiface : virtual public AstDumperIf {
     ifaces_.push_back(iface);
   }
  public:
-  void startProgram() {
+  void startProgram(const std::string& version, const int64_t counter) {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
-      ifaces_[i]->startProgram();
+      ifaces_[i]->startProgram(version, counter);
     }
   }
 
@@ -3939,6 +4009,13 @@ class AstDumperMultiface : virtual public AstDumperIf {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
       ifaces_[i]->endWhileStatement();
+    }
+  }
+
+  void defineMetaData(const MetaData& metadata) {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->defineMetaData(metadata);
     }
   }
 

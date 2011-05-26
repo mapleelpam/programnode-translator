@@ -55,7 +55,7 @@ void SymbolTableConstructor:: constructSymbols(
 	namespace CPP = tw::maple::backend::cpp::interpret;
 	namespace ASY = tw::maple::as::symbol;
 
-	if( node->node_childs.size() == 0 )
+	if( node==NULL &&node->node_childs.size() == 0 )
 		return;
 	for (std::vector< AST::NodePtr >::iterator nItr =
 			node->node_childs.begin(); nItr != node->node_childs.end(); nItr++) {

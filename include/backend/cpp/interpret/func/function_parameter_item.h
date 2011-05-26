@@ -27,7 +27,6 @@
 #define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_FUNCTION_PARAMETER_ITEM_H__
 
 #include <as/ast/func/function_parameter_item.h>
-#include <as/ast/call.h>
 #include <backend/cpp/interpret/interpreter.h>
 
 namespace AST = ::tw::maple::as::ast;

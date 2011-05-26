@@ -14,6 +14,8 @@ class SyntaxTreeConstants {
  public:
   SyntaxTreeConstants();
 
+  std::string PROTO_VERSION;
+  int64_t PROTO_COUNTER;
 };
 
 extern const SyntaxTreeConstants g_SyntaxTree_constants;

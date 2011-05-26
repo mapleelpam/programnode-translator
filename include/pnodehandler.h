@@ -30,14 +30,15 @@
 
 #include <iostream>
 #include <stack>
-#include "AstDumper.h"  // As an example
+#include "AstDumper.h"
+#include "SyntaxTree_constants.h"
 
 #include <transport/TSocket.h>
 #include <transport/TBufferTransports.h>
 #include <transport/TSimpleFileTransport.h>
 #include <protocol/TBinaryProtocol.h>
 
-#include <as/ast/call.h>
+#include <as/ast/expr/call.h>
 #include <as/ast/token/literal_string.h>
 #include <as/ast/token/literal_number.h>
 #include <as/ast/token/literal_boolean.h>
@@ -128,21 +129,24 @@ namespace tw { namespace maple {
 
 class PNodeHandler : virtual public  generated::AstDumperIf {
 public:
-  PNodeHandler() {
+  PNodeHandler() : _meta_data_dirty(false) {
     // Your initialization goes here
   }
 
-  void startProgram() {
+  void startProgram( const std::string& version, const int64_t counter ) {
 		printf(" %lu startProgram\n", _node_stack.size());
-
+		if( version != generated::g_SyntaxTree_constants.PROTO_VERSION
+		 || counter != generated::g_SyntaxTree_constants.PROTO_COUNTER)
+		{
+			std::cerr << "protocol version not match"<<std::endl; \
+			exit(1);
+		}
 		_program_root . reset(new as::ast::Program());
 		_node_stack.push(_program_root);
 	}
 
 	void endProgram() {
-
 		printf(" %lu endProgram\n", _node_stack.size());
-
 		// DO FOR WHAT?
 	}
 
@@ -191,14 +195,11 @@ public:
 	}
 
 	void endFunctionCommon() {
-		printf(" %lu endFunctionCommon\n", _node_stack.size());
-		_node_stack . pop();
+		CHECK_STACK_AND_POP( FunctionCommon, AST::Node::NodeType::T_FUNCTION_COMMON );
 	}
 
 	void endFunctionDefinition() {
-
-		printf(" %lu endFunctionDefinition\n", _node_stack.size());
-		_node_stack . pop();
+		CHECK_STACK_AND_POP( FunctionDefinition, AST::Node::NodeType::T_FUNCTION_DEFINITION );
 	}
 
 	void startExpressionList() {
@@ -310,7 +311,6 @@ public:
 	}
 
 	void startStmtList() {
-
 		PUSH_STACK( StatementList );
 	}
 
@@ -334,19 +334,23 @@ public:
 
 	void startClassDefinition(const generated::ClassDefinition& class_define) {
 		printf(" %lu startClassDefine\n", _node_stack.size());
-		as::ast::ClassDefinitionPtr exp_list(
+		as::ast::ClassDefinitionPtr class_node(
 				new as::ast::ClassDefinition(class_define.name, class_define.inherits, class_define.interfaces ));
 
 		std::cerr <<" class define attribute "<<class_define.attribute<<std::endl;
-		_node_stack . top() -> addNodeChild(exp_list);
-		_node_stack . push(exp_list);
+		_node_stack . top() -> addNodeChild(class_node);
+		_node_stack . push(class_node);
 
-		exp_list->setHasBaseClass(class_define.has_baseclass);
-		exp_list->setHasInterface(class_define.has_interface);
-		exp_list->setHasAttribute(class_define.has_attr);
-		exp_list->setHasStatement(class_define.has_stmt);
-		exp_list->setIntrinsic(class_define.attribute == "intrinsic" );
-		exp_list->setIsAbstract( class_define.object_type == generated::ObjectType::TYPE_CLASS ? false : true );
+		class_node->setHasBaseClass(class_define.has_baseclass);
+		class_node->setHasInterface(class_define.has_interface);
+		class_node->setHasAttribute(class_define.has_attr);
+		class_node->setHasStatement(class_define.has_stmt);
+		class_node->setIntrinsic(class_define.attribute == "intrinsic" );
+		class_node->setIsAbstract( class_define.object_type == generated::ObjectType::TYPE_CLASS ? false : true );
+		if(_meta_data_dirty) {
+			class_node->setMetaData(_meta_data);
+			_meta_data_dirty = false;
+		}
 	}
 
 	void startClassStmt() {
@@ -358,11 +362,9 @@ public:
 	void endClassDefinition() {
 		CHECK_STACK_AND_POP( ClassDefine, AST::Node::NodeType::T_CLASS_DEFINE );
 	}
-
 	void endClassStmt() {
 		CHECK_STACK_AND_POP( ClassStmt, AST::Node::NodeType::T_CLASS_DEFINE_STMT );
 	}
-
 	void startAttributeList() {
 		PUSH_STACK( AttributeList );
 	}
@@ -376,31 +378,24 @@ public:
 		ADD_2_TOP_WITH_INIT( FunctionAttribute, sv );
 	}
 
-
 	void startMemberExpression() {
 		PUSH_STACK( ExpressionMember );
 	}
-
 	void endMemberExpression() {
 		CHECK_STACK_AND_POP( MemberExpression, AST::Node::NodeType::T_EXPR_MEMBER );
 	}
-
 	void startForStatement() {
 		PUSH_STACK( ForStatement );
 	}
-
 	void startForInit() {
 		PUSH_STACK( ForInit );
 	}
-
 	void startForStep() {
 		PUSH_STACK( ForStep );
 	}
-
 	void endForStep() {
 		CHECK_STACK_AND_POP( ForStep, AST::Node::NodeType::T_FOR_STEP );
 	}
-
 	void endForStatement() {
 		CHECK_STACK_AND_POP( ForStatement, AST::Node::NodeType::T_STMT_FOR );
 	}
@@ -413,29 +408,32 @@ public:
     void endDoStatement( )  {
     	CHECK_STACK_AND_POP( DoStatement, AST::Node::NodeType::T_STMT_DO );
     }
-
     void startWhileStatement() {
     	PUSH_STACK( WhileStatement );
     }
-
     void endWhileStatement() {
     	CHECK_STACK_AND_POP( WhileStatement, AST::Node::NodeType::T_STMT_WHILE );
     }
     void startScope() {
     	PUSH_STACK( ScopeStatement );
     }
-
     void endScope() {
     	CHECK_STACK_AND_POP( ScopeStatement, AST::Node::NodeType::T_SCOPE );
+    }
+    void defineMetaData(const generated::MetaData& metadata) {
+        // Your implementation goes here
+        printf("defineMetaData\n");
+        _meta_data = metadata;
+        _meta_data_dirty = true;
     }
 public:
    as::ast::ProgramPtr getProgramNode() {	return _program_root;	};
 
 private:
-    std::stack< as::ast::NodePtr > 			_node_stack;
-
-     as::ast::ProgramPtr _program_root;
-
+    std::stack< as::ast::NodePtr>		_node_stack;
+    as::ast::ProgramPtr					_program_root;
+    generated::MetaData					_meta_data;
+    bool								_meta_data_dirty;
 };
 
 } } 

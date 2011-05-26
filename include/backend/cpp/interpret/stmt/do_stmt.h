@@ -27,7 +27,6 @@
 #define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_DO_STMT_H__
 
 #include <as/ast/stmt/do_stmt.h>
-#include <as/ast/call.h>
 #include <backend/cpp/interpret/interpreter.h>
 #include <backend/cpp/templateprinter.h>
 

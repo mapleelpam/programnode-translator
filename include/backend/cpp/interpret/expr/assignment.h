@@ -27,7 +27,6 @@
 #define __TW_MAPLE_BACKEDN_CPP_INTERPRET_ASSIGNMENT_H__
 
 #include <as/ast/expr/assignment.h>
-#include <as/ast/call.h>
 #include <backend/cpp/interpret/interpreter.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {

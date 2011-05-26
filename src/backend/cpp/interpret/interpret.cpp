@@ -67,68 +67,37 @@ void initializeInterpreters()
 		p_def_expounder = new Interpreter();
 		for (int idx = 0; idx < AST::Node::NodeType::T_NODE_TYPE_END; idx++)
 			interpreterResolver[idx] = p_def_expounder;
-
-//		interpreterResolver[AST::Node::NodeType::T_PROGRAM] = new Interpreter();
-		//
-		interpreterResolver[AST::Node::NodeType::T_FUNCTION_DEFINITION]
-				= new FunctionDefinition();
-		interpreterResolver[AST::Node::NodeType::T_FUNCTION_NAME]
-				= new FunctionName();
-		interpreterResolver[AST::Node::NodeType::T_FUNCTION_COMMON]
-				= new Interpreter();
-		interpreterResolver[AST::Node::NodeType::T_FUNCTION_PARAMETERS]
-				= new FunctionParameter();
-		interpreterResolver[AST::Node::NodeType::T_FUNCTION_PARAMETER_ITEM]
-				= new FunctionParameterItem();
-
-		interpreterResolver[AST::Node::NodeType::T_STMT_LIST]
-				= new StatementList();
-		interpreterResolver[AST::Node::NodeType::T_EXPR_LIST]
-				= new ExpressionList();
+		interpreterResolver[AST::Node::NodeType::T_FUNCTION_DEFINITION] = new FunctionDefinition();
+		interpreterResolver[AST::Node::NodeType::T_FUNCTION_NAME] = new FunctionName();
+		interpreterResolver[AST::Node::NodeType::T_FUNCTION_PARAMETERS]	= new FunctionParameter();
+		interpreterResolver[AST::Node::NodeType::T_FUNCTION_PARAMETER_ITEM] = new FunctionParameterItem();
+		interpreterResolver[AST::Node::NodeType::T_STMT_LIST] = new StatementList();
+		interpreterResolver[AST::Node::NodeType::T_EXPR_LIST] = new ExpressionList();
 		interpreterResolver[AST::Node::NodeType::T_ARGUMENTS] = new Arguments();
 		interpreterResolver[AST::Node::NodeType::T_ARGUMENT] = new Argument();
-		interpreterResolver[AST::Node::NodeType::T_LITERAL_STRING]
-				= new LiteralString();
-		interpreterResolver[AST::Node::NodeType::T_LITERAL_NUMBER]
-				= new LiteralNumber();
-		interpreterResolver[AST::Node::NodeType::T_LITERAL_BOOLEAN]
-				= new LiteralBoolean();
-		interpreterResolver[AST::Node::NodeType::T_IDENTIFIER]
-				= new Identifier();
-		interpreterResolver[AST::Node::NodeType::T_BINARY_OPERATOR]
-				= new BinaryOperator();
-		interpreterResolver[AST::Node::NodeType::T_INSTANCEOF]
-				= new InstanceOf();
-		interpreterResolver[AST::Node::NodeType::T_IS]
-				= new Is();
-		interpreterResolver[AST::Node::NodeType::T_UNARY_OPERATOR]
-				= new UnaryOperator();
-		interpreterResolver[AST::Node::NodeType::T_RETURN_STATEMENT]
-				= new ReturnStatement();
-		interpreterResolver[AST::Node::NodeType::T_VARIABLE_DECLARE]
-				= new VariableDeclare();
-		interpreterResolver[AST::Node::NodeType::T_ASSIGNMENT]
-				= new Assignment();
+		interpreterResolver[AST::Node::NodeType::T_LITERAL_STRING] = new LiteralString();
+		interpreterResolver[AST::Node::NodeType::T_LITERAL_NUMBER] = new LiteralNumber();
+		interpreterResolver[AST::Node::NodeType::T_LITERAL_BOOLEAN] = new LiteralBoolean();
+		interpreterResolver[AST::Node::NodeType::T_IDENTIFIER] = new Identifier();
+		interpreterResolver[AST::Node::NodeType::T_BINARY_OPERATOR]	= new BinaryOperator();
+		interpreterResolver[AST::Node::NodeType::T_INSTANCEOF] = new InstanceOf();
+		interpreterResolver[AST::Node::NodeType::T_IS] = new Is();
+		interpreterResolver[AST::Node::NodeType::T_UNARY_OPERATOR] = new UnaryOperator();
+		interpreterResolver[AST::Node::NodeType::T_RETURN_STATEMENT] = new ReturnStatement();
+		interpreterResolver[AST::Node::NodeType::T_VARIABLE_DECLARE] = new VariableDeclare();
+		interpreterResolver[AST::Node::NodeType::T_ASSIGNMENT] = new Assignment();
 		interpreterResolver[AST::Node::NodeType::T_CALL] = new Call();
 		interpreterResolver[AST::Node::NodeType::T_STMT_IF] = new IfStatement();
 		interpreterResolver[AST::Node::NodeType::T_STMT_EXPR] = new StmtExpression();
 
-		interpreterResolver[AST::Node::NodeType::T_CLASS_DEFINE]
-				= new ClassDefinition();
+		interpreterResolver[AST::Node::NodeType::T_CLASS_DEFINE] = new ClassDefinition();
+		interpreterResolver[AST::Node::NodeType::T_PACKAGE_DEFINITION] = new PackageDefinition();
 
-		interpreterResolver[AST::Node::NodeType::T_PACKAGE_DEFINITION]
-		        = new PackageDefinition();
+		interpreterResolver[AST::Node::NodeType::T_EXPR_MEMBER] = new ExpressionMember();
 
-
-		interpreterResolver[AST::Node::NodeType::T_EXPR_MEMBER]
-		        = new ExpressionMember();
-
-		interpreterResolver[AST::Node::NodeType::T_STMT_FOR]
-				= new ForStatement();
-		interpreterResolver[AST::Node::NodeType::T_STMT_DO]
-				= new DoStatement();
-		interpreterResolver[AST::Node::NodeType::T_STMT_WHILE]
-				= new WhileStatement();
+		interpreterResolver[AST::Node::NodeType::T_STMT_FOR] = new ForStatement();
+		interpreterResolver[AST::Node::NodeType::T_STMT_DO] = new DoStatement();
+		interpreterResolver[AST::Node::NodeType::T_STMT_WHILE] = new WhileStatement();
 	}
 }
 

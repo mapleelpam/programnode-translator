@@ -27,7 +27,6 @@
 #define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_CLASS_DEFINE_H__
 
 #include <as/ast/stmt/class_definition.h>
-#include <as/ast/call.h>
 #include <backend/cpp/interpret/interpreter.h>
 #include <backend/cpp/templateprinter.h>
 

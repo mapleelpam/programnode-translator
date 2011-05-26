@@ -28,7 +28,6 @@
 #define __TW_MAPLE_BACKEDN_CPP_INTERPRET_INTERPRET_H_
 
 #include <as/ast/abstract/expression.h>
-#include <as/ast/call.h>
 #include <backend/cpp/context.h>
 #include <as/symbol/scope.h>
 
