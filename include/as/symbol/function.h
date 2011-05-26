@@ -35,9 +35,18 @@ struct Function : public Scope
 {
 	Function( std::string n, Scope *parent = NULL  )
 		: Scope( n, Scope::T_FUNCTION, parent )
+		, m_is_constructor( false )
 	{
 	}
 
+	void setIsConstructor( bool b )
+	{
+		m_is_constructor = b;
+	}
+	bool isConstructor( ) const
+	{
+		return m_is_constructor;
+	}
 
 	virtual std::string toString()
 	{
@@ -59,6 +68,7 @@ struct Function : public Scope
 	}
 private:
 	SymbolPtr	m_return_type_symbol;
+	bool		m_is_constructor;
 };
 
 typedef SHARED_PTR(Function) FunctionPtr;

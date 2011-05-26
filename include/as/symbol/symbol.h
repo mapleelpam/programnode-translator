@@ -78,6 +78,11 @@ struct Symbol
 	{
 		return name();
 	}
+	virtual bool isConstructor( ) const
+	{
+		return false;
+	}
+
 protected:
 	std::string		m_name;
 	uint			m_properties;
