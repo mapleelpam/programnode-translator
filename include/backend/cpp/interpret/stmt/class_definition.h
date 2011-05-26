@@ -46,6 +46,7 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 		AST::ClassDefinitionPtr _class_define_ = STATIC_CAST( AST::ClassDefinition, node);
 		if( _class_define_->isIntrinsic())
 			return "";  // Ignore Intrinsic
+		ASY::ScopePtr	symbol_class = _class_define_->getClassSymbol();
 
 		std::string class_stmt = "";
 		if( _class_define_->hasStatement() ) {
@@ -84,6 +85,7 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("class_inherit", class_inherit ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_base", class_base ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_type", _class_define_->isAbstract()?"struct":"class" ) ));
+		patterns.push_back( PatternPtr( new Pattern("class_default_constructor", symbol_class->noContructor()?"/*has no dc*/":"/*has dc*/" ) ));
 
 		patterns.push_back( PatternPtr( new Pattern("endl", ctx->endl() ) ));
 		patterns.push_back( PatternPtr( new Pattern("indent_tab", ctx->indent()) ));
@@ -103,11 +105,12 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 	{
 		_template_class = ( "#(indent_tab) #(class_type) #(class_name)  #(class_inherit) #(endl)#(indent_tab){#(endl)"
 							"#(class_stmt)"
-							"#(indent_tab)};#(endl)" )
+							"#(class_default_constructor)"
+							"#(endl)#(indent_tab)};#(endl)" )
 							;
 		_template_interface = ( "#(indent_tab) #(class_type) #(class_name)  #(endl)#(indent_tab){#(endl)"
 							"#(class_stmt)"
-							"#(indent_tab)};#(endl)" )
+							"#(endl)#(indent_tab)};#(endl)" )
 							;
 	}
 

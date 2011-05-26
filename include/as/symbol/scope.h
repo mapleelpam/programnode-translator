@@ -55,12 +55,14 @@ struct Scope : public Symbol, public Registrable
 		: Symbol( n, Symbol::T_SCOPE ), Registrable( this )
 		, m_scope_type( t )
 		, m_parent( parent )
+		, m_no_contrucotr(true)
 	{	}
 
 	Scope( Scope *parent = NULL )
-			: Symbol( "", Symbol::T_SCOPE ), Registrable( this )
-			, m_scope_type( T_ANONYMOUS )
-			, m_parent( parent )
+		: Symbol( "", Symbol::T_SCOPE ), Registrable( this )
+		, m_scope_type( T_ANONYMOUS )
+		, m_parent( parent )
+		, m_no_contrucotr(true)
 	{
 		std::ostringstream ss;
 		ss << "anonymous"<<m_parent->m_childs.size();
@@ -274,11 +276,14 @@ public:
 	{
 		return m_parent;
 	}
+	bool noContructor() { return m_no_contrucotr; }
+	void setNoConstrtuctor( bool b ) { m_no_contrucotr = b; }
 private:
 	ScopeType m_scope_type;
 	std::vector<SymbolPtr>	m_childs;
 
 	Scope*	m_parent;
+	bool	m_no_contrucotr;
 //friend class Scope;
 };
 

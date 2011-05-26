@@ -49,6 +49,10 @@ struct SymbolTableConstructor {
 		for (std::vector< AST::ProgramPtr>::iterator nodeItr = pnode_list.begin()
 			; nodeItr != pnode_list.end(); nodeItr++)
 			linkVariableType( *nodeItr, root);
+
+		for (std::vector< AST::ProgramPtr>::iterator nodeItr = pnode_list.begin()
+			; nodeItr != pnode_list.end(); nodeItr++)
+			symbolTableAnalyze( *nodeItr, root);
 	}
 
 private:
@@ -58,6 +62,10 @@ private:
 			, std::string className
 			);
 	static void linkVariableType(
+			tw::maple::as::ast::NodePtr node /* input program node */
+			, tw::maple::as::symbol::ScopePtr symboltable
+			);
+	static void symbolTableAnalyze(
 			tw::maple::as::ast::NodePtr node /* input program node */
 			, tw::maple::as::symbol::ScopePtr symboltable
 			);

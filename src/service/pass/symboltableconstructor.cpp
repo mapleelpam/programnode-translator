@@ -56,8 +56,9 @@ void SymbolTableConstructor:: constructSymbols(
 	namespace CPP = tw::maple::backend::cpp::interpret;
 	namespace ASY = tw::maple::as::symbol;
 
-	if( node==NULL &&node->node_childs.size() == 0 )
+	if( node==NULL || node->node_childs.size() == 0 )
 		return;
+
 	for (std::vector< AST::NodePtr >::iterator nItr =
 			node->node_childs.begin(); nItr != node->node_childs.end(); nItr++) {
 
@@ -72,6 +73,9 @@ void SymbolTableConstructor:: constructSymbols(
 				AST::FunctionNamePtr fname  = STATIC_CAST( AST::FunctionName, fdef->FunctionName() );
 				BOOST_ASSERT( fname != NULL );
 				std::string str_func_name = fname->function_name ;
+//				class_has_constructor = (class_has_constructor ||( class_scope_name != "" && str_func_name == class_scope_name));
+//				std::cout << "------------------------------- class_name " << class_scope_name << " func_name " << str_func_name<<std::endl;
+
 
 				ASY::FunctionPtr scope_func( symboltable->registerFunction( str_func_name ) );
 				{
@@ -90,7 +94,9 @@ void SymbolTableConstructor:: constructSymbols(
 					}
 				}
 				if( classname!="" && classname == str_func_name )
+				{
 					scope_func -> setIsConstructor( true );
+				}
 				fdef -> setSymbol( scope_func );
 				fdef -> setFunctionSymbol( scope_func );
 
@@ -112,7 +118,7 @@ void SymbolTableConstructor:: constructSymbols(
 
 				ASY::ScopePtr scope_class( symboltable->registerClass( _class_define_->getClassName() ) );
 				_class_define_ -> setSymbol( scope_class );
-
+				_class_define_ -> setClassSymbol( scope_class );
 				constructSymbols( _class_define_, scope_class, _class_define_->getClassName() );
 
 			}	break;
@@ -235,5 +241,41 @@ void SymbolTableConstructor::linkVariableType(
 	}
 }
 
+
+
+void SymbolTableConstructor::symbolTableAnalyze(
+		tw::maple::as::ast::NodePtr node /* input program node */
+		, tw::maple::as::symbol::ScopePtr symboltable
+		)
+{
+	namespace AST = tw::maple::as::ast;
+	namespace CPP = tw::maple::backend::cpp::interpret;
+	namespace ASYM = tw::maple::as::symbol;
+
+	if( node->node_childs.size() == 0 )
+		return;
+	for (std::vector< AST::NodePtr >::iterator nItr =
+			node->node_childs.begin(); nItr != node->node_childs.end(); nItr++) {
+
+		ASYM::SymbolPtr symbol = (*nItr)->getSymbol();
+
+		if (symbol && (symbol->getSymbolProperties() & ASYM::Symbol::T_SCOPE)) {
+			ASYM::ScopePtr p_scope = STATIC_CAST( ASYM::Scope, symbol );
+			switch (p_scope->getScopeType()) {
+			case ASYM::Scope::T_FUNCTION: {
+				ASYM::FunctionPtr p_func = STATIC_CAST( ASYM::Function, symbol );
+				if(p_func->isConstructor())
+					p_func->getParent()->setNoConstrtuctor(false);
+			}
+			break;
+			default:
+				symbolTableAnalyze(*nItr, p_scope);
+				break;
+			}
+		} else
+			symbolTableAnalyze(*nItr, symboltable);
+
+	}
+}
 } } } }//pass.service.maple.tw
 

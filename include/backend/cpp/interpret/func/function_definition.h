@@ -57,20 +57,18 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		BOOST_ASSERT( fcommon != NULL );
 
 		// Function Return Type
-		std::tr1::shared_ptr < AST::FunctionSignature > fsig
-				= std::tr1::static_pointer_cast<AST::FunctionSignature>( fcommon -> FunctionSignature());
+		AST::FunctionSignaturePtr fsig
+				= STATIC_CAST( AST::FunctionSignature, fcommon -> FunctionSignature());
 
 		std::string str_func_parameters = fsig->node_childs.size()
 				? dispatchExpound(fsig->FunctionParameter(), symbol_table, ctx)
 				:"";
 
 		std::list<PatternPtr> patterns;
-
-//		std::string str_func_name = dispatchExpound(fdef->FunctionName(), symbol_table, ctx) ;
 		std::string str_func_name = fdef->getSymbol()->name();
 
-		ASY::FunctionPtr symbol_function = fdef->getFunctionSymbol();
-		std::string str_function_attribute;
+		ASY::FunctionPtr	symbol_function = fdef->getFunctionSymbol();
+		std::string 		str_function_attribute;
 		switch( symbol_function->getSymbolAttribtues() )
 		{
 			case ASY::Symbol::ATTR_NONE:	str_function_attribute="";	break;

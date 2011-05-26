@@ -82,6 +82,11 @@ struct ClassDefinition : public Statement
 	{
 		m_metadata = md;
 	}
+public:
+    void setClassSymbol( ASYM::ScopePtr s )	{	_related_class_symbol = s;	}
+    ASYM::ScopePtr getClassSymbol( )	{	return _related_class_symbol;	}
+protected:
+    ASYM::ScopePtr	_related_class_symbol;
 private:
 	bool m_has_base_class;
 	bool m_has_base_interface;
