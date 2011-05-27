@@ -73,6 +73,16 @@ struct VariableDeclare: public Expression
     	}
     	return false;
     }
+    bool isPrivate()
+    {
+		for (std::vector<std::string>::iterator sItr =
+				VariableAttribute.begin(); sItr != VariableAttribute.end(); sItr++) {
+			std::cout << " variable attribute isPrivate: '"<<*sItr <<"'"<< std::endl;
+			if (*sItr == "private")
+				return true;
+		}
+		return false;
+	}
     bool isStatic()
     {
     	for( std::vector<std::string>::iterator sItr = VariableAttribute.begin()

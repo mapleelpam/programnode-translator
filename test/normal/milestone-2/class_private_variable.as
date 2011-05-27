@@ -26,7 +26,7 @@ package a
 			return e;
 		}
 
-		priavte var e:int = 987;
+		private var e:int = 987;
 	}
 }
 
