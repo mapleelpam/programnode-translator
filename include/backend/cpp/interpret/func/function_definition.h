@@ -101,7 +101,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 	FunctionDefinition()
 		: TemplatePrinter("FunctionDefinition")
 	{
-		setTemplateString(  "#(function_attribute)"
+		setTemplateString(  "#(indent_tab)#(function_attribute)"
 
 							"#(indent_tab)"
 							"#(function_is_static)"
