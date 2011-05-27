@@ -85,7 +85,7 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("class_inherit", class_inherit ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_base", class_base ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_type", _class_define_->isAbstract()?"struct":"class" ) ));
-		patterns.push_back( PatternPtr( new Pattern("class_default_constructor", symbol_class->noContructor()?"/*has no dc*/":"/*has dc*/" ) ));
+		patterns.push_back( PatternPtr( new Pattern("class_default_constructor", symbol_class->noContructor()?getDefaultConstructor(symbol_class,ctx):"" ) ));
 
 		patterns.push_back( PatternPtr( new Pattern("endl", ctx->endl() ) ));
 		patterns.push_back( PatternPtr( new Pattern("indent_tab", ctx->indent()) ));
@@ -134,11 +134,38 @@ private:
 
 	std::string _template_class;
 	std::string _template_interface;
+
+private:
+	std::string getDefaultConstructor(
+			ASY::ScopePtr symbol_class,
+			tw::maple::backend::cpp::Context* ctx)
+	{
+		std::string answer = "#(indent_tab)public: "+symbol_class->name()+"()";
+
+		std::vector<ASY::SymbolPtr> childs;
+		symbol_class->getChilds(childs/*out*/);
+		for (std::vector<ASY::SymbolPtr>::iterator child_itr = childs.begin(); child_itr
+				!= childs.end(); child_itr++) {
+
+			std::cout << "symbol name = " << (*child_itr)->name() << std::endl;
+			if (((*child_itr)->getSymbolProperties() & ASY::Symbol::T_VARIABLE)) {
+				ASY::VariablePtr var = STATIC_CAST( ASY::Variable, *child_itr );
+				if (var->getInitializeNode() != NULL && var->isStatic() == false) {
+					answer
+							+= ":" + var->name() + "("
+									+ dispatchExpound(
+											var->getInitializeNode(),
+											symbol_class/*TODO: should use function's parent*/,
+											ctx) + ")";
+				}
+			}
+		}
+		answer += "#(endl)#(indent_tab){}#(endl)";
+
+		return answer;
+	}
 };
 
-};
-
-
-} } } } 
+} } } } }
 
 #endif 

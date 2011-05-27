@@ -112,6 +112,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 							"#(function_enter)"
 							"#(func_body)"
 							"#(function_leave)"
+							"#(endl)"
 							 )
 							;
 		m_tpl_enter_function = "#(endl)#(indent_tab){/*enter function*/";
@@ -159,8 +160,6 @@ private:
 private:
 	std::string getMemberInitializer( ASY::FunctionPtr symbol_function, tw::maple::backend::cpp::Context* ctx )
 	{
-		std::cout << "--------------- getMemberInitializer "<< std::endl;
-
 		std::string answer = "";
 		std::vector<ASY::SymbolPtr> childs;
 		symbol_function->getParent()->getChilds( childs/*out*/ );
@@ -184,7 +183,7 @@ private:
 	}
 };
 
-};
+}
 
 
 } } } } 
