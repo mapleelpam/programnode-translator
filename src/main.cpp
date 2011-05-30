@@ -55,7 +55,7 @@ int main(int argc, char **argv)
 	} catch (...) {
 		std::cout << "ERROR " << std::endl;
 		std::cout << "ERROR " << "Error while parsing zcc-flex options Exiting" << std::endl;
-		exit(0);
+		exit(1);
 	}
 
 	major.exec();

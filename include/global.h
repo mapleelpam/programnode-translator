@@ -45,5 +45,9 @@
 
 #include <boost/assert.hpp>
 
+#ifdef _MAC
+//fixed for compiling on Mac -- by chuck
+typedef unsigned int uint;
+#endif
 
 #endif
