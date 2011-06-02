@@ -81,6 +81,28 @@ struct ClassDefinition : public Statement
 	{
 		m_metadata = md;
 	}
+	/* advaned methods */
+	bool isNativeClass( )
+	{
+		std::cerr << "native class '"<<m_metadata.id<<"'"<<std::endl;
+		if(m_metadata.id == "native")
+			return true;
+		else
+			return false;
+	}
+	std::string getMappedClassName( /*bool& OK*/)
+	{
+//		OK = false;
+		if(m_metadata.id == "native")
+		{
+			if(m_metadata.kayvalues.find("cls") != m_metadata.kayvalues.end() )
+			{
+//				OK = true;
+				return m_metadata.kayvalues["cls"];
+			}
+		}
+		return getClassName();
+	}
 public:
     void setClassSymbol( ASYM::ScopePtr s )	{	_related_class_symbol = s;	}
     ASYM::ScopePtr getClassSymbol( )	{	return _related_class_symbol;	}

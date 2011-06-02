@@ -51,6 +51,8 @@ struct Symbol
 	};
 
 	const std::string name() const {	return m_name;	}
+	const std::string mappedName() const {	return m_mapped_name;	}
+	void	setMappedName( std::string n ){ m_mapped_name = n;	}
 
 	Symbol( std::string n,  uint p = T_NONE, Attributes attr = ATTR_NONE )
 		: m_name( n )
@@ -83,6 +85,7 @@ struct Symbol
 
 protected:
 	std::string		m_name;
+	std::string		m_mapped_name;
 	uint			m_properties;
 	Attributes		m_attributes;
 	bool			m_is_static;

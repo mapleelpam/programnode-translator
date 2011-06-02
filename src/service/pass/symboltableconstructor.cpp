@@ -115,6 +115,7 @@ void SymbolTableConstructor:: constructSymbols(
 				AST::ClassDefinitionPtr _class_define_ = STATIC_CAST( AST::ClassDefinition, *nItr);
 
 				ASY::ScopePtr scope_class( symboltable->registerClass( _class_define_->getClassName() ) );
+				scope_class -> setMappedName( _class_define_->getMappedClassName() );
 				_class_define_ -> setSymbol( scope_class );
 				_class_define_ -> setClassSymbol( scope_class );
 				constructSymbols( _class_define_, scope_class, _class_define_->getClassName() );
@@ -203,9 +204,9 @@ void SymbolTableConstructor::linkVariableType(
 			}
 			ASYM::SymbolPtr p_type = var_type_scope->findType( var->VariableType[var->VariableType.size() - 1]  );
 
-			if( p_type )
+			if( p_type ) {
 				symbol->bindType( p_type );
-			else {
+			} else {
 				std::cerr<<var->VariableName <<" can't find type - "<< var->toString() <<std::endl;
 				exit(1);
 			}

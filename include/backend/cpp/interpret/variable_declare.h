@@ -51,12 +51,19 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 		std::string result;
 
 		AST::VariableDeclarePtr var = std::tr1::static_pointer_cast<AST::VariableDeclare>(node);
+		ASY::VariablePtr symbol_var = STATIC_CAST( ASY::Variable, node->getSymbol() );
 
 //		std::string var_type = var->VariableType[0];
 		std::string var_type = "";
 		if( (var->VariableType).size() == 1 )
 		{
-			var_type = invoke_type_mapper( (var->VariableType)[0] );
+			std::cerr << "  -------- variable decalre 1----: "<<symbol_var->getTypeSymbol()->mappedName()<<std::endl;
+			std::cerr << "  -------- variable decalre 2----: "<<symbol_var->name()<<std::endl;
+//			var_type = invoke_type_mapper( (var->VariableType)[0] );
+			var_type = symbol_var->getTypeSymbol()->mappedName();
+			var_type = var_type == "" ? (var->VariableType)[0] : var_type;
+
+			var_type = invoke_type_mapper( var_type );
 		}
 		else
 		{
@@ -68,8 +75,6 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 			}
 			var_type = invoke_type_mapper( var_type );
 		}
-
-		ASY::VariablePtr symbol_var = STATIC_CAST( ASY::Variable, node->getSymbol() );
 
 		std::string var_name = var->VariableName;
 		std::string var_attr = var->isPublic()?"public:":(var->isPrivate()?"private:":"");

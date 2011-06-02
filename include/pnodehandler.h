@@ -346,8 +346,13 @@ public:
 		class_node->setIntrinsic(class_define.attribute == "intrinsic" );
 		class_node->setIsAbstract( class_define.object_type == generated::ObjectType::TYPE_CLASS ? false : true );
 		if(_meta_data_dirty) {
+			std::cerr <<" hey i just attach a metadata to a class define node"<<std::endl;
 			class_node->setMetaData(_meta_data);
 			_meta_data_dirty = false;
+			if(class_node->isNativeClass())
+				std::cerr << "abc\n"<<std::endl;
+			else
+				std::cerr << "cde\n"<<std::endl;
 		}
 	}
 
