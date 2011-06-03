@@ -167,15 +167,11 @@ private:
 				, tw::maple::backend::cpp::Context* ctx)
 	{
 		std::string answer = "";
-		std::cerr <<" hey  answer "<<"'"<<answer<<"'"<<std::endl;
 		if( _class_define_->hasInterface() )
 		for( int idx = 0 ; idx < _class_define_->Implements ().size() ; idx ++){
 			answer += answer=="" ? "" : ",";
 			answer += _class_define_->Implements()[idx];
-
-			std::cerr <<" hey  answer "<<"'"<<answer<<"'"<<std::endl;
 		}
-		std::cerr <<" hey  answer "<<"'"<<answer<<"'"<<std::endl;
 		return answer;
 	}
 
