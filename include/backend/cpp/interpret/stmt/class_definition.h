@@ -54,21 +54,7 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 			ctx->tree_depth --;
 		}
 
-		std::string class_inherit = "";
-		if( _class_define_->hasBaseClass() | _class_define_->hasInterface() ){
-			for( int idx = 0 ; idx < _class_define_->Inherits().size() ; idx ++){
-				class_inherit += class_inherit=="" ? " : " : " , ";
-				class_inherit += " public "+ _class_define_->Inherits()[idx];
-			}
-			for( int idx = 0 ; idx < _class_define_->Implements ().size() ; idx ++){
-				class_inherit += class_inherit=="" ? " : " : " , ";
-				class_inherit += " public "+ _class_define_->Implements()[idx];
-			}
-		}
-		if( _default_base_object != "" &&  (!_class_define_->hasBaseClass()) ){
-			class_inherit += class_inherit=="" ? " : " : " , ";
-			class_inherit += " public " + _default_base_object;
-		}
+		std::string class_inherit = getInheritsString(_class_define_, symbol_class, ctx);
 
 		std::string class_base = "";
 		if (_class_define_->hasBaseClass() ) {
@@ -101,6 +87,7 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 	ClassDefinition()
 		: TemplatePrinter("ClassDefinition")
 		, _default_base_object("")
+		, _inherit_type(BOTH)
 	{
 		_template_class = ( "#(indent_tab) #(class_type) #(class_name)  #(class_inherit) #(endl)#(indent_tab){#(endl)"
 							"#(class_stmt)"
@@ -118,6 +105,7 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 		_default_base_object = pt.get<std::string>(  configName()+".inherit.base", _default_base_object);
 		_template_class = pt.get<std::string>(  configName()+".template.class", _template_class);
 		_template_interface = pt.get<std::string>(  configName()+".template.interface", _template_interface);
+		_inherit_type = pt.get<int>(  configName()+".inherit.type", (_inherit_type));
 		return TemplatePrinter::readConfig( pt );
 	}
 	virtual bool writeConfig( boost::property_tree::ptree& pt )
@@ -125,16 +113,50 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 		pt.put<std::string>( configName()+".inherit.base", _default_base_object);
 		pt.put<std::string>( configName()+".template.class", _template_class);
 		pt.put<std::string>( configName()+".template.interface", _template_interface);
+		pt.put<int>( configName()+".inherit.base", _inherit_type);
 		return TemplatePrinter::writeConfig( pt );
 	}
 
+	enum InheritType
+	{
+		NONE,
+		ONLY_EXTENDS,
+		ONLY_IMPLEMENTS,
+		BOTH,
+	};
 private:
 	std::string _default_base_object;
 
 	std::string _template_class;
 	std::string _template_interface;
+	int	_inherit_type;
 
 private:
+	std::string getInheritsString(
+				AST::ClassDefinitionPtr _class_define_
+				, ASY::ScopePtr symbol_class
+				, tw::maple::backend::cpp::Context* ctx)
+	{
+		std::string class_inherit = "";
+
+		if( _class_define_->hasBaseClass() | _class_define_->hasInterface() ){
+			for( int idx = 0 ; idx < _class_define_->Inherits().size() ; idx ++){
+				class_inherit += class_inherit=="" ? " : " : " , ";
+				class_inherit += " public "+ _class_define_->Inherits()[idx];
+			}
+			for( int idx = 0 ; idx < _class_define_->Implements ().size() ; idx ++){
+				class_inherit += class_inherit=="" ? " : " : " , ";
+				class_inherit += " public "+ _class_define_->Implements()[idx];
+			}
+		}
+		if( _default_base_object != "" &&  (!_class_define_->hasBaseClass()) ){
+			class_inherit += class_inherit=="" ? " : " : " , ";
+			class_inherit += " public " + _default_base_object;
+		}
+
+		return class_inherit;
+	}
+
 	std::string getDefaultConstructor(
 			ASY::ScopePtr symbol_class,
 			tw::maple::backend::cpp::Context* ctx)
