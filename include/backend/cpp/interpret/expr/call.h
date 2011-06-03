@@ -53,7 +53,7 @@ struct Call : public Interpreter
 			result +=  " new ";
 			std::string type_name = dispatchExpound(call->getCallee(), symbol_table, ctx);
 			ASY::SymbolPtr p_type = symbol_table->findType( type_name );
-			if( p_type->mappedName() != "" )
+			if( p_type != NULL && p_type->mappedName() != "" )
 				result += p_type->mappedName();
 			else
 				result += type_name;
