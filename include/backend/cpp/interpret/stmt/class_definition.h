@@ -63,11 +63,14 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 			class_base = _default_base_object;
 		}
 
+		std::string class_implements = getImplementsListString(_class_define_, symbol_class, ctx);
+
 		std::list<PatternPtr> patterns;
 
 		patterns.push_back( PatternPtr( new Pattern("class_name", _class_define_->getClassName() ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_stmt", class_stmt ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_inherit", class_inherit ) ));
+		patterns.push_back( PatternPtr( new Pattern("class_implements_list", class_implements ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_base", class_base ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_type", _class_define_->isAbstract()?"struct":"class" ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_default_constructor", symbol_class->noContructor()?getDefaultConstructor(symbol_class,ctx):"" ) ));
@@ -113,7 +116,7 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 		pt.put<std::string>( configName()+".inherit.base", _default_base_object);
 		pt.put<std::string>( configName()+".template.class", _template_class);
 		pt.put<std::string>( configName()+".template.interface", _template_interface);
-		pt.put<int>( configName()+".inherit.base", _inherit_type);
+		pt.put<int>( configName()+".inherit.type", _inherit_type);
 		return TemplatePrinter::writeConfig( pt );
 	}
 
@@ -139,22 +142,41 @@ private:
 	{
 		std::string class_inherit = "";
 
-		if( _class_define_->hasBaseClass() | _class_define_->hasInterface() ){
-			for( int idx = 0 ; idx < _class_define_->Inherits().size() ; idx ++){
-				class_inherit += class_inherit=="" ? " : " : " , ";
-				class_inherit += " public "+ _class_define_->Inherits()[idx];
-			}
-			for( int idx = 0 ; idx < _class_define_->Implements ().size() ; idx ++){
-				class_inherit += class_inherit=="" ? " : " : " , ";
-				class_inherit += " public "+ _class_define_->Implements()[idx];
-			}
+
+		if( ( _inherit_type == ONLY_EXTENDS || _inherit_type == BOTH ) && _class_define_->hasBaseClass() )
+		for( int idx = 0 ; idx < _class_define_->Inherits().size() ; idx ++){
+			class_inherit += class_inherit=="" ? " : " : " , ";
+			class_inherit += " public "+ _class_define_->Inherits()[idx];
 		}
+		if( ( _inherit_type == ONLY_IMPLEMENTS || _inherit_type == BOTH) && _class_define_->hasInterface() )
+		for( int idx = 0 ; idx < _class_define_->Implements ().size() ; idx ++){
+			class_inherit += class_inherit=="" ? " : " : " , ";
+			class_inherit += " public "+ _class_define_->Implements()[idx];
+		}
+
 		if( _default_base_object != "" &&  (!_class_define_->hasBaseClass()) ){
 			class_inherit += class_inherit=="" ? " : " : " , ";
 			class_inherit += " public " + _default_base_object;
 		}
 
 		return class_inherit;
+	}
+	std::string getImplementsListString(
+				AST::ClassDefinitionPtr _class_define_
+				, ASY::ScopePtr symbol_class
+				, tw::maple::backend::cpp::Context* ctx)
+	{
+		std::string answer = "";
+		std::cerr <<" hey  answer "<<"'"<<answer<<"'"<<std::endl;
+		if( _class_define_->hasInterface() )
+		for( int idx = 0 ; idx < _class_define_->Implements ().size() ; idx ++){
+			answer += answer=="" ? "" : ",";
+			answer += _class_define_->Implements()[idx];
+
+			std::cerr <<" hey  answer "<<"'"<<answer<<"'"<<std::endl;
+		}
+		std::cerr <<" hey  answer "<<"'"<<answer<<"'"<<std::endl;
+		return answer;
 	}
 
 	std::string getDefaultConstructor(
