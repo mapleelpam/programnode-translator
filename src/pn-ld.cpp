@@ -39,7 +39,7 @@ int main(int argc, char **argv)
 		exit(1);
 	} catch (...) {
 		std::cout << "ERROR " << std::endl;
-		std::cout << "ERROR " << "Error while parsing zcc-flex options Exiting" << std::endl;
+		std::cout << "ERROR " << "Error while parsing pn-ld options Exiting" << std::endl;
 		exit(1);
 	}
 
