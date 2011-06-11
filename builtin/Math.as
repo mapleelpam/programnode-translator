@@ -3,33 +3,33 @@ package
 	[native(cls="Math", instance="Math", methods="auto")]
 	public final class Math extends Object
 	{
-		static public function abs(double val) : double;
-		static public function acos(double val) : double;
-		static public function asin(double val) : double;
-		static public function atan(double val) : double;
-		static public function atan2(double y, double x) : double;
-		static public function ceil(double val) : double;
-		static public function cos(double val) : double;
-		static public function exp(double val) : double;
-		static public function floor(double val) : double;
-		static public function log(double val) : double;
-		static public function max(int amount, ...) : double;
-		static public function min(int amount, ...) : double;
-		static public function pow(double num1, double num2) : double;
+		static public function abs( val:double ) : double;
+		static public function acos( val:double ) : double;
+		static public function asin( val:double ) : double;
+		static public function atan( val:double ) : double;
+		static public function atan2( y:double, x:double ) : double;
+		static public function ceil( val:double ) : double;
+		static public function cos( val:double ) : double;
+		static public function exp( val:double ) : double;
+		static public function floor( val:double ) : double;
+		static public function log( val:double ) : double;
+		static public function max( amount:int, ... Arguments) : double;
+		static public function min( amount:int, ... Arguments) : double;
+		static public function pow( num1:double, num2:double ) : double;
 		static public function random() : double;
-		static public function round(double val) : int;
-		static public function sin(double val) : double;
-		static public function sqrt(double val) : double;
-		static public function tan(double val) : double;
+		static public function round( val:double ) : int;
+		static public function sin( val:double ) : double;
+		static public function sqrt( val:double ) : double;
+		static public function tan( val:double ) : double;
 
-		static const double E;
-		static const double LN10;
-		static const double LN2;
-		static const double LOG10E;
-		static const double LOG2E;
-		static const double PI;
-		static const double SQRT1_2;
-		static const double SQRT2;
+		public static const E:double;
+		public static const LN10:double;
+		public static const LN2:double;
+		public static const LOG10E:double;
+		public static const LOG2E:double;
+		public static const PI:double;
+		public static const SQRT1_2:double;
+		public static const SQRT2:double;
 		
 	}
 }

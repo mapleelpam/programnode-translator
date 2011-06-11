@@ -4,12 +4,12 @@ package
 	intrinsic public final class RegExp extends Object
 	{
 		/* constructor */
-		public functin RegExp( const String text = "" );
+		public function RegExp( text:String = "" );
 		
-		public function search( const String subject ) : int;
-		public function split( const String subject ) : Array;
-		public function match( const String subject ) : Array;
+		public function search( subject:String ) : int;
+		public function split( subject:String ) : Array;
+		public function match( subject:String ) : Array;
 	
-		public function replace( const String subject, const String repl ) : String;
+		public function replace( subject:String, repl:String ) : String;
 	}
 }
