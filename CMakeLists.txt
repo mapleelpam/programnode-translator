@@ -57,6 +57,15 @@ TARGET_LINK_LIBRARIES( pnc
     ${Boost_LIBRARIES}
     )
 
+ADD_EXECUTABLE( pn-ld
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/pn-ld.cpp
+    ${AST_THRIFT_SRC} 
+    )
+
+TARGET_LINK_LIBRARIES( pn-ld
+    ${THRIFT_LIBS}
+    ${Boost_LIBRARIES}
+    )
 
 ADD_SUBDIRECTORY( test )
 ADD_SUBDIRECTORY( test_framework )

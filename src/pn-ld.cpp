@@ -23,23 +23,13 @@
  \*******************************************************************/
 
 #include <global.h>
-#include <backend/cpp/interpret/interpreter.h>
-#include <backend/cpp/prependdata.h>
-#include <service/configservice.h>
 #include <service/argumentsservice.h>
-#include <service/passmanagerservice.h>
-#include <as/symbol/scope.h>
-#include <as/symbol/symbol.h>
-
-//namespace po = boost::program_options;
-
+#include <service/linkermanagerservice.h>
 
 int main(int argc, char **argv)
 {
-	SVC_CONFIG;
-	SVC_SYMBOLTABLE;
-
-	tw::maple::service::PassManagerService  major;
+//	tw::maple::service::PassManagerService  major;
+	tw::maple::service::LinkerManagerService major;
 
 	try {
 		SVC_ARGUMENTS->parse(argc,argv);
