@@ -26,24 +26,20 @@
 #define __TW_MAPLE_SERVICE_LINKER_MANAGER_SVC_H__
 
 #include <global.h>
-
-#include <boost/program_options/options_description.hpp>
-#include <boost/program_options/variables_map.hpp>
-#include <boost/program_options/parsers.hpp>
-#include <boost/program_options/value_semantic.hpp>
-
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/ptree_fwd.hpp>
-#include <boost/property_tree/info_parser.hpp>
-#include <boost/property_tree/xml_parser.hpp>
-
+#include <service/linker/linker.h>
 #include <service/argumentsservice.h>
 
+#include <protocol/TJSONProtocol.h>
+#include <transport/TServerSocket.h>
+#include <transport/TBufferTransports.h>
+#include <transport/TSimpleFileTransport.h>
+#include <server/TSimpleServer.h>
 
 namespace tw { namespace maple { namespace service {
 
 class LinkerManagerService : public tw::maple::service::ArgElemenRequest
 {
+
 public:
 	LinkerManagerService()
 	{
@@ -73,6 +69,28 @@ public:
 
 	void exec()
 	{
+        boost::shared_ptr<tw::maple::service::linker::Linker> something( new tw::maple::service::linker::Linker() );
+
+		for (std::vector<std::string>::iterator fileItr = m_pnode_files.begin()
+						; fileItr != m_pnode_files.end(); fileItr++)
+		{
+
+	        boost::shared_ptr<apache::thrift::transport::TSimpleFileTransport> transport(new apache::thrift::transport::TSimpleFileTransport(*fileItr,true,true));
+	        boost::shared_ptr<tw::maple::generated::AstDumperProcessor> processor( new tw::maple::generated::AstDumperProcessor( something ) );
+
+	        transport->open();
+	        boost::shared_ptr<apache::thrift::protocol::TProtocol> io(new apache::thrift::protocol::TJSONProtocol(transport));
+//
+	        try {
+	            while( true )
+	                processor->process( io, io, NULL );
+	        } catch (apache::thrift::transport::TTransportException ex ) {
+	            std::cout << "handler: " << ex.what()<<std::endl;
+	        }
+//
+	        transport->close();
+		}
+
 	}
 private:
 	std::vector<std::string> m_pnode_files;

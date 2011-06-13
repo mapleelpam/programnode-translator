@@ -28,7 +28,6 @@
 
 int main(int argc, char **argv)
 {
-//	tw::maple::service::PassManagerService  major;
 	tw::maple::service::LinkerManagerService major;
 
 	try {
