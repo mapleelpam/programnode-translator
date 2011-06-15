@@ -79,6 +79,11 @@ struct Function : public Scope
 	{
 		return m_function_type == tw::maple::generated::FunctionType::TF_GETTER;
 	}
+
+	bool isMemberFunction()
+	{
+		return getParent() ? (getParent()->getScopeType() == Scope::T_CLASS ? true : false ) : false;
+	}
 private:
 	SymbolPtr	m_return_type_symbol;
 	bool		m_is_constructor;

@@ -86,7 +86,9 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("func_parameters", str_func_parameters ) ));
 		patterns.push_back( PatternPtr( new Pattern("func_ret_type", symbol_function->isConstructor()?"":fsig->ReturnType ) ) );
 		patterns.push_back( PatternPtr( new Pattern("function_is_static", (symbol_function->isStatic())? "static ":"") ) );
-		patterns.push_back( PatternPtr( new Pattern("function_is_virtual", (fdef->isAbstract)? "virtual":"") ) );
+		patterns.push_back( PatternPtr( new Pattern("function_is_virtual", 
+					(fdef->isAbstract || (m_default_virtual&&(!symbol_function->isStatic())&&symbol_function->isMemberFunction() ))? 
+						"virtual":"") ) );
 		patterns.push_back( PatternPtr( new Pattern("function_enter", (fdef->isAbstract)? "" : m_tpl_enter_function) ) );
 		patterns.push_back( PatternPtr( new Pattern("function_leave", (fdef->isAbstract)? "" : m_tpl_leave_function) ) );
 		patterns.push_back( PatternPtr( new Pattern("member_initial", (symbol_function->isConstructor())? getMemberInitializer(symbol_function,ctx) : "") ) );
@@ -100,6 +102,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 
 	FunctionDefinition()
 		: TemplatePrinter("FunctionDefinition")
+		, m_default_virtual( false )
 	{
 		setTemplateString(  "#(indent_tab)#(function_attribute)"
 
@@ -140,6 +143,8 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 
 		m_tpl_args_prefix = pt.get<std::string>(  configName()+".template.prefix_arguments", m_tpl_args_prefix);
 		m_tpl_args_postfix = pt.get<std::string>(  configName()+".template.postfix_argumetns", m_tpl_args_postfix);
+
+		m_default_virtual = pt.get<bool>( configName()+".default_virtual", m_default_virtual);
 		return TemplatePrinter::readConfig( pt );
 	}
 	virtual bool writeConfig( boost::property_tree::ptree& pt )
@@ -149,6 +154,8 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 
 		pt.put<std::string>( configName()+".template.prefix_arguments", m_tpl_args_prefix);
 		pt.put<std::string>( configName()+".template.postfix_argumetns", m_tpl_args_postfix);
+
+		pt.put<bool>( configName()+".default_virtual",m_default_virtual);
 		return TemplatePrinter::writeConfig( pt );
 	}
 
@@ -161,6 +168,8 @@ private:
 
 	std::string m_tpl_setter_prepend;
 	std::string m_tpl_getter_prepend;
+
+	bool		m_default_virtual;
 private:
 	std::string getMemberInitializer( ASY::FunctionPtr symbol_function, tw::maple::backend::cpp::Context* ctx )
 	{
