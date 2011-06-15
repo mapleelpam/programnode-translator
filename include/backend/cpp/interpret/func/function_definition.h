@@ -102,7 +102,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 
 	FunctionDefinition()
 		: TemplatePrinter("FunctionDefinition")
-		, m_default_virtual( false )
+		, m_default_virtual( true )
 	{
 		setTemplateString(  "#(indent_tab)#(function_attribute)"
 
