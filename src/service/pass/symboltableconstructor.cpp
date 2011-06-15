@@ -91,6 +91,7 @@ void SymbolTableConstructor:: constructSymbols(
 							std::cerr << " unknow attribute " << *sItr << std::endl;
 					}
 				}
+				scope_func -> setFunctionType( fname->function_type );
 				if( classname!="" && classname == str_func_name )
 				{
 					scope_func -> setIsConstructor( true );

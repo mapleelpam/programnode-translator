@@ -26,14 +26,16 @@
 #define __TW_MAPLE_AS_SYMBOL_SCOPE_FUNCTION_H__
 
 #include <as/symbol/scope.h>
+#include "SyntaxTree_types.h"
 
 namespace tw { namespace maple { namespace as { namespace symbol {
 
 struct Function : public Scope
 {
-	Function( std::string n, Scope *parent = NULL  )
+	Function( std::string n, Scope *parent = NULL )
 		: Scope( n, Scope::T_FUNCTION, parent )
 		, m_is_constructor( false )
+		, m_function_type( tw::maple::generated::FunctionType::TF_NORMAL )
 	{
 	}
 
@@ -64,9 +66,23 @@ struct Function : public Scope
 	{
 		return m_return_type_symbol;
 	}
+
+	void setFunctionType( tw::maple::generated::FunctionType::type t)
+	{
+		m_function_type = t;
+	}
+	bool isSetter()
+	{
+		return m_function_type == tw::maple::generated::FunctionType::TF_SETTER;
+	}
+	bool isGetter()
+	{
+		return m_function_type == tw::maple::generated::FunctionType::TF_GETTER;
+	}
 private:
 	SymbolPtr	m_return_type_symbol;
 	bool		m_is_constructor;
+    tw::maple::generated::FunctionType::type m_function_type;
 };
 
 typedef SHARED_PTR(Function) FunctionPtr;
