@@ -137,7 +137,7 @@ private:
 	{
 		StringMap::iterator sitr = _primitive_type_mapper.find( type_name );
 		if( sitr == _primitive_type_mapper.end() ){
-			return _replace_string( _default_type_mapper, "#(type_name)", type_name);
+			return replace( _default_type_mapper, "#(type_name)", type_name);
 		} else {
 			return sitr -> second;
 		}

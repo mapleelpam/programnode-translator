@@ -50,4 +50,15 @@
 typedef unsigned int uint;
 #endif
 
+namespace tw { namespace maple {
+
+std::string replace(
+		const std::string &input
+		, const std::string &SearchString
+		, const std::string &ReplaceString
+		);
+
+} /*maple*/ } /*tw*/
+
+
 #endif

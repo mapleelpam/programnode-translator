@@ -96,20 +96,7 @@ struct ExpressionMember : public Interpreter
 private:
 	std::string constructor_work_around( std::string base, std::string callee )
 	{
-		return _replace_string( callee, "new ", "new "+base+"::");
-	}
-	std::string _replace_string(
-	    const std::string &s, const std::string &SearchString, const std::string &ReplaceString
-	    )
-	{
-		std::string result = s;
-	    std::string::size_type p = 0;
-	    while((p = result.find(SearchString, p)) != std::string::npos)
-	    {
-	        result.replace(p, SearchString.size(), ReplaceString);
-	        p++;
-	    }
-	    return result;
+		return replace( callee, "new ", "new "+base+"::");
 	}
 };
 

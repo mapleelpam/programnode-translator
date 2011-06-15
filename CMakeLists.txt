@@ -44,6 +44,7 @@ endif()
 
 ADD_EXECUTABLE( pnc
     ${CMAKE_CURRENT_SOURCE_DIR}/src/pnc.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/global.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/backend/cpp/interpret/interpret.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/backend/cpp/prependdata.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/service/configservice.cpp
