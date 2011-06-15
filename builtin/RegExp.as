@@ -1,6 +1,5 @@
 package
 {
-	[native(cls="RegExp", instance="RegExp", methods="auto")]
 	intrinsic public final class RegExp extends Object
 	{
 		/* constructor */

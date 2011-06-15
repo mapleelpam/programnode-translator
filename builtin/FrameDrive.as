@@ -1,6 +1,5 @@
 package
 {
-	[native(cls="FrameDrive", instance="FrameDrive", methods="auto")]
 	public final class FrameDrive extends Object
 	{
 		public static function GetTicks() : int; /* should be uint64 */

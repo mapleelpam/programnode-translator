@@ -1,6 +1,5 @@
 package
 {
-	[native(cls="Math", instance="Math", methods="auto")]
 	public final class Math extends Object
 	{
 		static public function abs( val:double ) : double;
