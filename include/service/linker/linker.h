@@ -84,10 +84,10 @@ class Linker : virtual public generated::AstDumperIf {
     pm_module->functionAttribute(attrs);
   }
 
-  void functionName(const std::string& name) {
+  void functionName(const std::string& name, tw::maple::generated::FunctionType::type t) {
     // Your implementation goes here
     printf("functionName\n");
-    pm_module->functionName(name);
+    pm_module->functionName(name, t);
   }
 
   void startFunctionCommon() {
