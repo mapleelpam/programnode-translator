@@ -52,7 +52,7 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("functionAttribute\n");
   }
 
-  void functionName(const std::string& name) {
+  void functionName(const std::string& name, const FunctionType::type func_type) {
     // Your implementation goes here
     printf("functionName\n");
   }

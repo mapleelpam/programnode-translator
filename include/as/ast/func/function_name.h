@@ -26,15 +26,19 @@
 #define __AS_AST_FUNCTION_NAME_H__
 
 #include <as/ast/abstract/statement.h>
+#include "SyntaxTree_types.h"
 
 namespace tw { namespace maple { namespace as { namespace ast {
 
 // Abstract
 struct FunctionName : public Statement
 {
-	FunctionName( std::string fname = "dummy ")
+	FunctionName( std::string fname = "dummy "
+			, tw::maple::generated::FunctionType::type func_type= tw::maple::generated::FunctionType::TF_NORMAL )
 		: Statement(Node::NodeType::T_FUNCTION_NAME)
 		, function_name( fname )
+		, function_type( func_type )
+
 	{
 	}
 
@@ -45,6 +49,7 @@ struct FunctionName : public Statement
     std::string toString()  {	return "node::function_name"; };
 
     std::string function_name;
+    tw::maple::generated::FunctionType::type function_type;
 };
 
 typedef SHARED_PTR(FunctionName) FunctionNamePtr;

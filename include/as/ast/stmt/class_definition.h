@@ -95,10 +95,10 @@ struct ClassDefinition : public Statement
 //		OK = false;
 		if(m_metadata.id == "native")
 		{
-			if(m_metadata.kayvalues.find("cls") != m_metadata.kayvalues.end() )
+			if(m_metadata.keyvalues.find("cls") != m_metadata.keyvalues.end() )
 			{
 //				OK = true;
-				return m_metadata.kayvalues["cls"];
+				return m_metadata.keyvalues["cls"];
 			}
 		}
 		return getClassName();
