@@ -64,7 +64,6 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 				:"";
 
 		std::list<PatternPtr> patterns;
-		std::string str_func_name = fdef->getSymbol()->name();
 
 		ASY::FunctionPtr	symbol_function = fdef->getFunctionSymbol();
 		std::string 		str_function_attribute;
@@ -77,7 +76,9 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		if( str_function_attribute != "")
 			str_function_attribute+=":";
 
-		std::string str_function_body = (fdef->isAbstract)? " = 0;#(endl)" : "#(endl)#(indent_tab){#(endl)" + dispatchExpound(fcommon->FunctionBody(), symbol_table, ctx) + "#(indent_tab)}#(endl)";
+		std::string str_func_name = _function_name_mapper( symbol_function->name(), symbol_function );
+
+		std::string str_function_body = (fdef->isAbstract)? " = 0;#(endl)" : "#(endl)#(indent_tab){#(endl)" + dispatchExpound(fcommon->FunctionBody(), symbol_function, ctx) + "#(indent_tab)}#(endl)";
 
 		patterns.push_back( PatternPtr( new Pattern("function_attribute", str_function_attribute+ ctx->endl()) ));
 		patterns.push_back( PatternPtr( new Pattern("func_name", str_func_name+ "   ") ));
@@ -117,6 +118,8 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		m_tpl_enter_function = "#(endl)#(indent_tab){/*enter function*/";
 		m_tpl_leave_function = "#(indent_tab)/*enter function*/#(endl)#(indent_tab)}";
 
+		m_tpl_setter_prepend = "set_";
+		m_tpl_getter_prepend = "get_";
 		if(0)
 		{
 			m_tpl_args_prefix = "/*prefix_args*/";
@@ -156,6 +159,8 @@ private:
 	std::string m_tpl_args_prefix;
 	std::string m_tpl_args_postfix;
 
+	std::string m_tpl_setter_prepend;
+	std::string m_tpl_getter_prepend;
 private:
 	std::string getMemberInitializer( ASY::FunctionPtr symbol_function, tw::maple::backend::cpp::Context* ctx )
 	{
@@ -179,6 +184,15 @@ private:
 		}
 
 		return answer;
+	}
+
+	std::string _function_name_mapper( std::string function_name, ASY::FunctionPtr symbol_function )
+	{
+		if( symbol_function -> isGetter() )
+			return m_tpl_getter_prepend+function_name;
+		if( symbol_function -> isSetter() )
+			return m_tpl_setter_prepend+function_name;
+		return function_name;
 	}
 };
 

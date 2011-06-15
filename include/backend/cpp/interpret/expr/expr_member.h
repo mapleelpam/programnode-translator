@@ -67,9 +67,21 @@ struct ExpressionMember : public Interpreter
 			else
 			{
 				if( symbol_table->isInstance( result, "::"))
-					result += "->" + dispatchExpound(*nItr, symbol_table, ctx);
-				else
+				{
+					ASY::SymbolPtr instance = symbol_table->findSymbol( result );
+					ASY::VariablePtr variable = DYNA_CAST( ASY::Variable, instance );
+					if( instance  ){
+						ASY::SymbolPtr instance_type = variable -> getTypeSymbol();
+						ASY::ScopePtr class_type = DYNA_CAST( ASY::Scope, instance_type );
+						result += "->" + dispatchExpound(*nItr, class_type, ctx);
+					} 
+					else 
+						result += "->" + dispatchExpound(*nItr, symbol_table, ctx);
+				}
+				else 
+				{
 					result += "::" + dispatchExpound(*nItr, symbol_table, ctx);
+				}
 			}
 		}
 		else

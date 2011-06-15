@@ -125,10 +125,10 @@ struct Scope : public Symbol, public Registrable
 	}
 	bool isInstance( std::vector<std::string> query, std::string delimiter )
 	{
-		std::cerr << " query " <<std::endl;
+		std::cerr << name() << " query " <<std::endl;
 		for( int idx = 0 ; idx < query.size() ; idx ++ )
 		{
-			std::cerr << " query "<<query[idx]<<std::endl;
+			std::cerr << name() << " query "<<query[idx]<<std::endl;
 		}
 		SymbolPtr child = findSymbol( query[0] );
 		if( child && child->getSymbolProperties() == T_VARIABLE)
@@ -148,9 +148,9 @@ struct Scope : public Symbol, public Registrable
 			}
 		} else {
 			if( child == NULL)
-				std::cerr << "  = = 2'" << query[0] <<"'" << std::endl;
+				std::cerr << name() << "  = = 2'" << query[0] <<"'" << std::endl;
 			else
-				std::cerr << "  = = " << child->getSymbolProperties() << std::endl;
+				std::cerr << name() << "  = = " << child->getSymbolProperties() << std::endl;
 		}
 		return true;
 	}

@@ -38,13 +38,6 @@ struct FunctionName : public Interpreter
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			,	tw::maple::backend::cpp::Context* ctx)
 	{
-//		std::string result = "";
-//
-//		for (std::vector<std::tr1::shared_ptr<AST::Node> >::iterator nItr =
-//				node->node_childs.begin(); nItr != node->node_childs.end(); nItr++)
-//			result += dispatchExpound(*nItr, ctx);
-//
-//		return result;
 		AST::FunctionNamePtr func_name = STATIC_CAST( AST::FunctionName, node);
 
 		return func_name->function_name;

@@ -40,6 +40,7 @@ struct Identifier : public Interpreter
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			,	tw::maple::backend::cpp::Context* ctx)
 	{
+		namespace ASY = tw::maple::as::symbol;
 		SHARED_PTR(AST::Identifier) li = std::tr1::static_pointer_cast<AST::Identifier>(node);
 
 		if(li->qualifier != "")
@@ -50,6 +51,8 @@ struct Identifier : public Interpreter
 		}
 		else
 		{
+//			ASY::SymbolPtr symbol = symbol_table->findSymbol( result );
+			
 			return li->value;
 		}
 	}
