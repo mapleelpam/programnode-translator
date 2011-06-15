@@ -1,6 +1,6 @@
 package
 {
-	public final class Math extends Object
+	intrinsic public final class Math extends Object
 	{
 		static public function abs( val:double ) : double;
 		static public function acos( val:double ) : double;

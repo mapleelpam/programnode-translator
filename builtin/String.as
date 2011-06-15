@@ -1,11 +1,8 @@
 package
 {
 	[native(cls="XCString", instance="String", methods="auto")]
-	public final class String extends Object
+	intrinsic public final class String extends Object
 	{
-		public static const length:int = 1
-		
-
 		public function charAt(i:Number=0):String
 
 		public function charCodeAt( index:int ):int
@@ -19,7 +16,7 @@ package
 		// match
 		public function replace(pattern:String, repl:String):String
 		
-		public function get_length():int
+		public function get length():int
 
 		public function equal( rhs:String ):Boolean
 
