@@ -39,6 +39,18 @@ const char* _kObjectTypeNames[] = {
 };
 const std::map<int, const char*> _ObjectType_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(2, _kObjectTypeValues, _kObjectTypeNames), ::apache::thrift::TEnumIterator(-1, NULL, NULL));
 
+int _kFunctionTypeValues[] = {
+  FunctionType::TF_NORMAL,
+  FunctionType::TF_GETTER,
+  FunctionType::TF_SETTER
+};
+const char* _kFunctionTypeNames[] = {
+  "TF_NORMAL",
+  "TF_GETTER",
+  "TF_SETTER"
+};
+const std::map<int, const char*> _FunctionType_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(3, _kFunctionTypeValues, _kFunctionTypeNames), ::apache::thrift::TEnumIterator(-1, NULL, NULL));
+
 const char* Identifier::ascii_fingerprint = "38C252E94E93B69D04EB3A6EE2F9EDFB";
 const uint8_t Identifier::binary_fingerprint[16] = {0x38,0xC2,0x52,0xE9,0x4E,0x93,0xB6,0x9D,0x04,0xEB,0x3A,0x6E,0xE2,0xF9,0xED,0xFB};
 
@@ -454,7 +466,7 @@ uint32_t MetaData::read(::apache::thrift::protocol::TProtocol* iprot) {
       case 2:
         if (ftype == ::apache::thrift::protocol::T_MAP) {
           {
-            this->kayvalues.clear();
+            this->keyvalues.clear();
             uint32_t _size14;
             ::apache::thrift::protocol::TType _ktype15;
             ::apache::thrift::protocol::TType _vtype16;
@@ -464,12 +476,12 @@ uint32_t MetaData::read(::apache::thrift::protocol::TProtocol* iprot) {
             {
               std::string _key19;
               xfer += iprot->readString(_key19);
-              std::string& _val20 = this->kayvalues[_key19];
+              std::string& _val20 = this->keyvalues[_key19];
               xfer += iprot->readString(_val20);
             }
             iprot->readMapEnd();
           }
-          this->__isset.kayvalues = true;
+          this->__isset.keyvalues = true;
         } else {
           xfer += iprot->skip(ftype);
         }
@@ -512,11 +524,11 @@ uint32_t MetaData::write(::apache::thrift::protocol::TProtocol* oprot) const {
   xfer += oprot->writeFieldBegin("id", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString(this->id);
   xfer += oprot->writeFieldEnd();
-  xfer += oprot->writeFieldBegin("kayvalues", ::apache::thrift::protocol::T_MAP, 2);
+  xfer += oprot->writeFieldBegin("keyvalues", ::apache::thrift::protocol::T_MAP, 2);
   {
-    xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_STRING, this->kayvalues.size());
+    xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_STRING, this->keyvalues.size());
     std::map<std::string, std::string> ::const_iterator _iter26;
-    for (_iter26 = this->kayvalues.begin(); _iter26 != this->kayvalues.end(); ++_iter26)
+    for (_iter26 = this->keyvalues.begin(); _iter26 != this->keyvalues.end(); ++_iter26)
     {
       xfer += oprot->writeString(_iter26->first);
       xfer += oprot->writeString(_iter26->second);

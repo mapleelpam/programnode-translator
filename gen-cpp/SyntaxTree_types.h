@@ -43,6 +43,16 @@ struct ObjectType {
 
 extern const std::map<int, const char*> _ObjectType_VALUES_TO_NAMES;
 
+struct FunctionType {
+  enum type {
+    TF_NORMAL = 0,
+    TF_GETTER = 1,
+    TF_SETTER = 2
+  };
+};
+
+extern const std::map<int, const char*> _FunctionType_VALUES_TO_NAMES;
+
 typedef struct _Identifier__isset {
   _Identifier__isset() : type(false), name(false), qualifier(false) {}
   bool type;
@@ -236,9 +246,9 @@ class ClassDefinition {
 };
 
 typedef struct _MetaData__isset {
-  _MetaData__isset() : id(false), kayvalues(false), values(false) {}
+  _MetaData__isset() : id(false), keyvalues(false), values(false) {}
   bool id;
-  bool kayvalues;
+  bool keyvalues;
   bool values;
 } _MetaData__isset;
 
@@ -254,7 +264,7 @@ class MetaData {
   virtual ~MetaData() throw() {}
 
   std::string id;
-  std::map<std::string, std::string>  kayvalues;
+  std::map<std::string, std::string>  keyvalues;
   std::vector<std::string>  values;
 
   _MetaData__isset __isset;
@@ -263,7 +273,7 @@ class MetaData {
   {
     if (!(id == rhs.id))
       return false;
-    if (!(kayvalues == rhs.kayvalues))
+    if (!(keyvalues == rhs.keyvalues))
       return false;
     if (!(values == rhs.values))
       return false;

@@ -20,7 +20,7 @@ class AstDumperIf {
   virtual void endPackage(const std::vector<std::string> & IDs) = 0;
   virtual void startFunctionDefinition(const bool isAbstract) = 0;
   virtual void functionAttribute(const std::vector<std::string> & attrs) = 0;
-  virtual void functionName(const std::string& name) = 0;
+  virtual void functionName(const std::string& name, const FunctionType::type func_type) = 0;
   virtual void startFunctionCommon() = 0;
   virtual void startFunctionSignature(const std::string& type) = 0;
   virtual void startFunctionSignatureParameters() = 0;
@@ -109,7 +109,7 @@ class AstDumperNull : virtual public AstDumperIf {
   void functionAttribute(const std::vector<std::string> & /* attrs */) {
     return;
   }
-  void functionName(const std::string& /* name */) {
+  void functionName(const std::string& /* name */, const FunctionType::type /* func_type */) {
     return;
   }
   void startFunctionCommon() {
@@ -318,7 +318,7 @@ typedef struct _AstDumper_startProgram_args__isset {
 class AstDumper_startProgram_args {
  public:
 
-  AstDumper_startProgram_args() : version("0.0.1"), counter(1LL) {
+  AstDumper_startProgram_args() : version("0.0.1"), counter(2LL) {
   }
 
   virtual ~AstDumper_startProgram_args() throw() {}
@@ -587,8 +587,9 @@ class AstDumper_functionAttribute_pargs {
 };
 
 typedef struct _AstDumper_functionName_args__isset {
-  _AstDumper_functionName_args__isset() : name(false) {}
+  _AstDumper_functionName_args__isset() : name(false), func_type(false) {}
   bool name;
+  bool func_type;
 } _AstDumper_functionName_args__isset;
 
 class AstDumper_functionName_args {
@@ -600,12 +601,15 @@ class AstDumper_functionName_args {
   virtual ~AstDumper_functionName_args() throw() {}
 
   std::string name;
+  FunctionType::type func_type;
 
   _AstDumper_functionName_args__isset __isset;
 
   bool operator == (const AstDumper_functionName_args & rhs) const
   {
     if (!(name == rhs.name))
+      return false;
+    if (!(func_type == rhs.func_type))
       return false;
     return true;
   }
@@ -628,6 +632,7 @@ class AstDumper_functionName_pargs {
   virtual ~AstDumper_functionName_pargs() throw() {}
 
   const std::string* name;
+  const FunctionType::type* func_type;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -3205,8 +3210,8 @@ class AstDumperClient : virtual public AstDumperIf {
   void send_startFunctionDefinition(const bool isAbstract);
   void functionAttribute(const std::vector<std::string> & attrs);
   void send_functionAttribute(const std::vector<std::string> & attrs);
-  void functionName(const std::string& name);
-  void send_functionName(const std::string& name);
+  void functionName(const std::string& name, const FunctionType::type func_type);
+  void send_functionName(const std::string& name, const FunctionType::type func_type);
   void startFunctionCommon();
   void send_startFunctionCommon();
   void startFunctionSignature(const std::string& type);
@@ -3557,10 +3562,10 @@ class AstDumperMultiface : virtual public AstDumperIf {
     }
   }
 
-  void functionName(const std::string& name) {
+  void functionName(const std::string& name, const FunctionType::type func_type) {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
-      ifaces_[i]->functionName(name);
+      ifaces_[i]->functionName(name, func_type);
     }
   }
 

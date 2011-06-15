@@ -160,7 +160,7 @@ public:
 		PUSH_STACK_WITH_INIT( FunctionDefinition, is_abstract );
 	}
 
-	void functionName(const std::string& name) {
+	void functionName(const std::string& name, tw::maple::generated::FunctionType::type ) {
 		ADD_2_TOP_WITH_INIT( FunctionName, name );
 	}
 
