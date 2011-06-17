@@ -34,6 +34,8 @@
 #include <transport/TBufferTransports.h>
 #include <transport/TSimpleFileTransport.h>
 #include <server/TSimpleServer.h>
+#include "SyntaxTree_constants.h"
+
 
 namespace tw { namespace maple { namespace service {
 
@@ -70,7 +72,7 @@ public:
 	void exec()
 	{
         boost::shared_ptr<tw::maple::service::linker::Linker> TheLinker( new tw::maple::service::linker::Linker(m_out_file_path) );
-        TheLinker->pm_module->startProgram( "0.0.1", 1);
+        TheLinker->pm_module->startProgram( generated::g_SyntaxTree_constants.PROTO_VERSION,  generated::g_SyntaxTree_constants.PROTO_COUNTER);
 
 		for (std::vector<std::string>::iterator fileItr = m_pnode_files.begin()
 						; fileItr != m_pnode_files.end(); fileItr++)

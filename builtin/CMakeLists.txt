@@ -3,10 +3,17 @@ PROJECT( buildtin )
 file (GLOB_RECURSE BT_AS "*.as")
 MESSAGE( " sources ${BT_AS}")
 
-make_directory( ${CMAKE_SOURCE_DIR}/toplevel/ )
+make_directory( ${CMAKE_CURRENT_BINARY_DIR}/toplevel/ )
+make_directory( ${CMAKE_CURRENT_BINARY_DIR}/flash/ )
+make_directory( ${CMAKE_CURRENT_BINARY_DIR}/flash/geom/ )
 
 SET( BUILTIN_AS )
-LIST( APPEND BUILTIN_AS "toplevel/String.as" )
+LIST( APPEND BUILTIN_AS 
+"toplevel/String.as" 
+"flash/geom/Matrix.as"
+"flash/geom/Point.as"
+"flash/geom/Rectangle.as"
+"flash/geom/Transform.as" )
 
 
 SET( BUILTIN_PNs )
