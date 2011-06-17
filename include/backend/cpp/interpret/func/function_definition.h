@@ -87,7 +87,8 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("func_ret_type", symbol_function->isConstructor()?"":fsig->ReturnType ) ) );
 		patterns.push_back( PatternPtr( new Pattern("function_is_static", (symbol_function->isStatic())? "static ":"") ) );
 		patterns.push_back( PatternPtr( new Pattern("function_is_virtual", 
-					(fdef->isAbstract || (m_default_virtual&&(!symbol_function->isStatic())&&symbol_function->isMemberFunction() ))? 
+					(fdef->isAbstract ||
+						(!symbol_function->isConstructor() && (m_default_virtual&&(!symbol_function->isStatic())&&symbol_function->isMemberFunction() )) )?
 						"virtual":"") ) );
 		patterns.push_back( PatternPtr( new Pattern("function_enter", (fdef->isAbstract)? "" : m_tpl_enter_function) ) );
 		patterns.push_back( PatternPtr( new Pattern("function_leave", (fdef->isAbstract)? "" : m_tpl_leave_function) ) );
