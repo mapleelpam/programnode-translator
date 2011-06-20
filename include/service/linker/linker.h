@@ -34,6 +34,8 @@
 //using namespace ::apache::thrift::transport;
 //using namespace ::apache::thrift::server;
 
+#define printf(STRING) {};
+
 namespace tw { namespace maple { namespace service { namespace linker {
 
 class Linker : virtual public generated::AstDumperIf {
@@ -390,17 +392,17 @@ class Linker : virtual public generated::AstDumperIf {
     pm_module->endClassDefinition();
   }
 
-  void startAttributeList() {
-    // Your implementation goes here
-    printf("startAttributeList\n");
-    pm_module->startAttributeList();
-  }
-
-  void endAttributelist() {
-    // Your implementation goes here
-    printf("endAttributelist\n");
-    pm_module->endAttributelist();
-  }
+//  void startAttributeList() {
+//    // Your implementation goes here
+//    printf("startAttributeList\n");
+//    pm_module->startAttributeList();
+//  }
+//
+//  void endAttributelist() {
+//    // Your implementation goes here
+//    printf("endAttributelist\n");
+//    pm_module->endAttributelist();
+//  }
 
   void startMemberExpression() {
     // Your implementation goes here
@@ -483,5 +485,7 @@ class Linker : virtual public generated::AstDumperIf {
 };
 
 } } } } //tw::maple::service::linker
+
+#undef printf
 
 #endif

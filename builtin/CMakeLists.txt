@@ -1,7 +1,7 @@
 
 PROJECT( buildtin )
 file (GLOB_RECURSE BT_AS "*.as")
-MESSAGE( " sources ${BT_AS}")
+#MESSAGE( " sources ${BT_AS}")
 
 make_directory( ${CMAKE_CURRENT_BINARY_DIR}/toplevel/ )
 make_directory( ${CMAKE_CURRENT_BINARY_DIR}/flash/ )
@@ -31,5 +31,5 @@ ENDFOREACH( AFILE )
 ADD_CUSTOM_TARGET(
     builtin.pn
     DEPENDS ${BUILTIN_PNs} ${PNLD}
-    COMMAND ${PNLD} ${BUILTIN_PNs} -o ${CMAKE_BINARY_DIR}/builtin.pn
+    COMMAND ${PNLD} ${BUILTIN_PNs} -o ${CMAKE_SOURCE_DIR}/lib/builtin.pn
     ) 
