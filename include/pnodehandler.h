@@ -331,11 +331,11 @@ public:
 	}
 
 	void startClassDefinition(const generated::ClassDefinition& class_define) {
-		printf(" %lu startClassDefine\n", _node_stack.size());
+//		printf(" %lu startClassDefine\n", _node_stack.size());
 		as::ast::ClassDefinitionPtr class_node(
-				new as::ast::ClassDefinition(class_define.name, class_define.inherits, class_define.interfaces ));
+				new as::ast::ClassDefinition(class_define.name, class_define.inherits, class_define.interfaces, class_define.attributes));
 
-		std::cerr <<" class define attribute "<<class_define.attribute<<std::endl;
+//		std::cerr <<"-----------> class define attribute "<<class_define.attribute<<std::endl;
 		_node_stack . top() -> addNodeChild(class_node);
 		_node_stack . push(class_node);
 
@@ -343,7 +343,9 @@ public:
 		class_node->setHasInterface(class_define.has_interface);
 		class_node->setHasAttribute(class_define.has_attr);
 		class_node->setHasStatement(class_define.has_stmt);
-		class_node->setIntrinsic(class_define.attribute == "intrinsic" );
+
+		//class_node->setIntrinsic(class_define.attribute == "intrinsic" );
+
 		class_node->setIsAbstract( class_define.object_type == generated::ObjectType::TYPE_CLASS ? false : true );
 		if(_meta_data_dirty) {
 			std::cerr <<" hey i just attach a metadata to a class define node"<<std::endl;
@@ -368,12 +370,12 @@ public:
 	void endClassStmt() {
 		CHECK_STACK_AND_POP( ClassStmt, AST::Node::NodeType::T_CLASS_DEFINE_STMT );
 	}
-	void startAttributeList() {
-		PUSH_STACK( AttributeList );
-	}
-	void endAttributelist() {
-		CHECK_STACK_AND_POP( AttributeList, AST::Node::NodeType::T_COMP_CLASS_ATTRIBUTE );
-	}
+//	void startClassAttributeList() {
+//		PUSH_STACK( AttributeList );
+//	}
+//	void endClassAttributelist() {
+//		CHECK_STACK_AND_POP( AttributeList, AST::Node::NodeType::T_COMP_CLASS_ATTRIBUTE );
+//	}
 	void functionAttribute( const std::vector<std::string>& sv ) {
 		for( int idx = 0 ; idx < sv.size() ; idx ++ ) {
 			std::cerr<< "function attr "<< sv[idx]<<std::endl;

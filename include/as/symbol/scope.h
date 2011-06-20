@@ -125,11 +125,11 @@ struct Scope : public Symbol, public Registrable
 	}
 	bool isInstance( std::vector<std::string> query, std::string delimiter )
 	{
-		std::cerr << name() << " query " <<std::endl;
-		for( int idx = 0 ; idx < query.size() ; idx ++ )
-		{
-			std::cerr << name() << " query "<<query[idx]<<std::endl;
-		}
+//		std::cerr << name() << " query " <<std::endl;
+//		for( int idx = 0 ; idx < query.size() ; idx ++ )
+//		{
+//			std::cerr << name() << " query "<<query[idx]<<std::endl;
+//		}
 		SymbolPtr child = findSymbol( query[0] );
 		if( child && child->getSymbolProperties() == T_VARIABLE)
 		{
@@ -151,6 +151,7 @@ struct Scope : public Symbol, public Registrable
 				std::cerr << name() << "  = = 2'" << query[0] <<"'" << std::endl;
 			else
 				std::cerr << name() << "  = = " << child->getSymbolProperties() << std::endl;
+//			return false;
 		}
 		return true;
 	}
@@ -269,19 +270,25 @@ private:
 		}
 		return tokens;
 	}
+
 public:
 	Scope* getParent()
 	{
 		return m_parent;
 	}
+
 	bool noContructor() { return m_no_contrucotr; }
 	void setNoConstrtuctor( bool b ) { m_no_contrucotr = b; }
+
+	bool isIntrinsic(){	return m_is_intrinsic;	}
+	void setIsIntrinsic( bool b ){	m_is_intrinsic = b;	}
 private:
 	ScopeType m_scope_type;
 	std::vector<SymbolPtr>	m_childs;
 
 	Scope*	m_parent;
 	bool	m_no_contrucotr;
+	bool 	m_is_intrinsic;
 //friend class Scope;
 };
 

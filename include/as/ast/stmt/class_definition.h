@@ -36,6 +36,7 @@ struct ClassDefinition : public Statement
 	ClassDefinition( std::string name
 			, const std::vector<std::string>& inherits
 			, const std::vector<std::string>& interfaces
+			, const std::vector<std::string>& attrs
 			 )
 		: Statement(Node::NodeType::T_CLASS_DEFINE)
 	 	, m_has_base_class( false )
@@ -43,10 +44,11 @@ struct ClassDefinition : public Statement
 		, m_has_attribute( false )
 		, m_has_statement( false )
 		, m_is_abstract( false )
-		, m_is_intrinsic( false )
+//		, m_is_intrinsic( false )
 		, m_classname( name )
 		, m_inherits( inherits )
 		, m_implements( interfaces )
+		, m_attributes( attrs )
 	{
 	}
 
@@ -64,14 +66,14 @@ struct ClassDefinition : public Statement
 	void setHasAttribute( bool b )	{	m_has_attribute = b;	}
 	void setHasStatement( bool b )	{	m_has_statement = b;	}
 	void setIsAbstract( bool b) 	{	m_is_abstract = b;	}
-	void setIntrinsic( bool b )	{	m_is_intrinsic = b;	}
+//	void setIntrinsic( bool b )	{	m_is_intrinsic = b;	}
 
 	bool hasBaseClass()	{	return m_has_base_class; }
 	bool hasInterface()	{	return m_has_base_interface;}
 	bool hasAttribute()	{	return m_has_attribute;	}
 	bool hasStatement()	{	return m_has_statement;	}
 	bool isAbstract()	{	return m_is_abstract;	}
-	bool isIntrinsic()	{	return m_is_intrinsic;	}
+//	bool isIntrinsic()	{	return m_is_intrinsic;	}
 
 	std::string getClassName()	const {	return m_classname;	}
 	const std::vector<std::string>& Inherits()	{	return m_inherits;	}
@@ -103,6 +105,17 @@ struct ClassDefinition : public Statement
 		}
 		return getClassName();
 	}
+	bool isIntrinsic()
+	{
+		for( std::vector<std::string>::iterator itr = m_attributes.begin(), E = m_attributes.end()
+				; itr != E ; itr ++ )
+		{
+			if( *itr == "intrinsic" )
+				return true;
+		}
+		return false;
+	}
+
 public:
     void setClassSymbol( ASYM::ScopePtr s )	{	_related_class_symbol = s;	}
     ASYM::ScopePtr getClassSymbol( )	{	return _related_class_symbol;	}
@@ -114,11 +127,14 @@ private:
 	bool m_has_attribute;
 	bool m_has_statement;
 	bool m_is_abstract;
-	bool m_is_intrinsic;
+//	bool m_is_intrinsic;
 
 	std::string					m_classname;
     std::vector<std::string>	m_inherits;
     std::vector<std::string>	m_implements;
+
+    std::vector<std::string>	m_attributes;
+
 
     tw::maple::generated::MetaData	m_metadata;
 };

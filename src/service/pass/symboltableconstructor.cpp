@@ -223,15 +223,23 @@ void SymbolTableConstructor::linkVariableType(
 				BOOST_ASSERT( fcommon != NULL );
 				AST::FunctionSignaturePtr fsig  = STATIC_CAST( AST::FunctionSignature, fcommon->FunctionSignature() );
 
-				std::cerr << " try to bind function return type !!! "<<fsig->ReturnType<<std::endl;
 				ASYM::SymbolPtr p_type = symboltable->findType( fsig->ReturnType );
 				BOOST_ASSERT( p_type != NULL && "can't find symbol" );
-				std::cerr << " try to bind function return type !!! "<<p_type->getFQN()<<std::endl;
 				BOOST_ASSERT( p_type );
 				symbol->bindType( p_type );
 
 				// don't break!! trace to next
 			}
+				linkVariableType( *nItr, p_scope);
+				break;
+			case ASYM::Scope::T_CLASS:
+			{
+				AST::ClassDefinitionPtr ast_class = STATIC_CAST( AST::ClassDefinition, *nItr);
+				p_scope -> setIsIntrinsic( ast_class->isIntrinsic() ||  ast_class->isNativeClass() );
+				std::cerr << " in class name " << p_scope->name() << " is "<<(ast_class->isIntrinsic() ||  ast_class->isNativeClass())<<std::endl;
+				linkVariableType( *nItr, p_scope);
+			}
+				break;
 			default:
 				linkVariableType( *nItr, p_scope);
 				break;

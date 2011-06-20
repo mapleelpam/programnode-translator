@@ -307,16 +307,6 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("endClassDefinition\n");
   }
 
-  void startAttributeList() {
-    // Your implementation goes here
-    printf("startAttributeList\n");
-  }
-
-  void endAttributelist() {
-    // Your implementation goes here
-    printf("endAttributelist\n");
-  }
-
   void startMemberExpression() {
     // Your implementation goes here
     printf("startMemberExpression\n");

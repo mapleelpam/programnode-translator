@@ -76,7 +76,7 @@ private:
 			if( ((*child_itr)->getSymbolProperties() & ASYM::Symbol::T_SCOPE ) )
 			{
 				ASYM::ScopePtr scope = STATIC_CAST(ASYM:: Scope, *child_itr );
-				if( scope )
+				if( scope && !(scope->isIntrinsic()) )
 					declareStaticVariables( scope, ctx );
 			} else if( ((*child_itr)->getSymbolProperties() & ASYM::Symbol::T_VARIABLE ) ) {
 
