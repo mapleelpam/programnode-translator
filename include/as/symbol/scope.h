@@ -201,14 +201,31 @@ struct Scope : public Symbol, public Registrable
 
 		return ( m_parent == NULL )? SymbolPtr() : m_parent->findType( type_name ) ;
 	}
-	virtual std::string getFQN()
+	virtual std::string getFQN( bool& is_annoymouse_scope /*out*/)
 	{
+		is_annoymouse_scope = ( name() == "" );
+
 		if( m_parent )
-			return m_parent->getFQN()+"::"+name();
+		{
+			bool parent_is_anonymouse_scope = false;
+			std::string parent_name = m_parent->getFQN( parent_is_anonymouse_scope );
+			if( parent_is_anonymouse_scope && is_annoymouse_scope )
+				return parent_name;
+			else if( parent_is_anonymouse_scope )
+				return parent_name+name();
+			else
+				return parent_name+"::"+name();
+		}
 		else if( m_scope_type == T_PROGRAM_ROOT)
 			return "";
-		else
+		else {
 			return name();
+		}
+	}
+	virtual std::string getFQN()
+	{
+		bool dummy;
+		return getFQN(dummy);
 	}
 	SymbolPtr findSymbol( std::string type_name )
 	{

@@ -74,7 +74,7 @@ struct Symbol
 	void setIsStatic( bool b ){	m_is_static = b;	}
 	bool isStatic()	{	return m_is_static;	}
 
-	virtual std::string getFQN()
+	virtual std::string getFQN( )
 	{
 		return name();
 	}
