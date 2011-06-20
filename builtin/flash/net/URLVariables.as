@@ -1,9 +1,6 @@
-//
-// D:\test\lib\playerglobal.swc\flash\net\URLVariables
-//
 package flash.net
 {
-	public class URLVariables extends Object
+	intrinsic public class URLVariables extends Object
 	{
 		public function decode (source:String) : void;
 

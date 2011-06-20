@@ -1,28 +1,18 @@
-//
-// D:\test\lib\playerglobal.swc\String
-//
 package
 {
-	[native(cls="XCString", instance="String", methods="auto")]
-	intrinsic public final class String extends Object
+	intrinsic public class String extends Object
 	{
 		public static const length : int;
 
-		/**
-		 An integer specifying the number of characters in the specified String object.
-	 
-         Because all string indexes are zero-based, the index of the last character for any 
-         string x is x.length - 1.
-		 */
 		public function get length () : int;
 
 		public function charAt (i:Number = 0) : String;
 
 		public function charCodeAt (i:Number = 0) : Number;
 
-		public function concat (...rest) : String;
+		//public function concat (...rest) : String;
 
-		public static function fromCharCode (...rest) : String;
+		//public static function fromCharCode (...rest) : String;
 
 		public function indexOf (s:String = undefined, i:Number = 0) : int;
 
@@ -55,7 +45,6 @@ package
 		public function toString () : String;
 
 		public function toUpperCase () : String;
-
 		[native(support="none")]
 		public function valueOf () : String;
 	}

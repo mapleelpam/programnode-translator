@@ -1,89 +1,86 @@
-//
-// D:\test\lib\playerglobal.swc\XMLList
-//
 package
 {
-	public class XMLList extends Object
+	intrinsic public class XMLList extends Object
 	{
 		public static const length : *;
 		[native(support="none")]
-		AS3 function addNamespace (ns:*) : XML;
+		public function addNamespace (ns:*) : XML;
 		[native(support="none")]
-		AS3 function appendChild (child:*) : XML;
+		public function appendChild (child:*) : XML;
 
-		AS3 function attribute (arg:*) : XMLList;
+		public function attribute (arg:*) : XMLList;
 
-		AS3 function attributes () : XMLList;
+		public function attributes () : XMLList;
 
-		AS3 function child (propertyName:*) : XMLList;
+		public function child (propertyName:*) : XMLList;
 		[native(support="none")]
-		AS3 function childIndex () : int;
+		public function childIndex () : int;
 
-		AS3 function children () : XMLList;
+		public function children () : XMLList;
 
-		AS3 function comments () : XMLList;
+		public function comments () : XMLList;
 		[native(support="none")]
-		AS3 function contains (value:*) : Boolean;
+		public function contains (value:*) : Boolean;
 		[native(support="none")]
-		AS3 function copy () : XMLList;
+		public function copy () : XMLList;
 		[native(support="none")]
-		AS3 function descendants (name:* = "*") : XMLList;
+		public function descendants (name:* = "*") : XMLList;
 
-		AS3 function elements (name:* = "*") : XMLList;
+		public function elements (name:* = "*") : XMLList;
 
-		AS3 function hasComplexContent () : Boolean;
+		public function hasComplexContent () : Boolean;
 
-		AS3 function hasOwnProperty (P:* = null) : Boolean;
+		public function hasOwnProperty (P:* = null) : Boolean;
 
-		AS3 function hasSimpleContent () : Boolean;
+		public function hasSimpleContent () : Boolean;
 		[native(support="none")]
-		AS3 function inScopeNamespaces () : Array;
+		public function inScopeNamespaces () : Array;
 		[native(support="none")]
-		AS3 function insertChildAfter (child1:*, child2:*) : *;
+		public function insertChildAfter (child1:*, child2:*) : *;
 		[native(support="none")]
-		AS3 function insertChildBefore (child1:*, child2:*) : *;
+		public function insertChildBefore (child1:*, child2:*) : *;
 
-		AS3 function length () : int;
+		public function length () : int;
 		[native(support="none")]
-		AS3 function localName () : Object;
+		public function localName () : Object;
 		[native(support="none")]
-		AS3 function name () : Object;
+		public function name () : Object;
 		[native(support="none")]
-		AS3 function namespace (prefix:* = null) : *;
+		public function namespace (prefix:* = null) : *;
 		[native(support="none")]
-		AS3 function namespaceDeclarations () : Array;
+		public function namespaceDeclarations () : Array;
 		[native(support="none")]
-		AS3 function nodeKind () : String;
+		public function nodeKind () : String;
 		[native(support="none")]
-		AS3 function normalize () : XMLList;
+		public function normalize () : XMLList;
 
-		AS3 function parent () : *;
+		public function parent () : *;
 		[native(support="none")]
-		AS3 function prependChild (value:*) : XML;
+		public function prependChild (value:*) : XML;
 		[native(support="none")]
-		AS3 function processingInstructions (name:* = "*") : XMLList;
+		public function processingInstructions (name:* = "*") : XMLList;
 		[native(support="none")]
-		AS3 function propertyIsEnumerable (P:* = null) : Boolean;
+		public function propertyIsEnumerable (P:* = null) : Boolean;
 		[native(support="none")]
-		AS3 function removeNamespace (ns:*) : XML;
+		public function removeNamespace (ns:*) : XML;
 		[native(support="none")]
-		AS3 function replace (propertyName:*, value:*) : XML;
+		public function replace (propertyName:*, value:*) : XML;
 		[native(support="none")]
-		AS3 function setChildren (value:*) : XML;
+		public function setChildren (value:*) : XML;
 		[native(support="none")]
-		AS3 function setLocalName (name:*) : void;
+		public function setLocalName (name:*) : void;
 		[native(support="none")]
-		AS3 function setName (name:*) : void;
+		public function setName (name:*) : void;
 		[native(support="none")]
-		AS3 function setNamespace (ns:*) : void;
+		public function setNamespace (ns:*) : void;
 
-		AS3 function text () : XMLList;
+		public function text () : XMLList;
 
-		AS3 function toString () : String;
+		public function toString () : String;
 		[native(support="none")]
-		AS3 function toXMLString () : String;
+		public function toXMLString () : String;
 		[native(support="none")]
-		AS3 function valueOf () : XMLList;
+		public function valueOf () : XMLList;
 
 		public function XMLList (value:* = null);
 	}

@@ -1,9 +1,6 @@
-//
-// D:\test\lib\playerglobal.swc\Date
-//
 package
 {
-	public class Date extends Object
+	intrinsic public class Date extends Object
 	{
 		public static const length : int;
 
@@ -60,90 +57,90 @@ package
 
 		public function Date (year:* = null, month:* = null, date:* = null, hours:* = null, minutes:* = null, seconds:* = null, ms:* = null);
 
-		AS3 function getDate () : Number;
+		public function getDate () : Number;
 
-		AS3 function getDay () : Number;
+		public function getDay () : Number;
 
-		AS3 function getFullYear () : Number;
+		public function getFullYear () : Number;
 
-		AS3 function getHours () : Number;
+		public function getHours () : Number;
 
-		AS3 function getMilliseconds () : Number;
+		public function getMilliseconds () : Number;
 
-		AS3 function getMinutes () : Number;
+		public function getMinutes () : Number;
 
-		AS3 function getMonth () : Number;
+		public function getMonth () : Number;
 
-		AS3 function getSeconds () : Number;
+		public function getSeconds () : Number;
 
-		AS3 function getTime () : Number;
+		public function getTime () : Number;
 
-		AS3 function getTimezoneOffset () : Number;
+		public function getTimezoneOffset () : Number;
 
-		AS3 function getUTCDate () : Number;
+		public function getUTCDate () : Number;
 
-		AS3 function getUTCDay () : Number;
+		public function getUTCDay () : Number;
 
-		AS3 function getUTCFullYear () : Number;
+		public function getUTCFullYear () : Number;
 
-		AS3 function getUTCHours () : Number;
+		public function getUTCHours () : Number;
 
-		AS3 function getUTCMilliseconds () : Number;
+		public function getUTCMilliseconds () : Number;
 
-		AS3 function getUTCMinutes () : Number;
+		public function getUTCMinutes () : Number;
 
-		AS3 function getUTCMonth () : Number;
+		public function getUTCMonth () : Number;
 
-		AS3 function getUTCSeconds () : Number;
+		public function getUTCSeconds () : Number;
 
 		public static function parse (s:*) : Number;
 
-		AS3 function setDate (date:* = null) : Number;
+		public function setDate (date:* = null) : Number;
 
-		AS3 function setFullYear (year:* = null, month:* = null, date:* = null) : Number;
+		public function setFullYear (year:* = null, month:* = null, date:* = null) : Number;
 
-		AS3 function setHours (hour:* = null, min:* = null, sec:* = null, ms:* = null) : Number;
+		public function setHours (hour:* = null, min:* = null, sec:* = null, ms:* = null) : Number;
 
-		AS3 function setMilliseconds (ms:* = null) : Number;
+		public function setMilliseconds (ms:* = null) : Number;
 
-		AS3 function setMinutes (min:* = null, sec:* = null, ms:* = null) : Number;
+		public function setMinutes (min:* = null, sec:* = null, ms:* = null) : Number;
 
-		AS3 function setMonth (month:* = null, date:* = null) : Number;
+		public function setMonth (month:* = null, date:* = null) : Number;
 
-		AS3 function setSeconds (sec:* = null, ms:* = null) : Number;
+		public function setSeconds (sec:* = null, ms:* = null) : Number;
 
-		AS3 function setTime (t:* = null) : Number;
+		public function setTime (t:* = null) : Number;
 
-		AS3 function setUTCDate (date:* = null) : Number;
+		public function setUTCDate (date:* = null) : Number;
 
-		AS3 function setUTCFullYear (year:* = null, month:* = null, date:* = null) : Number;
+		public function setUTCFullYear (year:* = null, month:* = null, date:* = null) : Number;
 
-		AS3 function setUTCHours (hour:* = null, min:* = null, sec:* = null, ms:* = null) : Number;
+		public function setUTCHours (hour:* = null, min:* = null, sec:* = null, ms:* = null) : Number;
 
-		AS3 function setUTCMilliseconds (ms:* = null) : Number;
+		public function setUTCMilliseconds (ms:* = null) : Number;
 
-		AS3 function setUTCMinutes (min:* = null, sec:* = null, ms:* = null) : Number;
+		public function setUTCMinutes (min:* = null, sec:* = null, ms:* = null) : Number;
 
-		AS3 function setUTCMonth (month:* = null, date:* = null) : Number;
+		public function setUTCMonth (month:* = null, date:* = null) : Number;
 
-		AS3 function setUTCSeconds (sec:* = null, ms:* = null) : Number;
+		public function setUTCSeconds (sec:* = null, ms:* = null) : Number;
 
-		AS3 function toDateString () : String;
+		public function toDateString () : String;
 
-		AS3 function toLocaleDateString () : String;
+		public function toLocaleDateString () : String;
 
-		AS3 function toLocaleString () : String;
+		public function toLocaleString () : String;
 
-		AS3 function toLocaleTimeString () : String;
+		public function toLocaleTimeString () : String;
 
-		AS3 function toString () : String;
+		public function toString () : String;
 
-		AS3 function toTimeString () : String;
+		public function toTimeString () : String;
 
-		AS3 function toUTCString () : String;
+		public function toUTCString () : String;
 
-		public static function UTC (year:*, month:*, date:* = 1, hours:* = 0, minutes:* = 0, seconds:* = 0, ms:* = 0, ...rest) : Number;
+		//public static function UTC (year:*, month:*, date:* = 1, hours:* = 0, minutes:* = 0, seconds:* = 0, ms:* = 0, ...rest) : Number;
 
-		AS3 function valueOf () : Number;
+		public function valueOf () : Number;
 	}
 }

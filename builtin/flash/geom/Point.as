@@ -1,19 +1,13 @@
-//
-// D:\test\lib\playerglobal.swc\flash\geom\Point
-//
 package flash.geom
 {
 	import flash.geom.Point;
 
-	public class Point extends Object
+	intrinsic public class Point extends Object
 	{
-		/// The horizontal coordinate of the point. The default value is 0.
 		public var x : Number;
 
-		/// The vertical coordinate of the point. The default value is 0.
 		public var y : Number;
 
-		/// The length of the line segment from (0,0) to this point.
 		public function get length () : Number;
 
 		public function add (v:Point) : Point;

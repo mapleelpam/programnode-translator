@@ -9,11 +9,12 @@ make_directory( ${CMAKE_CURRENT_BINARY_DIR}/flash/geom/ )
 
 SET( BUILTIN_AS )
 LIST( APPEND BUILTIN_AS 
-"toplevel/String.as" 
-"flash/geom/Matrix.as"
-"flash/geom/Point.as"
-"flash/geom/Rectangle.as"
-"flash/geom/Transform.as" )
+        "toplevel/String.as" 
+#"flash/geom/Matrix.as"
+#"flash/geom/Point.as"
+#"flash/geom/Rectangle.as"
+#"flash/geom/Transform.as" 
+)
 
 
 SET( BUILTIN_PNs )

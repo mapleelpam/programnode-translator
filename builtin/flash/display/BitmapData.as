@@ -1,6 +1,3 @@
-//
-// D:\test\lib\playerglobal.swc\flash\display\BitmapData
-//
 package flash.display
 {
 	import flash.display.BitmapData;
@@ -12,27 +9,14 @@ package flash.display
 	import flash.geom.Matrix;
 	import flash.utils.ByteArray;
 
-	public class BitmapData extends Object implements IBitmapDrawable
+	intrinsic public class BitmapData extends Object implements IBitmapDrawable
 	{
-		/// The height of the bitmap image in pixels.
 		public function get height () : int;
 
-		/**
-		 The rectangle that defines the size and location of the bitmap image. The top and left of the 
-	 rectangle are 0; the width and height are equal to the width and height in pixels of the 
- 	 BitmapData object.
-		 */
 		public function get rect () : Rectangle;
 
-		/**
-		 Defines whether the bitmap image supports per-pixel transparency. You can set this value only when you construct 
-	 a BitmapData object by passing in true for the transparent parameter of the constructor. Then, after you create
-	 a BitmapData object, you can check whether it supports per-pixel transparency by determining if the value of the 
-	 transparent property is true.
-		 */
 		public function get transparent () : Boolean;
 
-		/// The width of the bitmap image in pixels.
 		public function get width () : int;
 		
 		[native(support="api")]
