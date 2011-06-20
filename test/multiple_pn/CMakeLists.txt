@@ -29,5 +29,6 @@ ADD_CUSTOM_COMMAND(
 ADD_CUSTOM_TARGET(
     test_multiple
     DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/multiple.pn ${PNC}
-    COMMAND ${PNC} ${CMAKE_CURRENT_BINARY_DIR}/multiple.pn -o /tmp/1.c
+    COMMAND ${PNC} ${CMAKE_CURRENT_BINARY_DIR}/multiple.pn -o ${CMAKE_CURRENT_BINARY_DIR}/multiple.cpp
+    COMMAND g++ ${CMAKE_CURRENT_BINARY_DIR}/multiple.cpp -o ${EXECUTABLE_OUTPUT_PATH}/multiple_test
     )
