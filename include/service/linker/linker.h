@@ -110,10 +110,12 @@ class Linker : virtual public generated::AstDumperIf {
     pm_module->startFunctionSignatureParameters();
   }
 
-  void startFunctionSignatureParameterMember(const std::string& name, const std::vector<std::string> & type) {
+
+  void startFunctionSignatureParameterMember( const std::string& name, const std::vector<std::string>& type, bool has_init, const std::string& init ) {
+
     // Your implementation goes here
     printf("startFunctionSignatureParameterMember\n");
-    pm_module->startFunctionSignatureParameterMember( name, type );
+    pm_module->startFunctionSignatureParameterMember( name, type, has_init, init );
   }
 
   void endFunctionSignatureParameterMember() {

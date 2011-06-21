@@ -42,7 +42,7 @@ package
 
 		public function reverse () : Array;
 
-		public function shift () : *;
+//		public function shift () : *;
 
 //		public function slice (A:* = 0, B:* = 4294967295) : Array;
 

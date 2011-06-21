@@ -17,22 +17,21 @@ package
 
 		public function indexOf (s:String = undefined, i:Number = 0) : int;
 
-/*
 		public function lastIndexOf (s:String = undefined, i:Number = 2147483647) : int;
 		[native(support="none")]
 		public function localeCompare (other:String = null) : int;
 
-		public function match (p:* = null) : Array;
+	//	public function match (p:* = null) : Array;
 
-		public function replace (p:* = null, repl:* = null) : String;
+//		public function replace (p:* = null, repl:* = null) : String;
 
-		public function search (p:* = null) : int;
+	//	public function search (p:* = null) : int;
 
 		public function slice (start:Number = 0, end:Number = 2147483647) : String;
 
-		public function split (delim:* = null, limit:* = 4294967295) : Array;
+//		public function split (delim:* = null, limit:* = 4294967295) : Array;
 
-		public function String (value:* = "");
+//		public function String (value:* = "");
 
 		public function substr (start:Number = 0, len:Number = 2147483647) : String;
 
@@ -49,6 +48,5 @@ package
 		public function toUpperCase () : String;
 		[native(support="none")]
 		public function valueOf () : String;
-*/
 	}
 }

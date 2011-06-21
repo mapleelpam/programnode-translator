@@ -7,9 +7,9 @@ package
 		[native(support="none")]
 		public static const MAX_VALUE : uint = 4294967295;
 
-/*
 		[native(support="none")]
 		public static const MIN_VALUE : uint = 0;
+/*
 		[native(support="none")]
 		public function toExponential (p:* = 0) : String;
 		[native(support="none")]
