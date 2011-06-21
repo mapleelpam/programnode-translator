@@ -30,6 +30,7 @@
 #include <service/argumentsservice.h>
 
 #include <protocol/TJSONProtocol.h>
+#include <protocol/TBinaryProtocol.h>
 #include <transport/TServerSocket.h>
 #include <transport/TBufferTransports.h>
 #include <transport/TSimpleFileTransport.h>
@@ -82,7 +83,8 @@ public:
 	        boost::shared_ptr<tw::maple::generated::AstDumperProcessor> processor( new tw::maple::generated::AstDumperProcessor( TheLinker ) );
 
 	        transport->open();
-	        boost::shared_ptr<apache::thrift::protocol::TProtocol> io(new apache::thrift::protocol::TJSONProtocol(transport));
+	       // boost::shared_ptr<apache::thrift::protocol::TProtocol> io(new apache::thrift::protocol::TJSONProtocol(transport));
+	        boost::shared_ptr<apache::thrift::protocol::TProtocol> io(new apache::thrift::protocol::TBinaryProtocol(transport));
 
 	        try {
 	            while( true )

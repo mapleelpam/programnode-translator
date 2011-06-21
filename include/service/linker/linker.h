@@ -27,7 +27,8 @@
 
 #include <AstDumper.h>
 #include <transport/TSimpleFileTransport.h>
-#include <protocol/TJSONProtocol.h>
+//#include <protocol/TJSONProtocol.h>
+#include <protocol/TBinaryProtocol.h>
 
 //using namespace ::apache::thrift;
 //using namespace ::apache::thrift::protocol;
@@ -47,7 +48,8 @@ class Linker : virtual public generated::AstDumperIf {
   	  : pm_module( )
   {
 	  boost::shared_ptr<apache::thrift::transport::TSimpleFileTransport> transport( new apache::thrift::transport::TSimpleFileTransport( fn, true, true ) );
-	  boost::shared_ptr<apache::thrift::protocol::TProtocol> protocol( new  apache::thrift::protocol::TJSONProtocol(transport) );
+	  //boost::shared_ptr<apache::thrift::protocol::TProtocol> protocol( new  apache::thrift::protocol::TJSONProtocol(transport) );
+	  boost::shared_ptr<apache::thrift::protocol::TProtocol> protocol( new  apache::thrift::protocol::TBinaryProtocol(transport) );
 
       pm_module.reset( new tw::maple::generated::AstDumperClient( protocol ) );
   }

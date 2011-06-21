@@ -1,5 +1,5 @@
 
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8.3)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.6.3)
 
 # ProgrameNode Translator 
 # Copyright 2010 mapleellpam@gmail.com.  All rights reserved.

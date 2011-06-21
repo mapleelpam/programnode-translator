@@ -29,7 +29,7 @@
 #include <transport/TBufferTransports.h>
 #include <transport/TSimpleFileTransport.h>
 #include <protocol/TBinaryProtocol.h>
-#include <protocol/TJSONProtocol.h>
+//#include <protocol/TJSONProtocol.h>
 
 
 #include "pnodehandler.h"
@@ -60,7 +60,8 @@ private:
         boost::shared_ptr<tw::maple::generated::AstDumperProcessor> processor( new tw::maple::generated::AstDumperProcessor( something ) );
 
         transport->open();
-        boost::shared_ptr<TProtocol> io(new TJSONProtocol(transport));
+//        boost::shared_ptr<TProtocol> io(new TJSONProtocol(transport));
+        boost::shared_ptr<TProtocol> io(new TBinaryProtocol(transport));
 
         try {
             while( true )
