@@ -20,6 +20,7 @@ package
 
 		//public function concat (...rest) : Array;
 
+/*
 		public function every (callback:Function, thisObject:* = null) : Boolean;
 
 		public function filter (callback:Function, thisObject:* = null) : Array;
@@ -35,6 +36,7 @@ package
 		public function map (callback:Function, thisObject:* = null) : Array;
 
 		public function pop () : *;
+*/
 
 		//public function push (...rest) : uint;
 
@@ -42,9 +44,9 @@ package
 
 		public function shift () : *;
 
-		public function slice (A:* = 0, B:* = 4294967295) : Array;
+//		public function slice (A:* = 0, B:* = 4294967295) : Array;
 
-		public function some (callback:Function, thisObject:* = null) : Boolean;
+//		public function some (callback:Function, thisObject:* = null) : Boolean;
 
 		//public function sort (...rest) : *;
 

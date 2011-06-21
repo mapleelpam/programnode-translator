@@ -2,6 +2,7 @@ package
 {
 	intrinsic public class XMLList extends Object
 	{
+/*
 		public static const length : *;
 		[native(support="none")]
 		public function addNamespace (ns:*) : XML;
@@ -83,5 +84,6 @@ package
 		public function valueOf () : XMLList;
 
 		public function XMLList (value:* = null);
+*/
 	}
 }

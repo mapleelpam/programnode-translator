@@ -37,6 +37,19 @@ FunctionPtr Registrable::registerFunction(std::string name) {
 	return s;
 }
 ScopePtr Registrable::registerPackage(std::string name) {
+	std::vector<SymbolPtr> childs;
+	_instance->getChilds( childs );
+
+	for( std::vector<SymbolPtr>::iterator itr = childs.begin(), E = childs.end()
+			; itr != E ; itr ++ )
+	{
+		if( (*itr)->getSymbolProperties() == Symbol::T_SCOPE && (*itr)->name() == name ) // is anonymous scope
+		{
+			ScopePtr anonymouse = DYNA_CAST( Scope, *itr);
+			return anonymouse;
+		}
+	}
+
 	ScopePtr s(new Scope(name, Scope::T_PACKAGE, _instance));
 	_instance->addChild(s);
 	return s;
@@ -59,6 +72,18 @@ ScopePtr Registrable::registerClass(std::string name) {
 	return s;
 }
 ScopePtr Registrable::registerAnonymousScope() {
+	std::vector<SymbolPtr> childs;
+	_instance->getChilds( childs );
+	for( std::vector<SymbolPtr>::iterator itr = childs.begin(), E = childs.end()
+			; itr != E ; itr ++ )
+	{
+		if( (*itr)->getSymbolProperties() == Symbol::T_SCOPE && (*itr)->name() == "" ) // is anonymous scope
+		{
+			ScopePtr anonymouse = DYNA_CAST( Scope, *itr);
+			return anonymouse;
+		}
+	}
+	// else
 	ScopePtr s(new Scope(_instance));
 	_instance->addChild(s);
 	return s;

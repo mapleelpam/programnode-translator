@@ -2,6 +2,7 @@ package
 {
 	intrinsic public class int extends Object
 	{
+/*
 		public static const length : int;
 
 		[native(support="none")]
@@ -21,5 +22,6 @@ package
 		public function toString (radix:* = 10) : String;
 		[native(support="none")]
 		public function valueOf () : int;
+*/
 	}
 }

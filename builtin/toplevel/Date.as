@@ -55,7 +55,7 @@ package
 
 		public function get timezoneOffset () : Number;
 
-		public function Date (year:* = null, month:* = null, date:* = null, hours:* = null, minutes:* = null, seconds:* = null, ms:* = null);
+//		public function Date (year:* = null, month:* = null, date:* = null, hours:* = null, minutes:* = null, seconds:* = null, ms:* = null);
 
 		public function getDate () : Number;
 
@@ -93,6 +93,7 @@ package
 
 		public function getUTCSeconds () : Number;
 
+/*
 		public static function parse (s:*) : Number;
 
 		public function setDate (date:* = null) : Number;
@@ -124,6 +125,7 @@ package
 		public function setUTCMonth (month:* = null, date:* = null) : Number;
 
 		public function setUTCSeconds (sec:* = null, ms:* = null) : Number;
+*/
 
 		public function toDateString () : String;
 

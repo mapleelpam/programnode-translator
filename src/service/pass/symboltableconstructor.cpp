@@ -174,7 +174,7 @@ void SymbolTableConstructor::linkVariableType(
 	namespace CPP = tw::maple::backend::cpp::interpret;
 	namespace ASYM = tw::maple::as::symbol;
 
-	if( node->node_childs.size() == 0 )
+	if( node == NULL || node->node_childs.size() == 0 )
 		return;
 	for (std::vector< AST::NodePtr >::iterator nItr =
 			node->node_childs.begin(); nItr != node->node_childs.end(); nItr++) {
@@ -200,7 +200,7 @@ void SymbolTableConstructor::linkVariableType(
 				{
 					var_type_scope = STATIC_CAST( ASYM::Scope , temp_pkg );
 				} else {
-					std::cerr<<var->VariableName <<" can't find scope - "<< var->VariableType[idx] << " "<< var->toString() <<std::endl;
+					std::cerr<<var->VariableName <<" can't find scope - "<< var->VariableType[idx] << " '"<< var->toString() << "'"<<std::endl;
 				}
 			}
 			ASYM::SymbolPtr p_type = var_type_scope->findType( var->VariableType[var->VariableType.size() - 1]  );
@@ -208,7 +208,7 @@ void SymbolTableConstructor::linkVariableType(
 			if( p_type ) {
 				symbol->bindType( p_type );
 			} else {
-				std::cerr<<var->VariableName <<" can't find type - "<< var->toString() <<std::endl;
+				std::cerr<<" variable name '"<<var->VariableName <<"': can't find type - '"<< var->toString() <<"'"<<"  '"<<var->VariableType[var->VariableType.size() - 1]<<"'"<<std::endl;
 				exit(1);
 			}
 		} else if(  symbol &&
@@ -224,6 +224,9 @@ void SymbolTableConstructor::linkVariableType(
 				AST::FunctionSignaturePtr fsig  = STATIC_CAST( AST::FunctionSignature, fcommon->FunctionSignature() );
 
 				ASYM::SymbolPtr p_type = symboltable->findType( fsig->ReturnType );
+
+				if( p_type == NULL)
+					std::cerr << " can't find symbol "<<fsig->ReturnType;
 				BOOST_ASSERT( p_type != NULL && "can't find symbol" );
 				BOOST_ASSERT( p_type );
 				symbol->bindType( p_type );
@@ -260,7 +263,7 @@ void SymbolTableConstructor::symbolTableAnalyze(
 	namespace CPP = tw::maple::backend::cpp::interpret;
 	namespace ASYM = tw::maple::as::symbol;
 
-	if( node->node_childs.size() == 0 )
+	if( node == NULL || node->node_childs.size() == 0 )
 		return;
 	for (std::vector< AST::NodePtr >::iterator nItr =
 			node->node_childs.begin(); nItr != node->node_childs.end(); nItr++) {

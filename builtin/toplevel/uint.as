@@ -7,6 +7,7 @@ package
 		[native(support="none")]
 		public static const MAX_VALUE : uint = 4294967295;
 
+/*
 		[native(support="none")]
 		public static const MIN_VALUE : uint = 0;
 		[native(support="none")]
@@ -19,6 +20,7 @@ package
 		public function toString (radix:* = 10) : String;
 
 		public function uint (value:* = 0);
+*/
 		[native(support="none")]
 		public function valueOf () : uint;
 	}

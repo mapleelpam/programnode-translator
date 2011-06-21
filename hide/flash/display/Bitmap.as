@@ -13,6 +13,6 @@ package flash.display
 		public function get smoothing () : Boolean;
 		public function set smoothing (value:Boolean) : void;
 
-		public function Bitmap (bitmapData:BitmapData = null, pixelSnapping:String = "auto", smoothing:Boolean = false);
+//		public function Bitmap (bitmapData:BitmapData = null, pixelSnapping:String = "auto", smoothing:Boolean = false);
 	}
 }

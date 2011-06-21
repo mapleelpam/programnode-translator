@@ -3,11 +3,10 @@ package
     [native(cls="XCString", instance="String", methods="auto")]
 	intrinsic public class String extends Object
 	{
-		public static const length : int;
+//		public static const length : int;
 
 		public function get length () : int;
 
-/*
 		public function charAt (i:Number = 0) : String;
 
 		public function charCodeAt (i:Number = 0) : Number;
@@ -18,6 +17,7 @@ package
 
 		public function indexOf (s:String = undefined, i:Number = 0) : int;
 
+/*
 		public function lastIndexOf (s:String = undefined, i:Number = 2147483647) : int;
 		[native(support="none")]
 		public function localeCompare (other:String = null) : int;
@@ -37,7 +37,6 @@ package
 		public function substr (start:Number = 0, len:Number = 2147483647) : String;
 
 		public function substring (start:Number = 0, end:Number = 2147483647) : String;
-*/
 
 		public function toLocaleLowerCase () : String;
 
@@ -50,5 +49,6 @@ package
 		public function toUpperCase () : String;
 		[native(support="none")]
 		public function valueOf () : String;
+*/
 	}
 }

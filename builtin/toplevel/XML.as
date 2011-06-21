@@ -2,6 +2,7 @@ package
 {
 	intrinsic public class XML extends Object
 	{
+/*
 		public static const length : *;
 
 		[native(support="none")]
@@ -118,5 +119,6 @@ package
 		public function valueOf () : XML;
 
 		public function XML (value:* = null);
+*/
 	}
 }

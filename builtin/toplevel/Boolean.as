@@ -4,7 +4,7 @@ package
 	{
 		public static const length : int;
 
-		public function Boolean (value:* = null);
+//		public function Boolean (value:* = null);
 
 		public function toString () : String;
 		
