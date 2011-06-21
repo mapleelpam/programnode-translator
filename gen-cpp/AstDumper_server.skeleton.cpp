@@ -72,7 +72,7 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("startFunctionSignatureParameters\n");
   }
 
-  void startFunctionSignatureParameterMember(const std::string& name, const std::vector<std::string> & type) {
+  void startFunctionSignatureParameterMember(const std::string& name, const std::vector<std::string> & type, const bool has_init, const std::string& init) {
     // Your implementation goes here
     printf("startFunctionSignatureParameterMember\n");
   }

@@ -16,9 +16,9 @@ SET(CMAKE_MODULE_PATH
 
 include( Dependencies )
 
-if( ${AST_THRIFT} )
+#if( ${AST_THRIFT} )
     execute_process( COMMAND ${THRIFT_COMPILER} -r -o ${CMAKE_CURRENT_SOURCE_DIR} --gen cpp ${AST_THRIFT}) 
-endif()
+#endif()
 
 #ADD_CUSTOM_TARGET(cpp-thrift-update ALL echo
 #    DEPENDS ${AST_THRIFT}

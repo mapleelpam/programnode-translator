@@ -176,8 +176,8 @@ public:
 		PUSH_STACK( FunctionParameters );
 	}
 
-	void startFunctionSignatureParameterMember( const std::string& name, const std::vector<std::string>& type ) {
-		PUSH_STACK_WITH_INIT( FunctionParameterItem, name, type );
+	void startFunctionSignatureParameterMember( const std::string& name, const std::vector<std::string>& type, bool has_init, const std::string& init ) {
+		PUSH_STACK_WITH_INIT( FunctionParameterItem, name, type, has_init, init );
 	}
 
 	void endFunctionSignatureParameterMember() {

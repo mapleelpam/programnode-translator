@@ -24,7 +24,7 @@ class AstDumperIf {
   virtual void startFunctionCommon() = 0;
   virtual void startFunctionSignature(const std::string& type) = 0;
   virtual void startFunctionSignatureParameters() = 0;
-  virtual void startFunctionSignatureParameterMember(const std::string& name, const std::vector<std::string> & type) = 0;
+  virtual void startFunctionSignatureParameterMember(const std::string& name, const std::vector<std::string> & type, const bool has_init, const std::string& init) = 0;
   virtual void endFunctionSignatureParameterMember() = 0;
   virtual void endFunctionSignatureParameters() = 0;
   virtual void endFunctionSignature() = 0;
@@ -119,7 +119,7 @@ class AstDumperNull : virtual public AstDumperIf {
   void startFunctionSignatureParameters() {
     return;
   }
-  void startFunctionSignatureParameterMember(const std::string& /* name */, const std::vector<std::string> & /* type */) {
+  void startFunctionSignatureParameterMember(const std::string& /* name */, const std::vector<std::string> & /* type */, const bool /* has_init */, const std::string& /* init */) {
     return;
   }
   void endFunctionSignatureParameterMember() {
@@ -752,21 +752,25 @@ class AstDumper_startFunctionSignatureParameters_pargs {
 };
 
 typedef struct _AstDumper_startFunctionSignatureParameterMember_args__isset {
-  _AstDumper_startFunctionSignatureParameterMember_args__isset() : name(false), type(false) {}
+  _AstDumper_startFunctionSignatureParameterMember_args__isset() : name(false), type(false), has_init(false), init(false) {}
   bool name;
   bool type;
+  bool has_init;
+  bool init;
 } _AstDumper_startFunctionSignatureParameterMember_args__isset;
 
 class AstDumper_startFunctionSignatureParameterMember_args {
  public:
 
-  AstDumper_startFunctionSignatureParameterMember_args() : name("") {
+  AstDumper_startFunctionSignatureParameterMember_args() : name(""), has_init(0), init("") {
   }
 
   virtual ~AstDumper_startFunctionSignatureParameterMember_args() throw() {}
 
   std::string name;
   std::vector<std::string>  type;
+  bool has_init;
+  std::string init;
 
   _AstDumper_startFunctionSignatureParameterMember_args__isset __isset;
 
@@ -775,6 +779,10 @@ class AstDumper_startFunctionSignatureParameterMember_args {
     if (!(name == rhs.name))
       return false;
     if (!(type == rhs.type))
+      return false;
+    if (!(has_init == rhs.has_init))
+      return false;
+    if (!(init == rhs.init))
       return false;
     return true;
   }
@@ -798,6 +806,8 @@ class AstDumper_startFunctionSignatureParameterMember_pargs {
 
   const std::string* name;
   const std::vector<std::string> * type;
+  const bool* has_init;
+  const std::string* init;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -3136,8 +3146,8 @@ class AstDumperClient : virtual public AstDumperIf {
   void send_startFunctionSignature(const std::string& type);
   void startFunctionSignatureParameters();
   void send_startFunctionSignatureParameters();
-  void startFunctionSignatureParameterMember(const std::string& name, const std::vector<std::string> & type);
-  void send_startFunctionSignatureParameterMember(const std::string& name, const std::vector<std::string> & type);
+  void startFunctionSignatureParameterMember(const std::string& name, const std::vector<std::string> & type, const bool has_init, const std::string& init);
+  void send_startFunctionSignatureParameterMember(const std::string& name, const std::vector<std::string> & type, const bool has_init, const std::string& init);
   void endFunctionSignatureParameterMember();
   void send_endFunctionSignatureParameterMember();
   void endFunctionSignatureParameters();
@@ -3500,10 +3510,10 @@ class AstDumperMultiface : virtual public AstDumperIf {
     }
   }
 
-  void startFunctionSignatureParameterMember(const std::string& name, const std::vector<std::string> & type) {
+  void startFunctionSignatureParameterMember(const std::string& name, const std::vector<std::string> & type, const bool has_init, const std::string& init) {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
-      ifaces_[i]->startFunctionSignatureParameterMember(name, type);
+      ifaces_[i]->startFunctionSignatureParameterMember(name, type, has_init, init);
     }
   }
 

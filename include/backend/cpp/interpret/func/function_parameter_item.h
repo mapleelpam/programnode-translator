@@ -42,7 +42,11 @@ struct FunctionParameterItem : public Interpreter
 
 		AST::FunctionParameterItemPtr fParam = std::tr1::static_pointer_cast<AST::FunctionParameterItem>(node);
 
-		return fParam->ParamType()+" "+fParam->ParamName();
+		if(fParam->hasInit())
+			return fParam->ParamType()+" "+fParam->ParamName()+ " = "+ fParam->ParamInit();
+		else
+			return fParam->ParamType()+" "+fParam->ParamName();
+
 	}
 };
 

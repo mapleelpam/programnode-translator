@@ -32,11 +32,14 @@ namespace tw { namespace maple { namespace as { namespace ast {
 // Abstract
 struct FunctionParameterItem : public Statement
 {
-	FunctionParameterItem( std::string name, std::vector<std::string> type )
+	FunctionParameterItem( const std::string& name, const std::vector<std::string>& type, bool has_init, const std::string& init_value )
 		: Statement(Node::NodeType::T_FUNCTION_PARAMETER_ITEM)
 		, m_param_name( name )
 		, m_param_type( type )
+		, m_has_init( has_init)
+		, m_init_value( init_value )
 	{
+//		std::cerr <<" --------------------------------> init '"<<init_value<<"'"<<std::endl;
 	}
 
 	int stmtType()   {   return Node::NodeType::T_FUNCTION_PARAMETER_ITEM;  }
@@ -46,9 +49,13 @@ struct FunctionParameterItem : public Statement
 
     std::string toString()  {	return "node::function_signature_parameter_item"; };
 
+    std::string ParamInit(){	return m_init_value;	}
+    bool		hasInit(){	return m_has_init;	}
 private:
     const std::string m_param_name;
     const std::vector<std::string> m_param_type;
+    const bool 	m_has_init;
+    const std::string m_init_value;
 };
 
 typedef SHARED_PTR(FunctionParameterItem) FunctionParameterItemPtr;
