@@ -1,5 +1,6 @@
 package
 {
+    [native(cls="XCBoolean", instance="Boolean", methods="auto")]
 	intrinsic public class Boolean extends Object
 	{
 		public static const length : int;

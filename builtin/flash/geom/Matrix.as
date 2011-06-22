@@ -14,6 +14,7 @@ intrinsic class flash.geom.Matrix {
 
 	public function transformPoint( p : Point ) : Point;
 	public function deltaTransformPoint( p : Point ) : Point;
+
 	public function toString() : String;
 	public function scale( sx : Number, sy : Number ) : Void;
 	public function translate( tx : Number, ty : Number ) : Void;
@@ -25,6 +26,5 @@ intrinsic class flash.geom.Matrix {
 
 	public function createGradientBox( width : Number, height : Number, rot : Number, tx : Number, ty : Number ) : Void;
 	public function createBox( scalex : Number, scaley : Number, rot : Number, tx : Number, ty : Number ) : Void;
-
 
 }
