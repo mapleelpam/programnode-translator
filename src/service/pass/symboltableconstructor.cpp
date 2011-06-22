@@ -226,12 +226,10 @@ void SymbolTableConstructor::linkVariableType(
 				ASYM::SymbolPtr p_type = symboltable->findType( fsig->ReturnType );
 
 				if( p_type == NULL)
-					std::cerr << " can't find symbol "<<fsig->ReturnType;
+					std::cerr << " can't find symbol '"<<fsig->ReturnType << "'"<< std::endl;
 				BOOST_ASSERT( p_type != NULL && "can't find symbol" );
 				BOOST_ASSERT( p_type );
 				symbol->bindType( p_type );
-
-				// don't break!! trace to next
 			}
 				linkVariableType( *nItr, p_scope);
 				break;
@@ -266,8 +264,9 @@ void SymbolTableConstructor::symbolTableAnalyze(
 	if( node == NULL || node->node_childs.size() == 0 )
 		return;
 	for (std::vector< AST::NodePtr >::iterator nItr =
-			node->node_childs.begin(); nItr != node->node_childs.end(); nItr++) {
-
+			node->node_childs.begin(), E = node->node_childs.end();
+			nItr != E; nItr++)
+	{
 		ASYM::SymbolPtr symbol = (*nItr)->getSymbol();
 
 		if (symbol && (symbol->getSymbolProperties() & ASYM::Symbol::T_SCOPE)) {
@@ -285,7 +284,6 @@ void SymbolTableConstructor::symbolTableAnalyze(
 			}
 		} else
 			symbolTableAnalyze(*nItr, symboltable);
-
 	}
 }
 } } } }//pass.service.maple.tw
