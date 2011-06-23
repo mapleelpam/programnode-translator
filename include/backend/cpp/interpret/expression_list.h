@@ -27,6 +27,7 @@
 
 #include <as/ast/expression_list.h>
 #include <backend/cpp/interpret/interpreter.h>
+#include <backend/cpp/templateprinter.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
@@ -34,9 +35,8 @@ namespace AST = ::tw::maple::as::ast;
 
 
 // Abstract
-struct ExpressionList : public Interpreter
+struct ExpressionList : public Interpreter, public TemplatePrinter
 {   
-
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context* ctx)
@@ -50,7 +50,9 @@ struct ExpressionList : public Interpreter
 			for( nItr++ ; nItr != node->node_childs.end() ; nItr ++ )
 			{
 				if( symbol_table->isInstance( result, "::"))
+				{
 					result += "->" + dispatchExpound(*nItr, symbol_table, ctx);
+				}
 				else
 					result += "::" + dispatchExpound(*nItr, symbol_table, ctx);
 			}
@@ -58,6 +60,31 @@ struct ExpressionList : public Interpreter
 
 		return result;
 	}
+	ExpressionList()
+		: TemplatePrinter("ExpressionList")
+	{
+
+		m_tpl_setter_prepend = "set_";
+		m_tpl_getter_prepend = "get_";
+	}
+
+	virtual bool readConfig( boost::property_tree::ptree& pt )
+	{
+		m_tpl_setter_prepend	= pt.get<std::string>( configName()+".template.setter_prepend", m_tpl_setter_prepend);
+		m_tpl_getter_prepend	= pt.get<std::string>( configName()+".template.getter_prepend", m_tpl_getter_prepend);
+
+		return TemplatePrinter::readConfig( pt );
+	}
+	virtual bool writeConfig( boost::property_tree::ptree& pt )
+	{
+		pt.put<std::string>( configName()+".template.setter_prepend", m_tpl_setter_prepend);
+		pt.put<std::string>( configName()+".template.getter_prepend", m_tpl_getter_prepend);
+
+		return TemplatePrinter::writeConfig( pt );
+	}
+private:
+	std::string m_tpl_setter_prepend;
+	std::string m_tpl_getter_prepend;
 };
 
 };

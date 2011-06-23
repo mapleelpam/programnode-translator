@@ -142,8 +142,11 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		m_tpl_enter_function = pt.get<std::string>(  configName()+".template.enter_function", m_tpl_enter_function);
 		m_tpl_leave_function = pt.get<std::string>(  configName()+".template.leave_function", m_tpl_leave_function);
 
-		m_tpl_args_prefix = pt.get<std::string>(  configName()+".template.prefix_arguments", m_tpl_args_prefix);
-		m_tpl_args_postfix = pt.get<std::string>(  configName()+".template.postfix_argumetns", m_tpl_args_postfix);
+		m_tpl_args_prefix	= pt.get<std::string>(  configName()+".template.prefix_arguments", m_tpl_args_prefix);
+		m_tpl_args_postfix	= pt.get<std::string>(  configName()+".template.postfix_argumetns", m_tpl_args_postfix);
+
+		m_tpl_setter_prepend	= pt.get<std::string>( configName()+".template.setter_prepend", m_tpl_setter_prepend);
+		m_tpl_getter_prepend	= pt.get<std::string>( configName()+".template.getter_prepend", m_tpl_getter_prepend);
 
 		m_default_virtual = pt.get<bool>( configName()+".default_virtual", m_default_virtual);
 		return TemplatePrinter::readConfig( pt );
@@ -155,6 +158,9 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 
 		pt.put<std::string>( configName()+".template.prefix_arguments", m_tpl_args_prefix);
 		pt.put<std::string>( configName()+".template.postfix_argumetns", m_tpl_args_postfix);
+
+		pt.put<std::string>( configName()+".template.setter_prepend", m_tpl_setter_prepend);
+		pt.put<std::string>( configName()+".template.getter_prepend", m_tpl_getter_prepend);
 
 		pt.put<bool>( configName()+".default_virtual",m_default_virtual);
 		return TemplatePrinter::writeConfig( pt );

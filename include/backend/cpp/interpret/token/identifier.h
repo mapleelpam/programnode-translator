@@ -28,6 +28,8 @@
 #include <as/ast/token/identifier.h>
 #include <backend/cpp/interpret/interpreter.h>
 #include <global.h>
+#include <as/symbol/function.h>
+
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
@@ -53,7 +55,13 @@ struct Identifier : public Interpreter
 		{
 //			ASY::SymbolPtr symbol = symbol_table->findSymbol( result );
 			
-			return li->value;
+			ASY::SymbolPtr instance = symbol_table->findSymbol( li->value );
+			ASY::FunctionPtr function_ptr = DYNA_CAST( ASY::Function, instance );
+
+			if( function_ptr != NULL && function_ptr->isGetter() )
+				return "get_" +  li->value + "()";
+			else
+				return li->value;
 		}
 	}
 

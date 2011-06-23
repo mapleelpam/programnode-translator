@@ -36,7 +36,7 @@ namespace tw { namespace maple { namespace backend { namespace cpp { namespace i
 
 namespace AST = ::tw::maple::as::ast;
 
-struct ExpressionMember : public Interpreter
+struct ExpressionMember : public Interpreter, public TemplatePrinter
 {   
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
@@ -70,10 +70,14 @@ struct ExpressionMember : public Interpreter
 				{
 					ASY::SymbolPtr instance = symbol_table->findSymbol( result );
 					ASY::VariablePtr variable = DYNA_CAST( ASY::Variable, instance );
+
 					if( instance  ){
 						ASY::SymbolPtr instance_type = variable -> getTypeSymbol();
 						ASY::ScopePtr class_type = DYNA_CAST( ASY::Scope, instance_type );
-						result += "->" + dispatchExpound(*nItr, class_type, ctx);
+//						if( function_ptr != NULL && function_ptr->isGetter() )
+//							result += "->" + dispatchExpound(*nItr, class_type, ctx);
+//						else
+							result += "->" + dispatchExpound(*nItr, class_type, ctx);
 					} 
 					else 
 						result += "->" + dispatchExpound(*nItr, symbol_table, ctx);
@@ -98,6 +102,33 @@ private:
 	{
 		return replace( callee, "new ", "new "+base+"::");
 	}
+
+public:
+	ExpressionMember()
+		: TemplatePrinter("ExpressionMember")
+	{
+
+		m_tpl_setter_prepend = "set_";
+		m_tpl_getter_prepend = "get_";
+	}
+private:
+	virtual bool readConfig( boost::property_tree::ptree& pt )
+	{
+		m_tpl_setter_prepend	= pt.get<std::string>( configName()+".template.setter_prepend", m_tpl_setter_prepend);
+		m_tpl_getter_prepend	= pt.get<std::string>( configName()+".template.getter_prepend", m_tpl_getter_prepend);
+
+		return TemplatePrinter::readConfig( pt );
+	}
+	virtual bool writeConfig( boost::property_tree::ptree& pt )
+	{
+		pt.put<std::string>( configName()+".template.setter_prepend", m_tpl_setter_prepend);
+		pt.put<std::string>( configName()+".template.getter_prepend", m_tpl_getter_prepend);
+
+		return TemplatePrinter::writeConfig( pt );
+	}
+private:
+	std::string m_tpl_setter_prepend;
+	std::string m_tpl_getter_prepend;
 };
 
 };
