@@ -31,7 +31,6 @@
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
-// Abstract
 struct LiteralBoolean : public Interpreter
 {   
 

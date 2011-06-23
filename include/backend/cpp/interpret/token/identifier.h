@@ -35,7 +35,6 @@ namespace tw { namespace maple { namespace backend { namespace cpp { namespace i
 
 namespace AST = ::tw::maple::as::ast;
 
-// Abstract
 struct Identifier : public Interpreter
 {
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node

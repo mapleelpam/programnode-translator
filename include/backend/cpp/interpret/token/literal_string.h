@@ -32,7 +32,6 @@
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
-// Abstract
 struct LiteralString : public Interpreter
 {   
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node
