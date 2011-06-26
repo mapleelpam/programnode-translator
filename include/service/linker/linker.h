@@ -455,6 +455,9 @@ class Linker : virtual public generated::AstDumperIf {
     printf("endForStatement\n");
     pm_module->endForStatement();
   }
+	void executeImport(const std::vector<std::string> & IDs ) {
+		pm_module->executeImport(IDs);
+	}
 
   void startDoStatement() {
     // Your implementation goes here

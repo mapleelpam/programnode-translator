@@ -76,6 +76,7 @@
 #include <as/ast/stmt/do_stmt.h>
 #include <as/ast/stmt/while_stmt.h>
 #include <as/ast/stmt/scope_statement.h>
+#include <as/ast/stmt/import_stmt.h>
 
 #include <as/ast/expr/expr_member.h>
 
@@ -88,27 +89,27 @@ namespace AST = ::tw::maple::as::ast;
 
 #define PUSH_STACK( ClassName ) \
 		{ \
-		std::cout << _node_stack.size() << "  start"<< #ClassName  <<" -> "<< _node_stack.top()->toString()<<" -:"<<_node_stack.top()->node_childs.size()<< std::endl; \
+		/*std::cout << _node_stack.size() << "  start"<< #ClassName  <<" -> "<< _node_stack.top()->toString()<<" -:"<<_node_stack.top()->node_childs.size()<< std::endl;*/ \
 		as::ast::ClassName##Ptr __node__( new as::ast::ClassName()  ); \
 		_node_stack . top() -> addNodeChild( __node__ ); \
 		_node_stack . push( __node__ ); }
 
 #define ADD_2_TOP( ClassName ) \
 		{ \
-		std::cout << _node_stack.size() << "  start"<< #ClassName  <<" -> "<< _node_stack.top()->toString()<<" -:"<<_node_stack.top()->node_childs.size()<< std::endl; \
+		/* std::cout << _node_stack.size() << "  start"<< #ClassName  <<" -> "<< _node_stack.top()->toString()<<" -:"<<_node_stack.top()->node_childs.size()<< std::endl; */ \
 		as::ast::ClassName##Ptr __node__( new as::ast::ClassName()  ); \
 		_node_stack . top() -> addNodeChild( __node__ ); }
 
 #define PUSH_STACK_WITH_INIT( ClassName, ... ) \
 		{ \
-		std::cout << _node_stack.size() << "  start"<< #ClassName  <<" -> "<< _node_stack.top()->toString()<<" -:"<<_node_stack.top()->node_childs.size()<< std::endl; \
+		/* std::cout << _node_stack.size() << "  start"<< #ClassName  <<" -> "<< _node_stack.top()->toString()<<" -:"<<_node_stack.top()->node_childs.size()<< std::endl; */ \
 		as::ast::ClassName##Ptr __node__( new as::ast::ClassName(  __VA_ARGS__ )  ); \
 		_node_stack . top() -> addNodeChild( __node__ ); \
 		_node_stack . push( __node__ ); }
 
 #define ADD_2_TOP_WITH_INIT( ClassName, ... ) \
 		{ \
-		std::cout << _node_stack.size() << "  start"<< #ClassName  <<" -> "<< _node_stack.top()->toString()<<" -:"<<_node_stack.top()->node_childs.size()<< std::endl; \
+		/* std::cout << _node_stack.size() << "  start"<< #ClassName  <<" -> "<< _node_stack.top()->toString()<<" -:"<<_node_stack.top()->node_childs.size()<< std::endl; */\
 		as::ast::ClassName##Ptr __node__( new as::ast::ClassName(  __VA_ARGS__ )  ); \
 		_node_stack . top() -> addNodeChild( __node__ ); }
 
@@ -119,7 +120,7 @@ namespace AST = ::tw::maple::as::ast;
 	            std::cerr << "please contact mapleelpam at gmail com"<<std::endl; \
 	            exit(1); \
 	        } \
-		printf(" %lu end"#ClassName"\n", _node_stack.size() ); \
+		/*printf(" %lu end"#ClassName"\n", _node_stack.size() );*/ \
 		_node_stack . pop(); \
 		}\
 
@@ -132,7 +133,7 @@ public:
   }
 
   void startProgram( const std::string& version, const int64_t counter ) {
-		printf(" %lu startProgram\n", _node_stack.size());
+//		printf(" %lu startProgram\n", _node_stack.size());
 		if( version != generated::g_SyntaxTree_constants.PROTO_VERSION
 		 || counter != generated::g_SyntaxTree_constants.PROTO_COUNTER)
 		{
@@ -144,7 +145,7 @@ public:
 	}
 
 	void endProgram() {
-		printf(" %lu endProgram\n", _node_stack.size());
+//		printf(" %lu endProgram\n", _node_stack.size());
 		// DO FOR WHAT?
 	}
 
@@ -348,18 +349,14 @@ public:
 
 		class_node->setIsAbstract( class_define.object_type == generated::ObjectType::TYPE_CLASS ? false : true );
 		if(_meta_data_dirty) {
-			std::cerr <<" hey i just attach a metadata to a class define node"<<std::endl;
+//			std::cerr <<" hey i just attach a metadata to a class define node"<<std::endl;
 			class_node->setMetaData(_meta_data);
 			_meta_data_dirty = false;
-			if(class_node->isNativeClass())
-				std::cerr << "abc\n"<<std::endl;
-			else
-				std::cerr << "cde\n"<<std::endl;
 		}
 	}
 
 	void startClassStmt() {
-		printf(" %lu startClassStmt\n", _node_stack.size());
+//		printf(" %lu startClassStmt\n", _node_stack.size());
 		as::ast::ClassStmtPtr exp_list(new as::ast::ClassStmt);
 		_node_stack . top() -> addNodeChild(exp_list);
 		_node_stack . push(exp_list);
@@ -370,16 +367,11 @@ public:
 	void endClassStmt() {
 		CHECK_STACK_AND_POP( ClassStmt, AST::Node::NodeType::T_CLASS_DEFINE_STMT );
 	}
-//	void startClassAttributeList() {
-//		PUSH_STACK( AttributeList );
-//	}
-//	void endClassAttributelist() {
-//		CHECK_STACK_AND_POP( AttributeList, AST::Node::NodeType::T_COMP_CLASS_ATTRIBUTE );
-//	}
+	void executeImport(const std::vector<std::string> & IDs ) {
+		ADD_2_TOP_WITH_INIT( ImportStatement, IDs );
+	}
+
 	void functionAttribute( const std::vector<std::string>& sv ) {
-		for( int idx = 0 ; idx < sv.size() ; idx ++ ) {
-			std::cerr<< "function attr "<< sv[idx]<<std::endl;
-		}
 		ADD_2_TOP_WITH_INIT( FunctionAttribute, sv );
 	}
 
@@ -427,7 +419,6 @@ public:
     }
     void defineMetaData(const generated::MetaData& metadata) {
         // Your implementation goes here
-        printf("defineMetaData\n");
         _meta_data = metadata;
         _meta_data_dirty = true;
     }

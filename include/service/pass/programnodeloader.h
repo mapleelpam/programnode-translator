@@ -63,6 +63,7 @@ private:
 //        boost::shared_ptr<TProtocol> io(new TJSONProtocol(transport));
         boost::shared_ptr<TProtocol> io(new TBinaryProtocol(transport));
 
+        std::cout << "pnc: pass" << file <<std::endl;
         try {
             while( true )
                 processor->process( io, io, NULL );

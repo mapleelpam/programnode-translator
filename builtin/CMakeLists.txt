@@ -6,6 +6,7 @@ MESSAGE( " builtin sources ${BUILTIN_AS}")
 make_directory( ${CMAKE_CURRENT_BINARY_DIR}/toplevel/ )
 make_directory( ${CMAKE_CURRENT_BINARY_DIR}/flash/ )
 make_directory( ${CMAKE_CURRENT_BINARY_DIR}/flash/geom/ )
+make_directory( ${CMAKE_CURRENT_BINARY_DIR}/flash/display/ )
 
 #SET( BUILTIN_AS )
 #LIST( APPEND BUILTIN_AS 

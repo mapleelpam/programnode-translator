@@ -86,7 +86,7 @@ struct ClassDefinition : public Statement
 	/* advaned methods */
 	bool isNativeClass( )
 	{
-		std::cerr << "native class '"<<m_metadata.id<<"'"<<std::endl;
+//		std::cerr << "native class '"<<m_metadata.id<<"'"<<std::endl;
 		if(m_metadata.id == "native")
 			return true;
 		else

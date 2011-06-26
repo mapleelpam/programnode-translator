@@ -44,7 +44,10 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 
 		AST::ClassDefinitionPtr _class_define_ = STATIC_CAST( AST::ClassDefinition, node);
 		if( _class_define_->isIntrinsic() || _class_define_->isNativeClass())
-			return "";  // Ignore Intrinsic
+		{
+//			return "";  // Ignore Intrinsic
+			return "/* "+_class_define_->getClassName()+ " is intrinsic, and ignore */";
+		}
 		ASY::ScopePtr	symbol_class = _class_define_->getClassSymbol();
 
 		std::string class_stmt = "";

@@ -187,6 +187,7 @@ void SymbolTableConstructor::linkVariableType(
 		{
 			AST::VariableDeclarePtr var = std::tr1::static_pointer_cast<AST::VariableDeclare>(*nItr);
 
+            if( 0 )
 			{
 				std::cerr << " variable name = "<<var->VariableName<<std::endl;
 				std::cerr << " variable type size = "<<var->VariableType.size()<<std::endl;
@@ -200,7 +201,7 @@ void SymbolTableConstructor::linkVariableType(
 				{
 					var_type_scope = STATIC_CAST( ASYM::Scope , temp_pkg );
 				} else {
-					std::cerr<<var->VariableName <<" can't find scope - "<< var->VariableType[idx] << " '"<< var->toString() << "'"<<std::endl;
+//					std::cerr<<var->VariableName <<" can't find scope - "<< var->VariableType[idx] << " '"<< var->toString() << "'"<<std::endl;
 				}
 			}
 			ASYM::SymbolPtr p_type = var_type_scope->findType( var->VariableType[var->VariableType.size() - 1]  );
@@ -237,7 +238,7 @@ void SymbolTableConstructor::linkVariableType(
 			{
 				AST::ClassDefinitionPtr ast_class = STATIC_CAST( AST::ClassDefinition, *nItr);
 				p_scope -> setIsIntrinsic( ast_class->isIntrinsic() ||  ast_class->isNativeClass() );
-				std::cerr << " in class name " << p_scope->name() << " is "<<(ast_class->isIntrinsic() ||  ast_class->isNativeClass())<<std::endl;
+//				std::cerr << " in class name " << p_scope->name() << " is "<<(ast_class->isIntrinsic() ||  ast_class->isNativeClass())<<std::endl;
 				linkVariableType( *nItr, p_scope);
 			}
 				break;

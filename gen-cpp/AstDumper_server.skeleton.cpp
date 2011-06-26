@@ -42,6 +42,11 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("endPackage\n");
   }
 
+  void executeImport(const std::vector<std::string> & id) {
+    // Your implementation goes here
+    printf("executeImport\n");
+  }
+
   void startFunctionDefinition(const bool isAbstract) {
     // Your implementation goes here
     printf("startFunctionDefinition\n");

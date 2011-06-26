@@ -22,31 +22,28 @@
  * Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
  * ***************************************************************/
 
-#ifndef __AS_AST_STMT_PACKAGE_DEFINITION_H__
-#define __AS_AST_STMT_PACKAGE_DEFINITION_H__
+#ifndef __TW_MAPLE_AS_AST_SATEMENTS_IMPORT_STMT_H__
+#define __TW_MAPLE_AS_AST_SATEMENTS_IMPORT_STMT_H__
 
 #include <as/ast/abstract/statement.h>
 
 namespace tw { namespace maple { namespace as { namespace ast {
 
-// Abstract
-struct PackageDefinition: public Statement
+struct ImportStatement : public Statement
 {
-	PackageDefinition( std::vector<std::string> n )
-		: Statement(Node::NodeType::T_PACKAGE_DEFINITION)
+	ImportStatement( std::vector<std::string> n )
+		: Statement(Node::NodeType::T_IMPORT_STMT)
 		, package_names( n )
 	{
-
 	}
-    int stmtType()   {   return Node::NodeType::T_PACKAGE_DEFINITION;  }
 
-    std::string toString()  {	return "node::package_definition"; };
+	std::string toString() 		{	return "node::import_stmt"; };
 
     std::vector<std::string> package_names;
+
 };
 
-typedef SHARED_PTR(PackageDefinition) PackageDefinitionPtr;
-
+typedef std::tr1::shared_ptr<ImportStatement> ImportStatementPtr;
 
 } } } }
 

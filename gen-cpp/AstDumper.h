@@ -18,6 +18,7 @@ class AstDumperIf {
   virtual void endProgram() = 0;
   virtual void startPackage(const std::vector<std::string> & id) = 0;
   virtual void endPackage(const std::vector<std::string> & IDs) = 0;
+  virtual void executeImport(const std::vector<std::string> & id) = 0;
   virtual void startFunctionDefinition(const bool isAbstract) = 0;
   virtual void functionAttribute(const std::vector<std::string> & attrs) = 0;
   virtual void functionName(const std::string& name, const FunctionType::type func_type) = 0;
@@ -99,6 +100,9 @@ class AstDumperNull : virtual public AstDumperIf {
     return;
   }
   void endPackage(const std::vector<std::string> & /* IDs */) {
+    return;
+  }
+  void executeImport(const std::vector<std::string> & /* id */) {
     return;
   }
   void startFunctionDefinition(const bool /* isAbstract */) {
@@ -310,7 +314,7 @@ typedef struct _AstDumper_startProgram_args__isset {
 class AstDumper_startProgram_args {
  public:
 
-  AstDumper_startProgram_args() : version("0.0.1"), counter(3LL) {
+  AstDumper_startProgram_args() : version("0.0.1"), counter(4LL) {
   }
 
   virtual ~AstDumper_startProgram_args() throw() {}
@@ -479,6 +483,53 @@ class AstDumper_endPackage_pargs {
   virtual ~AstDumper_endPackage_pargs() throw() {}
 
   const std::vector<std::string> * IDs;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _AstDumper_executeImport_args__isset {
+  _AstDumper_executeImport_args__isset() : id(false) {}
+  bool id;
+} _AstDumper_executeImport_args__isset;
+
+class AstDumper_executeImport_args {
+ public:
+
+  AstDumper_executeImport_args() {
+  }
+
+  virtual ~AstDumper_executeImport_args() throw() {}
+
+  std::vector<std::string>  id;
+
+  _AstDumper_executeImport_args__isset __isset;
+
+  bool operator == (const AstDumper_executeImport_args & rhs) const
+  {
+    if (!(id == rhs.id))
+      return false;
+    return true;
+  }
+  bool operator != (const AstDumper_executeImport_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_executeImport_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_executeImport_pargs {
+ public:
+
+
+  virtual ~AstDumper_executeImport_pargs() throw() {}
+
+  const std::vector<std::string> * id;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -3134,6 +3185,8 @@ class AstDumperClient : virtual public AstDumperIf {
   void send_startPackage(const std::vector<std::string> & id);
   void endPackage(const std::vector<std::string> & IDs);
   void send_endPackage(const std::vector<std::string> & IDs);
+  void executeImport(const std::vector<std::string> & id);
+  void send_executeImport(const std::vector<std::string> & id);
   void startFunctionDefinition(const bool isAbstract);
   void send_startFunctionDefinition(const bool isAbstract);
   void functionAttribute(const std::vector<std::string> & attrs);
@@ -3283,6 +3336,7 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
   void process_endProgram(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_startPackage(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_endPackage(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_executeImport(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_startFunctionDefinition(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_functionAttribute(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_functionName(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -3356,6 +3410,7 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
     processMap_["endProgram"] = &AstDumperProcessor::process_endProgram;
     processMap_["startPackage"] = &AstDumperProcessor::process_startPackage;
     processMap_["endPackage"] = &AstDumperProcessor::process_endPackage;
+    processMap_["executeImport"] = &AstDumperProcessor::process_executeImport;
     processMap_["startFunctionDefinition"] = &AstDumperProcessor::process_startFunctionDefinition;
     processMap_["functionAttribute"] = &AstDumperProcessor::process_functionAttribute;
     processMap_["functionName"] = &AstDumperProcessor::process_functionName;
@@ -3465,6 +3520,13 @@ class AstDumperMultiface : virtual public AstDumperIf {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
       ifaces_[i]->endPackage(IDs);
+    }
+  }
+
+  void executeImport(const std::vector<std::string> & id) {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->executeImport(id);
     }
   }
 
