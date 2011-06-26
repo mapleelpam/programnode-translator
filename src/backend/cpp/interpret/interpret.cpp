@@ -52,6 +52,7 @@
 #include <backend/cpp/interpret/expr/instanceof.h>
 #include <backend/cpp/interpret/stmt/class_definition.h>
 #include <backend/cpp/interpret/stmt/package_definition.h>
+#include <backend/cpp/interpret/stmt/import_stmt.h>
 #include <backend/cpp/interpret/expr/expr_member.h>
 #include <backend/cpp/interpret/expr/assignment.h>
 
@@ -97,6 +98,7 @@ void initializeInterpreters()
 		interpreterResolver[AST::Node::NodeType::T_STMT_FOR] = new ForStatement();
 		interpreterResolver[AST::Node::NodeType::T_STMT_DO] = new DoStatement();
 		interpreterResolver[AST::Node::NodeType::T_STMT_WHILE] = new WhileStatement();
+		interpreterResolver[AST::Node::NodeType::T_IMPORT_STMT] = new ImportStatement();
 	}
 }
 
