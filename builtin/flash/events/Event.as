@@ -1,6 +1,6 @@
 package flash.events
 {
-	import flash.events.Event;
+//	import flash.events.Event;
 
 	intrinsic public class Event extends Object
 	{

@@ -9,16 +9,18 @@ package flash.display
 	import flash.geom.Transform;
 	import flash.geom.Point;
 	import flash.display.LoaderInfo;
-	import flash.accessibility.AccessibilityProperties;
+//	import flash.accessibility.AccessibilityProperties;
 	import flash.geom.Vector3D;
-	import flash.display.Shader;
+//	import flash.display.Shader;
 
 	intrinsic public class DisplayObject extends EventDispatcher implements IBitmapDrawable
 	{
+/*
 		[native(support="none")]
 		public function get accessibilityProperties () : AccessibilityProperties;
 		[native(support="none")]
 		public function set accessibilityProperties (value:AccessibilityProperties) : void;
+*/
 
 		[native(support="api")]
 		public function get alpha () : Number;
@@ -30,8 +32,10 @@ package flash.display
 		[native(support="api")]
 		public function set blendMode (value:String) : void;
 
+/*
 		[native(support="none")]
 		public function set blendShader (value:Shader) : void;
+*/
 
 		[native(support="none")]
 		public function get cacheAsBitmap () : Boolean;

@@ -213,6 +213,7 @@ void SymbolTableConstructor::linkVariableType(
 			ASY::ScopePtr p_scope = STATIC_CAST( ASY::Scope, symbol );
 			switch( p_scope->getScopeType() ) {
 			case ASY::Scope::T_FUNCTION:
+//				std::cerr << " in function name " << p_scope->name() << std::endl;
 			{
 				AST::FunctionDefinitionPtr ast_func = STATIC_CAST( AST::FunctionDefinition, *nItr);
 				tw::maple::cs::ph2::Phase2_FunctionDefine::pass( ast_func, symbol, symboltable );
@@ -220,19 +221,23 @@ void SymbolTableConstructor::linkVariableType(
 				local_context->enterScope();
 					linkVariableType( *nItr, p_scope, local_context );
 				local_context->leaveScope();
+//				std::cerr << " exit function name " << p_scope->name() << std::endl;
 				break;
 			case ASY::Scope::T_CLASS:
 			{
 				AST::ClassDefinitionPtr ast_class = STATIC_CAST( AST::ClassDefinition, *nItr);
 				p_scope -> setIsIntrinsic( ast_class->isIntrinsic() ||  ast_class->isNativeClass() );
-//				std::cerr << " in class name " << p_scope->name() << " is "<<(ast_class->isIntrinsic() ||  ast_class->isNativeClass())<<std::endl;
+				std::cerr << " in class name " << p_scope->name() << " is "<<(ast_class->isIntrinsic() ||  ast_class->isNativeClass())<<std::endl;
 
 			}
 				local_context->enterScope();
 					linkVariableType( *nItr, p_scope, local_context );
 				local_context->leaveScope();
+				std::cerr << " exit class name " << p_scope->name()<<std::endl;
 				break;
 			default:
+				std::cerr << " in other name " << p_scope->name() << std::endl;
+//				<< " is "<<(ast_class->isIntrinsic() ||  ast_class->isNativeClass())<<std::endl;
 				local_context->enterScope();
 					linkVariableType( *nItr, p_scope, local_context );
 				local_context->leaveScope();

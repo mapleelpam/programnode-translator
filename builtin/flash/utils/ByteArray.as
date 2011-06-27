@@ -87,8 +87,8 @@ package flash.utils
 		public function writeInt (value:int) : void;
 
 		public function writeMultiByte (value:String, charSet:String) : void;
-		[native(support="none")]
-		public function writeObject (object:*) : void;
+//		[native(support="none")]
+//		public function writeObject (object:*) : void;
 
 		public function writeShort (value:int) : void;
 

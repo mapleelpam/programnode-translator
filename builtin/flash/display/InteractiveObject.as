@@ -1,14 +1,16 @@
 package flash.display
 {
-	import flash.accessibility.AccessibilityImplementation;
+//	import flash.accessibility.AccessibilityImplementation;
 	import flash.ui.ContextMenu;
 
 	intrinsic public class InteractiveObject extends DisplayObject
 	{
+/*
 		[native(support="none")]
 		public function get accessibilityImplementation () : AccessibilityImplementation;
 		[native(support="none")]
 		public function set accessibilityImplementation (value:AccessibilityImplementation) : void;
+*/
 
 		[native(support="none")]
 		public function get contextMenu () : ContextMenu;

@@ -4,19 +4,23 @@ package flash.display
 	import flash.geom.Rectangle;
 	import flash.display.DisplayObject;
 	import flash.geom.Transform;
+/*
 	import flash.accessibility.AccessibilityProperties;
 	import flash.accessibility.AccessibilityImplementation;
+*/
 	import flash.events.Event;
 	import flash.text.TextSnapshot;
 	import flash.ui.ContextMenu;
 
 	intrinsic public class Stage extends DisplayObjectContainer
 	{
+/*
 		[native(support="none")]
 		public function set accessibilityImplementation (value:AccessibilityImplementation) : void;
 
 		[native(support="none")]
 		public function set accessibilityProperties (value:AccessibilityProperties) : void;
+*/
 
 		[native(support="none")]
 		public function get align () : String;
