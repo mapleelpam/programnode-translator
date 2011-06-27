@@ -23,52 +23,36 @@
  \*******************************************************************/
 
 
-#ifndef __TW_MAPLE_SERVICE_PASS_CONSTRUCTOR_SYMBOL_TABLE_PH2_BINDING_VARIABLE_H__
-#define __TW_MAPLE_SERVICE_PASS_CONSTRUCTOR_SYMBOL_TABLE_PH2_BINDING_VARIABLE_H__
+#ifndef __TW_MAPLE_SERVICE_PASS_CONSTRUCTOR_SYMBOL_TABLE_PH2_BINDING_FUNCTION_H__
+#define __TW_MAPLE_SERVICE_PASS_CONSTRUCTOR_SYMBOL_TABLE_PH2_BINDING_FUNCTION_H__
 
 #include <service/pass/construct_symboltable/pass.h>
-#include <as/ast/variable_declare.h>
+#include <as/ast/func/function_definition.h>
 #include <as/symbol/scope.h>
 
 namespace tw { namespace maple { namespace cs /*I.E. Construct SymbolTable */ { namespace ph2 {
 
-struct Phase2_VariableDeclare
-	: public Pass<tw::maple::as::ast::VariableDeclarePtr, tw::maple::cs::constructor_stage::PH2_BINDING>
+struct Phase2_FunctionDefine
+	: public Pass<tw::maple::as::ast::FunctionDefinitionPtr, tw::maple::cs::constructor_stage::PH2_BINDING>
 {
 
 		static void pass(
-				tw::maple::as::ast::VariableDeclarePtr ast_var
-				, tw::maple::as::symbol::SymbolPtr var_symbol
-				, tw::maple::as::symbol::ScopePtr symboltable
+				tw::maple::as::ast::FunctionDefinitionPtr 	ast_func
+				, tw::maple::as::symbol::SymbolPtr 			func_symbol
+				, tw::maple::as::symbol::ScopePtr			symboltable
 				)
 		{
+			tw::maple::as::ast::FunctionCommonPtr fcommon  = STATIC_CAST( tw::maple::as::ast::FunctionCommon, ast_func->FunctionCommon() );
+			BOOST_ASSERT( fcommon != NULL );
+			tw::maple::as::ast::FunctionSignaturePtr fsig  = STATIC_CAST( tw::maple::as::ast::FunctionSignature, fcommon->FunctionSignature() );
 
-//            if( 0 )
-//			{
-//				std::cerr << " variable name = "<<var->VariableName<<std::endl;
-//				std::cerr << " variable type size = "<<var->VariableType.size()<<std::endl;
-//			}
+			tw::maple::as::symbol::SymbolPtr p_type = symboltable->findType( fsig->ReturnType );
 
-			tw::maple::as::symbol::ScopePtr var_type_scope = symboltable;
-
-			for( int idx = 0 ; idx < ast_var->VariableType.size() - 1 ; idx ++ )
-			{
-				tw::maple::as::symbol::SymbolPtr temp_pkg = var_type_scope->findSymbol( ast_var->VariableType[idx] );
-				if( temp_pkg && temp_pkg ->getSymbolProperties() == tw::maple::as::symbol::Symbol::T_SCOPE )
-				{
-					var_type_scope = STATIC_CAST( tw::maple::as::symbol::Scope , temp_pkg );
-				} else {
-//					std::cerr<<var->VariableName <<" can't find scope - "<< var->VariableType[idx] << " '"<< var->toString() << "'"<<std::endl;
-				}
-			}
-			tw::maple::as::symbol::SymbolPtr p_type = var_type_scope->findType( ast_var->VariableType[ast_var->VariableType.size() - 1]  );
-
-			if( p_type ) {
-				var_symbol->bindType( p_type );
-			} else {
-				std::cerr<<" variable name '"<<ast_var->VariableName <<"': can't find type - '"<< ast_var->toString() <<"'"<<"  '"<<ast_var->VariableType[ast_var->VariableType.size() - 1]<<"'"<<std::endl;
-				exit(1);
-			}
+			if( p_type == NULL)
+				std::cerr << " can't find symbol '"<<fsig->ReturnType << "'"<< std::endl;
+			BOOST_ASSERT( p_type != NULL && "can't find symbol" );
+			BOOST_ASSERT( p_type );
+			func_symbol->bindType( p_type );
 		}
 };
 

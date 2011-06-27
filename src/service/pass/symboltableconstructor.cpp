@@ -32,9 +32,10 @@
 #include <as/ast/func/function_parameter_item.h>
 #include <as/ast/func/function_attribute.h>
 #include <as/ast/func/function_name.h>
-#include <as/ast/stmt/package_definition.h>
 
+#include <as/ast/stmt/package_definition.h>
 #include <as/ast/stmt/class_definition.h>
+#include <as/ast/stmt/import_stmt.h>
 
 #include <as/ast/variable_declare.h>
 #include <as/symbol/scope.h>
@@ -42,6 +43,7 @@
 #include <as/symbol/variable.h>
 
 #include <service/pass/construct_symboltable/ph2_binding/phase2_variable_declare.h>
+#include <service/pass/construct_symboltable/ph2_binding/phase2_function_define.h>
 //#include <backend/cpp/context.h>
 
 namespace tw { namespace maple { namespace service { namespace pass {
@@ -193,7 +195,23 @@ void SymbolTableConstructor::linkVariableType(
 
 		if( (*nItr) -> nodeType()  == AST::Node::NodeType::T_IMPORT_STMT )
 		{
-//			ASY::SymbolPtr temp_pkg = var_type_scope->findSymbol( var->VariableType[idx] );
+			AST::ImportStatementPtr ast_import = std::tr1::static_pointer_cast<AST::ImportStatement>(*nItr);
+
+			{
+				tw::maple::as::symbol::ScopePtr pkg_scope = symboltable;
+//
+				for( int idx = 0 ; idx < ast_import->package_names.size() - 1 ; idx ++ )
+				{
+					tw::maple::as::symbol::SymbolPtr temp_pkg = pkg_scope->findSymbol( ast_import->package_names[idx] );
+					if( temp_pkg && temp_pkg ->getSymbolProperties() == tw::maple::as::symbol::Symbol::T_SCOPE )
+					{
+						pkg_scope = STATIC_CAST( tw::maple::as::symbol::Scope , temp_pkg );
+					} else {
+	//					std::cerr<<var->VariableName <<" can't find scope - "<< var->VariableType[idx] << " '"<< var->toString() << "'"<<std::endl;
+					}
+				}
+//				tw::maple::as::symbol::SymbolPtr p_type = var_type_scope->findType( ast_var->VariableType[ast_var->VariableType.size() - 1]  );
+			}
 
 			continue;
 		}
@@ -201,9 +219,10 @@ void SymbolTableConstructor::linkVariableType(
 		if(  symbol &&
 			(symbol->getSymbolProperties() & ASY::Symbol::T_VARIABLE) )
 		{
-			AST::VariableDeclarePtr ast_var = std::tr1::static_pointer_cast<AST::VariableDeclare>(*nItr);
 
+			AST::VariableDeclarePtr ast_var = std::tr1::static_pointer_cast<AST::VariableDeclare>(*nItr);
 			tw::maple::cs::ph2::Phase2_VariableDeclare::pass( ast_var, symbol, symboltable );
+
 		} else if(  symbol &&
 			(symbol->getSymbolProperties() & ASY::Symbol::T_SCOPE) )
 		{
@@ -211,18 +230,8 @@ void SymbolTableConstructor::linkVariableType(
 			switch( p_scope->getScopeType() ) {
 			case ASY::Scope::T_FUNCTION:
 			{
-				AST::FunctionDefinitionPtr fdef = STATIC_CAST( AST::FunctionDefinition, *nItr);
-				AST::FunctionCommonPtr fcommon  = STATIC_CAST( AST::FunctionCommon, fdef->FunctionCommon() );
-				BOOST_ASSERT( fcommon != NULL );
-				AST::FunctionSignaturePtr fsig  = STATIC_CAST( AST::FunctionSignature, fcommon->FunctionSignature() );
-
-				ASY::SymbolPtr p_type = symboltable->findType( fsig->ReturnType );
-
-				if( p_type == NULL)
-					std::cerr << " can't find symbol '"<<fsig->ReturnType << "'"<< std::endl;
-				BOOST_ASSERT( p_type != NULL && "can't find symbol" );
-				BOOST_ASSERT( p_type );
-				symbol->bindType( p_type );
+				AST::FunctionDefinitionPtr ast_func = STATIC_CAST( AST::FunctionDefinition, *nItr);
+				tw::maple::cs::ph2::Phase2_FunctionDefine::pass( ast_func, symbol, symboltable );
 			}
 				local_context->enterScope();
 					linkVariableType( *nItr, p_scope, local_context );
