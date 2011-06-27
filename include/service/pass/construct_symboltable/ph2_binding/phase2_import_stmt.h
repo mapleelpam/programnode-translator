@@ -30,10 +30,10 @@
 #include <as/ast/variable_declare.h>
 #include <as/symbol/scope.h>
 
-namespace tw { namespace maple { namespace cs /*I.E. Construct SymbolTable */ { namespace ph2 {
+namespace tw { namespace maple { namespace service { namespace pass {  namespace cs /*I.E. Construct SymbolTable */ { namespace ph2 {
 
 struct Phase2_ImportStatement
-	: public Pass<tw::maple::as::ast::ImportStatementPtr, tw::maple::cs::constructor_stage::PH2_BINDING>
+	: public Pass<tw::maple::as::ast::ImportStatementPtr, tw::maple::service::pass::cs::constructor_stage::PH2_BINDING>
 {
 
 		static void pass(
@@ -60,10 +60,16 @@ struct Phase2_ImportStatement
 					}
 				}
 				tw::maple::as::symbol::SymbolPtr p_type = pkg_scope->findType( ast_import->package_names[ast_import->package_names.size() - 1]  );
+				if( p_type == NULL )
+				{
+					std::cerr << "import can't find type - '"<< ast_import->package_names[ast_import->package_names.size() - 1] <<"'"<<std::endl;
+//					exit(1);
+
+				}
 			}
 		}
 };
 
-} } } }
+} } } } } }
 
 #endif 

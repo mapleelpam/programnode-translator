@@ -34,16 +34,39 @@
 //#define DEBUG_INTERPRET_LEAVE {std::cout << typeid(*this).name() << "::"<<__FUNCTION__<< " leave function" <<std::endl;	}
 
 
-namespace tw { namespace maple { namespace cs /*I.E. Construct SymbolTable */ {
+namespace tw { namespace maple { namespace service { namespace pass {  namespace cs /*I.E. Construct SymbolTable */ {
+
 
 struct constructor_stage { enum type { PH1_SYMBOL, PH2_BINDING, PH3_ANALYZE }; };
 
 template< typename N, int Stage>
 struct Pass
 {
-
+	//Abstract
 };
 
-} } }
+
+struct Phase2Context
+{
+	typedef std::vector<tw::maple::as::symbol::ScopePtr> T_ImportList;
+	typedef SHARED_PTR( T_ImportList ) P_ImportList;
+	std::stack<P_ImportList>	m_stack;
+
+	void enterScope()
+	{
+		m_stack . push( P_ImportList( new T_ImportList() ) );
+	}
+
+	void leaveScope()
+	{
+		m_stack . pop();
+	}
+};
+
+typedef SHARED_PTR( Phase2Context )	Phase2ContextPtr;
+
+
+
+} } } } }
 
 #endif 

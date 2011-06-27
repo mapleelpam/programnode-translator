@@ -30,10 +30,10 @@
 #include <as/ast/variable_declare.h>
 #include <as/symbol/scope.h>
 
-namespace tw { namespace maple { namespace cs /*I.E. Construct SymbolTable */ { namespace ph2 {
+namespace tw { namespace maple { namespace service { namespace pass {  namespace cs /*I.E. Construct SymbolTable */ { namespace ph2 {
 
 struct Phase2_VariableDeclare
-	: public Pass<tw::maple::as::ast::VariableDeclarePtr, tw::maple::cs::constructor_stage::PH2_BINDING>
+	: public Pass<tw::maple::as::ast::VariableDeclarePtr, tw::maple::service::pass::cs::constructor_stage::PH2_BINDING>
 {
 
 		static void pass(
@@ -72,6 +72,6 @@ struct Phase2_VariableDeclare
 		}
 };
 
-} } } }
+} } } } } }
 
 #endif 
