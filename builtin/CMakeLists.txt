@@ -7,6 +7,8 @@ make_directory( ${CMAKE_CURRENT_BINARY_DIR}/toplevel/ )
 make_directory( ${CMAKE_CURRENT_BINARY_DIR}/flash/ )
 make_directory( ${CMAKE_CURRENT_BINARY_DIR}/flash/geom/ )
 make_directory( ${CMAKE_CURRENT_BINARY_DIR}/flash/display/ )
+make_directory( ${CMAKE_CURRENT_BINARY_DIR}/flash/filters/ )
+make_directory( ${CMAKE_CURRENT_BINARY_DIR}/flash/utils/ )
 
 #SET( BUILTIN_AS )
 #LIST( APPEND BUILTIN_AS 
