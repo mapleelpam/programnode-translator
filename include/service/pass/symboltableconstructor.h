@@ -57,13 +57,13 @@ private:
 
 public:
 	static void exec(
-			tw::maple::as::ast::ProgramList& pnode_list /* input program node */
-			, tw::maple::as::symbol::ScopePtr root
-			)
+		tw::maple::as::ast::ProgramList& pnode_list /* input program node */
+		, tw::maple::as::symbol::ScopePtr root
+		)
 	{
 		namespace AST = tw::maple::as::ast;
 
-		P_LocalContext local_context;
+		P_LocalContext local_context( new Context() );
 
 		for (std::vector< AST::ProgramPtr>::iterator nodeItr = pnode_list.begin(), E = pnode_list.end()
 			; nodeItr != E; nodeItr++)

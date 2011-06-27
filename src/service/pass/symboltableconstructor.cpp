@@ -40,6 +40,8 @@
 #include <as/symbol/scope.h>
 #include <as/symbol/function.h>
 #include <as/symbol/variable.h>
+
+#include <service/pass/construct_symboltable/ph2_binding/phase2_variable_declare.h>
 //#include <backend/cpp/context.h>
 
 namespace tw { namespace maple { namespace service { namespace pass {
@@ -180,6 +182,8 @@ void SymbolTableConstructor::linkVariableType(
 	namespace CPP = tw::maple::backend::cpp::interpret;
 	namespace ASY = tw::maple::as::symbol;
 
+//	using tw::maple::cs::ph2;
+
 	if( node == NULL || node->node_childs.size() == 0 )
 		return;
 	for (std::vector< AST::NodePtr >::iterator nItr =
@@ -189,39 +193,17 @@ void SymbolTableConstructor::linkVariableType(
 
 		if( (*nItr) -> nodeType()  == AST::Node::NodeType::T_IMPORT_STMT )
 		{
+//			ASY::SymbolPtr temp_pkg = var_type_scope->findSymbol( var->VariableType[idx] );
+
 			continue;
 		}
 
 		if(  symbol &&
 			(symbol->getSymbolProperties() & ASY::Symbol::T_VARIABLE) )
 		{
-			AST::VariableDeclarePtr var = std::tr1::static_pointer_cast<AST::VariableDeclare>(*nItr);
+			AST::VariableDeclarePtr ast_var = std::tr1::static_pointer_cast<AST::VariableDeclare>(*nItr);
 
-            if( 0 )
-			{
-				std::cerr << " variable name = "<<var->VariableName<<std::endl;
-				std::cerr << " variable type size = "<<var->VariableType.size()<<std::endl;
-			}
-
-			ASY::ScopePtr var_type_scope = symboltable;
-			for( int idx = 0 ; idx < var->VariableType.size() - 1 ; idx ++ )
-			{
-				ASY::SymbolPtr temp_pkg = var_type_scope->findSymbol( var->VariableType[idx] );
-				if( temp_pkg && temp_pkg ->getSymbolProperties() == ASY::Symbol::T_SCOPE )
-				{
-					var_type_scope = STATIC_CAST( ASY::Scope , temp_pkg );
-				} else {
-//					std::cerr<<var->VariableName <<" can't find scope - "<< var->VariableType[idx] << " '"<< var->toString() << "'"<<std::endl;
-				}
-			}
-			ASY::SymbolPtr p_type = var_type_scope->findType( var->VariableType[var->VariableType.size() - 1]  );
-
-			if( p_type ) {
-				symbol->bindType( p_type );
-			} else {
-				std::cerr<<" variable name '"<<var->VariableName <<"': can't find type - '"<< var->toString() <<"'"<<"  '"<<var->VariableType[var->VariableType.size() - 1]<<"'"<<std::endl;
-				exit(1);
-			}
+			tw::maple::cs::ph2::Phase2_VariableDeclare::pass( ast_var, symbol, symboltable );
 		} else if(  symbol &&
 			(symbol->getSymbolProperties() & ASY::Symbol::T_SCOPE) )
 		{
@@ -242,18 +224,25 @@ void SymbolTableConstructor::linkVariableType(
 				BOOST_ASSERT( p_type );
 				symbol->bindType( p_type );
 			}
-				linkVariableType( *nItr, p_scope, local_context );
+				local_context->enterScope();
+					linkVariableType( *nItr, p_scope, local_context );
+				local_context->leaveScope();
 				break;
 			case ASY::Scope::T_CLASS:
 			{
 				AST::ClassDefinitionPtr ast_class = STATIC_CAST( AST::ClassDefinition, *nItr);
 				p_scope -> setIsIntrinsic( ast_class->isIntrinsic() ||  ast_class->isNativeClass() );
 //				std::cerr << " in class name " << p_scope->name() << " is "<<(ast_class->isIntrinsic() ||  ast_class->isNativeClass())<<std::endl;
-				linkVariableType( *nItr, p_scope, local_context );
+
 			}
+				local_context->enterScope();
+					linkVariableType( *nItr, p_scope, local_context );
+				local_context->leaveScope();
 				break;
 			default:
-				linkVariableType( *nItr, p_scope, local_context );
+				local_context->enterScope();
+					linkVariableType( *nItr, p_scope, local_context );
+				local_context->leaveScope();
 				break;
 			}
 		} else
