@@ -44,10 +44,12 @@
 
 namespace tw { namespace maple { namespace service { namespace pass {
 
+
 void SymbolTableConstructor:: constructSymbols(
 		tw::maple::as::ast::NodePtr node /* input program node */
 		, tw::maple::as::symbol::ScopePtr symboltable
 		, std::string classname
+		, P_LocalContext local_context
 		)
 {
 	namespace AST = tw::maple::as::ast;
@@ -101,10 +103,10 @@ void SymbolTableConstructor:: constructSymbols(
 
 				AST::FunctionSignaturePtr fsig  = STATIC_CAST( AST::FunctionSignature, fcommon->FunctionSignature() );
 
-//				ASYM::SymbolPtr p_type = symboltable->findType( fsig->FunctionReturnType );
+//				ASY::SymbolPtr p_type = symboltable->findType( fsig->FunctionReturnType );
 				if(	fsig->FunctionParameter() )
-					constructSymbols( fsig->FunctionParameter(), scope_func, classname );
-				constructSymbols( fcommon->FunctionBody(), scope_func, classname );
+					constructSymbols( fsig->FunctionParameter(), scope_func, classname, local_context );
+				constructSymbols( fcommon->FunctionBody(), scope_func, classname, local_context );
 			} 	break;
 			case AST::Node::NodeType::T_FUNCTION_SIGNATURE:
 			{
@@ -119,7 +121,7 @@ void SymbolTableConstructor:: constructSymbols(
 				scope_class -> setMappedName( _class_define_->getMappedClassName() );
 				_class_define_ -> setSymbol( scope_class );
 				_class_define_ -> setClassSymbol( scope_class );
-				constructSymbols( _class_define_, scope_class, _class_define_->getClassName() );
+				constructSymbols( _class_define_, scope_class, _class_define_->getClassName(), local_context );
 
 			}	break;
 			case AST::Node::NodeType::T_FUNCTION_PARAMETER_ITEM:
@@ -147,7 +149,7 @@ void SymbolTableConstructor:: constructSymbols(
 			{
 				ASY::ScopePtr scope_stmt( symboltable->registerAnonymousScope( ) );
 				(*nItr) -> setSymbol( scope_stmt );
-				constructSymbols( *nItr, scope_stmt, classname );
+				constructSymbols( *nItr, scope_stmt, classname, local_context );
 
 				if( scope_stmt->isDeletable() )
 					symboltable->removeChild( scope_stmt );
@@ -156,10 +158,13 @@ void SymbolTableConstructor:: constructSymbols(
 			{
 				AST::PackageDefinitionPtr pkg = std::tr1::static_pointer_cast<AST::PackageDefinition>(*nItr);
 				ASY::ScopePtr scope_pkg( symboltable->registerPackage( pkg->package_names ) );
-				constructSymbols( *nItr, scope_pkg, classname);
+				constructSymbols( *nItr, scope_pkg, classname, local_context);
 			}	break;
+
+			case AST::Node::NodeType::T_IMPORT_STMT:
+				break;
 			default:
-				constructSymbols( *nItr, symboltable, classname);
+				constructSymbols( *nItr, symboltable, classname, local_context);
 				break;
 		}
 	}
@@ -168,22 +173,27 @@ void SymbolTableConstructor:: constructSymbols(
 void SymbolTableConstructor::linkVariableType(
 		tw::maple::as::ast::NodePtr node /* input program node */
 		, tw::maple::as::symbol::ScopePtr symboltable
+		, P_LocalContext local_context
 		)
 {
 	namespace AST = tw::maple::as::ast;
 	namespace CPP = tw::maple::backend::cpp::interpret;
-	namespace ASYM = tw::maple::as::symbol;
+	namespace ASY = tw::maple::as::symbol;
 
 	if( node == NULL || node->node_childs.size() == 0 )
 		return;
 	for (std::vector< AST::NodePtr >::iterator nItr =
-			node->node_childs.begin(); nItr != node->node_childs.end(); nItr++) {
+			node->node_childs.begin(); nItr != node->node_childs.end(); nItr++)
+	{
+		ASY::SymbolPtr symbol = (*nItr)->getSymbol();
 
-
-		ASYM::SymbolPtr symbol = (*nItr)->getSymbol();
+		if( (*nItr) -> nodeType()  == AST::Node::NodeType::T_IMPORT_STMT )
+		{
+			continue;
+		}
 
 		if(  symbol &&
-			(symbol->getSymbolProperties() & ASYM::Symbol::T_VARIABLE) )
+			(symbol->getSymbolProperties() & ASY::Symbol::T_VARIABLE) )
 		{
 			AST::VariableDeclarePtr var = std::tr1::static_pointer_cast<AST::VariableDeclare>(*nItr);
 
@@ -193,18 +203,18 @@ void SymbolTableConstructor::linkVariableType(
 				std::cerr << " variable type size = "<<var->VariableType.size()<<std::endl;
 			}
 
-			ASYM::ScopePtr var_type_scope = symboltable;
+			ASY::ScopePtr var_type_scope = symboltable;
 			for( int idx = 0 ; idx < var->VariableType.size() - 1 ; idx ++ )
 			{
-				ASYM::SymbolPtr temp_pkg = var_type_scope->findSymbol( var->VariableType[idx] );
-				if( temp_pkg && temp_pkg ->getSymbolProperties() == ASYM::Symbol::T_SCOPE )
+				ASY::SymbolPtr temp_pkg = var_type_scope->findSymbol( var->VariableType[idx] );
+				if( temp_pkg && temp_pkg ->getSymbolProperties() == ASY::Symbol::T_SCOPE )
 				{
-					var_type_scope = STATIC_CAST( ASYM::Scope , temp_pkg );
+					var_type_scope = STATIC_CAST( ASY::Scope , temp_pkg );
 				} else {
 //					std::cerr<<var->VariableName <<" can't find scope - "<< var->VariableType[idx] << " '"<< var->toString() << "'"<<std::endl;
 				}
 			}
-			ASYM::SymbolPtr p_type = var_type_scope->findType( var->VariableType[var->VariableType.size() - 1]  );
+			ASY::SymbolPtr p_type = var_type_scope->findType( var->VariableType[var->VariableType.size() - 1]  );
 
 			if( p_type ) {
 				symbol->bindType( p_type );
@@ -213,18 +223,18 @@ void SymbolTableConstructor::linkVariableType(
 				exit(1);
 			}
 		} else if(  symbol &&
-			(symbol->getSymbolProperties() & ASYM::Symbol::T_SCOPE) )
+			(symbol->getSymbolProperties() & ASY::Symbol::T_SCOPE) )
 		{
-			ASYM::ScopePtr p_scope = STATIC_CAST( ASYM::Scope, symbol );
+			ASY::ScopePtr p_scope = STATIC_CAST( ASY::Scope, symbol );
 			switch( p_scope->getScopeType() ) {
-			case ASYM::Scope::T_FUNCTION:
+			case ASY::Scope::T_FUNCTION:
 			{
 				AST::FunctionDefinitionPtr fdef = STATIC_CAST( AST::FunctionDefinition, *nItr);
 				AST::FunctionCommonPtr fcommon  = STATIC_CAST( AST::FunctionCommon, fdef->FunctionCommon() );
 				BOOST_ASSERT( fcommon != NULL );
 				AST::FunctionSignaturePtr fsig  = STATIC_CAST( AST::FunctionSignature, fcommon->FunctionSignature() );
 
-				ASYM::SymbolPtr p_type = symboltable->findType( fsig->ReturnType );
+				ASY::SymbolPtr p_type = symboltable->findType( fsig->ReturnType );
 
 				if( p_type == NULL)
 					std::cerr << " can't find symbol '"<<fsig->ReturnType << "'"<< std::endl;
@@ -232,22 +242,22 @@ void SymbolTableConstructor::linkVariableType(
 				BOOST_ASSERT( p_type );
 				symbol->bindType( p_type );
 			}
-				linkVariableType( *nItr, p_scope);
+				linkVariableType( *nItr, p_scope, local_context );
 				break;
-			case ASYM::Scope::T_CLASS:
+			case ASY::Scope::T_CLASS:
 			{
 				AST::ClassDefinitionPtr ast_class = STATIC_CAST( AST::ClassDefinition, *nItr);
 				p_scope -> setIsIntrinsic( ast_class->isIntrinsic() ||  ast_class->isNativeClass() );
 //				std::cerr << " in class name " << p_scope->name() << " is "<<(ast_class->isIntrinsic() ||  ast_class->isNativeClass())<<std::endl;
-				linkVariableType( *nItr, p_scope);
+				linkVariableType( *nItr, p_scope, local_context );
 			}
 				break;
 			default:
-				linkVariableType( *nItr, p_scope);
+				linkVariableType( *nItr, p_scope, local_context );
 				break;
 			}
 		} else
-			linkVariableType( *nItr, symboltable);
+			linkVariableType( *nItr, symboltable, local_context );
 	}
 }
 
@@ -256,11 +266,12 @@ void SymbolTableConstructor::linkVariableType(
 void SymbolTableConstructor::symbolTableAnalyze(
 		tw::maple::as::ast::NodePtr node /* input program node */
 		, tw::maple::as::symbol::ScopePtr symboltable
+		, P_LocalContext local_context
 		)
 {
 	namespace AST = tw::maple::as::ast;
 	namespace CPP = tw::maple::backend::cpp::interpret;
-	namespace ASYM = tw::maple::as::symbol;
+	namespace ASY = tw::maple::as::symbol;
 
 	if( node == NULL || node->node_childs.size() == 0 )
 		return;
@@ -268,23 +279,23 @@ void SymbolTableConstructor::symbolTableAnalyze(
 			node->node_childs.begin(), E = node->node_childs.end();
 			nItr != E; nItr++)
 	{
-		ASYM::SymbolPtr symbol = (*nItr)->getSymbol();
+		ASY::SymbolPtr symbol = (*nItr)->getSymbol();
 
-		if (symbol && (symbol->getSymbolProperties() & ASYM::Symbol::T_SCOPE)) {
-			ASYM::ScopePtr p_scope = STATIC_CAST( ASYM::Scope, symbol );
+		if (symbol && (symbol->getSymbolProperties() & ASY::Symbol::T_SCOPE)) {
+			ASY::ScopePtr p_scope = STATIC_CAST( ASY::Scope, symbol );
 			switch (p_scope->getScopeType()) {
-			case ASYM::Scope::T_FUNCTION: {
-				ASYM::FunctionPtr p_func = STATIC_CAST( ASYM::Function, symbol );
+			case ASY::Scope::T_FUNCTION: {
+				ASY::FunctionPtr p_func = STATIC_CAST( ASY::Function, symbol );
 				if(p_func->isConstructor())
 					p_func->getParent()->setNoConstrtuctor(false);
 			}
 			break;
 			default:
-				symbolTableAnalyze(*nItr, p_scope);
+				symbolTableAnalyze(*nItr, p_scope, local_context );
 				break;
 			}
 		} else
-			symbolTableAnalyze(*nItr, symboltable);
+			symbolTableAnalyze(*nItr, symboltable, local_context );
 	}
 }
 } } } }//pass.service.maple.tw

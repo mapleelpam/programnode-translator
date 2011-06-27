@@ -34,6 +34,28 @@
 namespace tw { namespace maple { namespace service { namespace pass {
 
 struct SymbolTableConstructor {
+	// Context
+private:
+	struct Context
+	{
+		typedef std::vector<tw::maple::as::symbol::ScopePtr> T_ImportList;
+		typedef SHARED_PTR( T_ImportList ) P_ImportList;
+		std::stack<P_ImportList>	m_stack;
+
+		void enterScope()
+		{
+			m_stack . push( P_ImportList( new T_ImportList() ) );
+		}
+
+		void leaveScope()
+		{
+			m_stack . pop();
+		}
+	};
+
+	typedef SHARED_PTR( Context )	P_LocalContext;
+
+public:
 	static void exec(
 			tw::maple::as::ast::ProgramList& pnode_list /* input program node */
 			, tw::maple::as::symbol::ScopePtr root
@@ -41,17 +63,19 @@ struct SymbolTableConstructor {
 	{
 		namespace AST = tw::maple::as::ast;
 
-		for (std::vector< AST::ProgramPtr>::iterator nodeItr = pnode_list.begin()
-			; nodeItr != pnode_list.end(); nodeItr++)
-			constructSymbols( *nodeItr, root, "");
+		P_LocalContext local_context;
 
-		for (std::vector< AST::ProgramPtr>::iterator nodeItr = pnode_list.begin()
-			; nodeItr != pnode_list.end(); nodeItr++)
-			linkVariableType( *nodeItr, root);
+		for (std::vector< AST::ProgramPtr>::iterator nodeItr = pnode_list.begin(), E = pnode_list.end()
+			; nodeItr != E; nodeItr++)
+			constructSymbols( *nodeItr, root, "", local_context);
 
-		for (std::vector< AST::ProgramPtr>::iterator nodeItr = pnode_list.begin()
-			; nodeItr != pnode_list.end(); nodeItr++)
-			symbolTableAnalyze( *nodeItr, root);
+		for (std::vector< AST::ProgramPtr>::iterator nodeItr = pnode_list.begin(), E = pnode_list.end()
+			; nodeItr != E; nodeItr++)
+			linkVariableType( *nodeItr, root, local_context);
+
+		for (std::vector< AST::ProgramPtr>::iterator nodeItr = pnode_list.begin(), E = pnode_list.end()
+			; nodeItr != E; nodeItr++)
+			symbolTableAnalyze( *nodeItr, root, local_context);
 	}
 
 private:
@@ -59,15 +83,20 @@ private:
 			tw::maple::as::ast::NodePtr node /* input program node */
 			, tw::maple::as::symbol::ScopePtr symboltable
 			, std::string className
+			, P_LocalContext local_context
 			);
 	static void linkVariableType(
 			tw::maple::as::ast::NodePtr node /* input program node */
 			, tw::maple::as::symbol::ScopePtr symboltable
+			, P_LocalContext local_context
 			);
 	static void symbolTableAnalyze(
 			tw::maple::as::ast::NodePtr node /* input program node */
 			, tw::maple::as::symbol::ScopePtr symboltable
+			, P_LocalContext local_context
 			);
+
+
 };
 
 } } } }//pass.service.maple.tw
