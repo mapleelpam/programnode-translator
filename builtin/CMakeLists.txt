@@ -47,3 +47,8 @@ ADD_CUSTOM_TARGET(
     builtin
     DEPENDS ${LIBRARY_OUTPUT_PATH}/builtin.pn
     )
+
+add_custom_target( runtest-check-builtin
+    DEPENDS ${PNC} ${BUILTIN_PNs}
+    COMMAND ${PNC} ${BUILTIN_PNs} -o ${CMAKE_CURRENT_BINARY_DIR}/builtin.sym --symbol
+    )
