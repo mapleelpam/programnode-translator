@@ -195,7 +195,7 @@ void SymbolTableConstructor::linkVariableType(
 		if( (*nItr) -> nodeType()  == AST::Node::NodeType::T_IMPORT_STMT )
 		{
 			AST::ImportStatementPtr ast_import = std::tr1::static_pointer_cast<AST::ImportStatement>(*nItr);
-			tw::maple::service::pass::cs::ph2::Phase2_ImportStatement::pass( ast_import, symboltable );
+			tw::maple::service::pass::cs::ph2::Phase2_ImportStatement::pass( ast_import, symboltable, local_context );
 			continue;
 		}
 
@@ -204,7 +204,7 @@ void SymbolTableConstructor::linkVariableType(
 		{
 
 			AST::VariableDeclarePtr ast_var = std::tr1::static_pointer_cast<AST::VariableDeclare>(*nItr);
-			tw::maple::service::pass::cs::ph2::Phase2_VariableDeclare::pass( ast_var, symbol, symboltable );
+			tw::maple::service::pass::cs::ph2::Phase2_VariableDeclare::pass( ast_var, symbol, symboltable, local_context );
 
 		} else if(  symbol &&
 			(symbol->getSymbolProperties() & ASY::Symbol::T_SCOPE) )
@@ -212,15 +212,15 @@ void SymbolTableConstructor::linkVariableType(
 			ASY::ScopePtr p_scope = STATIC_CAST( ASY::Scope, symbol );
 			switch( p_scope->getScopeType() ) {
 			case ASY::Scope::T_FUNCTION:
-//				std::cerr << " in function name " << p_scope->name() << std::endl;
+				std::cerr << " in function name " << p_scope->name() << std::endl;
 			{
 				AST::FunctionDefinitionPtr ast_func = STATIC_CAST( AST::FunctionDefinition, *nItr);
-				tw::maple::service::pass::cs::ph2::Phase2_FunctionDefine::pass( ast_func, symbol, symboltable );
+				tw::maple::service::pass::cs::ph2::Phase2_FunctionDefine::pass( ast_func, symbol, symboltable, local_context );
 			}
 				local_context->enterScope();
 					linkVariableType( *nItr, p_scope, local_context );
 				local_context->leaveScope();
-//				std::cerr << " exit function name " << p_scope->name() << std::endl;
+				std::cerr << " exit function name " << p_scope->name() << std::endl;
 				break;
 			case ASY::Scope::T_CLASS:
 			{

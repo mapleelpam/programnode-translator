@@ -36,7 +36,7 @@ package flash.display
 
 		public function dispose () : void;
 
-		public function draw (source:IBitmapDrawable, matrix:Matrix = null, colorTransform:ColorTransform = null, blendMode:String = null, clipRect:Rectangle = null, smoothing:Boolean = false) : void;
+//		public function draw (source:IBitmapDrawable, matrix:Matrix = null, colorTransform:ColorTransform = null, blendMode:String = null, clipRect:Rectangle = null, smoothing:Boolean = false) : void;
 
 		public function fillRect (rect:Rectangle, color:uint) : void;
 
@@ -54,10 +54,12 @@ package flash.display
 		[native(support="api")]
 		public function getPixels (rect:Rectangle) : ByteArray;
 
+/*
 		public function getVector (rect:Rectangle) : Vector.<uint>;
 
 		[native(support="api")]
 		public function histogram (hRect:Rectangle = null) : Vector.<Vector.<Number>>;
+*/
 
 		public function hitTest (firstPoint:Point, firstAlphaThreshold:uint, secondObject:Object, secondBitmapDataPoint:Point = null, secondAlphaThreshold:uint = 1) : Boolean;
 
@@ -87,7 +89,7 @@ package flash.display
 		[native(support="api")]
 		public function setPixels (rect:Rectangle, inputByteArray:ByteArray) : void;
 
-		public function setVector (rect:Rectangle, inputVector:Vector.<uint>) : void;
+//		public function setVector (rect:Rectangle, inputVector:Vector.<uint>) : void;
 
 		public function threshold (sourceBitmapData:BitmapData, sourceRect:Rectangle, destPoint:Point, operation:String, threshold:uint, color:uint = 0, mask:uint = 4294967295, copySource:Boolean = false) : uint;
 

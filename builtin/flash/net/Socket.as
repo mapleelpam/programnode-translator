@@ -1,8 +1,8 @@
 package flash.net
 {
 	import flash.events.EventDispatcher;
-	import private.IDataInput;
-	import private.IDataOutput;
+//	import private.IDataInput;
+//	import private.IDataOutput;
 	import flash.utils.Timer;
 	import flash.events.SecurityErrorEvent;
 	import flash.events.TimerEvent;
@@ -43,7 +43,7 @@ package flash.net
 
 		public function readMultiByte (length:uint, charSet:String) : String;
 
-		public function readObject () : *;
+//		public function readObject () : *;
 
 		public function readShort () : int;
 
@@ -73,7 +73,7 @@ package flash.net
 
 		public function writeMultiByte (value:String, charSet:String) : void;
 
-		public function writeObject (object:*) : void;
+//		public function writeObject (object:*) : void;
 
 		public function writeShort (value:int) : void;
 

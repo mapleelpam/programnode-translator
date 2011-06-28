@@ -40,6 +40,7 @@ struct Phase2_FunctionDefine
 				tw::maple::as::ast::FunctionDefinitionPtr 	ast_func
 				, tw::maple::as::symbol::SymbolPtr 			func_symbol
 				, tw::maple::as::symbol::ScopePtr			symboltable
+				, Phase2ContextPtr context
 				)
 		{
 			tw::maple::as::ast::FunctionCommonPtr fcommon  = STATIC_CAST( tw::maple::as::ast::FunctionCommon, ast_func->FunctionCommon() );
@@ -49,7 +50,11 @@ struct Phase2_FunctionDefine
 			tw::maple::as::symbol::SymbolPtr p_type = symboltable->findType( fsig->ReturnType );
 
 			if( p_type == NULL)
+			{
 				std::cerr << " can't find symbol '"<<fsig->ReturnType << "'"<< std::endl;
+
+				p_type = context->find_symbol( fsig->ReturnType );
+			}
 			BOOST_ASSERT( p_type != NULL && "can't find symbol" );
 			BOOST_ASSERT( p_type );
 			func_symbol->bindType( p_type );

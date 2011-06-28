@@ -27,6 +27,7 @@
 #define __TW_MAPLE_SERVICE_PASS_CONSTRUCTOR_SYMBOL_TABLE_PH2_BINDING_IMPORT_H__
 
 #include <service/pass/construct_symboltable/pass.h>
+#include <service/pass/construct_symboltable/ph2_binding/context.h>
 #include <as/ast/variable_declare.h>
 #include <as/symbol/scope.h>
 
@@ -38,13 +39,13 @@ struct Phase2_ImportStatement
 
 		static void pass(
 				tw::maple::as::ast::ImportStatementPtr ast_import
-//				, tw::maple::as::symbol::SymbolPtr var_symbol
 				, tw::maple::as::symbol::ScopePtr symboltable
+				, Phase2ContextPtr context
 				)
 		{
 			{
 				tw::maple::as::symbol::ScopePtr pkg_scope = symboltable;
-//
+
 				if( ast_import->package_names[0] == "__AS3__")
 					return;
 
@@ -65,6 +66,14 @@ struct Phase2_ImportStatement
 					std::cerr << "import can't find type - '"<< ast_import->package_names[ast_import->package_names.size() - 1] <<"'"<<std::endl;
 //					exit(1);
 
+				}
+				else
+				{
+					tw::maple::as::symbol::ScopePtr p_class_scope  = STATIC_CAST( tw::maple::as::symbol::Scope, p_type  );
+					if( p_class_scope == NULL )
+						std::cerr << "import can't find type - '"<< ast_import->package_names[ast_import->package_names.size() - 1] <<"'"<<std::endl;
+
+					context -> add_import( p_class_scope );
 				}
 			}
 		}

@@ -4,7 +4,7 @@ package flash.display
 	import flash.geom.Rectangle;
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
-	import flash.media.SoundTransform;
+//	import flash.media.SoundTransform;
 
 	intrinsic public class Sprite extends DisplayObjectContainer
 	{
@@ -24,10 +24,12 @@ package flash.display
 		[native(support="none")]
 		public function set hitArea (value:Sprite) : void;
 
+/*
 		[native(support="none")]
 		public function get soundTransform () : SoundTransform;
 		[native(support="none")]
 		public function set soundTransform (sndTransform:SoundTransform) : void;
+*/
 
 		[native(support="none")]
 		public function get useHandCursor () : Boolean;

@@ -12,7 +12,7 @@ package flash.net
 
 		public var bytesTotal : uint;
 
-		public var data : *;
+//		public var data : *;
 
 		public var dataFormat : String;
 

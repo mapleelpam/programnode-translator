@@ -18,8 +18,10 @@ package flash.display
 		[native(support="none")]
 		public function set tabChildren (enable:Boolean) : void;
 
+/*
 		[native(support="none")]
 		public function get textSnapshot () : TextSnapshot;
+*/
 
 		public function addChild (child:DisplayObject) : DisplayObject;
 

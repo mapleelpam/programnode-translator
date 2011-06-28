@@ -10,6 +10,10 @@ make_directory( ${CMAKE_CURRENT_BINARY_DIR}/flash/display/ )
 make_directory( ${CMAKE_CURRENT_BINARY_DIR}/flash/filters/ )
 make_directory( ${CMAKE_CURRENT_BINARY_DIR}/flash/utils/ )
 make_directory( ${CMAKE_CURRENT_BINARY_DIR}/flash/events/ )
+make_directory( ${CMAKE_CURRENT_BINARY_DIR}/flash/text/ )
+make_directory( ${CMAKE_CURRENT_BINARY_DIR}/flash/net/ )
+make_directory( ${CMAKE_CURRENT_BINARY_DIR}/flash/system/ )
+make_directory( ${CMAKE_CURRENT_BINARY_DIR}/flash/ui/ )
 
 #SET( BUILTIN_AS )
 #LIST( APPEND BUILTIN_AS 

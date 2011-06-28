@@ -37,19 +37,58 @@ namespace tw { namespace maple { namespace service { namespace pass {  namespace
 
 struct Phase2Context
 {
-	typedef std::vector<tw::maple::as::symbol::ScopePtr> T_ImportList;
-	typedef SHARED_PTR( T_ImportList ) P_ImportList;
-	std::stack<P_ImportList>	m_stack;
+	Phase2Context()
+	{
+		enterScope(); // dummy enter
+	}
+	~Phase2Context()
+	{
+		leaveScope(); // dummy enter
+	}
 
 	void enterScope()
 	{
-		m_stack . push( P_ImportList( new T_ImportList() ) );
+		m_stack . push_back( P_ImportList( new T_ImportList() ) );
 	}
 
 	void leaveScope()
 	{
-		m_stack . pop();
+		m_stack . pop_back();
 	}
+
+	void add_import( tw::maple::as::symbol::ScopePtr p_class )
+	{
+		(m_stack . back()) -> push_back( p_class );
+	}
+
+	tw::maple::as::symbol::ScopePtr find_scope( std::string name )
+	{
+		for( std::vector<P_ImportList>::iterator scope_itr = m_stack.begin() , E = m_stack.end()
+				; scope_itr != E ; scope_itr ++ )
+		{
+			P_ImportList p_import_list = *(scope_itr);
+
+			for( T_ImportList::iterator import_itr = p_import_list -> begin(), E = p_import_list -> end()
+				; import_itr != E ; import_itr ++ )
+			{
+				if( (*import_itr)->name() == name )
+					return (*import_itr);
+			}
+		}
+
+		return tw::maple::as::symbol::ScopePtr();
+	}
+
+	tw::maple::as::symbol::SymbolPtr find_symbol( std::string name )
+	{
+		tw::maple::as::symbol::ScopePtr p_scope = find_scope( name );
+		return STATIC_CAST( tw::maple::as::symbol::Scope, p_scope );
+	}
+private:
+	typedef std::vector<tw::maple::as::symbol::ScopePtr> T_ImportList;
+	typedef SHARED_PTR( T_ImportList ) P_ImportList;
+	std::vector<P_ImportList>	m_stack;
+
 };
 
 typedef SHARED_PTR( Phase2Context )	Phase2ContextPtr;

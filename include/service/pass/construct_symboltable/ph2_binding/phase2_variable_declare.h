@@ -40,6 +40,7 @@ struct Phase2_VariableDeclare
 				tw::maple::as::ast::VariableDeclarePtr ast_var
 				, tw::maple::as::symbol::SymbolPtr var_symbol
 				, tw::maple::as::symbol::ScopePtr symboltable
+				, Phase2ContextPtr context
 				)
 		{
 
@@ -49,6 +50,20 @@ struct Phase2_VariableDeclare
 //				std::cerr << " variable type size = "<<var->VariableType.size()<<std::endl;
 //			}
 
+
+			if( symboltable == NULL )
+			{
+				std::cerr << "error in phase2 "<< ast_var->toString() <<std::endl;
+				exit(1);
+			}
+
+			tw::maple::as::symbol::SymbolPtr p_type = context->find_symbol( ast_var->VariableType[ast_var->VariableType.size() - 1] );
+
+			if(p_type != NULL ) // found the symbol in import list
+			{
+				var_symbol->bindType( p_type );
+				return;
+			}
 			tw::maple::as::symbol::ScopePtr var_type_scope = symboltable;
 
 			for( int idx = 0 ; idx < ast_var->VariableType.size() - 1 ; idx ++ )
@@ -61,7 +76,12 @@ struct Phase2_VariableDeclare
 //					std::cerr<<var->VariableName <<" can't find scope - "<< var->VariableType[idx] << " '"<< var->toString() << "'"<<std::endl;
 				}
 			}
-			tw::maple::as::symbol::SymbolPtr p_type = var_type_scope->findType( ast_var->VariableType[ast_var->VariableType.size() - 1]  );
+			p_type = var_type_scope->findType( ast_var->VariableType[ast_var->VariableType.size() - 1]  );
+
+//			if( p_type == NULL )
+//			{
+//				p_type = context->find_symbol( ast_var->VariableType[ast_var->VariableType.size() - 1] );
+//			}
 
 			if( p_type ) {
 				var_symbol->bindType( p_type );

@@ -145,8 +145,10 @@ package flash.display
 		[native(support="none")]
 		public function set tabIndex (value:int) : void;
 
+/*
 		[native(support="none")]
 		public function get textSnapshot () : TextSnapshot;
+*/
 
 		public function set transform (value:Transform) : void;
 
