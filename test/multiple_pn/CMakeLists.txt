@@ -1,6 +1,8 @@
 
 PROJECT( runtest-multiple )
-file (GLOB MULTIPLE_AS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.as")
+#file (GLOB MULTIPLE_AS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.as")
+
+set( MULTIPLE_AS p.as main.as )
 MESSAGE( " multiple sources ${MULTIPLE_AS}")
 
 #make_directory( ${CMAKE_CURRENT_BINARY_DIR}/toplevel/ )
