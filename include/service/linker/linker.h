@@ -336,6 +336,10 @@ class Linker : virtual public generated::AstDumperIf {
     pm_module->literalBooleanExpression(str);
   }
 
+  void literalNull() {
+    pm_module->literalNull();
+  }
+
   void endExpressionList() {
     // Your implementation goes here
     printf("endExpressionList\n");
