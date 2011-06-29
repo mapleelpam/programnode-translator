@@ -35,7 +35,6 @@ struct LiteralBoolean: public Expression
 	LiteralBoolean(std::string v) :
 		Expression(Node::NodeType::T_LITERAL_BOOLEAN), value(v) {
 	}
-	int exprType() { return Node::NodeType::T_LITERAL_BOOLEAN;	}
 
     std::string value;
 

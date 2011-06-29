@@ -35,7 +35,6 @@ struct LiteralString: public Expression
 	LiteralString(std::string v) :
 		Expression(Node::NodeType::T_LITERAL_STRING), value(v) {
 	}
-	int exprType() { return Node::NodeType::T_LITERAL_STRING;	}
 
     std::string value;
 

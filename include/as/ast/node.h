@@ -79,6 +79,7 @@ struct Node
             T_LITERAL_STRING,
             T_LITERAL_NUMBER,
             T_LITERAL_BOOLEAN,
+            T_LITERAL_NULL,
 
             T_IDENTIFIER,
 

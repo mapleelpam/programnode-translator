@@ -39,9 +39,6 @@ struct Identifier: public Expression
 		, qualifier( q )
 	{
 	}
-	int exprType() {
-		return Node::NodeType::T_IDENTIFIER;
-	}
 
     std::string value;
     std::string qualifier;

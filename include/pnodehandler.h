@@ -40,6 +40,7 @@
 #include <as/ast/token/literal_string.h>
 #include <as/ast/token/literal_number.h>
 #include <as/ast/token/literal_boolean.h>
+#include <as/ast/token/literal_null.h>
 #include <as/ast/expression_list.h>
 #include <as/ast/token/identifier.h>
 #include <as/ast/program.h>
@@ -145,6 +146,8 @@ public:
 		 || counter != generated::g_SyntaxTree_constants.PROTO_COUNTER)
 		{
 			std::cerr << "protocol version not match"<<std::endl; \
+			std::cerr << "expected version is '"<< generated::g_SyntaxTree_constants.PROTO_VERSION << "' '" << generated::g_SyntaxTree_constants.PROTO_COUNTER << "'"<<std::endl;
+			std::cerr << "expected version but get '"<< version << "' '" << counter << "'"<<std::endl;
 			exit(1);
 		}
 		_program_root . reset(new as::ast::Program());
@@ -298,18 +301,23 @@ public:
 
 	virtual void literalStringExpression(const generated::Literal& str) {
 		as::ast::LiteralStringPtr exp_literal(
-				new as::ast::LiteralString(str.value));
+			new as::ast::LiteralString(str.value));
 		_node_stack . top() -> addNodeChild(exp_literal);
 	}
 	virtual void literalNumberExpression(const generated::Literal& num) {
 		as::ast::LiteralNumberPtr exp_literal(
-				new as::ast::LiteralNumber(num.value));
+			new as::ast::LiteralNumber(num.value));
 		_node_stack . top() -> addNodeChild(exp_literal);
 	}
 	virtual void literalBooleanExpression(const generated::Literal& num) {
-		as::ast::LiteralBooleanPtr exp_literal(
-				new as::ast::LiteralBoolean(num.value));
+		as::ast::LiteralBooleanPtr exp_literal(new as::ast::LiteralBoolean(num.value));
 		_node_stack . top() -> addNodeChild(exp_literal);
+	}
+	virtual void literalNull( ) {
+//		as::ast::LiteralNullPtr exp_literal(new as::ast::LiteralNull());
+//		_node_stack . top() -> addNodeChild(exp_literal);
+
+		ADD_2_TOP( LiteralNull );
 	}
 	void endExpressionList() {
 		CHECK_STACK_AND_POP( ExpressionList, AST::Node::NodeType::T_EXPR_LIST );
