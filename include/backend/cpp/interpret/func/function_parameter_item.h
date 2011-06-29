@@ -32,22 +32,49 @@ namespace AST = ::tw::maple::as::ast;
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
-struct FunctionParameterItem : public Interpreter
+struct FunctionParameterItem : public Interpreter, public TemplatePrinter
 {
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context* ctx)
 	{
-		std::string result = "";
-
 		AST::FunctionParameterItemPtr fParam = std::tr1::static_pointer_cast<AST::FunctionParameterItem>(node);
 
-		if(fParam->hasInit())
-			return fParam->ParamType()+" "+fParam->ParamName()+ " = "+ fParam->ParamInit();
+		ASY::VariablePtr symbol_var = STATIC_CAST( ASY::Variable, node->getSymbol() );
+		ASY::SymbolPtr	symbol_type = symbol_var->getTypeSymbol();
+
+		std::string str_var_type/* = invoke_type_mapper(  )*/;
+		if( symbol_type->isPrimitiveType() )
+			str_var_type = symbol_type->name();
 		else
-			return fParam->ParamType()+" "+fParam->ParamName();
+			str_var_type = symbol_type->getFQN_and_mappedName() + _pointer_pattern /* '*'or 'Ptr' */;
+
+
+		if(fParam->hasInit())
+			return str_var_type+" "+fParam->ParamName()+ " = "+ fParam->ParamInit();
+		else
+			return str_var_type+" "+fParam->ParamName();
 
 	}
+	FunctionParameterItem()
+		: TemplatePrinter("FunctionParameterItem")
+		,_pointer_pattern("*")
+	{
+	}
+	virtual bool readConfig( boost::property_tree::ptree& pt )
+	{
+		_pointer_pattern = pt.get<std::string>(  configName()+".pointer_pattern", _pointer_pattern);
+		return TemplatePrinter::readConfig( pt );
+	}
+	virtual bool writeConfig( boost::property_tree::ptree& pt )
+	{
+		pt.put<std::string>( configName()+".pointer_pattern", _pointer_pattern);
+		return TemplatePrinter::writeConfig( pt );
+	}
+
+private:
+	std::string _pointer_pattern;
+
 };
 
 };
