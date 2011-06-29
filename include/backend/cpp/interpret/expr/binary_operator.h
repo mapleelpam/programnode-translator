@@ -62,6 +62,8 @@ private:
 			return "<";
 		else if( str == "equals")
 			return "==";
+		else if( str == "notequals")
+			return "!=";
 		else {
 			std::cerr << " can't resolve binary op string '" << str << "'"<<std::endl;
 			exit(1);

@@ -85,31 +85,36 @@ using namespace apache::thrift::protocol;
 using namespace apache::thrift::transport;
 //tw::maple::generated::
 
+
 namespace AST = ::tw::maple::as::ast;
 
 #define PUSH_STACK( ClassName ) \
 		{ \
-		/*std::cout << _node_stack.size() << "  start"<< #ClassName  <<" -> "<< _node_stack.top()->toString()<<" -:"<<_node_stack.top()->node_childs.size()<< std::endl;*/ \
+		if( DEBUG ) \
+		std::cout << _node_stack.size() << "  start"<< #ClassName  <<" -> "<< _node_stack.top()->toString()<<" -:"<<_node_stack.top()->node_childs.size()<< std::endl; \
 		as::ast::ClassName##Ptr __node__( new as::ast::ClassName()  ); \
 		_node_stack . top() -> addNodeChild( __node__ ); \
 		_node_stack . push( __node__ ); }
 
 #define ADD_2_TOP( ClassName ) \
 		{ \
-		/* std::cout << _node_stack.size() << "  start"<< #ClassName  <<" -> "<< _node_stack.top()->toString()<<" -:"<<_node_stack.top()->node_childs.size()<< std::endl; */ \
+		if( DEBUG ) \
+		std::cout << _node_stack.size() << "  start"<< #ClassName  <<" -> "<< _node_stack.top()->toString()<<" -:"<<_node_stack.top()->node_childs.size()<< std::endl; \
 		as::ast::ClassName##Ptr __node__( new as::ast::ClassName()  ); \
 		_node_stack . top() -> addNodeChild( __node__ ); }
 
 #define PUSH_STACK_WITH_INIT( ClassName, ... ) \
 		{ \
-		/* std::cout << _node_stack.size() << "  start"<< #ClassName  <<" -> "<< _node_stack.top()->toString()<<" -:"<<_node_stack.top()->node_childs.size()<< std::endl; */ \
+		if( DEBUG ) \
+		 std::cout << _node_stack.size() << "  start"<< #ClassName  <<" -> "<< _node_stack.top()->toString()<<" -:"<<_node_stack.top()->node_childs.size()<< std::endl; \
 		as::ast::ClassName##Ptr __node__( new as::ast::ClassName(  __VA_ARGS__ )  ); \
 		_node_stack . top() -> addNodeChild( __node__ ); \
 		_node_stack . push( __node__ ); }
 
 #define ADD_2_TOP_WITH_INIT( ClassName, ... ) \
 		{ \
-		/* std::cout << _node_stack.size() << "  start"<< #ClassName  <<" -> "<< _node_stack.top()->toString()<<" -:"<<_node_stack.top()->node_childs.size()<< std::endl; */\
+		if( DEBUG ) \
+		std::cout << _node_stack.size() << "  start"<< #ClassName  <<" -> "<< _node_stack.top()->toString()<<" -:"<<_node_stack.top()->node_childs.size()<< std::endl; \
 		as::ast::ClassName##Ptr __node__( new as::ast::ClassName(  __VA_ARGS__ )  ); \
 		_node_stack . top() -> addNodeChild( __node__ ); }
 
@@ -127,8 +132,10 @@ namespace AST = ::tw::maple::as::ast;
 namespace tw { namespace maple { 
 
 class PNodeHandler : virtual public  generated::AstDumperIf {
+	int DEBUG;
 public:
   PNodeHandler() : _meta_data_dirty(false) {
+	  DEBUG = 1;
     // Your initialization goes here
   }
 
@@ -277,10 +284,13 @@ public:
 	}
 
 	void identifierExpression(const generated::Identifier& id) {
-		std::cout << _node_stack.size() << "  identifierExpression" << " -> "
+		if(DEBUG)
+		{
+			std::cout << _node_stack.size() << "  identifierExpression" << " -> "
 				<< _node_stack.top()->toString() << ":"
 				<< _node_stack.top()->node_childs.size() << ":" << id.name << " qualifier "<<id.qualifier
 				<< std::endl;
+		}
 		as::ast::IdentifierPtr exp_id(
 				new as::ast::Identifier(id.name, id.qualifier));
 		_node_stack . top() -> addNodeChild(exp_id);
