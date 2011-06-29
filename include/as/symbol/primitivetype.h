@@ -47,6 +47,10 @@ struct PrimitiveType : public Symbol
 	{
 		return name();
 	}
+	virtual bool isPrimitiveType( ) const
+	{
+		return true;
+	}
 	bool is_pointer;
 };
 

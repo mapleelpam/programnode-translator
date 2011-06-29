@@ -78,7 +78,15 @@ struct Symbol
 	{
 		return name();
 	}
+	virtual std::string getFQN_and_mappedName()
+	{
+		return mappedName();
+	}
 	virtual bool isConstructor( ) const
+	{
+		return false;
+	}
+	virtual bool isPrimitiveType( ) const
 	{
 		return false;
 	}

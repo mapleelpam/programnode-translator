@@ -52,29 +52,13 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 
 		AST::VariableDeclarePtr var = std::tr1::static_pointer_cast<AST::VariableDeclare>(node);
 		ASY::VariablePtr symbol_var = STATIC_CAST( ASY::Variable, node->getSymbol() );
+		ASY::SymbolPtr	symbol_type = symbol_var->getTypeSymbol();
 
-//		std::string var_type = var->VariableType[0];
-		std::string var_type = "";
-		if( (var->VariableType).size() == 1 )
-		{
-			std::cerr << "  -------- variable decalre 1----: "<<symbol_var->getTypeSymbol()->mappedName()<<std::endl;
-			std::cerr << "  -------- variable decalre 2----: "<<symbol_var->name()<<std::endl;
-//			var_type = invoke_type_mapper( (var->VariableType)[0] );
-			var_type = symbol_var->getTypeSymbol()->mappedName();
-			var_type = var_type == "" ? (var->VariableType)[0] : var_type;
-
-			var_type = invoke_type_mapper( var_type );
-		}
+		std::string str_var_type/* = invoke_type_mapper(  )*/;
+		if( symbol_type->isPrimitiveType() )
+			str_var_type = symbol_type->name();
 		else
-		{
-
-			var_type += (var->VariableType)[0];
-			for( int idx = 1 ; idx < var->VariableType.size()  ; idx ++ )
-			{
-				var_type += "::" + (var->VariableType)[idx];
-			}
-			var_type = invoke_type_mapper( var_type );
-		}
+			str_var_type = symbol_type->getFQN_and_mappedName() + _pointer_pattern /* '*'or 'Ptr' */;
 
 		std::string var_name = var->VariableName;
 		std::string var_attr = var->isPublic()?"public:":(var->isPrivate()?"private:":"");
@@ -85,7 +69,7 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 
 		std::list<PatternPtr> patterns;
 		patterns.push_back( PatternPtr( new Pattern("var_attribute", var_attr) ));
-		patterns.push_back( PatternPtr( new Pattern("var_type", var_type) ));
+		patterns.push_back( PatternPtr( new Pattern("var_type", str_var_type) ));
 		patterns.push_back( PatternPtr( new Pattern("var_name", var_name) ));
 		patterns.push_back( PatternPtr( new Pattern("var_init", var_init) ));
 		patterns.push_back( PatternPtr( new Pattern("var_is_static", (var->isStatic())? "static ":"") ) );
@@ -98,6 +82,7 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 	VariableDeclare()
 		: TemplatePrinter("VariableDeclare")
 		, _default_type_mapper("#(type_name)*")
+		, _pointer_pattern("*")
 	{
 		_primitive_type_mapper[ "int" ] = "int";
 		_primitive_type_mapper[ "float" ] = "float";
@@ -116,6 +101,7 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 		}
 
 		_default_type_mapper = pt.get<std::string>(  configName()+".type.mapper.__DEFAULT__", _default_type_mapper);
+		_pointer_pattern = pt.get<std::string>(  configName()+".pointer_pattern", _pointer_pattern);
 
 		return TemplatePrinter::readConfig( pt );
 	}
@@ -129,22 +115,16 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 		}
 
 		pt.put<std::string>( configName()+".type.mapper.__DEFAULT__", _default_type_mapper);
+		pt.put<std::string>( configName()+".pointer_pattern", _pointer_pattern);
 
 		return TemplatePrinter::writeConfig( pt );
 	}
 private:
-	std::string invoke_type_mapper( const std::string type_name )
-	{
-		StringMap::iterator sitr = _primitive_type_mapper.find( type_name );
-		if( sitr == _primitive_type_mapper.end() ){
-			return replace( _default_type_mapper, "#(type_name)", type_name);
-		} else {
-			return sitr -> second;
-		}
-	}
+
 
 	StringMap _primitive_type_mapper;
 	std::string _default_type_mapper;
+	std::string _pointer_pattern;
 };
 
 };
