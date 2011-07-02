@@ -26,22 +26,44 @@
 #define __TW_MAPLE_AS_AST_CALL_
 
 #include <as/ast/abstract/expression.h>
+#include <as/symbol/symbol.h>
 
 namespace tw { namespace maple { namespace as { namespace ast {
 
 // Abstract
 struct Call : public Expression
 {
-	Call( bool is_new = false ) : Expression(Node::NodeType::T_CALL), _is_new(is_new)	{	}
+	Call( const std::vector<std::string> c, bool is_new = false )
+	 : Expression(Node::NodeType::T_CALL)
+ 	 , callee(c)
+	 , _is_new(is_new)
+	{	}
 
     std::string toString()  {	return "node::call"; };
 
+    /*
     NodePtr getCallee(){	return node_childs[0];	}
     NodePtr getArgs(){	return (node_childs.size() > 1 )? node_childs[1] : NodePtr();	}
+    */
+    const std::vector<std::string> callee;
+    NodePtr getArgs(){	return (node_childs.size() > 0 )? node_childs[0] : NodePtr();	}
 
     bool isObjectConsturct()	{	return _is_new;	}
+
+    void debug()
+    {
+    	std::cerr << "AST::Call - sizeof callee = "<< callee.size() << std::endl;
+    }
+
+	virtual void bindType( tw::maple::as::symbol::SymbolPtr type)
+	{
+			m_type_symbol = type;
+	}
 private:
     bool _is_new;
+
+	tw::maple::as::symbol::SymbolPtr	m_type_symbol;
+
 };
 
 typedef SHARED_PTR(Call) CallPtr;

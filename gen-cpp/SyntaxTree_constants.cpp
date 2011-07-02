@@ -12,7 +12,7 @@ const SyntaxTreeConstants g_SyntaxTree_constants;
 SyntaxTreeConstants::SyntaxTreeConstants() {
   PROTO_VERSION = "0.0.1";
 
-  PROTO_COUNTER = 5LL;
+  PROTO_COUNTER = 6LL;
 
 }
 

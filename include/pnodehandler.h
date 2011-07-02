@@ -222,7 +222,7 @@ public:
 		CHECK_STACK_AND_POP( StmtExpression, AST::Node::NodeType::T_STMT_EXPR );
 	}
 	void startCallExpression(const generated::CallExpression& call) {
-		PUSH_STACK_WITH_INIT( Call, call.is_new);
+		PUSH_STACK_WITH_INIT( Call, call.callee, call.is_new);
 	}
 
 	void startArgumentList() {

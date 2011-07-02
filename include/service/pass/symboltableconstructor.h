@@ -45,10 +45,12 @@ public:
 
 //		P_LocalContext local_context( new Context() );
 
+		// 1
 		for (std::vector< AST::ProgramPtr>::iterator nodeItr = pnode_list.begin(), E = pnode_list.end()
 			; nodeItr != E; nodeItr++)
 			constructSymbols( *nodeItr, root, "");
 
+		// 2
 		{
 		tw::maple::service::pass::cs::ph2::Phase2ContextPtr ph2_context( new tw::maple::service::pass::cs::ph2::Phase2Context() );
 		for (std::vector< AST::ProgramPtr>::iterator nodeItr = pnode_list.begin(), E = pnode_list.end()
@@ -56,6 +58,7 @@ public:
 			linkVariableType( *nodeItr, root, ph2_context);
 		}
 
+		// 3
 		for (std::vector< AST::ProgramPtr>::iterator nodeItr = pnode_list.begin(), E = pnode_list.end()
 			; nodeItr != E; nodeItr++)
 			symbolTableAnalyze( *nodeItr, root);

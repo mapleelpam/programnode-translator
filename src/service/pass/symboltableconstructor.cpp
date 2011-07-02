@@ -45,6 +45,7 @@
 #include <service/pass/construct_symboltable/ph2_binding/phase2_variable_declare.h>
 #include <service/pass/construct_symboltable/ph2_binding/phase2_function_define.h>
 #include <service/pass/construct_symboltable/ph2_binding/phase2_import_stmt.h>
+#include <service/pass/construct_symboltable/ph2_binding/phase2_call_expr.h>
 
 namespace tw { namespace maple { namespace service { namespace pass {
 
@@ -196,6 +197,13 @@ void SymbolTableConstructor::linkVariableType(
 		{
 			AST::ImportStatementPtr ast_import = std::tr1::static_pointer_cast<AST::ImportStatement>(*nItr);
 			tw::maple::service::pass::cs::ph2::Phase2_ImportStatement::pass( ast_import, symboltable, local_context );
+			continue;
+		}
+
+		if( (*nItr) -> nodeType()  == AST::Node::NodeType::T_CALL )
+		{
+			AST::CallPtr ast_import = std::tr1::static_pointer_cast<AST::Call>(*nItr);
+			tw::maple::service::pass::cs::ph2::Phase2_CallExpression::pass( ast_import, symboltable, local_context );
 			continue;
 		}
 

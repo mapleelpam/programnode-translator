@@ -49,16 +49,25 @@ struct Call : public Interpreter
 		AST::CallPtr call = STATIC_CAST( AST::Call, node);
 
 
+		call->debug();
+
 		if (call->isObjectConsturct()) {
 			result +=  " new ";
-			std::string type_name = dispatchExpound(call->getCallee(), symbol_table, ctx);
+//			std::string type_name = dispatchExpound(call->getCallee(), symbol_table, ctx);
+			call->debug();
+
+			std::string type_name = get_full_functionname( call->callee );
+			call->debug();
+
+
 			ASY::SymbolPtr p_type = symbol_table->findType( type_name );
 			if( p_type != NULL && p_type->mappedName() != "" )
 				result += p_type->mappedName();
 			else
 				result += type_name;
 		} else
-			result += dispatchExpound(call->getCallee(), symbol_table, ctx);
+//			result += dispatchExpound(call->getCallee(), symbol_table, ctx);
+			result += get_full_functionname( call->callee );
 		result +=  "( ";
 		if (call->getArgs()) {
 			result += dispatchExpound( call->getArgs(), symbol_table, ctx);
@@ -69,6 +78,18 @@ struct Call : public Interpreter
 
 		return result;
 	}
+
+private:
+		const std::string get_full_functionname( const std::vector<std::string> fn )
+		{
+			std::string ans = fn[0];
+			for( int idx = 1 ; idx < fn.size() ; idx ++ )
+			{
+				std::cerr <<" idx  = "<< ans<<std::endl;
+				ans += "::"+fn[idx];
+			}
+			return ans;
+		}
 };
 
 

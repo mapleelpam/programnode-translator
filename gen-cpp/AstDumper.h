@@ -318,7 +318,7 @@ typedef struct _AstDumper_startProgram_args__isset {
 class AstDumper_startProgram_args {
  public:
 
-  AstDumper_startProgram_args() : version("0.0.1"), counter(5LL) {
+  AstDumper_startProgram_args() : version("0.0.1"), counter(6LL) {
   }
 
   virtual ~AstDumper_startProgram_args() throw() {}

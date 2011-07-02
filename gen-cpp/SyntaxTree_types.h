@@ -136,16 +136,17 @@ class Literal {
 };
 
 typedef struct _CallExpression__isset {
-  _CallExpression__isset() : is_new(false), mode(false) {}
+  _CallExpression__isset() : is_new(false), mode(false), callee(false) {}
   bool is_new;
   bool mode;
+  bool callee;
 } _CallExpression__isset;
 
 class CallExpression {
  public:
 
-  static const char* ascii_fingerprint; // = "1767FFB0CB3D9275BC64B198AB3B8A8B";
-  static const uint8_t binary_fingerprint[16]; // = {0x17,0x67,0xFF,0xB0,0xCB,0x3D,0x92,0x75,0xBC,0x64,0xB1,0x98,0xAB,0x3B,0x8A,0x8B};
+  static const char* ascii_fingerprint; // = "9A7EA49D8DFC35C9972B3D9DD14CEAC5";
+  static const uint8_t binary_fingerprint[16]; // = {0x9A,0x7E,0xA4,0x9D,0x8D,0xFC,0x35,0xC9,0x97,0x2B,0x3D,0x9D,0xD1,0x4C,0xEA,0xC5};
 
   CallExpression() : is_new(false), mode("") {
   }
@@ -154,6 +155,7 @@ class CallExpression {
 
   bool is_new;
   std::string mode;
+  std::vector<std::string>  callee;
 
   _CallExpression__isset __isset;
 
@@ -162,6 +164,8 @@ class CallExpression {
     if (!(is_new == rhs.is_new))
       return false;
     if (!(mode == rhs.mode))
+      return false;
+    if (!(callee == rhs.callee))
       return false;
     return true;
   }
