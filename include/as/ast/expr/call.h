@@ -59,6 +59,10 @@ struct Call : public Expression
 	{
 			m_type_symbol = type;
 	}
+	virtual tw::maple::as::symbol::SymbolPtr getCalleeType()
+	{
+		return m_type_symbol;
+	}
 private:
     bool _is_new;
 

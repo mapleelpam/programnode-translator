@@ -48,25 +48,22 @@ struct Call : public Interpreter
 		std::string result;
 		AST::CallPtr call = STATIC_CAST( AST::Call, node);
 
-
-		call->debug();
-
 		if (call->isObjectConsturct()) {
 			result +=  " new ";
-//			std::string type_name = dispatchExpound(call->getCallee(), symbol_table, ctx);
-			call->debug();
-
 			std::string type_name = get_full_functionname( call->callee );
-			call->debug();
-
-
-			ASY::SymbolPtr p_type = symbol_table->findType( type_name );
-			if( p_type != NULL && p_type->mappedName() != "" )
-				result += p_type->mappedName();
+//			ASY::SymbolPtr p_type = symbol_table->findType( type_name );
+			ASY::SymbolPtr p_type = call->getCalleeType();
+			if( p_type != NULL && p_type->getFQN_and_mappedName() != "" )
+			{
+				std::cout << "go path 1 "<<std::endl;
+				result += p_type->getFQN_and_mappedName();
+			}
 			else
+			{
+				std::cout << "go path 2 "<< ( p_type != NULL) <<std::endl;
 				result += type_name;
+			}
 		} else
-//			result += dispatchExpound(call->getCallee(), symbol_table, ctx);
 			result += get_full_functionname( call->callee );
 		result +=  "( ";
 		if (call->getArgs()) {

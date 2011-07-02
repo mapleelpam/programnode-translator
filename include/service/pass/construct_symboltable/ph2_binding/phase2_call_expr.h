@@ -43,6 +43,8 @@ struct Phase2_CallExpression
 				, Phase2ContextPtr context
 				)
 		{
+			std::cerr << "in phase2 - callee "<< ast_call->toString() <<std::endl;
+
 			if( symboltable == NULL )
 			{
 				std::cerr << "error in phase2 "<< ast_call->toString() <<std::endl;
@@ -56,6 +58,7 @@ struct Phase2_CallExpression
 
 			if(p_type != NULL ) // found the symbol in import list
 			{
+				std::cerr<<" callee bind type "<< p_type->getFQN() <<std::endl;
 				ast_call->bindType( p_type );
 				return;
 			}
@@ -79,6 +82,7 @@ struct Phase2_CallExpression
 //			}
 
 			if( p_type ) {
+				std::cerr<<" callee bind type "<< p_type->getFQN() <<std::endl;
 				ast_call->bindType( p_type );
 			} else {
 				std::cerr<<" callee name '"<<"" <<"': can't find type - '"<< ast_call->toString() <<"'"<<"  '"<<ast_call->callee[ast_call->callee.size()-1]<<"'"<<std::endl;

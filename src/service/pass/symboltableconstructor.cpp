@@ -214,6 +214,8 @@ void SymbolTableConstructor::linkVariableType(
 			AST::VariableDeclarePtr ast_var = std::tr1::static_pointer_cast<AST::VariableDeclare>(*nItr);
 			tw::maple::service::pass::cs::ph2::Phase2_VariableDeclare::pass( ast_var, symbol, symboltable, local_context );
 
+			// don't need enter
+			linkVariableType( *nItr, symboltable, local_context );
 		} else if(  symbol &&
 			(symbol->getSymbolProperties() & ASY::Symbol::T_SCOPE) )
 		{
