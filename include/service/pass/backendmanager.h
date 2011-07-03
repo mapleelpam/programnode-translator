@@ -82,7 +82,7 @@ private:
 
 				ASYM::VariablePtr variable = STATIC_CAST( ASYM::Variable, *child_itr );
 				if( variable->isStatic() ){
-					ctx.ofs_stream << variable ->getTypeSymbol()->getFQN() << " "<<variable->getFQN();
+					ctx.ofs_stream << variable ->getTypeSymbol()->getFQN_and_mappedName() << " "<<variable->getFQN();
 					if(variable->getInitializeNode())
 					{
 						ctx.ofs_stream << " = " << INTERPRET::dispatchExpound(variable->getInitializeNode(), symbol_table, &ctx);
