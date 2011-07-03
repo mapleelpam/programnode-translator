@@ -60,6 +60,8 @@ private:
 			return "%";
 		else if( str == "lessthan")
 			return "<";
+		else if( str == "greaterthan")
+			return ">";
 		else if( str == "equals")
 			return "==";
 		else if( str == "notequals")
