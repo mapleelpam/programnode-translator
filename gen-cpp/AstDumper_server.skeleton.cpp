@@ -267,6 +267,11 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("literalNull\n");
   }
 
+  void thisExpression() {
+    // Your implementation goes here
+    printf("thisExpression\n");
+  }
+
   void endExpressionList() {
     // Your implementation goes here
     printf("endExpressionList\n");

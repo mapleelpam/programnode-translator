@@ -41,6 +41,7 @@
 #include <as/ast/token/literal_number.h>
 #include <as/ast/token/literal_boolean.h>
 #include <as/ast/token/literal_null.h>
+#include <as/ast/token/this_expression.h>
 #include <as/ast/expression_list.h>
 #include <as/ast/token/identifier.h>
 #include <as/ast/program.h>
@@ -299,6 +300,11 @@ public:
 		_node_stack . top() -> addNodeChild(exp_id);
 	}
 
+	virtual void thisExpression( ) {
+		as::ast::ThisExpressionPtr exp_this(
+			new as::ast::ThisExpression() );
+		_node_stack . top() -> addNodeChild( exp_this );
+	}
 	virtual void literalStringExpression(const generated::Literal& str) {
 		as::ast::LiteralStringPtr exp_literal(
 			new as::ast::LiteralString(str.value));

@@ -106,6 +106,7 @@ struct Node
 
 
             T_EXPR_MEMBER,
+            T_THIS,
 
             T_IMPORT_STMT,
 

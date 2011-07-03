@@ -63,6 +63,7 @@ class AstDumperIf {
   virtual void literalNumberExpression(const Literal& str) = 0;
   virtual void literalBooleanExpression(const Literal& str) = 0;
   virtual void literalNull() = 0;
+  virtual void thisExpression() = 0;
   virtual void endExpressionList() = 0;
   virtual void addImport(const std::vector<std::string> & packages) = 0;
   virtual void startStmtList() = 0;
@@ -238,6 +239,9 @@ class AstDumperNull : virtual public AstDumperIf {
   void literalNull() {
     return;
   }
+  void thisExpression() {
+    return;
+  }
   void endExpressionList() {
     return;
   }
@@ -318,7 +322,7 @@ typedef struct _AstDumper_startProgram_args__isset {
 class AstDumper_startProgram_args {
  public:
 
-  AstDumper_startProgram_args() : version("0.0.1"), counter(6LL) {
+  AstDumper_startProgram_args() : version("0.0.1"), counter(7LL) {
   }
 
   virtual ~AstDumper_startProgram_args() throw() {}
@@ -2318,6 +2322,43 @@ class AstDumper_literalNull_pargs {
 };
 
 
+class AstDumper_thisExpression_args {
+ public:
+
+  AstDumper_thisExpression_args() {
+  }
+
+  virtual ~AstDumper_thisExpression_args() throw() {}
+
+
+  bool operator == (const AstDumper_thisExpression_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const AstDumper_thisExpression_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_thisExpression_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_thisExpression_pargs {
+ public:
+
+
+  virtual ~AstDumper_thisExpression_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
 class AstDumper_endExpressionList_args {
  public:
 
@@ -3316,6 +3357,8 @@ class AstDumperClient : virtual public AstDumperIf {
   void send_literalBooleanExpression(const Literal& str);
   void literalNull();
   void send_literalNull();
+  void thisExpression();
+  void send_thisExpression();
   void endExpressionList();
   void send_endExpressionList();
   void addImport(const std::vector<std::string> & packages);
@@ -3424,6 +3467,7 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
   void process_literalNumberExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_literalBooleanExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_literalNull(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_thisExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_endExpressionList(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_addImport(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_startStmtList(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -3499,6 +3543,7 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
     processMap_["literalNumberExpression"] = &AstDumperProcessor::process_literalNumberExpression;
     processMap_["literalBooleanExpression"] = &AstDumperProcessor::process_literalBooleanExpression;
     processMap_["literalNull"] = &AstDumperProcessor::process_literalNull;
+    processMap_["thisExpression"] = &AstDumperProcessor::process_thisExpression;
     processMap_["endExpressionList"] = &AstDumperProcessor::process_endExpressionList;
     processMap_["addImport"] = &AstDumperProcessor::process_addImport;
     processMap_["startStmtList"] = &AstDumperProcessor::process_startStmtList;
@@ -3880,6 +3925,13 @@ class AstDumperMultiface : virtual public AstDumperIf {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
       ifaces_[i]->literalNull();
+    }
+  }
+
+  void thisExpression() {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->thisExpression();
     }
   }
 

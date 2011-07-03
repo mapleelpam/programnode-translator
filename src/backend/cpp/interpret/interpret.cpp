@@ -33,6 +33,7 @@
 #include <backend/cpp/interpret/token/literal_boolean.h>
 #include <backend/cpp/interpret/token/literal_null.h>
 #include <backend/cpp/interpret/token/identifier.h>
+#include <backend/cpp/interpret/token/this_expression.h>
 #include <backend/cpp/interpret/statement_list.h>
 #include <backend/cpp/interpret/func/function_definition.h>
 #include <backend/cpp/interpret/func/function_name.h>
@@ -101,6 +102,8 @@ void initializeInterpreters()
 		interpreterResolver[AST::Node::NodeType::T_STMT_DO] = new DoStatement();
 		interpreterResolver[AST::Node::NodeType::T_STMT_WHILE] = new WhileStatement();
 		interpreterResolver[AST::Node::NodeType::T_IMPORT_STMT] = new ImportStatement();
+
+		interpreterResolver[AST::Node::NodeType::T_THIS] = new ThisExpression();
 	}
 }
 
