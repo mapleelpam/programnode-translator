@@ -70,7 +70,7 @@ struct Scope : public Symbol, public Registrable
 //	void setScopeType( ScopeType p ) {	m_scope_type = p;	};
 	ScopeType getScopeType( ) const {	return m_scope_type;	}
 
-	virtual std::string toString()
+	virtual const std::string toString() const
 	{
 		std::string ans = "";
 
@@ -216,7 +216,7 @@ struct Scope : public Symbol, public Registrable
 
 		return ( m_parent == NULL )? SymbolPtr() : m_parent->findType( type_name ) ;
 	}
-	virtual std::string getFQN( bool& is_annoymouse_scope /*out*/)
+	virtual const std::string getFQN( bool& is_annoymouse_scope /*out*/) const
 	{
 		is_annoymouse_scope = ( name() == "" );
 
@@ -237,7 +237,7 @@ struct Scope : public Symbol, public Registrable
 			return name();
 		}
 	}
-	virtual std::string getFQN_and_mappedName( bool& is_annoymouse_scope /*out*/ )
+	virtual const std::string getFQN_and_mappedName( bool& is_annoymouse_scope /*out*/ ) const
 	{
 		is_annoymouse_scope = ( mappedName() == "" );
 
@@ -258,12 +258,12 @@ struct Scope : public Symbol, public Registrable
 			return this->mappedName();
 		}
 	}
-	virtual std::string getFQN()
+	virtual const std::string getFQN() const
 	{
 		bool dummy;
 		return getFQN(dummy);
 	}
-	virtual std::string getFQN_and_mappedName()
+	virtual const std::string getFQN_and_mappedName() const
 	{
 		bool dummy;
 		return getFQN_and_mappedName(dummy);

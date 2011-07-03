@@ -38,7 +38,7 @@ struct Phase2_FunctionDefine
 
 		static void pass(
 				tw::maple::as::ast::FunctionDefinitionPtr 	ast_func
-				, tw::maple::as::symbol::SymbolPtr 			func_symbol
+				, tw::maple::as::symbol::FunctionPtr 			func_symbol
 				, tw::maple::as::symbol::ScopePtr			symboltable
 				, Phase2ContextPtr context
 				)
@@ -50,9 +50,10 @@ struct Phase2_FunctionDefine
 			tw::maple::as::ast::FunctionSignaturePtr fsig  = STATIC_CAST( tw::maple::as::ast::FunctionSignature, fcommon->FunctionSignature() );
 
 			p_type = context->find_symbol( fsig->ReturnType );
+
 			if( p_type != NULL )
 			{
-				func_symbol->bindType( p_type );
+				func_symbol->bindReturnType( p_type );
 				return;
 			}
 
@@ -61,10 +62,11 @@ struct Phase2_FunctionDefine
 			if( p_type == NULL )
 			{
 				std::cerr << "symboltable ph2: Function Defnition can't find symbol (function return type) '" << fsig->ReturnType << "'"<<std::endl;
+				exit(1);
 			}
 			BOOST_ASSERT( p_type != NULL && "can't find symbol" );
 			BOOST_ASSERT( p_type );
-			func_symbol->bindType( p_type );
+			func_symbol->bindReturnType( p_type );
 		}
 };
 

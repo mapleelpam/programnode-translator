@@ -80,11 +80,15 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 
 		std::string str_function_body = (fdef->isAbstract)? " = 0;#(endl)" : "#(endl)#(indent_tab){#(endl)" + dispatchExpound(fcommon->FunctionBody(), symbol_function, ctx) + "#(indent_tab)}#(endl)";
 
+		std::string str_function_return_type = symbol_function->isConstructor()?"":symbol_function->ReturnType()->getFQN_and_mappedName();
+		if( ! symbol_function->isConstructor() )
+			str_function_return_type = ( str_function_return_type == "" ) ? "void /* damn */" : str_function_return_type;
+
 		patterns.push_back( PatternPtr( new Pattern("function_attribute", str_function_attribute+ ctx->endl()) ));
 		patterns.push_back( PatternPtr( new Pattern("func_name", str_func_name+ "   ") ));
 		patterns.push_back( PatternPtr( new Pattern("func_body",  str_function_body )) );
 		patterns.push_back( PatternPtr( new Pattern("func_parameters", str_func_parameters ) ));
-		patterns.push_back( PatternPtr( new Pattern("func_ret_type", symbol_function->isConstructor()?"":fsig->ReturnType ) ) );
+		patterns.push_back( PatternPtr( new Pattern("func_ret_type",  str_function_return_type ) ) );
 		patterns.push_back( PatternPtr( new Pattern("function_is_static", (symbol_function->isStatic())? "static ":"") ) );
 		patterns.push_back( PatternPtr( new Pattern("function_is_virtual", 
 					(fdef->isAbstract ||

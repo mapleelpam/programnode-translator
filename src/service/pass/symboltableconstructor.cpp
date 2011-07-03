@@ -207,6 +207,7 @@ void SymbolTableConstructor::linkVariableType(
 			continue;
 		}
 
+
 		if(  symbol &&
 			(symbol->getSymbolProperties() & ASY::Symbol::T_VARIABLE) )
 		{
@@ -225,7 +226,8 @@ void SymbolTableConstructor::linkVariableType(
 //				std::cerr << " in function name " << p_scope->name() << std::endl;
 			{
 				AST::FunctionDefinitionPtr ast_func = STATIC_CAST( AST::FunctionDefinition, *nItr);
-				tw::maple::service::pass::cs::ph2::Phase2_FunctionDefine::pass( ast_func, symbol, symboltable, local_context );
+				ASY::FunctionPtr symbol_func = STATIC_CAST( ASY::Function, symbol);
+				tw::maple::service::pass::cs::ph2::Phase2_FunctionDefine::pass( ast_func, symbol_func, symboltable, local_context );
 			}
 				local_context->enterScope();
 					linkVariableType( *nItr, p_scope, local_context );

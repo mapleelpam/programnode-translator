@@ -65,7 +65,7 @@ struct Symbol
 	uint getSymbolProperties( ) const {	return m_properties;	}
 	void setSymbolProperties( uint p ) {	m_properties = p;	};
 
-	virtual std::string toString() = 0;
+	virtual const std::string toString() const = 0;
 	virtual void bindType( SymbolPtr ){}
 
 	Attributes getSymbolAttribtues( ) const {	return m_attributes;	}
@@ -74,11 +74,11 @@ struct Symbol
 	void setIsStatic( bool b ){	m_is_static = b;	}
 	bool isStatic()	{	return m_is_static;	}
 
-	virtual std::string getFQN( )
+	virtual const std::string getFQN( ) const
 	{
 		return name();
 	}
-	virtual std::string getFQN_and_mappedName()
+	virtual const std::string getFQN_and_mappedName() const
 	{
 		return mappedName();
 	}

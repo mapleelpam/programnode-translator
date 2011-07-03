@@ -38,14 +38,18 @@ struct PrimitiveType : public Symbol
 	}
 
 
-	virtual std::string toString()
+	virtual const std::string toString() const
 	{
 		return "type:"+name();
 	}
 
-	virtual std::string getFQN()
+	virtual const std::string getFQN() const
 	{
 		return name();
+	}
+	virtual const std::string getFQN_and_mappedName() const
+	{
+		return getFQN();
 	}
 	virtual bool isPrimitiveType( ) const
 	{

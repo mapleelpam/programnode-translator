@@ -48,7 +48,7 @@ struct Function : public Scope
 		return m_is_constructor;
 	}
 
-	virtual std::string toString()
+	virtual const std::string toString() const
 	{
 		return "function:"+name() + " return:"+m_return_type_symbol->getFQN();
 	}

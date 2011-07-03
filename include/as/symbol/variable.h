@@ -40,7 +40,7 @@ struct Variable : public Symbol
 	}
 
 
-	virtual std::string toString()
+	virtual const std::string toString() const
 	{
 		std::string s_attr = "";
 		if( m_properties & T_VARIABLE ) {
@@ -57,7 +57,7 @@ struct Variable : public Symbol
 	{
 			m_type_symbol = type;
 	}
-	virtual std::string getFQN()
+	virtual const std::string getFQN() const
 	{
 		if (m_parent)
 			return m_parent->getFQN() + "::" + name();
