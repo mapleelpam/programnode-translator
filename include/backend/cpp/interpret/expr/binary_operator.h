@@ -60,12 +60,18 @@ private:
 			return "%";
 		else if( str == "lessthan")
 			return "<";
+		else if( str == "lessthanorequals")
+			return "<=";
 		else if( str == "greaterthan")
 			return ">";
+		else if( str == "greaterthanorequals")
+			return ">=";
 		else if( str == "equals")
 			return "==";
 		else if( str == "notequals")
 			return "!=";
+		else if( str == "logicaland")
+			return "&&";
 		else {
 			std::cerr << " can't resolve binary op string '" << str << "'"<<std::endl;
 			exit(1);
