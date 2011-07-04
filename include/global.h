@@ -44,6 +44,8 @@
 #endif
 
 #include <boost/assert.hpp>
+//#include <boost/test/test_tools.hpp>
+
 
 #ifdef _MAC
 //fixed for compiling on Mac -- by chuck

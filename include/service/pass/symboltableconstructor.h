@@ -26,7 +26,7 @@
 #include <as/symbol/function.h>
 #include <as/ast/node.h>
 #include <as/ast/program.h>
-#include <service/pass/construct_symboltable/ph2_binding/context.h>
+#include <service/pass/construct_symboltable/context.h>
 
 #ifndef __TW_MAPLE_SERVICE_SYMBOL_TABLE_CONSTRUCTOR_H__
 #define __TW_MAPLE_SERVICE_SYMBOL_TABLE_CONSTRUCTOR_H__
@@ -42,23 +42,29 @@ public:
 		)
 	{
 		namespace AST = tw::maple::as::ast;
-
+		using tw::maple::service::pass::cs::Phase2ContextPtr;
 //		P_LocalContext local_context( new Context() );
 
 		// 1
 		for (std::vector< AST::ProgramPtr>::iterator nodeItr = pnode_list.begin(), E = pnode_list.end()
 			; nodeItr != E; nodeItr++)
 			constructSymbols( *nodeItr, root, "");
-
 		// 2
 		{
-		tw::maple::service::pass::cs::ph2::Phase2ContextPtr ph2_context( new tw::maple::service::pass::cs::ph2::Phase2Context() );
+		Phase2ContextPtr ph2_context( new tw::maple::service::pass::cs::Phase2Context() );
+		for (std::vector< AST::ProgramPtr>::iterator nodeItr = pnode_list.begin(), E = pnode_list.end()
+			; nodeItr != E; nodeItr++)
+			linkClassInherit( *nodeItr, root, ph2_context);
+		}
+		// 3
+		{
+		Phase2ContextPtr ph2_context( new tw::maple::service::pass::cs::Phase2Context() );
 		for (std::vector< AST::ProgramPtr>::iterator nodeItr = pnode_list.begin(), E = pnode_list.end()
 			; nodeItr != E; nodeItr++)
 			linkVariableType( *nodeItr, root, ph2_context);
 		}
 
-		// 3
+		// 4
 		for (std::vector< AST::ProgramPtr>::iterator nodeItr = pnode_list.begin(), E = pnode_list.end()
 			; nodeItr != E; nodeItr++)
 			symbolTableAnalyze( *nodeItr, root);
@@ -70,10 +76,15 @@ private:
 			, tw::maple::as::symbol::ScopePtr symboltable
 			, std::string className
 			);
+	static void linkClassInherit(
+			tw::maple::as::ast::NodePtr node /* input program node */
+			, tw::maple::as::symbol::ScopePtr symboltable
+			, tw::maple::service::pass::cs::Phase2ContextPtr local_context
+			);
 	static void linkVariableType(
 			tw::maple::as::ast::NodePtr node /* input program node */
 			, tw::maple::as::symbol::ScopePtr symboltable
-			, tw::maple::service::pass::cs::ph2::Phase2ContextPtr local_context
+			, tw::maple::service::pass::cs::Phase2ContextPtr local_context
 			);
 	static void symbolTableAnalyze(
 			tw::maple::as::ast::NodePtr node /* input program node */

@@ -33,7 +33,7 @@
 //#define DEBUG_INTERPRET_ENTRY {std::cout << typeid(*this).name() << "::"<<__FUNCTION__<< " enter function" <<std::endl;	}
 //#define DEBUG_INTERPRET_LEAVE {std::cout << typeid(*this).name() << "::"<<__FUNCTION__<< " leave function" <<std::endl;	}
 
-namespace tw { namespace maple { namespace service { namespace pass {  namespace cs /*I.E. Construct SymbolTable */ { namespace ph2 {
+namespace tw { namespace maple { namespace service { namespace pass {  namespace cs /*I.E. Construct SymbolTable */ {
 
 struct Phase2Context
 {
@@ -95,6 +95,6 @@ typedef SHARED_PTR( Phase2Context )	Phase2ContextPtr;
 
 
 
-} } } } } }
+} } } } }
 
 #endif 

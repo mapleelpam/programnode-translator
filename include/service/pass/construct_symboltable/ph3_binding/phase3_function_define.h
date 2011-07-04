@@ -23,50 +23,53 @@
  \*******************************************************************/
 
 
-#ifndef __TW_MAPLE_SERVICE_PASS_CONSTRUCTOR_SYMBOL_TABLE_H_
-#define __TW_MAPLE_SERVICE_PASS_CONSTRUCTOR_SYMBOL_TABLE_H_
+#ifndef __TW_MAPLE_SERVICE_PASS_CONSTRUCTOR_SYMBOL_TABLE_PH2_BINDING_FUNCTION_H__
+#define __TW_MAPLE_SERVICE_PASS_CONSTRUCTOR_SYMBOL_TABLE_PH2_BINDING_FUNCTION_H__
 
-#include <as/ast/abstract/expression.h>
-#include <backend/cpp/context.h>
+#include <service/pass/construct_symboltable/pass.h>
+#include <as/ast/func/function_definition.h>
 #include <as/symbol/scope.h>
 
-//#define DEBUG_INTERPRET_ENTRY {std::cout << typeid(*this).name() << "::"<<__FUNCTION__<< " enter function" <<std::endl;	}
-//#define DEBUG_INTERPRET_LEAVE {std::cout << typeid(*this).name() << "::"<<__FUNCTION__<< " leave function" <<std::endl;	}
+namespace tw { namespace maple { namespace service { namespace pass {  namespace cs /*I.E. Construct SymbolTable */ { namespace ph3 {
 
-
-namespace tw { namespace maple { namespace service { namespace pass {  namespace cs /*I.E. Construct SymbolTable */ {
-
-
-struct constructor_stage { enum type { PH1_SYMBOL, PH2_BINDING, PH3_ANALYZE }; };
-
-template< typename N, int Stage>
-struct Pass
+struct Phase3_FunctionDefine
+	: public Pass<tw::maple::as::ast::FunctionDefinitionPtr, tw::maple::service::pass::cs::constructor_stage::PH2_BINDING>
 {
-	//Abstract
+
+		static void pass(
+				tw::maple::as::ast::FunctionDefinitionPtr 	ast_func
+				, tw::maple::as::symbol::FunctionPtr 			func_symbol
+				, tw::maple::as::symbol::ScopePtr			symboltable
+				, Phase2ContextPtr context
+				)
+		{
+			tw::maple::as::symbol::SymbolPtr p_type;
+
+			tw::maple::as::ast::FunctionCommonPtr fcommon  = STATIC_CAST( tw::maple::as::ast::FunctionCommon, ast_func->FunctionCommon() );
+			BOOST_ASSERT( fcommon != NULL );
+			tw::maple::as::ast::FunctionSignaturePtr fsig  = STATIC_CAST( tw::maple::as::ast::FunctionSignature, fcommon->FunctionSignature() );
+
+			p_type = context->find_symbol( fsig->ReturnType );
+
+			if( p_type != NULL )
+			{
+				func_symbol->bindReturnType( p_type );
+				return;
+			}
+
+			p_type = symboltable->findType( fsig->ReturnType );
+
+			if( p_type == NULL )
+			{
+				std::cerr << "symboltable ph2: Function Defnition can't find symbol (function return type) '" << fsig->ReturnType << "'"<<std::endl;
+				exit(1);
+			}
+			BOOST_ASSERT( p_type != NULL && "can't find symbol" );
+			BOOST_ASSERT( p_type );
+			func_symbol->bindReturnType( p_type );
+		}
 };
 
-
-//struct Phase2Context
-//{
-//	typedef std::vector<tw::maple::as::symbol::ScopePtr> T_ImportList;
-//	typedef SHARED_PTR( T_ImportList ) P_ImportList;
-//	std::stack<P_ImportList>	m_stack;
-//
-//	void enterScope()
-//	{
-//		m_stack . push( P_ImportList( new T_ImportList() ) );
-//	}
-//
-//	void leaveScope()
-//	{
-//		m_stack . pop();
-//	}
-//};
-
-//typedef SHARED_PTR( Phase2Context )	Phase2ContextPtr;
-
-
-
-} } } } }
+} } } } } }
 
 #endif 

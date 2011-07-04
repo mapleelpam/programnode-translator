@@ -62,7 +62,7 @@ struct PackageDefinition : public Interpreter
 		for( std::vector<std::string>::iterator sItr = ast_pkg->package_names.begin()
 						; sItr != ast_pkg->package_names.end() ; sItr++ )
 		{
-			result += "} /* "+ *sItr+ "*/ ";
+			result += "} /* "+ (*sItr=="" ? "anonymouse" : *sItr )+ "*/ ";
 		}
 
 		return result+"\n";

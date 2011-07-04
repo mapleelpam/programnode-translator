@@ -53,6 +53,7 @@ struct Scope : public Symbol, public Registrable
 		: Symbol( n, Symbol::T_SCOPE ), Registrable( this )
 		, m_scope_type( t )
 		, m_parent( parent )
+		, m_inherit( NULL )
 		, m_no_contrucotr(true)
 	{	}
 
@@ -67,6 +68,10 @@ struct Scope : public Symbol, public Registrable
 		m_name = ss.str();
 	}
 
+	~Scope()
+	{
+		m_parent = NULL;
+	}
 //	void setScopeType( ScopeType p ) {	m_scope_type = p;	};
 	ScopeType getScopeType( ) const {	return m_scope_type;	}
 
@@ -272,7 +277,7 @@ struct Scope : public Symbol, public Registrable
 	{
 		for( std::vector<SymbolPtr>::iterator sitr = m_childs.begin(), E = m_childs.end() ; sitr != E ; sitr++)
 		{
-			std::cout << name() << " child "<<(*sitr)->name()<<std::endl;
+//			std::cout <<"Scope::FindSymbol("<<type_name<<")"<< name() << " child "<<(*sitr)->name()<<std::endl;
 			if( (*sitr)->name() == type_name ) {
 				return (*sitr);
 			}
@@ -409,6 +414,15 @@ public:
 		return m_parent;
 	}
 
+	Scope* getInherit()
+	{
+		return m_inherit;
+	}
+	Scope* setInhrit( Scope* inherit )
+	{
+		m_inherit = inherit;
+	}
+
 	bool noContructor() { return m_no_contrucotr; }
 	void setNoConstrtuctor( bool b ) { m_no_contrucotr = b; }
 
@@ -418,7 +432,8 @@ private:
 	ScopeType m_scope_type;
 	std::vector<SymbolPtr>	m_childs;
 
-	Scope*	m_parent;
+	Scope*	m_parent; // could not be "shared_pointer, because will cause circular reference
+	Scope*  m_inherit;
 	bool	m_no_contrucotr;
 	bool 	m_is_intrinsic;
 //friend class Scope;

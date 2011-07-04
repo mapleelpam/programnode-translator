@@ -23,52 +23,50 @@
  \*******************************************************************/
 
 
-#ifndef __TW_MAPLE_SERVICE_PASS_CONSTRUCTOR_SYMBOL_TABLE_PH2_BINDING_VARIABLE_H__
-#define __TW_MAPLE_SERVICE_PASS_CONSTRUCTOR_SYMBOL_TABLE_PH2_BINDING_VARIABLE_H__
+#ifndef __TW_MAPLE_SERVICE_PASS_CONSTRUCTOR_SYMBOL_TABLE_PH2_CALL_EXPR_H__
+#define __TW_MAPLE_SERVICE_PASS_CONSTRUCTOR_SYMBOL_TABLE_PH2_CALL_EXPR_H__
 
 #include <service/pass/construct_symboltable/pass.h>
-#include <as/ast/variable_declare.h>
+#include <service/pass/construct_symboltable/context.h>
+#include <as/ast/expr/call.h>
 #include <as/symbol/scope.h>
 
-namespace tw { namespace maple { namespace service { namespace pass {  namespace cs /*I.E. Construct SymbolTable */ { namespace ph2 {
+namespace tw { namespace maple { namespace service { namespace pass {  namespace cs /*I.E. Construct SymbolTable */ { namespace ph3 {
 
-struct Phase2_VariableDeclare
-	: public Pass<tw::maple::as::ast::VariableDeclarePtr, tw::maple::service::pass::cs::constructor_stage::PH2_BINDING>
+struct Phase3_CallExpression
+	: public Pass<tw::maple::as::ast::CallPtr, tw::maple::service::pass::cs::constructor_stage::PH2_BINDING>
 {
 
 		static void pass(
-				tw::maple::as::ast::VariableDeclarePtr ast_var
-				, tw::maple::as::symbol::SymbolPtr var_symbol
+				tw::maple::as::ast::CallPtr ast_call
 				, tw::maple::as::symbol::ScopePtr symboltable
 				, Phase2ContextPtr context
 				)
 		{
-
-//            if( 0 )
-//			{
-//				std::cerr << " variable name = "<<var->VariableName<<std::endl;
-//				std::cerr << " variable type size = "<<var->VariableType.size()<<std::endl;
-//			}
-
+			std::cerr << "in phase2 - callee "<< ast_call->toString() <<std::endl;
 
 			if( symboltable == NULL )
 			{
-				std::cerr << "error in phase2 "<< ast_var->toString() <<std::endl;
+				std::cerr << "error in phase2 "<< ast_call->toString() <<std::endl;
 				exit(1);
 			}
 
-			tw::maple::as::symbol::SymbolPtr p_type = context->find_symbol( ast_var->VariableType[ast_var->VariableType.size() - 1] );
+//			std::string type_name = dispatchExpound(ast_call->getCallee(), symbol_table, ctx);
+
+
+			tw::maple::as::symbol::SymbolPtr p_type = context->find_symbol( ast_call->callee[ast_call->callee.size()-1] );
 
 			if(p_type != NULL ) // found the symbol in import list
 			{
-				var_symbol->bindType( p_type );
+				std::cerr<<" callee bind type "<< p_type->getFQN() <<std::endl;
+				ast_call->bindType( p_type );
 				return;
 			}
 			tw::maple::as::symbol::ScopePtr var_type_scope = symboltable;
 
-			for( int idx = 0 ; idx < ast_var->VariableType.size() - 1 ; idx ++ )
+			for( int idx = 0 ; idx < ast_call->callee.size() - 1 ; idx ++ )
 			{
-				tw::maple::as::symbol::SymbolPtr temp_pkg = var_type_scope->findSymbol( ast_var->VariableType[idx] );
+				tw::maple::as::symbol::SymbolPtr temp_pkg = var_type_scope->findSymbol( ast_call->callee[idx] );
 				if( temp_pkg && temp_pkg ->getSymbolProperties() == tw::maple::as::symbol::Symbol::T_SCOPE )
 				{
 					var_type_scope = STATIC_CAST( tw::maple::as::symbol::Scope , temp_pkg );
@@ -76,7 +74,7 @@ struct Phase2_VariableDeclare
 //					std::cerr<<var->VariableName <<" can't find scope - "<< var->VariableType[idx] << " '"<< var->toString() << "'"<<std::endl;
 				}
 			}
-			p_type = var_type_scope->findType( ast_var->VariableType[ast_var->VariableType.size() - 1]  );
+			p_type = var_type_scope->findType( ast_call->callee[ast_call->callee.size()-1]  );
 
 //			if( p_type == NULL )
 //			{
@@ -84,10 +82,11 @@ struct Phase2_VariableDeclare
 //			}
 
 			if( p_type ) {
-				var_symbol->bindType( p_type );
+				std::cerr<<" callee bind type "<< p_type->getFQN() <<std::endl;
+				ast_call->bindType( p_type );
 			} else {
-				std::cerr<<" variable name '"<<ast_var->VariableName <<"': can't find type - '"<< ast_var->toString() <<"'"<<"  '"<<ast_var->VariableType[ast_var->VariableType.size() - 1]<<"'"<<std::endl;
-				exit(1);
+				std::cerr<<" callee name '"<<"" <<"': can't find type - '"<< ast_call->toString() <<"'"<<"  '"<<ast_call->callee[ast_call->callee.size()-1]<<"'"<<std::endl;
+//				exit(1);
 			}
 		}
 };

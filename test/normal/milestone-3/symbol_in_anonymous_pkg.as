@@ -91,3 +91,9 @@ package
 	{
 	}
 }
+package
+{
+	intrinsic public class Object
+	{
+	}
+}

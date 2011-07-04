@@ -42,10 +42,12 @@
 #include <as/symbol/function.h>
 #include <as/symbol/variable.h>
 
-#include <service/pass/construct_symboltable/ph2_binding/phase2_variable_declare.h>
-#include <service/pass/construct_symboltable/ph2_binding/phase2_function_define.h>
-#include <service/pass/construct_symboltable/ph2_binding/phase2_import_stmt.h>
-#include <service/pass/construct_symboltable/ph2_binding/phase2_call_expr.h>
+#include <service/pass/construct_symboltable/ph2_inherit/phase2_import_stmt.h>
+
+#include <service/pass/construct_symboltable/ph3_binding/phase3_variable_declare.h>
+#include <service/pass/construct_symboltable/ph3_binding/phase3_function_define.h>
+#include <service/pass/construct_symboltable/ph3_binding/phase3_import_stmt.h>
+#include <service/pass/construct_symboltable/ph3_binding/phase3_call_expr.h>
 
 namespace tw { namespace maple { namespace service { namespace pass {
 
@@ -162,6 +164,7 @@ void SymbolTableConstructor:: constructSymbols(
 			{
 				AST::PackageDefinitionPtr pkg = std::tr1::static_pointer_cast<AST::PackageDefinition>(*nItr);
 				ASY::ScopePtr scope_pkg( symboltable->registerPackage( pkg->package_names ) );
+				(*nItr) -> setSymbol( scope_pkg );
 				constructSymbols( *nItr, scope_pkg, classname );
 			}	break;
 
@@ -173,15 +176,78 @@ void SymbolTableConstructor:: constructSymbols(
 		}
 	}
 }
+void SymbolTableConstructor:: linkClassInherit(
+		tw::maple::as::ast::NodePtr node /* input program node */
+		, tw::maple::as::symbol::ScopePtr symboltable
+		, tw::maple::service::pass::cs::Phase2ContextPtr local_context
+		)
+{
+	BOOST_ASSERT( symboltable != NULL && "ph2: try to linke class inherit");
+	namespace AST = tw::maple::as::ast;
+	namespace CPP = tw::maple::backend::cpp::interpret;
+	namespace ASY = tw::maple::as::symbol;
 
+	if( node==NULL || node->node_childs.size() == 0 )
+		return;
+
+	for (std::vector< AST::NodePtr >::iterator nItr =
+			node->node_childs.begin(); nItr != node->node_childs.end(); nItr++) {
+
+
+		switch( (*nItr) -> nodeType() ) {
+		case AST::Node::NodeType::T_IMPORT_STMT:
+		{
+			using tw::maple::service::pass::cs::ph2::Phase2_ImportStatement;
+			AST::ImportStatementPtr ast_import = std::tr1::static_pointer_cast<AST::ImportStatement>(*nItr);
+			Phase2_ImportStatement::pass( ast_import, symboltable, local_context );
+			continue;
+		}
+		case AST::Node::NodeType::T_CLASS_DEFINE:
+		{
+				ASY::SymbolPtr symbol = (*nItr)->getSymbol();
+				ASY::ScopePtr class_symbol = STATIC_CAST( ASY::Scope, symbol );
+				AST::ClassDefinitionPtr _class_define_ = STATIC_CAST( AST::ClassDefinition, *nItr);
+
+				if( _class_define_->Inherits().size() != 0)
+				{
+					ASY::SymbolPtr inherit_symbol = local_context->find_symbol( _class_define_->Inherits()[0] );
+
+					if( inherit_symbol == NULL )
+						inherit_symbol = symboltable -> findSymbol( _class_define_->Inherits()[0] );
+					if( inherit_symbol == NULL )
+					{
+						std::cerr << _class_define_->Inherits()[0] << " not found ph2"<<std::endl;
+						exit(1);
+					}
+					ASY::ScopePtr inherit_scope = STATIC_CAST( ASY::Scope, inherit_symbol );
+					class_symbol->setInhrit( inherit_scope.get() );
+				}
+		}	break;
+		case AST::Node::NodeType::T_PACKAGE_DEFINITION:
+		{
+			ASY::SymbolPtr symbol = (*nItr)->getSymbol();
+			ASY::ScopePtr p_scope = STATIC_CAST( ASY::Scope, symbol );
+
+			local_context->enterScope();
+				linkClassInherit( *nItr, p_scope, local_context );
+			local_context->leaveScope();
+		}
+			break;
+		default:
+			linkClassInherit( *nItr, symboltable, local_context );
+			break;
+		}
+	}
+
+}
 void SymbolTableConstructor::linkVariableType(
 		tw::maple::as::ast::NodePtr node /* input program node */
 		, tw::maple::as::symbol::ScopePtr symboltable
-		, tw::maple::service::pass::cs::ph2::Phase2ContextPtr local_context
+		, tw::maple::service::pass::cs::Phase2ContextPtr local_context
 		)
 {
 	namespace AST = tw::maple::as::ast;
-	namespace CPP = tw::maple::backend::cpp::interpret;
+//	namespace CPP = tw::maple::backend::cpp::interpret;
 	namespace ASY = tw::maple::as::symbol;
 
 //	using tw::maple::cs::ph2;
@@ -191,19 +257,23 @@ void SymbolTableConstructor::linkVariableType(
 	for (std::vector< AST::NodePtr >::iterator nItr =
 			node->node_childs.begin(); nItr != node->node_childs.end(); nItr++)
 	{
+		using tw::maple::service::pass::cs::ph3::Phase3_ImportStatement;
+		using tw::maple::service::pass::cs::ph3::Phase3_VariableDeclare;
+		using tw::maple::service::pass::cs::ph3::Phase3_FunctionDefine;
+
 		ASY::SymbolPtr symbol = (*nItr)->getSymbol();
 
 		if( (*nItr) -> nodeType()  == AST::Node::NodeType::T_IMPORT_STMT )
 		{
 			AST::ImportStatementPtr ast_import = std::tr1::static_pointer_cast<AST::ImportStatement>(*nItr);
-			tw::maple::service::pass::cs::ph2::Phase2_ImportStatement::pass( ast_import, symboltable, local_context );
+			Phase3_ImportStatement::pass( ast_import, symboltable, local_context );
 			continue;
 		}
 
 		if( (*nItr) -> nodeType()  == AST::Node::NodeType::T_CALL )
 		{
 			AST::CallPtr ast_import = std::tr1::static_pointer_cast<AST::Call>(*nItr);
-			tw::maple::service::pass::cs::ph2::Phase2_CallExpression::pass( ast_import, symboltable, local_context );
+			tw::maple::service::pass::cs::ph3::Phase3_CallExpression::pass( ast_import, symboltable, local_context );
 			continue;
 		}
 
@@ -213,7 +283,7 @@ void SymbolTableConstructor::linkVariableType(
 		{
 
 			AST::VariableDeclarePtr ast_var = std::tr1::static_pointer_cast<AST::VariableDeclare>(*nItr);
-			tw::maple::service::pass::cs::ph2::Phase2_VariableDeclare::pass( ast_var, symbol, symboltable, local_context );
+			Phase3_VariableDeclare::pass( ast_var, symbol, symboltable, local_context );
 
 			// don't need enter
 			linkVariableType( *nItr, symboltable, local_context );
@@ -227,7 +297,7 @@ void SymbolTableConstructor::linkVariableType(
 			{
 				AST::FunctionDefinitionPtr ast_func = STATIC_CAST( AST::FunctionDefinition, *nItr);
 				ASY::FunctionPtr symbol_func = STATIC_CAST( ASY::Function, symbol);
-				tw::maple::service::pass::cs::ph2::Phase2_FunctionDefine::pass( ast_func, symbol_func, symboltable, local_context );
+				Phase3_FunctionDefine::pass( ast_func, symbol_func, symboltable, local_context );
 			}
 				local_context->enterScope();
 					linkVariableType( *nItr, p_scope, local_context );

@@ -61,11 +61,13 @@ struct SymbolTable : public tw::maple::service::ConfigRequest
 	}
 
 	SymbolTable()
+		: m_pattern_of_star("Object")
 	{
 		m_primitive_types["int"] = false;
 		m_primitive_types["float"] = false;
 		m_primitive_types["Void"] = false;
 		m_primitive_types["void"] = false;
+		m_primitive_types["*"] = false;
 	}
 	virtual bool readConfig( boost::property_tree::ptree& pt )
 	{
@@ -79,6 +81,8 @@ struct SymbolTable : public tw::maple::service::ConfigRequest
 				m_primitive_types[ pitr.first] = (pitr.second.get<std::string>( "" ) == "false");
 			}
 		}
+
+		m_pattern_of_star = pt.get( "symboltable.pattern_of_star",  m_pattern_of_star );
 	}
 	virtual bool writeConfig( boost::property_tree::ptree& pt )
 	{
@@ -87,9 +91,12 @@ struct SymbolTable : public tw::maple::service::ConfigRequest
 		{
 			pt.put( str_config_primitive+(*sitr).first, int( (*sitr).second) );
 		}
+
+		pt.put( "symboltable.pattern_of_star",  m_pattern_of_star );
 	}
 
-	PrimitiveMap m_primitive_types;
+	PrimitiveMap	m_primitive_types;
+	std::string		m_pattern_of_star;
 };
 
 #define SVC_SYMBOLTABLE (tw::maple::as::symbol::SymbolTable::instance())
