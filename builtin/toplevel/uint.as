@@ -1,5 +1,6 @@
 package
 {
+    [native(cls="Uint", instance="Uint", methods="auto")]
 	intrinsic public class uint extends Object
 	{
 		public static const length : int;
@@ -9,6 +10,7 @@ package
 
 		[native(support="none")]
 		public static const MIN_VALUE : uint = 0;
+
 /*
 		[native(support="none")]
 		public function toExponential (p:* = 0) : String;
@@ -21,6 +23,7 @@ package
 
 		public function uint (value:* = 0);
 */
+
 		[native(support="none")]
 		public function valueOf () : uint;
 	}
