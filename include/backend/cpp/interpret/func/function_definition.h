@@ -80,7 +80,10 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 
 		std::string str_function_body = (fdef->isAbstract)? " = 0;#(endl)" : "#(endl)#(indent_tab){#(endl)" + dispatchExpound(fcommon->FunctionBody(), symbol_function, ctx) + "#(indent_tab)}#(endl)";
 
-		std::string str_function_return_type = symbol_function->isConstructor()?"":symbol_function->ReturnType()->getFQN_and_mappedName();
+		std::string str_function_return_type = symbol_function->isConstructor() ? "":
+				(symbol_function->ReturnType()->isPrimitiveType() ? symbol_function->ReturnType()->name() :
+						symbol_function->ReturnType()->getFQN_and_mappedName() + m_pointer_pattern ) ;
+
 		if( ! symbol_function->isConstructor() )
 			str_function_return_type = ( str_function_return_type == "" ) ? "void /* damn */" : str_function_return_type;
 
@@ -107,6 +110,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 
 	FunctionDefinition()
 		: TemplatePrinter("FunctionDefinition")
+		, m_pointer_pattern("*")
 		, m_default_virtual( true )
 	{
 		setTemplateString(  "#(indent_tab)#(function_attribute)"
@@ -152,6 +156,9 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		m_tpl_setter_prepend	= pt.get<std::string>( configName()+".template.setter_prepend", m_tpl_setter_prepend);
 		m_tpl_getter_prepend	= pt.get<std::string>( configName()+".template.getter_prepend", m_tpl_getter_prepend);
 
+		m_pointer_pattern = pt.get<std::string>(  configName()+".pointer_pattern", m_pointer_pattern);
+
+
 		m_default_virtual = pt.get<bool>( configName()+".default_virtual", m_default_virtual);
 		return TemplatePrinter::readConfig( pt );
 	}
@@ -165,6 +172,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 
 		pt.put<std::string>( configName()+".template.setter_prepend", m_tpl_setter_prepend);
 		pt.put<std::string>( configName()+".template.getter_prepend", m_tpl_getter_prepend);
+		pt.put<std::string>( configName()+".pointer_pattern", m_pointer_pattern);
 
 		pt.put<bool>( configName()+".default_virtual",m_default_virtual);
 		return TemplatePrinter::writeConfig( pt );
@@ -181,6 +189,8 @@ private:
 	std::string m_tpl_getter_prepend;
 
 	bool		m_default_virtual;
+	std::string m_pointer_pattern;
+
 private:
 	std::string getMemberInitializer( ASY::FunctionPtr symbol_function, tw::maple::backend::cpp::Context* ctx )
 	{
