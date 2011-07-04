@@ -147,9 +147,9 @@ private:
 
 
 		if( ( _inherit_type == ONLY_EXTENDS || _inherit_type == BOTH ) && _class_define_->hasBaseClass() )
-		for( int idx = 0 ; idx < _class_define_->Inherits().size() ; idx ++){
-			class_inherit += class_inherit=="" ? " : " : " , ";
-			class_inherit += " public "+ _class_define_->Inherits()[idx];
+//		for( int idx = 0 ; idx < _class_define_->Inherits().size() ; idx ++)
+		{
+			class_inherit += ": public "+ symbol_class->getInherit()->getFQN_and_mappedName();
 		}
 		if( ( _inherit_type == ONLY_IMPLEMENTS || _inherit_type == BOTH) && _class_define_->hasInterface() )
 		for( int idx = 0 ; idx < _class_define_->Implements ().size() ; idx ++){
