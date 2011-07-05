@@ -71,16 +71,21 @@ struct ExpressionMember : public Interpreter, public TemplatePrinter
 					ASY::SymbolPtr instance = symbol_table->findSymbol( result );
 					ASY::VariablePtr variable = DYNA_CAST( ASY::Variable, instance );
 
-					if( instance  ){
+					if( variable /* && function_ptr && function_ptr->isGetter()*/ )
+					{
 						ASY::SymbolPtr instance_type = variable -> getTypeSymbol();
-						ASY::ScopePtr class_type = DYNA_CAST( ASY::Scope, instance_type );
-//						if( function_ptr != NULL && function_ptr->isGetter() )
-//							result += "->" + dispatchExpound(*nItr, class_type, ctx);
-//						else
-							result += "->" + dispatchExpound(*nItr, class_type, ctx);
-					} 
-					else 
-						result += "->" + dispatchExpound(*nItr, symbol_table, ctx);
+						ASY::ScopePtr  instance_class_type = DYNA_CAST( ASY::Scope, instance_type );
+						result += "->/*fuck2*/" + dispatchExpound(*nItr, instance_class_type, ctx) ;
+
+					}
+
+					else
+					{
+
+						std::cerr << "can't find symbol '" << result << "' in symboltable '" << symbol_table->name() << "'" << std::endl;
+//						exit(1);
+						result += "->/*fuck " + symbol_table->name()+"*/" + dispatchExpound(*nItr, symbol_table, ctx);
+					}
 				}
 				else 
 				{

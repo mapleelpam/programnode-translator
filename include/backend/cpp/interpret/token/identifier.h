@@ -54,7 +54,7 @@ struct Identifier : public Interpreter
 		{
 //			ASY::SymbolPtr symbol = symbol_table->findSymbol( result );
 			
-			ASY::SymbolPtr instance = symbol_table->findSymbol( li->value );
+			ASY::SymbolPtr instance = symbol_table->findSymbol( li->value, true );
 			ASY::FunctionPtr function_ptr = DYNA_CAST( ASY::Function, instance );
 
 			if( function_ptr != NULL && function_ptr->isGetter() )

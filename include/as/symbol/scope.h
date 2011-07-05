@@ -273,14 +273,22 @@ struct Scope : public Symbol, public Registrable
 		bool dummy;
 		return getFQN_and_mappedName(dummy);
 	}
-	SymbolPtr findSymbol( const std::string& type_name )
+	SymbolPtr findSymbol( const std::string& type_name, bool find_inherit = false )
 	{
+		// this scope
 		for( std::vector<SymbolPtr>::iterator sitr = m_childs.begin(), E = m_childs.end() ; sitr != E ; sitr++)
 		{
 //			std::cout <<"Scope::FindSymbol("<<type_name<<")"<< name() << " child "<<(*sitr)->name()<<std::endl;
 			if( (*sitr)->name() == type_name ) {
 				return (*sitr);
 			}
+		}
+		// find inherit
+		if( getInherit() != NULL && find_inherit )
+		{
+			SymbolPtr found = getInherit() -> findSymbol( type_name );
+			if( found != NULL)
+				return found;
 		}
 		// find the anonymouse package
 		for( std::vector<SymbolPtr>::iterator sitr = m_childs.begin(), E = m_childs.end() ; sitr != E ; sitr++)
