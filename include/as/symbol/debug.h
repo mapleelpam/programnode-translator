@@ -46,13 +46,13 @@ struct Debug
 		for (std::vector<SymbolPtr>::iterator
 				child_itr = childs.begin(); child_itr != childs.end(); child_itr++) {
 
-
-
 			if( ((*child_itr)->getSymbolProperties() & Symbol::T_SCOPE ) )
 			{
 				ScopePtr scope = STATIC_CAST( Scope, *child_itr );
 
 				ofs << indent(depth) << (*child_itr)->toString() << " FQN->"<<scope->getFQN() <<std::endl;
+				if( scope->getInherit() )
+				ofs << indent(depth) << (*child_itr)->toString() << " ParentFQN->"<<scope->getInherit()->getFQN() <<std::endl;
 
 				if( scope )
 					dump_symboltable( scope, ofs, depth+1 );
