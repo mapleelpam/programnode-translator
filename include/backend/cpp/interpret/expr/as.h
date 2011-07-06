@@ -22,10 +22,10 @@
  * Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
  * ***************************************************************/
 
-#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_EXPR_IS_H__
-#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_EXPR_IS_H__
+#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_EXPR_AS_H__
+#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_EXPR_AS_H__
 
-#include <as/ast/expr/is.h>
+#include <as/ast/expr/as.h>
 #include <backend/cpp/interpret/interpreter.h>
 #include <backend/cpp/templateprinter.h>
 
@@ -33,7 +33,7 @@ namespace tw { namespace maple { namespace backend { namespace cpp { namespace i
 
 namespace AST = ::tw::maple::as::ast;
 
-struct Is : public Interpreter, public TemplatePrinter
+struct As : public Interpreter, public TemplatePrinter
 {   
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
@@ -41,7 +41,7 @@ struct Is : public Interpreter, public TemplatePrinter
 			, tw::maple::as::symbol::ScopePtr class_symbol_table
 			)
 	{
-		AST::IsPtr bin = STATIC_CAST( AST::Is, node);
+		AST::AsPtr bin = STATIC_CAST( AST::As, node);
 
 		std::string instance_name = dispatchExpound(bin->LHS(), symbol_table, ctx, class_symbol_table);
 		std::string type_name = dispatchExpound(bin->RHS(), symbol_table, ctx, class_symbol_table);
@@ -52,10 +52,10 @@ struct Is : public Interpreter, public TemplatePrinter
 
 		return substitutePatterns( patterns );
 	}
-	Is()
-		: TemplatePrinter("Is")
+	As()
+		: TemplatePrinter("As")
 	{
-		setTemplateString( "false/*not support 'operator is'*/" );
+		setTemplateString( "/*not support as*/" );
 	}
 private:
 

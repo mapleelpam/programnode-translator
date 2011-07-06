@@ -51,6 +51,7 @@
 #include <backend/cpp/interpret/stmt/do_stmt.h>
 #include <backend/cpp/interpret/stmt_expression.h>
 #include <backend/cpp/interpret/expr/is.h>
+#include <backend/cpp/interpret/expr/as.h>
 #include <backend/cpp/interpret/expr/instanceof.h>
 #include <backend/cpp/interpret/stmt/class_definition.h>
 #include <backend/cpp/interpret/stmt/package_definition.h>
@@ -85,6 +86,7 @@ void initializeInterpreters()
 		interpreterResolver[AST::Node::NodeType::T_BINARY_OPERATOR]	= new BinaryOperator();
 		interpreterResolver[AST::Node::NodeType::T_INSTANCEOF] = new InstanceOf();
 		interpreterResolver[AST::Node::NodeType::T_IS] = new Is();
+		interpreterResolver[AST::Node::NodeType::T_AS] = new As();
 		interpreterResolver[AST::Node::NodeType::T_UNARY_OPERATOR] = new UnaryOperator();
 		interpreterResolver[AST::Node::NodeType::T_RETURN_STATEMENT] = new ReturnStatement();
 		interpreterResolver[AST::Node::NodeType::T_VARIABLE_DECLARE] = new VariableDeclare();

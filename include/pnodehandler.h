@@ -56,6 +56,7 @@
 #include <as/ast/expr/binary_operator.h>
 #include <as/ast/expr/instanceof.h>
 #include <as/ast/expr/is.h>
+#include <as/ast/expr/as.h>
 #include <as/ast/expr/unary_operator.h>
 #include <as/ast/expr/assignment.h>
 #include <as/ast/variable_declare.h>
@@ -261,6 +262,12 @@ public:
 	}
 	void endIsOperator() {
 		CHECK_STACK_AND_POP( Is, AST::Node::NodeType::T_IS );
+	}
+	void startAsOperator() {
+		PUSH_STACK( As );
+	}
+	void endAsOperator() {
+		CHECK_STACK_AND_POP( As, AST::Node::NodeType::T_AS );
 	}
 	void startVariableDeclare( const generated::VariableDeclare& var_decl ) {
 		PUSH_STACK_WITH_INIT( VariableDeclare, var_decl );

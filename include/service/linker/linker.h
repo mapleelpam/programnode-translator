@@ -276,6 +276,17 @@ class Linker : virtual public generated::AstDumperIf {
     pm_module->endIsOperator();
   }
 
+  void startAsOperator() {
+    // Your implementation goes here
+    printf("startAsOperator\n");
+    pm_module->startAsOperator();
+  }
+
+  void endAsOperator() {
+    // Your implementation goes here
+    printf("endAsOperator\n");
+    pm_module->endAsOperator();
+  }
   void startUnaryExpression(const generated::UnaryExpression& op) {
     // Your implementation goes here
     printf("startUnaryExpression\n");
