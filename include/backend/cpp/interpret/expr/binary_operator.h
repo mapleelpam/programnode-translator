@@ -36,14 +36,16 @@ struct BinaryOperator : public Interpreter
 {   
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
-			, tw::maple::backend::cpp::Context* ctx)
+			, tw::maple::backend::cpp::Context* ctx
+			, tw::maple::as::symbol::ScopePtr class_symbol_table
+			)
 	{
 		AST::BinaryOperatorPtr bin = STATIC_CAST( AST::BinaryOperator, node);
 
 
-		return dispatchExpound(bin->LHS(), symbol_table, ctx)
+		return dispatchExpound(bin->LHS(), symbol_table, ctx, class_symbol_table)
 				+ resolve_operator( bin->op_type )
-				+ dispatchExpound(bin->RHS(), symbol_table, ctx);
+				+ dispatchExpound(bin->RHS(), symbol_table, ctx, class_symbol_table);
 	}
 private:
 	std::string resolve_operator( std::string str )

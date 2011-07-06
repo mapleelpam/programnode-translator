@@ -38,12 +38,16 @@ struct Assignment : public Interpreter
 	virtual std::string expound(
 			::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
-			, tw::maple::backend::cpp::Context* ctx)
+			, tw::maple::backend::cpp::Context* ctx
+			, tw::maple::as::symbol::ScopePtr class_symbol_table
+			)
 	{
 		std::string result;
 		AST::AssignmentPtr assignment = STATIC_CAST( AST::Assignment, node);
 
-		return dispatchExpound(assignment->LHS(), symbol_table, ctx) + " = "  + dispatchExpound(assignment->RHS(),symbol_table, ctx);
+		return dispatchExpound(assignment->LHS(), symbol_table, ctx, class_symbol_table)
+				+ " = "
+				+ dispatchExpound(assignment->RHS(),symbol_table, ctx, class_symbol_table);
 	}
 };
 

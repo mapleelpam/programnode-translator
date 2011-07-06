@@ -37,7 +37,9 @@ struct UnaryOperator : public Interpreter
 
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
-			, tw::maple::backend::cpp::Context* ctx)
+			, tw::maple::backend::cpp::Context* ctx
+			, tw::maple::as::symbol::ScopePtr class_symbol_table
+			)
 	{
 		std::string result;
 
@@ -46,10 +48,10 @@ struct UnaryOperator : public Interpreter
 
 		if( bin->op_type == "typeof" ) {
 //			return "false/*not support typeof*/";
-			result = dispatchExpound(bin->subExpr(), symbol_table, ctx) +" ->__get_type__()" ;
+			result = dispatchExpound(bin->subExpr(), symbol_table, ctx, class_symbol_table) +" ->__get_type__()" ;
 		} else {
 			result += " " + resolve_operator(bin->op_type) + " ";
-			result += dispatchExpound(bin->subExpr(),symbol_table, ctx); // sub expression
+			result += dispatchExpound(bin->subExpr(),symbol_table, ctx, class_symbol_table); // sub expression
 		}
 		return result;
 	}

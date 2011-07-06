@@ -182,6 +182,7 @@ void SymbolTableConstructor:: linkClassInherit(
 		, tw::maple::service::pass::cs::Phase2ContextPtr local_context
 		)
 {
+	std::cerr <<  " link class inherit iterate  " <<std::endl;
 	BOOST_ASSERT( symboltable != NULL && "ph2: try to linke class inherit");
 	namespace AST = tw::maple::as::ast;
 	namespace CPP = tw::maple::backend::cpp::interpret;
@@ -193,15 +194,15 @@ void SymbolTableConstructor:: linkClassInherit(
 	for (std::vector< AST::NodePtr >::iterator nItr =
 			node->node_childs.begin(); nItr != node->node_childs.end(); nItr++) {
 
-
+		std::cerr <<  " link class inherit iterate  "<< (*nItr)->toString() <<std::endl;
 		switch( (*nItr) -> nodeType() ) {
 		case AST::Node::NodeType::T_IMPORT_STMT:
 		{
 			using tw::maple::service::pass::cs::ph2::Phase2_ImportStatement;
 			AST::ImportStatementPtr ast_import = std::tr1::static_pointer_cast<AST::ImportStatement>(*nItr);
 			Phase2_ImportStatement::pass( ast_import, symboltable, local_context );
-			continue;
 		}
+		break;
 		case AST::Node::NodeType::T_CLASS_DEFINE:
 		{
 				ASY::SymbolPtr symbol = (*nItr)->getSymbol();
@@ -219,6 +220,7 @@ void SymbolTableConstructor:: linkClassInherit(
 						std::cerr << _class_define_->Inherits()[0] << " not found ph2"<<std::endl;
 						exit(1);
 					}
+					std::cerr << _class_define_->Inherits()[0] << " bind!~!!! !!!!!!!!!!!!!!!"<<std::endl;
 					ASY::ScopePtr inherit_scope = STATIC_CAST( ASY::Scope, inherit_symbol );
 					class_symbol->setInhrit( inherit_scope.get() );
 				}

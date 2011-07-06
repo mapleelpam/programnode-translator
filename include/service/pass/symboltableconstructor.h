@@ -45,12 +45,15 @@ public:
 		using tw::maple::service::pass::cs::Phase2ContextPtr;
 //		P_LocalContext local_context( new Context() );
 
+		printf("%s:%d\n",__FILE__,__LINE__);
+
 		// 1
 		for (std::vector< AST::ProgramPtr>::iterator nodeItr = pnode_list.begin(), E = pnode_list.end()
 			; nodeItr != E; nodeItr++)
 			constructSymbols( *nodeItr, root, "");
 		// 2
 		{
+			printf("%s:%d\n",__FILE__,__LINE__);
 		Phase2ContextPtr ph2_context( new tw::maple::service::pass::cs::Phase2Context() );
 		for (std::vector< AST::ProgramPtr>::iterator nodeItr = pnode_list.begin(), E = pnode_list.end()
 			; nodeItr != E; nodeItr++)
@@ -58,6 +61,7 @@ public:
 		}
 		// 3
 		{
+			printf("%s:%d\n",__FILE__,__LINE__);
 		Phase2ContextPtr ph2_context( new tw::maple::service::pass::cs::Phase2Context() );
 		for (std::vector< AST::ProgramPtr>::iterator nodeItr = pnode_list.begin(), E = pnode_list.end()
 			; nodeItr != E; nodeItr++)

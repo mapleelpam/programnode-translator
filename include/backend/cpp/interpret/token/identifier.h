@@ -39,7 +39,9 @@ struct Identifier : public Interpreter
 {
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
-			,	tw::maple::backend::cpp::Context* ctx)
+			, tw::maple::backend::cpp::Context* ctx
+			, tw::maple::as::symbol::ScopePtr class_symbol_table
+			)
 	{
 		namespace ASY = tw::maple::as::symbol;
 		SHARED_PTR(AST::Identifier) li = std::tr1::static_pointer_cast<AST::Identifier>(node);
@@ -55,6 +57,8 @@ struct Identifier : public Interpreter
 //			ASY::SymbolPtr symbol = symbol_table->findSymbol( result );
 			
 			ASY::SymbolPtr instance = symbol_table->findSymbol( li->value, true );
+			if( instance == NULL && class_symbol_table != NULL )
+				instance = class_symbol_table->findSymbol( li->value, true );
 			ASY::FunctionPtr function_ptr = DYNA_CAST( ASY::Function, instance );
 
 			if( function_ptr != NULL && function_ptr->isGetter() )

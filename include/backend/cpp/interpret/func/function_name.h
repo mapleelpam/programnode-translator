@@ -36,7 +36,9 @@ struct FunctionName : public Interpreter
 {   
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
-			,	tw::maple::backend::cpp::Context* ctx)
+			, tw::maple::backend::cpp::Context* ctx
+			, tw::maple::as::symbol::ScopePtr class_symbol_table
+			)
 	{
 		AST::FunctionNamePtr func_name = STATIC_CAST( AST::FunctionName, node);
 

@@ -40,7 +40,9 @@ struct ExpressionMember : public Interpreter, public TemplatePrinter
 {   
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
-			, tw::maple::backend::cpp::Context* ctx)
+			, tw::maple::backend::cpp::Context* ctx
+			, tw::maple::as::symbol::ScopePtr class_symbol_table
+			)
 	{
 		namespace ASY = tw::maple::as::symbol;
 
@@ -50,46 +52,52 @@ struct ExpressionMember : public Interpreter, public TemplatePrinter
 
 		if( expr_mem->node_childs.size() == 1 )
 		{
-			result += dispatchExpound(*(expr_mem->node_childs.begin()), symbol_table, ctx);
+			result += dispatchExpound(*(expr_mem->node_childs.begin()), symbol_table, ctx, class_symbol_table);
 		}
 		else if( expr_mem->node_childs.size() == 2 )
 		{
 			std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr = expr_mem->node_childs.begin();
 
-			result += dispatchExpound(*nItr, symbol_table, ctx);
+			result += dispatchExpound(*nItr, symbol_table, ctx, class_symbol_table);
 			nItr ++;
 
 			if(  (*nItr)->nodeType() == AST::Node::NodeType::T_CALL
 				&& STATIC_CAST( AST::Call, *nItr)->isObjectConsturct() )
 			{
-				return constructor_work_around(result,dispatchExpound(*nItr, symbol_table, ctx));
+				return constructor_work_around(result,dispatchExpound(*nItr, symbol_table, ctx, class_symbol_table));
 			}
 			else
 			{
 				if( symbol_table->isInstance( result, "::"))
 				{
 					ASY::SymbolPtr instance = symbol_table->findSymbol( result );
+					if( instance == NULL && class_symbol_table != NULL )
+					{
+						instance = class_symbol_table->findSymbol( result );
+					}
 					ASY::VariablePtr variable = DYNA_CAST( ASY::Variable, instance );
+
 
 					if( variable /* && function_ptr && function_ptr->isGetter()*/ )
 					{
 						ASY::SymbolPtr instance_type = variable -> getTypeSymbol();
 						ASY::ScopePtr  instance_class_type = DYNA_CAST( ASY::Scope, instance_type );
-						result += "->/*fuck2*/" + dispatchExpound(*nItr, instance_class_type, ctx) ;
+						result += "->"+ dispatchExpound(*nItr, symbol_table, ctx, instance_class_type) ;
 
 					}
 
 					else
 					{
 
-						std::cerr << "can't find symbol '" << result << "' in symboltable '" << symbol_table->name() << "'" << std::endl;
+						std::cerr << "@@ can't find symbol '" << result << "' in symboltable '" << symbol_table->name() << "'" << std::endl;
+						if( class_symbol_table != NULL )
+							std::cerr << "can't find symbol '" << result << "' in class symboltable '" << class_symbol_table->name() << "'" << std::endl;
 //						exit(1);
-						result += "->/*fuck " + symbol_table->name()+"*/" + dispatchExpound(*nItr, symbol_table, ctx);
 					}
 				}
 				else 
 				{
-					result += "::" + dispatchExpound(*nItr, symbol_table, ctx);
+					result += "::" + dispatchExpound(*nItr, symbol_table, ctx, class_symbol_table);
 				}
 			}
 		}

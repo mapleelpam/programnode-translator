@@ -39,7 +39,9 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
-			, tw::maple::backend::cpp::Context* ctx)
+			, tw::maple::backend::cpp::Context* ctx
+			, tw::maple::as::symbol::ScopePtr class_symbol_table
+			)
 	{
 
 		AST::ClassDefinitionPtr _class_define_ = STATIC_CAST( AST::ClassDefinition, node);
@@ -53,11 +55,11 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 		std::string class_stmt = "";
 		if( _class_define_->hasStatement() ) {
 			ctx->tree_depth ++;
-				class_stmt = dispatchExpound(_class_define_->classStmt(), symbol_table, ctx);
+				class_stmt = dispatchExpound(_class_define_->classStmt(), symbol_class, ctx, symbol_class);
 			ctx->tree_depth --;
 		}
 
-		std::string class_inherit = getInheritsString(_class_define_, symbol_class, ctx);
+		std::string class_inherit = getInheritsString(_class_define_, symbol_class, ctx, class_symbol_table);
 
 		std::string class_base = "";
 		if (_class_define_->hasBaseClass() ) {
@@ -66,7 +68,8 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 			class_base = _default_base_object;
 		}
 
-		std::string class_implements = getImplementsListString(_class_define_, symbol_class, ctx);
+		/* change both symbol table into class symbol */
+		std::string class_implements = getImplementsListString(_class_define_, symbol_class, ctx, class_symbol_table);
 
 		std::list<PatternPtr> patterns;
 
@@ -76,7 +79,7 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("class_implements_list", class_implements ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_base", class_base ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_type", _class_define_->isAbstract()?"struct":"class" ) ));
-		patterns.push_back( PatternPtr( new Pattern("class_default_constructor", symbol_class->noContructor()?getDefaultConstructor(symbol_class,ctx):"" ) ));
+		patterns.push_back( PatternPtr( new Pattern("class_default_constructor", symbol_class->noContructor()?getDefaultConstructor(symbol_class,ctx,class_symbol_table):"" ) ));
 
 		patterns.push_back( PatternPtr( new Pattern("endl", ctx->endl() ) ));
 		patterns.push_back( PatternPtr( new Pattern("indent_tab", ctx->indent()) ));
@@ -141,10 +144,11 @@ private:
 	std::string getInheritsString(
 				AST::ClassDefinitionPtr _class_define_
 				, ASY::ScopePtr symbol_class
-				, tw::maple::backend::cpp::Context* ctx)
+				, tw::maple::backend::cpp::Context* ctx
+				, tw::maple::as::symbol::ScopePtr class_symbol_table
+				)
 	{
 		std::string class_inherit = "";
-
 
 		if( ( _inherit_type == ONLY_EXTENDS || _inherit_type == BOTH ) && _class_define_->hasBaseClass() )
 //		for( int idx = 0 ; idx < _class_define_->Inherits().size() ; idx ++)
@@ -167,7 +171,9 @@ private:
 	std::string getImplementsListString(
 				AST::ClassDefinitionPtr _class_define_
 				, ASY::ScopePtr symbol_class
-				, tw::maple::backend::cpp::Context* ctx)
+				, tw::maple::backend::cpp::Context* ctx
+				, tw::maple::as::symbol::ScopePtr class_symbol_table
+				)
 	{
 		std::string answer = "";
 		if( _class_define_->hasInterface() )
@@ -180,7 +186,9 @@ private:
 
 	std::string getDefaultConstructor(
 			ASY::ScopePtr symbol_class,
-			tw::maple::backend::cpp::Context* ctx)
+			tw::maple::backend::cpp::Context* ctx
+			, tw::maple::as::symbol::ScopePtr class_symbol_table
+			)
 	{
 		std::string answer = "#(indent_tab)public: "+symbol_class->name()+"()";
 
@@ -195,9 +203,10 @@ private:
 				if (var->getInitializeNode() != NULL && var->isStatic() == false) {
 					answer += ":" + var->name() + "("
 									+ dispatchExpound(
-											var->getInitializeNode(),
-											symbol_class/*TODO: should use function's parent*/,
-											ctx) + ")";
+										var->getInitializeNode(),
+										symbol_class/*TODO: should use function's parent*/,
+										ctx
+										, class_symbol_table) + ")";
 				}
 			}
 		}

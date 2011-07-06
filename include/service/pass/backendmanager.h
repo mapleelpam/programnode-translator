@@ -43,6 +43,7 @@ struct BackendManager {
 			)
 	{
 		namespace INTERPRET = tw::maple::backend::cpp::interpret;
+		using tw::maple::as::symbol::ScopePtr;
 
 		tw::maple::backend::cpp::Context context;
 		context.ofs_stream.open( file_name.c_str() );
@@ -52,7 +53,7 @@ struct BackendManager {
 
 		for (std::vector<tw::maple::as::ast::ProgramPtr>::iterator
 				nodeItr = pnode_list.begin(); nodeItr != pnode_list.end(); nodeItr++) {
-			context.ofs_stream << INTERPRET::dispatchExpound(*nodeItr, symbol_table, &context);
+			context.ofs_stream << INTERPRET::dispatchExpound(*nodeItr, symbol_table, &context, ScopePtr()/*null*/ );
 		}
 		declareStaticVariables( symbol_table, context );
 
@@ -67,6 +68,7 @@ private:
 	{
 		namespace ASYM = tw::maple::as::symbol;
 		namespace INTERPRET = tw::maple::backend::cpp::interpret;
+		using tw::maple::as::symbol::ScopePtr;
 
 		std::vector<ASYM::SymbolPtr> childs;
 		symbol_table->getChilds( childs/*out*/ );
@@ -85,7 +87,7 @@ private:
 					ctx.ofs_stream << variable ->getTypeSymbol()->getFQN_and_mappedName() << " "<<variable->getFQN();
 					if(variable->getInitializeNode())
 					{
-						ctx.ofs_stream << " = " << INTERPRET::dispatchExpound(variable->getInitializeNode(), symbol_table, &ctx);
+						ctx.ofs_stream << " = " << INTERPRET::dispatchExpound(variable->getInitializeNode(), symbol_table, &ctx, ScopePtr());
 					}
 					ctx.ofs_stream << ";" <<std::endl;
 				}

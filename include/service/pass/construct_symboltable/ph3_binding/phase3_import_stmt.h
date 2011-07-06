@@ -64,7 +64,7 @@ struct Phase3_ImportStatement
 				if( p_type == NULL )
 				{
 					std::cerr << "import can't find type - '"<< ast_import->package_names[ast_import->package_names.size() - 1] <<"'"<<std::endl;
-//					exit(1);
+					exit(1);
 
 				}
 				else

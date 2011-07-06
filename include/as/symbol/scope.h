@@ -424,7 +424,10 @@ public:
 
 	Scope* getInherit()
 	{
-		return m_inherit;
+		if( getScopeType() == T_CLASS )
+			return m_inherit;
+		else
+			return NULL;
 	}
 	Scope* setInhrit( Scope* inherit )
 	{

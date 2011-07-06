@@ -36,7 +36,9 @@ struct ReturnStatement : public Interpreter
 
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
-			, tw::maple::backend::cpp::Context* ctx)
+			, tw::maple::backend::cpp::Context* ctx
+			, tw::maple::as::symbol::ScopePtr class_symbol_table
+			)
 	{
 		std::string result;
 		result += ctx->indent() ;
@@ -44,7 +46,7 @@ struct ReturnStatement : public Interpreter
 		for (std::vector<std::tr1::shared_ptr<AST::Node> >::iterator nItr =
 				node->node_childs.begin(); nItr != node->node_childs.end(); nItr++)
 		{
-			result += dispatchExpound(*nItr, symbol_table, ctx);
+			result += dispatchExpound(*nItr, symbol_table, ctx, class_symbol_table);
 		}
 		result +=  ";";
 		result +=  "\n"; //TODO: replace to \n\l?

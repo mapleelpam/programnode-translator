@@ -108,7 +108,12 @@ void initializeInterpreters()
 }
 
 
-std::string dispatchExpound( ::tw::maple::as::ast::NodePtr node, tw::maple::as::symbol::ScopePtr symbol_table, ::tw::maple::backend::cpp::Context* ctx )
+std::string dispatchExpound(
+		::tw::maple::as::ast::NodePtr node
+		 , tw::maple::as::symbol::ScopePtr symbol_table
+		 , ::tw::maple::backend::cpp::Context* ctx
+		 , tw::maple::as::symbol::ScopePtr class_symbol_table
+		)
 {
 	BOOST_ASSERT( node != NULL );
 
@@ -120,7 +125,7 @@ std::string dispatchExpound( ::tw::maple::as::ast::NodePtr node, tw::maple::as::
 		exit(1);
 	} else {
 		std::cout <<" dispatch - " << node->toString() << " number " << node->nodeType()<<std::endl;
-		return to->expound(node,symbol_table,ctx);
+		return to->expound(node,symbol_table,ctx, class_symbol_table );
 	}
 
 }

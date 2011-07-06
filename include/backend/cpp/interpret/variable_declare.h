@@ -43,7 +43,9 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
-			, tw::maple::backend::cpp::Context* ctx)
+			, tw::maple::backend::cpp::Context* ctx
+			, tw::maple::as::symbol::ScopePtr class_symbol_table
+			)
 	{
 
 		namespace ASY = tw::maple::as::symbol;
@@ -65,7 +67,7 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 		std::string var_init = "";
 
 		if ( var->varInit() && symbol_var && !(symbol_var->isClassMember()) )
-	 		var_init = " = " + dispatchExpound( var->varInit(), symbol_table, ctx );
+	 		var_init = " = " + dispatchExpound( var->varInit(), symbol_table, ctx, class_symbol_table );
 
 		std::list<PatternPtr> patterns;
 		patterns.push_back( PatternPtr( new Pattern("var_attribute", var_attr) ));

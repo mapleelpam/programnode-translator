@@ -4,7 +4,7 @@ package flash.net
 //	import private.IDataInput;
 //	import private.IDataOutput;
 	import flash.utils.Timer;
-	import flash.events.SecurityErrorEvent;
+//	import flash.events.SecurityErrorEvent; //since no one use it
 	import flash.events.TimerEvent;
 	import flash.utils.ByteArray;
 

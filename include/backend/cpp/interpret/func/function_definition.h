@@ -46,7 +46,9 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 {   
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
-			, tw::maple::backend::cpp::Context* ctx)
+			, tw::maple::backend::cpp::Context* ctx
+			, tw::maple::as::symbol::ScopePtr class_symbol_table
+			)
 	{
 
 		std::string result;
@@ -60,7 +62,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 				= STATIC_CAST( AST::FunctionSignature, fcommon -> FunctionSignature());
 
 		std::string str_func_parameters = fsig->node_childs.size()
-				? dispatchExpound(fsig->FunctionParameter(), symbol_table, ctx)
+				? dispatchExpound(fsig->FunctionParameter(), symbol_table, ctx, class_symbol_table)
 				:"";
 
 		std::list<PatternPtr> patterns;
@@ -78,7 +80,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 
 		std::string str_func_name = _function_name_mapper( symbol_function->name(), symbol_function );
 
-		std::string str_function_body = (fdef->isAbstract)? " = 0;#(endl)" : "#(endl)#(indent_tab){#(endl)" + dispatchExpound(fcommon->FunctionBody(), symbol_function, ctx) + "#(indent_tab)}#(endl)";
+		std::string str_function_body = (fdef->isAbstract)? " = 0;#(endl)" : "#(endl)#(indent_tab){#(endl)" + dispatchExpound(fcommon->FunctionBody(), symbol_function, ctx, class_symbol_table) + "#(indent_tab)}#(endl)";
 
 		std::string str_function_return_type = symbol_function->isConstructor() ? "":
 				(symbol_function->ReturnType()->isPrimitiveType() ? symbol_function->ReturnType()->name() :
@@ -99,7 +101,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 						"virtual":"") ) );
 		patterns.push_back( PatternPtr( new Pattern("function_enter", (fdef->isAbstract)? "" : m_tpl_enter_function) ) );
 		patterns.push_back( PatternPtr( new Pattern("function_leave", (fdef->isAbstract)? "" : m_tpl_leave_function) ) );
-		patterns.push_back( PatternPtr( new Pattern("member_initial", (symbol_function->isConstructor())? getMemberInitializer(symbol_function,ctx) : "") ) );
+		patterns.push_back( PatternPtr( new Pattern("member_initial", (symbol_function->isConstructor())? getMemberInitializer(symbol_function,ctx, class_symbol_table) : "") ) );
 		patterns.push_back( PatternPtr( new Pattern("prefix_arguments", m_tpl_args_prefix) ) );
 		patterns.push_back( PatternPtr( new Pattern("postfix_arguments", m_tpl_args_postfix) ) );
 		patterns.push_back( PatternPtr( new Pattern("endl", ctx->endl() )) );
@@ -192,7 +194,11 @@ private:
 	std::string m_pointer_pattern;
 
 private:
-	std::string getMemberInitializer( ASY::FunctionPtr symbol_function, tw::maple::backend::cpp::Context* ctx )
+	std::string getMemberInitializer(
+			ASY::FunctionPtr symbol_function
+			, tw::maple::backend::cpp::Context* ctx
+			, tw::maple::as::symbol::ScopePtr class_symbol_table
+			)
 	{
 		std::string answer = "";
 		std::vector<ASY::SymbolPtr> childs;
@@ -207,7 +213,7 @@ private:
 				if( var->getInitializeNode() != NULL )
 				{
 					answer += ":" + var->name() + "("
-						+ dispatchExpound(var->getInitializeNode(), symbol_function/*TODO: should use function's parent*/, ctx)
+						+ dispatchExpound(var->getInitializeNode(), symbol_function/*TODO: should use function's parent*/, ctx, class_symbol_table)
 						+")";
 				}
 			}

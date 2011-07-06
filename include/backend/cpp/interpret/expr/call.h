@@ -38,7 +38,9 @@ struct Call : public Interpreter
 {   
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
-			, tw::maple::backend::cpp::Context* ctx)
+			, tw::maple::backend::cpp::Context* ctx
+			, tw::maple::as::symbol::ScopePtr class_symbol_table
+			)
 	{
 //		std::cerr << " in call interpreter  = " << std::endl;
 
@@ -55,19 +57,19 @@ struct Call : public Interpreter
 			ASY::SymbolPtr p_type = call->getCalleeType();
 			if( p_type != NULL && p_type->getFQN_and_mappedName() != "" )
 			{
-				std::cout << "go path 1 "<<std::endl;
+//				std::cout << "go path 1 "<<std::endl;
 				result += p_type->getFQN_and_mappedName();
 			}
 			else
 			{
-				std::cout << "go path 2 "<< ( p_type != NULL) <<std::endl;
+//				std::cout << "go path 2 "<< ( p_type != NULL) <<std::endl;
 				result += type_name;
 			}
 		} else
 			result += get_full_functionname( call->callee );
 		result +=  "( ";
 		if (call->getArgs()) {
-			result += dispatchExpound( call->getArgs(), symbol_table, ctx);
+			result += dispatchExpound( call->getArgs(), symbol_table, ctx, class_symbol_table);
 		}
 		result += " )";
 

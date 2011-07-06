@@ -37,12 +37,14 @@ struct InstanceOf : public Interpreter, public TemplatePrinter
 {   
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
-			, tw::maple::backend::cpp::Context* ctx)
+			, tw::maple::backend::cpp::Context* ctx
+			, tw::maple::as::symbol::ScopePtr class_symbol_table
+			)
 	{
 		AST::InstanceOfPtr bin = STATIC_CAST( AST::InstanceOf, node);
 
-		std::string instance_name = dispatchExpound(bin->LHS(), symbol_table, ctx);
-		std::string type_name = dispatchExpound(bin->RHS(), symbol_table, ctx);
+		std::string instance_name = dispatchExpound(bin->LHS(), symbol_table, ctx, class_symbol_table);
+		std::string type_name = dispatchExpound(bin->RHS(), symbol_table, ctx, class_symbol_table);
 
 		std::list<PatternPtr> patterns;
 		patterns.push_back( PatternPtr( new Pattern("instance_name", instance_name ) ));

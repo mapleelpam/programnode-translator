@@ -68,12 +68,14 @@ public:
 	}
 	void pass(po::variables_map& args)
 	{
+		fprintf(stderr," in psm \n");
 		if (args.count("help") > 0) {
 			SVC_ARGUMENTS->print_out_help();
 			exit(1);
 		}
 		if (args.count("symbol") > 0) {
 			m_dump_symbol_table_only = true;
+			fprintf(stderr," dump symobl table only\n");
 		}
 		m_pnode_files = args["input"].as< std::vector<std::string > >();
 		if (args.count("output") > 0) {
