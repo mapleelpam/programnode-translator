@@ -46,26 +46,6 @@ struct Pass
 };
 
 
-//struct Phase2Context
-//{
-//	typedef std::vector<tw::maple::as::symbol::ScopePtr> T_ImportList;
-//	typedef SHARED_PTR( T_ImportList ) P_ImportList;
-//	std::stack<P_ImportList>	m_stack;
-//
-//	void enterScope()
-//	{
-//		m_stack . push( P_ImportList( new T_ImportList() ) );
-//	}
-//
-//	void leaveScope()
-//	{
-//		m_stack . pop();
-//	}
-//};
-
-//typedef SHARED_PTR( Phase2Context )	Phase2ContextPtr;
-
-
 
 } } } } }
 

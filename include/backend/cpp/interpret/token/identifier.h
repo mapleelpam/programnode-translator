@@ -54,17 +54,44 @@ struct Identifier : public Interpreter
 		}
 		else
 		{
-//			ASY::SymbolPtr symbol = symbol_table->findSymbol( result );
-			
-			ASY::SymbolPtr instance = symbol_table->findSymbol( li->value, true );
-			if( instance == NULL && class_symbol_table != NULL )
-				instance = class_symbol_table->findSymbol( li->value, true );
-			ASY::FunctionPtr function_ptr = DYNA_CAST( ASY::Function, instance );
+			std::vector<ASY::SymbolPtr> candidates = symbol_table->findSymbol_down2( li->value );
+			if( candidates.size() == 0 && class_symbol_table != NULL )
+				candidates = class_symbol_table->findSymbol_down2( li->value );
 
-			if( function_ptr != NULL && function_ptr->isGetter() )
-				return "get_" +  li->value + "()";
-			else
+			if( candidates.size() > 0 )
+			{
+				if( ctx->inter_type==Context::RHS )
+				{
+					for( int idx = 0, E = candidates.size() ; idx < E ; idx ++ )
+					{
+						ASY::SymbolPtr instance_symbol = candidates[idx];
+						ASY::FunctionPtr function_ptr = DYNA_CAST( ASY::Function, instance_symbol );
+						if( function_ptr != NULL && function_ptr->isGetter() )
+							return "get_" +  li->value + "()";
+					}
+				}
+				else if( ctx->inter_type==Context::LHS )
+				{
+					for( int idx = 0, E = candidates.size() ; idx < E ; idx ++ )
+					{
+						ASY::SymbolPtr instance_symbol = candidates[idx];
+						ASY::FunctionPtr function_ptr = DYNA_CAST( ASY::Function, instance_symbol );
+						if( function_ptr != NULL && function_ptr->isSetter() )
+						{
+							ctx-> lfs_is_setter = true;
+							return "set_" +  li->value;
+						}
+					}
+				}
 				return li->value;
+			}
+			else
+			{
+				/* TODO: exit 1 */
+//				exit(1);
+				return li->value;
+			}
+
 		}
 	}
 

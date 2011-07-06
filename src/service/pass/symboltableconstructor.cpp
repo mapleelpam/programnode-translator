@@ -79,9 +79,6 @@ void SymbolTableConstructor:: constructSymbols(
 				AST::FunctionNamePtr fname  = STATIC_CAST( AST::FunctionName, fdef->FunctionName() );
 				BOOST_ASSERT( fname != NULL );
 				std::string str_func_name = fname->function_name ;
-//				class_has_constructor = (class_has_constructor ||( class_scope_name != "" && str_func_name == class_scope_name));
-//				std::cout << "------------------------------- class_name " << class_scope_name << " func_name " << str_func_name<<std::endl;
-
 
 				ASY::FunctionPtr scope_func( symboltable->registerFunction( str_func_name ) );
 				{
@@ -109,7 +106,6 @@ void SymbolTableConstructor:: constructSymbols(
 
 				AST::FunctionSignaturePtr fsig  = STATIC_CAST( AST::FunctionSignature, fcommon->FunctionSignature() );
 
-//				ASY::SymbolPtr p_type = symboltable->findType( fsig->FunctionReturnType );
 				if(	fsig->FunctionParameter() )
 					constructSymbols( fsig->FunctionParameter(), scope_func, classname );
 				constructSymbols( fcommon->FunctionBody(), scope_func, classname );
@@ -149,7 +145,6 @@ void SymbolTableConstructor:: constructSymbols(
 				if( var->varInit() )
 					symbol_var->setInitializeNode( var->varInit() );
 
-//				std::cerr <<" variable's attribute = "<<var->VariableAttribute<<std::endl;
 			}	break;
 			case AST::Node::NodeType::T_SCOPE:
 			{

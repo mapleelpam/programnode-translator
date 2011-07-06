@@ -45,9 +45,20 @@ struct Assignment : public Interpreter
 		std::string result;
 		AST::AssignmentPtr assignment = STATIC_CAST( AST::Assignment, node);
 
-		return dispatchExpound(assignment->LHS(), symbol_table, ctx, class_symbol_table)
-				+ " = "
-				+ dispatchExpound(assignment->RHS(),symbol_table, ctx, class_symbol_table);
+		ctx->inter_type = Context::LHS;
+		bool lft_is_setter = ctx-> lfs_is_setter = false;
+		std::string str_rhs = dispatchExpound(assignment->LHS(), symbol_table, ctx, class_symbol_table);
+		lft_is_setter = ctx-> lfs_is_setter;
+
+		ctx->inter_type = Context::RHS;
+		std::string str_lhs = dispatchExpound(assignment->RHS(), symbol_table, ctx, class_symbol_table);
+
+		ctx->inter_type = Context::RHS;
+
+		if( lft_is_setter )
+			return str_rhs + "( " + str_lhs+")";
+		else
+			return str_rhs + " = " + str_lhs;
 	}
 };
 

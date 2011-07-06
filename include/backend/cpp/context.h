@@ -31,6 +31,12 @@ namespace tw { namespace maple { namespace backend { namespace cpp {
 
 struct Context
 {
+	enum InterpretType
+	{
+//		NONE,
+		LHS,
+		RHS
+	};
 	struct IndentContext
 	{
 		IndentContext() : indent(0){}
@@ -74,9 +80,18 @@ struct Context
     {
         return "\n";
     }
+    Context()
+    	: inter_type( RHS )
+    	, lfs_is_setter( false )
+    {
+
+    }
 
 	std::ofstream	ofs_stream;
 	IndentContext	tree_depth;
+
+	InterpretType   inter_type;
+	bool			lfs_is_setter;
 };
 
 } } } }

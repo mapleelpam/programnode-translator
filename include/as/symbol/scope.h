@@ -273,7 +273,7 @@ struct Scope : public Symbol, public Registrable
 		bool dummy;
 		return getFQN_and_mappedName(dummy);
 	}
-	SymbolPtr findSymbol( const std::string& type_name, bool find_inherit = false )
+	SymbolPtr findSymbol( const std::string& type_name)
 	{
 		// this scope
 		for( std::vector<SymbolPtr>::iterator sitr = m_childs.begin(), E = m_childs.end() ; sitr != E ; sitr++)
@@ -284,7 +284,7 @@ struct Scope : public Symbol, public Registrable
 			}
 		}
 		// find inherit
-		if( getInherit() != NULL && find_inherit )
+		if( getInherit() != NULL)
 		{
 			SymbolPtr found = getInherit() -> findSymbol( type_name );
 			if( found != NULL)
@@ -334,6 +334,37 @@ struct Scope : public Symbol, public Registrable
 		}
 
 		return SymbolPtr();
+	}
+	std::vector<SymbolPtr> findSymbol_down2( const std::string& type_name )
+	{
+		std::vector<SymbolPtr> answers;
+
+		for( std::vector<SymbolPtr>::iterator sitr = m_childs.begin() ; sitr != m_childs.end() ; sitr++)
+		{
+			if( (*sitr)->name() == type_name ) {
+				answers.push_back( *sitr );
+			}
+		}
+
+		// find the anonymouse package
+		for( std::vector<SymbolPtr>::iterator sitr = m_childs.begin() ; sitr != m_childs.end() ; sitr++)
+		{
+			if( (*sitr)->name() == ""  && (*sitr)->getSymbolProperties() == T_SCOPE ) {
+				ScopePtr anonymous_package = DYNA_CAST( Scope, *sitr );
+				if( anonymous_package -> getScopeType() == T_PACKAGE )
+				{
+					std::vector<SymbolPtr> founds = anonymous_package -> findSymbol_down2( type_name );
+//					if( found )
+//						return found;
+//					else
+//						continue;
+
+					std::copy( founds.begin(), founds.end(), answers.end() );
+				}
+			}
+		}
+
+		return answers;
 	}
 	SymbolPtr findType_down( const std::string& type_name )
 	{
