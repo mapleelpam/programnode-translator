@@ -31,7 +31,7 @@
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
 namespace AST = ::tw::maple::as::ast;
-
+namespace ASY = ::tw::maple::as::symbol;
 
 struct Assignment : public Interpreter
 {   
@@ -51,7 +51,7 @@ struct Assignment : public Interpreter
 		lft_is_setter = ctx-> lfs_is_setter;
 
 		ctx->inter_type = Context::RHS;
-		std::string str_lhs = dispatchExpound(assignment->RHS(), symbol_table, ctx, class_symbol_table);
+		std::string str_lhs = dispatchExpound(assignment->RHS(), symbol_table, ctx, ASY::ScopePtr() );
 
 		ctx->inter_type = Context::RHS;
 

@@ -6,9 +6,9 @@ class A		// CHECK: class:A FQN->::A
 {
 }
 
-class B extends A  // CHECK: class:B FQN->::B
-{
-	public function B() // CHECK: -function:B return:void FQN->::B::B
+class B extends A   // CHECK: class:B FQN->::B
+{                   // CHECK: class:B ParentFQN->::A
+	public function B() // CHECK: -function:B return:void : FQN->::B::B
 	{
 	}
 }

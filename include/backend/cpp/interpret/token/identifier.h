@@ -35,6 +35,8 @@ namespace tw { namespace maple { namespace backend { namespace cpp { namespace i
 
 namespace AST = ::tw::maple::as::ast;
 
+#define DEBUG {std::cerr<<__FILE__<<":"<<__LINE__<<std::endl;}
+
 struct Identifier : public Interpreter
 {
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node
@@ -48,8 +50,10 @@ struct Identifier : public Interpreter
 
 		if(li->qualifier != "")
 		{
+
 			std::string left = replace( li->qualifier, ".", "::");
 
+			DEBUG
 			return left+"::"+li->value;
 		}
 		else
@@ -58,16 +62,29 @@ struct Identifier : public Interpreter
 			if( candidates.size() == 0 && class_symbol_table != NULL )
 				candidates = class_symbol_table->findSymbol_down2( li->value );
 
+			DEBUG
 			if( candidates.size() > 0 )
 			{
 				if( ctx->inter_type==Context::RHS )
 				{
+					DEBUG
 					for( int idx = 0, E = candidates.size() ; idx < E ; idx ++ )
 					{
+						DEBUG
+						std::cerr << " name "<< candidates[idx]->name() <<":"<<candidates[idx]->toString()<< std::endl;
 						ASY::SymbolPtr instance_symbol = candidates[idx];
 						ASY::FunctionPtr function_ptr = DYNA_CAST( ASY::Function, instance_symbol );
-						if( function_ptr != NULL && function_ptr->isGetter() )
+						if( function_ptr )
+						{
+							std::cerr << " type " << function_ptr->getFunctionType()<<std::endl;
+						}
+						std::cerr<<instance_symbol->getFQN() << " 123 "<<instance_symbol->getSymbolProperties()<<std::endl;
+						if( function_ptr && function_ptr->isGetter() )
+						{
+							DEBUG
+							ctx-> token_class_type = function_ptr->ReturnType();
 							return "get_" +  li->value + "()";
+						}
 					}
 				}
 				else if( ctx->inter_type==Context::LHS )
@@ -87,8 +104,6 @@ struct Identifier : public Interpreter
 			}
 			else
 			{
-				/* TODO: exit 1 */
-//				exit(1);
 				return li->value;
 			}
 

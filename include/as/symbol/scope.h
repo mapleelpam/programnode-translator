@@ -61,6 +61,7 @@ struct Scope : public Symbol, public Registrable
 		: Symbol( "", Symbol::T_SCOPE ), Registrable( this )
 		, m_scope_type( T_ANONYMOUS )
 		, m_parent( parent )
+		, m_inherit( NULL )
 		, m_no_contrucotr(true)
 	{
 		std::ostringstream ss;
@@ -130,11 +131,11 @@ struct Scope : public Symbol, public Registrable
 	}
 	bool isInstance( std::vector<std::string> query, std::string delimiter )
 	{
-//		std::cerr << name() << " query " <<std::endl;
-//		for( int idx = 0 ; idx < query.size() ; idx ++ )
-//		{
-//			std::cerr << name() << " query "<<query[idx]<<std::endl;
-//		}
+		std::cerr << name() << " query " <<std::endl;
+		for( int idx = 0 ; idx < query.size() ; idx ++ )
+		{
+			std::cerr << "in here:"<< name() << " query "<<query[idx]<<std::endl;
+		}
 		SymbolPtr child = findSymbol( query[0] );
 		if( child && child->getSymbolProperties() == T_VARIABLE)
 		{
@@ -156,7 +157,7 @@ struct Scope : public Symbol, public Registrable
 				std::cerr << name() << "  = = 2'" << query[0] <<"'" << std::endl;
 			else
 				std::cerr << name() << "  = = " << child->getSymbolProperties() << std::endl;
-//			return false;
+			return false;
 		}
 		return true;
 	}
@@ -344,6 +345,14 @@ struct Scope : public Symbol, public Registrable
 			if( (*sitr)->name() == type_name ) {
 				answers.push_back( *sitr );
 			}
+		}
+
+		// find inherit
+		if( getInherit() != NULL)
+		{
+			std::vector<SymbolPtr> founds = getInherit() -> findSymbol_down2( type_name );
+			if( founds.size() > 0)
+				answers = founds;
 		}
 
 		// find the anonymouse package

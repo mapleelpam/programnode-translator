@@ -96,6 +96,7 @@ void SymbolTableConstructor:: constructSymbols(
 							std::cerr << " unknow attribute " << *sItr << std::endl;
 					}
 				}
+//				std::cerr << "abcdefg "<<str_func_name << "  " << fname->function_type<<"  "<<symboltable->name()<<std::endl;
 				scope_func -> setFunctionType( fname->function_type );
 				if( classname!="" && classname == str_func_name )
 				{

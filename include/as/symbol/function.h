@@ -50,7 +50,10 @@ struct Function : public Scope
 
 	virtual const std::string toString() const
 	{
-		return "function:"+name() + " return:"+m_return_type_symbol->getFQN();
+		std::string post;
+		if( isGetter() )
+			post = "GET";
+		return "function:"+name() + " return:"+m_return_type_symbol->getFQN()+" :"+post;
 	}
 
 	virtual void bindType( SymbolPtr sType )
@@ -71,11 +74,15 @@ struct Function : public Scope
 	{
 		m_function_type = t;
 	}
-	bool isSetter()
+	int getFunctionType()
+	{
+		return m_function_type;
+	}
+	const bool isSetter() const
 	{
 		return m_function_type == tw::maple::generated::FunctionType::TF_SETTER;
 	}
-	bool isGetter()
+	const bool isGetter() const
 	{
 		return m_function_type == tw::maple::generated::FunctionType::TF_GETTER;
 	}

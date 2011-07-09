@@ -1,8 +1,8 @@
 package
 {
-	intrinsic public class Object extends *
+	intrinsic public class Object 
 	{
-		public static const length : int;
+//		public static const length : int;
 		[native(support="none")]
 		protected static function _dontEnumPrototype (proto:Object) : void;
 /*

@@ -26,6 +26,7 @@
 #define __PNC_TW_MAPLE_BACKEDN_CONTEXT_H__
 
 #include <fstream>
+#include <as/symbol/scope.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp {
 
@@ -33,7 +34,6 @@ struct Context
 {
 	enum InterpretType
 	{
-//		NONE,
 		LHS,
 		RHS
 	};
@@ -92,6 +92,9 @@ struct Context
 
 	InterpretType   inter_type;
 	bool			lfs_is_setter;
+
+
+	tw::maple::as::symbol::SymbolPtr		token_class_type;
 };
 
 } } } }

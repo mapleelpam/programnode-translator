@@ -36,7 +36,8 @@ namespace tw { namespace maple { namespace backend { namespace cpp { namespace i
 
 namespace AST = ::tw::maple::as::ast;
 
-struct ExpressionMember : public Interpreter, public TemplatePrinter
+#define DEBUG {std::cerr<<__FILE__<<":"<<__LINE__<<std::endl;}
+struct ExpressionMember : public Interpreter
 {   
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
@@ -52,24 +53,39 @@ struct ExpressionMember : public Interpreter, public TemplatePrinter
 
 		if( expr_mem->node_childs.size() == 1 )
 		{
+			DEBUG
 			result += dispatchExpound(*(expr_mem->node_childs.begin()), symbol_table, ctx, class_symbol_table);
 		}
 		else if( expr_mem->node_childs.size() == 2 )
 		{
+			DEBUG
 			std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr = expr_mem->node_childs.begin();
 
+			DEBUG
+			ctx->token_class_type.reset();
 			result += dispatchExpound(*nItr, symbol_table, ctx, class_symbol_table);
 			nItr ++;
 
+			DEBUG
 			if(  (*nItr)->nodeType() == AST::Node::NodeType::T_CALL
 				&& STATIC_CAST( AST::Call, *nItr)->isObjectConsturct() )
 			{
+				DEBUG
 				return constructor_work_around(result,dispatchExpound(*nItr, symbol_table, ctx, class_symbol_table));
+			}
+			else if( ctx->token_class_type != NULL )
+			{
+				DEBUG
+				ASY::ScopePtr s = DYNA_CAST( ASY::Scope, ctx->token_class_type);
+				result += "->" + dispatchExpound(*nItr, symbol_table, ctx, s);
 			}
 			else
 			{
-				if( symbol_table->isInstance( result, "::"))
+				DEBUG
+				if( symbol_table->isInstance( result, "::") ) /* is instance is not make sense. TBR */
 				{
+					DEBUG
+
 					ASY::SymbolPtr instance = symbol_table->findSymbol( result );
 					if( instance == NULL && class_symbol_table != NULL )
 					{
@@ -84,16 +100,16 @@ struct ExpressionMember : public Interpreter, public TemplatePrinter
 						ASY::ScopePtr  instance_class_type = DYNA_CAST( ASY::Scope, instance_type );
 						result += "->"+ dispatchExpound(*nItr, symbol_table, ctx, instance_class_type) ;
 
-					}
-
+						ctx->token_class_type = variable->getTypeSymbol();
+					} 
 					else
 					{
-
 						std::cerr << "@@ can't find symbol '" << result << "' in symboltable '" << symbol_table->name() << "'" << std::endl;
 						if( class_symbol_table != NULL )
 							std::cerr << "can't find symbol '" << result << "' in class symboltable '" << class_symbol_table->name() << "'" << std::endl;
-//						exit(1);
+						exit(1);
 					}
+
 				}
 				else 
 				{
@@ -116,32 +132,6 @@ private:
 		return replace( callee, "new ", "new "+base+"::");
 	}
 
-public:
-	ExpressionMember()
-		: TemplatePrinter("ExpressionMember")
-	{
-
-		m_tpl_setter_prepend = "set_";
-		m_tpl_getter_prepend = "get_";
-	}
-private:
-	virtual bool readConfig( boost::property_tree::ptree& pt )
-	{
-		m_tpl_setter_prepend	= pt.get<std::string>( configName()+".template.setter_prepend", m_tpl_setter_prepend);
-		m_tpl_getter_prepend	= pt.get<std::string>( configName()+".template.getter_prepend", m_tpl_getter_prepend);
-
-		return TemplatePrinter::readConfig( pt );
-	}
-	virtual bool writeConfig( boost::property_tree::ptree& pt )
-	{
-		pt.put<std::string>( configName()+".template.setter_prepend", m_tpl_setter_prepend);
-		pt.put<std::string>( configName()+".template.getter_prepend", m_tpl_getter_prepend);
-
-		return TemplatePrinter::writeConfig( pt );
-	}
-private:
-	std::string m_tpl_setter_prepend;
-	std::string m_tpl_getter_prepend;
 };
 
 };
