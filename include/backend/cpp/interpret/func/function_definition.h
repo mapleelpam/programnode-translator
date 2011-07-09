@@ -47,7 +47,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context* ctx
-			, tw::maple::as::symbol::ScopePtr class_symbol_table
+			, tw::maple::as::symbol::Scope* class_symbol_table
 			)
 	{
 
@@ -72,8 +72,8 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		switch( symbol_function->getSymbolAttribtues() )
 		{
 			case ASY::Symbol::ATTR_NONE:	str_function_attribute="";	break;
-			case ASY::Symbol::ATTR_PRIVATE:	str_function_attribute="private";	break;
-			case ASY::Symbol::ATTR_PUBLIC:	str_function_attribute="public";	break;
+			case ASY::Symbol::ATTR_PRIVATE:	str_function_attribute="#(indent_tab_sub)private";	break;
+			case ASY::Symbol::ATTR_PUBLIC:	str_function_attribute="#(indent_tab_sub)public";	break;
 		}
 		if( str_function_attribute != "")
 			str_function_attribute+=":";
@@ -106,6 +106,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("postfix_arguments", m_tpl_args_postfix) ) );
 		patterns.push_back( PatternPtr( new Pattern("endl", ctx->endl() )) );
 		patterns.push_back( PatternPtr( new Pattern("indent_tab", ctx->indent()) ));
+		patterns.push_back( PatternPtr( new Pattern("indent_tab_sub", ctx->indentSub()) ));
 
 		return substitutePatterns( patterns );
 	}
@@ -197,7 +198,7 @@ private:
 	std::string getMemberInitializer(
 			ASY::FunctionPtr symbol_function
 			, tw::maple::backend::cpp::Context* ctx
-			, tw::maple::as::symbol::ScopePtr class_symbol_table
+			, tw::maple::as::symbol::Scope* class_symbol_table
 			)
 	{
 		std::string answer = "";

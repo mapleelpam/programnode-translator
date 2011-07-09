@@ -42,7 +42,7 @@ struct ExpressionMember : public Interpreter
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context* ctx
-			, tw::maple::as::symbol::ScopePtr class_symbol_table
+			, tw::maple::as::symbol::Scope* class_symbol_table
 			)
 	{
 		namespace ASY = tw::maple::as::symbol;
@@ -63,9 +63,18 @@ struct ExpressionMember : public Interpreter
 
 			DEBUG
 			ctx->token_class_type.reset();
+			//workaround
+			if( class_symbol_table == NULL && symbol_table )
+			{
+				class_symbol_table = symbol_table->getParent();
+			}
 			result += dispatchExpound(*nItr, symbol_table, ctx, class_symbol_table);
 			nItr ++;
 
+			if( result == "a" )
+			{
+				std::cerr<<"st "<< symbol_table->toString()<<std::endl;
+			}
 			DEBUG
 			if(  (*nItr)->nodeType() == AST::Node::NodeType::T_CALL
 				&& STATIC_CAST( AST::Call, *nItr)->isObjectConsturct() )
@@ -77,7 +86,7 @@ struct ExpressionMember : public Interpreter
 			{
 				DEBUG
 				ASY::ScopePtr s = DYNA_CAST( ASY::Scope, ctx->token_class_type);
-				result += "->" + dispatchExpound(*nItr, symbol_table, ctx, s);
+				result += "->" + dispatchExpound(*nItr, symbol_table, ctx, s.get());
 			}
 			else
 			{
@@ -98,7 +107,7 @@ struct ExpressionMember : public Interpreter
 					{
 						ASY::SymbolPtr instance_type = variable -> getTypeSymbol();
 						ASY::ScopePtr  instance_class_type = DYNA_CAST( ASY::Scope, instance_type );
-						result += "->"+ dispatchExpound(*nItr, symbol_table, ctx, instance_class_type) ;
+						result += "->"+ dispatchExpound(*nItr, symbol_table, ctx, instance_class_type.get()) ;
 
 						ctx->token_class_type = variable->getTypeSymbol();
 					} 

@@ -41,7 +41,7 @@ std::string dispatchExpound(
 		::tw::maple::as::ast::NodePtr node
 		 , tw::maple::as::symbol::ScopePtr symbol_table
 		 , ::tw::maple::backend::cpp::Context* ctx
-		 , tw::maple::as::symbol::ScopePtr class_symbol_table
+		 , tw::maple::as::symbol::Scope* class_symbol_table
 		 );
 
 struct Interpreter
@@ -51,7 +51,7 @@ struct Interpreter
 			::tw::maple::as::ast::NodePtr node
 			 , tw::maple::as::symbol::ScopePtr symbol_table /* stmt symbol table */
 			 , tw::maple::backend::cpp::Context* ctx
-			 , tw::maple::as::symbol::ScopePtr class_symbol_table /* class symbol table */
+			 , tw::maple::as::symbol::Scope* class_symbol_table /* class symbol table */
 			 )
 	{
 		std::cerr << " default expound " << std::endl;

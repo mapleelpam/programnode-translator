@@ -39,7 +39,7 @@ struct Assignment : public Interpreter
 			::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context* ctx
-			, tw::maple::as::symbol::ScopePtr class_symbol_table
+			, tw::maple::as::symbol::Scope* class_symbol_table
 			)
 	{
 		std::string result;
@@ -51,7 +51,7 @@ struct Assignment : public Interpreter
 		lft_is_setter = ctx-> lfs_is_setter;
 
 		ctx->inter_type = Context::RHS;
-		std::string str_lhs = dispatchExpound(assignment->RHS(), symbol_table, ctx, ASY::ScopePtr() );
+		std::string str_lhs = dispatchExpound(assignment->RHS(), symbol_table, ctx, NULL/*TODO: SHOULD NOT BE*/ );
 
 		ctx->inter_type = Context::RHS;
 

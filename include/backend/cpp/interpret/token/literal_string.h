@@ -37,7 +37,7 @@ struct LiteralString : public Interpreter
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context* ctx
-			, tw::maple::as::symbol::ScopePtr class_symbol_table
+			, tw::maple::as::symbol::Scope* class_symbol_table
 			)
 	{
 		SHARED_PTR(AST::LiteralString) li = std::tr1::static_pointer_cast<AST::LiteralString>(node);

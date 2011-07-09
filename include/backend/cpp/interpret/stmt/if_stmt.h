@@ -39,7 +39,7 @@ struct IfStatement : public Interpreter, public TemplatePrinter
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context* ctx
-			, tw::maple::as::symbol::ScopePtr class_symbol_table
+			, tw::maple::as::symbol::Scope* class_symbol_table
 			)
 	{
 		AST::IfStatementPtr IF = std::tr1::static_pointer_cast<AST::IfStatement>(node);

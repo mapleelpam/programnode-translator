@@ -40,7 +40,7 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context* ctx
-			, tw::maple::as::symbol::ScopePtr class_symbol_table
+			, tw::maple::as::symbol::Scope* class_symbol_table
 			)
 	{
 
@@ -55,7 +55,7 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 		std::string class_stmt = "";
 		if( _class_define_->hasStatement() ) {
 			ctx->tree_depth ++;
-				class_stmt = dispatchExpound(_class_define_->classStmt(), symbol_class, ctx, symbol_class);
+				class_stmt = dispatchExpound(_class_define_->classStmt(), symbol_class, ctx, symbol_class.get());
 			ctx->tree_depth --;
 		}
 
@@ -83,6 +83,7 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 
 		patterns.push_back( PatternPtr( new Pattern("endl", ctx->endl() ) ));
 		patterns.push_back( PatternPtr( new Pattern("indent_tab", ctx->indent()) ));
+		patterns.push_back( PatternPtr( new Pattern("indent_tab_add", ctx->indentAdd()) ));
 
 
 		std::string result = "\n/*begin*/\n"
@@ -145,7 +146,7 @@ private:
 				AST::ClassDefinitionPtr _class_define_
 				, ASY::ScopePtr symbol_class
 				, tw::maple::backend::cpp::Context* ctx
-				, tw::maple::as::symbol::ScopePtr class_symbol_table
+				, tw::maple::as::symbol::Scope* class_symbol_table
 				)
 	{
 		std::string class_inherit = "";
@@ -172,7 +173,7 @@ private:
 				AST::ClassDefinitionPtr _class_define_
 				, ASY::ScopePtr symbol_class
 				, tw::maple::backend::cpp::Context* ctx
-				, tw::maple::as::symbol::ScopePtr class_symbol_table
+				, tw::maple::as::symbol::Scope* class_symbol_table
 				)
 	{
 		std::string answer = "";
@@ -187,7 +188,7 @@ private:
 	std::string getDefaultConstructor(
 			ASY::ScopePtr symbol_class,
 			tw::maple::backend::cpp::Context* ctx
-			, tw::maple::as::symbol::ScopePtr class_symbol_table
+			, tw::maple::as::symbol::Scope* class_symbol_table
 			)
 	{
 		std::string answer = "#(indent_tab)public: "+symbol_class->name()+"()";

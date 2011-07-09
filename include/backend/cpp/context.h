@@ -75,6 +75,20 @@ struct Context
     {
         return tree_depth.toString();
     }
+    std::string indentAdd()
+    {
+    	tree_depth++;
+		std::string answer = tree_depth.toString();
+		tree_depth--;
+		return answer;
+    }
+    std::string indentSub()
+    {
+    	tree_depth --;
+    	std::string answer = tree_depth.toString();
+    	tree_depth ++;
+        return answer;
+    }
 
     std::string endl()
     {

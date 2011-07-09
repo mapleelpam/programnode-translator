@@ -114,7 +114,7 @@ std::string dispatchExpound(
 		::tw::maple::as::ast::NodePtr node
 		 , tw::maple::as::symbol::ScopePtr symbol_table
 		 , ::tw::maple::backend::cpp::Context* ctx
-		 , tw::maple::as::symbol::ScopePtr class_symbol_table
+		 , tw::maple::as::symbol::Scope* class_symbol_table
 		)
 {
 	BOOST_ASSERT( node != NULL );

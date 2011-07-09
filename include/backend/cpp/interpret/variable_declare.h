@@ -44,7 +44,7 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context* ctx
-			, tw::maple::as::symbol::ScopePtr class_symbol_table
+			, tw::maple::as::symbol::Scope* class_symbol_table
 			)
 	{
 
@@ -63,7 +63,7 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 			str_var_type = symbol_type->getFQN_and_mappedName() + _pointer_pattern /* '*'or 'Ptr' */;
 
 		std::string var_name = var->VariableName;
-		std::string var_attr = var->isPublic()?"public:":(var->isPrivate()?"private:":"");
+		std::string var_attr = var->isPublic()?"#(indent_tab_sub)public:":(var->isPrivate()?"#(indent_tab_sub)private:":"");
 		std::string var_init = "";
 
 		if ( var->varInit() && symbol_var && !(symbol_var->isClassMember()) )
@@ -77,6 +77,7 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("var_is_static", (var->isStatic())? "static ":"") ) );
 		patterns.push_back( PatternPtr( new Pattern("endl", ctx->endl() ) ));
 		patterns.push_back( PatternPtr( new Pattern("indent_tab", ctx->indent()) ));
+		patterns.push_back( PatternPtr( new Pattern("indent_tab_sub", ctx->indentSub()) ));
 
 		return substitutePatterns( patterns );
 	}

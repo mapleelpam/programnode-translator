@@ -29,7 +29,7 @@
 #include <backend/cpp/interpret/interpreter.h>
 #include <global.h>
 #include <as/symbol/function.h>
-
+#include <as/symbol/variable.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
@@ -42,7 +42,7 @@ struct Identifier : public Interpreter
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context* ctx
-			, tw::maple::as::symbol::ScopePtr class_symbol_table
+			, tw::maple::as::symbol::Scope* class_symbol_table
 			)
 	{
 		namespace ASY = tw::maple::as::symbol;
@@ -60,7 +60,9 @@ struct Identifier : public Interpreter
 		{
 			std::vector<ASY::SymbolPtr> candidates = symbol_table->findSymbol_down2( li->value );
 			if( candidates.size() == 0 && class_symbol_table != NULL )
+			{
 				candidates = class_symbol_table->findSymbol_down2( li->value );
+			}
 
 			DEBUG
 			if( candidates.size() > 0 )
@@ -84,6 +86,11 @@ struct Identifier : public Interpreter
 							DEBUG
 							ctx-> token_class_type = function_ptr->ReturnType();
 							return "get_" +  li->value + "()";
+						}
+						if( ASY::VariablePtr var_ptr = DYNA_CAST( ASY::Variable, instance_symbol ) )
+						{
+							ctx-> token_class_type = var_ptr->getTypeSymbol();
+							return li->value;
 						}
 					}
 				}
