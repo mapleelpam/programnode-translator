@@ -35,7 +35,8 @@
 
 namespace tw { namespace maple { namespace as { namespace symbol {
 
-typedef std::map< std::string, bool> PrimitiveMap;
+//typedef std::map< std::string, bool> PrimitiveMap;
+typedef std::map< std::string,std::string > StringMap;
 
 struct SymbolTable : public tw::maple::service::ConfigRequest
 {
@@ -43,7 +44,12 @@ struct SymbolTable : public tw::maple::service::ConfigRequest
 		ScopePtr root(new Scope("root", Scope::T_PROGRAM_ROOT));
 
 
-		for( PrimitiveMap::iterator sitr = m_primitive_types.begin(); sitr != m_primitive_types.end() ; sitr ++ )
+//		for( PrimitiveMap::iterator sitr = m_primitive_types.begin(); sitr != m_primitive_types.end() ; sitr ++ )
+//		{
+//			root->addChild(  TypePtr(new PrimitiveType((*sitr).first, (*sitr).second) ) );
+//		}
+
+		for( StringMap::iterator sitr = _primitive_type_mapper.begin(); sitr != _primitive_type_mapper.end() ; sitr ++ )
 		{
 			root->addChild(  TypePtr(new PrimitiveType((*sitr).first, (*sitr).second) ) );
 		}
@@ -63,39 +69,32 @@ struct SymbolTable : public tw::maple::service::ConfigRequest
 	SymbolTable()
 		: m_pattern_of_star("Object")
 	{
-		m_primitive_types["int"] = false;
-		m_primitive_types["float"] = false;
-		m_primitive_types["Void"] = false;
-		m_primitive_types["void"] = false;
-		m_primitive_types["*"] = false;
+		_primitive_type_mapper[ "int" ] = "int";
+		_primitive_type_mapper[ "float" ] = "float";
+		_primitive_type_mapper[ "Boolean" ] = "bool";
 	}
 	virtual bool readConfig( boost::property_tree::ptree& pt )
 	{
-//		if(0)
 		{
-			std::string str_config_primitive = "primitive_types.";
+			std::string str_config_primitive = "primitive_types.mapper.";
 			BOOST_FOREACH(boost::property_tree::ptree::value_type &pitr, pt.get_child( str_config_primitive ))
-			{
-				std::cerr<< "     load !!     "<<pitr.first<<std::endl;
-
-				m_primitive_types[ pitr.first] = (pitr.second.get<std::string>( "" ) == "false");
-			}
+				_primitive_type_mapper[ pitr.first] = pitr.second.get<std::string>( "");
 		}
 
 		m_pattern_of_star = pt.get( "symboltable.pattern_of_star",  m_pattern_of_star );
 	}
 	virtual bool writeConfig( boost::property_tree::ptree& pt )
 	{
-		std::string str_config_primitive = "primitive_types.";
-		for( PrimitiveMap::iterator sitr = m_primitive_types.begin(); sitr != m_primitive_types.end() ; sitr ++ )
+		std::string str_config_primitive = "primitive_types.mapper.";
+		for( StringMap::iterator sitr = _primitive_type_mapper.begin(); sitr != _primitive_type_mapper.end() ; sitr ++ )
 		{
-			pt.put( str_config_primitive+(*sitr).first, int( (*sitr).second) );
+					pt.put( str_config_primitive+(*sitr).first,(*sitr).second);
 		}
 
 		pt.put( "symboltable.pattern_of_star",  m_pattern_of_star );
 	}
 
-	PrimitiveMap	m_primitive_types;
+	StringMap _primitive_type_mapper;
 	std::string		m_pattern_of_star;
 };
 

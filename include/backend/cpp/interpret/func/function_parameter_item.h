@@ -47,7 +47,7 @@ struct FunctionParameterItem : public Interpreter, public TemplatePrinter
 
 		std::string str_var_type/* = invoke_type_mapper(  )*/;
 		if( symbol_type->isPrimitiveType() )
-			str_var_type = symbol_type->name();
+			str_var_type = symbol_type->mappedName();
 		else
 			str_var_type = symbol_type->getFQN_and_mappedName() + _pointer_pattern /* '*'or 'Ptr' */;
 

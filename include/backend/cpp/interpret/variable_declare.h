@@ -58,7 +58,16 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 
 		std::string str_var_type/* = invoke_type_mapper(  )*/;
 		if( symbol_type->isPrimitiveType() )
-			str_var_type = symbol_type->name();
+		{
+			StringMap::iterator not_found = _primitive_type_mapper.end();
+			StringMap::iterator try_found = _primitive_type_mapper.find(symbol_type->name());
+			if( not_found != try_found )
+			{
+				str_var_type = try_found->second;
+			}
+			else
+				str_var_type = symbol_type->name();
+		}
 		else
 			str_var_type = symbol_type->getFQN_and_mappedName() + _pointer_pattern /* '*'or 'Ptr' */;
 
@@ -89,6 +98,7 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 	{
 		_primitive_type_mapper[ "int" ] = "int";
 		_primitive_type_mapper[ "float" ] = "float";
+		_primitive_type_mapper[ "Boolean" ] = "bool";
 
 		setTemplateString( "#(var_attribute)#(endl)#(indent_tab)#(var_is_static)#(var_type) #(var_name) #(var_init);#(endl)" );
 //		setTemplateString( "#indent_tab##var_type# #var_name#;#endl#" );

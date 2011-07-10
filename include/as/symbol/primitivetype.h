@@ -31,10 +31,12 @@ namespace tw { namespace maple { namespace as { namespace symbol {
 
 struct PrimitiveType : public Symbol
 {
-	PrimitiveType( std::string n, bool _is_pointer = false )
+	PrimitiveType( std::string n, std::string another_name, bool _is_pointer = false )
 		: Symbol( n, Symbol::T_PRIMITIVE_TYPE )
+//		, m_mappedName( another_name )
 		, is_pointer( _is_pointer )
 	{
+		setMappedName( another_name );
 	}
 
 
@@ -47,9 +49,9 @@ struct PrimitiveType : public Symbol
 	{
 		return name();
 	}
-	virtual const std::string getFQN_and_mappedName() const
+	virtual const std::string getFQN_and_m_mappedName() const
 	{
-		return getFQN();
+		return mappedName();
 	}
 	virtual bool isPrimitiveType( ) const
 	{

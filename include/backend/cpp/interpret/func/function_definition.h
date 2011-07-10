@@ -83,7 +83,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		std::string str_function_body = (fdef->isAbstract)? " = 0;#(endl)" : "#(endl)#(indent_tab){#(endl)" + dispatchExpound(fcommon->FunctionBody(), symbol_function, ctx, class_symbol_table) + "#(indent_tab)}#(endl)";
 
 		std::string str_function_return_type = symbol_function->isConstructor() ? "":
-				(symbol_function->ReturnType()->isPrimitiveType() ? symbol_function->ReturnType()->name() :
+				(symbol_function->ReturnType()->isPrimitiveType() ? symbol_function->ReturnType()->mappedName() :
 						symbol_function->ReturnType()->getFQN_and_mappedName() + m_pointer_pattern ) ;
 
 		if( ! symbol_function->isConstructor() )
