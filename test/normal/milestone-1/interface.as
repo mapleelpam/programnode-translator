@@ -6,13 +6,13 @@
 
 interface A
 {
-    function func_a():void;
+    function func_a():Void;
     function func_b( x:int, y:int ):int;
 }
 
 class B implements A 
 {
-    function func_a():void
+    function func_a():Void
     {
     }
     function func_b( x:int, y:int ):int

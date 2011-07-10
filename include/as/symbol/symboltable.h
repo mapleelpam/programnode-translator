@@ -42,17 +42,9 @@ struct SymbolTable : public tw::maple::service::ConfigRequest
 {
 	ScopePtr getRoot() {
 		ScopePtr root(new Scope("root", Scope::T_PROGRAM_ROOT));
-
-
-//		for( PrimitiveMap::iterator sitr = m_primitive_types.begin(); sitr != m_primitive_types.end() ; sitr ++ )
-//		{
-//			root->addChild(  TypePtr(new PrimitiveType((*sitr).first, (*sitr).second) ) );
-//		}
-
 		for( StringMap::iterator sitr = _primitive_type_mapper.begin(); sitr != _primitive_type_mapper.end() ; sitr ++ )
-		{
 			root->addChild(  TypePtr(new PrimitiveType((*sitr).first, (*sitr).second) ) );
-		}
+
 
 		return root;
 	}
@@ -72,6 +64,8 @@ struct SymbolTable : public tw::maple::service::ConfigRequest
 		_primitive_type_mapper[ "int" ] = "int";
 		_primitive_type_mapper[ "float" ] = "float";
 		_primitive_type_mapper[ "Boolean" ] = "bool";
+		_primitive_type_mapper[ "Void" ] = "void";
+//		_primitive_type_mapper[ "void" ] = "Void";
 	}
 	virtual bool readConfig( boost::property_tree::ptree& pt )
 	{

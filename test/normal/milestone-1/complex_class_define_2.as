@@ -6,7 +6,7 @@
 
 class a.b.c.d.Maple
 {
-    function hello():void
+    function hello():Void
     {
     }
 }

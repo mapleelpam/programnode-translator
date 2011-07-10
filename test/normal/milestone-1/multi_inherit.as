@@ -5,24 +5,24 @@
 
 interface A
 {
-    function func_a():void;
+    function func_a():Void;
     function func_b( x:int, y:int ):int;
 }
 interface A_2
 {
-    function func_c():void;
+    function func_c():Void;
     function func_d( x:int, y:int ):int;
 }
 
 class B implements A, A_2 
 {
-    function func_a():void
+    function func_a():Void
     {
     }
     function func_b( x:int, y:int ):int
     {
     }
-    function func_c():void
+    function func_c():Void
     {
     }
     function func_d( x:int, y:int ):int

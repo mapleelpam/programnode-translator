@@ -22,7 +22,7 @@ class TestClass                  //CHECK: class:TestClass
         }
         return ret;
     }
-    function test( v:int ):void     //CHECK: -function:test return:void
+    function test( v:int ):Void     //CHECK: -function:test return:Void
     {
     }
 }

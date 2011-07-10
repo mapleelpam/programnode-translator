@@ -21,7 +21,7 @@ package a
 }
 package a
 {
-	function test_pkg_access() : void 
+	function test_pkg_access() : Void 
 	{
 		var obj_c : c;
 		obj_c = new c;

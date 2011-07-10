@@ -5,7 +5,7 @@
 
 class A
 {
-    function func_a():void
+    function func_a():Void
     {
     }
     function func_b( x:int, y:int ):int
@@ -14,19 +14,19 @@ class A
 }
 interface A_2
 {
-    function func_c():void;
+    function func_c():Void;
     function func_d( x:int, y:int ):int;
 }
 
 class B extends A implements A_2 
 {
-    function func_a():void
+    function func_a():Void
     {
     }
     function func_b( x:int, y:int ):int
     {
     }
-    function func_c():void
+    function func_c():Void
     {
     }
     function func_d( x:int, y:int ):int

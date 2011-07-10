@@ -11,7 +11,7 @@ class TestObject
 		return save;
 	}
 
-	public function set number( i:int ) : void
+	public function set number( i:int ) : Void
 	{
 		save = i;
 	}

@@ -60,10 +60,10 @@ package
 	{
 		public static const length : int;
 		[native(support="none")]
-		protected static function _dontEnumPrototype (proto:Object) : void;
+		protected static function _dontEnumPrototype (proto:Object) : Void;
 /*
 		[native(support="none")]
-		protected static function _setPropertyIsEnumerable (o:*, V:String, enumerable:Boolean) : void;
+		protected static function _setPropertyIsEnumerable (o:*, V:String, enumerable:Boolean) : Void;
 
 		public function hasOwnProperty (V:* = null) : Boolean;
 		[native(support="none")]

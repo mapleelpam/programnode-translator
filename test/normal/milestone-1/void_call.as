@@ -3,7 +3,7 @@
 // RUN: gcc -o %t %t.c
 // RUN: %t | FileCheck -input-file=- %s 
 
-    function hello( ):void
+    function hello( ):Void
     {
         printf(" hello ");
     }

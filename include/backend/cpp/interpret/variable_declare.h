@@ -36,8 +36,6 @@ namespace AST = ::tw::maple::as::ast;
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
-typedef std::map< std::string,std::string > StringMap;
-
 struct VariableDeclare : public Interpreter, public TemplatePrinter
 {   
 
@@ -59,14 +57,7 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 		std::string str_var_type/* = invoke_type_mapper(  )*/;
 		if( symbol_type->isPrimitiveType() )
 		{
-			StringMap::iterator not_found = _primitive_type_mapper.end();
-			StringMap::iterator try_found = _primitive_type_mapper.find(symbol_type->name());
-			if( not_found != try_found )
-			{
-				str_var_type = try_found->second;
-			}
-			else
-				str_var_type = symbol_type->name();
+			str_var_type = symbol_type->mappedName();
 		}
 		else
 			str_var_type = symbol_type->getFQN_and_mappedName() + _pointer_pattern /* '*'or 'Ptr' */;
@@ -96,23 +87,12 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 		, _default_type_mapper("#(type_name)*")
 		, _pointer_pattern("*")
 	{
-		_primitive_type_mapper[ "int" ] = "int";
-		_primitive_type_mapper[ "float" ] = "float";
-		_primitive_type_mapper[ "Boolean" ] = "bool";
-
 		setTemplateString( "#(var_attribute)#(endl)#(indent_tab)#(var_is_static)#(var_type) #(var_name) #(var_init);#(endl)" );
-//		setTemplateString( "#indent_tab##var_type# #var_name#;#endl#" );
 	}
 
 
 	virtual bool readConfig( boost::property_tree::ptree& pt )
 	{
-		{
-			std::string str_config_primitive = configName() +".type.mapper.";
-			BOOST_FOREACH(boost::property_tree::ptree::value_type &pitr, pt.get_child( str_config_primitive ))
-				_primitive_type_mapper[ pitr.first] = pitr.second.get<std::string>( "");
-		}
-
 		_default_type_mapper = pt.get<std::string>(  configName()+".type.mapper.__DEFAULT__", _default_type_mapper);
 		_pointer_pattern = pt.get<std::string>(  configName()+".pointer_pattern", _pointer_pattern);
 
@@ -121,21 +101,12 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 	virtual bool writeConfig( boost::property_tree::ptree& pt )
 	{
 
-		std::string str_config_primitive = configName() +".type.mapper.";
-		for( StringMap::iterator sitr = _primitive_type_mapper.begin(); sitr != _primitive_type_mapper.end() ; sitr ++ )
-		{
-			pt.put( str_config_primitive+(*sitr).first,(*sitr).second);
-		}
-
 		pt.put<std::string>( configName()+".type.mapper.__DEFAULT__", _default_type_mapper);
 		pt.put<std::string>( configName()+".pointer_pattern", _pointer_pattern);
 
 		return TemplatePrinter::writeConfig( pt );
 	}
 private:
-
-
-	StringMap _primitive_type_mapper;
 	std::string _default_type_mapper;
 	std::string _pointer_pattern;
 };

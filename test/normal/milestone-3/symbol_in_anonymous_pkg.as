@@ -58,31 +58,31 @@ package flash.geom
 
 		public function clone () : Matrix;
 
-		public function concat (m:Matrix) : void;
+		public function concat (m:Matrix) : Void;
 
 /*
-		public function createBox (scaleX:Number, scaleY:Number, rotation:Number = 0, tx:Number = 0, ty:Number = 0) : void;
+		public function createBox (scaleX:Number, scaleY:Number, rotation:Number = 0, tx:Number = 0, ty:Number = 0) : Void;
 
-		public function createGradientBox (width:Number, height:Number, rotation:Number = 0, tx:Number = 0, ty:Number = 0) : void;
+		public function createGradientBox (width:Number, height:Number, rotation:Number = 0, tx:Number = 0, ty:Number = 0) : Void;
 
 		public function deltaTransformPoint (point:Point) : Point;
 
-		public function identity () : void;
+		public function identity () : Void;
 
-		public function invert () : void;
+		public function invert () : Void;
 
 		public function Matrix (a:Number = 1, b:Number = 0, c:Number = 0, d:Number = 1, tx:Number = 0, ty:Number = 0);
 */
 
-		public function rotate (angle:Number) : void;
+		public function rotate (angle:Number) : Void;
 
-		public function scale (sx:Number, sy:Number) : void;
+		public function scale (sx:Number, sy:Number) : Void;
 
 		public function toString () : String;
 
 //		public function transformPoint (point:Point) : Point;
 
-		public function translate (dx:Number, dy:Number) : void;
+		public function translate (dx:Number, dy:Number) : Void;
 	}
 }
 package

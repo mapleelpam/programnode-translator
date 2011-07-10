@@ -6,7 +6,7 @@
 
 class a.Maple
 {
-    function hello():void
+    function hello():Void
     {
     }
 }
