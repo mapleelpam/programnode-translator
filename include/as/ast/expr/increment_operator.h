@@ -23,32 +23,36 @@
  * ***************************************************************/
 
 
-#ifndef __TW_MAPLE_AS_AST_BINARY_OPERATOR_H__
-#define __TW_MAPLE_AS_AST_BINARY_OPERATOR_H__
+#ifndef __TW_MAPLE_AS_AST_INCREMENT_OPERATOR_H__
+#define __TW_MAPLE_AS_AST_INCREMENT_OPERATOR_H__
 
 #include <as/ast/abstract/expression.h>
+#include "AstDumper.h"
 
 namespace tw { namespace maple { namespace as { namespace ast {
 
-struct BinaryOperator: public Expression
+struct IncrementOperator: public Expression
 {
-	BinaryOperator( std::string ot ) :
-		Expression(Node::NodeType::T_BINARY_OPERATOR)
+	IncrementOperator(
+			const tw::maple::generated::IncrementType::type type
+			, std::string ot ) :
+		Expression(Node::NodeType::T_INCREMENT)
 		, op_type(ot)
+		, m_type(type)
 	{
 	}
 
-    NodePtr LHS(){	return node_childs[0];	}
-    NodePtr RHS(){	return node_childs[1];	}
+    NodePtr child(){	return node_childs[0];	}
 
     std::string toString()  {	return "node::binary_operator"; };
     bool check(){	return node_childs.size() == 2;	};
 
 
     std::string op_type;
+    tw::maple::generated::IncrementType::type m_type;
 };
 
-typedef std::tr1::shared_ptr<BinaryOperator> BinaryOperatorPtr;
+typedef std::tr1::shared_ptr<IncrementOperator> IncrementOperatorPtr;
 
 
 } } } }

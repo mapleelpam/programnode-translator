@@ -43,6 +43,7 @@
 #include <backend/cpp/interpret/argument.h>
 #include <backend/cpp/interpret/return_stmt.h>
 #include <backend/cpp/interpret/expr/binary_operator.h>
+#include <backend/cpp/interpret/expr/increment_operator.h>
 #include <backend/cpp/interpret/expr/unary_operator.h>
 #include <backend/cpp/interpret/variable_declare.h>
 #include <backend/cpp/interpret/stmt/if_stmt.h>
@@ -104,6 +105,7 @@ void initializeInterpreters()
 		interpreterResolver[AST::Node::NodeType::T_STMT_DO] = new DoStatement();
 		interpreterResolver[AST::Node::NodeType::T_STMT_WHILE] = new WhileStatement();
 		interpreterResolver[AST::Node::NodeType::T_IMPORT_STMT] = new ImportStatement();
+		interpreterResolver[AST::Node::NodeType::T_INCREMENT] = new IncrementOperator();
 
 		interpreterResolver[AST::Node::NodeType::T_THIS] = new ThisExpression();
 	}

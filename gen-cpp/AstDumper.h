@@ -48,6 +48,8 @@ class AstDumperIf {
   virtual void endCallExpression() = 0;
   virtual void startBinaryExpression(const BinaryExpression& op) = 0;
   virtual void endBinaryExpression() = 0;
+  virtual void startIncrementExpression(const IncrementType::type type, const std::string& token) = 0;
+  virtual void endIncrementExpression() = 0;
   virtual void startInstanceOfExpression() = 0;
   virtual void endInstanceOfExpression() = 0;
   virtual void startIsOperator() = 0;
@@ -196,6 +198,12 @@ class AstDumperNull : virtual public AstDumperIf {
   void endBinaryExpression() {
     return;
   }
+  void startIncrementExpression(const IncrementType::type /* type */, const std::string& /* token */) {
+    return;
+  }
+  void endIncrementExpression() {
+    return;
+  }
   void startInstanceOfExpression() {
     return;
   }
@@ -330,7 +338,7 @@ typedef struct _AstDumper_startProgram_args__isset {
 class AstDumper_startProgram_args {
  public:
 
-  AstDumper_startProgram_args() : version("0.0.1"), counter(8LL) {
+  AstDumper_startProgram_args() : version("0.0.1"), counter(9LL) {
   }
 
   virtual ~AstDumper_startProgram_args() throw() {}
@@ -1708,6 +1716,95 @@ class AstDumper_endBinaryExpression_pargs {
 
 
   virtual ~AstDumper_endBinaryExpression_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _AstDumper_startIncrementExpression_args__isset {
+  _AstDumper_startIncrementExpression_args__isset() : type(false), token(false) {}
+  bool type;
+  bool token;
+} _AstDumper_startIncrementExpression_args__isset;
+
+class AstDumper_startIncrementExpression_args {
+ public:
+
+  AstDumper_startIncrementExpression_args() : token("") {
+  }
+
+  virtual ~AstDumper_startIncrementExpression_args() throw() {}
+
+  IncrementType::type type;
+  std::string token;
+
+  _AstDumper_startIncrementExpression_args__isset __isset;
+
+  bool operator == (const AstDumper_startIncrementExpression_args & rhs) const
+  {
+    if (!(type == rhs.type))
+      return false;
+    if (!(token == rhs.token))
+      return false;
+    return true;
+  }
+  bool operator != (const AstDumper_startIncrementExpression_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_startIncrementExpression_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_startIncrementExpression_pargs {
+ public:
+
+
+  virtual ~AstDumper_startIncrementExpression_pargs() throw() {}
+
+  const IncrementType::type* type;
+  const std::string* token;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_endIncrementExpression_args {
+ public:
+
+  AstDumper_endIncrementExpression_args() {
+  }
+
+  virtual ~AstDumper_endIncrementExpression_args() throw() {}
+
+
+  bool operator == (const AstDumper_endIncrementExpression_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const AstDumper_endIncrementExpression_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_endIncrementExpression_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_endIncrementExpression_pargs {
+ public:
+
+
+  virtual ~AstDumper_endIncrementExpression_pargs() throw() {}
 
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -3409,6 +3506,10 @@ class AstDumperClient : virtual public AstDumperIf {
   void send_startBinaryExpression(const BinaryExpression& op);
   void endBinaryExpression();
   void send_endBinaryExpression();
+  void startIncrementExpression(const IncrementType::type type, const std::string& token);
+  void send_startIncrementExpression(const IncrementType::type type, const std::string& token);
+  void endIncrementExpression();
+  void send_endIncrementExpression();
   void startInstanceOfExpression();
   void send_startInstanceOfExpression();
   void endInstanceOfExpression();
@@ -3538,6 +3639,8 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
   void process_endCallExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_startBinaryExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_endBinaryExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_startIncrementExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_endIncrementExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_startInstanceOfExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_endInstanceOfExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_startIsOperator(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -3616,6 +3719,8 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
     processMap_["endCallExpression"] = &AstDumperProcessor::process_endCallExpression;
     processMap_["startBinaryExpression"] = &AstDumperProcessor::process_startBinaryExpression;
     processMap_["endBinaryExpression"] = &AstDumperProcessor::process_endBinaryExpression;
+    processMap_["startIncrementExpression"] = &AstDumperProcessor::process_startIncrementExpression;
+    processMap_["endIncrementExpression"] = &AstDumperProcessor::process_endIncrementExpression;
     processMap_["startInstanceOfExpression"] = &AstDumperProcessor::process_startInstanceOfExpression;
     processMap_["endInstanceOfExpression"] = &AstDumperProcessor::process_endInstanceOfExpression;
     processMap_["startIsOperator"] = &AstDumperProcessor::process_startIsOperator;
@@ -3910,6 +4015,20 @@ class AstDumperMultiface : virtual public AstDumperIf {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
       ifaces_[i]->endBinaryExpression();
+    }
+  }
+
+  void startIncrementExpression(const IncrementType::type type, const std::string& token) {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->startIncrementExpression(type, token);
+    }
+  }
+
+  void endIncrementExpression() {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->endIncrementExpression();
     }
   }
 

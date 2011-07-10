@@ -51,6 +51,16 @@ const char* _kFunctionTypeNames[] = {
 };
 const std::map<int, const char*> _FunctionType_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(3, _kFunctionTypeValues, _kFunctionTypeNames), ::apache::thrift::TEnumIterator(-1, NULL, NULL));
 
+int _kIncrementTypeValues[] = {
+  IncrementType::TYPE_POSTFIX,
+  IncrementType::TYPE_PREFIX
+};
+const char* _kIncrementTypeNames[] = {
+  "TYPE_POSTFIX",
+  "TYPE_PREFIX"
+};
+const std::map<int, const char*> _IncrementType_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(2, _kIncrementTypeValues, _kIncrementTypeNames), ::apache::thrift::TEnumIterator(-1, NULL, NULL));
+
 const char* Identifier::ascii_fingerprint = "38C252E94E93B69D04EB3A6EE2F9EDFB";
 const uint8_t Identifier::binary_fingerprint[16] = {0x38,0xC2,0x52,0xE9,0x4E,0x93,0xB6,0x9D,0x04,0xEB,0x3A,0x6E,0xE2,0xF9,0xED,0xFB};
 

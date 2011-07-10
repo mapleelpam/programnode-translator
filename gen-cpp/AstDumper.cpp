@@ -2005,6 +2005,132 @@ uint32_t AstDumper_endBinaryExpression_pargs::write(::apache::thrift::protocol::
   return xfer;
 }
 
+uint32_t AstDumper_startIncrementExpression_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          int32_t ecast88;
+          xfer += iprot->readI32(ecast88);
+          this->type = (IncrementType::type)ecast88;
+          this->__isset.type = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->token);
+          this->__isset.token = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t AstDumper_startIncrementExpression_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  xfer += oprot->writeStructBegin("AstDumper_startIncrementExpression_args");
+  xfer += oprot->writeFieldBegin("type", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((int32_t)this->type);
+  xfer += oprot->writeFieldEnd();
+  xfer += oprot->writeFieldBegin("token", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString(this->token);
+  xfer += oprot->writeFieldEnd();
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+uint32_t AstDumper_startIncrementExpression_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  xfer += oprot->writeStructBegin("AstDumper_startIncrementExpression_pargs");
+  xfer += oprot->writeFieldBegin("type", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32((int32_t)(*(this->type)));
+  xfer += oprot->writeFieldEnd();
+  xfer += oprot->writeFieldBegin("token", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString((*(this->token)));
+  xfer += oprot->writeFieldEnd();
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+uint32_t AstDumper_endIncrementExpression_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t AstDumper_endIncrementExpression_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  xfer += oprot->writeStructBegin("AstDumper_endIncrementExpression_args");
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+uint32_t AstDumper_endIncrementExpression_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  xfer += oprot->writeStructBegin("AstDumper_endIncrementExpression_pargs");
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
 uint32_t AstDumper_startInstanceOfExpression_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   uint32_t xfer = 0;
@@ -3025,14 +3151,14 @@ uint32_t AstDumper_addImport_args::read(::apache::thrift::protocol::TProtocol* i
         if (ftype == ::apache::thrift::protocol::T_LIST) {
           {
             this->packages.clear();
-            uint32_t _size88;
-            ::apache::thrift::protocol::TType _etype91;
-            iprot->readListBegin(_etype91, _size88);
-            this->packages.resize(_size88);
-            uint32_t _i92;
-            for (_i92 = 0; _i92 < _size88; ++_i92)
+            uint32_t _size89;
+            ::apache::thrift::protocol::TType _etype92;
+            iprot->readListBegin(_etype92, _size89);
+            this->packages.resize(_size89);
+            uint32_t _i93;
+            for (_i93 = 0; _i93 < _size89; ++_i93)
             {
-              xfer += iprot->readString(this->packages[_i92]);
+              xfer += iprot->readString(this->packages[_i93]);
             }
             iprot->readListEnd();
           }
@@ -3059,10 +3185,10 @@ uint32_t AstDumper_addImport_args::write(::apache::thrift::protocol::TProtocol* 
   xfer += oprot->writeFieldBegin("packages", ::apache::thrift::protocol::T_LIST, 1);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, this->packages.size());
-    std::vector<std::string> ::const_iterator _iter93;
-    for (_iter93 = this->packages.begin(); _iter93 != this->packages.end(); ++_iter93)
+    std::vector<std::string> ::const_iterator _iter94;
+    for (_iter94 = this->packages.begin(); _iter94 != this->packages.end(); ++_iter94)
     {
-      xfer += oprot->writeString((*_iter93));
+      xfer += oprot->writeString((*_iter94));
     }
     xfer += oprot->writeListEnd();
   }
@@ -3078,10 +3204,10 @@ uint32_t AstDumper_addImport_pargs::write(::apache::thrift::protocol::TProtocol*
   xfer += oprot->writeFieldBegin("packages", ::apache::thrift::protocol::T_LIST, 1);
   {
     xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, (*(this->packages)).size());
-    std::vector<std::string> ::const_iterator _iter94;
-    for (_iter94 = (*(this->packages)).begin(); _iter94 != (*(this->packages)).end(); ++_iter94)
+    std::vector<std::string> ::const_iterator _iter95;
+    for (_iter95 = (*(this->packages)).begin(); _iter95 != (*(this->packages)).end(); ++_iter95)
     {
-      xfer += oprot->writeString((*_iter94));
+      xfer += oprot->writeString((*_iter95));
     }
     xfer += oprot->writeListEnd();
   }
@@ -4748,6 +4874,44 @@ void AstDumperClient::send_endBinaryExpression()
   oprot_->writeMessageBegin("endBinaryExpression", ::apache::thrift::protocol::T_CALL, cseqid);
 
   AstDumper_endBinaryExpression_pargs args;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void AstDumperClient::startIncrementExpression(const IncrementType::type type, const std::string& token)
+{
+  send_startIncrementExpression(type, token);
+}
+
+void AstDumperClient::send_startIncrementExpression(const IncrementType::type type, const std::string& token)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("startIncrementExpression", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  AstDumper_startIncrementExpression_pargs args;
+  args.type = &type;
+  args.token = &token;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void AstDumperClient::endIncrementExpression()
+{
+  send_endIncrementExpression();
+}
+
+void AstDumperClient::send_endIncrementExpression()
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("endIncrementExpression", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  AstDumper_endIncrementExpression_pargs args;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -6800,6 +6964,80 @@ void AstDumperProcessor::process_endBinaryExpression(int32_t seqid, ::apache::th
 
   if (eventHandler_.get() != NULL) {
     eventHandler_->asyncComplete(ctx, "AstDumper.endBinaryExpression");
+  }
+
+  return;
+}
+
+void AstDumperProcessor::process_startIncrementExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = NULL;
+  if (eventHandler_.get() != NULL) {
+    ctx = eventHandler_->getContext("AstDumper.startIncrementExpression", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(eventHandler_.get(), ctx, "AstDumper.startIncrementExpression");
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->preRead(ctx, "AstDumper.startIncrementExpression");
+  }
+
+  AstDumper_startIncrementExpression_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->postRead(ctx, "AstDumper.startIncrementExpression", bytes);
+  }
+
+  try {
+    iface_->startIncrementExpression(args.type, args.token);
+  } catch (const std::exception& e) {
+    if (eventHandler_.get() != NULL) {
+      eventHandler_->handlerError(ctx, "AstDumper.startIncrementExpression");
+    }
+    return;
+  }
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->asyncComplete(ctx, "AstDumper.startIncrementExpression");
+  }
+
+  return;
+}
+
+void AstDumperProcessor::process_endIncrementExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = NULL;
+  if (eventHandler_.get() != NULL) {
+    ctx = eventHandler_->getContext("AstDumper.endIncrementExpression", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(eventHandler_.get(), ctx, "AstDumper.endIncrementExpression");
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->preRead(ctx, "AstDumper.endIncrementExpression");
+  }
+
+  AstDumper_endIncrementExpression_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->postRead(ctx, "AstDumper.endIncrementExpression", bytes);
+  }
+
+  try {
+    iface_->endIncrementExpression();
+  } catch (const std::exception& e) {
+    if (eventHandler_.get() != NULL) {
+      eventHandler_->handlerError(ctx, "AstDumper.endIncrementExpression");
+    }
+    return;
+  }
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->asyncComplete(ctx, "AstDumper.endIncrementExpression");
   }
 
   return;

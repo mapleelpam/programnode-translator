@@ -61,6 +61,7 @@ struct Node
 
             // Expr
             T_BINARY_OPERATOR,
+            T_INCREMENT,
             T_INSTANCEOF,
             T_IS,
             T_AS,

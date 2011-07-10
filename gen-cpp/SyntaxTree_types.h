@@ -53,6 +53,15 @@ struct FunctionType {
 
 extern const std::map<int, const char*> _FunctionType_VALUES_TO_NAMES;
 
+struct IncrementType {
+  enum type {
+    TYPE_POSTFIX = 0,
+    TYPE_PREFIX = 1
+  };
+};
+
+extern const std::map<int, const char*> _IncrementType_VALUES_TO_NAMES;
+
 typedef struct _Identifier__isset {
   _Identifier__isset() : type(false), name(false), qualifier(false) {}
   bool type;

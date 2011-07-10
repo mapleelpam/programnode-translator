@@ -37,6 +37,7 @@
 #include <protocol/TBinaryProtocol.h>
 
 #include <as/ast/expr/call.h>
+#include <as/ast/expr/increment_operator.h>
 #include <as/ast/token/literal_string.h>
 #include <as/ast/token/literal_number.h>
 #include <as/ast/token/literal_boolean.h>
@@ -448,6 +449,15 @@ public:
     void endScope() {
     	CHECK_STACK_AND_POP( ScopeStatement, AST::Node::NodeType::T_SCOPE );
     }
+    void startIncrementExpression(const generated::IncrementType::type type, const std::string& token) {
+      PUSH_STACK_WITH_INIT( IncrementOperator , type, token );
+    }
+
+    void endIncrementExpression() {
+      // Your implementation goes here
+      CHECK_STACK_AND_POP( IncrementOperator, AST::Node::NodeType::T_INCREMENT );
+    }
+
     void defineMetaData(const generated::MetaData& metadata) {
         // Your implementation goes here
         _meta_data = metadata;
