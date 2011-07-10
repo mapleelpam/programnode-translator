@@ -272,6 +272,7 @@ void SymbolTableConstructor::linkVariableType(
 		{
 			AST::CallPtr ast_import = std::tr1::static_pointer_cast<AST::Call>(*nItr);
 			tw::maple::service::pass::cs::ph3::Phase3_CallExpression::pass( ast_import, symboltable, local_context );
+			linkVariableType( *nItr, symboltable, local_context );/*link it's arguments*/
 			continue;
 		}
 

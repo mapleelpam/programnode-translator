@@ -42,7 +42,6 @@ struct Call : public Interpreter
 			, tw::maple::as::symbol::Scope* class_symbol_table
 			)
 	{
-//		std::cerr << " in call interpreter  = " << std::endl;
 
 		namespace ASY = tw::maple::as::symbol;
 
@@ -53,16 +52,13 @@ struct Call : public Interpreter
 		if (call->isObjectConsturct()) {
 			result +=  " new ";
 			std::string type_name = get_full_functionname( call->callee );
-//			ASY::SymbolPtr p_type = symbol_table->findType( type_name );
 			ASY::SymbolPtr p_type = call->getCalleeType();
 			if( p_type != NULL && p_type->getFQN_and_mappedName() != "" )
 			{
-//				std::cout << "go path 1 "<<std::endl;
 				result += p_type->getFQN_and_mappedName();
 			}
 			else
 			{
-//				std::cout << "go path 2 "<< ( p_type != NULL) <<std::endl;
 				result += type_name;
 			}
 		} else
