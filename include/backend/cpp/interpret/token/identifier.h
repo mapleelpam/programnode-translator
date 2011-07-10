@@ -50,7 +50,6 @@ struct Identifier : public Interpreter
 
 		if(li->qualifier != "")
 		{
-
 			std::string left = replace( li->qualifier, ".", "::");
 
 			DEBUG
@@ -58,7 +57,16 @@ struct Identifier : public Interpreter
 		}
 		else
 		{
+			bool should_use_fqn = false;
 			std::vector<ASY::SymbolPtr> candidates = symbol_table->findSymbol_down2( li->value );
+			if( candidates.size() == 0  )
+			{
+				ASY::SymbolPtr s = ctx->scope_ctx.find_symbol( li->value );
+				if( s ){
+					candidates.push_back( s );
+					should_use_fqn = true;
+				}
+			}
 			if( candidates.size() == 0 && class_symbol_table != NULL )
 			{
 				candidates = class_symbol_table->findSymbol_down2( li->value );
@@ -93,6 +101,14 @@ struct Identifier : public Interpreter
 							return li->value;
 						}
 					}
+					if( should_use_fqn )
+					{
+						for( int idx = 0, E = candidates.size() ; idx < E ; idx ++ )
+						{
+							ASY::SymbolPtr instance_symbol = candidates[idx];
+							return instance_symbol->getFQN();
+						}
+					}
 				}
 				else if( ctx->inter_type==Context::LHS )
 				{
@@ -107,6 +123,7 @@ struct Identifier : public Interpreter
 						}
 					}
 				}
+
 				return li->value;
 			}
 			else

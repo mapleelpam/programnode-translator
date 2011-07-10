@@ -53,16 +53,16 @@ struct PackageDefinition : public Interpreter
 			result += "namespace "+ *sItr+ "{ ";
 		}
 		result +="\n";
-			ctx->tree_depth ++;
+			ctx->tree_depth ++;	ctx->scope_ctx.enterScope();
 			for (std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr =
 					node->node_childs.begin(); nItr != node->node_childs.end(); nItr++) {
 //				std::cerr << "-------------------------------------> in PackageDefinition scope!!" << std::endl;
 				result += dispatchExpound(*nItr, symbol_table,  ctx, class_symbol_table);
 			}
-			ctx->tree_depth --;
+			ctx->tree_depth --;	ctx->scope_ctx.leaveScope();
 
-		for( std::vector<std::string>::iterator sItr = ast_pkg->package_names.begin()
-						; sItr != ast_pkg->package_names.end() ; sItr++ )
+		for( std::vector<std::string>::iterator sItr = ast_pkg->package_names.begin(), E = ast_pkg->package_names.end()
+						; sItr != E ; sItr++ )
 		{
 			result += "} /* "+ (*sItr=="" ? "anonymouse" : *sItr )+ "*/ ";
 		}
