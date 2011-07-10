@@ -43,7 +43,7 @@ struct ImportStatement : public Interpreter
 	{
 		tw::maple::as::ast::ImportStatementPtr ast_import = DYNA_CAST( tw::maple::as::ast::ImportStatement, node );
 		handleImport( ast_import, symboltable, ctx );
-		return "/* ignore import */";
+		return "";
 	}
 
 private:
