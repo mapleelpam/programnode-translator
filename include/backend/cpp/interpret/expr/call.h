@@ -55,6 +55,7 @@ struct Call : public Interpreter
 			ASY::SymbolPtr p_type = call->getCalleeType();
 			if( p_type != NULL && p_type->getFQN_and_mappedName() != "" )
 			{
+				ctx-> token_class_type = p_type;
 				result += p_type->getFQN_and_mappedName();
 			}
 			else
