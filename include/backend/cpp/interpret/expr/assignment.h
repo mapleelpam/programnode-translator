@@ -56,7 +56,7 @@ struct Assignment : public Interpreter
 		ctx->inter_type = Context::RHS;
 
 		if( lft_is_setter )
-			return str_rhs + "( " + str_lhs+")";
+			return str_rhs + "( " + str_lhs+" )";
 		else
 			return str_rhs + " = " + str_lhs;
 	}

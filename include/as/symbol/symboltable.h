@@ -65,7 +65,6 @@ struct SymbolTable : public tw::maple::service::ConfigRequest
 		_primitive_type_mapper[ "float" ] = "float";
 		_primitive_type_mapper[ "Boolean" ] = "bool";
 		_primitive_type_mapper[ "Void" ] = "void";
-//		_primitive_type_mapper[ "void" ] = "Void";
 	}
 	virtual bool readConfig( boost::property_tree::ptree& pt )
 	{
