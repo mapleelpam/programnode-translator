@@ -15,15 +15,6 @@
 
 namespace tw { namespace maple { namespace generated {
 
-struct ExpressionType {
-  enum type {
-    IDENTIFIER = 0,
-    CALL = 1
-  };
-};
-
-extern const std::map<int, const char*> _ExpressionType_VALUES_TO_NAMES;
-
 struct IdentifierType {
   enum type {
     TYPE_IDENTIFIER = 0,

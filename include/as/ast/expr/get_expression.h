@@ -22,30 +22,31 @@
  * Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
  * ***************************************************************/
 
-#ifndef __AS_AST_MEMBER_EXPRESSIONS_H__
-#define __AS_AST_MEMBER_EXPRESSIONS_H__
+#ifndef __TW_MAPLE_AS_AST_GET_REXPRESSION_H__
+#define __TW_MAPLE_AS_AST_GET_REXPRESSION_H__
 
-#include <tr1/memory>
 #include <as/ast/abstract/expression.h>
+#include <global.h>
+#include "SyntaxTree_types.h"
+
 
 namespace tw { namespace maple { namespace as { namespace ast {
 
-struct ExpressionMember : public Expression
+struct GetExpression : public Expression
 {
-	ExpressionMember( /*std::vector<std::string> bases*/ )
-		: Expression(Node::NodeType::T_MEMBER_EXPRESSION)
-//		, m_bases( bases )
+	GetExpression( const std::string& m )
+		: Expression(Node::NodeType::T_GET_EXPRESSION)
+		, mode( m )
 	{
 	}
+	std::string toString()  {	return "node::get"; };
 
+	 NodePtr child(){	return node_childs[0];	}
 
-    std::string toString()  {	return "node::expression_member"; };
-
-//    std::vector<std::string>	m_bases;
+	 std::string mode;
 };
 
-typedef SHARED_PTR(ExpressionMember) ExpressionMemberPtr;
-
+typedef SHARED_PTR(GetExpression) GetExpressionPtr;
 
 } } } }
 

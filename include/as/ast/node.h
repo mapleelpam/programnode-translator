@@ -88,7 +88,9 @@ struct Node
             T_RETURN_STATEMENT,
 
             T_VARIABLE_DECLARE,
-            T_ASSIGNMENT,
+            T_SET_EXPRESSION,
+            T_GET_EXPRESSION,
+            T_TYPE_EXPRESSION,
 
             T_EXPR_CONDITION,
             T_STMT_IF,
@@ -107,7 +109,7 @@ struct Node
             T_COMP_FUNCTION_ATTRIBUTE,
 
 
-            T_EXPR_MEMBER,
+            T_MEMBER_EXPRESSION,
             T_THIS,
 
             T_IMPORT_STMT,

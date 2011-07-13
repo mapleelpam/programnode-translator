@@ -22,10 +22,10 @@
  * Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
  * ***************************************************************/
 
-#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_ASSIGNMENT_H__
-#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_ASSIGNMENT_H__
+#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_SET_EXPRESSION_H__
+#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_SET_EXPRESSION_H__
 
-#include <as/ast/expr/assignment.h>
+#include <as/ast/expr/set_expression.h>
 #include <backend/cpp/interpret/interpreter.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
@@ -33,7 +33,7 @@ namespace tw { namespace maple { namespace backend { namespace cpp { namespace i
 namespace AST = ::tw::maple::as::ast;
 namespace ASY = ::tw::maple::as::symbol;
 
-struct Assignment : public Interpreter
+struct SetExpression : public Interpreter
 {   
 	virtual std::string expound(
 			::tw::maple::as::ast::NodePtr node
@@ -43,22 +43,24 @@ struct Assignment : public Interpreter
 			)
 	{
 		std::string result;
-		AST::AssignmentPtr assignment = STATIC_CAST( AST::Assignment, node);
+		AST::SetExpressionPtr set = STATIC_CAST( AST::SetExpression, node);
 
 		ctx->inter_type = Context::LHS;
 		bool lft_is_setter = ctx-> lfs_is_setter = false;
-		std::string str_rhs = dispatchExpound(assignment->LHS(), symbol_table, ctx, class_symbol_table);
+		std::string str_rhs = dispatchExpound(set->LHS(), symbol_table, ctx, class_symbol_table);
 		lft_is_setter = ctx-> lfs_is_setter;
 
 		ctx->inter_type = Context::RHS;
-		std::string str_lhs = dispatchExpound(assignment->RHS(), symbol_table, ctx, NULL/*TODO: SHOULD NOT BE*/ );
+		std::string str_lhs = dispatchExpound(set->RHS(), symbol_table, ctx, NULL/*TODO: SHOULD NOT BE*/ );
 
 		ctx->inter_type = Context::RHS;
 
+		std::string prefix = (set->mode == "dot") ? "->" : "";
+
 		if( lft_is_setter )
-			return str_rhs + "( " + str_lhs+" )";
+			return prefix+str_rhs + "( " + str_lhs+" )";
 		else
-			return str_rhs + " = " + str_lhs;
+			return prefix+str_rhs + " = " + str_lhs;
 	}
 };
 

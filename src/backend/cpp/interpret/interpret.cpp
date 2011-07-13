@@ -60,7 +60,8 @@
 #include <backend/cpp/interpret/stmt/package_definition.h>
 #include <backend/cpp/interpret/stmt/import_stmt.h>
 #include <backend/cpp/interpret/expr/expr_member.h>
-#include <backend/cpp/interpret/expr/assignment.h>
+#include <backend/cpp/interpret/expr/set_expression.h>
+#include <backend/cpp/interpret/expr/get_expression.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
@@ -93,7 +94,8 @@ void initializeInterpreters()
 		interpreterResolver[AST::Node::NodeType::T_UNARY_OPERATOR] = new UnaryOperator();
 		interpreterResolver[AST::Node::NodeType::T_RETURN_STATEMENT] = new ReturnStatement();
 		interpreterResolver[AST::Node::NodeType::T_VARIABLE_DECLARE] = new VariableDeclare();
-		interpreterResolver[AST::Node::NodeType::T_ASSIGNMENT] = new Assignment();
+		interpreterResolver[AST::Node::NodeType::T_SET_EXPRESSION] = new SetExpression();
+		interpreterResolver[AST::Node::NodeType::T_GET_EXPRESSION] = new GetExpression();
 		interpreterResolver[AST::Node::NodeType::T_CALL] = new Call();
 		interpreterResolver[AST::Node::NodeType::T_STMT_IF] = new IfStatement();
 		interpreterResolver[AST::Node::NodeType::T_STMT_EXPR] = new StmtExpression();
@@ -101,7 +103,7 @@ void initializeInterpreters()
 		interpreterResolver[AST::Node::NodeType::T_CLASS_DEFINE] = new ClassDefinition();
 		interpreterResolver[AST::Node::NodeType::T_PACKAGE_DEFINITION] = new PackageDefinition();
 
-		interpreterResolver[AST::Node::NodeType::T_EXPR_MEMBER] = new ExpressionMember();
+		interpreterResolver[AST::Node::NodeType::T_MEMBER_EXPRESSION] = new ExpressionMember();
 
 		interpreterResolver[AST::Node::NodeType::T_STMT_FOR] = new ForStatement();
 		interpreterResolver[AST::Node::NodeType::T_STMT_DO] = new DoStatement();

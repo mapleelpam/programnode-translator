@@ -60,8 +60,10 @@ class AstDumperIf {
   virtual void endUnaryExpression() = 0;
   virtual void startVariableDeclare(const VariableDeclare& var_decl) = 0;
   virtual void endVariableDeclare() = 0;
-  virtual void startAssignment() = 0;
-  virtual void endAssignment() = 0;
+  virtual void startSetExpression(const std::string& mode) = 0;
+  virtual void endSetExpression() = 0;
+  virtual void startGetExpression(const std::string& mode) = 0;
+  virtual void endGetExpression() = 0;
   virtual void identifierExpression(const Identifier& id) = 0;
   virtual void literalStringExpression(const Literal& str) = 0;
   virtual void literalNumberExpression(const Literal& str) = 0;
@@ -90,6 +92,8 @@ class AstDumperIf {
   virtual void endDoStatement() = 0;
   virtual void startWhileStatement() = 0;
   virtual void endWhileStatement() = 0;
+  virtual void startTypeExpression() = 0;
+  virtual void endTypeExpression() = 0;
   virtual void defineMetaData(const MetaData& metadata) = 0;
   virtual void empty() = 0;
 };
@@ -235,10 +239,16 @@ class AstDumperNull : virtual public AstDumperIf {
   void endVariableDeclare() {
     return;
   }
-  void startAssignment() {
+  void startSetExpression(const std::string& /* mode */) {
     return;
   }
-  void endAssignment() {
+  void endSetExpression() {
+    return;
+  }
+  void startGetExpression(const std::string& /* mode */) {
+    return;
+  }
+  void endGetExpression() {
     return;
   }
   void identifierExpression(const Identifier& /* id */) {
@@ -325,6 +335,12 @@ class AstDumperNull : virtual public AstDumperIf {
   void endWhileStatement() {
     return;
   }
+  void startTypeExpression() {
+    return;
+  }
+  void endTypeExpression() {
+    return;
+  }
   void defineMetaData(const MetaData& /* metadata */) {
     return;
   }
@@ -342,7 +358,7 @@ typedef struct _AstDumper_startProgram_args__isset {
 class AstDumper_startProgram_args {
  public:
 
-  AstDumper_startProgram_args() : version("0.0.1"), counter(10LL) {
+  AstDumper_startProgram_args() : version("0.0.1"), counter(12LL) {
   }
 
   virtual ~AstDumper_startProgram_args() throw() {}
@@ -2205,25 +2221,34 @@ class AstDumper_endVariableDeclare_pargs {
 
 };
 
+typedef struct _AstDumper_startSetExpression_args__isset {
+  _AstDumper_startSetExpression_args__isset() : mode(false) {}
+  bool mode;
+} _AstDumper_startSetExpression_args__isset;
 
-class AstDumper_startAssignment_args {
+class AstDumper_startSetExpression_args {
  public:
 
-  AstDumper_startAssignment_args() {
+  AstDumper_startSetExpression_args() : mode("") {
   }
 
-  virtual ~AstDumper_startAssignment_args() throw() {}
+  virtual ~AstDumper_startSetExpression_args() throw() {}
 
+  std::string mode;
 
-  bool operator == (const AstDumper_startAssignment_args & /* rhs */) const
+  _AstDumper_startSetExpression_args__isset __isset;
+
+  bool operator == (const AstDumper_startSetExpression_args & rhs) const
   {
+    if (!(mode == rhs.mode))
+      return false;
     return true;
   }
-  bool operator != (const AstDumper_startAssignment_args &rhs) const {
+  bool operator != (const AstDumper_startSetExpression_args &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const AstDumper_startAssignment_args & ) const;
+  bool operator < (const AstDumper_startSetExpression_args & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -2231,36 +2256,37 @@ class AstDumper_startAssignment_args {
 };
 
 
-class AstDumper_startAssignment_pargs {
+class AstDumper_startSetExpression_pargs {
  public:
 
 
-  virtual ~AstDumper_startAssignment_pargs() throw() {}
+  virtual ~AstDumper_startSetExpression_pargs() throw() {}
 
+  const std::string* mode;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
 };
 
 
-class AstDumper_endAssignment_args {
+class AstDumper_endSetExpression_args {
  public:
 
-  AstDumper_endAssignment_args() {
+  AstDumper_endSetExpression_args() {
   }
 
-  virtual ~AstDumper_endAssignment_args() throw() {}
+  virtual ~AstDumper_endSetExpression_args() throw() {}
 
 
-  bool operator == (const AstDumper_endAssignment_args & /* rhs */) const
+  bool operator == (const AstDumper_endSetExpression_args & /* rhs */) const
   {
     return true;
   }
-  bool operator != (const AstDumper_endAssignment_args &rhs) const {
+  bool operator != (const AstDumper_endSetExpression_args &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const AstDumper_endAssignment_args & ) const;
+  bool operator < (const AstDumper_endSetExpression_args & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -2268,11 +2294,95 @@ class AstDumper_endAssignment_args {
 };
 
 
-class AstDumper_endAssignment_pargs {
+class AstDumper_endSetExpression_pargs {
  public:
 
 
-  virtual ~AstDumper_endAssignment_pargs() throw() {}
+  virtual ~AstDumper_endSetExpression_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _AstDumper_startGetExpression_args__isset {
+  _AstDumper_startGetExpression_args__isset() : mode(false) {}
+  bool mode;
+} _AstDumper_startGetExpression_args__isset;
+
+class AstDumper_startGetExpression_args {
+ public:
+
+  AstDumper_startGetExpression_args() : mode("") {
+  }
+
+  virtual ~AstDumper_startGetExpression_args() throw() {}
+
+  std::string mode;
+
+  _AstDumper_startGetExpression_args__isset __isset;
+
+  bool operator == (const AstDumper_startGetExpression_args & rhs) const
+  {
+    if (!(mode == rhs.mode))
+      return false;
+    return true;
+  }
+  bool operator != (const AstDumper_startGetExpression_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_startGetExpression_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_startGetExpression_pargs {
+ public:
+
+
+  virtual ~AstDumper_startGetExpression_pargs() throw() {}
+
+  const std::string* mode;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_endGetExpression_args {
+ public:
+
+  AstDumper_endGetExpression_args() {
+  }
+
+  virtual ~AstDumper_endGetExpression_args() throw() {}
+
+
+  bool operator == (const AstDumper_endGetExpression_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const AstDumper_endGetExpression_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_endGetExpression_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_endGetExpression_pargs {
+ public:
+
+
+  virtual ~AstDumper_endGetExpression_pargs() throw() {}
 
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -3375,6 +3485,80 @@ class AstDumper_endWhileStatement_pargs {
 
 };
 
+
+class AstDumper_startTypeExpression_args {
+ public:
+
+  AstDumper_startTypeExpression_args() {
+  }
+
+  virtual ~AstDumper_startTypeExpression_args() throw() {}
+
+
+  bool operator == (const AstDumper_startTypeExpression_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const AstDumper_startTypeExpression_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_startTypeExpression_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_startTypeExpression_pargs {
+ public:
+
+
+  virtual ~AstDumper_startTypeExpression_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_endTypeExpression_args {
+ public:
+
+  AstDumper_endTypeExpression_args() {
+  }
+
+  virtual ~AstDumper_endTypeExpression_args() throw() {}
+
+
+  bool operator == (const AstDumper_endTypeExpression_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const AstDumper_endTypeExpression_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_endTypeExpression_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_endTypeExpression_pargs {
+ public:
+
+
+  virtual ~AstDumper_endTypeExpression_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
 typedef struct _AstDumper_defineMetaData_args__isset {
   _AstDumper_defineMetaData_args__isset() : metadata(false) {}
   bool metadata;
@@ -3571,10 +3755,14 @@ class AstDumperClient : virtual public AstDumperIf {
   void send_startVariableDeclare(const VariableDeclare& var_decl);
   void endVariableDeclare();
   void send_endVariableDeclare();
-  void startAssignment();
-  void send_startAssignment();
-  void endAssignment();
-  void send_endAssignment();
+  void startSetExpression(const std::string& mode);
+  void send_startSetExpression(const std::string& mode);
+  void endSetExpression();
+  void send_endSetExpression();
+  void startGetExpression(const std::string& mode);
+  void send_startGetExpression(const std::string& mode);
+  void endGetExpression();
+  void send_endGetExpression();
   void identifierExpression(const Identifier& id);
   void send_identifierExpression(const Identifier& id);
   void literalStringExpression(const Literal& str);
@@ -3631,6 +3819,10 @@ class AstDumperClient : virtual public AstDumperIf {
   void send_startWhileStatement();
   void endWhileStatement();
   void send_endWhileStatement();
+  void startTypeExpression();
+  void send_startTypeExpression();
+  void endTypeExpression();
+  void send_endTypeExpression();
   void defineMetaData(const MetaData& metadata);
   void send_defineMetaData(const MetaData& metadata);
   void empty();
@@ -3694,8 +3886,10 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
   void process_endUnaryExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_startVariableDeclare(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_endVariableDeclare(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
-  void process_startAssignment(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
-  void process_endAssignment(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_startSetExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_endSetExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_startGetExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_endGetExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_identifierExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_literalStringExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_literalNumberExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -3724,6 +3918,8 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
   void process_endDoStatement(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_startWhileStatement(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_endWhileStatement(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_startTypeExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_endTypeExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_defineMetaData(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_empty(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
@@ -3775,8 +3971,10 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
     processMap_["endUnaryExpression"] = &AstDumperProcessor::process_endUnaryExpression;
     processMap_["startVariableDeclare"] = &AstDumperProcessor::process_startVariableDeclare;
     processMap_["endVariableDeclare"] = &AstDumperProcessor::process_endVariableDeclare;
-    processMap_["startAssignment"] = &AstDumperProcessor::process_startAssignment;
-    processMap_["endAssignment"] = &AstDumperProcessor::process_endAssignment;
+    processMap_["startSetExpression"] = &AstDumperProcessor::process_startSetExpression;
+    processMap_["endSetExpression"] = &AstDumperProcessor::process_endSetExpression;
+    processMap_["startGetExpression"] = &AstDumperProcessor::process_startGetExpression;
+    processMap_["endGetExpression"] = &AstDumperProcessor::process_endGetExpression;
     processMap_["identifierExpression"] = &AstDumperProcessor::process_identifierExpression;
     processMap_["literalStringExpression"] = &AstDumperProcessor::process_literalStringExpression;
     processMap_["literalNumberExpression"] = &AstDumperProcessor::process_literalNumberExpression;
@@ -3805,6 +4003,8 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
     processMap_["endDoStatement"] = &AstDumperProcessor::process_endDoStatement;
     processMap_["startWhileStatement"] = &AstDumperProcessor::process_startWhileStatement;
     processMap_["endWhileStatement"] = &AstDumperProcessor::process_endWhileStatement;
+    processMap_["startTypeExpression"] = &AstDumperProcessor::process_startTypeExpression;
+    processMap_["endTypeExpression"] = &AstDumperProcessor::process_endTypeExpression;
     processMap_["defineMetaData"] = &AstDumperProcessor::process_defineMetaData;
     processMap_["empty"] = &AstDumperProcessor::process_empty;
   }
@@ -4147,17 +4347,31 @@ class AstDumperMultiface : virtual public AstDumperIf {
     }
   }
 
-  void startAssignment() {
+  void startSetExpression(const std::string& mode) {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
-      ifaces_[i]->startAssignment();
+      ifaces_[i]->startSetExpression(mode);
     }
   }
 
-  void endAssignment() {
+  void endSetExpression() {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
-      ifaces_[i]->endAssignment();
+      ifaces_[i]->endSetExpression();
+    }
+  }
+
+  void startGetExpression(const std::string& mode) {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->startGetExpression(mode);
+    }
+  }
+
+  void endGetExpression() {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->endGetExpression();
     }
   }
 
@@ -4354,6 +4568,20 @@ class AstDumperMultiface : virtual public AstDumperIf {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
       ifaces_[i]->endWhileStatement();
+    }
+  }
+
+  void startTypeExpression() {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->startTypeExpression();
+    }
+  }
+
+  void endTypeExpression() {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->endTypeExpression();
     }
   }
 

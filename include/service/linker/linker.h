@@ -35,7 +35,7 @@
 //using namespace ::apache::thrift::transport;
 //using namespace ::apache::thrift::server;
 
-#define printf(STRING) {};
+//#define printf(STRING) {};
 
 namespace tw { namespace maple { namespace service { namespace linker {
 
@@ -311,18 +311,31 @@ class Linker : virtual public generated::AstDumperIf {
     pm_module->endVariableDeclare();
   }
 
-  void startAssignment() {
-
-    printf("startAssignment\n");
-    pm_module->startAssignment();
+  void startGetExpression( const std::string& s) {
+    printf("startGetExpression\n");
+    pm_module->startGetExpression( s );
+  }
+  void endGetExpression() {
+    printf("endGetExpression\n");
+    pm_module->endGetExpression( );
+  }
+  void startSetExpression( const std::string& s) {
+    printf("startSetExpression\n");
+    pm_module->startSetExpression( s );
+  }
+  void endSetExpression() {
+    printf("endSetExpression\n");
+    pm_module->endSetExpression( );
   }
 
-  void endAssignment() {
-
-    printf("endAssignment\n");
-    pm_module->endAssignment();
+  void startTypeExpression( ) {
+    printf("startTypeExpression\n");
+    pm_module->startTypeExpression(  );
   }
-
+  void endTypeExpression() {
+    printf("endTypeExpression\n");
+    pm_module->endTypeExpression( );
+  }
 	virtual void thisExpression( ) {
 	    pm_module->thisExpression();
 	}
@@ -510,6 +523,7 @@ class Linker : virtual public generated::AstDumperIf {
     pm_module->endConditionExpression();
   }
   void empty() {
+	printf("empty\n");
     pm_module->empty();
   }
 

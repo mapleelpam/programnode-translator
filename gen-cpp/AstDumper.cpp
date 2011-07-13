@@ -2639,7 +2639,69 @@ uint32_t AstDumper_endVariableDeclare_pargs::write(::apache::thrift::protocol::T
   return xfer;
 }
 
-uint32_t AstDumper_startAssignment_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t AstDumper_startSetExpression_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->mode);
+          this->__isset.mode = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t AstDumper_startSetExpression_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  xfer += oprot->writeStructBegin("AstDumper_startSetExpression_args");
+  xfer += oprot->writeFieldBegin("mode", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->mode);
+  xfer += oprot->writeFieldEnd();
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+uint32_t AstDumper_startSetExpression_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  xfer += oprot->writeStructBegin("AstDumper_startSetExpression_pargs");
+  xfer += oprot->writeFieldBegin("mode", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString((*(this->mode)));
+  xfer += oprot->writeFieldEnd();
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+uint32_t AstDumper_endSetExpression_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   uint32_t xfer = 0;
   std::string fname;
@@ -2671,23 +2733,85 @@ uint32_t AstDumper_startAssignment_args::read(::apache::thrift::protocol::TProto
   return xfer;
 }
 
-uint32_t AstDumper_startAssignment_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t AstDumper_endSetExpression_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
-  xfer += oprot->writeStructBegin("AstDumper_startAssignment_args");
+  xfer += oprot->writeStructBegin("AstDumper_endSetExpression_args");
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
 }
 
-uint32_t AstDumper_startAssignment_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t AstDumper_endSetExpression_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
-  xfer += oprot->writeStructBegin("AstDumper_startAssignment_pargs");
+  xfer += oprot->writeStructBegin("AstDumper_endSetExpression_pargs");
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
 }
 
-uint32_t AstDumper_endAssignment_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t AstDumper_startGetExpression_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->mode);
+          this->__isset.mode = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t AstDumper_startGetExpression_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  xfer += oprot->writeStructBegin("AstDumper_startGetExpression_args");
+  xfer += oprot->writeFieldBegin("mode", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->mode);
+  xfer += oprot->writeFieldEnd();
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+uint32_t AstDumper_startGetExpression_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  xfer += oprot->writeStructBegin("AstDumper_startGetExpression_pargs");
+  xfer += oprot->writeFieldBegin("mode", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString((*(this->mode)));
+  xfer += oprot->writeFieldEnd();
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+uint32_t AstDumper_endGetExpression_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   uint32_t xfer = 0;
   std::string fname;
@@ -2719,17 +2843,17 @@ uint32_t AstDumper_endAssignment_args::read(::apache::thrift::protocol::TProtoco
   return xfer;
 }
 
-uint32_t AstDumper_endAssignment_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t AstDumper_endGetExpression_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
-  xfer += oprot->writeStructBegin("AstDumper_endAssignment_args");
+  xfer += oprot->writeStructBegin("AstDumper_endGetExpression_args");
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
 }
 
-uint32_t AstDumper_endAssignment_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t AstDumper_endGetExpression_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
-  xfer += oprot->writeStructBegin("AstDumper_endAssignment_pargs");
+  xfer += oprot->writeStructBegin("AstDumper_endGetExpression_pargs");
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -4191,6 +4315,102 @@ uint32_t AstDumper_endWhileStatement_pargs::write(::apache::thrift::protocol::TP
   return xfer;
 }
 
+uint32_t AstDumper_startTypeExpression_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t AstDumper_startTypeExpression_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  xfer += oprot->writeStructBegin("AstDumper_startTypeExpression_args");
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+uint32_t AstDumper_startTypeExpression_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  xfer += oprot->writeStructBegin("AstDumper_startTypeExpression_pargs");
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+uint32_t AstDumper_endTypeExpression_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t AstDumper_endTypeExpression_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  xfer += oprot->writeStructBegin("AstDumper_endTypeExpression_args");
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+uint32_t AstDumper_endTypeExpression_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  xfer += oprot->writeStructBegin("AstDumper_endTypeExpression_pargs");
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
 uint32_t AstDumper_defineMetaData_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   uint32_t xfer = 0;
@@ -5149,17 +5369,18 @@ void AstDumperClient::send_endVariableDeclare()
   oprot_->getTransport()->flush();
 }
 
-void AstDumperClient::startAssignment()
+void AstDumperClient::startSetExpression(const std::string& mode)
 {
-  send_startAssignment();
+  send_startSetExpression(mode);
 }
 
-void AstDumperClient::send_startAssignment()
+void AstDumperClient::send_startSetExpression(const std::string& mode)
 {
   int32_t cseqid = 0;
-  oprot_->writeMessageBegin("startAssignment", ::apache::thrift::protocol::T_CALL, cseqid);
+  oprot_->writeMessageBegin("startSetExpression", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  AstDumper_startAssignment_pargs args;
+  AstDumper_startSetExpression_pargs args;
+  args.mode = &mode;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -5167,17 +5388,54 @@ void AstDumperClient::send_startAssignment()
   oprot_->getTransport()->flush();
 }
 
-void AstDumperClient::endAssignment()
+void AstDumperClient::endSetExpression()
 {
-  send_endAssignment();
+  send_endSetExpression();
 }
 
-void AstDumperClient::send_endAssignment()
+void AstDumperClient::send_endSetExpression()
 {
   int32_t cseqid = 0;
-  oprot_->writeMessageBegin("endAssignment", ::apache::thrift::protocol::T_CALL, cseqid);
+  oprot_->writeMessageBegin("endSetExpression", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  AstDumper_endAssignment_pargs args;
+  AstDumper_endSetExpression_pargs args;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void AstDumperClient::startGetExpression(const std::string& mode)
+{
+  send_startGetExpression(mode);
+}
+
+void AstDumperClient::send_startGetExpression(const std::string& mode)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("startGetExpression", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  AstDumper_startGetExpression_pargs args;
+  args.mode = &mode;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void AstDumperClient::endGetExpression()
+{
+  send_endGetExpression();
+}
+
+void AstDumperClient::send_endGetExpression()
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("endGetExpression", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  AstDumper_endGetExpression_pargs args;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -5688,6 +5946,42 @@ void AstDumperClient::send_endWhileStatement()
   oprot_->writeMessageBegin("endWhileStatement", ::apache::thrift::protocol::T_CALL, cseqid);
 
   AstDumper_endWhileStatement_pargs args;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void AstDumperClient::startTypeExpression()
+{
+  send_startTypeExpression();
+}
+
+void AstDumperClient::send_startTypeExpression()
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("startTypeExpression", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  AstDumper_startTypeExpression_pargs args;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void AstDumperClient::endTypeExpression()
+{
+  send_endTypeExpression();
+}
+
+void AstDumperClient::send_endTypeExpression()
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("endTypeExpression", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  AstDumper_endTypeExpression_pargs args;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -7479,75 +7773,149 @@ void AstDumperProcessor::process_endVariableDeclare(int32_t seqid, ::apache::thr
   return;
 }
 
-void AstDumperProcessor::process_startAssignment(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+void AstDumperProcessor::process_startSetExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = NULL;
   if (eventHandler_.get() != NULL) {
-    ctx = eventHandler_->getContext("AstDumper.startAssignment", callContext);
+    ctx = eventHandler_->getContext("AstDumper.startSetExpression", callContext);
   }
-  ::apache::thrift::TProcessorContextFreer freer(eventHandler_.get(), ctx, "AstDumper.startAssignment");
+  ::apache::thrift::TProcessorContextFreer freer(eventHandler_.get(), ctx, "AstDumper.startSetExpression");
 
   if (eventHandler_.get() != NULL) {
-    eventHandler_->preRead(ctx, "AstDumper.startAssignment");
+    eventHandler_->preRead(ctx, "AstDumper.startSetExpression");
   }
 
-  AstDumper_startAssignment_args args;
+  AstDumper_startSetExpression_args args;
   args.read(iprot);
   iprot->readMessageEnd();
   uint32_t bytes = iprot->getTransport()->readEnd();
 
   if (eventHandler_.get() != NULL) {
-    eventHandler_->postRead(ctx, "AstDumper.startAssignment", bytes);
+    eventHandler_->postRead(ctx, "AstDumper.startSetExpression", bytes);
   }
 
   try {
-    iface_->startAssignment();
+    iface_->startSetExpression(args.mode);
   } catch (const std::exception& e) {
     if (eventHandler_.get() != NULL) {
-      eventHandler_->handlerError(ctx, "AstDumper.startAssignment");
+      eventHandler_->handlerError(ctx, "AstDumper.startSetExpression");
     }
     return;
   }
 
   if (eventHandler_.get() != NULL) {
-    eventHandler_->asyncComplete(ctx, "AstDumper.startAssignment");
+    eventHandler_->asyncComplete(ctx, "AstDumper.startSetExpression");
   }
 
   return;
 }
 
-void AstDumperProcessor::process_endAssignment(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+void AstDumperProcessor::process_endSetExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = NULL;
   if (eventHandler_.get() != NULL) {
-    ctx = eventHandler_->getContext("AstDumper.endAssignment", callContext);
+    ctx = eventHandler_->getContext("AstDumper.endSetExpression", callContext);
   }
-  ::apache::thrift::TProcessorContextFreer freer(eventHandler_.get(), ctx, "AstDumper.endAssignment");
+  ::apache::thrift::TProcessorContextFreer freer(eventHandler_.get(), ctx, "AstDumper.endSetExpression");
 
   if (eventHandler_.get() != NULL) {
-    eventHandler_->preRead(ctx, "AstDumper.endAssignment");
+    eventHandler_->preRead(ctx, "AstDumper.endSetExpression");
   }
 
-  AstDumper_endAssignment_args args;
+  AstDumper_endSetExpression_args args;
   args.read(iprot);
   iprot->readMessageEnd();
   uint32_t bytes = iprot->getTransport()->readEnd();
 
   if (eventHandler_.get() != NULL) {
-    eventHandler_->postRead(ctx, "AstDumper.endAssignment", bytes);
+    eventHandler_->postRead(ctx, "AstDumper.endSetExpression", bytes);
   }
 
   try {
-    iface_->endAssignment();
+    iface_->endSetExpression();
   } catch (const std::exception& e) {
     if (eventHandler_.get() != NULL) {
-      eventHandler_->handlerError(ctx, "AstDumper.endAssignment");
+      eventHandler_->handlerError(ctx, "AstDumper.endSetExpression");
     }
     return;
   }
 
   if (eventHandler_.get() != NULL) {
-    eventHandler_->asyncComplete(ctx, "AstDumper.endAssignment");
+    eventHandler_->asyncComplete(ctx, "AstDumper.endSetExpression");
+  }
+
+  return;
+}
+
+void AstDumperProcessor::process_startGetExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = NULL;
+  if (eventHandler_.get() != NULL) {
+    ctx = eventHandler_->getContext("AstDumper.startGetExpression", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(eventHandler_.get(), ctx, "AstDumper.startGetExpression");
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->preRead(ctx, "AstDumper.startGetExpression");
+  }
+
+  AstDumper_startGetExpression_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->postRead(ctx, "AstDumper.startGetExpression", bytes);
+  }
+
+  try {
+    iface_->startGetExpression(args.mode);
+  } catch (const std::exception& e) {
+    if (eventHandler_.get() != NULL) {
+      eventHandler_->handlerError(ctx, "AstDumper.startGetExpression");
+    }
+    return;
+  }
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->asyncComplete(ctx, "AstDumper.startGetExpression");
+  }
+
+  return;
+}
+
+void AstDumperProcessor::process_endGetExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = NULL;
+  if (eventHandler_.get() != NULL) {
+    ctx = eventHandler_->getContext("AstDumper.endGetExpression", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(eventHandler_.get(), ctx, "AstDumper.endGetExpression");
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->preRead(ctx, "AstDumper.endGetExpression");
+  }
+
+  AstDumper_endGetExpression_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->postRead(ctx, "AstDumper.endGetExpression", bytes);
+  }
+
+  try {
+    iface_->endGetExpression();
+  } catch (const std::exception& e) {
+    if (eventHandler_.get() != NULL) {
+      eventHandler_->handlerError(ctx, "AstDumper.endGetExpression");
+    }
+    return;
+  }
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->asyncComplete(ctx, "AstDumper.endGetExpression");
   }
 
   return;
@@ -8584,6 +8952,80 @@ void AstDumperProcessor::process_endWhileStatement(int32_t seqid, ::apache::thri
 
   if (eventHandler_.get() != NULL) {
     eventHandler_->asyncComplete(ctx, "AstDumper.endWhileStatement");
+  }
+
+  return;
+}
+
+void AstDumperProcessor::process_startTypeExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = NULL;
+  if (eventHandler_.get() != NULL) {
+    ctx = eventHandler_->getContext("AstDumper.startTypeExpression", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(eventHandler_.get(), ctx, "AstDumper.startTypeExpression");
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->preRead(ctx, "AstDumper.startTypeExpression");
+  }
+
+  AstDumper_startTypeExpression_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->postRead(ctx, "AstDumper.startTypeExpression", bytes);
+  }
+
+  try {
+    iface_->startTypeExpression();
+  } catch (const std::exception& e) {
+    if (eventHandler_.get() != NULL) {
+      eventHandler_->handlerError(ctx, "AstDumper.startTypeExpression");
+    }
+    return;
+  }
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->asyncComplete(ctx, "AstDumper.startTypeExpression");
+  }
+
+  return;
+}
+
+void AstDumperProcessor::process_endTypeExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = NULL;
+  if (eventHandler_.get() != NULL) {
+    ctx = eventHandler_->getContext("AstDumper.endTypeExpression", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(eventHandler_.get(), ctx, "AstDumper.endTypeExpression");
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->preRead(ctx, "AstDumper.endTypeExpression");
+  }
+
+  AstDumper_endTypeExpression_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->postRead(ctx, "AstDumper.endTypeExpression", bytes);
+  }
+
+  try {
+    iface_->endTypeExpression();
+  } catch (const std::exception& e) {
+    if (eventHandler_.get() != NULL) {
+      eventHandler_->handlerError(ctx, "AstDumper.endTypeExpression");
+    }
+    return;
+  }
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->asyncComplete(ctx, "AstDumper.endTypeExpression");
   }
 
   return;

@@ -22,27 +22,32 @@
  * Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
  * ***************************************************************/
 
-#ifndef __TW_MAPLE_AS_AST_ASSIGNMENT_H__
-#define __TW_MAPLE_AS_AST_ASSIGNMENT_H__
+#ifndef __TW_MAPLE_AS_AST_SET_REXPRESSION_H__
+#define __TW_MAPLE_AS_AST_SET_REXPRESSION_H__
 
 #include <as/ast/abstract/expression.h>
 #include <global.h>
 
+#include "SyntaxTree_types.h"
 
 namespace tw { namespace maple { namespace as { namespace ast {
 
-struct Assignment : public Expression
+struct SetExpression : public Expression
 {
-	Assignment() : Expression(Node::NodeType::T_ASSIGNMENT)
+	SetExpression( const std::string& m )
+		: Expression(Node::NodeType::T_SET_EXPRESSION)
+		, mode(m)
 	{
 	}
-	std::string toString()  {	return "node::assignment"; };
+	std::string toString()  {	return "node::set '"+mode+"'"; };
 
 	 NodePtr LHS(){	return node_childs[0];	}
 	 NodePtr RHS(){	return node_childs[1];	}
+
+	 std::string mode;
 };
 
-typedef SHARED_PTR(Assignment) AssignmentPtr;
+typedef SHARED_PTR(SetExpression) SetExpressionPtr;
 
 } } } }
 

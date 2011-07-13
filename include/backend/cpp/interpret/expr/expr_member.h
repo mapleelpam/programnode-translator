@@ -85,13 +85,13 @@ struct ExpressionMember : public Interpreter
 			else if( ctx->token_class_type != NULL )
 			{
 				DEBUG
-				ASY::ScopePtr s = DYNA_CAST( ASY::Scope, ctx->token_class_type);
-				result += "->" + dispatchExpound(*nItr, symbol_table, ctx, s.get());
+				ASY::ScopePtr s	 = DYNA_CAST( ASY::Scope, ctx->token_class_type);
+				result += "/*in token class type */"+dispatchExpound(*nItr, symbol_table, ctx, s.get());
 			}
 			else
 			{
 				DEBUG
-				if( symbol_table->isInstance( result, "::") ) /* is instance is not make sense. TBR */
+				if( result != "" && symbol_table->isInstance( result, "::") ) /* is instance is not make sense. TBR */
 				{
 					DEBUG
 
@@ -101,7 +101,6 @@ struct ExpressionMember : public Interpreter
 						instance = class_symbol_table->findSymbol( result );
 					}
 					ASY::VariablePtr variable = DYNA_CAST( ASY::Variable, instance );
-
 
 					if( variable /* && function_ptr && function_ptr->isGetter()*/ )
 					{
@@ -122,7 +121,7 @@ struct ExpressionMember : public Interpreter
 				}
 				else 
 				{
-					result += "::" + dispatchExpound(*nItr, symbol_table, ctx, class_symbol_table);
+					result +=  dispatchExpound(*nItr, symbol_table, ctx, class_symbol_table);
 				}
 			}
 		}
@@ -138,7 +137,9 @@ struct ExpressionMember : public Interpreter
 private:
 	std::string constructor_work_around( std::string base, std::string callee )
 	{
-		return replace( callee, "new ", "new "+base+"::");
+		if( base != "")
+			return replace( callee, "new ", "new "+base+"::");
+		return callee;
 	}
 
 };

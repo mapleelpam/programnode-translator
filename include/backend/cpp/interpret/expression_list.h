@@ -51,18 +51,7 @@ struct ExpressionList : public Interpreter
 
 			for( nItr++ ; nItr != node->node_childs.end() ; nItr ++ )
 			{
-				if( symbol_table->isInstance( result, "::"))
-				{
-					result += "->" + dispatchExpound(*nItr, symbol_table, ctx, class_symbol_table);
-				}
-				else if( symbol_table->isInstance( result, "->"))
-				{
-					result += "->" + dispatchExpound(*nItr, symbol_table, ctx, class_symbol_table);
-				}
-				else
-				{
-					result += "::" + dispatchExpound(*nItr, symbol_table, ctx, class_symbol_table);
-				}
+				result += " " + dispatchExpound(*nItr, symbol_table, ctx, class_symbol_table);
 			}
 		}
 

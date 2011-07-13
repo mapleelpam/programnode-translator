@@ -7,16 +7,6 @@
 
 namespace tw { namespace maple { namespace generated {
 
-int _kExpressionTypeValues[] = {
-  ExpressionType::IDENTIFIER,
-  ExpressionType::CALL
-};
-const char* _kExpressionTypeNames[] = {
-  "IDENTIFIER",
-  "CALL"
-};
-const std::map<int, const char*> _ExpressionType_VALUES_TO_NAMES(::apache::thrift::TEnumIterator(2, _kExpressionTypeValues, _kExpressionTypeNames), ::apache::thrift::TEnumIterator(-1, NULL, NULL));
-
 int _kIdentifierTypeValues[] = {
   IdentifierType::TYPE_IDENTIFIER,
   IdentifierType::ATTR_IDENTIFIER,

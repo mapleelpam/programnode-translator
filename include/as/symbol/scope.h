@@ -126,15 +126,15 @@ struct Scope : public Symbol, public Registrable
 	{
 		std::vector<std::string> query_tokens = tokenize(query,delimiter,false);
 
-		std::cerr << " query "<<query<<std::endl;
+		std::cerr << " query '"<<query<<"'"<<std::endl;
 		return isInstance( query_tokens, delimiter );
 	}
 	bool isInstance( std::vector<std::string> query, std::string delimiter )
 	{
-		std::cerr << name() << " query " <<std::endl;
+		std::cerr << "'" << name() << "' query " <<std::endl;
 		for( int idx = 0 ; idx < query.size() ; idx ++ )
 		{
-			std::cerr << "in here:"<< name() << " query "<<query[idx]<<std::endl;
+			std::cerr << "in here: '"<< name() << "' query '"<<query[idx]<<"'"<<std::endl;
 		}
 		SymbolPtr child = findSymbol( query[0] );
 		if( child && child->getSymbolProperties() == T_VARIABLE)

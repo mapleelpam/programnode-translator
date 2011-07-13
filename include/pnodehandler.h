@@ -60,7 +60,9 @@
 #include <as/ast/expr/is.h>
 #include <as/ast/expr/as.h>
 #include <as/ast/expr/unary_operator.h>
-#include <as/ast/expr/assignment.h>
+#include <as/ast/expr/set_expression.h>
+#include <as/ast/expr/get_expression.h>
+#include <as/ast/expr/type_expression.h>
 #include <as/ast/expr/condition_expression.h>
 #include <as/ast/variable_declare.h>
 #include <as/ast/return_stmt.h>
@@ -277,11 +279,24 @@ public:
 	void endVariableDeclare() {
 		CHECK_STACK_AND_POP( Variable, AST::Node::NodeType::T_VARIABLE_DECLARE );
 	}
-	void startAssignment() {
-		PUSH_STACK( Assignment );
+	void startSetExpression( const std::string& mode ) {
+		PUSH_STACK_WITH_INIT( SetExpression, mode );
 	}
-	void endAssignment() {
-		CHECK_STACK_AND_POP( Assignment, AST::Node::NodeType::T_ASSIGNMENT );
+	void endSetExpression( ) {
+		CHECK_STACK_AND_POP( SetExpression, AST::Node::NodeType::T_SET_EXPRESSION );
+	}
+	void startTypeExpression( ) {
+		PUSH_STACK( TypeExpression );
+	}
+	void endTypeExpression( ) {
+		CHECK_STACK_AND_POP( TypeExpression, AST::Node::NodeType::T_TYPE_EXPRESSION );
+	}
+	void startGetExpression( const std::string& mode ) {
+		std::cerr <<"------------------------> get expression "<<mode<<std::endl;
+		PUSH_STACK_WITH_INIT( GetExpression, mode );
+	}
+	void endGetExpression() {
+		CHECK_STACK_AND_POP( GetExpression, AST::Node::NodeType::T_GET_EXPRESSION );
 	}
 	void startUnaryExpression(const generated::UnaryExpression& op) {
 		PUSH_STACK_WITH_INIT( UnaryOperator, op.op );
@@ -406,7 +421,7 @@ public:
 		PUSH_STACK( ExpressionMember );
 	}
 	void endMemberExpression() {
-		CHECK_STACK_AND_POP( MemberExpression, AST::Node::NodeType::T_EXPR_MEMBER );
+		CHECK_STACK_AND_POP( MemberExpression, AST::Node::NodeType::T_MEMBER_EXPRESSION );
 	}
 	void startForStatement() {
 		PUSH_STACK( ForStatement );

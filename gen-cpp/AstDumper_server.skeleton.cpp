@@ -252,14 +252,24 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("endVariableDeclare\n");
   }
 
-  void startAssignment() {
+  void startSetExpression(const std::string& mode) {
     // Your implementation goes here
-    printf("startAssignment\n");
+    printf("startSetExpression\n");
   }
 
-  void endAssignment() {
+  void endSetExpression() {
     // Your implementation goes here
-    printf("endAssignment\n");
+    printf("endSetExpression\n");
+  }
+
+  void startGetExpression(const std::string& mode) {
+    // Your implementation goes here
+    printf("startGetExpression\n");
+  }
+
+  void endGetExpression() {
+    // Your implementation goes here
+    printf("endGetExpression\n");
   }
 
   void identifierExpression(const Identifier& id) {
@@ -400,6 +410,16 @@ class AstDumperHandler : virtual public AstDumperIf {
   void endWhileStatement() {
     // Your implementation goes here
     printf("endWhileStatement\n");
+  }
+
+  void startTypeExpression() {
+    // Your implementation goes here
+    printf("startTypeExpression\n");
+  }
+
+  void endTypeExpression() {
+    // Your implementation goes here
+    printf("endTypeExpression\n");
   }
 
   void defineMetaData(const MetaData& metadata) {
