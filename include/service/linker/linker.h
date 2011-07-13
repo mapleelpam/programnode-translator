@@ -162,17 +162,17 @@ class Linker : virtual public generated::AstDumperIf {
     pm_module->endReturnStatement();
   }
 
-  void startExprCondition() {
-
-    printf("startExprCondition\n");
-    pm_module->startExprCondition();
-  }
-
-  void endExprCondition() {
-
-    printf("endExprCondition\n");
-    pm_module->endExprCondition();
-  }
+//  void startExprCondition() {
+//
+//    printf("startExprCondition\n");
+//    pm_module->startExprCondition();
+//  }
+//
+//  void endExprCondition() {
+//
+//    printf("endExprCondition\n");
+//    pm_module->endExprCondition();
+//  }
 
   void startIfStatement() {
 
@@ -500,6 +500,17 @@ class Linker : virtual public generated::AstDumperIf {
 
     printf("endWhileStatement\n");
     pm_module->endWhileStatement();
+  }
+
+  void startConditionExpression() {
+    pm_module->startConditionExpression();
+  }
+
+  void endConditionExpression() {
+    pm_module->endConditionExpression();
+  }
+  void empty() {
+    pm_module->empty();
   }
 
   void defineMetaData(const generated::MetaData& metadata) {
