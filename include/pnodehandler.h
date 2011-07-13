@@ -42,6 +42,7 @@
 #include <as/ast/token/literal_number.h>
 #include <as/ast/token/literal_boolean.h>
 #include <as/ast/token/literal_null.h>
+#include <as/ast/token/empty.h>
 #include <as/ast/token/this_expression.h>
 #include <as/ast/expression_list.h>
 #include <as/ast/token/identifier.h>
@@ -60,6 +61,7 @@
 #include <as/ast/expr/as.h>
 #include <as/ast/expr/unary_operator.h>
 #include <as/ast/expr/assignment.h>
+#include <as/ast/expr/condition_expression.h>
 #include <as/ast/variable_declare.h>
 #include <as/ast/return_stmt.h>
 #include <as/ast/statement_list.h>
@@ -68,7 +70,6 @@
 #include <as/ast/stmt_expression.h>
 
 #include <as/ast/stmt/if_stmt.h>
-#include <as/ast/expr/expr_condition.h>
 
 #include <as/ast/stmt/class_definition.h>
 #include <as/ast/stmt/class_stmt.h>
@@ -352,12 +353,6 @@ public:
 	void startIfStatement() {
 		PUSH_STACK( IfStatement );
 	}
-	void startExprCondition() {
-		PUSH_STACK( ConditionExpression );
-	}
-	void endExprCondition() {
-		CHECK_STACK_AND_POP( ConditionExpression, AST::Node::NodeType::T_EXPR_CONDITION );
-	}
 
 	void endIfStatement() {
 		CHECK_STACK_AND_POP( IfStatement, AST::Node::NodeType::T_STMT_IF );
@@ -457,7 +452,17 @@ public:
       // Your implementation goes here
       CHECK_STACK_AND_POP( IncrementOperator, AST::Node::NodeType::T_INCREMENT );
     }
+    void startConditionExpression() {
+      PUSH_STACK( ConditionExpression );
+    }
 
+    void endConditionExpression() {
+      // Your implementation goes here
+      CHECK_STACK_AND_POP( ConditionExpression, AST::Node::NodeType::T_CONDITION_EXPRESSION );
+    }
+    void empty() {
+    	ADD_2_TOP( Empty );
+    }
     void defineMetaData(const generated::MetaData& metadata) {
         // Your implementation goes here
         _meta_data = metadata;

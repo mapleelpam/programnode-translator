@@ -33,6 +33,7 @@
 #include <backend/cpp/interpret/token/literal_boolean.h>
 #include <backend/cpp/interpret/token/literal_null.h>
 #include <backend/cpp/interpret/token/identifier.h>
+#include <backend/cpp/interpret/token/empty.h>
 #include <backend/cpp/interpret/token/this_expression.h>
 #include <backend/cpp/interpret/statement_list.h>
 #include <backend/cpp/interpret/func/function_definition.h>
@@ -45,6 +46,7 @@
 #include <backend/cpp/interpret/expr/binary_operator.h>
 #include <backend/cpp/interpret/expr/increment_operator.h>
 #include <backend/cpp/interpret/expr/unary_operator.h>
+#include <backend/cpp/interpret/expr/condition_expression.h>
 #include <backend/cpp/interpret/variable_declare.h>
 #include <backend/cpp/interpret/stmt/if_stmt.h>
 #include <backend/cpp/interpret/stmt/for_stmt.h>
@@ -108,6 +110,8 @@ void initializeInterpreters()
 		interpreterResolver[AST::Node::NodeType::T_INCREMENT] = new IncrementOperator();
 
 		interpreterResolver[AST::Node::NodeType::T_THIS] = new ThisExpression();
+		interpreterResolver[AST::Node::NodeType::T_CONDITION_EXPRESSION] = new ConditionExpression();
+		interpreterResolver[AST::Node::NodeType::T_EMPTY] = new Empty();
 	}
 }
 

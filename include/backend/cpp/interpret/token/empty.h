@@ -22,25 +22,36 @@
  * Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
  * ***************************************************************/
 
-#ifndef __AS_AST_SATEMENTS_EXPR_CONDITION_H__
-#define __AS_AST_SATEMENTS_EXPR_CONDITION_H__
+#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_EMPTY_H_
+#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_EMPTY_H_
 
-#include <as/ast/abstract/expression.h>
+#include <as/ast/token/identifier.h>
+#include <backend/cpp/interpret/interpreter.h>
+#include <global.h>
+#include <as/symbol/function.h>
+#include <as/symbol/variable.h>
 
+namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
-namespace tw { namespace maple { namespace as { namespace ast {
+namespace AST = ::tw::maple::as::ast;
 
-struct ConditionExpression : public Expression
+#define DEBUG {std::cerr<<__FILE__<<":"<<__LINE__<<std::endl;}
+
+struct Empty : public Interpreter
 {
-	ConditionExpression() :
-		Expression(Node::NodeType::T_EXPR_CONDITION) {
+	virtual std::string expound(::tw::maple::as::ast::NodePtr node
+			, tw::maple::as::symbol::ScopePtr symbol_table
+			, tw::maple::backend::cpp::Context* ctx
+			, tw::maple::as::symbol::Scope* class_symbol_table
+			)
+	{
+		return "";
 	}
 
-	std::string toString()  {	return "node::expr_condition"; };
 };
 
-typedef SHARED_PTR(ConditionExpression) ConditionExpressionPtr;
 
-} } } }
+} } } } }
 
-#endif
+#endif 
+

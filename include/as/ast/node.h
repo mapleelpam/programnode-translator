@@ -112,6 +112,9 @@ struct Node
 
             T_IMPORT_STMT,
 
+            T_CONDITION_EXPRESSION, /*()?():()*/
+            T_EMPTY,
+
             T_NODE_TYPE_END,
 
         };

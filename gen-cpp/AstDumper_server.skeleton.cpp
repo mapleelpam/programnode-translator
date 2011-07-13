@@ -117,16 +117,6 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("endReturnStatement\n");
   }
 
-  void startExprCondition() {
-    // Your implementation goes here
-    printf("startExprCondition\n");
-  }
-
-  void endExprCondition() {
-    // Your implementation goes here
-    printf("endExprCondition\n");
-  }
-
   void startIfStatement() {
     // Your implementation goes here
     printf("startIfStatement\n");
@@ -135,6 +125,16 @@ class AstDumperHandler : virtual public AstDumperIf {
   void endIfStatement() {
     // Your implementation goes here
     printf("endIfStatement\n");
+  }
+
+  void startConditionExpression() {
+    // Your implementation goes here
+    printf("startConditionExpression\n");
+  }
+
+  void endConditionExpression() {
+    // Your implementation goes here
+    printf("endConditionExpression\n");
   }
 
   void startStmtExpression() {
@@ -405,6 +405,11 @@ class AstDumperHandler : virtual public AstDumperIf {
   void defineMetaData(const MetaData& metadata) {
     // Your implementation goes here
     printf("defineMetaData\n");
+  }
+
+  void empty() {
+    // Your implementation goes here
+    printf("empty\n");
   }
 
 };
