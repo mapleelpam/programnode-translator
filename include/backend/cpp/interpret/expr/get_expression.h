@@ -57,7 +57,7 @@ struct GetExpression : public Interpreter
 
 		std::string prefix = (set->mode == "dot") ? "->" : "";
 
-		return prefix + result +"/*in get expression */";
+		return prefix + result;
 	}
 };
 

@@ -33,10 +33,11 @@ namespace tw { namespace maple { namespace as { namespace ast {
 // Abstract
 struct Call : public Expression
 {
-	Call( const std::vector<std::string> c, bool is_new = false )
+	Call( const std::vector<std::string> c, std::string m, bool is_new = false )
 	 : Expression(Node::NodeType::T_CALL)
  	 , callee(c)
 	 , _is_new(is_new)
+	 , m_mode(m)
 	{	}
 
     std::string toString()  {	return "node::call"; };
@@ -63,11 +64,15 @@ struct Call : public Expression
 	{
 		return m_type_symbol;
 	}
+	const std::string mode() const
+	{
+		return m_mode;
+	}
 private:
     bool _is_new;
 
 	tw::maple::as::symbol::SymbolPtr	m_type_symbol;
-
+	std::string m_mode;
 };
 
 typedef SHARED_PTR(Call) CallPtr;

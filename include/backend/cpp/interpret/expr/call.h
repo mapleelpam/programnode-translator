@@ -62,15 +62,21 @@ struct Call : public Interpreter
 			{
 				result += type_name;
 			}
-		} else
-			result += get_full_functionname( call->callee );
+		}
+		else
+		{
+			if( call->mode() == "dot" )
+				result += "->" + get_full_functionname( call->callee );
+			else
+				result += get_full_functionname( call->callee );
+		}
 		result +=  "( ";
 		if (call->getArgs()) {
 			result += dispatchExpound( call->getArgs(), symbol_table, ctx, class_symbol_table);
 		}
 		result += " )";
 
-		std::cerr << " in call interpreter  = (end)" << std::endl;
+//		std::cerr << " in call interpreter  = (end)" << std::endl;
 
 		return result;
 	}
