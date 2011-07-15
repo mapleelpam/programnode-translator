@@ -59,6 +59,8 @@ struct SetExpression : public Interpreter
 
 		if( lft_is_setter )
 			return prefix+str_rhs + "( " + str_lhs+" )";
+		else if( set->mode == "bracket")
+			return prefix+"["+str_rhs + "] = " + str_lhs;
 		else
 			return prefix+str_rhs + " = " + str_lhs;
 	}
