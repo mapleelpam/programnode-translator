@@ -367,8 +367,8 @@ struct Scope : public Symbol, public Registrable
 //						return found;
 //					else
 //						continue;
-
-					std::copy( founds.begin(), founds.end(), answers.end() );
+					if( founds.begin() != founds.end() )
+						std::copy( founds.begin(), founds.end(), answers.end() );
 				}
 			}
 		}
@@ -431,7 +431,8 @@ public:
 
 	bool isIntrinsic(){	return m_is_intrinsic;	}
 	void setIsIntrinsic( bool b ){	m_is_intrinsic = b;	}
-private:
+//private:
+public:
 	ScopeType m_scope_type;
 	std::vector<SymbolPtr>	m_childs;
 

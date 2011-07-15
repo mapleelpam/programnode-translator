@@ -31,6 +31,7 @@
 #include <backend/cpp/interpret/interpreter.h>
 #include <as/symbol/function.h>
 #include <as/symbol/variable.h>
+#include <as/symbol/action/findable.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
@@ -77,15 +78,27 @@ struct Identifier : public Interpreter
 			if( symbol_ptr )
 			{
 				ctx-> token_class_type = symbol_ptr;
-				return left+"::"+li->value + "/* find symbol */";
+				return left+"::"+li->value + _DS("/* find symbol */");
 			}
 			else
-				return left+"::"+li->value + "/* can't find symbol */";
+				return left+"::"+li->value + _DS("/* can't find symbol */");
 		}
 		else
 		{
+			{ // just class...!!
+				if( ASY::ScopePtr classtype_ptr = ASY::Findable::findClassType(symbol_table.get(),li->value))
+				{
+					ctx-> token_class_type = classtype_ptr;
+					return classtype_ptr->name();
+				}
+			}
+
+
+
 			bool should_use_fqn = false;
+			std::cerr << __FILE__<<":"<<__LINE__<<" li->value " << li->value <<std::endl;
 			std::vector<ASY::SymbolPtr> candidates = symbol_table->findSymbol_down2( li->value );
+			std::cerr << __FILE__<<":"<<__LINE__<<" li->value " << li->value << " size "<<candidates.size()<<std::endl;
 			if( candidates.size() == 0  )
 			{
 				ASY::SymbolPtr s = ctx->scope_ctx.find_symbol( li->value );
@@ -96,6 +109,7 @@ struct Identifier : public Interpreter
 			}
 			if( candidates.size() == 0 && class_symbol_table != NULL )
 			{
+				std::cerr << " li->value " << li->value<<std::endl;
 				candidates = class_symbol_table->findSymbol_down2( li->value );
 			}
 

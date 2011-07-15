@@ -78,7 +78,7 @@ struct MemberExpression : public Interpreter
 				result += dispatchExpound( expr_mem->selector(), symbol_table, ctx, base_type.get());
 			}
 			else
-				result += dispatchExpound( expr_mem->selector(), symbol_table, ctx, class_symbol_table );
+				result += _DS("/* path3 */")+dispatchExpound( expr_mem->selector(), symbol_table, ctx, class_symbol_table );
 		}
 #if 0
 		else if( expr_mem->node_childs.size() == 2 )

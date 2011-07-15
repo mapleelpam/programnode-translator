@@ -46,6 +46,7 @@
 #include <boost/assert.hpp>
 //#include <boost/test/test_tools.hpp>
 
+#define _DS(STR) ( std::string(STR) )
 
 #ifdef _MAC
 //fixed for compiling on Mac -- by chuck
