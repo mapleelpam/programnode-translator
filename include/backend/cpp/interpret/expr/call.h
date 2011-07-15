@@ -65,8 +65,29 @@ struct Call : public Interpreter
 		}
 		else
 		{
-			if( call->mode() == "dot" )
-				result += "->" + get_full_functionname( call->callee );
+			if( call->mode == "dot" )
+			{
+				std::string right = get_full_functionname( call->callee );
+				ASY::SymbolPtr s = symbol_table->findSymbol( right );
+
+				if(  s != NULL && s->isStatic() )
+				{
+					result += "::/* @@*/" + right;
+				}
+				else
+				{
+					ASY::SymbolPtr s2 = class_symbol_table->findSymbol( right );
+					std::cerr << " try to find '"<< right <<"' in '"<<class_symbol_table->getFQN()<<"'"<<std::endl;
+					if( s2 != NULL )
+					{
+						std::cerr << "s2 fqn = " << s2->getFQN() << std::endl;
+					}
+					if(  s2 != NULL && s2->isStatic() )
+						result += "::/* @!@*/" + right;
+					else
+						result += "-> /*damn*/ " + right;
+				}
+			}
 			else
 				result += get_full_functionname( call->callee );
 		}

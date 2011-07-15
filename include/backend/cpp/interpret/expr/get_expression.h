@@ -43,21 +43,36 @@ struct GetExpression : public Interpreter
 			)
 	{
 		std::cerr << " default expound " << std::endl;
-		AST::GetExpressionPtr set = STATIC_CAST( AST::GetExpression, node);
+		AST::GetExpressionPtr get = STATIC_CAST( AST::GetExpression, node);
 
-		std::string result = "";
-		ctx->tree_depth ++;
+		std::string child_string = "";
 
-		for (std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr =
-				node->node_childs.begin(); nItr != node->node_childs.end(); nItr++) {
-			result += dispatchExpound(*nItr, symbol_table, ctx, class_symbol_table);
+		child_string = dispatchExpound(get->child(), symbol_table, ctx, class_symbol_table);
+
+		if( get->mode == "dot" )
+		{
+			ASY::SymbolPtr s = symbol_table->findSymbol( child_string );
+
+			if(  s != NULL && s->isStatic() )
+			{
+				child_string = "::" + child_string;
+			}
+			else
+			{
+				ASY::SymbolPtr s2 = class_symbol_table->findSymbol( child_string );
+				if( s2 != NULL )
+				{
+					std::cerr << "s2 fqn = " << s2->getFQN() << std::endl;
+				}
+				if(  s2 != NULL && s2->isStatic() )
+					child_string = "::" + child_string;
+				else
+					child_string = "->" + child_string;
+			}
 		}
 
-		ctx->tree_depth --;
 
-		std::string prefix = (set->mode == "dot") ? "->" : "";
-
-		return prefix + result;
+		return child_string;
 	}
 };
 

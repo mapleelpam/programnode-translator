@@ -317,7 +317,7 @@ class Linker : virtual public generated::AstDumperIf {
   }
   void endGetExpression() {
     printf("-----------> endGetExpression\n");
-    pm_module->endGetExpression2( );
+    pm_module->endGetExpression( );
   }
   void startSetExpression( const std::string& s) {
     printf("startSetExpression\n");

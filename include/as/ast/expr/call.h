@@ -37,7 +37,7 @@ struct Call : public Expression
 	 : Expression(Node::NodeType::T_CALL)
  	 , callee(c)
 	 , _is_new(is_new)
-	 , m_mode(m)
+	 , mode(m)
 	{	}
 
     std::string toString()  {	return "node::call"; };
@@ -64,15 +64,12 @@ struct Call : public Expression
 	{
 		return m_type_symbol;
 	}
-	const std::string mode() const
-	{
-		return m_mode;
-	}
+
+	std::string mode;
 private:
     bool _is_new;
 
 	tw::maple::as::symbol::SymbolPtr	m_type_symbol;
-	std::string m_mode;
 };
 
 typedef SHARED_PTR(Call) CallPtr;

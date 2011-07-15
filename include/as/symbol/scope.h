@@ -407,54 +407,6 @@ struct Scope : public Symbol, public Registrable
 
 		return SymbolPtr();
 	}
-private:
-	std::vector<std::string> tokenize(const std::string& str, const std::string& delimiters, bool allowEmptyTokenString) const
-	{
-		std::vector<std::string> tokens;
-		std::string::size_type delimPos = 0, tokenPos = 0, pos = 0;
-
-		if (str.length() < 1)
-			return tokens;
-
-		while (true)
-		{
-			delimPos = str.find_first_of(delimiters, pos);
-			tokenPos = str.find_first_not_of(delimiters, pos);
-
-			if (std::string::npos != delimPos)
-			{
-				if (std::string::npos != tokenPos)
-				{
-					if (tokenPos < delimPos)
-					{
-						tokens.push_back(str.substr(pos, delimPos - pos));
-					}
-					else
-					{
-						if (allowEmptyTokenString)	tokens.push_back("");
-					}
-				}
-				else
-				{
-					if (allowEmptyTokenString) tokens.push_back("");
-				}
-				pos = delimPos + 1;
-			}
-			else
-			{
-				if (std::string::npos != tokenPos)
-				{
-					tokens.push_back(str.substr(pos));
-				}
-				else
-				{
-					if (allowEmptyTokenString) tokens.push_back("");
-				}
-				break;
-			}
-		}
-		return tokens;
-	}
 
 public:
 	Scope* getParent()

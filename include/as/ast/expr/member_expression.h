@@ -30,21 +30,25 @@
 
 namespace tw { namespace maple { namespace as { namespace ast {
 
-struct ExpressionMember : public Expression
+struct MemberExpression : public Expression
 {
-	ExpressionMember( /*std::vector<std::string> bases*/ )
+	MemberExpression( /*std::vector<std::string> bases*/ )
 		: Expression(Node::NodeType::T_MEMBER_EXPRESSION)
 //		, m_bases( bases )
 	{
 	}
 
 
-    std::string toString()  {	return "node::expression_member"; };
+    std::string toString()  {	return "node::expression_member"; }
+
+	 NodePtr base(){	return node_childs[0];	}
+	 NodePtr selector(){	return node_childs[1];	}
+
 
 //    std::vector<std::string>	m_bases;
 };
 
-typedef SHARED_PTR(ExpressionMember) ExpressionMemberPtr;
+typedef SHARED_PTR(MemberExpression) MemberExpressionPtr;
 
 
 } } } }

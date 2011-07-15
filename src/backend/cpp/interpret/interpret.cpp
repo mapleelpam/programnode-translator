@@ -59,7 +59,7 @@
 #include <backend/cpp/interpret/stmt/class_definition.h>
 #include <backend/cpp/interpret/stmt/package_definition.h>
 #include <backend/cpp/interpret/stmt/import_stmt.h>
-#include <backend/cpp/interpret/expr/expr_member.h>
+#include <backend/cpp/interpret/expr/member_expression.h>
 #include <backend/cpp/interpret/expr/set_expression.h>
 #include <backend/cpp/interpret/expr/get_expression.h>
 
@@ -103,7 +103,7 @@ void initializeInterpreters()
 		interpreterResolver[AST::Node::NodeType::T_CLASS_DEFINE] = new ClassDefinition();
 		interpreterResolver[AST::Node::NodeType::T_PACKAGE_DEFINITION] = new PackageDefinition();
 
-		interpreterResolver[AST::Node::NodeType::T_MEMBER_EXPRESSION] = new ExpressionMember();
+		interpreterResolver[AST::Node::NodeType::T_MEMBER_EXPRESSION] = new MemberExpression();
 
 		interpreterResolver[AST::Node::NodeType::T_STMT_FOR] = new ForStatement();
 		interpreterResolver[AST::Node::NodeType::T_STMT_DO] = new DoStatement();

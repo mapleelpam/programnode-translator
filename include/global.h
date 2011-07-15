@@ -60,6 +60,8 @@ std::string replace(
 		, const std::string &ReplaceString
 		);
 
+std::vector<std::string> tokenize(const std::string& str, const std::string& delimiters, bool allowEmptyTokenString);
+
 } /*maple*/ } /*tw*/
 
 

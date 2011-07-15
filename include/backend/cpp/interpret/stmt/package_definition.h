@@ -69,10 +69,6 @@ struct PackageDefinition : public Interpreter
 		return result+"\n";
 	}
 
-	PackageDefinition()
-	{
-
-	}
 };
 
 

@@ -123,7 +123,7 @@ struct Node
     };
 
     virtual int nodeType(){	return _node_type;	};
-    bool is(	int t	) {	return _node_type == t;	}
+    bool is(	int t	) {	return _node_type == t;	}	// REMIND MYSELF !!!!!! USE THIS FUNCTION
 
     virtual void addNodeChild( SHARED_PTR(Node) c) { node_childs.push_back( c ); }
 

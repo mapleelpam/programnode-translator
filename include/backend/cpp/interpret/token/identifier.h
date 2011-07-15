@@ -25,9 +25,10 @@
 #ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_IDENTIFIER_H__
 #define __TW_MAPLE_BACKEDN_CPP_INTERPRET_IDENTIFIER_H__
 
+#include <global.h>
+
 #include <as/ast/token/identifier.h>
 #include <backend/cpp/interpret/interpreter.h>
-#include <global.h>
 #include <as/symbol/function.h>
 #include <as/symbol/variable.h>
 
@@ -50,10 +51,36 @@ struct Identifier : public Interpreter
 
 		if(li->qualifier != "")
 		{
+			tw::maple::as::symbol::ScopePtr pkg_scope = symbol_table;
+
 			std::string left = replace( li->qualifier, ".", "::");
 
-			DEBUG
-			return left+"::"+li->value;
+			// only here we need to find package !!!
+			std::vector<std::string> tokens = tokenize( li->qualifier, ".", false);
+			for( std::vector<std::string>::iterator I = tokens.begin(), E = tokens.end()
+					; I != E ; I ++ )
+			{
+				tw::maple::as::symbol::SymbolPtr temp_pkg = pkg_scope->findSymbol(
+						*I);
+				if (temp_pkg && temp_pkg ->getSymbolProperties()
+						== tw::maple::as::symbol::Symbol::T_SCOPE) {
+					pkg_scope
+							= STATIC_CAST( tw::maple::as::symbol::Scope , temp_pkg );
+				} else {
+					std::cerr << " can't find scope - "
+							<< *I << " '"
+							<< node->toString() << "'" << std::endl;
+					exit(1);
+				}
+			}
+			ASY::SymbolPtr symbol_ptr = pkg_scope->findSymbol( li->value );
+			if( symbol_ptr )
+			{
+				ctx-> token_class_type = symbol_ptr;
+				return left+"::"+li->value + "/* find symbol */";
+			}
+			else
+				return left+"::"+li->value + "/* can't find symbol */";
 		}
 		else
 		{
@@ -106,6 +133,7 @@ struct Identifier : public Interpreter
 						for( int idx = 0, E = candidates.size() ; idx < E ; idx ++ )
 						{
 							ASY::SymbolPtr instance_symbol = candidates[idx];
+							ctx-> token_class_type = instance_symbol;
 							return instance_symbol->getFQN();
 						}
 					}
@@ -124,7 +152,7 @@ struct Identifier : public Interpreter
 					}
 				}
 
-				return li->value;
+				return li->value+"/* id path 9*/";
 			}
 			else
 			{

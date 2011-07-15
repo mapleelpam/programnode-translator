@@ -85,7 +85,7 @@
 #include <as/ast/stmt/scope_statement.h>
 #include <as/ast/stmt/import_stmt.h>
 
-#include <as/ast/expr/expr_member.h>
+#include <as/ast/expr/member_expression.h>
 
 using namespace apache::thrift;
 using namespace apache::thrift::protocol;
@@ -418,7 +418,7 @@ public:
 	}
 
 	void startMemberExpression() {
-		PUSH_STACK( ExpressionMember );
+		PUSH_STACK( MemberExpression );
 	}
 	void endMemberExpression() {
 		CHECK_STACK_AND_POP( MemberExpression, AST::Node::NodeType::T_MEMBER_EXPRESSION );
