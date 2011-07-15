@@ -83,9 +83,9 @@ struct Call : public Interpreter
 						std::cerr << "s2 fqn = " << s2->getFQN() << std::endl;
 					}
 					if(  s2 != NULL && s2->isStatic() )
-						result += "::/* @!@*/" + right;
+						result += "::" + right;
 					else
-						result += "-> /*damn*/ " + right;
+						result += "->" + right;
 				}
 			}
 			else

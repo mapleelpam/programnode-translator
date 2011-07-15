@@ -152,7 +152,7 @@ struct Identifier : public Interpreter
 					}
 				}
 
-				return li->value+"/* id path 9*/";
+				return li->value;
 			}
 			else
 			{

@@ -70,6 +70,10 @@ struct GetExpression : public Interpreter
 					child_string = "->" + child_string;
 			}
 		}
+		else if( get->mode == "bracket" )
+		{
+			child_string = "[" + child_string+"]";
+		}
 
 
 		return child_string;

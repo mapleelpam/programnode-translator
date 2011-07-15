@@ -5,7 +5,7 @@ package
 		public static const CASEINSENSITIVE : uint = 1;
 
 		public static const DESCENDING : uint = 2;
-		public static const length : int;
+//		public static const length : int;
 
 		public static const NUMERIC : uint = 16;
 

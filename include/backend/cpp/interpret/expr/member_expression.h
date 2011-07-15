@@ -75,10 +75,10 @@ struct MemberExpression : public Interpreter
 				}
 
 				ASY::ScopePtr base_type	 = DYNA_CAST( ASY::Scope, ctx->token_class_type);
-				result += "/* em::path2 */"+dispatchExpound( expr_mem->selector(), symbol_table, ctx, base_type.get());
+				result += dispatchExpound( expr_mem->selector(), symbol_table, ctx, base_type.get());
 			}
 			else
-				result += "/* em::path3 */"+dispatchExpound( expr_mem->selector(), symbol_table, ctx, class_symbol_table );
+				result += dispatchExpound( expr_mem->selector(), symbol_table, ctx, class_symbol_table );
 		}
 #if 0
 		else if( expr_mem->node_childs.size() == 2 )

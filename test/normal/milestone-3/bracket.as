@@ -11,5 +11,6 @@ function main():int
 {
 	var names:C= new C(); 
 	names[0] = 0;
+    names[0];
 }
 
