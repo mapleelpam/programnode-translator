@@ -49,7 +49,11 @@ struct Findable {
 	static ScopePtr findClassType( Scope* stable, const std::string& class_name );
 	static ScopePtr findClassType( ScopePtr stable, const std::string& class_name )
 		{	return findClassType( stable.get(), class_name ); }
-	static ScopePtr findClassType_downward( Scope* stable, const std::string& class_name );
+	static ScopePtr findClassType_downward( Scope* stable, const std::string& class_name );\
+
+	static std::vector<SymbolPtr> findRHS_Candidates( Scope* stable, const std::string& var_name );
+	static std::vector<SymbolPtr> findRHS_Candidates( ScopePtr stable, const std::string& var_name )
+		{	return findRHS_Candidates( stable.get(), var_name ); }
 
 private:
 //	Scope* _instance;

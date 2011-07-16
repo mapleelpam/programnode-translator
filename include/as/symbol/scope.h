@@ -358,6 +358,7 @@ struct Scope : public Symbol, public Registrable
 		// find the anonymouse package
 		for( std::vector<SymbolPtr>::iterator sitr = m_childs.begin() ; sitr != m_childs.end() ; sitr++)
 		{
+			std::cerr << " in fs2 '" << name() << "' "<<(*sitr)->name() << " -> "<< type_name<<std::endl;
 			if( (*sitr)->name() == ""  && (*sitr)->getSymbolProperties() == T_SCOPE ) {
 				ScopePtr anonymous_package = DYNA_CAST( Scope, *sitr );
 				if( anonymous_package -> getScopeType() == T_PACKAGE )

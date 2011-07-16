@@ -88,6 +88,41 @@ ScopePtr Findable::findClassType( Scope* stable, const std::string& class_name )
 	else
 		return ScopePtr();
 }
+std::vector<SymbolPtr> Findable::findRHS_Candidates( Scope* stable, const std::string& var_name )
+{
+	std::cerr << "enter findRHS_Candidates" << std::endl;
+
+	std::vector<SymbolPtr> answers;
+	for( std::vector<SymbolPtr>::iterator I = stable->m_childs.begin(), B = stable->m_childs.end()
+			; I != B ; I ++ )
+	{
+		if( (*I)->name() == var_name && (*I)->getSymbolProperties() == Symbol::T_VARIABLE)
+		{
+//			VariablePtr pkg_symbol = DYNA_CAST( Variable, *I );
+			answers . push_back( *I );
+		}
+		if( (*I)->name() == var_name && (*I)->getSymbolProperties() == Symbol::T_SCOPE)
+		{
+			if( FunctionPtr func_ptr = DYNA_CAST( Function, *I ) )
+			{
+				if( func_ptr->isGetter() )
+				{
+					std::cerr << "科科~~~It's Getter "<< func_ptr->name() << std::endl;
+					answers.push_back( *I );
+				}
+			}
+		}
+	}
+
+	if( stable->m_parent )
+	{
+		std::vector<SymbolPtr> founds = findRHS_Candidates( stable->m_parent, var_name );
+		for( std::vector<SymbolPtr>::iterator I = founds.begin(), E = founds.end()
+				; I != E ; I ++ )
+			answers.push_back( *I );
+	}
+	return answers;
+}
 
 
 }}}}//tw/maple/as/symbol

@@ -37,7 +37,7 @@ struct Symbol
 	enum Properties
 	{
 		T_NONE			= 0x0000,
-		T_SCOPE			= 0x0001,
+		T_SCOPE			= 0x0001, // function/class/package
 		T_VARIABLE		= 0x0002,
 		T_PRIMITIVE_TYPE= 0x0004,
 		T_PRARAMETER	= 0x0008,

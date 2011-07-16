@@ -85,11 +85,42 @@ struct Identifier : public Interpreter
 		}
 		else
 		{
+			std::cerr << " symbol table error " << li->value << std::endl;
 			{ // just class...!!
 				if( ASY::ScopePtr classtype_ptr = ASY::Findable::findClassType(symbol_table.get(),li->value))
 				{
 					ctx-> token_class_type = classtype_ptr;
 					return classtype_ptr->name();
+				}
+			}
+			{ // just variable or getter
+				if( ctx->inter_type==Context::RHS )
+				{
+					std::vector<ASY::SymbolPtr> candidates = ASY::Findable::findRHS_Candidates(symbol_table,li->value);
+					if( candidates.size() > 0 )
+					{
+						for( int idx = 0 ; idx < candidates.size() ; idx ++ )
+						{
+							ASY::SymbolPtr instance = candidates[idx];
+
+							ASY::FunctionPtr function_ptr = DYNA_CAST( ASY::Function, instance );
+							if( function_ptr && function_ptr->isGetter() )
+							{
+								ctx-> token_class_type = function_ptr->ReturnType();
+								return "get_" +  li->value + "()";
+							}
+							// TODO: Variable
+						}
+					}
+					else
+					{
+						std::cerr << " can't find scope - "
+							<< li->value << " '"
+							<< node->toString() << "'" << std::endl;
+						// TODO: find symboltable then -> class_symbol_table
+//						exit(1);
+
+					}
 				}
 			}
 
@@ -170,6 +201,7 @@ struct Identifier : public Interpreter
 			}
 			else
 			{
+//				return li->value+_DS("/*173*/")+symbol_table->getFQN();
 				return li->value;
 			}
 
