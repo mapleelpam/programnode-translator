@@ -116,7 +116,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		, m_pointer_pattern("*")
 		, m_default_virtual( true )
 	{
-		setTemplateString(  "#(indent_tab)#(function_attribute)"
+		setTemplateString(  "#(indent_tab_sub)#(function_attribute)"
 
 							"#(indent_tab)"
 							"#(function_is_static)"

@@ -50,6 +50,7 @@ ADD_EXECUTABLE( pnc
     ${CMAKE_CURRENT_SOURCE_DIR}/src/service/configservice.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/service/pass/symboltableconstructor.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/as/symbol/registrable.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/as/symbol/findable.cpp
     ${AST_THRIFT_SRC} 
     )
 

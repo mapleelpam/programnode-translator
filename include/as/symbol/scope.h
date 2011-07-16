@@ -358,6 +358,7 @@ struct Scope : public Symbol, public Registrable
 		// find the anonymouse package
 		for( std::vector<SymbolPtr>::iterator sitr = m_childs.begin() ; sitr != m_childs.end() ; sitr++)
 		{
+			std::cerr << " in fs2 '" << name() << "' "<<(*sitr)->name() << " -> "<< type_name<<std::endl;
 			if( (*sitr)->name() == ""  && (*sitr)->getSymbolProperties() == T_SCOPE ) {
 				ScopePtr anonymous_package = DYNA_CAST( Scope, *sitr );
 				if( anonymous_package -> getScopeType() == T_PACKAGE )
@@ -367,8 +368,8 @@ struct Scope : public Symbol, public Registrable
 //						return found;
 //					else
 //						continue;
-
-					std::copy( founds.begin(), founds.end(), answers.end() );
+					if( founds.begin() != founds.end() )
+						std::copy( founds.begin(), founds.end(), answers.end() );
 				}
 			}
 		}
@@ -431,7 +432,8 @@ public:
 
 	bool isIntrinsic(){	return m_is_intrinsic;	}
 	void setIsIntrinsic( bool b ){	m_is_intrinsic = b;	}
-private:
+//private:
+public:
 	ScopeType m_scope_type;
 	std::vector<SymbolPtr>	m_childs;
 

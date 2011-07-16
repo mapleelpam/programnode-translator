@@ -29,6 +29,7 @@
 #include <service/pass/construct_symboltable/pass.h>
 #include <as/ast/variable_declare.h>
 #include <as/symbol/scope.h>
+#include <as/symbol/action/findable.h>
 
 namespace tw { namespace maple { namespace service { namespace pass {  namespace cs /*I.E. Construct SymbolTable */ { namespace ph3 {
 
@@ -44,6 +45,7 @@ struct Phase3_VariableDeclare
 				)
 		{
 
+			using tw::maple::as::symbol::Findable;
 //            if( 0 )
 //			{
 //				std::cerr << " variable name = "<<var->VariableName<<std::endl;
@@ -82,6 +84,10 @@ struct Phase3_VariableDeclare
 //			{
 //				p_type = context->find_symbol( ast_var->VariableType[ast_var->VariableType.size() - 1] );
 //			}
+			if( p_type == NULL )
+			{
+				p_type = Findable::findClassType( symboltable, ast_var->VariableType[ast_var->VariableType.size() - 1]);
+			}
 
 			if( p_type ) {
 				var_symbol->bindType( p_type );

@@ -53,10 +53,15 @@ struct PackageDefinition : public Interpreter
 			result += "namespace "+ *sItr+ "{ ";
 		}
 		result +="\n";
+
+		ASY::SymbolPtr pkg_symbol = node->getSymbol();
+		ASY::ScopePtr pkg_scope = DYNA_CAST( ASY::Scope, pkg_symbol );
+
 			ctx->tree_depth ++;	ctx->scope_ctx.enterScope();
 			for (std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr =
-					node->node_childs.begin(); nItr != node->node_childs.end(); nItr++) {
-				result += dispatchExpound(*nItr, symbol_table,  ctx, class_symbol_table);
+					node->node_childs.begin(); nItr != node->node_childs.end(); nItr++)
+			{
+				result += dispatchExpound(*nItr, ((pkg_scope)?pkg_scope:symbol_table),  ctx, class_symbol_table);
 			}
 			ctx->tree_depth --;	ctx->scope_ctx.leaveScope();
 

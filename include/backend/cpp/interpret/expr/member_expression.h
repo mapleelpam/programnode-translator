@@ -75,12 +75,11 @@ struct MemberExpression : public Interpreter
 				}
 
 				ASY::ScopePtr base_type	 = DYNA_CAST( ASY::Scope, ctx->token_class_type);
-				result = result+"/* em::path2 */"+dispatchExpound( expr_mem->selector(), symbol_table, ctx, base_type.get());
+				result += _DS2("/* path2 */")+dispatchExpound( expr_mem->selector(), symbol_table, ctx, base_type.get());
 			}
 			else
-				result += "/* em::path3 */"+dispatchExpound( expr_mem->selector(), symbol_table, ctx, class_symbol_table );
+				result += _DS2("/* path3 */")+dispatchExpound( expr_mem->selector(), symbol_table, ctx, class_symbol_table );
 		}
-
 		return result;
 	}
 private:

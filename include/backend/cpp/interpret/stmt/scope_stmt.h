@@ -22,65 +22,48 @@
  * Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
  * ***************************************************************/
 
-#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_GET_EXPRESSION_H__
-#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_GET_EXPRESSION_H__
+#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_SCOPE_STMT_H__
+#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_DO_STMT_H__
 
-#include <as/ast/expr/get_expression.h>
+#include <as/ast/stmt/do_stmt.h>
 #include <backend/cpp/interpret/interpreter.h>
+#include <backend/cpp/templateprinter.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
 namespace AST = ::tw::maple::as::ast;
-namespace ASY = ::tw::maple::as::symbol;
 
-struct GetExpression : public Interpreter
-{   
-	virtual std::string expound(
-			::tw::maple::as::ast::NodePtr node
+struct ScopeStatement : public Interpreter
+{
+
+	virtual std::string expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context* ctx
 			, tw::maple::as::symbol::Scope* class_symbol_table
 			)
 	{
 		std::cerr << " default expound " << std::endl;
-		AST::GetExpressionPtr get = STATIC_CAST( AST::GetExpression, node);
+		std::string result = "";
+		ctx->tree_depth ++;
 
-		std::string child_string = "";
+		ASY::SymbolPtr scope_symbol = node->getSymbol();
+		ASY::ScopePtr scope_symboltable = DYNA_CAST( ASY::Scope, scope_symbol );
 
-		child_string = dispatchExpound(get->child(), symbol_table, ctx, class_symbol_table);
-
-		if( get->mode == "dot" )
-		{
-			ASY::SymbolPtr s = symbol_table->findSymbol( child_string );
-
-			if(  s != NULL && s->isStatic() )
-			{
-				child_string = "::" + child_string;
-			}
-			else
-			{
-				ASY::SymbolPtr s2 = class_symbol_table->findSymbol( child_string );
-				if( s2 != NULL )
-				{
-					std::cerr << "s2 fqn = " << s2->getFQN() << std::endl;
-				}
-				if(  s2 != NULL && s2->isStatic() )
-					child_string = "::" + child_string;
-				else
-					child_string = "->" + child_string;
-			}
-		}
-		else if( get->mode == "bracket" )
-		{
-			child_string = "[" + child_string+"]";
+		for (std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr =
+				node->node_childs.begin(); nItr != node->node_childs.end(); nItr++) {
+			result += dispatchExpound(*nItr, (scope_symboltable)?scope_symboltable:symbol_table, ctx, class_symbol_table);
 		}
 
+		ctx->tree_depth --;
 
-		return child_string;
+		return result;
 	}
+
+};
+
 };
 
 
-} } } } }
+} } } } 
 
 #endif 

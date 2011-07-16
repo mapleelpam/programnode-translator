@@ -46,6 +46,9 @@
 #include <boost/assert.hpp>
 //#include <boost/test/test_tools.hpp>
 
+#define ENABLE_DEBUG_EXCESS_INFO false
+#define _DS(STR) ( std::string(STR) )
+#define _DS2(STR) ( (ENABLE_DEBUG_EXCESS_INFO)?std::string(STR):std::string("") )
 
 #ifdef _MAC
 //fixed for compiling on Mac -- by chuck
