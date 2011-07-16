@@ -109,7 +109,12 @@ struct Identifier : public Interpreter
 								ctx-> token_class_type = function_ptr->ReturnType();
 								return "get_" +  li->value + "()";
 							}
-							// TODO: Variable
+							ASY::VariablePtr variable_ptr = DYNA_CAST( ASY::Variable, instance );
+							if( variable_ptr )
+							{
+								ctx-> token_class_type = variable_ptr->getTypeSymbol();
+								return li->value+_DS2("/* found variable */");
+							}
 						}
 					}
 					else
@@ -202,7 +207,7 @@ struct Identifier : public Interpreter
 			else
 			{
 //				return li->value+_DS("/*173*/")+symbol_table->getFQN();
-				return li->value;
+				return li->value+_DS2("/* not found any symbol */");
 			}
 
 		}

@@ -52,6 +52,7 @@
 #include <backend/cpp/interpret/stmt/for_stmt.h>
 #include <backend/cpp/interpret/stmt/while_stmt.h>
 #include <backend/cpp/interpret/stmt/do_stmt.h>
+#include <backend/cpp/interpret/stmt/scope_stmt.h>
 #include <backend/cpp/interpret/stmt_expression.h>
 #include <backend/cpp/interpret/expr/is.h>
 #include <backend/cpp/interpret/expr/as.h>
@@ -81,6 +82,7 @@ void initializeInterpreters()
 		interpreterResolver[AST::Node::NodeType::T_STMT_LIST] = new StatementList();
 		interpreterResolver[AST::Node::NodeType::T_EXPR_LIST] = new ExpressionList();
 		interpreterResolver[AST::Node::NodeType::T_ARGUMENTS] = new Arguments();
+
 		interpreterResolver[AST::Node::NodeType::T_ARGUMENT] = new Argument();
 		interpreterResolver[AST::Node::NodeType::T_LITERAL_STRING] = new LiteralString();
 		interpreterResolver[AST::Node::NodeType::T_LITERAL_NUMBER] = new LiteralNumber();
@@ -111,6 +113,8 @@ void initializeInterpreters()
 		interpreterResolver[AST::Node::NodeType::T_IMPORT_STMT] = new ImportStatement();
 		interpreterResolver[AST::Node::NodeType::T_INCREMENT] = new IncrementOperator();
 
+		interpreterResolver[AST::Node::NodeType::T_SCOPE] = new ScopeStatement();
+
 		interpreterResolver[AST::Node::NodeType::T_THIS] = new ThisExpression();
 		interpreterResolver[AST::Node::NodeType::T_CONDITION_EXPRESSION] = new ConditionExpression();
 		interpreterResolver[AST::Node::NodeType::T_EMPTY] = new Empty();
@@ -134,7 +138,7 @@ std::string dispatchExpound(
 		std::cerr << "error: can't resolve expound - type id = "<<node->toString()<<std::endl;
 		exit(1);
 	} else {
-		std::cout <<" dispatch - " << node->toString() << " number " << node->nodeType()<<std::endl;
+//		std::cout <<" dispatch - " << node->toString() << " number " << node->nodeType()<<std::endl;
 		return to->expound(node,symbol_table,ctx, class_symbol_table );
 	}
 

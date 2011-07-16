@@ -91,6 +91,8 @@ ScopePtr Findable::findClassType( Scope* stable, const std::string& class_name )
 std::vector<SymbolPtr> Findable::findRHS_Candidates( Scope* stable, const std::string& var_name )
 {
 	std::cerr << "enter findRHS_Candidates" << std::endl;
+	if( var_name == "projection")
+		std::cerr<<"00000000000000000000000000000 try find projection vairable\n";
 
 	std::vector<SymbolPtr> answers;
 	for( std::vector<SymbolPtr>::iterator I = stable->m_childs.begin(), B = stable->m_childs.end()
@@ -98,7 +100,10 @@ std::vector<SymbolPtr> Findable::findRHS_Candidates( Scope* stable, const std::s
 	{
 		if( (*I)->name() == var_name && (*I)->getSymbolProperties() == Symbol::T_VARIABLE)
 		{
-//			VariablePtr pkg_symbol = DYNA_CAST( Variable, *I );
+			if( var_name == "projection")
+			{
+				std::cerr<<"00000000000000000000000000000 found projection vairable\n";
+			}
 			answers . push_back( *I );
 		}
 		if( (*I)->name() == var_name && (*I)->getSymbolProperties() == Symbol::T_SCOPE)
@@ -107,7 +112,6 @@ std::vector<SymbolPtr> Findable::findRHS_Candidates( Scope* stable, const std::s
 			{
 				if( func_ptr->isGetter() )
 				{
-					std::cerr << "科科~~~It's Getter "<< func_ptr->name() << std::endl;
 					answers.push_back( *I );
 				}
 			}
