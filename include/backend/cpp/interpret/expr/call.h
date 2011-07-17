@@ -46,7 +46,7 @@ struct Call : public Interpreter
 		namespace ASY = tw::maple::as::symbol;
 
 
-		std::string result;
+		ReturnValue result;
 		AST::CallPtr call = STATIC_CAST( AST::Call, node);
 
 		if (call->isObjectConsturct()) {
@@ -55,7 +55,7 @@ struct Call : public Interpreter
 			ASY::SymbolPtr p_type = call->getCalleeType();
 			if( p_type != NULL && p_type->getFQN_and_mappedName() != "" )
 			{
-				ctx-> token_class_type = p_type;
+				result.token_symbol = p_type;
 				result += p_type->getFQN_and_mappedName();
 			}
 			else

@@ -77,8 +77,11 @@ struct Identifier : public Interpreter
 			ASY::SymbolPtr symbol_ptr = pkg_scope->findSymbol( li->value );
 			if( symbol_ptr )
 			{
-				ctx-> token_class_type = symbol_ptr;
-				return left+"::"+li->value + _DS("/* find symbol */");
+//				ctx-> token_class_type = symbol_ptr;
+				ReturnValue result;
+				result =  left+"::"+ li->value + _DS("/* find symbol */");
+				result.token_symbol = symbol_ptr;
+				return result;
 			}
 			else
 				return left+"::"+li->value + _DS("/* can't find symbol */");
@@ -89,8 +92,10 @@ struct Identifier : public Interpreter
 			{ // just class...!!
 				if( ASY::ScopePtr classtype_ptr = ASY::Findable::findClassType(symbol_table.get(),li->value))
 				{
-					ctx-> token_class_type = classtype_ptr;
-					return classtype_ptr->name();
+//					ctx-> token_class_type = classtype_ptr;
+					ReturnValue result =  classtype_ptr->name();
+					result.token_symbol = classtype_ptr;
+					return result;
 				}
 			}
 			{ // just variable or getter
@@ -106,14 +111,17 @@ struct Identifier : public Interpreter
 							ASY::FunctionPtr function_ptr = DYNA_CAST( ASY::Function, instance );
 							if( function_ptr && function_ptr->isGetter() )
 							{
-								ctx-> token_class_type = function_ptr->ReturnType();
-								return "get_" +  li->value + "()";
+//								ctx-> token_class_type = function_ptr->ReturnType();
+								ReturnValue result =  "get_" +  li->value + "()";
+								result.token_symbol = function_ptr->ReturnType();
+								return result;
 							}
 							ASY::VariablePtr variable_ptr = DYNA_CAST( ASY::Variable, instance );
 							if( variable_ptr )
 							{
-								ctx-> token_class_type = variable_ptr->getTypeSymbol();
-								return li->value+_DS2("/* found variable */");
+								ReturnValue result = li->value+_DS2("/* found variable */");
+								result.token_symbol = variable_ptr->getTypeSymbol();
+								return result;
 							}
 						}
 					}
@@ -168,14 +176,15 @@ struct Identifier : public Interpreter
 						std::cerr<<instance_symbol->getFQN() << " 123 "<<instance_symbol->getSymbolProperties()<<std::endl;
 						if( function_ptr && function_ptr->isGetter() )
 						{
-							DEBUG
-							ctx-> token_class_type = function_ptr->ReturnType();
-							return "get_" +  li->value + "()";
+							ReturnValue result = "get_" +  li->value + "()";
+							result.token_symbol = function_ptr->ReturnType();
+							return result;
 						}
 						if( ASY::VariablePtr var_ptr = DYNA_CAST( ASY::Variable, instance_symbol ) )
 						{
-							ctx-> token_class_type = var_ptr->getTypeSymbol();
-							return li->value;
+							ReturnValue result = li->value;
+							result.token_symbol = var_ptr->getTypeSymbol();
+							return result;
 						}
 					}
 					if( should_use_fqn )
@@ -183,8 +192,9 @@ struct Identifier : public Interpreter
 						for( int idx = 0, E = candidates.size() ; idx < E ; idx ++ )
 						{
 							ASY::SymbolPtr instance_symbol = candidates[idx];
-							ctx-> token_class_type = instance_symbol;
-							return instance_symbol->getFQN();
+							ReturnValue result = instance_symbol->getFQN();
+							result.token_symbol = instance_symbol;
+							return result;
 						}
 					}
 				}

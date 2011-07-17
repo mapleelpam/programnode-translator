@@ -47,38 +47,37 @@ struct MemberExpression : public Interpreter
 		namespace ASY = ::tw::maple::as::symbol;
 		namespace AST = ::tw::maple::as::ast;
 
-		std::string result;
+		ReturnValue result;
 
 		AST::MemberExpressionPtr expr_mem = STATIC_CAST( AST::MemberExpression, node);
 
 		if( expr_mem->base()->is( AST::Node::NodeType::T_EMPTY) )
 		{
-			result += dispatchExpound( expr_mem->selector(), symbol_table, ctx, class_symbol_table).result;
+			return dispatchExpound( expr_mem->selector(), symbol_table, ctx, class_symbol_table);
 		}
 		else if( expr_mem->base()->is( AST::Node::NodeType::T_SUPER_EXPRESSION) )
 		{
-			result += dispatchExpound( expr_mem->selector(), symbol_table, ctx, class_symbol_table).result;
+			result = dispatchExpound( expr_mem->selector(), symbol_table, ctx, class_symbol_table);
 		}
 		else
 		{
 
-			ctx->token_class_type.reset();
-			//workaround -> jump function into class
 			if( class_symbol_table == NULL && symbol_table )
 				class_symbol_table = symbol_table->getParent();
 
-			result += dispatchExpound( expr_mem->base(), symbol_table, ctx, class_symbol_table);
+			ReturnValue base = dispatchExpound( expr_mem->base(), symbol_table, ctx, NULL/*crazy?*/);
+			result = base;
 
-			if( ctx->token_class_type != NULL )
+			if( base.token_symbol != NULL )
 			{
 				if(  expr_mem->selector()->is( AST::Node::NodeType::T_CALL )
 					&& STATIC_CAST( AST::Call, expr_mem->selector())->isObjectConsturct() )
 				{
-					ASY::ScopePtr base_type	 = DYNA_CAST( ASY::Scope, ctx->token_class_type);
+					ASY::ScopePtr base_type	 = DYNA_CAST( ASY::Scope, base.token_symbol);
 					return constructor_work_around(result, dispatchExpound(expr_mem->selector(), symbol_table, ctx, base_type.get()).result);
 				}
 
-				ASY::ScopePtr base_type	 = DYNA_CAST( ASY::Scope, ctx->token_class_type);
+				ASY::ScopePtr base_type	 = DYNA_CAST( ASY::Scope, base.token_symbol);
 				result += _DS2("/* path2 */")+dispatchExpound( expr_mem->selector(), symbol_table, ctx, base_type.get()).result;
 			}
 			else
