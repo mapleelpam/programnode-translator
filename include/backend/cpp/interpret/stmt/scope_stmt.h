@@ -46,6 +46,7 @@ struct ScopeStatement : public Interpreter
 		std::string result = "";
 		ctx->tree_depth ++;
 
+		// Very important thing here, enter the symbol table
 		ASY::SymbolPtr scope_symbol = node->getSymbol();
 		ASY::ScopePtr scope_symboltable = DYNA_CAST( ASY::Scope, scope_symbol );
 

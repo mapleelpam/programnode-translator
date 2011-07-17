@@ -40,9 +40,9 @@ package
 
 		public function Math ();
 
-		//public static function max (val1:Number = -Infinity, val2:Number = -Infinity, ...rest) : Number;
+		public static function max (val1:Number = -Infinity, val2:Number = -Infinity, ...rest) : Number;
 
-		//public static function min (val1:Number = Infinity, val2:Number = Infinity, ...rest) : Number;
+		public static function min (val1:Number = Infinity, val2:Number = Infinity, ...rest) : Number;
 
 		public static function pow (base:Number, pow:Number) : Number;
 
