@@ -31,7 +31,7 @@ class Circle
 
 class TestParent extends Circle
 {
-    public function test()
+    public function test( xyz:Circle )
     {
 		super.me;
  //       radius = Math.min( me.radius, 2);

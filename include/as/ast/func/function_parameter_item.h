@@ -51,7 +51,7 @@ struct FunctionParameterItem : public Statement
 
     std::string ParamInit(){	return m_init_value;	}
     bool		hasInit(){	return m_has_init;	}
-private:
+public:
     const std::string m_param_name;
     const std::vector<std::string> m_param_type;
     const bool 	m_has_init;

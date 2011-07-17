@@ -74,10 +74,6 @@ struct Function : public Scope
 	{
 		m_function_type = t;
 	}
-//	int getFunctionType()
-//	{
-//		return m_function_type;
-//	}
 	const bool isSetter() const
 	{
 		return m_function_type == tw::maple::generated::FunctionType::TF_SETTER;
@@ -91,10 +87,15 @@ struct Function : public Scope
 	{
 		return getParent() ? (getParent()->getScopeType() == Scope::T_CLASS ? true : false ) : false;
 	}
+
+
 private:
 	SymbolPtr	m_return_type_symbol;
 	bool		m_is_constructor;
     tw::maple::generated::FunctionType::type m_function_type;
+
+public:
+    std::vector<SymbolPtr> m_parameter_types;
 };
 
 typedef SHARED_PTR(Function) FunctionPtr;

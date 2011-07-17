@@ -44,7 +44,7 @@ struct Variable : public Symbol
 	{
 		std::string s_attr = "";
 		if( m_properties & T_VARIABLE ) {
-			if( m_properties & T_PRARAMETER )
+			if( m_properties & T_PARAMETER )
 				s_attr = "param";
 			else
 				s_attr = "local";

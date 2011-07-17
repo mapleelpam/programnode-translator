@@ -34,7 +34,7 @@
 namespace tw { namespace maple { namespace service { namespace pass {  namespace cs /*I.E. Construct SymbolTable */ { namespace ph3 {
 
 struct Phase3_ImportStatement
-	: public Pass<tw::maple::as::ast::ImportStatementPtr, tw::maple::service::pass::cs::constructor_stage::PH2_BINDING>
+	: public Pass<tw::maple::as::ast::ImportStatementPtr, tw::maple::service::pass::cs::constructor_stage::PH3_BINDING>
 {
 
 		static void pass(

@@ -96,7 +96,7 @@ VariablePtr Registrable::registerVariable(std::string name) {
 	}
 
 SymbolPtr Registrable::registerFunctionParameter(std::string name) {
-	SymbolPtr symbol(new Variable(name, _instance, Symbol::T_PRARAMETER));
+	SymbolPtr symbol(new Variable(name, _instance, Symbol::T_PARAMETER));
 //		symbol -> setSymbolProperties( Symbol::T_VARIABLE | Symbol::T_PRARAMETER);
 	_instance->addChild(symbol);
 	return symbol;

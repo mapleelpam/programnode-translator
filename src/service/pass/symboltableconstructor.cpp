@@ -48,6 +48,7 @@
 #include <service/pass/construct_symboltable/ph3_binding/phase3_function_define.h>
 #include <service/pass/construct_symboltable/ph3_binding/phase3_import_stmt.h>
 #include <service/pass/construct_symboltable/ph3_binding/phase3_call_expr.h>
+#include <service/pass/construct_symboltable/ph3_binding/phase3_parameter.h>
 
 namespace tw { namespace maple { namespace service { namespace pass {
 
@@ -258,6 +259,7 @@ void SymbolTableConstructor::linkVariableType(
 		using tw::maple::service::pass::cs::ph3::Phase3_ImportStatement;
 		using tw::maple::service::pass::cs::ph3::Phase3_VariableDeclare;
 		using tw::maple::service::pass::cs::ph3::Phase3_FunctionDefine;
+		using tw::maple::service::pass::cs::ph3::Phase3_Parameter;
 
 		ASY::SymbolPtr symbol = (*nItr)->getSymbol();
 
@@ -281,10 +283,22 @@ void SymbolTableConstructor::linkVariableType(
 		{
 
 //			std::cerr << "debug infor '"<<symbol->getFQN() <<"'"<< std::endl;
-			AST::VariableDeclarePtr ast_var = std::tr1::static_pointer_cast<AST::VariableDeclare>(*nItr);
-			Phase3_VariableDeclare::pass( ast_var, symbol, symboltable, local_context );
+//			AST::VariableDeclarePtr ast_var = std::tr1::static_pointer_cast<AST::VariableDeclare>(*nItr);
+			AST::VariableDeclarePtr ast_var = DYNA_CAST(AST::VariableDeclare, (*nItr) );
+			AST::FunctionParameterItemPtr ast_param = DYNA_CAST(AST::FunctionParameterItem, (*nItr) );
+			if( ast_var )
+				Phase3_VariableDeclare::pass( ast_var, symbol, symboltable, local_context );
+			else if( ast_param )
+			{
+				Phase3_Parameter::pass( ast_param, symbol, symboltable, local_context );
+			}
+			else
+			{
+				std::cerr <<" unexpected error "<<__FILE__<<" "<<__LINE__<<std::endl;
+				exit(1);
+			}
 
-			// don't need enter
+			// TODO: TBR: don't need enter
 			linkVariableType( *nItr, symboltable, local_context );
 		} else if(  symbol && symbol->is( ASY::Symbol::T_SCOPE) )
 		{

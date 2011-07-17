@@ -37,7 +37,7 @@
 namespace tw { namespace maple { namespace service { namespace pass {  namespace cs /*I.E. Construct SymbolTable */ {
 
 
-struct constructor_stage { enum type { PH1_SYMBOL, PH2_BINDING, PH3_ANALYZE }; };
+struct constructor_stage { enum type { PH1_SYMBOL, PH3_BINDING, PH3_ANALYZE }; };
 
 template< typename N, int Stage>
 struct Pass
