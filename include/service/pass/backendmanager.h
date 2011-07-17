@@ -42,28 +42,30 @@ struct BackendManager {
 			, std::string file_name /* write to */
 			)
 	{
-		namespace INTERPRET = tw::maple::backend::cpp::interpret;
+		using tw::maple::backend::cpp::interpret::dispatchExpound;
 		using tw::maple::as::symbol::ScopePtr;
 
-		tw::maple::backend::cpp::Context context;
-		context.ofs_stream.open( file_name.c_str() );
+		std::ofstream ofs_stream;
+		ofs_stream.open( file_name.c_str() );
 		// Interpret/Explain - Invoke Back-end Stream Out
 
-		prepend_data.execute( context.ofs_stream );
+		prepend_data.execute( ofs_stream );
 
 		for (std::vector<tw::maple::as::ast::ProgramPtr>::iterator
-				nodeItr = pnode_list.begin(); nodeItr != pnode_list.end(); nodeItr++) {
-			context.ofs_stream << INTERPRET::dispatchExpound(*nodeItr, symbol_table, context, NULL	).result;
+				nodeItr = pnode_list.begin(); nodeItr != pnode_list.end(); nodeItr++)
+		{
+			tw::maple::backend::cpp::Context context;
+			ofs_stream << dispatchExpound(*nodeItr, symbol_table, context, NULL	).result;
 		}
-		declareStaticVariables( symbol_table, context );
+		declareStaticVariables( symbol_table, ofs_stream );
 
-		context.ofs_stream.close();
+		ofs_stream.close();
 	}
 
 private:
 	static void declareStaticVariables(
 			tw::maple::as::symbol::ScopePtr symbol_table
-			, tw::maple::backend::cpp::Context& ctx
+			, std::ofstream& ofs_stream
 			)
 	{
 		namespace ASYM = tw::maple::as::symbol;
@@ -73,25 +75,31 @@ private:
 		std::vector<ASYM::SymbolPtr> childs;
 		symbol_table->getChilds( childs/*out*/ );
 		for (std::vector<ASYM::SymbolPtr>::iterator
-				child_itr = childs.begin(); child_itr != childs.end(); child_itr++) {
+				child_itr = childs.begin(); child_itr != childs.end(); child_itr++)
+		{
 
 			if( ((*child_itr)->getSymbolProperties() & ASYM::Symbol::T_SCOPE ) )
 			{
 				ASYM::ScopePtr scope = STATIC_CAST(ASYM:: Scope, *child_itr );
 				if( scope && !(scope->isIntrinsic()) )
-					declareStaticVariables( scope, ctx );
-			} else if( ((*child_itr)->getSymbolProperties() & ASYM::Symbol::T_VARIABLE ) ) {
+					declareStaticVariables( scope, ofs_stream );
+			}
+			else if( ((*child_itr)->getSymbolProperties() & ASYM::Symbol::T_VARIABLE ) )
+			{
 
 				ASYM::VariablePtr variable = STATIC_CAST( ASYM::Variable, *child_itr );
 				if( variable->isStatic() ){
-					ctx.ofs_stream << variable ->getTypeSymbol()->getFQN_and_mappedName() << " "<<variable->getFQN();
+					ofs_stream << variable ->getTypeSymbol()->getFQN_and_mappedName() << " "<<variable->getFQN();
 					if(variable->getInitializeNode())
 					{
-						ctx.ofs_stream << " = " << INTERPRET::dispatchExpound(variable->getInitializeNode(), symbol_table, ctx, NULL).result;
+						tw::maple::backend::cpp::Context context;
+						ofs_stream << " = " << INTERPRET::dispatchExpound(variable->getInitializeNode(), symbol_table, context, NULL).result;
 					}
-					ctx.ofs_stream << ";" <<std::endl;
+					ofs_stream << ";" <<std::endl;
 				}
-			} else {
+			}
+			else
+			{
 //				ofs << indent(depth) << (*child_itr)->toString() <<std::endl;
 			}
 		}

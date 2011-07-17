@@ -159,13 +159,16 @@ struct Context
 
     }
 
-	std::ofstream	ofs_stream;
+//	std::ofstream	ofs_stream;
 	IndentContext	tree_depth;
-	ScopeContext	scope_ctx;
+	ScopeContext	tableof_imported;	//handle import
 
 	InterpretType   inter_type;
 	bool			lfs_is_setter;
 
+
+	tw::maple::as::symbol::Symbol*	expression_symbol;
+	tw::maple::as::symbol::ScopePtr	statement_class_symbol;
 
 //	tw::maple::as::symbol::SymbolPtr		token_class_type;
 };

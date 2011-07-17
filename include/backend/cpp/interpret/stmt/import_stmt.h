@@ -91,7 +91,7 @@ private:
 						<< ast_import->package_names[ast_import->package_names.size()
 								- 1] << "'" << std::endl;
 
-			ctx.scope_ctx .add_import(p_class_scope);
+			ctx.tableof_imported .add_import(p_class_scope);
 		}
 
 	}

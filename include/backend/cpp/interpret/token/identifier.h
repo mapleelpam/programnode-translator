@@ -145,7 +145,7 @@ struct Identifier : public Interpreter
 			std::cerr << __FILE__<<":"<<__LINE__<<" li->value " << li->value << " size "<<candidates.size()<<std::endl;
 			if( candidates.size() == 0  )
 			{
-				ASY::SymbolPtr s = ctx.scope_ctx.find_symbol( li->value );
+				ASY::SymbolPtr s = ctx.tableof_imported.find_symbol( li->value );
 				if( s ){
 					candidates.push_back( s );
 					should_use_fqn = true;

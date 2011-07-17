@@ -57,13 +57,13 @@ struct PackageDefinition : public Interpreter
 		ASY::SymbolPtr pkg_symbol = node->getSymbol();
 		ASY::ScopePtr pkg_scope = DYNA_CAST( ASY::Scope, pkg_symbol );
 
-			ctx.tree_depth ++;	ctx.scope_ctx.enterScope();
+			ctx.tree_depth ++;	ctx.tableof_imported.enterScope();
 			for (std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr =
 					node->node_childs.begin(); nItr != node->node_childs.end(); nItr++)
 			{
 				result += dispatchExpound(*nItr, ((pkg_scope)?pkg_scope:symbol_table),  ctx, class_symbol_table);
 			}
-			ctx.tree_depth --;	ctx.scope_ctx.leaveScope();
+			ctx.tree_depth --;	ctx.tableof_imported.leaveScope();
 
 		for( std::vector<std::string>::iterator sItr = ast_pkg->package_names.begin(), E = ast_pkg->package_names.end()
 						; sItr != E ; sItr++ )

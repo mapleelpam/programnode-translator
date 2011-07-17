@@ -60,7 +60,8 @@ struct MemberExpression : public Interpreter
 			ReturnValue super = dispatchExpound( expr_mem->selector(), symbol_table, ctx, class_symbol_table);
 			ASY::Scope* inherit_type = (ASY::Scope*)( super.token_symbol2 );
 
-			ReturnValue selector_value = dispatchExpound(expr_mem->selector(), symbol_table, ctx, inherit_type);
+			tw::maple::backend::cpp::Context ctx2 = ctx;
+			ReturnValue selector_value = dispatchExpound(expr_mem->selector(), symbol_table, ctx2, inherit_type);
 			selector_value = super.token_symbol2->getFQN()+"::"+selector_value.result;
 
 			return selector_value;
