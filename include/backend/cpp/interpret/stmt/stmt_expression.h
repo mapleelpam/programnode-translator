@@ -37,7 +37,7 @@ namespace AST = ::tw::maple::as::ast;
 struct StmtExpression : public Interpreter
 {   
 
-	virtual std::string expound(::tw::maple::as::ast::NodePtr node
+	virtual Value expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context* ctx
 			, tw::maple::as::symbol::Scope* class_symbol_table
@@ -51,7 +51,7 @@ struct StmtExpression : public Interpreter
 
 			for( nItr++ ; nItr != node->node_childs.end() ; nItr ++ )
 			{
-				result += ", " + dispatchExpound(*nItr, symbol_table, ctx, class_symbol_table);
+				result += ", " + dispatchExpound(*nItr, symbol_table, ctx, class_symbol_table).result;
 			}
 		}
 

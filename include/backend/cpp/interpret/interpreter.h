@@ -37,7 +37,45 @@
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
 void initializeInterpreters();
-std::string dispatchExpound(
+
+struct Value
+{
+	std::string result;
+	Value( const std::string& init )
+		: result( init )
+	{	}
+	Value( const char* init )
+		: result( std::string(init) )
+	{	}
+	Value()
+		: result("")
+	{	}
+	void operator=( const std::string& rhs )
+	{	result = rhs;	}
+
+//	std::string operator=( Value& right )
+//	{
+//		return right.result;
+//	}
+	operator std::string()
+	{
+		return result;
+	}
+	std::string operator+( const std::string& right )
+	{	return result + right;	}
+
+	std::string operator+( const Value& right )
+	{	return result + right.result;	}
+
+	const Value operator+(const Value &other) const {
+		return Value(*this) += other;
+	}
+
+	std::string operator+=( const Value& right )
+	{	return result += right.result;	}
+};
+
+Value dispatchExpound(
 		::tw::maple::as::ast::NodePtr node
 		 , tw::maple::as::symbol::ScopePtr symbol_table
 		 , ::tw::maple::backend::cpp::Context* ctx
@@ -47,7 +85,7 @@ std::string dispatchExpound(
 struct Interpreter
 {
 
-	virtual std::string expound(
+	virtual Value expound(
 			::tw::maple::as::ast::NodePtr node
 			 , tw::maple::as::symbol::ScopePtr symbol_table /* stmt symbol table */
 			 , tw::maple::backend::cpp::Context* ctx
@@ -55,7 +93,7 @@ struct Interpreter
 			 )
 	{
 		std::cerr << " default expound " << std::endl;
-		std::string result = "";
+		Value result = "";
 		ctx->tree_depth ++;
 
 		for (std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr =
@@ -67,6 +105,11 @@ struct Interpreter
 
 		return result;
 	}
+//	virtual Value expound()
+//	{
+//		Value result = "";
+//		return result;
+//	}
 };
 
 } } } } }

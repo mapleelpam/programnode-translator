@@ -36,7 +36,7 @@ namespace AST = ::tw::maple::as::ast;
 struct DoStatement : public Interpreter, public TemplatePrinter
 {
 
-	virtual std::string expound(::tw::maple::as::ast::NodePtr node
+	virtual Value expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context* ctx
 			, tw::maple::as::symbol::Scope* class_symbol_table
@@ -45,8 +45,8 @@ struct DoStatement : public Interpreter, public TemplatePrinter
 		AST::DoStatementPtr DO = std::tr1::static_pointer_cast<AST::DoStatement>(node);
 		std::list<PatternPtr> patterns;
 
-		patterns.push_back( PatternPtr( new Pattern("condition", dispatchExpound(DO->DoCondition(), symbol_table, ctx, class_symbol_table) ) ));
-		patterns.push_back( PatternPtr( new Pattern("body", dispatchExpound(DO->DoBody(), symbol_table, ctx, class_symbol_table) ) ));
+		patterns.push_back( PatternPtr( new Pattern("condition", dispatchExpound(DO->DoCondition(), symbol_table, ctx, class_symbol_table).result ) ));
+		patterns.push_back( PatternPtr( new Pattern("body", dispatchExpound(DO->DoBody(), symbol_table, ctx, class_symbol_table).result ) ));
 		patterns.push_back( PatternPtr( new Pattern("endl", ctx->endl() ) ));
 		patterns.push_back( PatternPtr( new Pattern("indent_tab", ctx->indent()) ));
 

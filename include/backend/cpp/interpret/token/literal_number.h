@@ -35,7 +35,7 @@ namespace tw { namespace maple { namespace backend { namespace cpp { namespace i
 struct LiteralNumber : public Interpreter
 {   
 
-	virtual std::string expound(::tw::maple::as::ast::NodePtr node
+	virtual Value expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context* ctx
 			, tw::maple::as::symbol::Scope* class_symbol_table

@@ -37,7 +37,7 @@ namespace AST = ::tw::maple::as::ast;
 struct ClassDefinition : public Interpreter, public TemplatePrinter
 {   
 
-	virtual std::string expound(::tw::maple::as::ast::NodePtr node
+	virtual Value expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context* ctx
 			, tw::maple::as::symbol::Scope* class_symbol_table
@@ -207,7 +207,7 @@ private:
 										var->getInitializeNode(),
 										symbol_class/*TODO: should use function's parent*/,
 										ctx
-										, class_symbol_table) + ")";
+										, class_symbol_table).result + ")";
 				}
 			}
 		}

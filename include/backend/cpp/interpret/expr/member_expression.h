@@ -38,7 +38,7 @@ namespace tw { namespace maple { namespace backend { namespace cpp { namespace i
 #define DEBUG {std::cerr<<__FILE__<<":"<<__LINE__<<std::endl;}
 struct MemberExpression : public Interpreter
 {   
-	virtual std::string expound(::tw::maple::as::ast::NodePtr node
+	virtual Value expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context* ctx
 			, tw::maple::as::symbol::Scope* class_symbol_table
@@ -53,11 +53,11 @@ struct MemberExpression : public Interpreter
 
 		if( expr_mem->base()->is( AST::Node::NodeType::T_EMPTY) )
 		{
-			result += dispatchExpound( expr_mem->selector(), symbol_table, ctx, class_symbol_table);
+			result += dispatchExpound( expr_mem->selector(), symbol_table, ctx, class_symbol_table).result;
 		}
 		else if( expr_mem->base()->is( AST::Node::NodeType::T_SUPER_EXPRESSION) )
 		{
-			result += dispatchExpound( expr_mem->selector(), symbol_table, ctx, class_symbol_table);
+			result += dispatchExpound( expr_mem->selector(), symbol_table, ctx, class_symbol_table).result;
 		}
 		else
 		{
@@ -75,14 +75,14 @@ struct MemberExpression : public Interpreter
 					&& STATIC_CAST( AST::Call, expr_mem->selector())->isObjectConsturct() )
 				{
 					ASY::ScopePtr base_type	 = DYNA_CAST( ASY::Scope, ctx->token_class_type);
-					return constructor_work_around(result, dispatchExpound(expr_mem->selector(), symbol_table, ctx, base_type.get()));
+					return constructor_work_around(result, dispatchExpound(expr_mem->selector(), symbol_table, ctx, base_type.get()).result);
 				}
 
 				ASY::ScopePtr base_type	 = DYNA_CAST( ASY::Scope, ctx->token_class_type);
-				result += _DS2("/* path2 */")+dispatchExpound( expr_mem->selector(), symbol_table, ctx, base_type.get());
+				result += _DS2("/* path2 */")+dispatchExpound( expr_mem->selector(), symbol_table, ctx, base_type.get()).result;
 			}
 			else
-				result += _DS2("/* path3 */")+dispatchExpound( expr_mem->selector(), symbol_table, ctx, class_symbol_table );
+				result += _DS2("/* path3 */")+dispatchExpound( expr_mem->selector(), symbol_table, ctx, class_symbol_table ).result;
 		}
 		return result;
 	}

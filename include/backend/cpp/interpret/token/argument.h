@@ -35,14 +35,14 @@ namespace AST = ::tw::maple::as::ast;
 // Abstract
 struct Argument : public Interpreter
 {   
-	virtual std::string expound(
+	virtual Value expound(
 			::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context* ctx
 			, tw::maple::as::symbol::Scope* class_symbol_table
 			)
 	{
-		std::string result = "";
+		Value result = "";
 		std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr = node->node_childs.begin();
 		if( nItr != node->node_childs.end() ) {
 			result += dispatchExpound(*nItr, symbol_table, ctx, class_symbol_table);
@@ -52,7 +52,7 @@ struct Argument : public Interpreter
 //				if( symbol_table->isInstance( result, "::"))
 //					result += "->" + dispatchExpound(*nItr, symbol_table, ctx, class_symbol_table);
 //				else
-				result +=  " " + dispatchExpound(*nItr, symbol_table, ctx, class_symbol_table);
+				result +=  std::string(" ") + dispatchExpound(*nItr, symbol_table, ctx, class_symbol_table).result;
 			}
 		}
 		return result;

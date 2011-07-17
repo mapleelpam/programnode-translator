@@ -35,7 +35,7 @@ namespace ASY = ::tw::maple::as::symbol;
 
 struct GetExpression : public Interpreter
 {   
-	virtual std::string expound(
+	virtual Value expound(
 			::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context* ctx
