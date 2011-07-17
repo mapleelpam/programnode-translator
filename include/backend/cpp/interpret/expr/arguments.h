@@ -1,4 +1,4 @@
- /*******************************************************************\
+/* ******************************************************************\
  * Copyright 2011 Kai-Feng Chou - mapleellpam at gmail dot com       *
  *                                                                   *
  * Licensed under the Apache License, Version 2.0 (the "License");   *
@@ -17,56 +17,46 @@
  * ProgrameNode Translator                                           *
  * Copyright 2011 mapleellpam at gmail dot com   All rights reserved.*
  *                                                                   *
- *     https://github.com/mapleelpam/programnode-translator          *
+ * https://github.com/mapleelpam/programnode-translator              *
  *                                                                   *
- *     Author: mapleelpam at gmail.com - Kai-Feng Chou - maple       *
+ * Author: mapleelpam at gmail.com - Kai-Feng Chou - maple           *
  \*******************************************************************/
 
-#ifndef __PNC_TW_MAPLE_GLOBAL_H__
-#define __PNC_TW_MAPLE_GLOBAL_H__
+#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_ARGUMENTS_H_
+#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_ARGUMENTS_H_
 
-#include <iostream>
-#include <stack>
-#include <vector>
-#include <list>
-#include <string>
-#include <stdlib.h>
-#include <fstream>
+#include <as/ast/expr/arguments.h>
+#include <backend/cpp/interpret/interpreter.h>
 
-#define USE_STD_SMART_PTR
+namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
-#ifdef USE_STD_SMART_PTR
-	#include <tr1/memory>
-	#define SHARED_PTR(X) std::tr1::shared_ptr<X>
-	#define STATIC_CAST(T,X) std::tr1::static_pointer_cast<T>(X)
-	#define DYNA_CAST(T,X) std::tr1::dynamic_pointer_cast<T>(X)
-	#define CONST_CAST(T,X) std::tr1::const_pointer_cast<T>(X)
-#endif
-
-#include <boost/assert.hpp>
-//#include <boost/test/test_tools.hpp>
-
-#define ENABLE_DEBUG_EXCESS_INFO false
-#define _DS(STR) ( std::string(STR) )
-#define _DS2(STR) ( (ENABLE_DEBUG_EXCESS_INFO)?std::string(STR):std::string("") )
-
-#ifdef _MAC
-//fixed for compiling on Mac -- by chuck
-typedef unsigned int uint;
-#endif
-
-namespace tw { namespace maple {
-
-std::string replace(
-		const std::string &input
-		, const std::string &SearchString
-		, const std::string &ReplaceString
-		);
-
-std::vector<std::string> tokenize(const std::string& str, const std::string& delimiters, bool allowEmptyTokenString);
+namespace AST = ::tw::maple::as::ast;
 
 
-} /*maple*/ } /*tw*/
+// Abstract
+struct Arguments : public Interpreter
+{   
+	virtual ReturnValue expound(
+			::tw::maple::as::ast::NodePtr node
+			, tw::maple::as::symbol::ScopePtr symbol_table
+			, tw::maple::backend::cpp::Context* ctx
+			, tw::maple::as::symbol::Scope* class_symbol_table
+			)
+	{
+		ReturnValue result = "";
+		std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr = node->node_childs.begin();
+		if( nItr != node->node_childs.end() ) {
+			result += dispatchExpound(*nItr, symbol_table, ctx, class_symbol_table);
 
+			for( nItr++ ; nItr != node->node_childs.end() ; nItr ++ )
+			{
+				result += std::string(", ") + dispatchExpound(*nItr, symbol_table, ctx, class_symbol_table).result;
+			}
+		}
+		return result;
+	}
+};
 
-#endif
+} } } } }
+
+#endif 

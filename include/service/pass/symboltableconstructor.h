@@ -25,7 +25,7 @@
 #include <as/symbol/scope.h>
 #include <as/symbol/function.h>
 #include <as/ast/node.h>
-#include <as/ast/program.h>
+#include <as/ast/stmt/program.h>
 #include <service/pass/construct_symboltable/context.h>
 
 #ifndef __TW_MAPLE_SERVICE_SYMBOL_TABLE_CONSTRUCTOR_H__

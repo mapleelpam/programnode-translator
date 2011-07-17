@@ -53,7 +53,7 @@ struct BackendManager {
 
 		for (std::vector<tw::maple::as::ast::ProgramPtr>::iterator
 				nodeItr = pnode_list.begin(); nodeItr != pnode_list.end(); nodeItr++) {
-			context.ofs_stream << INTERPRET::dispatchExpound(*nodeItr, symbol_table, &context, NULL	 );
+			context.ofs_stream << INTERPRET::dispatchExpound(*nodeItr, symbol_table, &context, NULL	).result;
 		}
 		declareStaticVariables( symbol_table, context );
 
@@ -87,7 +87,7 @@ private:
 					ctx.ofs_stream << variable ->getTypeSymbol()->getFQN_and_mappedName() << " "<<variable->getFQN();
 					if(variable->getInitializeNode())
 					{
-						ctx.ofs_stream << " = " << INTERPRET::dispatchExpound(variable->getInitializeNode(), symbol_table, &ctx, NULL);
+						ctx.ofs_stream << " = " << INTERPRET::dispatchExpound(variable->getInitializeNode(), symbol_table, &ctx, NULL).result;
 					}
 					ctx.ofs_stream << ";" <<std::endl;
 				}

@@ -22,36 +22,45 @@
  *     Author: mapleelpam at gmail.com - Kai-Feng Chou - maple       *
  \*******************************************************************/
 
-#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_RETURN_STATEMENT_H__
-#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_RETURN_STATEMENT_H__
+#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_EXPR_H__
+#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_EXPR_H__
 
+//#include <as/ast/statement_list.h>
 #include <backend/cpp/interpret/interpreter.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
 namespace AST = ::tw::maple::as::ast;
 
-struct ReturnStatement : public Interpreter
+
+// Abstract
+struct StmtExpression : public Interpreter
 {   
 
-	virtual std::string expound(::tw::maple::as::ast::NodePtr node
+	virtual ReturnValue expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context* ctx
 			, tw::maple::as::symbol::Scope* class_symbol_table
 			)
 	{
 		std::string result;
-		result += ctx->indent() ;
-		result += "return ";
-		for (std::vector<std::tr1::shared_ptr<AST::Node> >::iterator nItr =
-				node->node_childs.begin(); nItr != node->node_childs.end(); nItr++)
-		{
-			result += dispatchExpound(*nItr, symbol_table, ctx, class_symbol_table);
-		}
-		result +=  ";";
-		result +=  "\n"; //TODO: replace to \n\l?
 
-		return result;
+		std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr = node->node_childs.begin();
+		if( nItr != node->node_childs.end() ) {
+			result += dispatchExpound(*nItr, symbol_table, ctx, class_symbol_table);
+
+			for( nItr++ ; nItr != node->node_childs.end() ; nItr ++ )
+			{
+				result += ", " + dispatchExpound(*nItr, symbol_table, ctx, class_symbol_table).result;
+			}
+		}
+
+		{
+			ctx->tree_depth ++;
+			std::string aa = ctx->indent()+result+";\n";
+			ctx->tree_depth --;
+			return aa;
+		}
 	}
 };
 

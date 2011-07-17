@@ -37,7 +37,7 @@
 #include <as/ast/stmt/class_definition.h>
 #include <as/ast/stmt/import_stmt.h>
 
-#include <as/ast/variable_declare.h>
+#include <as/ast/stmt/variable_declare.h>
 #include <as/symbol/scope.h>
 #include <as/symbol/function.h>
 #include <as/symbol/variable.h>
@@ -277,17 +277,16 @@ void SymbolTableConstructor::linkVariableType(
 		}
 
 
-		if(  symbol &&
-			(symbol->getSymbolProperties() & ASY::Symbol::T_VARIABLE) )
+		if(  symbol && symbol->is( ASY::Symbol::T_VARIABLE) )
 		{
 
+//			std::cerr << "debug infor '"<<symbol->getFQN() <<"'"<< std::endl;
 			AST::VariableDeclarePtr ast_var = std::tr1::static_pointer_cast<AST::VariableDeclare>(*nItr);
 			Phase3_VariableDeclare::pass( ast_var, symbol, symboltable, local_context );
 
 			// don't need enter
 			linkVariableType( *nItr, symboltable, local_context );
-		} else if(  symbol &&
-			(symbol->getSymbolProperties() & ASY::Symbol::T_SCOPE) )
+		} else if(  symbol && symbol->is( ASY::Symbol::T_SCOPE) )
 		{
 			ASY::ScopePtr p_scope = STATIC_CAST( ASY::Scope, symbol );
 			switch( p_scope->getScopeType() ) {
@@ -347,7 +346,7 @@ void SymbolTableConstructor::symbolTableAnalyze(
 	{
 		ASY::SymbolPtr symbol = (*nItr)->getSymbol();
 
-		if (symbol && (symbol->getSymbolProperties() & ASY::Symbol::T_SCOPE)) {
+		if (symbol && (symbol->is( ASY::Symbol::T_SCOPE) )) {
 			ASY::ScopePtr p_scope = STATIC_CAST( ASY::Scope, symbol );
 			switch (p_scope->getScopeType()) {
 			case ASY::Scope::T_FUNCTION: {

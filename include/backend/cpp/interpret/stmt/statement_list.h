@@ -25,7 +25,7 @@
 #ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_LIST_H__
 #define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_LIST_H__
 
-#include <as/ast/statement_list.h>
+//#include <as/ast/statement_list.h>
 #include <backend/cpp/interpret/interpreter.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
@@ -34,7 +34,7 @@ namespace AST = ::tw::maple::as::ast;
 
 struct StatementList : public Interpreter
 {   
-	virtual std::string expound(::tw::maple::as::ast::NodePtr node
+	virtual ReturnValue expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context* ctx
 			, tw::maple::as::symbol::Scope* class_symbol_table

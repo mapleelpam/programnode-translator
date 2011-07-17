@@ -38,7 +38,7 @@ namespace AST = ::tw::maple::as::ast;
 
 struct ConditionExpression : public Interpreter
 {   
-	virtual std::string expound(::tw::maple::as::ast::NodePtr node
+	virtual ReturnValue expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context* ctx
 			, tw::maple::as::symbol::Scope* class_symbol_table
@@ -49,9 +49,9 @@ struct ConditionExpression : public Interpreter
 		AST::ConditionExpressionPtr ce = STATIC_CAST( AST::ConditionExpression, node);
 
 
-		std::string result = "(" + dispatchExpound( ce->Condition(), symbol_table, ctx, class_symbol_table) + ") ?";
-		result += "(" + dispatchExpound( ce->ExpressionThen(), symbol_table, ctx, class_symbol_table) + ") : ";
-		result += "(" + dispatchExpound( ce->ExpressionElse(), symbol_table, ctx, class_symbol_table) + ") ";
+		std::string result = "(" + dispatchExpound( ce->Condition(), symbol_table, ctx, class_symbol_table).result + ") ?";
+		result += "(" + dispatchExpound( ce->ExpressionThen(), symbol_table, ctx, class_symbol_table).result + ") : ";
+		result += "(" + dispatchExpound( ce->ExpressionElse(), symbol_table, ctx, class_symbol_table).result + ") ";
 
 		return result;
 	}

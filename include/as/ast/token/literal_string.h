@@ -29,7 +29,6 @@
 
 namespace tw { namespace maple { namespace as { namespace ast {
 
-// Abstract
 struct LiteralString: public Expression
 {
 	LiteralString(std::string v) :

@@ -17,48 +17,47 @@
  * ProgrameNode Translator                                           *
  * Copyright 2011 mapleellpam at gmail dot com   All rights reserved.*
  *                                                                   *
- * https://github.com/mapleelpam/programnode-translator              *
+ *     https://github.com/mapleelpam/programnode-translator          *
  *                                                                   *
- * Author: mapleelpam at gmail.com - Kai-Feng Chou - maple           *
+ *     Author: mapleelpam at gmail.com - Kai-Feng Chou - maple       *
  \*******************************************************************/
-#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_ARGUMENT_H_
-#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_ARGUMENT_H_
 
-#include <as/ast/argument.h>
+#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_RETURN_STATEMENT_H__
+#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_RETURN_STATEMENT_H__
+
 #include <backend/cpp/interpret/interpreter.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
 namespace AST = ::tw::maple::as::ast;
 
-
-// Abstract
-struct Argument : public Interpreter
+struct ReturnStatement : public Interpreter
 {   
-	virtual std::string expound(
-			::tw::maple::as::ast::NodePtr node
+
+	virtual ReturnValue expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context* ctx
 			, tw::maple::as::symbol::Scope* class_symbol_table
 			)
 	{
-		std::string result = "";
-		std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr = node->node_childs.begin();
-		if( nItr != node->node_childs.end() ) {
+		ReturnValue result;
+		result += ctx->indent() ;
+		result += "return ";
+		for (std::vector<std::tr1::shared_ptr<AST::Node> >::iterator nItr =
+				node->node_childs.begin(); nItr != node->node_childs.end(); nItr++)
+		{
 			result += dispatchExpound(*nItr, symbol_table, ctx, class_symbol_table);
-
-			for( nItr++ ; nItr != node->node_childs.end() ; nItr ++ )
-			{
-//				if( symbol_table->isInstance( result, "::"))
-//					result += "->" + dispatchExpound(*nItr, symbol_table, ctx, class_symbol_table);
-//				else
-				result +=  " " + dispatchExpound(*nItr, symbol_table, ctx, class_symbol_table);
-			}
 		}
+		result +=  ";";
+		result +=  "\n"; //TODO: replace to \n\l?
+
 		return result;
 	}
 };
 
-} } } } }
+};
+
+
+} } } } 
 
 #endif 

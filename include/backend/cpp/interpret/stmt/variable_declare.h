@@ -26,7 +26,7 @@
 #define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_VARIABLE_DECLARE_H__
 
 #include <global.h>
-#include <as/ast/variable_declare.h>
+#include <as/ast/stmt/variable_declare.h>
 #include <backend/cpp/interpret/interpreter.h>
 #include <backend/cpp/templateprinter.h>
 #include <boost/foreach.hpp>
@@ -39,7 +39,7 @@ namespace tw { namespace maple { namespace backend { namespace cpp { namespace i
 struct VariableDeclare : public Interpreter, public TemplatePrinter
 {   
 
-	virtual std::string expound(::tw::maple::as::ast::NodePtr node
+	virtual ReturnValue expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context* ctx
 			, tw::maple::as::symbol::Scope* class_symbol_table
@@ -67,7 +67,7 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 		std::string var_init = "";
 
 		if ( var->varInit() && symbol_var && !(symbol_var->isClassMember()) )
-	 		var_init = " = " + dispatchExpound( var->varInit(), symbol_table, ctx, class_symbol_table );
+	 		var_init = " = " + dispatchExpound( var->varInit(), symbol_table, ctx, class_symbol_table ).result;
 
 		std::list<PatternPtr> patterns;
 		patterns.push_back( PatternPtr( new Pattern("var_attribute", var_attr) ));

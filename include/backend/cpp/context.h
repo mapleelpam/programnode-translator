@@ -167,7 +167,7 @@ struct Context
 	bool			lfs_is_setter;
 
 
-	tw::maple::as::symbol::SymbolPtr		token_class_type;
+//	tw::maple::as::symbol::SymbolPtr		token_class_type;
 };
 
 } } } }

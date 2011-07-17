@@ -29,6 +29,7 @@
 #include <as/ast/abstract/expression.h>
 #include <backend/cpp/context.h>
 #include <as/symbol/scope.h>
+#include <backend/cpp/interpret/returnvalue.h>
 
 #define DEBUG_INTERPRET_ENTRY {std::cout << typeid(*this).name() << "::"<<__FUNCTION__<< " enter function" <<std::endl;	}
 #define DEBUG_INTERPRET_LEAVE {std::cout << typeid(*this).name() << "::"<<__FUNCTION__<< " leave function" <<std::endl;	}
@@ -37,7 +38,8 @@
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
 void initializeInterpreters();
-std::string dispatchExpound(
+
+ReturnValue dispatchExpound(
 		::tw::maple::as::ast::NodePtr node
 		 , tw::maple::as::symbol::ScopePtr symbol_table
 		 , ::tw::maple::backend::cpp::Context* ctx
@@ -47,7 +49,7 @@ std::string dispatchExpound(
 struct Interpreter
 {
 
-	virtual std::string expound(
+	virtual ReturnValue expound(
 			::tw::maple::as::ast::NodePtr node
 			 , tw::maple::as::symbol::ScopePtr symbol_table /* stmt symbol table */
 			 , tw::maple::backend::cpp::Context* ctx
@@ -55,7 +57,7 @@ struct Interpreter
 			 )
 	{
 		std::cerr << " default expound " << std::endl;
-		std::string result = "";
+		ReturnValue result = "";
 		ctx->tree_depth ++;
 
 		for (std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr =
@@ -67,6 +69,11 @@ struct Interpreter
 
 		return result;
 	}
+//	virtual Value expound()
+//	{
+//		Value result = "";
+//		return result;
+//	}
 };
 
 } } } } }

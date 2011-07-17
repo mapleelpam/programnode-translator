@@ -36,25 +36,27 @@
 #include <transport/TSimpleFileTransport.h>
 #include <protocol/TBinaryProtocol.h>
 
-#include <as/ast/expr/call.h>
-#include <as/ast/expr/increment_operator.h>
+#include <as/ast/node.h>
+#include <as/ast/token/super_expression.h>
 #include <as/ast/token/literal_string.h>
 #include <as/ast/token/literal_number.h>
 #include <as/ast/token/literal_boolean.h>
 #include <as/ast/token/literal_null.h>
 #include <as/ast/token/empty.h>
 #include <as/ast/token/this_expression.h>
-#include <as/ast/expression_list.h>
 #include <as/ast/token/identifier.h>
-#include <as/ast/program.h>
-#include <as/ast/arguments.h>
-#include <as/ast/argument.h>
+#include <as/ast/expr/call.h>
+#include <as/ast/expr/increment_operator.h>
+#include <as/ast/expr/member_expression.h>
+#include <as/ast/expr/arguments.h>
+#include <as/ast/token/argument.h>
 #include <as/ast/func/function_definition.h>
 #include <as/ast/func/function_name.h>
 #include <as/ast/func/function_signature.h>
 #include <as/ast/func/function_parameters.h>
 #include <as/ast/func/function_parameter_item.h>
 #include <as/ast/func/function_common.h>
+#include <as/ast/func/function_attribute.h>
 #include <as/ast/expr/binary_operator.h>
 #include <as/ast/expr/instanceof.h>
 #include <as/ast/expr/is.h>
@@ -64,28 +66,24 @@
 #include <as/ast/expr/get_expression.h>
 #include <as/ast/expr/type_expression.h>
 #include <as/ast/expr/condition_expression.h>
-#include <as/ast/variable_declare.h>
-#include <as/ast/return_stmt.h>
-#include <as/ast/statement_list.h>
-#include <as/ast/node.h>
-
-#include <as/ast/stmt_expression.h>
-
+#include <as/ast/expr/attribute_list.h>
+#include <as/ast/stmt/variable_declare.h>
+#include <as/ast/stmt/return_stmt.h>
+#include <as/ast/stmt/statement_list.h>
+#include <as/ast/stmt/stmt_expression.h>
 #include <as/ast/stmt/if_stmt.h>
-
 #include <as/ast/stmt/class_definition.h>
 #include <as/ast/stmt/class_stmt.h>
-#include <as/ast/attribute_list.h>
-
-#include <as/ast/func/function_attribute.h>
 #include <as/ast/stmt/package_definition.h>
 #include <as/ast/stmt/for_stmt.h>
 #include <as/ast/stmt/do_stmt.h>
 #include <as/ast/stmt/while_stmt.h>
 #include <as/ast/stmt/scope_statement.h>
 #include <as/ast/stmt/import_stmt.h>
+#include <as/ast/stmt/expression_list.h>
+#include <as/ast/stmt/program.h>
 
-#include <as/ast/expr/member_expression.h>
+
 
 using namespace apache::thrift;
 using namespace apache::thrift::protocol;
@@ -323,7 +321,11 @@ public:
 				new as::ast::Identifier(id.name, id.qualifier));
 		_node_stack . top() -> addNodeChild(exp_id);
 	}
-
+	virtual void superExpression( ) {
+		as::ast::SuperExpressionPtr exp_super(
+				new as::ast::SuperExpression() );
+		_node_stack . top() -> addNodeChild( exp_super );
+	}
 	virtual void thisExpression( ) {
 		as::ast::ThisExpressionPtr exp_this(
 			new as::ast::ThisExpression() );

@@ -36,7 +36,7 @@ namespace AST = ::tw::maple::as::ast;
 struct ScopeStatement : public Interpreter
 {
 
-	virtual std::string expound(::tw::maple::as::ast::NodePtr node
+	virtual ReturnValue expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context* ctx
 			, tw::maple::as::symbol::Scope* class_symbol_table
@@ -46,6 +46,7 @@ struct ScopeStatement : public Interpreter
 		std::string result = "";
 		ctx->tree_depth ++;
 
+		// Very important thing here, enter the symbol table
 		ASY::SymbolPtr scope_symbol = node->getSymbol();
 		ASY::ScopePtr scope_symboltable = DYNA_CAST( ASY::Scope, scope_symbol );
 

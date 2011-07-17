@@ -35,7 +35,7 @@ namespace ASY = ::tw::maple::as::symbol;
 
 struct GetExpression : public Interpreter
 {   
-	virtual std::string expound(
+	virtual ReturnValue expound(
 			::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context* ctx
@@ -45,17 +45,29 @@ struct GetExpression : public Interpreter
 		std::cerr << " default expound " << std::endl;
 		AST::GetExpressionPtr get = STATIC_CAST( AST::GetExpression, node);
 
-		std::string child_string = "";
+		ReturnValue child_string = dispatchExpound(get->child(), symbol_table, ctx, class_symbol_table);
 
-		child_string = dispatchExpound(get->child(), symbol_table, ctx, class_symbol_table);
+		if( child_string.token_symbol == NULL )
+		{
+			std::cerr <<" can't get token_symbol "<<child_string.result<<std::endl;
+		}
+		else
+		{
+			std::cerr <<"  get token_symbol "<<child_string.result<<std::endl;
+			std::cerr <<"  get token_symbol "<<child_string.result<<" "<<child_string.token_symbol->getFQN()<<std::endl;
+		}
 
-		if( get->mode == "dot" )
+		if( get->mode == "lexical" )
+		{
+			return child_string;
+		}
+		else if( get->mode == "dot" )
 		{
 			ASY::SymbolPtr s = symbol_table->findSymbol( child_string );
 
 			if(  s != NULL && s->isStatic() )
 			{
-				child_string = "::" + child_string;
+				child_string = "::" + child_string.result;
 			}
 			else
 			{
@@ -65,16 +77,15 @@ struct GetExpression : public Interpreter
 					std::cerr << "s2 fqn = " << s2->getFQN() << std::endl;
 				}
 				if(  s2 != NULL && s2->isStatic() )
-					child_string = "::" + child_string;
+					child_string = "::" + child_string.result;
 				else
-					child_string = "->" + child_string;
+					child_string = "->" + child_string.result;
 			}
 		}
 		else if( get->mode == "bracket" )
 		{
-			child_string = "[" + child_string+"]";
+			child_string = "[" + child_string.result+"]";
 		}
-
 
 		return child_string;
 	}

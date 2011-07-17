@@ -30,6 +30,14 @@
 #include <as/symbol/function.h>
 #include <as/symbol/action/findable.h>
 
+#define merge_and_copy( T, to, from) \
+{ \
+	for( T::iterator I = from.begin(), E = from.end() \
+			; I != E ; I ++ ) \
+		to.push_back( *I ); \
+}
+
+
 namespace tw { namespace maple {namespace as {namespace symbol {
 
 ScopePtr Findable::findPackage( Scope* stable, const std::string& pkgs_name )
@@ -38,7 +46,7 @@ ScopePtr Findable::findPackage( Scope* stable, const std::string& pkgs_name )
 	for( std::vector<SymbolPtr>::iterator I = stable->m_childs.begin(), B = stable->m_childs.end()
 			; I != B ; I ++ )
 	{
-		if( (*I)->name() == pkgs_name && (*I)->getSymbolProperties() == Symbol::T_SCOPE)
+		if( (*I)->name() == pkgs_name && (*I)->is( Symbol::T_SCOPE ) )
 		{
 			ScopePtr pkg_symbol = DYNA_CAST( Scope, *I );
 			if( pkg_symbol->getScopeType() == Scope::T_PACKAGE )
@@ -55,7 +63,7 @@ ScopePtr Findable::findClassType_downward( Scope* stable, const std::string& cla
 			; I != B ; I ++ )
 	{
 //		std::cerr << " in find ct '" << stable->getFQN() <<"' '"<< (*I)->name() <<"'"<< std::endl;
-		if( (*I)->name() == class_name && (*I)->getSymbolProperties() == Symbol::T_SCOPE)
+		if( (*I)->name() == class_name && (*I)->is(Symbol::T_SCOPE) )
 		{
 			ScopePtr pkg_symbol = DYNA_CAST( Scope, *I );
 			if( pkg_symbol->getScopeType() == Scope::T_CLASS )
@@ -63,11 +71,9 @@ ScopePtr Findable::findClassType_downward( Scope* stable, const std::string& cla
 				return pkg_symbol;
 			}
 		}
-		if( (*I)->name() == "" && (*I)->getSymbolProperties() == Symbol::T_SCOPE )
-		{
+		if( (*I)->name() == "" && (*I)->is( Symbol::T_SCOPE) )	{
 			ScopePtr pkg_symbol = DYNA_CAST( Scope, *I );
-			if( pkg_symbol->getScopeType() == Scope::T_PACKAGE )
-			{
+			if( pkg_symbol->getScopeType() == Scope::T_PACKAGE ) {
 				ScopePtr found = findClassType_downward( pkg_symbol.get() , class_name );
 				if( found )
 					return found;
@@ -90,40 +96,33 @@ ScopePtr Findable::findClassType( Scope* stable, const std::string& class_name )
 }
 std::vector<SymbolPtr> Findable::findRHS_Candidates( Scope* stable, const std::string& var_name )
 {
-	std::cerr << "enter findRHS_Candidates" << std::endl;
-	if( var_name == "projection")
-		std::cerr<<"00000000000000000000000000000 try find projection vairable\n";
-
 	std::vector<SymbolPtr> answers;
 	for( std::vector<SymbolPtr>::iterator I = stable->m_childs.begin(), B = stable->m_childs.end()
 			; I != B ; I ++ )
 	{
-		if( (*I)->name() == var_name && (*I)->getSymbolProperties() == Symbol::T_VARIABLE)
+		if( (*I)->name() == var_name && (*I)->is( Symbol::T_VARIABLE ) )
 		{
-			if( var_name == "projection")
-			{
-				std::cerr<<"00000000000000000000000000000 found projection vairable\n";
-			}
 			answers . push_back( *I );
 		}
-		if( (*I)->name() == var_name && (*I)->getSymbolProperties() == Symbol::T_SCOPE)
-		{
-			if( FunctionPtr func_ptr = DYNA_CAST( Function, *I ) )
-			{
-				if( func_ptr->isGetter() )
-				{
+
+		if( (*I)->name() == var_name && (*I)->getSymbolProperties() == Symbol::T_SCOPE)	{
+			if( FunctionPtr func_ptr = DYNA_CAST( Function, *I ) )	{
+				if( func_ptr->isGetter() )	{
 					answers.push_back( *I );
 				}
 			}
 		}
 	}
 
+	if( stable->m_inherit  )
+	{
+		std::vector<SymbolPtr> founds = findRHS_Candidates( stable->m_inherit, var_name );
+		merge_and_copy( std::vector<SymbolPtr>, answers, founds);
+	}
 	if( stable->m_parent )
 	{
 		std::vector<SymbolPtr> founds = findRHS_Candidates( stable->m_parent, var_name );
-		for( std::vector<SymbolPtr>::iterator I = founds.begin(), E = founds.end()
-				; I != E ; I ++ )
-			answers.push_back( *I );
+		merge_and_copy( std::vector<SymbolPtr>, answers, founds);
 	}
 	return answers;
 }

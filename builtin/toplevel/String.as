@@ -21,11 +21,11 @@ package
 		[native(support="none")]
 		public function localeCompare (other:String = null) : int;
 
-	//	public function match (p:* = null) : Array;
+//		public function match (p:* = null) : Array;
 
 //		public function replace (p:* = null, repl:* = null) : String;
 
-	//	public function search (p:* = null) : int;
+//		public function search (p:* = null) : int;
 
 		public function slice (start:Number = 0, end:Number = 2147483647) : String;
 

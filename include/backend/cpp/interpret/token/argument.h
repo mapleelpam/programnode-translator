@@ -21,13 +21,11 @@
  *                                                                   *
  * Author: mapleelpam at gmail.com - Kai-Feng Chou - maple           *
  \*******************************************************************/
+#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_ARGUMENT_H_
+#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_ARGUMENT_H_
 
-#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_EXPR_LIST_H__
-#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_EXPR_LIST_H__
-
-#include <as/ast/expression_list.h>
+#include <as/ast/token/argument.h>
 #include <backend/cpp/interpret/interpreter.h>
-#include <backend/cpp/templateprinter.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
@@ -35,34 +33,32 @@ namespace AST = ::tw::maple::as::ast;
 
 
 // Abstract
-struct ExpressionList : public Interpreter
+struct Argument : public Interpreter
 {   
-	virtual std::string expound(::tw::maple::as::ast::NodePtr node
+	virtual ReturnValue expound(
+			::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context* ctx
 			, tw::maple::as::symbol::Scope* class_symbol_table
 			)
 	{
-		std::string result;
-
+		ReturnValue result = "";
 		std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr = node->node_childs.begin();
 		if( nItr != node->node_childs.end() ) {
 			result += dispatchExpound(*nItr, symbol_table, ctx, class_symbol_table);
 
 			for( nItr++ ; nItr != node->node_childs.end() ; nItr ++ )
 			{
-				result += " " + dispatchExpound(*nItr, symbol_table, ctx, class_symbol_table);
+//				if( symbol_table->isInstance( result, "::"))
+//					result += "->" + dispatchExpound(*nItr, symbol_table, ctx, class_symbol_table);
+//				else
+				result +=  std::string(" ") + dispatchExpound(*nItr, symbol_table, ctx, class_symbol_table).result;
 			}
 		}
-
 		return result;
 	}
-
 };
 
-};
-
-
-} } } } 
+} } } } }
 
 #endif 

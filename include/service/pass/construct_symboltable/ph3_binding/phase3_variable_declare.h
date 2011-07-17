@@ -27,7 +27,7 @@
 #define __TW_MAPLE_SERVICE_PASS_CONSTRUCTOR_SYMBOL_TABLE_PH3_BINDING_VARIABLE_H__
 
 #include <service/pass/construct_symboltable/pass.h>
-#include <as/ast/variable_declare.h>
+#include <as/ast/stmt/variable_declare.h>
 #include <as/symbol/scope.h>
 #include <as/symbol/action/findable.h>
 
@@ -55,11 +55,12 @@ struct Phase3_VariableDeclare
 
 			if( symboltable == NULL )
 			{
-				std::cerr << "error in phase2 "<< ast_var->toString() <<std::endl;
+				std::cerr << "error in phase3 "<< ast_var->toString() <<std::endl;
 				exit(1);
 			}
 
-			tw::maple::as::symbol::SymbolPtr p_type = context->find_symbol( ast_var->VariableType[ast_var->VariableType.size() - 1] );
+			std::string variable_str = ast_var->VariableType[ast_var->VariableType.size() - 1];
+			tw::maple::as::symbol::SymbolPtr p_type = context->find_symbol( variable_str );
 
 			if(p_type != NULL ) // found the symbol in import list
 			{

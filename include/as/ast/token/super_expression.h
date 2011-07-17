@@ -22,39 +22,25 @@
  * Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
  * ***************************************************************/
 
-#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_LITERAL_BOOL_H_
-#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_LITERAL_BOOL_H__
+#ifndef __TW_MAPLE_AS_AST_SUPER_EXPRESSION_H__
+#define __TW_MAPLE_AS_AST_SUPER_EXPRESSION_H__
 
-#include <backend/cpp/interpret/interpreter.h>
-#include <as/ast/token/literal_boolean.h>
-#include <global.h>
+#include <as/ast/abstract/expression.h>
 
-namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
+namespace tw { namespace maple { namespace as { namespace ast {
 
-struct LiteralBoolean : public Interpreter
-{   
-
-	virtual ReturnValue expound(::tw::maple::as::ast::NodePtr node
-			, tw::maple::as::symbol::ScopePtr symbol_table
-			, tw::maple::backend::cpp::Context* ctx
-			, tw::maple::as::symbol::Scope* class_symbol_table
-			)
+struct SuperExpression : public Expression
+{
+	SuperExpression() :
+		Expression(Node::NodeType::T_SUPER_EXPRESSION)
 	{
-		namespace AST = ::tw::maple::as::ast;
-
-		AST::LiteralBooleanPtr li = std::tr1::static_pointer_cast<AST::LiteralBoolean>(node);
-
-		if( li->value == "true" )
-			return "true";
-		else if( li->value == "false" )
-			return "false";
-
 	}
 
+    std::string toString()  {	return "node::super_expression"; };
 };
 
+typedef SHARED_PTR(SuperExpression) SuperExpressionPtr;
 
-} } } } }
+} } } }
 
-#endif 
-
+#endif
