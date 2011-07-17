@@ -281,6 +281,7 @@ void SymbolTableConstructor::linkVariableType(
 			(symbol->getSymbolProperties() & ASY::Symbol::T_VARIABLE) )
 		{
 
+			std::cerr << "debug infor '"<<symbol->getFQN() <<"'"<< std::endl;
 			AST::VariableDeclarePtr ast_var = std::tr1::static_pointer_cast<AST::VariableDeclare>(*nItr);
 			Phase3_VariableDeclare::pass( ast_var, symbol, symboltable, local_context );
 

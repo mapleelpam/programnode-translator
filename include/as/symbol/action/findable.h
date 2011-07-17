@@ -56,6 +56,7 @@ struct Findable {
 		{	return findRHS_Candidates( stable.get(), var_name ); }
 
 private:
+
 //	Scope* _instance;
 };
 

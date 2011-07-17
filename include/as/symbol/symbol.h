@@ -91,6 +91,10 @@ struct Symbol
 		return false;
 	}
 
+	bool is( Properties prop )
+	{
+		return m_properties & prop;
+	}
 protected:
 	std::string		m_name;
 	std::string		m_mapped_name;
