@@ -92,8 +92,10 @@ struct Call : public Interpreter
 				result += get_full_functionname( call->callee );
 		}
 		result +=  "( ";
-		if (call->getArgs()) {
-			result += dispatchExpound( call->getArgs(), symbol_table, ctx, class_symbol_table);
+		if (call->getArgs())
+		{
+			tw::maple::backend::cpp::Context ctx2 = ctx;
+			result += dispatchExpound( call->getArgs(), symbol_table, ctx2, class_symbol_table);
 		}
 		result += " )";
 
@@ -108,7 +110,6 @@ private:
 			std::string ans = fn[0];
 			for( int idx = 1 ; idx < fn.size() ; idx ++ )
 			{
-				std::cerr <<" idx  = "<< ans<<std::endl;
 				ans += "::"+fn[idx];
 			}
 			return ans;

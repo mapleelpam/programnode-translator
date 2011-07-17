@@ -169,11 +169,6 @@ struct Identifier : public Interpreter
 						std::cerr << " name "<< candidates[idx]->name() <<":"<<candidates[idx]->toString()<< std::endl;
 						ASY::SymbolPtr instance_symbol = candidates[idx];
 						ASY::FunctionPtr function_ptr = DYNA_CAST( ASY::Function, instance_symbol );
-						if( function_ptr )
-						{
-							std::cerr << " type " << function_ptr->getFunctionType()<<std::endl;
-						}
-						std::cerr<<instance_symbol->getFQN() << " 123 "<<instance_symbol->getSymbolProperties()<<std::endl;
 						if( function_ptr && function_ptr->isGetter() )
 						{
 							ReturnValue result = "get_" +  li->value + "()";

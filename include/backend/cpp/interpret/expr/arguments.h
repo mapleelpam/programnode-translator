@@ -45,7 +45,8 @@ struct Arguments : public Interpreter
 	{
 		ReturnValue result = "";
 		std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr = node->node_childs.begin();
-		if( nItr != node->node_childs.end() ) {
+		if( nItr != node->node_childs.end() )
+		{
 			result += dispatchExpound(*nItr, symbol_table, ctx, class_symbol_table);
 
 			for( nItr++ ; nItr != node->node_childs.end() ; nItr ++ )

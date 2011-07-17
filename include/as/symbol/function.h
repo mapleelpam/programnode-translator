@@ -74,10 +74,10 @@ struct Function : public Scope
 	{
 		m_function_type = t;
 	}
-	int getFunctionType()
-	{
-		return m_function_type;
-	}
+//	int getFunctionType()
+//	{
+//		return m_function_type;
+//	}
 	const bool isSetter() const
 	{
 		return m_function_type == tw::maple::generated::FunctionType::TF_SETTER;
