@@ -29,6 +29,7 @@
 #include <as/ast/abstract/expression.h>
 #include <backend/cpp/context.h>
 #include <as/symbol/scope.h>
+#include <backend/cpp/interpret/returnvalue.h>
 
 #define DEBUG_INTERPRET_ENTRY {std::cout << typeid(*this).name() << "::"<<__FUNCTION__<< " enter function" <<std::endl;	}
 #define DEBUG_INTERPRET_LEAVE {std::cout << typeid(*this).name() << "::"<<__FUNCTION__<< " leave function" <<std::endl;	}
@@ -37,43 +38,6 @@
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
 void initializeInterpreters();
-
-struct ReturnValue
-{
-	std::string result;
-	ReturnValue( const std::string& init )
-		: result( init )
-	{	}
-	ReturnValue( const char* init )
-		: result( std::string(init) )
-	{	}
-	ReturnValue()
-		: result("")
-	{	}
-	void operator=( const std::string& rhs )
-	{	result = rhs;	}
-
-//	std::string operator=( Value& right )
-//	{
-//		return right.result;
-//	}
-	operator std::string()
-	{
-		return result;
-	}
-	std::string operator+( const std::string& right )
-	{	return result + right;	}
-
-	std::string operator+( const ReturnValue& right )
-	{	return result + right.result;	}
-
-	const ReturnValue operator+(const ReturnValue &other) const {
-		return ReturnValue(*this) += other;
-	}
-
-	std::string operator+=( const ReturnValue& right )
-	{	return result += right.result;	}
-};
 
 ReturnValue dispatchExpound(
 		::tw::maple::as::ast::NodePtr node
