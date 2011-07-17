@@ -336,10 +336,12 @@ class Linker : virtual public generated::AstDumperIf {
     printf("endTypeExpression\n");
     pm_module->endTypeExpression( );
   }
-	virtual void thisExpression( ) {
-	    pm_module->thisExpression();
-	}
-
+  virtual void thisExpression( ) {
+	pm_module->thisExpression();
+  }
+  virtual void superExpression( ) {
+	pm_module->superExpression();
+  }
   void identifierExpression(const generated::Identifier& id) {
 
     printf("identifierExpression\n");

@@ -22,17 +22,17 @@
  * Author: mapleelpam at gmail.com - Kai-Feng Chou - maple           *
  \*******************************************************************/
 
-#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_LITERAL_STRING_H__
-#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_LITERAL_STRING_H__
+#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_SUPER_EXPRESSION_H__
+#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_SUPER_EXPRESSION_H__
 
 #include <backend/cpp/interpret/interpreter.h>
-#include <as/ast/token/literal_string.h>
+#include <as/ast/token/this_expression.h>
 #include <global.h>
 
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
-struct LiteralString : public Interpreter
+struct SuperExpression : public Interpreter
 {   
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
@@ -40,11 +40,7 @@ struct LiteralString : public Interpreter
 			, tw::maple::as::symbol::Scope* class_symbol_table
 			)
 	{
-		namespace AST = ::tw::maple::as::ast;
-		AST::LiteralStringPtr li = std::tr1::static_pointer_cast<AST::LiteralString>(node);
-
-		std::string v = replace( li->value, "\n", "\\n");
-		return  "\"" + v + "\"";
+		return  "/*super*/";
 	}
 
 };

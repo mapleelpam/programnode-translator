@@ -272,6 +272,11 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("endGetExpression\n");
   }
 
+  void superExpression() {
+    // Your implementation goes here
+    printf("superExpression\n");
+  }
+
   void identifierExpression(const Identifier& id) {
     // Your implementation goes here
     printf("identifierExpression\n");

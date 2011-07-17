@@ -17,15 +17,15 @@
  * ProgrameNode Translator                                           *
  * Copyright 2011 mapleellpam at gmail dot com   All rights reserved.*
  *                                                                   *
- *     https://github.com/mapleelpam/programnode-translator          *
+ * https://github.com/mapleelpam/programnode-translator              *
  *                                                                   *
- *     Author: mapleelpam at gmail.com - Kai-Feng Chou - maple       *
+ * Author: mapleelpam at gmail.com - Kai-Feng Chou - maple           *
  \*******************************************************************/
 
-#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_EXPR_H__
-#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_EXPR_H__
+#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_ARGUMENTS_H_
+#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_ARGUMENTS_H_
 
-#include <as/ast/statement_list.h>
+#include <as/ast/expr/arguments.h>
 #include <backend/cpp/interpret/interpreter.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
@@ -34,17 +34,16 @@ namespace AST = ::tw::maple::as::ast;
 
 
 // Abstract
-struct StmtExpression : public Interpreter
+struct Arguments : public Interpreter
 {   
-
-	virtual std::string expound(::tw::maple::as::ast::NodePtr node
+	virtual std::string expound(
+			::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context* ctx
 			, tw::maple::as::symbol::Scope* class_symbol_table
 			)
 	{
-		std::string result;
-
+		std::string result = "";
 		std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr = node->node_childs.begin();
 		if( nItr != node->node_childs.end() ) {
 			result += dispatchExpound(*nItr, symbol_table, ctx, class_symbol_table);
@@ -54,19 +53,10 @@ struct StmtExpression : public Interpreter
 				result += ", " + dispatchExpound(*nItr, symbol_table, ctx, class_symbol_table);
 			}
 		}
-
-		{
-			ctx->tree_depth ++;
-			std::string aa = ctx->indent()+result+";\n";
-			ctx->tree_depth --;
-			return aa;
-		}
+		return result;
 	}
 };
 
-};
-
-
-} } } } 
+} } } } }
 
 #endif 

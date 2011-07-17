@@ -28,7 +28,7 @@
 
 #include <service/pass/construct_symboltable/pass.h>
 #include <service/pass/construct_symboltable/context.h>
-#include <as/ast/variable_declare.h>
+//#include <as/ast/variable_declare.h>
 #include <as/symbol/scope.h>
 
 namespace tw { namespace maple { namespace service { namespace pass {  namespace cs /*I.E. Construct SymbolTable */ { namespace ph3 {

@@ -41,7 +41,8 @@ struct LiteralNumber : public Interpreter
 			, tw::maple::as::symbol::Scope* class_symbol_table
 			)
 	{
-		SHARED_PTR(AST::LiteralString) li = std::tr1::static_pointer_cast<AST::LiteralString>(node);
+		namespace AST = ::tw::maple::as::ast;
+		AST::LiteralStringPtr li = std::tr1::static_pointer_cast<AST::LiteralString>(node);
 		return li->value;
 
 	}

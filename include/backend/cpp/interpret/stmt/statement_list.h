@@ -22,41 +22,52 @@
  * Author: mapleelpam at gmail.com - Kai-Feng Chou - maple           *
  \*******************************************************************/
 
-#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_ARGUMENTS_H_
-#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_ARGUMENTS_H_
+#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_LIST_H__
+#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_LIST_H__
 
-#include <as/ast/arguments.h>
+//#include <as/ast/statement_list.h>
 #include <backend/cpp/interpret/interpreter.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
 namespace AST = ::tw::maple::as::ast;
 
-
-// Abstract
-struct Arguments : public Interpreter
+struct StatementList : public Interpreter
 {   
-	virtual std::string expound(
-			::tw::maple::as::ast::NodePtr node
+	virtual std::string expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context* ctx
 			, tw::maple::as::symbol::Scope* class_symbol_table
 			)
 	{
-		std::string result = "";
-		std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr = node->node_childs.begin();
-		if( nItr != node->node_childs.end() ) {
+		std::string result;
+
+		ctx->tree_depth ++;
+
+		bool is_first = true;
+        int _idx = 0;
+
+		for (std::vector<std::tr1::shared_ptr<AST::Node> >::iterator nItr =
+				node->node_childs.begin(); nItr != node->node_childs.end(); nItr++)
+		{
 			result += dispatchExpound(*nItr, symbol_table, ctx, class_symbol_table);
 
-			for( nItr++ ; nItr != node->node_childs.end() ; nItr ++ )
-			{
-				result += ", " + dispatchExpound(*nItr, symbol_table, ctx, class_symbol_table);
-			}
+			// Tail Dirty Flag Handle
+			if( is_first )
+				is_first = false;
+			else
+				result += "\n";
 		}
+
+		ctx->tree_depth --;
+
 		return result;
 	}
 };
 
-} } } } }
+};
+
+
+} } } } 
 
 #endif 

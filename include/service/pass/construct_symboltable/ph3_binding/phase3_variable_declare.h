@@ -27,7 +27,7 @@
 #define __TW_MAPLE_SERVICE_PASS_CONSTRUCTOR_SYMBOL_TABLE_PH3_BINDING_VARIABLE_H__
 
 #include <service/pass/construct_symboltable/pass.h>
-#include <as/ast/variable_declare.h>
+#include <as/ast/stmt/variable_declare.h>
 #include <as/symbol/scope.h>
 #include <as/symbol/action/findable.h>
 

@@ -22,17 +22,20 @@
  * Author: mapleelpam at gmail.com - Kai-Feng Chou - maple           *
  \*******************************************************************/
 
-#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_LIST_H__
-#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_LIST_H__
+#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_EXPR_LIST_H__
+#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_EXPR_LIST_H__
 
-#include <as/ast/statement_list.h>
+//#include <as/ast/expression_list.h>
 #include <backend/cpp/interpret/interpreter.h>
+#include <backend/cpp/templateprinter.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
 namespace AST = ::tw::maple::as::ast;
 
-struct StatementList : public Interpreter
+
+// Abstract
+struct ExpressionList : public Interpreter
 {   
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
@@ -42,27 +45,19 @@ struct StatementList : public Interpreter
 	{
 		std::string result;
 
-		ctx->tree_depth ++;
-
-		bool is_first = true;
-        int _idx = 0;
-
-		for (std::vector<std::tr1::shared_ptr<AST::Node> >::iterator nItr =
-				node->node_childs.begin(); nItr != node->node_childs.end(); nItr++)
-		{
+		std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr = node->node_childs.begin();
+		if( nItr != node->node_childs.end() ) {
 			result += dispatchExpound(*nItr, symbol_table, ctx, class_symbol_table);
 
-			// Tail Dirty Flag Handle
-			if( is_first )
-				is_first = false;
-			else
-				result += "\n";
+			for( nItr++ ; nItr != node->node_childs.end() ; nItr ++ )
+			{
+				result += " " + dispatchExpound(*nItr, symbol_table, ctx, class_symbol_table);
+			}
 		}
-
-		ctx->tree_depth --;
 
 		return result;
 	}
+
 };
 
 };

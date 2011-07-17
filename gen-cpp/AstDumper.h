@@ -64,6 +64,7 @@ class AstDumperIf {
   virtual void endSetExpression() = 0;
   virtual void startGetExpression(const std::string& mode) = 0;
   virtual void endGetExpression() = 0;
+  virtual void superExpression() = 0;
   virtual void identifierExpression(const Identifier& id) = 0;
   virtual void literalStringExpression(const Literal& str) = 0;
   virtual void literalNumberExpression(const Literal& str) = 0;
@@ -251,6 +252,9 @@ class AstDumperNull : virtual public AstDumperIf {
   void endGetExpression() {
     return;
   }
+  void superExpression() {
+    return;
+  }
   void identifierExpression(const Identifier& /* id */) {
     return;
   }
@@ -358,7 +362,7 @@ typedef struct _AstDumper_startProgram_args__isset {
 class AstDumper_startProgram_args {
  public:
 
-  AstDumper_startProgram_args() : version("0.0.1"), counter(12LL) {
+  AstDumper_startProgram_args() : version("0.0.1"), counter(13LL) {
   }
 
   virtual ~AstDumper_startProgram_args() throw() {}
@@ -2389,6 +2393,43 @@ class AstDumper_endGetExpression_pargs {
 
 };
 
+
+class AstDumper_superExpression_args {
+ public:
+
+  AstDumper_superExpression_args() {
+  }
+
+  virtual ~AstDumper_superExpression_args() throw() {}
+
+
+  bool operator == (const AstDumper_superExpression_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const AstDumper_superExpression_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_superExpression_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_superExpression_pargs {
+ public:
+
+
+  virtual ~AstDumper_superExpression_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
 typedef struct _AstDumper_identifierExpression_args__isset {
   _AstDumper_identifierExpression_args__isset() : id(false) {}
   bool id;
@@ -3763,6 +3804,8 @@ class AstDumperClient : virtual public AstDumperIf {
   void send_startGetExpression(const std::string& mode);
   void endGetExpression();
   void send_endGetExpression();
+  void superExpression();
+  void send_superExpression();
   void identifierExpression(const Identifier& id);
   void send_identifierExpression(const Identifier& id);
   void literalStringExpression(const Literal& str);
@@ -3890,6 +3933,7 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
   void process_endSetExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_startGetExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_endGetExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_superExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_identifierExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_literalStringExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_literalNumberExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -3975,6 +4019,7 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
     processMap_["endSetExpression"] = &AstDumperProcessor::process_endSetExpression;
     processMap_["startGetExpression"] = &AstDumperProcessor::process_startGetExpression;
     processMap_["endGetExpression"] = &AstDumperProcessor::process_endGetExpression;
+    processMap_["superExpression"] = &AstDumperProcessor::process_superExpression;
     processMap_["identifierExpression"] = &AstDumperProcessor::process_identifierExpression;
     processMap_["literalStringExpression"] = &AstDumperProcessor::process_literalStringExpression;
     processMap_["literalNumberExpression"] = &AstDumperProcessor::process_literalNumberExpression;
@@ -4372,6 +4417,13 @@ class AstDumperMultiface : virtual public AstDumperIf {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
       ifaces_[i]->endGetExpression();
+    }
+  }
+
+  void superExpression() {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->superExpression();
     }
   }
 

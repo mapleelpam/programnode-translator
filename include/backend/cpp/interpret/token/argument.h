@@ -24,7 +24,7 @@
 #ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_ARGUMENT_H_
 #define __TW_MAPLE_BACKEDN_CPP_INTERPRET_ARGUMENT_H_
 
-#include <as/ast/argument.h>
+#include <as/ast/token/argument.h>
 #include <backend/cpp/interpret/interpreter.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {

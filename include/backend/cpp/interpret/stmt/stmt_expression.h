@@ -17,17 +17,16 @@
  * ProgrameNode Translator                                           *
  * Copyright 2011 mapleellpam at gmail dot com   All rights reserved.*
  *                                                                   *
- * https://github.com/mapleelpam/programnode-translator              *
+ *     https://github.com/mapleelpam/programnode-translator          *
  *                                                                   *
- * Author: mapleelpam at gmail.com - Kai-Feng Chou - maple           *
+ *     Author: mapleelpam at gmail.com - Kai-Feng Chou - maple       *
  \*******************************************************************/
 
-#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_EXPR_LIST_H__
-#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_EXPR_LIST_H__
+#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_EXPR_H__
+#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_EXPR_H__
 
-#include <as/ast/expression_list.h>
+//#include <as/ast/statement_list.h>
 #include <backend/cpp/interpret/interpreter.h>
-#include <backend/cpp/templateprinter.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
@@ -35,8 +34,9 @@ namespace AST = ::tw::maple::as::ast;
 
 
 // Abstract
-struct ExpressionList : public Interpreter
+struct StmtExpression : public Interpreter
 {   
+
 	virtual std::string expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context* ctx
@@ -51,13 +51,17 @@ struct ExpressionList : public Interpreter
 
 			for( nItr++ ; nItr != node->node_childs.end() ; nItr ++ )
 			{
-				result += " " + dispatchExpound(*nItr, symbol_table, ctx, class_symbol_table);
+				result += ", " + dispatchExpound(*nItr, symbol_table, ctx, class_symbol_table);
 			}
 		}
 
-		return result;
+		{
+			ctx->tree_depth ++;
+			std::string aa = ctx->indent()+result+";\n";
+			ctx->tree_depth --;
+			return aa;
+		}
 	}
-
 };
 
 };

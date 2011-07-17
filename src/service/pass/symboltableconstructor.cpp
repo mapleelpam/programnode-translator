@@ -37,7 +37,7 @@
 #include <as/ast/stmt/class_definition.h>
 #include <as/ast/stmt/import_stmt.h>
 
-#include <as/ast/variable_declare.h>
+#include <as/ast/stmt/variable_declare.h>
 #include <as/symbol/scope.h>
 #include <as/symbol/function.h>
 #include <as/symbol/variable.h>

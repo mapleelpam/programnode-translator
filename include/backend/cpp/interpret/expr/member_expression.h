@@ -25,6 +25,7 @@
 #ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_EXPR_EXPRMEMBER_H_
 #define __TW_MAPLE_BACKEDN_CPP_INTERPRET_EXPR_EXPRMEMBER_H_
 
+#include <as/ast/expr/call.h>
 #include <as/ast/expr/member_expression.h>
 #include <backend/cpp/interpret/interpreter.h>
 #include <backend/cpp/templateprinter.h>
@@ -33,8 +34,6 @@
 #include <global.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
-
-namespace AST = ::tw::maple::as::ast;
 
 #define DEBUG {std::cerr<<__FILE__<<":"<<__LINE__<<std::endl;}
 struct MemberExpression : public Interpreter
@@ -45,13 +44,18 @@ struct MemberExpression : public Interpreter
 			, tw::maple::as::symbol::Scope* class_symbol_table
 			)
 	{
-		namespace ASY = tw::maple::as::symbol;
+		namespace ASY = ::tw::maple::as::symbol;
+		namespace AST = ::tw::maple::as::ast;
 
 		std::string result;
 
 		AST::MemberExpressionPtr expr_mem = STATIC_CAST( AST::MemberExpression, node);
 
 		if( expr_mem->base()->is( AST::Node::NodeType::T_EMPTY) )
+		{
+			result += dispatchExpound( expr_mem->selector(), symbol_table, ctx, class_symbol_table);
+		}
+		else if( expr_mem->base()->is( AST::Node::NodeType::T_SUPER_EXPRESSION) )
 		{
 			result += dispatchExpound( expr_mem->selector(), symbol_table, ctx, class_symbol_table);
 		}

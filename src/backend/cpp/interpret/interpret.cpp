@@ -26,8 +26,7 @@
 #include <backend/cpp/interpret/interpreter.h>
 
 
-#include <backend/cpp/interpret/expression_list.h>
-#include <backend/cpp/interpret/expr/call.h>
+#include <backend/cpp/interpret/token/super_expression.h>
 #include <backend/cpp/interpret/token/literal_string.h>
 #include <backend/cpp/interpret/token/literal_number.h>
 #include <backend/cpp/interpret/token/literal_boolean.h>
@@ -35,34 +34,36 @@
 #include <backend/cpp/interpret/token/identifier.h>
 #include <backend/cpp/interpret/token/empty.h>
 #include <backend/cpp/interpret/token/this_expression.h>
-#include <backend/cpp/interpret/statement_list.h>
 #include <backend/cpp/interpret/func/function_definition.h>
 #include <backend/cpp/interpret/func/function_name.h>
 #include <backend/cpp/interpret/func/function_parameters.h>
 #include <backend/cpp/interpret/func/function_parameter_item.h>
-#include <backend/cpp/interpret/arguments.h>
-#include <backend/cpp/interpret/argument.h>
-#include <backend/cpp/interpret/return_stmt.h>
+#include <backend/cpp/interpret/expr/arguments.h>
+#include <backend/cpp/interpret/token/argument.h>
+#include <backend/cpp/interpret/stmt/return_stmt.h>
 #include <backend/cpp/interpret/expr/binary_operator.h>
 #include <backend/cpp/interpret/expr/increment_operator.h>
 #include <backend/cpp/interpret/expr/unary_operator.h>
 #include <backend/cpp/interpret/expr/condition_expression.h>
-#include <backend/cpp/interpret/variable_declare.h>
+#include <backend/cpp/interpret/expr/is.h>
+#include <backend/cpp/interpret/expr/as.h>
+#include <backend/cpp/interpret/expr/instanceof.h>
+#include <backend/cpp/interpret/expr/member_expression.h>
+#include <backend/cpp/interpret/expr/set_expression.h>
+#include <backend/cpp/interpret/expr/get_expression.h>
+#include <backend/cpp/interpret/expr/call.h>
+#include <backend/cpp/interpret/stmt/class_definition.h>
+#include <backend/cpp/interpret/stmt/package_definition.h>
+#include <backend/cpp/interpret/stmt/import_stmt.h>
+#include <backend/cpp/interpret/stmt/variable_declare.h>
 #include <backend/cpp/interpret/stmt/if_stmt.h>
 #include <backend/cpp/interpret/stmt/for_stmt.h>
 #include <backend/cpp/interpret/stmt/while_stmt.h>
 #include <backend/cpp/interpret/stmt/do_stmt.h>
 #include <backend/cpp/interpret/stmt/scope_stmt.h>
-#include <backend/cpp/interpret/stmt_expression.h>
-#include <backend/cpp/interpret/expr/is.h>
-#include <backend/cpp/interpret/expr/as.h>
-#include <backend/cpp/interpret/expr/instanceof.h>
-#include <backend/cpp/interpret/stmt/class_definition.h>
-#include <backend/cpp/interpret/stmt/package_definition.h>
-#include <backend/cpp/interpret/stmt/import_stmt.h>
-#include <backend/cpp/interpret/expr/member_expression.h>
-#include <backend/cpp/interpret/expr/set_expression.h>
-#include <backend/cpp/interpret/expr/get_expression.h>
+#include <backend/cpp/interpret/stmt/stmt_expression.h>
+#include <backend/cpp/interpret/stmt/expression_list.h>
+#include <backend/cpp/interpret/stmt/statement_list.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
@@ -116,6 +117,7 @@ void initializeInterpreters()
 		interpreterResolver[AST::Node::NodeType::T_SCOPE] = new ScopeStatement();
 
 		interpreterResolver[AST::Node::NodeType::T_THIS] = new ThisExpression();
+		interpreterResolver[AST::Node::NodeType::T_SUPER_EXPRESSION] = new SuperExpression();
 		interpreterResolver[AST::Node::NodeType::T_CONDITION_EXPRESSION] = new ConditionExpression();
 		interpreterResolver[AST::Node::NodeType::T_EMPTY] = new Empty();
 	}
