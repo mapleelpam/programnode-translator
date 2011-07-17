@@ -155,11 +155,12 @@ struct Context
     Context()
     	: inter_type( RHS )
     	, lfs_is_setter( false )
+    	, expression_symbol( NULL )
+    	, statement_class_symbol( tw::maple::as::symbol::ScopePtr() )
     {
 
     }
 
-//	std::ofstream	ofs_stream;
 	IndentContext	tree_depth;
 	ScopeContext	tableof_imported;	//handle import
 

@@ -50,12 +50,17 @@ private:
 	tw::maple::as::symbol::Scope* findInheritParent(  tw::maple::as::symbol::ScopePtr symbol_table )
 	{
 		 tw::maple::as::symbol::Scope* answer = symbol_table.get();
-		 while( answer != NULL && !answer->is(tw::maple::as::symbol::Scope::T_CLASS) )
+		 std::cerr <<" 0 " << answer->getFQN();
+		 while( answer != NULL && ! (answer->is(tw::maple::as::symbol::Scope::T_CLASS) ) )
 		 {
+			 std::cerr <<" 1 " << answer->getFQN();
 			 answer = answer->getParent();
+			 std::cerr <<" 2 " << answer->getFQN();
 		 }
 		 if( answer != NULL )
 		 {
+			 std::cerr <<" 3 " << answer->getFQN();
+			 std::cerr <<" 4 " << answer->getInherit()->getFQN();
 			 return answer->getInherit();
 		 }
 		 return NULL;

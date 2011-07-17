@@ -53,9 +53,16 @@ struct GetExpression : public Interpreter
 		}
 		else if( get->mode == "dot" )
 		{
-			if( class_symbol_table != NULL )
+			if( ctx.expression_symbol != NULL )
 			{
-
+				if(ctx.expression_symbol->is( ASY::Symbol::T_VARIABLE) )
+				{  // TODO: guess this child_string is ??? primitive? or non-deletable
+					return "->"+child_string.result;
+				}
+				else if(ctx.expression_symbol->is( ASY::Symbol::T_SCOPE) )
+				{ // should be a type
+					return "::"+child_string.result;
+				}
 			}
 
 

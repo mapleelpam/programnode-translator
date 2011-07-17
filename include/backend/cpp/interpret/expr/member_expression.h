@@ -57,12 +57,13 @@ struct MemberExpression : public Interpreter
 		}
 		else if( expr_mem->base()->is( AST::Node::NodeType::T_SUPER_EXPRESSION) )
 		{
-			ReturnValue super = dispatchExpound( expr_mem->selector(), symbol_table, ctx, class_symbol_table);
+			ReturnValue super = dispatchExpound( expr_mem->base(), symbol_table, ctx, class_symbol_table);
 			ASY::Scope* inherit_type = (ASY::Scope*)( super.token_symbol2 );
 
 			tw::maple::backend::cpp::Context ctx2 = ctx;
+			ctx2.expression_symbol = super.token_symbol2;
 			ReturnValue selector_value = dispatchExpound(expr_mem->selector(), symbol_table, ctx2, inherit_type);
-			selector_value = super.token_symbol2->getFQN()+"::"+selector_value.result;
+			selector_value = super.token_symbol2->getFQN()+selector_value.result;
 
 			return selector_value;
 		}
