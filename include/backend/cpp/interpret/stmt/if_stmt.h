@@ -38,7 +38,7 @@ struct IfStatement : public Interpreter, public TemplatePrinter
 
 	virtual ReturnValue expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
-			, tw::maple::backend::cpp::Context* ctx
+			, tw::maple::backend::cpp::Context& ctx
 			, tw::maple::as::symbol::Scope* class_symbol_table
 			)
 	{
@@ -48,8 +48,8 @@ struct IfStatement : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("if_condition", dispatchExpound(IF->ifCondition(), symbol_table, ctx, class_symbol_table) ) ));
 		patterns.push_back( PatternPtr( new Pattern("then_stmt", dispatchExpound(IF->ifThen(), symbol_table, ctx, class_symbol_table) ) ));
 		patterns.push_back( PatternPtr( new Pattern("else_stmt", dispatchExpound(IF->ifElse(), symbol_table, ctx, class_symbol_table) ) ));
-		patterns.push_back( PatternPtr( new Pattern("endl", ctx->endl() ) ));
-		patterns.push_back( PatternPtr( new Pattern("indent_tab", ctx->indent()) ));
+		patterns.push_back( PatternPtr( new Pattern("endl", ctx.endl() ) ));
+		patterns.push_back( PatternPtr( new Pattern("indent_tab", ctx.indent()) ));
 
 		return substitutePatterns( patterns );
 	}

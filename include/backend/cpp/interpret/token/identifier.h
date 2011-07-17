@@ -43,7 +43,7 @@ struct Identifier : public Interpreter
 {
 	virtual ReturnValue expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
-			, tw::maple::backend::cpp::Context* ctx
+			, tw::maple::backend::cpp::Context& ctx
 			, tw::maple::as::symbol::Scope* class_symbol_table
 			)
 	{
@@ -99,7 +99,7 @@ struct Identifier : public Interpreter
 				}
 			}
 			{ // just variable or getter
-				if( ctx->inter_type==Context::RHS )
+				if( ctx.inter_type==Context::RHS )
 				{
 					std::vector<ASY::SymbolPtr> candidates = ASY::Findable::findRHS_Candidates(symbol_table,li->value);
 					if( candidates.size() > 0 )
@@ -145,7 +145,7 @@ struct Identifier : public Interpreter
 			std::cerr << __FILE__<<":"<<__LINE__<<" li->value " << li->value << " size "<<candidates.size()<<std::endl;
 			if( candidates.size() == 0  )
 			{
-				ASY::SymbolPtr s = ctx->scope_ctx.find_symbol( li->value );
+				ASY::SymbolPtr s = ctx.scope_ctx.find_symbol( li->value );
 				if( s ){
 					candidates.push_back( s );
 					should_use_fqn = true;
@@ -160,7 +160,7 @@ struct Identifier : public Interpreter
 			DEBUG
 			if( candidates.size() > 0 )
 			{
-				if( ctx->inter_type==Context::RHS )
+				if( ctx.inter_type==Context::RHS )
 				{
 					DEBUG
 					for( int idx = 0, E = candidates.size() ; idx < E ; idx ++ )
@@ -198,7 +198,7 @@ struct Identifier : public Interpreter
 						}
 					}
 				}
-				else if( ctx->inter_type==Context::LHS )
+				else if( ctx.inter_type==Context::LHS )
 				{
 					for( int idx = 0, E = candidates.size() ; idx < E ; idx ++ )
 					{
@@ -206,7 +206,7 @@ struct Identifier : public Interpreter
 						ASY::FunctionPtr function_ptr = DYNA_CAST( ASY::Function, instance_symbol );
 						if( function_ptr != NULL && function_ptr->isSetter() )
 						{
-							ctx-> lfs_is_setter = true;
+							ctx.lfs_is_setter = true;
 							return "set_" +  li->value;
 						}
 					}

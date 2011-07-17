@@ -38,7 +38,7 @@ struct GetExpression : public Interpreter
 	virtual ReturnValue expound(
 			::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
-			, tw::maple::backend::cpp::Context* ctx
+			, tw::maple::backend::cpp::Context& ctx
 			, tw::maple::as::symbol::Scope* class_symbol_table
 			)
 	{
@@ -47,22 +47,18 @@ struct GetExpression : public Interpreter
 
 		ReturnValue child_string = dispatchExpound(get->child(), symbol_table, ctx, class_symbol_table);
 
-		if( child_string.token_symbol == NULL )
-		{
-			std::cerr <<" can't get token_symbol "<<child_string.result<<std::endl;
-		}
-		else
-		{
-			std::cerr <<"  get token_symbol "<<child_string.result<<std::endl;
-			std::cerr <<"  get token_symbol "<<child_string.result<<" "<<child_string.token_symbol->getFQN()<<std::endl;
-		}
-
 		if( get->mode == "lexical" )
 		{
 			return child_string;
 		}
 		else if( get->mode == "dot" )
 		{
+			if( class_symbol_table != NULL )
+			{
+
+			}
+
+
 			ASY::SymbolPtr s = symbol_table->findSymbol( child_string );
 
 			if(  s != NULL && s->isStatic() )

@@ -40,7 +40,7 @@ struct MemberExpression : public Interpreter
 {   
 	virtual ReturnValue expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
-			, tw::maple::backend::cpp::Context* ctx
+			, tw::maple::backend::cpp::Context& ctx
 			, tw::maple::as::symbol::Scope* class_symbol_table
 			)
 	{
@@ -57,7 +57,13 @@ struct MemberExpression : public Interpreter
 		}
 		else if( expr_mem->base()->is( AST::Node::NodeType::T_SUPER_EXPRESSION) )
 		{
-			result = dispatchExpound( expr_mem->selector(), symbol_table, ctx, class_symbol_table);
+			ReturnValue super = dispatchExpound( expr_mem->selector(), symbol_table, ctx, class_symbol_table);
+			ASY::Scope* inherit_type = (ASY::Scope*)( super.token_symbol2 );
+
+			ReturnValue selector_value = dispatchExpound(expr_mem->selector(), symbol_table, ctx, inherit_type);
+			selector_value = super.token_symbol2->getFQN()+"::"+selector_value.result;
+
+			return selector_value;
 		}
 		else
 		{

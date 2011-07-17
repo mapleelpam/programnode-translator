@@ -75,6 +75,7 @@ struct Scope : public Symbol, public Registrable
 	}
 //	void setScopeType( ScopeType p ) {	m_scope_type = p;	};
 	ScopeType getScopeType( ) const {	return m_scope_type;	}
+	bool is(ScopeType t) const { return m_scope_type & t;	}
 
 	virtual const std::string toString() const
 	{

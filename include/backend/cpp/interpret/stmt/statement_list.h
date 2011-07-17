@@ -36,13 +36,13 @@ struct StatementList : public Interpreter
 {   
 	virtual ReturnValue expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
-			, tw::maple::backend::cpp::Context* ctx
+			, tw::maple::backend::cpp::Context& ctx
 			, tw::maple::as::symbol::Scope* class_symbol_table
 			)
 	{
 		std::string result;
 
-		ctx->tree_depth ++;
+		ctx.tree_depth ++;
 
 		bool is_first = true;
         int _idx = 0;
@@ -59,7 +59,7 @@ struct StatementList : public Interpreter
 				result += "\n";
 		}
 
-		ctx->tree_depth --;
+		ctx.tree_depth --;
 
 		return result;
 	}

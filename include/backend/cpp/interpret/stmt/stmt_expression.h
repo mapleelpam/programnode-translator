@@ -39,7 +39,7 @@ struct StmtExpression : public Interpreter
 
 	virtual ReturnValue expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
-			, tw::maple::backend::cpp::Context* ctx
+			, tw::maple::backend::cpp::Context& ctx
 			, tw::maple::as::symbol::Scope* class_symbol_table
 			)
 	{
@@ -56,9 +56,9 @@ struct StmtExpression : public Interpreter
 		}
 
 		{
-			ctx->tree_depth ++;
-			std::string aa = ctx->indent()+result+";\n";
-			ctx->tree_depth --;
+			ctx.tree_depth ++;
+			std::string aa = ctx.indent()+result+";\n";
+			ctx.tree_depth --;
 			return aa;
 		}
 	}

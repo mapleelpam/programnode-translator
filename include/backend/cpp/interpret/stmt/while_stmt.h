@@ -38,7 +38,7 @@ struct WhileStatement : public Interpreter, public TemplatePrinter
 
 	virtual ReturnValue expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
-			, tw::maple::backend::cpp::Context* ctx
+			, tw::maple::backend::cpp::Context& ctx
 			, tw::maple::as::symbol::Scope* class_symbol_table
 			)
 	{
@@ -47,8 +47,8 @@ struct WhileStatement : public Interpreter, public TemplatePrinter
 
 		patterns.push_back( PatternPtr( new Pattern("condition", dispatchExpound(WHILE->WhileCondition(), symbol_table, ctx, class_symbol_table) ) ));
 		patterns.push_back( PatternPtr( new Pattern("body", dispatchExpound(WHILE->WhileBody(), symbol_table, ctx, class_symbol_table) ) ));
-		patterns.push_back( PatternPtr( new Pattern("endl", ctx->endl() ) ));
-		patterns.push_back( PatternPtr( new Pattern("indent_tab", ctx->indent()) ));
+		patterns.push_back( PatternPtr( new Pattern("endl", ctx.endl() ) ));
+		patterns.push_back( PatternPtr( new Pattern("indent_tab", ctx.indent()) ));
 
 		return substitutePatterns( patterns );
 	}

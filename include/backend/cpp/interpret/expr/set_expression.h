@@ -38,22 +38,22 @@ struct SetExpression : public Interpreter
 	virtual ReturnValue expound(
 			::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
-			, tw::maple::backend::cpp::Context* ctx
+			, tw::maple::backend::cpp::Context& ctx
 			, tw::maple::as::symbol::Scope* class_symbol_table
 			)
 	{
 		std::string result;
 		AST::SetExpressionPtr set = STATIC_CAST( AST::SetExpression, node);
 
-		ctx->inter_type = Context::LHS;
-		bool lft_is_setter = ctx-> lfs_is_setter = false;
+		ctx.inter_type = Context::LHS;
+		bool lft_is_setter = ctx.lfs_is_setter = false;
 		std::string str_rhs = dispatchExpound(set->LHS(), symbol_table, ctx, class_symbol_table);
-		lft_is_setter = ctx-> lfs_is_setter;
+		lft_is_setter = ctx.lfs_is_setter;
 
-		ctx->inter_type = Context::RHS;
+		ctx.inter_type = Context::RHS;
 		std::string str_lhs = dispatchExpound(set->RHS(), symbol_table, ctx, NULL/*TODO: SHOULD NOT BE*/ );
 
-		ctx->inter_type = Context::RHS;
+		ctx.inter_type = Context::RHS;
 
 		std::string prefix = (set->mode == "dot") ? "->" : "";
 

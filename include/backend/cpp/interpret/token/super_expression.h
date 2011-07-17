@@ -36,13 +36,30 @@ struct SuperExpression : public Interpreter
 {   
 	virtual ReturnValue expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
-			, tw::maple::backend::cpp::Context* ctx
+			, tw::maple::backend::cpp::Context& ctx
 			, tw::maple::as::symbol::Scope* class_symbol_table
 			)
 	{
-		return  "/*super*/";
+		tw::maple::as::symbol::Scope* type = findInheritParent( symbol_table );
+		ReturnValue answer="";
+		answer.token_symbol2 = type;
+		return  answer;
 	}
 
+private:
+	tw::maple::as::symbol::Scope* findInheritParent(  tw::maple::as::symbol::ScopePtr symbol_table )
+	{
+		 tw::maple::as::symbol::Scope* answer = symbol_table.get();
+		 while( answer != NULL && !answer->is(tw::maple::as::symbol::Scope::T_CLASS) )
+		 {
+			 answer = answer->getParent();
+		 }
+		 if( answer != NULL )
+		 {
+			 return answer->getInherit();
+		 }
+		 return NULL;
+	}
 };
 
 

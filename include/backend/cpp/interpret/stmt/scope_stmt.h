@@ -38,13 +38,13 @@ struct ScopeStatement : public Interpreter
 
 	virtual ReturnValue expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
-			, tw::maple::backend::cpp::Context* ctx
+			, tw::maple::backend::cpp::Context& ctx
 			, tw::maple::as::symbol::Scope* class_symbol_table
 			)
 	{
 		std::cerr << " default expound " << std::endl;
 		std::string result = "";
-		ctx->tree_depth ++;
+		ctx.tree_depth ++;
 
 		// Very important thing here, enter the symbol table
 		ASY::SymbolPtr scope_symbol = node->getSymbol();
@@ -55,7 +55,7 @@ struct ScopeStatement : public Interpreter
 			result += dispatchExpound(*nItr, (scope_symboltable)?scope_symboltable:symbol_table, ctx, class_symbol_table);
 		}
 
-		ctx->tree_depth --;
+		ctx.tree_depth --;
 
 		return result;
 	}

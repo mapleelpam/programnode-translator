@@ -38,7 +38,7 @@ struct ForStatement : public Interpreter, public TemplatePrinter
 
 	virtual ReturnValue expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
-			, tw::maple::backend::cpp::Context* ctx
+			, tw::maple::backend::cpp::Context& ctx
 			, tw::maple::as::symbol::Scope* class_symbol_table
 			)
 	{
@@ -49,8 +49,8 @@ struct ForStatement : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("for_init", dispatchExpound(FOR->ForInit(), symbol_table, ctx, class_symbol_table) ) ));
 		patterns.push_back( PatternPtr( new Pattern("for_step", dispatchExpound(FOR->ForStep(), symbol_table, ctx, class_symbol_table) ) ));
 		patterns.push_back( PatternPtr( new Pattern("for_body", dispatchExpound(FOR->ForBody(), symbol_table, ctx, class_symbol_table) ) ));
-		patterns.push_back( PatternPtr( new Pattern("endl", ctx->endl() ) ));
-		patterns.push_back( PatternPtr( new Pattern("indent_tab", ctx->indent()) ));
+		patterns.push_back( PatternPtr( new Pattern("endl", ctx.endl() ) ));
+		patterns.push_back( PatternPtr( new Pattern("indent_tab", ctx.indent()) ));
 
 		return substitutePatterns( patterns );
 	}

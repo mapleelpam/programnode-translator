@@ -39,7 +39,7 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 
 	virtual ReturnValue expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
-			, tw::maple::backend::cpp::Context* ctx
+			, tw::maple::backend::cpp::Context& ctx
 			, tw::maple::as::symbol::Scope* class_symbol_table
 			)
 	{
@@ -54,9 +54,9 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 
 		std::string class_stmt = "";
 		if( _class_define_->hasStatement() ) {
-			ctx->tree_depth ++;
+			ctx.tree_depth ++;
 				class_stmt = dispatchExpound(_class_define_->classStmt(), symbol_class, ctx, symbol_class.get());
-			ctx->tree_depth --;
+			ctx.tree_depth --;
 		}
 
 		std::string class_inherit = getInheritsString(_class_define_, symbol_class, ctx, class_symbol_table);
@@ -81,9 +81,9 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("class_type", _class_define_->isAbstract()?"struct":"class" ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_default_constructor", symbol_class->noContructor()?getDefaultConstructor(symbol_class,ctx,class_symbol_table):"" ) ));
 
-		patterns.push_back( PatternPtr( new Pattern("endl", ctx->endl() ) ));
-		patterns.push_back( PatternPtr( new Pattern("indent_tab", ctx->indent()) ));
-		patterns.push_back( PatternPtr( new Pattern("indent_tab_add", ctx->indentAdd()) ));
+		patterns.push_back( PatternPtr( new Pattern("endl", ctx.endl() ) ));
+		patterns.push_back( PatternPtr( new Pattern("indent_tab", ctx.indent()) ));
+		patterns.push_back( PatternPtr( new Pattern("indent_tab_add", ctx.indentAdd()) ));
 
 
 		std::string result = "\n/*begin*/\n"
@@ -145,7 +145,7 @@ private:
 	std::string getInheritsString(
 				AST::ClassDefinitionPtr _class_define_
 				, ASY::ScopePtr symbol_class
-				, tw::maple::backend::cpp::Context* ctx
+				, tw::maple::backend::cpp::Context& ctx
 				, tw::maple::as::symbol::Scope* class_symbol_table
 				)
 	{
@@ -172,7 +172,7 @@ private:
 	std::string getImplementsListString(
 				AST::ClassDefinitionPtr _class_define_
 				, ASY::ScopePtr symbol_class
-				, tw::maple::backend::cpp::Context* ctx
+				, tw::maple::backend::cpp::Context& ctx
 				, tw::maple::as::symbol::Scope* class_symbol_table
 				)
 	{
@@ -187,7 +187,7 @@ private:
 
 	std::string getDefaultConstructor(
 			ASY::ScopePtr symbol_class,
-			tw::maple::backend::cpp::Context* ctx
+			tw::maple::backend::cpp::Context& ctx
 			, tw::maple::as::symbol::Scope* class_symbol_table
 			)
 	{

@@ -6,25 +6,31 @@ namespace tw { namespace maple { namespace backend { namespace cpp { namespace i
 struct ReturnValue
 {
 	tw::maple::as::symbol::SymbolPtr		token_symbol;
+	tw::maple::as::symbol::Symbol*		token_symbol2;
 	std::string result;
 	ReturnValue( const std::string& init )
 		: result( init )
 		, token_symbol(tw::maple::as::symbol::SymbolPtr())
+		, token_symbol2( NULL )
 	{	}
 	ReturnValue( const char* init )
 		: result( std::string(init) )
 		, token_symbol(tw::maple::as::symbol::SymbolPtr())
+		, token_symbol2( NULL )
 	{	}
 	ReturnValue( const ReturnValue& right )
 		: result( right.result )
 		, token_symbol( right.token_symbol )
+		, token_symbol2( right.token_symbol2)
 	{
 		std::cerr<<"------> path damn "<<(right.token_symbol!=NULL?right.token_symbol->name():"")<<std::endl;
 	}
 	ReturnValue()
 		: result("")
 		, token_symbol(tw::maple::as::symbol::SymbolPtr())
+		, token_symbol2( NULL )
 	{	}
+
 	void operator=( const std::string& rhs )
 	{	result = rhs;	}
 

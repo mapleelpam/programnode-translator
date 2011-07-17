@@ -37,7 +37,7 @@ struct ImportStatement : public Interpreter
 {   
 	virtual ReturnValue expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symboltable
-			, tw::maple::backend::cpp::Context* ctx
+			, tw::maple::backend::cpp::Context& ctx
 			, tw::maple::as::symbol::Scope* class_symbol_table
 			)
 	{
@@ -50,7 +50,7 @@ private:
 	void handleImport(
 			tw::maple::as::ast::ImportStatementPtr ast_import
 			, tw::maple::as::symbol::ScopePtr symboltable
-			, tw::maple::backend::cpp::Context* context
+			, tw::maple::backend::cpp::Context& ctx
 			)
 	{
 		tw::maple::as::symbol::ScopePtr pkg_scope = symboltable;
@@ -91,7 +91,7 @@ private:
 						<< ast_import->package_names[ast_import->package_names.size()
 								- 1] << "'" << std::endl;
 
-			context -> scope_ctx .add_import(p_class_scope);
+			ctx.scope_ctx .add_import(p_class_scope);
 		}
 
 	}
