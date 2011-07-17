@@ -34,13 +34,13 @@ namespace AST = ::tw::maple::as::ast;
 struct ReturnStatement : public Interpreter
 {   
 
-	virtual Value expound(::tw::maple::as::ast::NodePtr node
+	virtual ReturnValue expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context* ctx
 			, tw::maple::as::symbol::Scope* class_symbol_table
 			)
 	{
-		Value result;
+		ReturnValue result;
 		result += ctx->indent() ;
 		result += "return ";
 		for (std::vector<std::tr1::shared_ptr<AST::Node> >::iterator nItr =

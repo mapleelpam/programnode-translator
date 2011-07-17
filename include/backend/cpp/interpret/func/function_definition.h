@@ -44,7 +44,7 @@ namespace ASY = tw::maple::as::symbol;
 
 struct FunctionDefinition : public Interpreter, public TemplatePrinter
 {   
-	virtual Value expound(::tw::maple::as::ast::NodePtr node
+	virtual ReturnValue expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context* ctx
 			, tw::maple::as::symbol::Scope* class_symbol_table
@@ -61,7 +61,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		AST::FunctionSignaturePtr fsig
 				= STATIC_CAST( AST::FunctionSignature, fcommon -> FunctionSignature());
 
-		Value str_func_parameters = fsig->node_childs.size()
+		ReturnValue str_func_parameters = fsig->node_childs.size()
 				? dispatchExpound(fsig->FunctionParameter(), symbol_table, ctx, class_symbol_table)
 				:"";
 

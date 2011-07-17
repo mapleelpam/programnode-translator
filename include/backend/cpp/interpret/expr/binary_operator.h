@@ -34,7 +34,7 @@ namespace AST = ::tw::maple::as::ast;
 
 struct BinaryOperator : public Interpreter
 {   
-	virtual Value expound(::tw::maple::as::ast::NodePtr node
+	virtual ReturnValue expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context* ctx
 			, tw::maple::as::symbol::Scope* class_symbol_table
@@ -43,7 +43,7 @@ struct BinaryOperator : public Interpreter
 		AST::BinaryOperatorPtr bin = STATIC_CAST( AST::BinaryOperator, node);
 
 
-		Value result = dispatchExpound(bin->LHS(), symbol_table, ctx, class_symbol_table).result
+		ReturnValue result = dispatchExpound(bin->LHS(), symbol_table, ctx, class_symbol_table).result
 				+ resolve_operator( bin->op_type )
 				+ dispatchExpound(bin->RHS(), symbol_table, ctx, class_symbol_table).result;
 

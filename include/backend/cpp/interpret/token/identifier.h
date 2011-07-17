@@ -41,7 +41,7 @@ namespace AST = ::tw::maple::as::ast;
 
 struct Identifier : public Interpreter
 {
-	virtual Value expound(::tw::maple::as::ast::NodePtr node
+	virtual ReturnValue expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context* ctx
 			, tw::maple::as::symbol::Scope* class_symbol_table

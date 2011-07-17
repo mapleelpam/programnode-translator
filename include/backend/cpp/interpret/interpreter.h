@@ -38,16 +38,16 @@ namespace tw { namespace maple { namespace backend { namespace cpp { namespace i
 
 void initializeInterpreters();
 
-struct Value
+struct ReturnValue
 {
 	std::string result;
-	Value( const std::string& init )
+	ReturnValue( const std::string& init )
 		: result( init )
 	{	}
-	Value( const char* init )
+	ReturnValue( const char* init )
 		: result( std::string(init) )
 	{	}
-	Value()
+	ReturnValue()
 		: result("")
 	{	}
 	void operator=( const std::string& rhs )
@@ -64,18 +64,18 @@ struct Value
 	std::string operator+( const std::string& right )
 	{	return result + right;	}
 
-	std::string operator+( const Value& right )
+	std::string operator+( const ReturnValue& right )
 	{	return result + right.result;	}
 
-	const Value operator+(const Value &other) const {
-		return Value(*this) += other;
+	const ReturnValue operator+(const ReturnValue &other) const {
+		return ReturnValue(*this) += other;
 	}
 
-	std::string operator+=( const Value& right )
+	std::string operator+=( const ReturnValue& right )
 	{	return result += right.result;	}
 };
 
-Value dispatchExpound(
+ReturnValue dispatchExpound(
 		::tw::maple::as::ast::NodePtr node
 		 , tw::maple::as::symbol::ScopePtr symbol_table
 		 , ::tw::maple::backend::cpp::Context* ctx
@@ -85,7 +85,7 @@ Value dispatchExpound(
 struct Interpreter
 {
 
-	virtual Value expound(
+	virtual ReturnValue expound(
 			::tw::maple::as::ast::NodePtr node
 			 , tw::maple::as::symbol::ScopePtr symbol_table /* stmt symbol table */
 			 , tw::maple::backend::cpp::Context* ctx
@@ -93,7 +93,7 @@ struct Interpreter
 			 )
 	{
 		std::cerr << " default expound " << std::endl;
-		Value result = "";
+		ReturnValue result = "";
 		ctx->tree_depth ++;
 
 		for (std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr =
