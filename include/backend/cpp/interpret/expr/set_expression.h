@@ -56,6 +56,17 @@ struct SetExpression : public Interpreter
 		ctx.inter_type = Context::RHS;
 
 		std::string prefix = (set->mode == "dot") ? "->" : "";
+		if( ctx.expression_symbol != NULL )
+		{
+			if(ctx.expression_symbol->is( ASY::Symbol::T_VARIABLE) )
+			{
+				prefix = "->";
+			}
+			else if(ctx.expression_symbol->is( ASY::Symbol::T_SCOPE) )
+			{
+				prefix = "::";
+			}
+		}
 
 		if( lft_is_setter )
 			return prefix+str_rhs + "( " + str_lhs+" )";
