@@ -68,6 +68,20 @@ struct Call : public Interpreter
 			if( call->mode == "dot" )
 			{
 				std::string right = get_full_functionname( call->callee );
+				if( ctx.expression_symbol != NULL )
+				{
+					if(ctx.expression_symbol->is( ASY::Symbol::T_VARIABLE) )
+					{  // TODO: guess this child_string is ??? primitive? or non-deletable
+						return "->"+right;
+					}
+					else if(ctx.expression_symbol->is( ASY::Symbol::T_SCOPE) )
+					{ // should be a type
+						return "::"+right;
+					}
+				}
+
+
+
 				ASY::SymbolPtr s = symbol_table->findSymbol( right );
 
 				if(  s != NULL && s->isStatic() )
