@@ -73,9 +73,10 @@ struct Context
 				for( T_ImportList::iterator import_itr = p_import_list -> begin(), E = p_import_list -> end()
 					; import_itr != E ; import_itr ++ )
 				{
+//					std::cerr << "itrate ---------> "<< (*import_itr)->name() << std::endl;
 					if( (*import_itr)->name() == name )
 					{
-						std::cerr << "---------> "<< (*import_itr)->name() << std::endl;
+//						std::cerr << "---------> "<< (*import_itr)->name() << std::endl;
 						return (*import_itr);
 					}
 				}
@@ -86,7 +87,9 @@ struct Context
 
 		tw::maple::as::symbol::SymbolPtr find_symbol( std::string name )
 		{
+//			std::cerr << "ctx::find_symbol  ---------> "<< name << std::endl;
 			tw::maple::as::symbol::ScopePtr p_scope = find_scope( name );
+//			std::cerr << "ok ctx::find_symbol  ---------> "<< name << std::endl;
 			return STATIC_CAST( tw::maple::as::symbol::Scope, p_scope );
 		}
 	private:
@@ -157,6 +160,7 @@ struct Context
     	, lfs_is_setter( false )
     	, expression_symbol( NULL )
     	, statement_class_symbol( tw::maple::as::symbol::ScopePtr() )
+    	, left_is_instance( false )
     {
 
     }
@@ -166,6 +170,7 @@ struct Context
 
 	InterpretType   inter_type;
 	bool			lfs_is_setter;
+	bool			left_is_instance;
 
 
 	tw::maple::as::symbol::Symbol*	expression_symbol;

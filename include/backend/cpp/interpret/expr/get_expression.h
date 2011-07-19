@@ -49,40 +49,23 @@ struct GetExpression : public Interpreter
 
 		if( get->mode == "lexical" )
 		{
+			std::cerr << __FILE__<<" get lexcical "<<child_string.result<<" "<<child_string.is_instance<<std::endl;
 			return child_string;
 		}
 		else if( get->mode == "dot" )
 		{
 			if( ctx.expression_symbol != NULL )
 			{
-				if(ctx.expression_symbol->is( ASY::Symbol::T_VARIABLE) )
+				if(ctx.expression_symbol->is( ASY::Symbol::T_VARIABLE) || ctx.left_is_instance )
 				{  // TODO: guess this child_string is ??? primitive? or non-deletable
-					return "->"+child_string.result;
+					child_string.result = "->"+_DS2("/*is variable*/")+child_string.result;
+					return child_string;
 				}
 				else if(ctx.expression_symbol->is( ASY::Symbol::T_SCOPE) )
 				{ // should be a type
-					return "::"+child_string.result;
+					child_string.result = "::"+_DS2("/*is scope*/")+child_string.result;
+					return child_string;
 				}
-			}
-
-
-			ASY::SymbolPtr s = symbol_table->findSymbol( child_string );
-
-			if(  s != NULL && s->isStatic() )
-			{
-				child_string = "::" + child_string.result;
-			}
-			else
-			{
-				ASY::SymbolPtr s2 = class_symbol_table->findSymbol( child_string );
-				if( s2 != NULL )
-				{
-					std::cerr << "s2 fqn = " << s2->getFQN() << std::endl;
-				}
-				if(  s2 != NULL && s2->isStatic() )
-					child_string = "::" + child_string.result;
-				else
-					child_string = "->" + child_string.result;
 			}
 		}
 		else if( get->mode == "bracket" )

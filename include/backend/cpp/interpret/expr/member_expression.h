@@ -78,18 +78,32 @@ struct MemberExpression : public Interpreter
 
 			if( base.token_symbol != NULL )
 			{
+				std::cerr <<__FILE__<<" "<<base.token_symbol->getFQN() << std::endl;
+				tw::maple::backend::cpp::Context ctx2 = ctx;
+				ctx2.left_is_instance = base.is_instance;
+				std::cerr <<__FILE__<<" is instance "<< base.is_instance << std::endl;
+				ctx2.expression_symbol = base.token_symbol.get();
 				if(  expr_mem->selector()->is( AST::Node::NodeType::T_CALL )
 					&& STATIC_CAST( AST::Call, expr_mem->selector())->isObjectConsturct() )
 				{
 					ASY::ScopePtr base_type	 = DYNA_CAST( ASY::Scope, base.token_symbol);
-					return constructor_work_around(result, dispatchExpound(expr_mem->selector(), symbol_table, ctx, base_type.get()).result);
+					return constructor_work_around(result, dispatchExpound(expr_mem->selector(), symbol_table, ctx2, base_type.get()).result);
 				}
 
 				ASY::ScopePtr base_type	 = DYNA_CAST( ASY::Scope, base.token_symbol);
-				result += _DS2("/* path2 */")+dispatchExpound( expr_mem->selector(), symbol_table, ctx, base_type.get()).result;
+				ReturnValue selector_value = dispatchExpound( expr_mem->selector(), symbol_table, ctx2, base_type.get());
+				result = selector_value;
+				result.result = base.result+_DS2("/* path2 */")+selector_value.result;
+//				result = _DS2("/* path2 */")+selector_value.result;
+//				result.token_symbol = selector_value.token_symbol;
+//				result.token_symbol2 = selector_value.token_symbol2;
 			}
 			else
+			{
+				//TODO: report error, and do not pass it
+				std::cerr <<__FILE__<<" "<<__LINE__<<std::endl;
 				result += _DS2("/* path3 */")+dispatchExpound( expr_mem->selector(), symbol_table, ctx, class_symbol_table ).result;
+			}
 		}
 		return result;
 	}

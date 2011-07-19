@@ -55,6 +55,13 @@ struct Findable {
 	static std::vector<SymbolPtr> findRHS_Candidates( ScopePtr stable, const std::string& var_name )
 		{	return findRHS_Candidates( stable.get(), var_name ); }
 
+	static std::vector<SymbolPtr> findLHS_Candidates( Scope* stable, const std::string& var_name );
+	static std::vector<SymbolPtr> findLHS_Candidates( ScopePtr stable, const std::string& var_name )
+		{	return findLHS_Candidates( stable.get(), var_name ); }
+
+	static ScopePtr findCallee( Scope* stable, const std::string& class_name );
+	static ScopePtr findCallee( ScopePtr stable, const std::string& class_name )
+		{	return findCallee( stable.get(), class_name ); }
 private:
 
 //	Scope* _instance;

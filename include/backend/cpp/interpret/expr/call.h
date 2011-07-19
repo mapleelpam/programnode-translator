@@ -56,6 +56,7 @@ struct Call : public Interpreter
 			if( p_type != NULL && p_type->getFQN_and_mappedName() != "" )
 			{
 				result.token_symbol = p_type;
+				result.is_instance = true; // TODO:
 				result += p_type->getFQN_and_mappedName();
 			}
 			else
@@ -70,37 +71,43 @@ struct Call : public Interpreter
 				std::string right = get_full_functionname( call->callee );
 				if( ctx.expression_symbol != NULL )
 				{
+
+					ASY::Scope* left_scope = NULL;
+					if( ctx.expression_symbol->is(ASY::Symbol::T_VARIABLE ))
+					{
+						ASY::Variable* var_symbol = (ASY::Variable*) ctx.expression_symbol;
+						left_scope = (ASY::Scope*)(var_symbol -> getTypeSymbol().get());
+					}
+					else
+					{
+						left_scope = (ASY::Scope*)(ctx.expression_symbol);
+					}
+
+					std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
 					if(ctx.expression_symbol->is( ASY::Symbol::T_VARIABLE) )
 					{  // TODO: guess this child_string is ??? primitive? or non-deletable
-						return "->"+right;
+						std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
+						result += ("->"+right);
 					}
 					else if(ctx.expression_symbol->is( ASY::Symbol::T_SCOPE) )
 					{ // should be a type
-						return "::"+right;
+						std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
+						result += ( "::"+right);
 					}
-				}
 
-
-
-				ASY::SymbolPtr s = symbol_table->findSymbol( right );
-
-				if(  s != NULL && s->isStatic() )
-				{
-					result += "::/* @@*/" + right;
+					ASY::SymbolPtr callee_symbol = ASY::Findable::findCallee(left_scope,right);
+					std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
+					ASY::FunctionPtr callee_func_symbol = DYNA_CAST(ASY::Function, callee_symbol);
+					std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
+					result.token_symbol = callee_func_symbol->ReturnType();
+					std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
 				}
 				else
 				{
-					ASY::SymbolPtr s2 = class_symbol_table->findSymbol( right );
-					std::cerr << " try to find '"<< right <<"' in '"<<class_symbol_table->getFQN()<<"'"<<std::endl;
-					if( s2 != NULL )
-					{
-						std::cerr << "s2 fqn = " << s2->getFQN() << std::endl;
-					}
-					if(  s2 != NULL && s2->isStatic() )
-						result += "::" + right;
-					else
-						result += "->" + right;
+					std::cerr << " call(dot) expression error, should pass left symbol" << std::endl;
+					exit(1);
 				}
+
 			}
 			else
 				result += get_full_functionname( call->callee );

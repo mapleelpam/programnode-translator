@@ -7,21 +7,25 @@ struct ReturnValue
 {
 	tw::maple::as::symbol::SymbolPtr		token_symbol;
 	tw::maple::as::symbol::Symbol*		token_symbol2;
+	bool is_instance;
 	std::string result;
 	ReturnValue( const std::string& init )
 		: result( init )
 		, token_symbol(tw::maple::as::symbol::SymbolPtr())
 		, token_symbol2( NULL )
+		, is_instance(false)
 	{	}
 	ReturnValue( const char* init )
 		: result( std::string(init) )
 		, token_symbol(tw::maple::as::symbol::SymbolPtr())
 		, token_symbol2( NULL )
+		, is_instance(false)
 	{	}
 	ReturnValue( const ReturnValue& right )
 		: result( right.result )
 		, token_symbol( right.token_symbol )
 		, token_symbol2( right.token_symbol2)
+		, is_instance( right.is_instance )
 	{
 		std::cerr<<"------> path damn "<<(right.token_symbol!=NULL?right.token_symbol->name():"")<<std::endl;
 	}
@@ -29,6 +33,7 @@ struct ReturnValue
 		: result("")
 		, token_symbol(tw::maple::as::symbol::SymbolPtr())
 		, token_symbol2( NULL )
+		, is_instance(false)
 	{	}
 
 	void operator=( const std::string& rhs )
@@ -38,7 +43,8 @@ struct ReturnValue
 	{
 		result = right.result;
 		token_symbol = right.token_symbol;
-		std::cerr<<"------> path shit"<<std::endl;
+		is_instance = right.is_instance;
+		std::cerr<<"------> path shit  "<< right.is_instance<<std::endl;
 	}
 	operator std::string()
 	{

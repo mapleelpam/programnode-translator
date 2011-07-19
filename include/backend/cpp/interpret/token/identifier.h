@@ -79,16 +79,15 @@ struct Identifier : public Interpreter
 			{
 //				ctx-> token_class_type = symbol_ptr;
 				ReturnValue result;
-				result =  left+"::"+ li->value + _DS("/* find symbol */");
+				result =  left+"::"+ li->value + _DS2("/* find symbol */");
 				result.token_symbol = symbol_ptr;
 				return result;
 			}
 			else
-				return left+"::"+li->value + _DS("/* can't find symbol */");
+				return left+"::"+li->value + _DS2("/* can't find symbol */");
 		}
 		else
 		{
-			std::cerr << " symbol table error " << li->value << std::endl;
 			{ // just class...!!
 				if( ASY::ScopePtr classtype_ptr = ASY::Findable::findClassType(symbol_table.get(),li->value))
 				{
@@ -101,7 +100,37 @@ struct Identifier : public Interpreter
 			{ // just variable or getter
 				if( ctx.inter_type==Context::RHS )
 				{
-					std::vector<ASY::SymbolPtr> candidates = ASY::Findable::findRHS_Candidates(symbol_table,li->value);
+					std::vector<ASY::SymbolPtr> candidates;
+					if( ctx.expression_symbol )
+					{
+						ASY::Scope* type_scope = (ASY::Scope*)ctx.expression_symbol;
+						if(ctx.expression_symbol->is( ASY::Symbol::T_VARIABLE ) )
+						{
+							ASY::Variable* var_sym =(ASY::Variable*) (ctx.expression_symbol);
+							type_scope = (ASY::Scope*)( var_sym->getTypeSymbol().get() );
+						}
+						candidates = ASY::Findable::findRHS_Candidates(type_scope,li->value);
+						if( candidates.size() == 0) //TODO: Bug here!!!
+							candidates = ASY::Findable::findRHS_Candidates(symbol_table,li->value);
+					}
+					else
+						candidates = ASY::Findable::findRHS_Candidates(symbol_table,li->value);
+
+//					bool should_use_fqn = false;
+					if( candidates.size() == 0 )
+					{	// TODO: move to front
+						// find in import
+						ASY::SymbolPtr s = ctx.tableof_imported.find_symbol( li->value );
+						if( s ){
+//							candidates.push_back( s );
+//							should_use_fqn = true;
+							ReturnValue result = s->getFQN();
+							result.token_symbol = s;
+							result.token_symbol2 = s.get();
+							return result;
+						}
+					}
+
 					if( candidates.size() > 0 )
 					{
 						for( int idx = 0 ; idx < candidates.size() ; idx ++ )
@@ -114,13 +143,15 @@ struct Identifier : public Interpreter
 //								ctx-> token_class_type = function_ptr->ReturnType();
 								ReturnValue result =  "get_" +  li->value + "()";
 								result.token_symbol = function_ptr->ReturnType();
+								result.is_instance = true;
 								return result;
 							}
 							ASY::VariablePtr variable_ptr = DYNA_CAST( ASY::Variable, instance );
 							if( variable_ptr )
 							{
 								ReturnValue result = li->value+_DS2("/* found variable */");
-								result.token_symbol = variable_ptr->getTypeSymbol();
+								result.token_symbol = variable_ptr;
+								result.is_instance = true;
 								return result;
 							}
 						}
@@ -131,13 +162,75 @@ struct Identifier : public Interpreter
 							<< li->value << " '"
 							<< node->toString() << "'" << std::endl;
 						// TODO: find symboltable then -> class_symbol_table
+						// TODO: TBO 0719
 //						exit(1);
+						return li->value;
+					}
+				}
+				 // just variable or setter
+				else if( ctx.inter_type==Context::LHS )
+				{
+					std::cerr << __FILE__ <<":"<<__LINE__<<std::endl;
+					std::vector<ASY::SymbolPtr> candidates;
+					if( ctx.expression_symbol )
+					{
+						std::cerr << __FILE__ <<":"<<__LINE__<<std::endl;
+						ASY::Scope* type_scope = (ASY::Scope*)ctx.expression_symbol;
+						if(ctx.expression_symbol->is( ASY::Symbol::T_VARIABLE ) )
+						{
+							ASY::Variable* var_sym =(ASY::Variable*) (ctx.expression_symbol);
+							type_scope = (ASY::Scope*)( var_sym->getTypeSymbol().get() );
+						}
+						candidates = ASY::Findable::findLHS_Candidates(type_scope,li->value);
+						if( candidates.size() == 0) //TODO: Bug here!!!
+							candidates = ASY::Findable::findLHS_Candidates(symbol_table,li->value);
+					}
+					else
+					{
+						std::cerr << __FILE__ <<":"<<__LINE__<<node->toString()<<std::endl;
+						candidates = ASY::Findable::findLHS_Candidates(symbol_table,li->value);
+					}
+
+					std::cerr << __FILE__ <<":"<<__LINE__<<node->toString()<<std::endl;
+
+					if( candidates.size() > 0 )
+					{
+						for( int idx = 0 ; idx < candidates.size() ; idx ++ )
+						{
+							ASY::SymbolPtr instance = candidates[idx];
+
+							ASY::FunctionPtr function_ptr = DYNA_CAST( ASY::Function, instance );
+							if( function_ptr && function_ptr->isSetter() )
+							{
+//								ctx-> token_class_type = function_ptr->ReturnType();
+								ctx.lfs_is_setter = true;
+								ReturnValue result =  "set_" +  li->value;
+//								result.token_symbol = function_ptr->ReturnType();
+								return result;
+							}
+							ASY::VariablePtr variable_ptr = DYNA_CAST( ASY::Variable, instance );
+							if( variable_ptr )
+							{
+								ReturnValue result = li->value+_DS2("/* found variable */");
+								result.token_symbol = variable_ptr;
+								return result;
+							}
+						}
+					}
+					else
+					{
+						std::cerr << " can't find scope - "
+							<< li->value << " '"
+							<< node->toString() << "'" << std::endl;
+						// TODO: find symboltable then -> class_symbol_table
+						exit(1);
 
 					}
+
 				}
 			}
 
-
+#if 0
 
 			bool should_use_fqn = false;
 			std::cerr << __FILE__<<":"<<__LINE__<<" li->value " << li->value <<std::endl;
@@ -214,7 +307,7 @@ struct Identifier : public Interpreter
 //				return li->value+_DS("/*173*/")+symbol_table->getFQN();
 				return li->value+_DS2("/* not found any symbol */");
 			}
-
+#endif
 		}
 	}
 

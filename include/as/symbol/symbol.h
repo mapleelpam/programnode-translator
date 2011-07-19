@@ -37,10 +37,10 @@ struct Symbol
 	enum Properties
 	{
 		T_NONE			= 0x0000,
-		T_SCOPE			= 0x0001, // function/class/package
-		T_VARIABLE		= 0x0002,
-		T_PRIMITIVE_TYPE= 0x0004,
-		T_PARAMETER	= 0x0008,
+		T_SCOPE			= 0x0002, // function/class/package
+		T_VARIABLE		= 0x0004,
+		T_PRIMITIVE_TYPE= 0x0008,
+		T_PARAMETER	= 0x0010,
 	};
 
 	enum Attributes
@@ -93,7 +93,7 @@ struct Symbol
 
 	bool is( Properties prop )
 	{
-		return m_properties & prop;
+		return ( m_properties & prop ) != 0;
 	}
 protected:
 	std::string		m_name;
