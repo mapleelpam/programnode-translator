@@ -49,7 +49,6 @@ struct GetExpression : public Interpreter
 
 		if( get->mode == "lexical" )
 		{
-			std::cerr << __FILE__<<" get lexcical "<<child_string.result<<" "<<child_string.expression_type<<std::endl;
 			return child_string;
 		}
 		else if( get->mode == "dot" )

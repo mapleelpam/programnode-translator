@@ -152,7 +152,7 @@ struct Identifier : public Interpreter
 							{
 								ReturnValue result = li->value+_DS2("/* found variable */");
 								result.token_symbol = variable_ptr;
-								result.expression_type = true;
+								result.expression_type = ReturnValue::STACK;
 								return result;
 							}
 						}
