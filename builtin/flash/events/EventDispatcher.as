@@ -14,8 +14,10 @@ package flash.events
 		public function hasEventListener (type:String) : Boolean;
 
 		public function removeEventListener (type:String, listener:Function, useCapture:Boolean = false) : void;
+
 		[native(support="none")]
 		public function toString () : String;
+
 		[native(support="none")]
 		public function willTrigger (type:String) : Boolean;
 	}

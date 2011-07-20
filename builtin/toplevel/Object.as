@@ -1,5 +1,6 @@
 package
 {
+    [root_object]
 	intrinsic public class Object 
 	{
 //		public static const length : int;
