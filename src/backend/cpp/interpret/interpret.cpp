@@ -128,7 +128,7 @@ ReturnValue dispatchExpound(
 		::tw::maple::as::ast::NodePtr node
 		 , tw::maple::as::symbol::ScopePtr symbol_table
 		 , ::tw::maple::backend::cpp::Context& ctx
-		 , tw::maple::as::symbol::Scope* class_symbol_table
+//		 , tw::maple::as::symbol::Scope* class_symbol_table
 		)
 {
 	BOOST_ASSERT( node != NULL );
@@ -141,7 +141,7 @@ ReturnValue dispatchExpound(
 		exit(1);
 	} else {
 //		std::cout <<" dispatch - " << node->toString() << " number " << node->nodeType()<<std::endl;
-		return to->expound(node,symbol_table,ctx, class_symbol_table );
+		return to->expound(node,symbol_table,ctx/*, class_symbol_table*/ );
 	}
 
 }

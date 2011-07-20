@@ -39,7 +39,7 @@ struct Call : public Interpreter
 	virtual ReturnValue expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context& ctx
-			, tw::maple::as::symbol::Scope* class_symbol_table
+//			/* , tw::maple::as::symbol::Scope* class_symbol_table */
 			)
 	{
 
@@ -116,7 +116,7 @@ struct Call : public Interpreter
 		if (call->getArgs())
 		{
 			tw::maple::backend::cpp::Context ctx2 = ctx;
-			result += dispatchExpound( call->getArgs(), symbol_table, ctx2, class_symbol_table);
+			result += dispatchExpound( call->getArgs(), symbol_table, ctx2/*, class_symbol_table*/);
 		}
 		result += " )";
 

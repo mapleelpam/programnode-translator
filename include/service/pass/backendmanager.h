@@ -55,7 +55,7 @@ struct BackendManager {
 				nodeItr = pnode_list.begin(); nodeItr != pnode_list.end(); nodeItr++)
 		{
 			tw::maple::backend::cpp::Context context;
-			ofs_stream << dispatchExpound(*nodeItr, symbol_table, context, NULL	).result;
+			ofs_stream << dispatchExpound(*nodeItr, symbol_table, context	).result;
 		}
 		declareStaticVariables( symbol_table, ofs_stream );
 
@@ -93,7 +93,7 @@ private:
 					if(variable->getInitializeNode())
 					{
 						tw::maple::backend::cpp::Context context;
-						ofs_stream << " = " << INTERPRET::dispatchExpound(variable->getInitializeNode(), symbol_table, context, NULL).result;
+						ofs_stream << " = " << INTERPRET::dispatchExpound(variable->getInitializeNode(), symbol_table, context ).result;
 					}
 					ofs_stream << ";" <<std::endl;
 				}
