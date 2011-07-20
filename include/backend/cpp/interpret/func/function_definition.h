@@ -95,7 +95,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		};
 
 		std::string str_function_return_type = symbol_function->isConstructor() ? "":
-				(symbol_function->ReturnType()->isPrimitiveType() ? symbol_function->ReturnType()->mappedName() :
+				(symbol_function->ReturnType()->preferStack() ? symbol_function->ReturnType()->instanceName() :
 						symbol_function->ReturnType()->getFQN_and_mappedName() + m_pointer_pattern ) ;
 
 		if( ! symbol_function->isConstructor() )

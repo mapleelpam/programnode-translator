@@ -1,6 +1,6 @@
 package
 {
-    [native(cls="XCString", instance="String", methods="auto")]
+    [native(cls="XCString", instance="NativeString", methods="auto")]
 	intrinsic public class String extends Object
 	{
 //		public static const length : int;

@@ -433,6 +433,31 @@ public:
 
 	bool isIntrinsic(){	return m_is_intrinsic;	}
 	void setIsIntrinsic( bool b ){	m_is_intrinsic = b;	}
+
+	virtual bool preferStack()	const {	return m_instance_name != "";	}
+	void setInstanceName( std::string s )	{ m_instance_name = s;	}
+	std::string instanceName()	const {	return m_instance_name;	}
+	virtual const std::string getFQN_and_m_instanceName() const
+	{
+		if( m_parent )
+		{
+			bool parent_is_anonymouse_scope = false;
+			std::string parent_name = m_parent->getFQN( parent_is_anonymouse_scope );
+			if( parent_is_anonymouse_scope )
+				return parent_name;
+			else if( parent_is_anonymouse_scope )
+				return parent_name+instanceName();
+			else
+				return parent_name+"::"+instanceName();
+		}
+		else if( m_scope_type == T_PROGRAM_ROOT)
+			return "";
+		else {
+			return this->instanceName();
+		}
+
+		return instanceName();
+	}
 //private:
 public:
 	ScopeType m_scope_type;
@@ -442,6 +467,9 @@ public:
 	Scope*  m_inherit;
 	bool	m_no_contrucotr;
 	bool 	m_is_intrinsic;
+
+
+	std::string		m_instance_name;
 //friend class Scope;
 };
 

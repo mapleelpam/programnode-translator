@@ -123,6 +123,7 @@ void SymbolTableConstructor:: constructSymbols(
 
 				ASY::ScopePtr scope_class( symboltable->registerClass( _class_define_->getClassName() ) );
 				scope_class -> setMappedName( _class_define_->getMappedClassName() );
+				scope_class -> setInstanceName( _class_define_->getInstanceName() );
 				_class_define_ -> setSymbol( scope_class );
 				_class_define_ -> setClassSymbol( scope_class );
 				constructSymbols( _class_define_, scope_class, _class_define_->getClassName() );

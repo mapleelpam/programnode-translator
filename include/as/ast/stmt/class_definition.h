@@ -105,6 +105,19 @@ struct ClassDefinition : public Statement
 		}
 		return getClassName();
 	}
+	std::string getInstanceName( /*bool& OK*/)
+	{
+//		OK = false;
+		if(m_metadata.id == "native")
+		{
+			if(m_metadata.keyvalues.find("instance") != m_metadata.keyvalues.end() )
+			{
+//				OK = true;
+				return m_metadata.keyvalues["instance"];
+			}
+		}
+		return "";
+	}
 	bool isIntrinsic()
 	{
 		for( std::vector<std::string>::iterator itr = m_attributes.begin(), E = m_attributes.end()

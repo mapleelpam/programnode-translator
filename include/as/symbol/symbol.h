@@ -94,6 +94,13 @@ struct Symbol
 	bool is( Properties prop )
 	{
 		return ( m_properties & prop ) != 0;
+
+	}
+	virtual bool preferStack() const {	return false;	} // prefer heap
+	virtual std::string instanceName() const {	return mappedName();	}
+	virtual const std::string getFQN_and_m_instanceName() const
+	{
+		return instanceName();
 	}
 protected:
 	std::string		m_name;

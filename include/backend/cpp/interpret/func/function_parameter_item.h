@@ -46,8 +46,10 @@ struct FunctionParameterItem : public Interpreter, public TemplatePrinter
 		ASY::SymbolPtr	symbol_type = symbol_var->getTypeSymbol();
 
 		std::string str_var_type/* = invoke_type_mapper(  )*/;
-		if( symbol_type->isPrimitiveType() )
-			str_var_type = symbol_type->mappedName();
+		if( symbol_type->preferStack())
+		{
+			str_var_type = symbol_type->instanceName();
+		}
 		else
 			str_var_type = symbol_type->getFQN_and_mappedName() + _pointer_pattern /* '*'or 'Ptr' */;
 

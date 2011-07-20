@@ -1,5 +1,6 @@
 package
 {
+    [native(cls="Number", instance="NativeNumber", methods="auto")]
 	intrinsic public class Number extends Object
 	{
 		public static const length : int;

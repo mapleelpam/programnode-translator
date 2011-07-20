@@ -55,9 +55,11 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 		ASY::SymbolPtr	symbol_type = symbol_var->getTypeSymbol();
 
 		std::string str_var_type/* = invoke_type_mapper(  )*/;
-		if( symbol_type->isPrimitiveType() )
+//		if( symbol_type->isPrimitiveType() || symbol_type->preferStack())
+		std::cerr <<" in variable type = "<<symbol_type->getFQN()<<std::endl;
+		if( symbol_type->preferStack())
 		{
-			str_var_type = symbol_type->mappedName();
+			str_var_type = symbol_type->instanceName();
 		}
 		else
 			str_var_type = symbol_type->getFQN_and_mappedName() + _pointer_pattern /* '*'or 'Ptr' */;

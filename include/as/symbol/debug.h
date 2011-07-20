@@ -53,7 +53,7 @@ struct Debug
 				ofs << indent(depth) << (*child_itr)->toString() << " FQN->"<<scope->getFQN() <<std::endl;
 				if( scope->getInherit() )
 				ofs << indent(depth) << (*child_itr)->toString() << " ParentFQN->"<<scope->getInherit()->getFQN() <<std::endl;
-
+				ofs << indent(depth) << (*child_itr)->toString() << " instance name->"<<scope->instanceName() <<std::endl;
 				if( scope )
 					dump_symboltable( scope, ofs, depth+1 );
 			} else {
