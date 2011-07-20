@@ -39,7 +39,6 @@ struct Call : public Interpreter
 	virtual ReturnValue expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context& ctx
-//			/* , tw::maple::as::symbol::Scope* class_symbol_table */
 			)
 	{
 
@@ -84,7 +83,7 @@ struct Call : public Interpreter
 					}
 
 					std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
-					if(ctx.expression_symbol->is( ASY::Symbol::T_VARIABLE) )
+					if(ctx.expression_symbol->is( ASY::Symbol::T_VARIABLE) || ctx.left_is_instance )
 					{  // TODO: guess this child_string is ??? primitive? or non-deletable
 						std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
 						result += ("->"+right);
