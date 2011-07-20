@@ -39,7 +39,7 @@ struct ScopeStatement : public Interpreter
 	virtual ReturnValue expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context& ctx
-			/* , tw::maple::as::symbol::Scope* class_symbol_table */
+			
 			)
 	{
 		std::cerr << " default expound " << std::endl;
@@ -52,7 +52,7 @@ struct ScopeStatement : public Interpreter
 
 		for (std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr =
 				node->node_childs.begin(); nItr != node->node_childs.end(); nItr++) {
-			result += dispatchExpound(*nItr, (scope_symboltable)?scope_symboltable:symbol_table, ctx/*, class_symbol_table*/);
+			result += dispatchExpound(*nItr, (scope_symboltable)?scope_symboltable:symbol_table, ctx);
 		}
 
 		ctx.tree_depth --;

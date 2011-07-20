@@ -40,7 +40,7 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 	virtual ReturnValue expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context& ctx
-			/* , tw::maple::as::symbol::Scope* class_symbol_table */
+			
 			)
 	{
 
@@ -59,7 +59,7 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 			ctx.tree_depth --;
 		}
 
-		std::string class_inherit = getInheritsString(_class_define_, symbol_class, ctx/*, class_symbol_table*/);
+		std::string class_inherit = getInheritsString(_class_define_, symbol_class, ctx);
 
 		std::string class_base = "";
 		if (_class_define_->hasBaseClass() ) {
@@ -69,7 +69,7 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 		}
 
 		/* change both symbol table into class symbol */
-		std::string class_implements = getImplementsListString(_class_define_, symbol_class, ctx/*, class_symbol_table*/);
+		std::string class_implements = getImplementsListString(_class_define_, symbol_class, ctx);
 
 		std::list<PatternPtr> patterns;
 
@@ -146,7 +146,7 @@ private:
 				AST::ClassDefinitionPtr _class_define_
 				, ASY::ScopePtr symbol_class
 				, tw::maple::backend::cpp::Context& ctx
-				/* , tw::maple::as::symbol::Scope* class_symbol_table */
+				
 				)
 	{
 		std::string class_inherit = "";
@@ -173,7 +173,7 @@ private:
 				AST::ClassDefinitionPtr _class_define_
 				, ASY::ScopePtr symbol_class
 				, tw::maple::backend::cpp::Context& ctx
-				/* , tw::maple::as::symbol::Scope* class_symbol_table */
+				
 				)
 	{
 		std::string answer = "";
@@ -188,7 +188,7 @@ private:
 	std::string getDefaultConstructor(
 			ASY::ScopePtr symbol_class,
 			tw::maple::backend::cpp::Context& ctx
-			/* , tw::maple::as::symbol::Scope* class_symbol_table */
+			
 			)
 	{
 		std::string answer = "#(indent_tab)public: "+symbol_class->name()+"()";
@@ -207,7 +207,7 @@ private:
 										var->getInitializeNode(),
 										symbol_class/*TODO: should use function's parent*/,
 										ctx
-										/*, class_symbol_table*/).result + ")";
+										).result + ")";
 				}
 			}
 		}

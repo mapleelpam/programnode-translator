@@ -41,7 +41,7 @@ struct MemberExpression : public Interpreter
 	virtual ReturnValue expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context& ctx
-			/* , tw::maple::as::symbol::Scope* class_symbol_table */
+			
 			)
 	{
 		namespace ASY = ::tw::maple::as::symbol;
@@ -53,11 +53,11 @@ struct MemberExpression : public Interpreter
 
 		if( expr_mem->base()->is( AST::Node::NodeType::T_EMPTY) )
 		{
-			return dispatchExpound( expr_mem->selector(), symbol_table, ctx/*, class_symbol_table*/);
+			return dispatchExpound( expr_mem->selector(), symbol_table, ctx);
 		}
 		else if( expr_mem->base()->is( AST::Node::NodeType::T_SUPER_EXPRESSION) )
 		{
-			ReturnValue super = dispatchExpound( expr_mem->base(), symbol_table, ctx/*, class_symbol_table*/);
+			ReturnValue super = dispatchExpound( expr_mem->base(), symbol_table, ctx);
 			ASY::Scope* inherit_type = (ASY::Scope*)( super.token_symbol2 );
 
 			tw::maple::backend::cpp::Context ctx2 = ctx;
@@ -102,7 +102,7 @@ struct MemberExpression : public Interpreter
 			{
 				//TODO: report error, and do not pass it
 				std::cerr <<__FILE__<<" "<<__LINE__<<std::endl;
-				result += _DS2("/* path3 */")+dispatchExpound( expr_mem->selector(), symbol_table, ctx/*, class_symbol_table*/ ).result;
+				result += _DS2("/* path3 */")+dispatchExpound( expr_mem->selector(), symbol_table, ctx ).result;
 			}
 		}
 		return result;

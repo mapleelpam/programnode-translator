@@ -37,7 +37,7 @@ struct PackageDefinition : public Interpreter
 	virtual ReturnValue expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context& ctx
-			/* , tw::maple::as::symbol::Scope* class_symbol_table */
+			
 			)
 	{
 		std::cerr << " in PackageDefinition scope!!" << std::endl;
@@ -61,7 +61,7 @@ struct PackageDefinition : public Interpreter
 			for (std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr =
 					node->node_childs.begin(); nItr != node->node_childs.end(); nItr++)
 			{
-				result += dispatchExpound(*nItr, ((pkg_scope)?pkg_scope:symbol_table),  ctx/*, class_symbol_table*/);
+				result += dispatchExpound(*nItr, ((pkg_scope)?pkg_scope:symbol_table),  ctx);
 			}
 			ctx.tree_depth --;	ctx.tableof_imported.leaveScope();
 

@@ -39,13 +39,13 @@ struct GetExpression : public Interpreter
 			::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context& ctx
-			/* , tw::maple::as::symbol::Scope* class_symbol_table */
+			
 			)
 	{
 		std::cerr << " default expound " << std::endl;
 		AST::GetExpressionPtr get = STATIC_CAST( AST::GetExpression, node);
 
-		ReturnValue child_string = dispatchExpound(get->child(), symbol_table, ctx/*, class_symbol_table*/);
+		ReturnValue child_string = dispatchExpound(get->child(), symbol_table, ctx);
 
 		if( get->mode == "lexical" )
 		{

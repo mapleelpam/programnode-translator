@@ -39,14 +39,14 @@ struct DoStatement : public Interpreter, public TemplatePrinter
 	virtual ReturnValue expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context& ctx
-			/* , tw::maple::as::symbol::Scope* class_symbol_table */
+			
 			)
 	{
 		AST::DoStatementPtr DO = std::tr1::static_pointer_cast<AST::DoStatement>(node);
 		std::list<PatternPtr> patterns;
 
-		patterns.push_back( PatternPtr( new Pattern("condition", dispatchExpound(DO->DoCondition(), symbol_table, ctx/*, class_symbol_table*/).result ) ));
-		patterns.push_back( PatternPtr( new Pattern("body", dispatchExpound(DO->DoBody(), symbol_table, ctx/*, class_symbol_table*/).result ) ));
+		patterns.push_back( PatternPtr( new Pattern("condition", dispatchExpound(DO->DoCondition(), symbol_table, ctx).result ) ));
+		patterns.push_back( PatternPtr( new Pattern("body", dispatchExpound(DO->DoBody(), symbol_table, ctx).result ) ));
 		patterns.push_back( PatternPtr( new Pattern("endl", ctx.endl() ) ));
 		patterns.push_back( PatternPtr( new Pattern("indent_tab", ctx.indent()) ));
 

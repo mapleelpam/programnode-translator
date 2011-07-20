@@ -38,7 +38,7 @@ struct ImportStatement : public Interpreter
 	virtual ReturnValue expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symboltable
 			, tw::maple::backend::cpp::Context& ctx
-			/* , tw::maple::as::symbol::Scope* class_symbol_table */
+			
 			)
 	{
 		tw::maple::as::ast::ImportStatementPtr ast_import = DYNA_CAST( tw::maple::as::ast::ImportStatement, node );

@@ -38,20 +38,20 @@ struct IncrementOperator : public Interpreter
 	virtual ReturnValue expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context& ctx
-			/* , tw::maple::as::symbol::Scope* class_symbol_table */
+			
 			)
 	{
 		AST::IncrementOperatorPtr bin = STATIC_CAST( AST::IncrementOperator, node);
 
 		if(bin->m_type == tw::maple::generated::IncrementType::TYPE_POSTFIX )
 		{
-			return dispatchExpound(bin->child(), symbol_table, ctx/*, class_symbol_table*/).result
+			return dispatchExpound(bin->child(), symbol_table, ctx).result
 				 + resolve_operator( bin->op_type );
 		}
 		else
 		{
 			return resolve_operator( bin->op_type )
-				+ dispatchExpound(bin->child(), symbol_table, ctx/*, class_symbol_table*/).result;
+				+ dispatchExpound(bin->child(), symbol_table, ctx).result;
 
 		}
 

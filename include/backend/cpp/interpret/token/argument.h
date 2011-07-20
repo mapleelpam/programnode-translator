@@ -39,17 +39,17 @@ struct Argument : public Interpreter
 			::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context& ctx
-			/* , tw::maple::as::symbol::Scope* class_symbol_table */
+			
 			)
 	{
 		ReturnValue result = "";
 		std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr = node->node_childs.begin();
 		if( nItr != node->node_childs.end() ) {
-			result += dispatchExpound(*nItr, symbol_table, ctx/*, class_symbol_table*/);
+			result += dispatchExpound(*nItr, symbol_table, ctx);
 
 			for( nItr++ ; nItr != node->node_childs.end() ; nItr ++ )
 			{
-				result +=  std::string(" ") + dispatchExpound(*nItr, symbol_table, ctx/*, class_symbol_table*/).result;
+				result +=  std::string(" ") + dispatchExpound(*nItr, symbol_table, ctx).result;
 			}
 		}
 		return result;
