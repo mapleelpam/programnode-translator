@@ -78,10 +78,10 @@ struct MemberExpression : public Interpreter
 
 			if( base.token_symbol != NULL )
 			{
-				std::cerr <<__FILE__<<" "<<base.token_symbol->getFQN() << std::endl;
+				std::cerr <<__FILE__<<" @@ base "<<base.token_symbol->getFQN() <<" '"<<base.expression_type<<"'"<< std::endl;
 				tw::maple::backend::cpp::Context ctx2 = ctx;
-				ctx2.left_is_instance = base.is_instance;
-				std::cerr <<__FILE__<<" is instance "<< base.is_instance << std::endl;
+				ctx2.left_is_pointer = (base.expression_type == ReturnValue::HEAP );
+				std::cerr <<__FILE__<<" is instance "<< base.expression_type << std::endl;
 				ctx2.expression_symbol = base.token_symbol.get();
 				if(  expr_mem->selector()->is( AST::Node::NodeType::T_CALL )
 					&& STATIC_CAST( AST::Call, expr_mem->selector())->isObjectConsturct() )
@@ -92,11 +92,9 @@ struct MemberExpression : public Interpreter
 
 				ASY::ScopePtr base_type	 = DYNA_CAST( ASY::Scope, base.token_symbol);
 				ReturnValue selector_value = dispatchExpound( expr_mem->selector(), symbol_table, ctx2/*, base_type.get()*/);
+				std::cerr <<__FILE__<<" selector is instance "<< selector_value.expression_type << " '"<<selector_value.result<<"'"<<std::endl;
 				result = selector_value;
 				result.result = base.result+_DS2("/* path2 */")+selector_value.result;
-//				result = _DS2("/* path2 */")+selector_value.result;
-//				result.token_symbol = selector_value.token_symbol;
-//				result.token_symbol2 = selector_value.token_symbol2;
 			}
 			else
 			{

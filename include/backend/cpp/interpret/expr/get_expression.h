@@ -49,14 +49,14 @@ struct GetExpression : public Interpreter
 
 		if( get->mode == "lexical" )
 		{
-			std::cerr << __FILE__<<" get lexcical "<<child_string.result<<" "<<child_string.is_instance<<std::endl;
+			std::cerr << __FILE__<<" get lexcical "<<child_string.result<<" "<<child_string.expression_type<<std::endl;
 			return child_string;
 		}
 		else if( get->mode == "dot" )
 		{
 			if( ctx.expression_symbol != NULL )
 			{
-				if(ctx.expression_symbol->is( ASY::Symbol::T_VARIABLE) || ctx.left_is_instance )
+				if(ctx.expression_symbol->is( ASY::Symbol::T_VARIABLE) || ctx.left_is_pointer )
 				{  // TODO: guess this child_string is ??? primitive? or non-deletable
 					child_string.result = "->"+_DS2("/*is variable*/")+child_string.result;
 					return child_string;

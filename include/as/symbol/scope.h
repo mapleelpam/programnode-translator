@@ -444,8 +444,6 @@ public:
 			bool parent_is_anonymouse_scope = false;
 			std::string parent_name = m_parent->getFQN( parent_is_anonymouse_scope );
 			if( parent_is_anonymouse_scope )
-				return parent_name;
-			else if( parent_is_anonymouse_scope )
 				return parent_name+m_instance_name;
 			else
 				return parent_name+"::"+m_instance_name;

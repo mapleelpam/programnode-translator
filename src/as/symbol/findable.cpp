@@ -164,20 +164,20 @@ std::vector<SymbolPtr> Findable::findLHS_Candidates( Scope* stable, const std::s
 ScopePtr Findable::findCallee( Scope* stable, const std::string& class_name )
 {
 	ScopePtr found;
-	std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
+	//std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
 	for( std::vector<SymbolPtr>::iterator I = stable->m_childs.begin(), B = stable->m_childs.end()
 			; I != B ; I ++ )
 	{
-		std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
+		//std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
 		std::cerr << "@@@@ in find ct '" << stable->getFQN() <<"' '"<< (*I)->name() <<"'"<< std::endl;
 		if( (*I)->name() == class_name && (*I)->is(Symbol::T_SCOPE) )
 		{
-			std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
+			//std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
 			ScopePtr func_symbol = DYNA_CAST( Scope, *I );
-			std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
+			//std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
 			if( func_symbol->getScopeType() == Scope::T_FUNCTION )
 			{
-				std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
+				//std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
 				return func_symbol;
 			}
 		}

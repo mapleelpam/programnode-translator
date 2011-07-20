@@ -160,7 +160,7 @@ struct Context
     	, lfs_is_setter( false )
     	, expression_symbol( NULL )
     	, statement_class_symbol( tw::maple::as::symbol::ScopePtr() )
-    	, left_is_instance( false )
+    	, left_is_pointer( false )
     {
 
     }
@@ -170,7 +170,7 @@ struct Context
 
 	InterpretType   inter_type;
 	bool			lfs_is_setter;
-	bool			left_is_instance;
+	bool			left_is_pointer;
 
 
 	tw::maple::as::symbol::Symbol*	expression_symbol;

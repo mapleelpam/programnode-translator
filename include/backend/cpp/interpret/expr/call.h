@@ -41,21 +41,23 @@ struct Call : public Interpreter
 			, tw::maple::backend::cpp::Context& ctx
 			)
 	{
-
 		namespace ASY = tw::maple::as::symbol;
-
 
 		ReturnValue result;
 		AST::CallPtr call = STATIC_CAST( AST::Call, node);
 
+		std::cerr << " in call expound - "<<get_full_functionname( call->callee )<<std::endl;
+
 		if (call->isObjectConsturct()) {
+			std::cerr << "is new in call expound - "<<get_full_functionname( call->callee )<<std::endl;
+
 			result +=  " new ";
 			std::string type_name = get_full_functionname( call->callee );
 			ASY::SymbolPtr p_type = call->getCalleeType();
 			if( p_type != NULL && p_type->getFQN_and_mappedName() != "" )
 			{
 				result.token_symbol = p_type;
-				result.is_instance = true; // TODO:
+				result.expression_type = ReturnValue::HEAP;
 				result += p_type->getFQN_and_mappedName();
 			}
 			else
@@ -71,9 +73,14 @@ struct Call : public Interpreter
 				if( ctx.expression_symbol != NULL )
 				{
 
+					std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
+
 					ASY::Scope* left_scope = NULL;
 					if( ctx.expression_symbol->is(ASY::Symbol::T_VARIABLE ))
+//					if( ctx.left_is_instance )
 					{
+						std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
+
 						ASY::Variable* var_symbol = (ASY::Variable*) ctx.expression_symbol;
 						left_scope = (ASY::Scope*)(var_symbol -> getTypeSymbol().get());
 					}
@@ -83,18 +90,24 @@ struct Call : public Interpreter
 					}
 
 					std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
-					if(ctx.expression_symbol->is( ASY::Symbol::T_VARIABLE) || ctx.left_is_instance )
+					if(ctx.expression_symbol->is( ASY::Symbol::T_VARIABLE)
+							|| ctx.left_is_pointer )
 					{  // TODO: guess this child_string is ??? primitive? or non-deletable
 						result += ("->"+right);
 					}
 					else if(ctx.expression_symbol->is( ASY::Symbol::T_SCOPE) )
 					{ // should be a type
-						result += ( "::"+right);
+						if(ctx.left_is_pointer) // TBR 0720
+							result += _DS2("/* call left is pointer type */")+( "->"+right);
+						else
+							result += _DS2("/* call left is scope */")+( "::"+right);
 					}
 
 					ASY::SymbolPtr callee_symbol = ASY::Findable::findCallee(left_scope,right);
 					ASY::FunctionPtr callee_func_symbol = DYNA_CAST(ASY::Function, callee_symbol);
 					result.token_symbol = callee_func_symbol->ReturnType();
+					result.expression_type =
+					 callee_func_symbol->ReturnType()->preferStack() ? ReturnValue::STACK : ReturnValue::HEAP;
 				}
 				else
 				{

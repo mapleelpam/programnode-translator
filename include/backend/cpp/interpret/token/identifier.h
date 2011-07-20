@@ -143,7 +143,8 @@ struct Identifier : public Interpreter
 //								ctx-> token_class_type = function_ptr->ReturnType();
 								ReturnValue result =  "get_" +  li->value + "()";
 								result.token_symbol = function_ptr->ReturnType();
-								result.is_instance = true;
+								result.expression_type =
+									function_ptr->ReturnType()->preferStack() ? ReturnValue::STACK : ReturnValue::HEAP;
 								return result;
 							}
 							ASY::VariablePtr variable_ptr = DYNA_CAST( ASY::Variable, instance );
@@ -151,7 +152,7 @@ struct Identifier : public Interpreter
 							{
 								ReturnValue result = li->value+_DS2("/* found variable */");
 								result.token_symbol = variable_ptr;
-								result.is_instance = true;
+								result.expression_type = true;
 								return result;
 							}
 						}
