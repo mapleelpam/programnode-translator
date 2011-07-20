@@ -37,7 +37,7 @@ struct SuperExpression : public Interpreter
 	virtual ReturnValue expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context& ctx
-			, tw::maple::as::symbol::Scope* class_symbol_table
+			
 			)
 	{
 		tw::maple::as::symbol::Scope* type = findInheritParent( symbol_table );
@@ -53,14 +53,10 @@ private:
 		 std::cerr <<" 0 " << answer->getFQN();
 		 while( answer != NULL && ! (answer->is(tw::maple::as::symbol::Scope::T_CLASS) ) )
 		 {
-			 std::cerr <<" 1 " << answer->getFQN();
 			 answer = answer->getParent();
-			 std::cerr <<" 2 " << answer->getFQN();
 		 }
 		 if( answer != NULL )
 		 {
-			 std::cerr <<" 3 " << answer->getFQN();
-			 std::cerr <<" 4 " << answer->getInherit()->getFQN();
 			 return answer->getInherit();
 		 }
 		 return NULL;

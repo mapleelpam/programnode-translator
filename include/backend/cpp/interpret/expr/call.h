@@ -39,7 +39,6 @@ struct Call : public Interpreter
 	virtual ReturnValue expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context& ctx
-			, tw::maple::as::symbol::Scope* class_symbol_table
 			)
 	{
 
@@ -84,23 +83,18 @@ struct Call : public Interpreter
 					}
 
 					std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
-					if(ctx.expression_symbol->is( ASY::Symbol::T_VARIABLE) )
+					if(ctx.expression_symbol->is( ASY::Symbol::T_VARIABLE) || ctx.left_is_instance )
 					{  // TODO: guess this child_string is ??? primitive? or non-deletable
-						std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
 						result += ("->"+right);
 					}
 					else if(ctx.expression_symbol->is( ASY::Symbol::T_SCOPE) )
 					{ // should be a type
-						std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
 						result += ( "::"+right);
 					}
 
 					ASY::SymbolPtr callee_symbol = ASY::Findable::findCallee(left_scope,right);
-					std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
 					ASY::FunctionPtr callee_func_symbol = DYNA_CAST(ASY::Function, callee_symbol);
-					std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
 					result.token_symbol = callee_func_symbol->ReturnType();
-					std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
 				}
 				else
 				{
@@ -116,7 +110,7 @@ struct Call : public Interpreter
 		if (call->getArgs())
 		{
 			tw::maple::backend::cpp::Context ctx2 = ctx;
-			result += dispatchExpound( call->getArgs(), symbol_table, ctx2, class_symbol_table);
+			result += dispatchExpound( call->getArgs(), symbol_table, ctx2);
 		}
 		result += " )";
 

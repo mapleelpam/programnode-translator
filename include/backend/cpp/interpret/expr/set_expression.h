@@ -39,7 +39,7 @@ struct SetExpression : public Interpreter
 			::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context& ctx
-			, tw::maple::as::symbol::Scope* class_symbol_table
+			
 			)
 	{
 		std::string result;
@@ -47,11 +47,11 @@ struct SetExpression : public Interpreter
 
 		ctx.inter_type = Context::LHS;
 		bool lft_is_setter = ctx.lfs_is_setter = false;
-		std::string str_rhs = dispatchExpound(set->LHS(), symbol_table, ctx, class_symbol_table);
+		std::string str_rhs = dispatchExpound(set->LHS(), symbol_table, ctx);
 		lft_is_setter = ctx.lfs_is_setter;
 
 		ctx.inter_type = Context::RHS;
-		std::string str_lhs = dispatchExpound(set->RHS(), symbol_table, ctx, NULL/*TODO: SHOULD NOT BE*/ );
+		std::string str_lhs = dispatchExpound(set->RHS(), symbol_table, ctx/*TODO: SHOULD NOT BE*/ );
 
 		ctx.inter_type = Context::RHS;
 

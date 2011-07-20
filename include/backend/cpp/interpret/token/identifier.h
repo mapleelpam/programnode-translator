@@ -44,7 +44,7 @@ struct Identifier : public Interpreter
 	virtual ReturnValue expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context& ctx
-			, tw::maple::as::symbol::Scope* class_symbol_table
+			
 			)
 	{
 		namespace ASY = tw::maple::as::symbol;
@@ -191,7 +191,6 @@ struct Identifier : public Interpreter
 						candidates = ASY::Findable::findLHS_Candidates(symbol_table,li->value);
 					}
 
-					std::cerr << __FILE__ <<":"<<__LINE__<<node->toString()<<std::endl;
 
 					if( candidates.size() > 0 )
 					{
@@ -202,10 +201,8 @@ struct Identifier : public Interpreter
 							ASY::FunctionPtr function_ptr = DYNA_CAST( ASY::Function, instance );
 							if( function_ptr && function_ptr->isSetter() )
 							{
-//								ctx-> token_class_type = function_ptr->ReturnType();
 								ctx.lfs_is_setter = true;
 								ReturnValue result =  "set_" +  li->value;
-//								result.token_symbol = function_ptr->ReturnType();
 								return result;
 							}
 							ASY::VariablePtr variable_ptr = DYNA_CAST( ASY::Variable, instance );
@@ -229,85 +226,6 @@ struct Identifier : public Interpreter
 
 				}
 			}
-
-#if 0
-
-			bool should_use_fqn = false;
-			std::cerr << __FILE__<<":"<<__LINE__<<" li->value " << li->value <<std::endl;
-			std::vector<ASY::SymbolPtr> candidates = symbol_table->findSymbol_down2( li->value );
-			std::cerr << __FILE__<<":"<<__LINE__<<" li->value " << li->value << " size "<<candidates.size()<<std::endl;
-			if( candidates.size() == 0  )
-			{
-				ASY::SymbolPtr s = ctx.tableof_imported.find_symbol( li->value );
-				if( s ){
-					candidates.push_back( s );
-					should_use_fqn = true;
-				}
-			}
-			if( candidates.size() == 0 && class_symbol_table != NULL )
-			{
-				std::cerr << " li->value " << li->value<<std::endl;
-				candidates = class_symbol_table->findSymbol_down2( li->value );
-			}
-
-			DEBUG
-			if( candidates.size() > 0 )
-			{
-				if( ctx.inter_type==Context::RHS )
-				{
-					DEBUG
-					for( int idx = 0, E = candidates.size() ; idx < E ; idx ++ )
-					{
-						DEBUG
-						std::cerr << " name "<< candidates[idx]->name() <<":"<<candidates[idx]->toString()<< std::endl;
-						ASY::SymbolPtr instance_symbol = candidates[idx];
-						ASY::FunctionPtr function_ptr = DYNA_CAST( ASY::Function, instance_symbol );
-						if( function_ptr && function_ptr->isGetter() )
-						{
-							ReturnValue result = "get_" +  li->value + "()";
-							result.token_symbol = function_ptr->ReturnType();
-							return result;
-						}
-						if( ASY::VariablePtr var_ptr = DYNA_CAST( ASY::Variable, instance_symbol ) )
-						{
-							ReturnValue result = li->value;
-							result.token_symbol = var_ptr->getTypeSymbol();
-							return result;
-						}
-					}
-					if( should_use_fqn )
-					{
-						for( int idx = 0, E = candidates.size() ; idx < E ; idx ++ )
-						{
-							ASY::SymbolPtr instance_symbol = candidates[idx];
-							ReturnValue result = instance_symbol->getFQN();
-							result.token_symbol = instance_symbol;
-							return result;
-						}
-					}
-				}
-				else if( ctx.inter_type==Context::LHS )
-				{
-					for( int idx = 0, E = candidates.size() ; idx < E ; idx ++ )
-					{
-						ASY::SymbolPtr instance_symbol = candidates[idx];
-						ASY::FunctionPtr function_ptr = DYNA_CAST( ASY::Function, instance_symbol );
-						if( function_ptr != NULL && function_ptr->isSetter() )
-						{
-							ctx.lfs_is_setter = true;
-							return "set_" +  li->value;
-						}
-					}
-				}
-
-				return li->value;
-			}
-			else
-			{
-//				return li->value+_DS("/*173*/")+symbol_table->getFQN();
-				return li->value+_DS2("/* not found any symbol */");
-			}
-#endif
 		}
 	}
 

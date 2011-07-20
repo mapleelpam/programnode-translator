@@ -43,7 +43,7 @@ ReturnValue dispatchExpound(
 		::tw::maple::as::ast::NodePtr node
 		 , tw::maple::as::symbol::ScopePtr symbol_table
 		 , ::tw::maple::backend::cpp::Context& ctx
-		 , tw::maple::as::symbol::Scope* class_symbol_table
+//		 
 		 );
 
 struct Interpreter
@@ -53,7 +53,7 @@ struct Interpreter
 			::tw::maple::as::ast::NodePtr node
 			 , tw::maple::as::symbol::ScopePtr symbol_table /* stmt symbol table */
 			 , tw::maple::backend::cpp::Context& ctx
-			 , tw::maple::as::symbol::Scope* class_symbol_table /* class symbol table */
+//			  /* class symbol table */
 			 )
 	{
 		std::cerr << " default expound " << std::endl;
@@ -62,7 +62,7 @@ struct Interpreter
 
 		for (std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr =
 				node->node_childs.begin(); nItr != node->node_childs.end(); nItr++) {
-			result += dispatchExpound(*nItr, symbol_table, ctx, class_symbol_table);
+			result += dispatchExpound(*nItr, symbol_table, ctx);
 		}
 
 		ctx.tree_depth --;

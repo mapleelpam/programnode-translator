@@ -38,13 +38,13 @@ struct As : public Interpreter, public TemplatePrinter
 	virtual ReturnValue expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context& ctx
-			, tw::maple::as::symbol::Scope* class_symbol_table
+
 			)
 	{
 		AST::AsPtr bin = STATIC_CAST( AST::As, node);
 
-		std::string instance_name = dispatchExpound(bin->LHS(), symbol_table, ctx, class_symbol_table);
-		std::string type_name = dispatchExpound(bin->RHS(), symbol_table, ctx, class_symbol_table);
+		std::string instance_name = dispatchExpound(bin->LHS(), symbol_table, ctx);
+		std::string type_name = dispatchExpound(bin->RHS(), symbol_table, ctx);
 
 		{ // just class...!!
 			if( ASY::ScopePtr classtype_ptr = ASY::Findable::findClassType(symbol_table.get(),type_name))
