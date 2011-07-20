@@ -59,7 +59,7 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 		std::cerr <<" in variable type = "<<symbol_type->getFQN()<<std::endl;
 		if( symbol_type->preferStack())
 		{
-			str_var_type = symbol_type->instanceName();
+			str_var_type = symbol_type->getFQN_and_instanceName();
 		}
 		else
 			str_var_type = symbol_type->getFQN_and_mappedName() + _pointer_pattern /* '*'or 'Ptr' */;

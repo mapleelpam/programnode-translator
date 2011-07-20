@@ -98,7 +98,7 @@ struct Symbol
 	}
 	virtual bool preferStack() const {	return false;	} // prefer heap
 	virtual std::string instanceName() const {	return mappedName();	}
-	virtual const std::string getFQN_and_m_instanceName() const
+	virtual const std::string getFQN_and_instanceName() const
 	{
 		return instanceName();
 	}

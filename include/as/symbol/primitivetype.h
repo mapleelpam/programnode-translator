@@ -59,7 +59,7 @@ struct PrimitiveType : public Symbol
 	}
 	bool preferStack() const {	return true;	} // don't use heap, operator new
 	std::string instanceName()	const {	return mappedName();	}
-	virtual const std::string getFQN_and_m_instanceName() const
+	virtual const std::string getFQN_and_instanceName() const
 	{
 		return instanceName();
 	}

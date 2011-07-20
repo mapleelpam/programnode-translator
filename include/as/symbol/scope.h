@@ -437,7 +437,7 @@ public:
 	virtual bool preferStack()	const {	return m_instance_name != "";	}
 	void setInstanceName( std::string s )	{ m_instance_name = s;	}
 	std::string instanceName()	const {	return m_instance_name;	}
-	virtual const std::string getFQN_and_m_instanceName() const
+	virtual const std::string getFQN_and_instanceName() const
 	{
 		if( m_parent )
 		{
@@ -446,9 +446,9 @@ public:
 			if( parent_is_anonymouse_scope )
 				return parent_name;
 			else if( parent_is_anonymouse_scope )
-				return parent_name+instanceName();
+				return parent_name+m_instance_name;
 			else
-				return parent_name+"::"+instanceName();
+				return parent_name+"::"+m_instance_name;
 		}
 		else if( m_scope_type == T_PROGRAM_ROOT)
 			return "";
