@@ -55,6 +55,7 @@
 #include <as/ast/func/function_signature.h>
 #include <as/ast/func/function_parameters.h>
 #include <as/ast/func/function_parameter_item.h>
+#include <as/ast/func/function_parameter_rest.h>
 #include <as/ast/func/function_common.h>
 #include <as/ast/func/function_attribute.h>
 #include <as/ast/expr/binary_operator.h>
@@ -192,12 +193,11 @@ public:
 		PUSH_STACK( FunctionParameters );
 	}
 
-	void startFunctionSignatureParameterMember( const std::string& name, const std::vector<std::string>& type, bool has_init, const std::string& init ) {
-		PUSH_STACK_WITH_INIT( FunctionParameterItem, name, type, has_init, init );
+	void functionParameter( const std::string& name, const std::vector<std::string>& type, bool has_init, const std::string& init ) {
+		ADD_2_TOP_WITH_INIT( FunctionParameterItem, name, type, has_init, init );
 	}
-
-	void endFunctionSignatureParameterMember() {
-		CHECK_STACK_AND_POP( FunctionParameterItem, AST::Node::NodeType::T_FUNCTION_PARAMETER_ITEM );
+	void functionParameterRest( const std::string& name ) {
+		ADD_2_TOP_WITH_INIT( FunctionParameterRest, name );
 	}
 
 	void endFunctionSignatureParameters() {

@@ -25,8 +25,8 @@ class AstDumperIf {
   virtual void startFunctionCommon() = 0;
   virtual void startFunctionSignature(const std::string& type) = 0;
   virtual void startFunctionSignatureParameters() = 0;
-  virtual void startFunctionSignatureParameterMember(const std::string& name, const std::vector<std::string> & type, const bool has_init, const std::string& init) = 0;
-  virtual void endFunctionSignatureParameterMember() = 0;
+  virtual void functionParameter(const std::string& name, const std::vector<std::string> & type, const bool has_init, const std::string& init) = 0;
+  virtual void functionParameterRest(const std::string& name) = 0;
   virtual void endFunctionSignatureParameters() = 0;
   virtual void endFunctionSignature() = 0;
   virtual void endFunctionCommon() = 0;
@@ -137,10 +137,10 @@ class AstDumperNull : virtual public AstDumperIf {
   void startFunctionSignatureParameters() {
     return;
   }
-  void startFunctionSignatureParameterMember(const std::string& /* name */, const std::vector<std::string> & /* type */, const bool /* has_init */, const std::string& /* init */) {
+  void functionParameter(const std::string& /* name */, const std::vector<std::string> & /* type */, const bool /* has_init */, const std::string& /* init */) {
     return;
   }
-  void endFunctionSignatureParameterMember() {
+  void functionParameterRest(const std::string& /* name */) {
     return;
   }
   void endFunctionSignatureParameters() {
@@ -370,7 +370,7 @@ typedef struct _AstDumper_startProgram_args__isset {
 class AstDumper_startProgram_args {
  public:
 
-  AstDumper_startProgram_args() : version("0.0.1"), counter(14LL) {
+  AstDumper_startProgram_args() : version("0.0.1"), counter(15LL) {
   }
 
   virtual ~AstDumper_startProgram_args() throw() {}
@@ -858,30 +858,30 @@ class AstDumper_startFunctionSignatureParameters_pargs {
 
 };
 
-typedef struct _AstDumper_startFunctionSignatureParameterMember_args__isset {
-  _AstDumper_startFunctionSignatureParameterMember_args__isset() : name(false), type(false), has_init(false), init(false) {}
+typedef struct _AstDumper_functionParameter_args__isset {
+  _AstDumper_functionParameter_args__isset() : name(false), type(false), has_init(false), init(false) {}
   bool name;
   bool type;
   bool has_init;
   bool init;
-} _AstDumper_startFunctionSignatureParameterMember_args__isset;
+} _AstDumper_functionParameter_args__isset;
 
-class AstDumper_startFunctionSignatureParameterMember_args {
+class AstDumper_functionParameter_args {
  public:
 
-  AstDumper_startFunctionSignatureParameterMember_args() : name(""), has_init(0), init("") {
+  AstDumper_functionParameter_args() : name(""), has_init(0), init("") {
   }
 
-  virtual ~AstDumper_startFunctionSignatureParameterMember_args() throw() {}
+  virtual ~AstDumper_functionParameter_args() throw() {}
 
   std::string name;
   std::vector<std::string>  type;
   bool has_init;
   std::string init;
 
-  _AstDumper_startFunctionSignatureParameterMember_args__isset __isset;
+  _AstDumper_functionParameter_args__isset __isset;
 
-  bool operator == (const AstDumper_startFunctionSignatureParameterMember_args & rhs) const
+  bool operator == (const AstDumper_functionParameter_args & rhs) const
   {
     if (!(name == rhs.name))
       return false;
@@ -893,11 +893,11 @@ class AstDumper_startFunctionSignatureParameterMember_args {
       return false;
     return true;
   }
-  bool operator != (const AstDumper_startFunctionSignatureParameterMember_args &rhs) const {
+  bool operator != (const AstDumper_functionParameter_args &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const AstDumper_startFunctionSignatureParameterMember_args & ) const;
+  bool operator < (const AstDumper_functionParameter_args & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -905,11 +905,11 @@ class AstDumper_startFunctionSignatureParameterMember_args {
 };
 
 
-class AstDumper_startFunctionSignatureParameterMember_pargs {
+class AstDumper_functionParameter_pargs {
  public:
 
 
-  virtual ~AstDumper_startFunctionSignatureParameterMember_pargs() throw() {}
+  virtual ~AstDumper_functionParameter_pargs() throw() {}
 
   const std::string* name;
   const std::vector<std::string> * type;
@@ -920,25 +920,34 @@ class AstDumper_startFunctionSignatureParameterMember_pargs {
 
 };
 
+typedef struct _AstDumper_functionParameterRest_args__isset {
+  _AstDumper_functionParameterRest_args__isset() : name(false) {}
+  bool name;
+} _AstDumper_functionParameterRest_args__isset;
 
-class AstDumper_endFunctionSignatureParameterMember_args {
+class AstDumper_functionParameterRest_args {
  public:
 
-  AstDumper_endFunctionSignatureParameterMember_args() {
+  AstDumper_functionParameterRest_args() : name("") {
   }
 
-  virtual ~AstDumper_endFunctionSignatureParameterMember_args() throw() {}
+  virtual ~AstDumper_functionParameterRest_args() throw() {}
 
+  std::string name;
 
-  bool operator == (const AstDumper_endFunctionSignatureParameterMember_args & /* rhs */) const
+  _AstDumper_functionParameterRest_args__isset __isset;
+
+  bool operator == (const AstDumper_functionParameterRest_args & rhs) const
   {
+    if (!(name == rhs.name))
+      return false;
     return true;
   }
-  bool operator != (const AstDumper_endFunctionSignatureParameterMember_args &rhs) const {
+  bool operator != (const AstDumper_functionParameterRest_args &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const AstDumper_endFunctionSignatureParameterMember_args & ) const;
+  bool operator < (const AstDumper_functionParameterRest_args & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -946,12 +955,13 @@ class AstDumper_endFunctionSignatureParameterMember_args {
 };
 
 
-class AstDumper_endFunctionSignatureParameterMember_pargs {
+class AstDumper_functionParameterRest_pargs {
  public:
 
 
-  virtual ~AstDumper_endFunctionSignatureParameterMember_pargs() throw() {}
+  virtual ~AstDumper_functionParameterRest_pargs() throw() {}
 
+  const std::string* name;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -3808,10 +3818,10 @@ class AstDumperClient : virtual public AstDumperIf {
   void send_startFunctionSignature(const std::string& type);
   void startFunctionSignatureParameters();
   void send_startFunctionSignatureParameters();
-  void startFunctionSignatureParameterMember(const std::string& name, const std::vector<std::string> & type, const bool has_init, const std::string& init);
-  void send_startFunctionSignatureParameterMember(const std::string& name, const std::vector<std::string> & type, const bool has_init, const std::string& init);
-  void endFunctionSignatureParameterMember();
-  void send_endFunctionSignatureParameterMember();
+  void functionParameter(const std::string& name, const std::vector<std::string> & type, const bool has_init, const std::string& init);
+  void send_functionParameter(const std::string& name, const std::vector<std::string> & type, const bool has_init, const std::string& init);
+  void functionParameterRest(const std::string& name);
+  void send_functionParameterRest(const std::string& name);
   void endFunctionSignatureParameters();
   void send_endFunctionSignatureParameters();
   void endFunctionSignature();
@@ -3980,8 +3990,8 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
   void process_startFunctionCommon(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_startFunctionSignature(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_startFunctionSignatureParameters(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
-  void process_startFunctionSignatureParameterMember(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
-  void process_endFunctionSignatureParameterMember(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_functionParameter(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_functionParameterRest(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_endFunctionSignatureParameters(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_endFunctionSignature(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_endFunctionCommon(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -4068,8 +4078,8 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
     processMap_["startFunctionCommon"] = &AstDumperProcessor::process_startFunctionCommon;
     processMap_["startFunctionSignature"] = &AstDumperProcessor::process_startFunctionSignature;
     processMap_["startFunctionSignatureParameters"] = &AstDumperProcessor::process_startFunctionSignatureParameters;
-    processMap_["startFunctionSignatureParameterMember"] = &AstDumperProcessor::process_startFunctionSignatureParameterMember;
-    processMap_["endFunctionSignatureParameterMember"] = &AstDumperProcessor::process_endFunctionSignatureParameterMember;
+    processMap_["functionParameter"] = &AstDumperProcessor::process_functionParameter;
+    processMap_["functionParameterRest"] = &AstDumperProcessor::process_functionParameterRest;
     processMap_["endFunctionSignatureParameters"] = &AstDumperProcessor::process_endFunctionSignatureParameters;
     processMap_["endFunctionSignature"] = &AstDumperProcessor::process_endFunctionSignature;
     processMap_["endFunctionCommon"] = &AstDumperProcessor::process_endFunctionCommon;
@@ -4237,17 +4247,17 @@ class AstDumperMultiface : virtual public AstDumperIf {
     }
   }
 
-  void startFunctionSignatureParameterMember(const std::string& name, const std::vector<std::string> & type, const bool has_init, const std::string& init) {
+  void functionParameter(const std::string& name, const std::vector<std::string> & type, const bool has_init, const std::string& init) {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
-      ifaces_[i]->startFunctionSignatureParameterMember(name, type, has_init, init);
+      ifaces_[i]->functionParameter(name, type, has_init, init);
     }
   }
 
-  void endFunctionSignatureParameterMember() {
+  void functionParameterRest(const std::string& name) {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
-      ifaces_[i]->endFunctionSignatureParameterMember();
+      ifaces_[i]->functionParameterRest(name);
     }
   }
 

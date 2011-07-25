@@ -77,14 +77,14 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("startFunctionSignatureParameters\n");
   }
 
-  void startFunctionSignatureParameterMember(const std::string& name, const std::vector<std::string> & type, const bool has_init, const std::string& init) {
+  void functionParameter(const std::string& name, const std::vector<std::string> & type, const bool has_init, const std::string& init) {
     // Your implementation goes here
-    printf("startFunctionSignatureParameterMember\n");
+    printf("functionParameter\n");
   }
 
-  void endFunctionSignatureParameterMember() {
+  void functionParameterRest(const std::string& name) {
     // Your implementation goes here
-    printf("endFunctionSignatureParameterMember\n");
+    printf("functionParameterRest\n");
   }
 
   void endFunctionSignatureParameters() {

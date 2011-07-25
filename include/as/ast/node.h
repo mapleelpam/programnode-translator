@@ -53,6 +53,7 @@ struct Node
             T_FUNCTION_SIGNATURE ,
             T_FUNCTION_PARAMETERS ,
             T_FUNCTION_PARAMETER_ITEM ,
+            T_FUNCTION_PARAMETER_REST ,
             T_FUNCTION_COMMON ,
 
             T_STMT_LIST ,

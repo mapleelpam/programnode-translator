@@ -38,6 +38,7 @@
 #include <backend/cpp/interpret/func/function_name.h>
 #include <backend/cpp/interpret/func/function_parameters.h>
 #include <backend/cpp/interpret/func/function_parameter_item.h>
+#include <backend/cpp/interpret/func/function_parameter_rest.h>
 #include <backend/cpp/interpret/expr/arguments.h>
 #include <backend/cpp/interpret/token/argument.h>
 #include <backend/cpp/interpret/stmt/return_stmt.h>
@@ -81,6 +82,7 @@ void initializeInterpreters()
 		interpreterResolver[AST::Node::NodeType::T_FUNCTION_NAME] = new FunctionName();
 		interpreterResolver[AST::Node::NodeType::T_FUNCTION_PARAMETERS]	= new FunctionParameter();
 		interpreterResolver[AST::Node::NodeType::T_FUNCTION_PARAMETER_ITEM] = new FunctionParameterItem();
+		interpreterResolver[AST::Node::NodeType::T_FUNCTION_PARAMETER_REST] = new FunctionParameterRest();
 		interpreterResolver[AST::Node::NodeType::T_STMT_LIST] = new StatementList();
 		interpreterResolver[AST::Node::NodeType::T_EXPR_LIST] = new ExpressionList();
 		interpreterResolver[AST::Node::NodeType::T_ARGUMENTS] = new Arguments();
