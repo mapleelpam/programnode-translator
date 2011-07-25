@@ -25,6 +25,7 @@
 #include <as/symbol/scope.h>
 #include <as/symbol/function.h>
 #include <as/ast/node.h>
+#include <as/ast/func/function_definition.h>
 #include <as/ast/stmt/program.h>
 #include <service/pass/construct_symboltable/context.h>
 
@@ -72,6 +73,13 @@ public:
 		for (std::vector< AST::ProgramPtr>::iterator nodeItr = pnode_list.begin(), E = pnode_list.end()
 			; nodeItr != E; nodeItr++)
 			symbolTableAnalyze( *nodeItr, root);
+
+		for (std::vector< AST::ProgramPtr>::iterator nodeItr = pnode_list.begin(), E = pnode_list.end()
+					; nodeItr != E; nodeItr++)
+		{
+			superInitLinking(
+				*nodeItr, tw::maple::as::ast::FunctionDefinitionPtr() );
+		}
 	}
 
 private:
@@ -89,6 +97,10 @@ private:
 			tw::maple::as::ast::NodePtr node /* input program node */
 			, tw::maple::as::symbol::ScopePtr symboltable
 			, tw::maple::service::pass::cs::Phase2ContextPtr local_context
+			);
+	static void superInitLinking(
+			tw::maple::as::ast::NodePtr node /* input program node */
+			, tw::maple::as::ast::FunctionDefinitionPtr function
 			);
 	static void symbolTableAnalyze(
 			tw::maple::as::ast::NodePtr node /* input program node */

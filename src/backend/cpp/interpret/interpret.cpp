@@ -47,6 +47,7 @@
 #include <backend/cpp/interpret/expr/condition_expression.h>
 #include <backend/cpp/interpret/expr/is.h>
 #include <backend/cpp/interpret/expr/as.h>
+#include <backend/cpp/interpret/expr/super_init.h>
 #include <backend/cpp/interpret/expr/instanceof.h>
 #include <backend/cpp/interpret/expr/member_expression.h>
 #include <backend/cpp/interpret/expr/set_expression.h>
@@ -118,6 +119,7 @@ void initializeInterpreters()
 
 		interpreterResolver[AST::Node::NodeType::T_THIS] = new ThisExpression();
 		interpreterResolver[AST::Node::NodeType::T_SUPER_EXPRESSION] = new SuperExpression();
+		interpreterResolver[AST::Node::NodeType::T_SUPER_INIT] = new SuperInit();
 		interpreterResolver[AST::Node::NodeType::T_CONDITION_EXPRESSION] = new ConditionExpression();
 		interpreterResolver[AST::Node::NodeType::T_EMPTY] = new Empty();
 	}

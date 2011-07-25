@@ -277,6 +277,16 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("superExpression\n");
   }
 
+  void startSuperInit() {
+    // Your implementation goes here
+    printf("startSuperInit\n");
+  }
+
+  void endSuperInit() {
+    // Your implementation goes here
+    printf("endSuperInit\n");
+  }
+
   void identifierExpression(const Identifier& id) {
     // Your implementation goes here
     printf("identifierExpression\n");

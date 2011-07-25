@@ -93,6 +93,7 @@ struct Node
             T_TYPE_EXPRESSION,
 
             T_SUPER_EXPRESSION,
+            T_SUPER_INIT,
 
             T_EXPR_CONDITION,
             T_STMT_IF,

@@ -203,25 +203,27 @@ void SymbolTableConstructor:: linkClassInherit(
 		break;
 		case AST::Node::NodeType::T_CLASS_DEFINE:
 		{
-				ASY::SymbolPtr symbol = (*nItr)->getSymbol();
-				ASY::ScopePtr class_symbol = STATIC_CAST( ASY::Scope, symbol );
-				AST::ClassDefinitionPtr _class_define_ = STATIC_CAST( AST::ClassDefinition, *nItr);
+			ASY::SymbolPtr symbol = (*nItr)->getSymbol();
+			ASY::ScopePtr class_symbol = STATIC_CAST( ASY::Scope, symbol );
+			AST::ClassDefinitionPtr _class_define_ = STATIC_CAST( AST::ClassDefinition, *nItr);
 
-				if( _class_define_->Inherits().size() != 0)
+			if( _class_define_->Inherits().size() != 0)
 				{
-					ASY::SymbolPtr inherit_symbol = local_context->find_symbol( _class_define_->Inherits()[0] );
+				ASY::SymbolPtr inherit_symbol = local_context->find_symbol( _class_define_->Inherits()[0] );
 
-					if( inherit_symbol == NULL )
-						inherit_symbol = symboltable -> findSymbol( _class_define_->Inherits()[0] );
-					if( inherit_symbol == NULL )
-					{
-						std::cerr << _class_define_->Inherits()[0] << " not found ph2"<<std::endl;
-						exit(1);
-					}
-					std::cerr << _class_define_->Inherits()[0] << " bind!~!!! !!!!!!!!!!!!!!!"<<std::endl;
-					ASY::ScopePtr inherit_scope = STATIC_CAST( ASY::Scope, inherit_symbol );
-					class_symbol->setInhrit( inherit_scope.get() );
+				if( inherit_symbol == NULL )
+					inherit_symbol = symboltable -> findSymbol( _class_define_->Inherits()[0] );
+				if( inherit_symbol == NULL )
+				{
+					std::cerr << _class_define_->Inherits()[0] << " not found ph2"<<std::endl;
+					exit(1);
 				}
+				std::cerr << _class_define_->Inherits()[0] << " bind!~!!! !!!!!!!!!!!!!!!"<<std::endl;
+				ASY::ScopePtr inherit_scope = STATIC_CAST( ASY::Scope, inherit_symbol );
+				class_symbol->setInhrit( inherit_scope.get() );
+			}
+			linkClassInherit( *nItr, class_symbol, local_context );
+
 		}	break;
 		case AST::Node::NodeType::T_PACKAGE_DEFINITION:
 		{
@@ -231,6 +233,10 @@ void SymbolTableConstructor:: linkClassInherit(
 			local_context->enterScope();
 				linkClassInherit( *nItr, p_scope, local_context );
 			local_context->leaveScope();
+		}
+			break;
+		case AST::Node::NodeType::T_SUPER_INIT:
+		{
 		}
 			break;
 		default:
@@ -376,6 +382,41 @@ void SymbolTableConstructor::symbolTableAnalyze(
 			}
 		} else
 			symbolTableAnalyze(*nItr, symboltable );
+	}
+}
+
+void SymbolTableConstructor::superInitLinking(
+			tw::maple::as::ast::NodePtr node /* input program node */
+			, tw::maple::as::ast::FunctionDefinitionPtr function
+			)
+{
+	namespace AST = tw::maple::as::ast;
+	namespace ASY = tw::maple::as::symbol;
+
+	for (std::vector< AST::NodePtr >::iterator nItr =
+				node->node_childs.begin(), E = node->node_childs.end();
+				nItr != E; nItr++)
+	{
+		std::cerr <<"super init liking iterate  "<< (*nItr)->toString() <<std::endl;
+		ASY::SymbolPtr symbol = (*nItr)->getSymbol();
+
+		if( (*nItr)->is(  AST::Node::NodeType::T_FUNCTION_DEFINITION ))
+		{
+			AST::FunctionDefinitionPtr function_ast = DYNA_CAST(AST::FunctionDefinition, *nItr);
+			superInitLinking( *nItr, function_ast );
+		}
+		else if( (*nItr)->is( AST::Node::NodeType::T_SUPER_INIT ) )
+		{
+			if( function != NULL )
+			{
+//				std::cerr <<" ker ker try to link "<<std::endl;
+//				exit(1);
+				AST::SuperInitPtr super_init_ast = DYNA_CAST( AST::SuperInit, *nItr);
+				function->mp_parent_initilizer = super_init_ast.get();
+			}
+		}
+		else
+			superInitLinking( *nItr, function );
 	}
 }
 } } } }//pass.service.maple.tw

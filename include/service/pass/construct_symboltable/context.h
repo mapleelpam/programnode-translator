@@ -84,6 +84,8 @@ struct Phase2Context
 		tw::maple::as::symbol::ScopePtr p_scope = find_scope( name );
 		return STATIC_CAST( tw::maple::as::symbol::Scope, p_scope );
 	}
+//public:
+//	tw::maple::as::ast::ClassDefinitionPtr	m_class_definition_node;
 private:
 	typedef std::vector<tw::maple::as::symbol::ScopePtr> T_ImportList;
 	typedef SHARED_PTR( T_ImportList ) P_ImportList;

@@ -61,6 +61,7 @@
 #include <as/ast/expr/instanceof.h>
 #include <as/ast/expr/is.h>
 #include <as/ast/expr/as.h>
+#include <as/ast/expr/super_init.h>
 #include <as/ast/expr/unary_operator.h>
 #include <as/ast/expr/set_expression.h>
 #include <as/ast/expr/get_expression.h>
@@ -309,6 +310,12 @@ public:
 		CHECK_STACK_AND_POP( ReturnStatement, AST::Node::NodeType::T_RETURN_STATEMENT );
 	}
 
+	void startSuperInit() {
+		PUSH_STACK( SuperInit );
+	}
+	void endSuperInit() {
+		CHECK_STACK_AND_POP( SuperInit, AST::Node::NodeType::T_SUPER_INIT );
+	}
 	void identifierExpression(const generated::Identifier& id) {
 		if(DEBUG)
 		{
