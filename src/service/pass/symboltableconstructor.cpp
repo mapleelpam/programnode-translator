@@ -30,6 +30,7 @@
 #include <as/ast/func/function_signature.h>
 #include <as/ast/func/function_parameters.h>
 #include <as/ast/func/function_parameter_item.h>
+#include <as/ast/func/function_parameter_rest.h>
 #include <as/ast/func/function_attribute.h>
 #include <as/ast/func/function_name.h>
 
@@ -41,6 +42,7 @@
 #include <as/symbol/scope.h>
 #include <as/symbol/function.h>
 #include <as/symbol/variable.h>
+#include <as/symbol/varianttype.h>
 
 #include <service/pass/construct_symboltable/ph2_inherit/phase2_import_stmt.h>
 
@@ -49,6 +51,7 @@
 #include <service/pass/construct_symboltable/ph3_binding/phase3_import_stmt.h>
 #include <service/pass/construct_symboltable/ph3_binding/phase3_call_expr.h>
 #include <service/pass/construct_symboltable/ph3_binding/phase3_parameter.h>
+#include <service/pass/construct_symboltable/ph3_binding/phase3_parameter_rest.h>
 
 namespace tw { namespace maple { namespace service { namespace pass {
 
@@ -133,6 +136,13 @@ void SymbolTableConstructor:: constructSymbols(
 			{
 				AST::FunctionParameterItemPtr pitem = std::tr1::static_pointer_cast<AST::FunctionParameterItem>(*nItr);
 				std::string str_varname = pitem->ParamName();
+				pitem -> setSymbol( symboltable->registerFunctionParameter( str_varname ) );
+
+			}	break;
+			case AST::Node::NodeType::T_FUNCTION_PARAMETER_REST:
+			{
+				AST::FunctionParameterRestPtr pitem = std::tr1::static_pointer_cast<AST::FunctionParameterRest>(*nItr);
+				std::string str_varname = pitem->m_param_name;
 				pitem -> setSymbol( symboltable->registerFunctionParameter( str_varname ) );
 
 			}	break;
@@ -267,6 +277,7 @@ void SymbolTableConstructor::linkVariableType(
 		using tw::maple::service::pass::cs::ph3::Phase3_VariableDeclare;
 		using tw::maple::service::pass::cs::ph3::Phase3_FunctionDefine;
 		using tw::maple::service::pass::cs::ph3::Phase3_Parameter;
+		using tw::maple::service::pass::cs::ph3::Phase3_ParameterRest;
 
 		ASY::SymbolPtr symbol = (*nItr)->getSymbol();
 
@@ -293,11 +304,16 @@ void SymbolTableConstructor::linkVariableType(
 //			AST::VariableDeclarePtr ast_var = std::tr1::static_pointer_cast<AST::VariableDeclare>(*nItr);
 			AST::VariableDeclarePtr ast_var = DYNA_CAST(AST::VariableDeclare, (*nItr) );
 			AST::FunctionParameterItemPtr ast_param = DYNA_CAST(AST::FunctionParameterItem, (*nItr) );
+			AST::FunctionParameterRestPtr ast_param_rest = DYNA_CAST(AST::FunctionParameterRest, (*nItr) );
 			if( ast_var )
 				Phase3_VariableDeclare::pass( ast_var, symbol, symboltable, local_context );
 			else if( ast_param )
 			{
 				Phase3_Parameter::pass( ast_param, symbol, symboltable, local_context );
+			}
+			else if( ast_param_rest )
+			{
+				Phase3_ParameterRest::pass( ast_param_rest, symbol, symboltable, local_context );
 			}
 			else
 			{

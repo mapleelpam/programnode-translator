@@ -48,11 +48,11 @@ struct Phase3_Parameter
 		{
 
 			using tw::maple::as::symbol::Findable;
-//            if( 0 )
-//			{
+            if( 0 )
+			{
 				std::cerr << " variable name = "<<ast_param->m_param_name<<std::endl;
 				std::cerr << " variable type size = "<<ast_param->m_param_type.size()<<std::endl;
-//			}
+			}
 
 
 			if( symboltable == NULL )

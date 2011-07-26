@@ -30,6 +30,7 @@
 #include <as/symbol/scope.h>
 #include <as/symbol/action/registrable.h>
 #include <as/symbol/primitivetype.h>
+#include <as/symbol/varianttype.h>
 #include <service/configservice.h>
 #include <boost/foreach.hpp>
 
@@ -44,7 +45,7 @@ struct SymbolTable : public tw::maple::service::ConfigRequest
 		ScopePtr root(new Scope("root", Scope::T_PROGRAM_ROOT));
 		for( StringMap::iterator sitr = _primitive_type_mapper.begin(); sitr != _primitive_type_mapper.end() ; sitr ++ )
 			root->addChild(  TypePtr(new PrimitiveType((*sitr).first, (*sitr).second) ) );
-
+		root->addChild( VariantTypePtr( new VariantType()) );
 
 		return root;
 	}

@@ -22,56 +22,47 @@
  * Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
  * ***************************************************************/
 
-#ifndef __TW_MAPLE_AS_SYMBOL_PRIMITIVE_TYPE_H__
-#define __TW_MAPLE_AS_SYMBOL_PRIMITIVE_TYPE_H__
+#ifndef __TW_MAPLE_AS_SYMBOL_VARIANT_TYPE_H__
+#define __TW_MAPLE_AS_SYMBOL_VARIANT_TYPE_H__
 
 #include <as/symbol/symbol.h>
 
 namespace tw { namespace maple { namespace as { namespace symbol {
 
-struct PrimitiveType : public Symbol
+struct VariantType : public Symbol
 {
-	PrimitiveType( std::string n, std::string another_name, bool _is_pointer = false )
-		: Symbol( n, Symbol::T_PRIMITIVE_TYPE )
-//		, m_mappedName( another_name )
-		, is_pointer( _is_pointer )
+	VariantType()
+		: Symbol( "variant", Symbol::T_PRIMITIVE_TYPE )
 	{
-		setMappedName( another_name );
 	}
 
 
 	virtual const std::string toString() const
 	{
-		return "type:"+name();
+		return "type:variant";
 	}
 
 	virtual const std::string getFQN() const
 	{
-		return name();
+		return "";
 	}
 	virtual const std::string getFQN_and_m_mappedName() const
 	{
-		return mappedName();
+		return "";
 	}
 	virtual bool isPrimitiveType( ) const
 	{
 		return true;
 	}
-//	virtual bool isVariant( ) const
-//	{
-//		return true;
-//	}
-	bool preferStack() const {	return true;	} // don't use heap, operator new
-	std::string instanceName()	const {	return mappedName();	}
+
 	virtual const std::string getFQN_and_instanceName() const
 	{
-		return instanceName();
+		return "";
 	}
 
-	bool is_pointer;
 };
 
-typedef SHARED_PTR(PrimitiveType) TypePtr;
+typedef SHARED_PTR(VariantType) VariantTypePtr;
 
 }}}}//tw/maple/as/symbol
 
