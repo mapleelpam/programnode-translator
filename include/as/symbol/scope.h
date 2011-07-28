@@ -184,7 +184,7 @@ struct Scope : public Symbol, public Registrable
 	{
 		childs = m_childs;
 	}
-
+#if 0
 	SymbolPtr findType( std::string type_name )
 	{
 		for( std::vector<SymbolPtr>::iterator sitr = m_childs.begin() ; sitr != m_childs.end() ; sitr++)
@@ -223,6 +223,7 @@ struct Scope : public Symbol, public Registrable
 
 		return ( m_parent == NULL )? SymbolPtr() : m_parent->findType( type_name ) ;
 	}
+#endif
 	virtual const std::string getFQN( bool& is_annoymouse_scope /*out*/) const
 	{
 		is_annoymouse_scope = ( name() == "" );
@@ -377,6 +378,7 @@ struct Scope : public Symbol, public Registrable
 
 		return answers;
 	}
+#if 0
 	SymbolPtr findType_down( const std::string& type_name )
 	{
 		for( std::vector<SymbolPtr>::iterator sitr = m_childs.begin() ; sitr != m_childs.end() ; sitr++)
@@ -409,6 +411,7 @@ struct Scope : public Symbol, public Registrable
 
 		return SymbolPtr();
 	}
+#endif
 
 public:
 	Scope* getParent()

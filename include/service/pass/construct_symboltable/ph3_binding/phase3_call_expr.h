@@ -30,6 +30,8 @@
 #include <service/pass/construct_symboltable/context.h>
 #include <as/ast/expr/call.h>
 #include <as/symbol/scope.h>
+#include <as/symbol/action/findable.h>
+
 
 namespace tw { namespace maple { namespace service { namespace pass {  namespace cs /*I.E. Construct SymbolTable */ { namespace ph3 {
 
@@ -43,6 +45,8 @@ struct Phase3_CallExpression
 				, Phase2ContextPtr context
 				)
 		{
+			using tw::maple::as::symbol::Findable;
+
 			std::cerr << "in phase2 - callee "<< ast_call->toString() <<std::endl;
 
 			if( symboltable == NULL )
@@ -55,6 +59,9 @@ struct Phase3_CallExpression
 
 
 			tw::maple::as::symbol::SymbolPtr p_type = context->find_symbol( ast_call->callee[ast_call->callee.size()-1] );
+
+//			tw::maple::as::symbol::SymbolPtr p_type =
+//			Findable::findClassType_downward(var_type_scope.get(), ast_var->VariableType[ast_var->VariableType.size.size()- 1]);
 
 			if(p_type != NULL ) // found the symbol in import list
 			{
@@ -74,7 +81,8 @@ struct Phase3_CallExpression
 //					std::cerr<<var->VariableName <<" can't find scope - "<< var->VariableType[idx] << " '"<< var->toString() << "'"<<std::endl;
 				}
 			}
-			p_type = var_type_scope->findType( ast_call->callee[ast_call->callee.size()-1]  );
+//			p_type = var_type_scope->findType( ast_call->callee[ast_call->callee.size()-1]  );
+			p_type = Findable::findClassType_downward(var_type_scope.get(), ast_call->callee[ast_call->callee.size()- 1]);
 
 //			if( p_type == NULL )
 //			{

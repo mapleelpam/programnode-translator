@@ -79,8 +79,10 @@ struct Phase3_VariableDeclare
 //					std::cerr<<var->VariableName <<" can't find scope - "<< var->VariableType[idx] << " '"<< var->toString() << "'"<<std::endl;
 				}
 			}
-			p_type = var_type_scope->findType( ast_var->VariableType[ast_var->VariableType.size() - 1]  );
+//			p_type = var_type_scope->findType( ast_var->VariableType[ast_var->VariableType.size() - 1]  );
 
+			 p_type =
+					Findable::findClassType_downward(var_type_scope.get(), ast_var->VariableType[ast_var->VariableType.size()- 1]);
 //			if( p_type == NULL )
 //			{
 //				p_type = context->find_symbol( ast_var->VariableType[ast_var->VariableType.size() - 1] );

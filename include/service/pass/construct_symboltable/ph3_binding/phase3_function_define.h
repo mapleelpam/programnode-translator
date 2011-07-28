@@ -29,6 +29,7 @@
 #include <service/pass/construct_symboltable/pass.h>
 #include <as/ast/func/function_definition.h>
 #include <as/symbol/scope.h>
+#include <as/symbol/action/findable.h>
 
 namespace tw { namespace maple { namespace service { namespace pass {  namespace cs /*I.E. Construct SymbolTable */ { namespace ph3 {
 
@@ -56,8 +57,10 @@ struct Phase3_FunctionDefine
 				func_symbol->bindReturnType( p_type );
 				return;
 			}
+//			p_type = symboltable->findType( fsig->ReturnType );
 
-			p_type = symboltable->findType( fsig->ReturnType );
+			p_type = tw::maple::as::symbol::Findable::findClassType_downward(symboltable.get(), fsig->ReturnType );
+
 
 			if( p_type == NULL )
 			{

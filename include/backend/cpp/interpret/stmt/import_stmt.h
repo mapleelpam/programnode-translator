@@ -72,11 +72,11 @@ private:
 				exit(1);
 			}
 		}
-		tw::maple::as::symbol::SymbolPtr
-				p_type =
-						pkg_scope->findType(
-								ast_import->package_names[ast_import->package_names.size()
-										- 1]);
+		tw::maple::as::symbol::SymbolPtr p_type =
+				ASY::Findable::findClassType_downward(pkg_scope.get(), ast_import->package_names[ast_import->package_names.size()- 1]);
+//						pkg_scope->findType(
+//								ast_import->package_names[ast_import->package_names.size()
+//										- 1]);
 		if (p_type == NULL) {
 			std::cerr << "import can't find type - '"
 					<< ast_import->package_names[ast_import->package_names.size()

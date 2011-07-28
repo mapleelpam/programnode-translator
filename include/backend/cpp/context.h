@@ -175,6 +175,7 @@ struct Context
 
 	tw::maple::as::symbol::Symbol*	expression_symbol;
 	tw::maple::as::symbol::ScopePtr	statement_class_symbol;
+	tw::maple::as::symbol::ScopePtr	call_arguments_symbol;
 
 //	tw::maple::as::symbol::SymbolPtr		token_class_type;
 };

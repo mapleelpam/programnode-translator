@@ -53,6 +53,8 @@ struct Function : public Scope
 		std::string post;
 		if( isGetter() )
 			post = "GET";
+		if( isSetter() )
+			post = "SET";
 		return "function:"+name() + " return:"+m_return_type_symbol->getFQN()+" :"+post;
 	}
 
@@ -60,10 +62,16 @@ struct Function : public Scope
 	{
 		m_return_type_symbol = sType;
 	}
-	virtual void bindReturnType( SymbolPtr type)
+	void bindReturnType( SymbolPtr type)
 	{
 		m_return_type_symbol = type;
+		m_types.push_back( type );
 	}
+	void addParameterType( SymbolPtr param_type )
+	{
+		m_types.push_back( param_type );
+	}
+
 
 	SymbolPtr ReturnType()
 	{
@@ -73,6 +81,7 @@ struct Function : public Scope
 	void setFunctionType( tw::maple::generated::FunctionType::type t)
 	{
 		m_function_type = t;
+
 	}
 	const bool isSetter() const
 	{
@@ -88,6 +97,8 @@ struct Function : public Scope
 		return getParent() ? (getParent()->getScopeType() == Scope::T_CLASS ? true : false ) : false;
 	}
 
+public:
+	std::vector<SymbolPtr> m_types;
 
 private:
 	SymbolPtr	m_return_type_symbol;

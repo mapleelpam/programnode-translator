@@ -41,7 +41,7 @@
 #include <service/pass/backendmanager.h>
 #include <service/pass/symboltableconstructor.h>
 #include <service/argumentsservice.h>
-#include <as/symbol/debug.h>
+#include <as/symbol/action/debug.h>
 #include <as/symbol/symboltable.h>
 
 namespace tw { namespace maple { namespace service {

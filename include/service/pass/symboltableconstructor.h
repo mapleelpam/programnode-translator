@@ -68,6 +68,8 @@ public:
 			linkVariableType( *nodeItr, root, ph2_context);
 		}
 
+		constructFunctionType(root);
+
 		// 4
 		for (std::vector< AST::ProgramPtr>::iterator nodeItr = pnode_list.begin(), E = pnode_list.end()
 			; nodeItr != E; nodeItr++)
@@ -90,6 +92,10 @@ private:
 			, tw::maple::as::symbol::ScopePtr symboltable
 			, tw::maple::service::pass::cs::Phase2ContextPtr local_context
 			);
+	static void constructFunctionType(
+			tw::maple::as::symbol::ScopePtr symboltable
+			);
+
 	static void symbolTableAnalyze(
 			tw::maple::as::ast::NodePtr node /* input program node */
 			, tw::maple::as::symbol::ScopePtr symboltable

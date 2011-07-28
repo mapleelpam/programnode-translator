@@ -342,6 +342,38 @@ void SymbolTableConstructor::linkVariableType(
 	}
 }
 
+void SymbolTableConstructor::constructFunctionType(
+		tw::maple::as::symbol::ScopePtr symboltable
+		)
+{
+	namespace ASY = tw::maple::as::symbol;
+	for (std::vector<ASY::SymbolPtr>::iterator child_itr = symboltable->m_childs.begin(), E = symboltable->m_childs.end()
+			; child_itr != E; child_itr++)
+	{
+
+		if( ((*child_itr)->getSymbolProperties() & ASY::Symbol::T_SCOPE ) )
+		{
+			ASY::ScopePtr scope_ptr = DYNA_CAST( ASY::Scope, *child_itr);
+			if( scope_ptr->is( ASY::Scope::T_FUNCTION) )
+			{
+				ASY::FunctionPtr func_ptr = DYNA_CAST( ASY::Function, scope_ptr);
+
+				for (std::vector<ASY::SymbolPtr>::iterator var_itr = func_ptr->m_childs.begin(), E = func_ptr->m_childs.end()
+							; var_itr != E; var_itr++)
+				{
+					if( ((*var_itr)->getSymbolProperties() & ASY::Symbol::T_PARAMETER ) )
+					{
+						ASY::VariablePtr variable_ptr = DYNA_CAST(ASY::Variable, *var_itr);
+						func_ptr->addParameterType( variable_ptr->getTypeSymbol() );
+					}
+				}
+
+			}
+			else
+				constructFunctionType( scope_ptr );
+		}
+	}
+}
 
 
 void SymbolTableConstructor::symbolTableAnalyze(
@@ -361,7 +393,8 @@ void SymbolTableConstructor::symbolTableAnalyze(
 	{
 		ASY::SymbolPtr symbol = (*nItr)->getSymbol();
 
-		if (symbol && (symbol->is( ASY::Symbol::T_SCOPE) )) {
+		if (symbol && (symbol->is( ASY::Symbol::T_SCOPE) ))
+		{
 			ASY::ScopePtr p_scope = STATIC_CAST( ASY::Scope, symbol );
 			switch (p_scope->getScopeType()) {
 			case ASY::Scope::T_FUNCTION: {
@@ -374,7 +407,8 @@ void SymbolTableConstructor::symbolTableAnalyze(
 				symbolTableAnalyze(*nItr, p_scope );
 				break;
 			}
-		} else
+		}
+		else
 			symbolTableAnalyze(*nItr, symboltable );
 	}
 }

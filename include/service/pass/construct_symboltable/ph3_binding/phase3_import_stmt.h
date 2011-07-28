@@ -30,6 +30,7 @@
 #include <service/pass/construct_symboltable/context.h>
 //#include <as/ast/variable_declare.h>
 #include <as/symbol/scope.h>
+#include <as/symbol/action/findable.h>
 
 namespace tw { namespace maple { namespace service { namespace pass {  namespace cs /*I.E. Construct SymbolTable */ { namespace ph3 {
 
@@ -43,6 +44,8 @@ struct Phase3_ImportStatement
 				, Phase2ContextPtr context
 				)
 		{
+			using tw::maple::as::symbol::Findable;
+
 			{
 				tw::maple::as::symbol::ScopePtr pkg_scope = symboltable;
 
@@ -60,7 +63,9 @@ struct Phase3_ImportStatement
 						exit(1);
 					}
 				}
-				tw::maple::as::symbol::SymbolPtr p_type = pkg_scope->findType( ast_import->package_names[ast_import->package_names.size() - 1]  );
+//				tw::maple::as::symbol::SymbolPtr p_type = pkg_scope->findType( ast_import->package_names[ast_import->package_names.size() - 1]  );
+				tw::maple::as::symbol::SymbolPtr p_type =
+						Findable::findClassType_downward(pkg_scope.get(), ast_import->package_names[ast_import->package_names.size()- 1]);
 				if( p_type == NULL )
 				{
 					std::cerr << "import can't find type - '"<< ast_import->package_names[ast_import->package_names.size() - 1] <<"'"<<std::endl;

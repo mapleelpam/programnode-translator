@@ -54,8 +54,22 @@ struct Debug
 				if( scope->getInherit() )
 				ofs << indent(depth) << (*child_itr)->toString() << " ParentFQN->"<<scope->getInherit()->getFQN() <<std::endl;
 				ofs << indent(depth) << (*child_itr)->toString() << " instance name->"<<scope->instanceName() <<std::endl;
+
+				if( scope->is( Scope::T_FUNCTION ) )
+				{
+					FunctionPtr function = DYNA_CAST( Function, scope );
+					ofs << indent(depth) << (*child_itr)->toString();
+					for( std::vector<SymbolPtr>::iterator I = function->m_types.begin(), E = function->m_types.end()
+							; I != E ; I ++ )
+					{
+						ofs << " "<<(*I)->getFQN();
+					}
+					ofs << std::endl;
+				}
+
 				if( scope )
 					dump_symboltable( scope, ofs, depth+1 );
+
 			} else {
 				ofs << indent(depth) << (*child_itr)->toString() <<std::endl;
 			}
