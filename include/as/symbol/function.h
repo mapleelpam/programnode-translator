@@ -107,6 +107,7 @@ private:
 
 public:
     std::vector<SymbolPtr> m_parameter_types;
+
 };
 
 typedef SHARED_PTR(Function) FunctionPtr;

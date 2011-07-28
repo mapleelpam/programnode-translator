@@ -100,6 +100,11 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 
 		if( ! symbol_function->isConstructor() )
 			str_function_return_type = ( str_function_return_type == "" ) ? "void /* damn */" : str_function_return_type;
+//		if( symbol_function->isConstructor() && fdef->mp_parent_initilizer )
+//		{
+//			printf("hey come to speciel service\n");
+//			exit(1);
+//		}
 
 		patterns.push_back( PatternPtr( new Pattern("function_attribute", str_function_attribute+ ctx.endl()) ));
 		patterns.push_back( PatternPtr( new Pattern("func_name", str_func_name+ "   ") ));
@@ -113,7 +118,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 						"virtual":"") ) );
 		patterns.push_back( PatternPtr( new Pattern("function_enter", (fdef->isAbstract)? "" : m_tpl_enter_function) ) );
 		patterns.push_back( PatternPtr( new Pattern("function_leave", (fdef->isAbstract)? "" : m_tpl_leave_function) ) );
-		patterns.push_back( PatternPtr( new Pattern("member_initial", (symbol_function->isConstructor())? getMemberInitializer(symbol_function,ctx) : "") ) );
+		patterns.push_back( PatternPtr( new Pattern("member_initial", (symbol_function->isConstructor())? getMemberInitializer(symbol_function,fdef->mp_parent_initilizer,ctx) : "") ) );
 		patterns.push_back( PatternPtr( new Pattern("prefix_arguments", m_tpl_args_prefix) ) );
 		patterns.push_back( PatternPtr( new Pattern("postfix_arguments", m_tpl_args_postfix) ) );
 		patterns.push_back( PatternPtr( new Pattern("endl", ctx.endl() )) );
@@ -209,6 +214,7 @@ private:
 private:
 	std::string getMemberInitializer(
 			ASY::FunctionPtr symbol_function
+			, AST::SuperInit* parent_init
 			, tw::maple::backend::cpp::Context& ctx
 			
 			)
@@ -216,6 +222,13 @@ private:
 		std::string answer = "";
 		std::vector<ASY::SymbolPtr> childs;
 		symbol_function->getParent()->getChilds( childs/*out*/ );
+
+		if( parent_init )
+		{
+			ASY::Scope* symbol_class = symbol_function->m_parent;
+			answer+= ": "+symbol_class->m_inherit->name()+"("+dispatchExpound(parent_init->node_childs[0], symbol_function, ctx).result+")";
+		}
+
 		for (std::vector<ASY::SymbolPtr>::iterator child_itr = childs.begin(); child_itr
 				!= childs.end(); child_itr++) {
 
@@ -225,8 +238,9 @@ private:
 				ASY::VariablePtr var = STATIC_CAST( ASY::Variable, *child_itr );
 				if( var->getInitializeNode() != NULL )
 				{
-					answer += ":" + var->name() + "("
-						+ dispatchExpound(var->getInitializeNode(), symbol_function/*TODO: should use function's parent*/, ctx).result
+					answer += (answer==""?":":",")
+						+ var->name() + "("
+						+ dispatchExpound(var->getInitializeNode(), symbol_function, ctx).result
 						+")";
 				}
 			}

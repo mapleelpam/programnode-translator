@@ -38,6 +38,7 @@
 #include <backend/cpp/interpret/func/function_name.h>
 #include <backend/cpp/interpret/func/function_parameters.h>
 #include <backend/cpp/interpret/func/function_parameter_item.h>
+#include <backend/cpp/interpret/func/function_parameter_rest.h>
 #include <backend/cpp/interpret/expr/arguments.h>
 #include <backend/cpp/interpret/token/argument.h>
 #include <backend/cpp/interpret/stmt/return_stmt.h>
@@ -47,6 +48,7 @@
 #include <backend/cpp/interpret/expr/condition_expression.h>
 #include <backend/cpp/interpret/expr/is.h>
 #include <backend/cpp/interpret/expr/as.h>
+#include <backend/cpp/interpret/expr/super_init.h>
 #include <backend/cpp/interpret/expr/instanceof.h>
 #include <backend/cpp/interpret/expr/member_expression.h>
 #include <backend/cpp/interpret/expr/set_expression.h>
@@ -80,6 +82,7 @@ void initializeInterpreters()
 		interpreterResolver[AST::Node::NodeType::T_FUNCTION_NAME] = new FunctionName();
 		interpreterResolver[AST::Node::NodeType::T_FUNCTION_PARAMETERS]	= new FunctionParameter();
 		interpreterResolver[AST::Node::NodeType::T_FUNCTION_PARAMETER_ITEM] = new FunctionParameterItem();
+		interpreterResolver[AST::Node::NodeType::T_FUNCTION_PARAMETER_REST] = new FunctionParameterRest();
 		interpreterResolver[AST::Node::NodeType::T_STMT_LIST] = new StatementList();
 		interpreterResolver[AST::Node::NodeType::T_EXPR_LIST] = new ExpressionList();
 		interpreterResolver[AST::Node::NodeType::T_ARGUMENTS] = new Arguments();
@@ -118,6 +121,7 @@ void initializeInterpreters()
 
 		interpreterResolver[AST::Node::NodeType::T_THIS] = new ThisExpression();
 		interpreterResolver[AST::Node::NodeType::T_SUPER_EXPRESSION] = new SuperExpression();
+		interpreterResolver[AST::Node::NodeType::T_SUPER_INIT] = new SuperInit();
 		interpreterResolver[AST::Node::NodeType::T_CONDITION_EXPRESSION] = new ConditionExpression();
 		interpreterResolver[AST::Node::NodeType::T_EMPTY] = new Empty();
 	}

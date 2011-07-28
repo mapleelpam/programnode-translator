@@ -22,43 +22,27 @@
  * Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
  * ***************************************************************/
 
-#ifndef __AS_AST_FUNCTION_DEFINITION_H__
-#define __AS_AST_FUNCTION_DEFINITION_H__
+#ifndef __AS_AST_FUNCTION_VARIABLE_PARAMETER_ITEM_H__
+#define __AS_AST_FUNCTION_VARIABLE_PARAMETER_ITEM_H__
 
 #include <as/ast/abstract/statement.h>
-#include <as/ast/expr/super_init.h>
 
 namespace tw { namespace maple { namespace as { namespace ast {
 
-// Abstract
-struct FunctionDefinition: public Statement
+struct FunctionParameterRest : public Statement
 {
-	FunctionDefinition( bool is_abstract )
-		: Statement(Node::NodeType::T_FUNCTION_DEFINITION)
-		, isAbstract( is_abstract )
-		, mp_parent_initilizer( NULL )
+	FunctionParameterRest( const std::string& name  )
+		: Statement(Node::NodeType::T_FUNCTION_PARAMETER_REST )
+		, m_param_name( name )
 	{
 	}
 
-    // Public Assert !!
-    NodePtr FunctionAttr(){	return node_childs[0];	}
-    NodePtr FunctionName(){	return node_childs[1];	}
-    NodePtr FunctionCommon(){	return node_childs[2];	}
+    std::string toString()  {	return "node::function_parameter_rest"; };
 
-    std::string toString()  {	return "node::function_definition"; };
-
-    const bool isAbstract;
-
-public:
-    void setFunctionSymbol( ASYM::FunctionPtr s )	{	_related_function_symbol = s;	}
-    ASYM::FunctionPtr getFunctionSymbol( )	{	return _related_function_symbol;	}
-protected:
-    ASYM::FunctionPtr	_related_function_symbol;
-public:
-    SuperInit*				mp_parent_initilizer;
+    const std::string m_param_name;
 };
 
-typedef SHARED_PTR(FunctionDefinition) FunctionDefinitionPtr;
+typedef SHARED_PTR(FunctionParameterRest) FunctionParameterRestPtr;
 
 
 } } } }

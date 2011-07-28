@@ -23,53 +23,32 @@
  \*******************************************************************/
 
 
-#ifndef __TW_MAPLE_SERVICE_PASS_CONSTRUCTOR_SYMBOL_TABLE_PH2_BINDING_FUNCTION_H__
-#define __TW_MAPLE_SERVICE_PASS_CONSTRUCTOR_SYMBOL_TABLE_PH2_BINDING_FUNCTION_H__
+#ifndef __TW_MAPLE_SERVICE_PASS_CONSTRUCTOR_SYMBOL_TABLE_PH3_BINDING_PARAMETER_REST_H__
+#define __TW_MAPLE_SERVICE_PASS_CONSTRUCTOR_SYMBOL_TABLE_PH3_BINDING_PARAMETER_REST_H__
 
-#include <service/pass/construct_symboltable/pass.h>
-#include <as/ast/func/function_definition.h>
+#include <as/ast/func/function_parameter_item.h>
 #include <as/symbol/scope.h>
 #include <as/symbol/action/findable.h>
+#include <service/pass/construct_symboltable/pass.h>
+
 
 namespace tw { namespace maple { namespace service { namespace pass {  namespace cs /*I.E. Construct SymbolTable */ { namespace ph3 {
 
-struct Phase3_FunctionDefine
-	: public Pass<tw::maple::as::ast::FunctionDefinitionPtr, tw::maple::service::pass::cs::constructor_stage::PH3_BINDING>
+
+struct Phase3_ParameterRest
+	: public Pass<tw::maple::as::ast::FunctionParameterRestPtr, tw::maple::service::pass::cs::constructor_stage::PH3_BINDING>
 {
 
 		static void pass(
-				tw::maple::as::ast::FunctionDefinitionPtr 	ast_func
-				, tw::maple::as::symbol::FunctionPtr 			func_symbol
-				, tw::maple::as::symbol::ScopePtr			symboltable
+				tw::maple::as::ast::FunctionParameterRestPtr ast_param
+				, tw::maple::as::symbol::SymbolPtr var_symbol
+				, tw::maple::as::symbol::ScopePtr symboltable
 				, Phase2ContextPtr context
 				)
 		{
-			tw::maple::as::symbol::SymbolPtr p_type;
 
-			tw::maple::as::ast::FunctionCommonPtr fcommon  = STATIC_CAST( tw::maple::as::ast::FunctionCommon, ast_func->FunctionCommon() );
-			BOOST_ASSERT( fcommon != NULL );
-			tw::maple::as::ast::FunctionSignaturePtr fsig  = STATIC_CAST( tw::maple::as::ast::FunctionSignature, fcommon->FunctionSignature() );
+//* igonre everything right now.
 
-			p_type = context->find_symbol( fsig->ReturnType );
-
-			if( p_type != NULL )
-			{
-				func_symbol->bindReturnType( p_type );
-				return;
-			}
-//			p_type = symboltable->findType( fsig->ReturnType );
-
-			p_type = tw::maple::as::symbol::Findable::findClassType_downward(symboltable.get(), fsig->ReturnType );
-
-
-			if( p_type == NULL )
-			{
-				std::cerr << "symboltable ph3: Function Defnition can't find symbol (function return type) '" << fsig->ReturnType << "'"<<std::endl;
-				exit(1);
-			}
-			BOOST_ASSERT( p_type != NULL && "can't find symbol" );
-			BOOST_ASSERT( p_type );
-			func_symbol->bindReturnType( p_type );
 		}
 };
 

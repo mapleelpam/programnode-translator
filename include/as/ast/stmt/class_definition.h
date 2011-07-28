@@ -27,6 +27,7 @@
 
 #include <global.h>
 #include <as/ast/abstract/statement.h>
+//#include <as/ast/expr/super_init.h>
 #include "SyntaxTree_types.h"
 
 namespace tw { namespace maple { namespace as { namespace ast {
@@ -44,7 +45,6 @@ struct ClassDefinition : public Statement
 		, m_has_attribute( false )
 		, m_has_statement( false )
 		, m_is_abstract( false )
-//		, m_is_intrinsic( false )
 		, m_classname( name )
 		, m_inherits( inherits )
 		, m_implements( interfaces )
@@ -150,6 +150,11 @@ private:
 
 
     tw::maple::generated::MetaData	m_metadata;
+
+
+    // not sure this line has any side effect
+//public:
+//    SuperInit*				mp_parent_initilizer;
 };
 typedef SHARED_PTR(ClassDefinition) ClassDefinitionPtr;
 
