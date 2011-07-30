@@ -83,6 +83,52 @@ ScopePtr Findable::findClassType_downward( Scope* stable, const std::string& cla
 	return ScopePtr();
 }
 
+SymbolPtr Findable::findType( Scope* stable, const std::string& type_name )
+{
+	SymbolPtr found = findType_downward(stable, type_name );
+	if( found ) return found;
+	if( stable->m_parent )
+		return findType( stable->m_parent, type_name );
+	return SymbolPtr();
+}
+SymbolPtr Findable::findType_downward( Scope* stable, const std::string& type_name )
+{
+	for( std::vector<SymbolPtr>::iterator I = stable->m_childs.begin(), B = stable->m_childs.end()
+			; I != B ; I ++ )
+	{
+		std::cerr <<" in findType -> try to compare '"<<type_name<<"' '"<<(*I)->name() <<"' "<<(*I)->getSymbolProperties()<<std::endl;
+		if( (*I)->name() == type_name && (*I)->is(Symbol::T_SCOPE) )
+		{
+			ScopePtr pkg_symbol = DYNA_CAST( Scope, *I );
+			if( pkg_symbol->getScopeType() == Scope::T_CLASS )
+			{
+				return *I;
+			}
+		}
+//		std::cerr <<" check is primitive type" << std::endl;
+		if( (*I)->name() == type_name && (*I)->is(Symbol::T_PRIMITIVE_TYPE) )
+		{
+//			std::cerr <<"is primitive type" << std::endl;
+			return *I;
+		}
+//		else
+//			std::cerr <<"is not primitive type" << std::endl;
+
+		if( (*I)->name() == "" && (*I)->is( Symbol::T_SCOPE) )
+		{
+			ScopePtr pkg_symbol = DYNA_CAST( Scope, *I );
+			if( pkg_symbol->getScopeType() == Scope::T_PACKAGE ) {
+				SymbolPtr found = findType_downward( pkg_symbol.get() , type_name );
+				if( found )
+					return found;
+			}
+		}
+	}
+	//		if( stable->m_parent )
+	//			return findType( stable->m_parent, type_name );
+	return SymbolPtr();
+}
+
 
 ScopePtr Findable::findClassType( Scope* stable, const std::string& class_name )
 {

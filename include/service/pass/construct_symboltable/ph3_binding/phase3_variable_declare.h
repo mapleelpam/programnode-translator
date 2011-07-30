@@ -89,7 +89,7 @@ struct Phase3_VariableDeclare
 //			}
 			if( p_type == NULL )
 			{
-				p_type = Findable::findClassType( symboltable, ast_var->VariableType[ast_var->VariableType.size() - 1]);
+				p_type = tw::maple::as::symbol::Findable::findType(symboltable.get(), ast_var->VariableType[ast_var->VariableType.size() - 1] );
 			}
 
 			if( p_type ) {

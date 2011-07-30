@@ -77,14 +77,14 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("startFunctionSignatureParameters\n");
   }
 
-  void startFunctionSignatureParameterMember(const std::string& name, const std::vector<std::string> & type, const bool has_init, const std::string& init) {
+  void functionParameter(const std::string& name, const std::vector<std::string> & type, const bool has_init, const std::string& init) {
     // Your implementation goes here
-    printf("startFunctionSignatureParameterMember\n");
+    printf("functionParameter\n");
   }
 
-  void endFunctionSignatureParameterMember() {
+  void functionParameterRest(const std::string& name) {
     // Your implementation goes here
-    printf("endFunctionSignatureParameterMember\n");
+    printf("functionParameterRest\n");
   }
 
   void endFunctionSignatureParameters() {
@@ -275,6 +275,16 @@ class AstDumperHandler : virtual public AstDumperIf {
   void superExpression() {
     // Your implementation goes here
     printf("superExpression\n");
+  }
+
+  void startSuperInit() {
+    // Your implementation goes here
+    printf("startSuperInit\n");
+  }
+
+  void endSuperInit() {
+    // Your implementation goes here
+    printf("endSuperInit\n");
   }
 
   void identifierExpression(const Identifier& id) {

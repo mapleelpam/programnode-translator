@@ -59,7 +59,8 @@ struct Phase3_FunctionDefine
 			}
 //			p_type = symboltable->findType( fsig->ReturnType );
 
-			p_type = tw::maple::as::symbol::Findable::findClassType_downward(symboltable.get(), fsig->ReturnType );
+//			p_type = tw::maple::as::symbol::Findable::findClassType_downward(symboltable.get(), fsig->ReturnType );
+			p_type = tw::maple::as::symbol::Findable::findType(symboltable.get(), fsig->ReturnType );
 
 
 			if( p_type == NULL )

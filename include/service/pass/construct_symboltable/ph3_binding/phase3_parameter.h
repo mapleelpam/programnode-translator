@@ -81,12 +81,11 @@ struct Phase3_Parameter
 					std::cerr<<ast_param->m_param_name <<" (bind) can't find scope - "<< ast_param->m_param_type[idx] << " '"<< ast_param->toString() << "'"<<std::endl;
 				}
 			}
-//			p_type = var_type_scope->findType( ast_param->m_param_type[ast_param->m_param_type.size() - 1]  );
 			p_type = Findable::findClassType_downward(var_type_scope.get(), ast_param->m_param_type[ast_param->m_param_type.size() - 1]);
 
 			if( p_type == NULL )
 			{
-				p_type = Findable::findClassType( symboltable, ast_param->m_param_type[ast_param->m_param_type.size() - 1]);
+				p_type = tw::maple::as::symbol::Findable::findType(symboltable.get(), ast_param->m_param_type[ast_param->m_param_type.size() - 1] );
 			}
 
 			if( p_type ) {
