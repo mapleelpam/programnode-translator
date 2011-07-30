@@ -39,508 +39,514 @@
 
 namespace tw { namespace maple { namespace service { namespace linker {
 
-class Linker : virtual public generated::AstDumperIf {
+class Linker: virtual public generated::AstDumperIf {
 
- public:
+public:
 	boost::shared_ptr<tw::maple::generated::AstDumperClient> pm_module;
 
-  Linker( std::string fn )
-  	  : pm_module( )
-  {
-	  boost::shared_ptr<apache::thrift::transport::TSimpleFileTransport> transport( new apache::thrift::transport::TSimpleFileTransport( fn, true, true ) );
-	  //boost::shared_ptr<apache::thrift::protocol::TProtocol> protocol( new  apache::thrift::protocol::TJSONProtocol(transport) );
-	  boost::shared_ptr<apache::thrift::protocol::TProtocol> protocol( new  apache::thrift::protocol::TBinaryProtocol(transport) );
+	Linker(std::string fn) :
+		pm_module() {
+		boost::shared_ptr < apache::thrift::transport::TSimpleFileTransport
+				> transport(
+						new apache::thrift::transport::TSimpleFileTransport(fn,
+								true, true));
+		//boost::shared_ptr<apache::thrift::protocol::TProtocol> protocol( new  apache::thrift::protocol::TJSONProtocol(transport) );
+		boost::shared_ptr < apache::thrift::protocol::TProtocol > protocol(
+				new apache::thrift::protocol::TBinaryProtocol(transport));
 
-      pm_module.reset( new tw::maple::generated::AstDumperClient( protocol ) );
-  }
+		pm_module.reset(new tw::maple::generated::AstDumperClient(protocol));
+	}
 
-  void startProgram(const std::string& version, const int64_t counter) {
+	void startProgram(const std::string& version, const int64_t counter) {
 
-    printf("startProgram\n");
-  }
+		printf("startProgram\n");
+	}
 
-  void endProgram() {
+	void endProgram() {
 
-    printf("endProgram\n");
-  }
+		printf("endProgram\n");
+	}
 
-  void startPackage(const std::vector<std::string> & id) {
+	void startPackage(const std::vector<std::string> & id) {
 
-    printf("startPackage\n");
-    pm_module->startPackage( id );
-  }
+		printf("startPackage\n");
+		pm_module->startPackage(id);
+	}
 
-  void endPackage(const std::vector<std::string> & IDs) {
+	void endPackage(const std::vector<std::string> & IDs) {
 
-    printf("endPackage\n");
-    pm_module->endPackage( IDs );
-  }
+		printf("endPackage\n");
+		pm_module->endPackage(IDs);
+	}
 
-  void startFunctionDefinition(const bool isAbstract) {
+	void startFunctionDefinition(const bool isAbstract) {
 
-    printf("startFunctionDefinition\n");
-    pm_module->startFunctionDefinition(isAbstract);
-  }
+		printf("startFunctionDefinition\n");
+		pm_module->startFunctionDefinition(isAbstract);
+	}
 
-  void functionAttribute(const std::vector<std::string> & attrs) {
+	void functionAttribute(const std::vector<std::string> & attrs) {
 
-    printf("functionAttribute\n");
-    pm_module->functionAttribute(attrs);
-  }
+		printf("functionAttribute\n");
+		pm_module->functionAttribute(attrs);
+	}
 
-  void functionName(const std::string& name, tw::maple::generated::FunctionType::type t) {
+	void functionName(const std::string& name,
+			tw::maple::generated::FunctionType::type t) {
 
-    printf("functionName\n");
-    pm_module->functionName(name, t);
-  }
+		printf("functionName\n");
+		pm_module->functionName(name, t);
+	}
 
-  void startFunctionCommon() {
+	void startFunctionCommon() {
 
-    printf("startFunctionCommon\n");
-    pm_module->startFunctionCommon();
-  }
+		printf("startFunctionCommon\n");
+		pm_module->startFunctionCommon();
+	}
 
-  void startFunctionSignature(const std::string& type) {
+	void startFunctionSignature(const std::string& type) {
 
-    printf("startFunctionSignature\n");
-    pm_module->startFunctionSignature( type );
-  }
+		printf("startFunctionSignature\n");
+		pm_module->startFunctionSignature(type);
+	}
 
-  void startFunctionSignatureParameters() {
+	void startFunctionSignatureParameters() {
 
-    printf("startFunctionSignatureParameters\n");
-    pm_module->startFunctionSignatureParameters();
-  }
+		printf("startFunctionSignatureParameters\n");
+		pm_module->startFunctionSignatureParameters();
+	}
 
+	void functionParameter(const std::string& name, const std::vector<
+			std::string>& type, bool has_init, const std::string& init) {
 
-  void startFunctionSignatureParameterMember( const std::string& name, const std::vector<std::string>& type, bool has_init, const std::string& init ) {
+		printf("functionParameter\n");
+		pm_module->functionParameter(name, type, has_init, init);
+	}
 
+	void endFunctionSignatureParameters() {
 
-    printf("startFunctionSignatureParameterMember\n");
-    pm_module->startFunctionSignatureParameterMember( name, type, has_init, init );
-  }
+	   printf("endFunctionSignatureParameters\n");
+	   pm_module->endFunctionSignatureParameters();
+	}
 
-  void endFunctionSignatureParameterMember() {
+	void endFunctionSignature() {
 
-    printf("endFunctionSignatureParameterMember\n");
-    pm_module->endFunctionSignatureParameterMember();
-  }
+		printf("endFunctionSignature\n");
+		pm_module->endFunctionSignature();
+	}
 
-  void endFunctionSignatureParameters() {
+	void endFunctionCommon() {
 
-    printf("endFunctionSignatureParameters\n");
-    pm_module->endFunctionSignatureParameters();
-  }
+		printf("endFunctionCommon\n");
+		pm_module->endFunctionCommon();
+	}
 
-  void endFunctionSignature() {
+	void endFunctionDefinition() {
 
-    printf("endFunctionSignature\n");
-    pm_module->endFunctionSignature();
-  }
+		printf("endFunctionDefinition\n");
+		pm_module->endFunctionDefinition();
+	}
+
+	void startReturnStatement() {
 
-  void endFunctionCommon() {
+		printf("startReturnStatement\n");
+		pm_module->startReturnStatement();
+	}
 
-    printf("endFunctionCommon\n");
-    pm_module->endFunctionCommon();
-  }
+	void endReturnStatement() {
 
-  void endFunctionDefinition() {
+		printf("endReturnStatement\n");
+		pm_module->endReturnStatement();
+	}
 
-    printf("endFunctionDefinition\n");
-    pm_module->endFunctionDefinition();
-  }
+	//  void startExprCondition() {
+	//
+	//    printf("startExprCondition\n");
+	//    pm_module->startExprCondition();
+	//  }
+	//
+	//  void endExprCondition() {
+	//
+	//    printf("endExprCondition\n");
+	//    pm_module->endExprCondition();
+	//  }
 
-  void startReturnStatement() {
+	void startIfStatement() {
 
-    printf("startReturnStatement\n");
-    pm_module->startReturnStatement();
-  }
+		printf("startIfStatement\n");
+		pm_module->startIfStatement();
+	}
 
-  void endReturnStatement() {
+	void endIfStatement() {
 
-    printf("endReturnStatement\n");
-    pm_module->endReturnStatement();
-  }
+		printf("endIfStatement\n");
+		pm_module->endIfStatement();
+	}
 
-//  void startExprCondition() {
-//
-//    printf("startExprCondition\n");
-//    pm_module->startExprCondition();
-//  }
-//
-//  void endExprCondition() {
-//
-//    printf("endExprCondition\n");
-//    pm_module->endExprCondition();
-//  }
+	void startStmtExpression() {
 
-  void startIfStatement() {
+		printf("startStmtExpression\n");
+		pm_module->startStmtExpression();
+	}
 
-    printf("startIfStatement\n");
-    pm_module->startIfStatement();
-  }
+	void endStmtExpression() {
+		printf("endStmtExpression\n");
+		pm_module->endStmtExpression();
+	}
+	void functionParameterRest(const std::string& name) {
+		pm_module->functionParameterRest(name);
+	}
+	void startSuperInit() {
+		printf("startSuperInit\n");
+		pm_module->startSuperInit();
+	}
+	void endSuperInit() {
+		printf("endSuperInit\n");
+		pm_module->endSuperInit();
+	}
+	void startExpressionList() {
+		printf("startExpressionList\n");
+		pm_module->startExpressionList();
+	}
 
-  void endIfStatement() {
+	void startCallExpression(const generated::CallExpression& call) {
 
-    printf("endIfStatement\n");
-    pm_module->endIfStatement();
-  }
+		printf("startCallExpression\n");
+		pm_module->startCallExpression(call);
+	}
 
-  void startStmtExpression() {
+	void startArgumentList() {
 
-    printf("startStmtExpression\n");
-    pm_module->startStmtExpression();
-  }
+		printf("startArgumentList\n");
+		pm_module->startArgumentList();
+	}
 
-  void endStmtExpression() {
+	void startOneArgument() {
 
-    printf("endStmtExpression\n");
-    pm_module->endStmtExpression();
-  }
+		printf("startOneArgument\n");
+		pm_module->startOneArgument();
+	}
 
-  void startExpressionList() {
+	void endOneArgument() {
 
-    printf("startExpressionList\n");
-    pm_module->startExpressionList();
-  }
+		printf("endOneArgument\n");
+		pm_module->endOneArgument();
+	}
 
-  void startCallExpression(const generated::CallExpression& call) {
+	void endArgumentList() {
 
-    printf("startCallExpression\n");
-    pm_module->startCallExpression(call);
-  }
+		printf("endArgumentList\n");
+		pm_module->endArgumentList();
+	}
 
-  void startArgumentList() {
+	void endCallExpression() {
 
-    printf("startArgumentList\n");
-    pm_module->startArgumentList();
-  }
+		printf("endCallExpression\n");
+		pm_module->endCallExpression();
+	}
+
+	void startBinaryExpression(const generated::BinaryExpression& op) {
+
+		printf("startBinaryExpression\n");
+		pm_module->startBinaryExpression(op);
+	}
+
+	void endBinaryExpression() {
+
+		printf("endBinaryExpression\n");
+		pm_module->endBinaryExpression();
+	}
+
+	void startInstanceOfExpression() {
+
+		printf("startInstanceOfExpression\n");
+		pm_module->startInstanceOfExpression();
+	}
+
+	void endInstanceOfExpression() {
+
+		printf("endInstanceOfExpression\n");
+		pm_module->endInstanceOfExpression();
+	}
 
-  void startOneArgument() {
+	void startIsOperator() {
+
+		printf("startIsOperator\n");
+		pm_module->startIsOperator();
+	}
+
+	void endIsOperator() {
 
-    printf("startOneArgument\n");
-    pm_module->startOneArgument();
-  }
+		printf("endIsOperator\n");
+		pm_module->endIsOperator();
+	}
 
-  void endOneArgument() {
+	void startAsOperator() {
 
-    printf("endOneArgument\n");
-    pm_module->endOneArgument();
-  }
+		printf("startAsOperator\n");
+		pm_module->startAsOperator();
+	}
 
-  void endArgumentList() {
+	void endAsOperator() {
 
-    printf("endArgumentList\n");
-    pm_module->endArgumentList();
-  }
+		printf("endAsOperator\n");
+		pm_module->endAsOperator();
+	}
+	void startUnaryExpression(const generated::UnaryExpression& op) {
 
-  void endCallExpression() {
+		printf("startUnaryExpression\n");
+		pm_module->startUnaryExpression(op);
+	}
 
-    printf("endCallExpression\n");
-    pm_module->endCallExpression();
-  }
+	void endUnaryExpression() {
 
-  void startBinaryExpression(const generated::BinaryExpression& op) {
+		printf("endUnaryExpression\n");
+		pm_module->endUnaryExpression();
+	}
 
-    printf("startBinaryExpression\n");
-    pm_module->startBinaryExpression(op);
-  }
+	void startVariableDeclare(const generated::VariableDeclare& var_decl) {
 
-  void endBinaryExpression() {
+		printf("startVariableDeclare\n");
+		pm_module->startVariableDeclare(var_decl);
+	}
 
-    printf("endBinaryExpression\n");
-    pm_module->endBinaryExpression();
-  }
+	void endVariableDeclare() {
 
-  void startInstanceOfExpression() {
+		printf("endVariableDeclare\n");
+		pm_module->endVariableDeclare();
+	}
 
-    printf("startInstanceOfExpression\n");
-    pm_module->startInstanceOfExpression();
-  }
+	void startGetExpression(const std::string& s) {
+		printf("startGetExpression\n");
+		pm_module->startGetExpression(s);
+	}
+	void endGetExpression() {
+		printf("-----------> endGetExpression\n");
+		pm_module->endGetExpression();
+	}
+	void startSetExpression(const std::string& s) {
+		printf("startSetExpression\n");
+		pm_module->startSetExpression(s);
+	}
+	void endSetExpression() {
+		printf("endSetExpression\n");
+		pm_module->endSetExpression();
+	}
 
-  void endInstanceOfExpression() {
+	void startTypeExpression() {
+		printf("startTypeExpression\n");
+		pm_module->startTypeExpression();
+	}
+	void endTypeExpression() {
+		printf("endTypeExpression\n");
+		pm_module->endTypeExpression();
+	}
+	virtual void thisExpression() {
+		pm_module->thisExpression();
+	}
+	virtual void superExpression() {
+		pm_module->superExpression();
+	}
+	void identifierExpression(const generated::Identifier& id) {
 
-    printf("endInstanceOfExpression\n");
-    pm_module->endInstanceOfExpression();
-  }
+		printf("identifierExpression\n");
+		pm_module->identifierExpression(id);
+	}
 
-  void startIsOperator() {
+	void literalStringExpression(const generated::Literal& str) {
 
-    printf("startIsOperator\n");
-    pm_module->startIsOperator();
-  }
+		printf("literalStringExpression\n");
+		pm_module->literalStringExpression(str);
+	}
 
-  void endIsOperator() {
+	void literalNumberExpression(const generated::Literal& str) {
 
-    printf("endIsOperator\n");
-    pm_module->endIsOperator();
-  }
+		printf("literalNumberExpression\n");
+		pm_module->literalNumberExpression(str);
+	}
 
-  void startAsOperator() {
+	void literalBooleanExpression(const generated::Literal& str) {
 
-    printf("startAsOperator\n");
-    pm_module->startAsOperator();
-  }
+		printf("literalBooleanExpression\n");
+		pm_module->literalBooleanExpression(str);
+	}
 
-  void endAsOperator() {
+	void literalNull() {
+		pm_module->literalNull();
+	}
 
-    printf("endAsOperator\n");
-    pm_module->endAsOperator();
-  }
-  void startUnaryExpression(const generated::UnaryExpression& op) {
+	void endExpressionList() {
 
-    printf("startUnaryExpression\n");
-    pm_module->startUnaryExpression(op);
-  }
+		printf("endExpressionList\n");
+		pm_module->endExpressionList();
+	}
 
-  void endUnaryExpression() {
+	void addImport(const std::vector<std::string> & packages) {
 
-    printf("endUnaryExpression\n");
-    pm_module->endUnaryExpression();
-  }
+		printf("addImport\n");
+		pm_module->addImport(packages);
+	}
 
-  void startVariableDeclare(const generated::VariableDeclare& var_decl) {
+	void startStmtList() {
 
-    printf("startVariableDeclare\n");
-    pm_module->startVariableDeclare(var_decl);
-  }
+		printf("startStmtList\n");
+		pm_module->startStmtList();
+	}
 
-  void endVariableDeclare() {
+	void endStmtList() {
 
-    printf("endVariableDeclare\n");
-    pm_module->endVariableDeclare();
-  }
+		printf("endStmtList\n");
+		pm_module->endStmtList();
+	}
 
-  void startGetExpression( const std::string& s) {
-    printf("startGetExpression\n");
-    pm_module->startGetExpression( s );
-  }
-  void endGetExpression() {
-    printf("-----------> endGetExpression\n");
-    pm_module->endGetExpression( );
-  }
-  void startSetExpression( const std::string& s) {
-    printf("startSetExpression\n");
-    pm_module->startSetExpression( s );
-  }
-  void endSetExpression() {
-    printf("endSetExpression\n");
-    pm_module->endSetExpression( );
-  }
+	void startScope() {
 
-  void startTypeExpression( ) {
-    printf("startTypeExpression\n");
-    pm_module->startTypeExpression(  );
-  }
-  void endTypeExpression() {
-    printf("endTypeExpression\n");
-    pm_module->endTypeExpression( );
-  }
-  virtual void thisExpression( ) {
-	pm_module->thisExpression();
-  }
-  virtual void superExpression( ) {
-	pm_module->superExpression();
-  }
-  void identifierExpression(const generated::Identifier& id) {
+		printf("startScope\n");
+		pm_module->startScope();
+	}
 
-    printf("identifierExpression\n");
-    pm_module->identifierExpression(id);
-  }
+	void endScope() {
 
-  void literalStringExpression(const generated::Literal& str) {
+		printf("endScope\n");
+		pm_module->endScope();
+	}
 
-    printf("literalStringExpression\n");
-    pm_module->literalStringExpression(str);
-  }
+	void startClassDefinition(const generated::ClassDefinition& class_define) {
 
-  void literalNumberExpression(const generated::Literal& str) {
+		printf("startClassDefinition\n");
+		pm_module->startClassDefinition(class_define);
+	}
 
-    printf("literalNumberExpression\n");
-    pm_module->literalNumberExpression(str);
-  }
+	void startClassStmt() {
 
-  void literalBooleanExpression(const generated::Literal& str) {
+		printf("startClassStmt\n");
+		pm_module->startClassStmt();
+	}
 
-    printf("literalBooleanExpression\n");
-    pm_module->literalBooleanExpression(str);
-  }
+	void endClassStmt() {
 
-  void literalNull() {
-    pm_module->literalNull();
-  }
+		printf("endClassStmt\n");
+		pm_module->endClassStmt();
+	}
 
-  void endExpressionList() {
+	void endClassDefinition() {
 
-    printf("endExpressionList\n");
-    pm_module->endExpressionList();
-  }
+		printf("endClassDefinition\n");
+		pm_module->endClassDefinition();
+	}
 
-  void addImport(const std::vector<std::string> & packages) {
+	//  void startAttributeList() {
+	//
+	//    printf("startAttributeList\n");
+	//    pm_module->startAttributeList();
+	//  }
+	//
+	//  void endAttributelist() {
+	//
+	//    printf("endAttributelist\n");
+	//    pm_module->endAttributelist();
+	//  }
 
-    printf("addImport\n");
-    pm_module->addImport(packages);
-  }
+	void startMemberExpression() {
 
-  void startStmtList() {
+		printf("startMemberExpression\n");
+		pm_module->startMemberExpression();
+	}
 
-    printf("startStmtList\n");
-    pm_module->startStmtList();
-  }
+	void endMemberExpression() {
 
-  void endStmtList() {
+		printf("endMemberExpression\n");
+		pm_module->endMemberExpression();
+	}
 
-    printf("endStmtList\n");
-    pm_module->endStmtList();
-  }
+	void startForStatement() {
 
-  void startScope() {
+		printf("startForStatement\n");
+		pm_module->startForStatement();
+	}
 
-    printf("startScope\n");
-    pm_module->startScope();
-  }
+	void startForInit() {
 
-  void endScope() {
+		printf("startForInit\n");
+		pm_module->startForInit();
+	}
 
-    printf("endScope\n");
-    pm_module->endScope();
-  }
+	void endForInit() {
 
-  void startClassDefinition(const generated::ClassDefinition& class_define) {
+		printf("endForInit\n");
+		pm_module->endForInit();
+	}
 
-    printf("startClassDefinition\n");
-    pm_module->startClassDefinition(class_define);
-  }
+	void startForStep() {
 
-  void startClassStmt() {
+		printf("startForStep\n");
+		pm_module->startForStep();
+	}
 
-    printf("startClassStmt\n");
-    pm_module->startClassStmt();
-  }
+	void endForStep() {
 
-  void endClassStmt() {
+		printf("endForStep\n");
+		pm_module->endForStep();
+	}
 
-    printf("endClassStmt\n");
-    pm_module->endClassStmt();
-  }
+	void endForStatement() {
 
-  void endClassDefinition() {
-
-    printf("endClassDefinition\n");
-    pm_module->endClassDefinition();
-  }
-
-//  void startAttributeList() {
-//
-//    printf("startAttributeList\n");
-//    pm_module->startAttributeList();
-//  }
-//
-//  void endAttributelist() {
-//
-//    printf("endAttributelist\n");
-//    pm_module->endAttributelist();
-//  }
-
-  void startMemberExpression() {
-
-    printf("startMemberExpression\n");
-    pm_module->startMemberExpression();
-  }
-
-  void endMemberExpression() {
-
-    printf("endMemberExpression\n");
-    pm_module->endMemberExpression();
-  }
-
-  void startForStatement() {
-
-    printf("startForStatement\n");
-    pm_module->startForStatement();
-  }
-
-  void startForInit() {
-
-    printf("startForInit\n");
-    pm_module->startForInit();
-  }
-
-  void endForInit() {
-
-    printf("endForInit\n");
-    pm_module->endForInit();
-  }
-
-  void startForStep() {
-
-    printf("startForStep\n");
-    pm_module->startForStep();
-  }
-
-  void endForStep() {
-
-    printf("endForStep\n");
-    pm_module->endForStep();
-  }
-
-  void endForStatement() {
-
-    printf("endForStatement\n");
-    pm_module->endForStatement();
-  }
-	void executeImport(const std::vector<std::string> & IDs ) {
+		printf("endForStatement\n");
+		pm_module->endForStatement();
+	}
+	void executeImport(const std::vector<std::string> & IDs) {
 		pm_module->executeImport(IDs);
 	}
 
-  void startDoStatement() {
+	void startDoStatement() {
 
-    printf("startDoStatement\n");
-    pm_module->startDoStatement();
-  }
+		printf("startDoStatement\n");
+		pm_module->startDoStatement();
+	}
 
-  void endDoStatement() {
+	void endDoStatement() {
 
-    printf("endDoStatement\n");
-    pm_module->endDoStatement();
-  }
+		printf("endDoStatement\n");
+		pm_module->endDoStatement();
+	}
 
-  void startWhileStatement() {
+	void startWhileStatement() {
 
-    printf("startWhileStatement\n");
-    pm_module->startWhileStatement();
-  }
+		printf("startWhileStatement\n");
+		pm_module->startWhileStatement();
+	}
 
-  void endWhileStatement() {
+	void endWhileStatement() {
 
-    printf("endWhileStatement\n");
-    pm_module->endWhileStatement();
-  }
+		printf("endWhileStatement\n");
+		pm_module->endWhileStatement();
+	}
 
-  void startConditionExpression() {
-    pm_module->startConditionExpression();
-  }
+	void startConditionExpression() {
+		pm_module->startConditionExpression();
+	}
 
-  void endConditionExpression() {
-    pm_module->endConditionExpression();
-  }
-  void empty() {
-	printf("empty\n");
-    pm_module->empty();
-  }
+	void endConditionExpression() {
+		pm_module->endConditionExpression();
+	}
+	void empty() {
+		printf("empty\n");
+		pm_module->empty();
+	}
 
-  void defineMetaData(const generated::MetaData& metadata) {
+	void defineMetaData(const generated::MetaData& metadata) {
 
-    printf("defineMetaData\n");
-    pm_module->defineMetaData( metadata );
-  }
-  void startIncrementExpression(const generated::IncrementType::type type, const std::string& token) {
-	pm_module-> startIncrementExpression( type, token );
-  }
+		printf("defineMetaData\n");
+		pm_module->defineMetaData(metadata);
+	}
+	void startIncrementExpression(const generated::IncrementType::type type,
+			const std::string& token) {
+		pm_module-> startIncrementExpression(type, token);
+	}
 
-  void endIncrementExpression() {
-    pm_module-> endIncrementExpression();
-  }
+	void endIncrementExpression() {
+		pm_module-> endIncrementExpression();
+	}
 };
 
 } } } } //tw::maple::service::linker
