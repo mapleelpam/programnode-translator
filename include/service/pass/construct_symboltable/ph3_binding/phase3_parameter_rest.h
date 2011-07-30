@@ -46,9 +46,15 @@ struct Phase3_ParameterRest
 				, Phase2ContextPtr context
 				)
 		{
+			using tw::maple::as::symbol::Findable;
 
-//* igonre everything right now.
+			tw::maple::as::symbol::SymbolPtr p_type = Findable::findType( symboltable, "variant" );
 
+			if(p_type != NULL ) // found the symbol in import list
+			{
+				var_symbol->bindType( p_type );
+				return;
+			}
 		}
 };
 

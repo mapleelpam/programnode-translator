@@ -79,8 +79,10 @@ public:
 		for (std::vector< AST::ProgramPtr>::iterator nodeItr = pnode_list.begin(), E = pnode_list.end()
 					; nodeItr != E; nodeItr++)
 		{
-			superInitLinking(
-				*nodeItr, tw::maple::as::ast::FunctionDefinitionPtr() );
+			if( *nodeItr )
+			{
+				superInitLinking(*nodeItr, tw::maple::as::ast::FunctionDefinitionPtr() );
+			}
 		}
 	}
 

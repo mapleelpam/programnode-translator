@@ -443,11 +443,14 @@ void SymbolTableConstructor::superInitLinking(
 	namespace AST = tw::maple::as::ast;
 	namespace ASY = tw::maple::as::symbol;
 
+//	std::cerr <<"super init liking  "<< (node)->toString() <<std::endl;
+
+
 	for (std::vector< AST::NodePtr >::iterator nItr =
 				node->node_childs.begin(), E = node->node_childs.end();
 				nItr != E; nItr++)
 	{
-		std::cerr <<"super init liking iterate  "<< (*nItr)->toString() <<std::endl;
+//		std::cerr <<"super init liking iterate  "<< (*nItr)->toString() <<std::endl;
 		ASY::SymbolPtr symbol = (*nItr)->getSymbol();
 
 		if( (*nItr)->is(  AST::Node::NodeType::T_FUNCTION_DEFINITION ))

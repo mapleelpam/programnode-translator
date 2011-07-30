@@ -46,6 +46,8 @@ struct Findable {
 
 //	static ScopePtr findPackage( std::vector<std::string> pkgs_name);
 	static ScopePtr findPackage( Scope* stable, const std::string& pkgs_name );
+	static ScopePtr findPackage( ScopePtr stable, const std::string& pkgs_name )
+		{ return findPackage( stable.get(), pkgs_name ); }
 	static ScopePtr findClassType( Scope* stable, const std::string& class_name );
 	static ScopePtr findClassType( ScopePtr stable, const std::string& class_name )
 		{	return findClassType( stable.get(), class_name ); }

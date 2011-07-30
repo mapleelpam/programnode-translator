@@ -62,7 +62,10 @@ struct Debug
 					for( std::vector<SymbolPtr>::iterator I = function->m_types.begin(), E = function->m_types.end()
 							; I != E ; I ++ )
 					{
-						ofs << " "<<(*I)->getFQN();
+						if(*I)
+						 ofs << " "<<(*I)->getFQN();
+						else
+						 ofs << " no type ? " ;
 					}
 					ofs << std::endl;
 				}
