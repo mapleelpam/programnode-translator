@@ -184,46 +184,6 @@ struct Scope : public Symbol, public Registrable
 	{
 		childs = m_childs;
 	}
-#if 0
-	SymbolPtr findType( std::string type_name )
-	{
-		for( std::vector<SymbolPtr>::iterator sitr = m_childs.begin() ; sitr != m_childs.end() ; sitr++)
-		{
-			if( (*sitr)->name() != type_name )
-				continue;
-
-			if( (*sitr)->getSymbolProperties() & Symbol::T_PRIMITIVE_TYPE )
-			{
-				return (*sitr);
-			}
-			else if( (*sitr)->getSymbolProperties() & Symbol::T_SCOPE )
-			{
-				ScopePtr scope = STATIC_CAST( Scope, *sitr );
-				if( scope->getScopeType() == T_CLASS )
-				{
-					return (*sitr);
-				}
-			}
-		}
-		// find the anonymouse package
-		for( std::vector<SymbolPtr>::iterator sitr = m_childs.begin() ; sitr != m_childs.end() ; sitr++)
-		{
-			if( (*sitr)->name() == ""  && (*sitr)->getSymbolProperties() == T_SCOPE ) {
-				ScopePtr anonymous_package = DYNA_CAST( Scope, *sitr );
-				if( anonymous_package -> getScopeType() == T_PACKAGE )
-				{
-					SymbolPtr found = anonymous_package -> findType_down( type_name );
-					if( found )
-						return found;
-					else
-						continue;
-				}
-			}
-		}
-
-		return ( m_parent == NULL )? SymbolPtr() : m_parent->findType( type_name ) ;
-	}
-#endif
 	virtual const std::string getFQN( bool& is_annoymouse_scope /*out*/) const
 	{
 		is_annoymouse_scope = ( name() == "" );
@@ -276,6 +236,7 @@ struct Scope : public Symbol, public Registrable
 		bool dummy;
 		return getFQN_and_mappedName(dummy);
 	}
+
 	SymbolPtr findSymbol( const std::string& type_name)
 	{
 		// this scope
@@ -378,40 +339,6 @@ struct Scope : public Symbol, public Registrable
 
 		return answers;
 	}
-#if 0
-	SymbolPtr findType_down( const std::string& type_name )
-	{
-		for( std::vector<SymbolPtr>::iterator sitr = m_childs.begin() ; sitr != m_childs.end() ; sitr++)
-		{
-			if( (*sitr)->name() == type_name  && (*sitr)->getSymbolProperties() & Symbol::T_SCOPE )
-			{
-				ScopePtr scope = STATIC_CAST( Scope, *sitr );
-				if( scope->getScopeType() == T_CLASS )
-				{
-					return (*sitr);
-				}
-			}
-		}
-
-		// find the anonymouse package
-		for( std::vector<SymbolPtr>::iterator sitr = m_childs.begin() ; sitr != m_childs.end() ; sitr++)
-		{
-			if( (*sitr)->name() == ""  && (*sitr)->getSymbolProperties() == T_SCOPE ) {
-				ScopePtr anonymous_package = DYNA_CAST( Scope, *sitr );
-				if( anonymous_package -> getScopeType() == T_PACKAGE )
-				{
-					SymbolPtr found = anonymous_package -> findSymbol_down( type_name );
-					if( found )
-						return found;
-					else
-						continue;
-				}
-			}
-		}
-
-		return SymbolPtr();
-	}
-#endif
 
 public:
 	Scope* getParent()

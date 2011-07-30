@@ -30,8 +30,6 @@
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
-namespace AST = ::tw::maple::as::ast;
-
 
 // Abstract
 struct Arguments : public Interpreter
@@ -43,17 +41,34 @@ struct Arguments : public Interpreter
 
 			)
 	{
-		ReturnValue result = "";
-		std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr = node->node_childs.begin();
-		if( nItr != node->node_childs.end() )
-		{
-			result += dispatchExpound(*nItr, symbol_table, ctx);
+		namespace AST = ::tw::maple::as::ast;
+		namespace ASY = ::tw::maple::as::symbol;
 
-			for( nItr++ ; nItr != node->node_childs.end() ; nItr ++ )
+		ReturnValue result = "";
+
+
+		int counter = 0;
+		for( std::vector<tw::maple::as::ast::NodePtr>::iterator nItr = node->node_childs.begin(), E = node->node_childs.end()
+				; nItr != E ; nItr ++, counter ++ )
+		{
+			ASY::SymbolPtr arg_type;
+			if( ctx.callee_type )
+				arg_type = ctx.callee_type->m_types[counter+1];
+
+			std::string prefix = (counter == 0? std::string(""):std::string(", "));
+			ReturnValue arg_result = dispatchExpound(*nItr, symbol_table, ctx);
+			if( arg_type && arg_type != arg_result.token_symbol )
 			{
-				result += std::string(", ") + dispatchExpound(*nItr, symbol_table, ctx).result;
+				if(arg_result.token_symbol )
+				{
+					std::cerr <<" argument type = "<<arg_result.token_symbol->toString()<<std::endl;
+				}
+				prefix += "(" + arg_type->getFQN_and_mappedName()+")";
 			}
+
+			result +=  prefix + arg_result.result;
 		}
+
 		return result;
 	}
 };

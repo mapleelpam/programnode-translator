@@ -57,6 +57,7 @@ ScopePtr Findable::findPackage( Scope* stable, const std::string& pkgs_name )
 	}
 }
 
+
 ScopePtr Findable::findClassType_downward( Scope* stable, const std::string& class_name )
 {
 	for( std::vector<SymbolPtr>::iterator I = stable->m_childs.begin(), B = stable->m_childs.end()
@@ -105,15 +106,10 @@ SymbolPtr Findable::findType_downward( Scope* stable, const std::string& type_na
 				return *I;
 			}
 		}
-//		std::cerr <<" check is primitive type" << std::endl;
 		if( (*I)->name() == type_name && (*I)->is(Symbol::T_PRIMITIVE_TYPE) )
 		{
-//			std::cerr <<"is primitive type" << std::endl;
 			return *I;
 		}
-//		else
-//			std::cerr <<"is not primitive type" << std::endl;
-
 		if( (*I)->name() == "" && (*I)->is( Symbol::T_SCOPE) )
 		{
 			ScopePtr pkg_symbol = DYNA_CAST( Scope, *I );
@@ -124,8 +120,6 @@ SymbolPtr Findable::findType_downward( Scope* stable, const std::string& type_na
 			}
 		}
 	}
-	//		if( stable->m_parent )
-	//			return findType( stable->m_parent, type_name );
 	return SymbolPtr();
 }
 
@@ -243,6 +237,42 @@ ScopePtr Findable::findCallee( Scope* stable, const std::string& class_name )
 	else
 		return ScopePtr();
 }
+
+FunctionPtr Findable::findFunction_downward( Scope* stable, const std::string& function_name )
+{
+	for( std::vector<SymbolPtr>::iterator I = stable->m_childs.begin(), B = stable->m_childs.end()
+			; I != B ; I ++ )
+	{
+		if( (*I)->name() == function_name && (*I)->is(Symbol::T_SCOPE) )
+		{
+			ScopePtr scope_symbol = DYNA_CAST( Scope, *I );
+			if( scope_symbol->getScopeType() == Scope::T_FUNCTION )
+			{
+				FunctionPtr func_symbol = DYNA_CAST( Function, *I );
+				return func_symbol;
+			}
+		}
+		if( (*I)->name() == "" && (*I)->is( Symbol::T_SCOPE) )	{
+			ScopePtr pkg_symbol = DYNA_CAST( Scope, *I );
+			if( pkg_symbol->getScopeType() == Scope::T_PACKAGE ) {
+				FunctionPtr found = findFunction_downward( pkg_symbol.get() , function_name );
+				if( found )
+					return found;
+			}
+		}
+	}
+	return FunctionPtr();
+}
+
+FunctionPtr Findable::findFunction( Scope* stable, const std::string& function_name )
+{
+	FunctionPtr found = findFunction_downward(stable, function_name );
+	if( found ) return found;
+	if( stable->m_parent )
+		return findFunction( stable->m_parent, function_name );
+	return FunctionPtr();
+}
+
 
 }}}}//tw/maple/as/symbol
 

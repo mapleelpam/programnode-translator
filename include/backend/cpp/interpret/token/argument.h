@@ -42,17 +42,8 @@ struct Argument : public Interpreter
 			
 			)
 	{
-		ReturnValue result = "";
-		std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr = node->node_childs.begin();
-		if( nItr != node->node_childs.end() ) {
-			result += dispatchExpound(*nItr, symbol_table, ctx);
-
-			for( nItr++ ; nItr != node->node_childs.end() ; nItr ++ )
-			{
-				result +=  std::string(" ") + dispatchExpound(*nItr, symbol_table, ctx).result;
-			}
-		}
-		return result;
+		AST::ArgumentPtr arg = STATIC_CAST( AST::Argument, node);
+		return dispatchExpound(arg->expression() , symbol_table, ctx);
 	}
 };
 

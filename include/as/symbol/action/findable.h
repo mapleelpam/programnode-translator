@@ -56,6 +56,11 @@ struct Findable {
 	static SymbolPtr findType( ScopePtr stable, const std::string& type_name )
 		{	return findType( stable.get(), type_name ); }
 
+	static FunctionPtr findFunction_downward( Scope* stable, const std::string& function_name );
+	static FunctionPtr findFunction( Scope* stable, const std::string& type_name );
+	static FunctionPtr findFunction( ScopePtr stable, const std::string& type_name )
+		{	return findFunction( stable.get(), type_name ); }
+
 	static std::vector<SymbolPtr> findRHS_Candidates( Scope* stable, const std::string& var_name );
 	static std::vector<SymbolPtr> findRHS_Candidates( ScopePtr stable, const std::string& var_name )
 		{	return findRHS_Candidates( stable.get(), var_name ); }

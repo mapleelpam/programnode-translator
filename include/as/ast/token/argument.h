@@ -36,6 +36,9 @@ struct Argument : public Expression
 	Argument() : Expression(Node::NodeType::T_ARGUMENT)
 	{
 	}
+
+    NodePtr expression(){	return (node_childs.size() > 0 )? node_childs[0] : NodePtr();	}
+
 	std::string toString()  {	return "node::argument"; };
 };
 

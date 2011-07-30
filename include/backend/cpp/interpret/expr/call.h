@@ -42,10 +42,11 @@ struct Call : public Interpreter
 			)
 	{
 		namespace ASY = tw::maple::as::symbol;
+		using tw::maple::as::symbol::Findable;
 
 		ReturnValue result;
 		AST::CallPtr call = STATIC_CAST( AST::Call, node);
-
+		ASY::FunctionPtr callee_type;
 		std::cerr << " in call expound - "<<get_full_functionname( call->callee )<<std::endl;
 
 		if (call->isObjectConsturct()) {
@@ -117,12 +118,18 @@ struct Call : public Interpreter
 
 			}
 			else
+			{
+//				ASY::SymbolPtr p_type = call->getCalleeType();
 				result += get_full_functionname( call->callee );
+				callee_type = Findable::findFunction( symbol_table, result );
+			}
 		}
 		result +=  "( ";
 		if (call->getArgs())
 		{
 			tw::maple::backend::cpp::Context ctx2 = ctx;
+			ctx2 . callee_type = callee_type;
+			std::cerr << " in call expound - try to evaluate args"<<call->getArgs()->toString()<<std::endl;
 			result += dispatchExpound( call->getArgs(), symbol_table, ctx2);
 		}
 		result += " )";
@@ -133,15 +140,15 @@ struct Call : public Interpreter
 	}
 
 private:
-		const std::string get_full_functionname( const std::vector<std::string> fn )
+	const std::string get_full_functionname( const std::vector<std::string> fn )
+	{
+		std::string ans = fn[0];
+		for( int idx = 1 ; idx < fn.size() ; idx ++ )
 		{
-			std::string ans = fn[0];
-			for( int idx = 1 ; idx < fn.size() ; idx ++ )
-			{
-				ans += "::"+fn[idx];
-			}
-			return ans;
+			ans += "::"+fn[idx];
 		}
+		return ans;
+	}
 };
 
 

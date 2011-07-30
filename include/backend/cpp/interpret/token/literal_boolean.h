@@ -27,6 +27,7 @@
 
 #include <backend/cpp/interpret/interpreter.h>
 #include <as/ast/token/literal_boolean.h>
+#include <as/symbol/action/findable.h>
 #include <global.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
@@ -41,14 +42,19 @@ struct LiteralBoolean : public Interpreter
 			)
 	{
 		namespace AST = ::tw::maple::as::ast;
+		using ::tw::maple::as::symbol::Findable;
 
 		AST::LiteralBooleanPtr li = std::tr1::static_pointer_cast<AST::LiteralBoolean>(node);
+		ReturnValue result;
 
 		if( li->value == "true" )
-			return "true";
+			result = "true";
 		else if( li->value == "false" )
-			return "false";
+			result = "false";
 
+		result.token_symbol = Findable::findType( symbol_table, "Boolean" );
+
+		return result;
 	}
 
 };
