@@ -111,7 +111,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		{
 			if(symbol_function->isConstructor())
 				tpl_function_signature = m_tpl_constructor_function_signature;
-			else if(symbol_function->isStatic())
+			else if(symbol_function->isStatic() || fdef->isAbstract )
 				tpl_function_signature = m_tpl_normal_function_signature;
 			else
 				tpl_function_signature = m_tpl_member_function_signature;
