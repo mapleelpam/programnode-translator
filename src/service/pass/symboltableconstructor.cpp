@@ -102,10 +102,19 @@ void SymbolTableConstructor:: constructSymbols(
 				}
 //				std::cerr << "abcdefg "<<str_func_name << "  " << fname->function_type<<"  "<<symboltable->name()<<std::endl;
 				scope_func -> setFunctionType( fname->function_type );
+
+				std::cerr << " class name = " << classname << " function_name = " <<str_func_name << std::endl;
 				if( classname!="" && classname == str_func_name )
 				{
+					std::cerr << " set true " << std::endl;
 					scope_func -> setIsConstructor( true );
 				}
+				else
+				{
+					std::cerr << " set false " << std::endl;
+					scope_func -> setIsConstructor( false );
+				}
+
 				fdef -> setSymbol( scope_func );
 				fdef -> setFunctionSymbol( scope_func );
 

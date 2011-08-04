@@ -67,7 +67,6 @@ ScopePtr Findable::findClassType_downward( Scope* stable, const std::string& cla
 	for( std::vector<SymbolPtr>::iterator I = stable->m_childs.begin(), B = stable->m_childs.end()
 			; I != B ; I ++ )
 	{
-//		std::cerr << " in find ct '" << stable->getFQN() <<"' '"<< (*I)->name() <<"'"<< std::endl;
 		if( (*I)->name() == class_name && (*I)->is(Symbol::T_SCOPE) )
 		{
 			ScopePtr pkg_symbol = DYNA_CAST( Scope, *I );
@@ -101,7 +100,7 @@ SymbolPtr Findable::findType_downward( Scope* stable, const std::string& type_na
 	for( std::vector<SymbolPtr>::iterator I = stable->m_childs.begin(), B = stable->m_childs.end()
 			; I != B ; I ++ )
 	{
-		std::cerr <<" in findType -> try to compare '"<<type_name<<"' '"<<(*I)->name() <<"' "<<(*I)->getSymbolProperties()<<std::endl;
+
 		if( (*I)->name() == type_name && (*I)->is(Symbol::T_SCOPE) )
 		{
 			ScopePtr pkg_symbol = DYNA_CAST( Scope, *I );
@@ -173,7 +172,6 @@ std::vector<SymbolPtr> Findable::findRHS_Candidates( Scope* stable, const std::s
 
 std::vector<SymbolPtr> Findable::findLHS_Candidates( Scope* stable, const std::string& var_name )
 {
-	std::cerr<< "@Findable::findLHS_Candidates "<< stable->getFQN()<<std::endl;
 	std::vector<SymbolPtr> answers;
 	for( std::vector<SymbolPtr>::iterator I = stable->m_childs.begin(), B = stable->m_childs.end()
 			; I != B ; I ++ )
@@ -208,20 +206,15 @@ std::vector<SymbolPtr> Findable::findLHS_Candidates( Scope* stable, const std::s
 ScopePtr Findable::findCallee( Scope* stable, const std::string& class_name )
 {
 	ScopePtr found;
-	//std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
 	for( std::vector<SymbolPtr>::iterator I = stable->m_childs.begin(), B = stable->m_childs.end()
 			; I != B ; I ++ )
 	{
-		//std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
 		std::cerr << "@@@@ in find ct '" << stable->getFQN() <<"' '"<< (*I)->name() <<"'"<< std::endl;
 		if( (*I)->name() == class_name && (*I)->is(Symbol::T_SCOPE) )
 		{
-			//std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
 			ScopePtr func_symbol = DYNA_CAST( Scope, *I );
-			//std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
 			if( func_symbol->getScopeType() == Scope::T_FUNCTION )
 			{
-				//std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
 				return func_symbol;
 			}
 		}

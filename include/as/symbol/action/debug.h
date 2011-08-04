@@ -59,11 +59,12 @@ struct Debug
 				{
 					FunctionPtr function = DYNA_CAST( Function, scope );
 					ofs << indent(depth) << (*child_itr)->toString();
+					ofs <<" " <<(function->isConstructor()?"constructor": "not_constructor");
 					for( std::vector<SymbolPtr>::iterator I = function->m_types.begin(), E = function->m_types.end()
 							; I != E ; I ++ )
 					{
 						if(*I)
-						 ofs << " "<<(*I)->getFQN();
+						 ofs << " "<<(*I)->getFQN() ;
 						else
 						 ofs << " no type ? " ;
 					}

@@ -71,12 +71,17 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		std::string 		str_function_attribute;
 		switch( symbol_function->getSymbolAttribtues() )
 		{
-			case ASY::Symbol::ATTR_NONE:	str_function_attribute="";	break;
+			case ASY::Symbol::ATTR_NONE:
+			{
+				if( symbol_function->isConstructor() )
+					str_function_attribute="public";
+				else
+					str_function_attribute="";
+			}
+			break;
 			case ASY::Symbol::ATTR_PRIVATE:	str_function_attribute="#(indent_tab_sub)private";	break;
 			case ASY::Symbol::ATTR_PUBLIC:	str_function_attribute="#(indent_tab_sub)public";	break;
 		}
-		if( str_function_attribute != "")
-			str_function_attribute+=":";
 
 		std::string str_func_name = _function_name_mapper( symbol_function->name(), symbol_function );
 
@@ -100,13 +105,11 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 
 		if( ! symbol_function->isConstructor() )
 			str_function_return_type = ( str_function_return_type == "" ) ? "void /* damn */" : str_function_return_type;
-//		if( symbol_function->isConstructor() && fdef->mp_parent_initilizer )
-//		{
-//			printf("hey come to speciel service\n");
-//			exit(1);
-//		}
 
-		patterns.push_back( PatternPtr( new Pattern("function_attribute", str_function_attribute+ ctx.endl()) ));
+		patterns.push_back( PatternPtr( new Pattern("function_signature",
+				(symbol_function->isConstructor())? m_tpl_constructor_function_signature: m_tpl_method_function_signature)));
+		patterns.push_back( PatternPtr( new Pattern("function_attribute", str_function_attribute) ));
+		patterns.push_back( PatternPtr( new Pattern("function_attribute_stmt", (str_function_attribute=="")?"":str_function_attribute+":") ));
 		patterns.push_back( PatternPtr( new Pattern("func_name", str_func_name+ "   ") ));
 		patterns.push_back( PatternPtr( new Pattern("func_body",  str_function_body )) );
 		patterns.push_back( PatternPtr( new Pattern("func_parameters", str_func_parameters.result ) ));
@@ -133,12 +136,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		, m_pointer_pattern("*")
 		, m_default_virtual( true )
 	{
-		setTemplateString(  "#(indent_tab_sub)#(function_attribute)"
-
-							"#(indent_tab)"
-							"#(function_is_static)"
-							"#(function_is_virtual) "
-							"#(func_ret_type) #(func_name)(#(prefix_arguments)#(func_parameters)#(postfix_arguments))"
+		setTemplateString(  "#(function_signature)"
 							"#(member_initial)"
 
 							"#(function_enter)"
@@ -147,6 +145,14 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 							"#(endl)"
 							 )
 							;
+		m_tpl_method_function_signature = m_tpl_constructor_function_signature =
+							"#(function_attribute_stmt)" "#(endl)"
+							"#(indent_tab)"
+							"#(function_is_static)"
+							"#(function_is_virtual) "
+							"#(func_ret_type) #(func_name)(#(prefix_arguments)#(func_parameters)#(postfix_arguments))";
+
+
 		m_tpl_enter_function = "#(endl)#(indent_tab){/*enter function*/";
 		m_tpl_leave_function = "#(indent_tab)/*enter function*/#(endl)#(indent_tab)}";
 
@@ -167,6 +173,9 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 
 	virtual bool readConfig( boost::property_tree::ptree& pt )
 	{
+		m_tpl_method_function_signature = pt.get<std::string>( configName()+".template.method_signature", m_tpl_method_function_signature);
+		m_tpl_constructor_function_signature = pt.get<std::string>( configName()+".template.constructor_signature", m_tpl_constructor_function_signature);
+
 		m_tpl_enter_function = pt.get<std::string>(  configName()+".template.enter_function", m_tpl_enter_function);
 		m_tpl_leave_function = pt.get<std::string>(  configName()+".template.leave_function", m_tpl_leave_function);
 
@@ -184,6 +193,9 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 	}
 	virtual bool writeConfig( boost::property_tree::ptree& pt )
 	{
+		pt.put<std::string>( configName()+".template.method_signature", m_tpl_method_function_signature);
+		pt.put<std::string>( configName()+".template.constructor_signature", m_tpl_constructor_function_signature);
+
 		pt.put<std::string>( configName()+".template.enter_function", m_tpl_enter_function);
 		pt.put<std::string>( configName()+".template.leave_function", m_tpl_leave_function);
 
@@ -207,6 +219,9 @@ private:
 
 	std::string m_tpl_setter_prepend;
 	std::string m_tpl_getter_prepend;
+
+	std::string m_tpl_method_function_signature;
+	std::string m_tpl_constructor_function_signature;
 
 	bool		m_default_virtual;
 	std::string m_pointer_pattern;
@@ -265,3 +280,4 @@ private:
 } } } } 
 
 #endif 
+
