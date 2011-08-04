@@ -79,8 +79,8 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 					str_function_attribute="";
 			}
 			break;
-			case ASY::Symbol::ATTR_PRIVATE:	str_function_attribute="#(indent_tab_sub)private";	break;
-			case ASY::Symbol::ATTR_PUBLIC:	str_function_attribute="#(indent_tab_sub)public";	break;
+			case ASY::Symbol::ATTR_PRIVATE:	str_function_attribute="private";	break;
+			case ASY::Symbol::ATTR_PUBLIC:	str_function_attribute="public";	break;
 		}
 
 		std::string str_func_name = _function_name_mapper( symbol_function->name(), symbol_function );
@@ -121,7 +121,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("function_signature", tpl_function_signature )));
 		patterns.push_back( PatternPtr( new Pattern("function_attribute", str_function_attribute) ));
 		patterns.push_back( PatternPtr( new Pattern("function_attribute_stmt", (str_function_attribute=="")?"":str_function_attribute+":") ));
-		patterns.push_back( PatternPtr( new Pattern("func_name", str_func_name+ "   ") ));
+		patterns.push_back( PatternPtr( new Pattern("func_name", str_func_name+ " ") ));
 		patterns.push_back( PatternPtr( new Pattern("func_body",  str_function_body )) );
 		patterns.push_back( PatternPtr( new Pattern("func_parameters", str_func_parameters.result ) ));
 		patterns.push_back( PatternPtr( new Pattern("func_ret_type",  str_function_return_type ) ) );
