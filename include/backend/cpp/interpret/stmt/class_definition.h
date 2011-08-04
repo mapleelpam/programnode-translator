@@ -64,7 +64,8 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 		std::string class_base = "";
 		if (_class_define_->hasBaseClass() ) {
 			class_base += _class_define_->Inherits()[0];
-		} else if (_default_base_object != "") {
+//		} else if (_default_base_object != "") {
+		} else {
 			class_base = _default_base_object;
 		}
 
@@ -156,6 +157,8 @@ private:
 		{
 			class_inherit += ": public "+ symbol_class->getInherit()->getFQN_and_mappedName();
 		}
+		if( class_inherit == "" && _default_base_object != "" )
+			class_inherit += " : public "+_default_base_object;
 		if( ( _inherit_type == ONLY_IMPLEMENTS || _inherit_type == BOTH) && _class_define_->hasInterface() )
 		for( int idx = 0 ; idx < _class_define_->Implements ().size() ; idx ++){
 			class_inherit += class_inherit=="" ? " : " : " , ";

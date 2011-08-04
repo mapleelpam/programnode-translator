@@ -73,7 +73,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		{
 			case ASY::Symbol::ATTR_NONE:
 			{
-				if( symbol_function->isConstructor() )
+				if( symbol_function->isMemberFunction() )
 					str_function_attribute="public";
 				else
 					str_function_attribute="";
@@ -106,8 +106,19 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		if( ! symbol_function->isConstructor() )
 			str_function_return_type = ( str_function_return_type == "" ) ? "void /* damn */" : str_function_return_type;
 
-		patterns.push_back( PatternPtr( new Pattern("function_signature",
-				(symbol_function->isConstructor())? m_tpl_constructor_function_signature: m_tpl_method_function_signature)));
+		std::string tpl_function_signature;
+		if( symbol_function->isMemberFunction() )
+		{
+			if(symbol_function->isConstructor())
+				tpl_function_signature = m_tpl_constructor_function_signature;
+			else if(symbol_function->isStatic())
+				tpl_function_signature = m_tpl_normal_function_signature;
+			else
+				tpl_function_signature = m_tpl_member_function_signature;
+		}else
+			tpl_function_signature = m_tpl_normal_function_signature;
+
+		patterns.push_back( PatternPtr( new Pattern("function_signature", tpl_function_signature )));
 		patterns.push_back( PatternPtr( new Pattern("function_attribute", str_function_attribute) ));
 		patterns.push_back( PatternPtr( new Pattern("function_attribute_stmt", (str_function_attribute=="")?"":str_function_attribute+":") ));
 		patterns.push_back( PatternPtr( new Pattern("func_name", str_func_name+ "   ") ));
@@ -145,7 +156,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 							"#(endl)"
 							 )
 							;
-		m_tpl_method_function_signature = m_tpl_constructor_function_signature =
+		m_tpl_normal_function_signature = m_tpl_constructor_function_signature = m_tpl_member_function_signature =
 							"#(function_attribute_stmt)" "#(endl)"
 							"#(indent_tab)"
 							"#(function_is_static)"
@@ -173,7 +184,8 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 
 	virtual bool readConfig( boost::property_tree::ptree& pt )
 	{
-		m_tpl_method_function_signature = pt.get<std::string>( configName()+".template.method_signature", m_tpl_method_function_signature);
+		m_tpl_normal_function_signature = pt.get<std::string>( configName()+".template.method_signature", m_tpl_normal_function_signature);
+		m_tpl_member_function_signature = pt.get<std::string>( configName()+".template.member_signature", m_tpl_member_function_signature);
 		m_tpl_constructor_function_signature = pt.get<std::string>( configName()+".template.constructor_signature", m_tpl_constructor_function_signature);
 
 		m_tpl_enter_function = pt.get<std::string>(  configName()+".template.enter_function", m_tpl_enter_function);
@@ -193,7 +205,8 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 	}
 	virtual bool writeConfig( boost::property_tree::ptree& pt )
 	{
-		pt.put<std::string>( configName()+".template.method_signature", m_tpl_method_function_signature);
+		pt.put<std::string>( configName()+".template.normal_signature", m_tpl_normal_function_signature);
+		pt.put<std::string>( configName()+".template.member_signature", m_tpl_member_function_signature);
 		pt.put<std::string>( configName()+".template.constructor_signature", m_tpl_constructor_function_signature);
 
 		pt.put<std::string>( configName()+".template.enter_function", m_tpl_enter_function);
@@ -220,7 +233,8 @@ private:
 	std::string m_tpl_setter_prepend;
 	std::string m_tpl_getter_prepend;
 
-	std::string m_tpl_method_function_signature;
+	std::string m_tpl_normal_function_signature;
+	std::string m_tpl_member_function_signature;
 	std::string m_tpl_constructor_function_signature;
 
 	bool		m_default_virtual;
