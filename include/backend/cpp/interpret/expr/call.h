@@ -26,6 +26,7 @@
 #define __TW_MAPLE_BACKEDN_CPP_INTERPRET_CALL_H
 
 #include <backend/cpp/interpret/interpreter.h>
+#include <backend/cpp/templateprinter.h>
 #include <as/ast/abstract/expression.h>
 #include <as/ast/expr/call.h>
 
@@ -34,7 +35,7 @@ namespace AST = ::tw::maple::as::ast;
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
 // Abstract
-struct Call : public Interpreter
+struct Call : public Interpreter, public TemplatePrinter
 {   
 	virtual ReturnValue expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
@@ -45,25 +46,27 @@ struct Call : public Interpreter
 		using tw::maple::as::symbol::Findable;
 
 		ReturnValue result;
+		std::string str_callee_name = "";
+		std::string str_tpl_expression = m_tpl_normal_call;
+		std::string str_prefix = "";
 		AST::CallPtr call = STATIC_CAST( AST::Call, node);
 		ASY::FunctionPtr callee_type;
-		std::cerr << " in call expound - "<<get_full_functionname( call->callee )<<std::endl;
+
+//		std::cerr << " in call expound - "<<get_full_functionname( call->callee )<<std::endl;
 
 		if (call->isObjectConsturct()) {
-			std::cerr << "is new in call expound - "<<get_full_functionname( call->callee )<<std::endl;
-
-			result +=  " new ";
+			str_callee_name +=  " new ";
 			std::string type_name = get_full_functionname( call->callee );
 			ASY::SymbolPtr p_type = call->getCalleeType();
 			if( p_type != NULL && p_type->getFQN_and_mappedName() != "" )
 			{
 				result.token_symbol = p_type;
 				result.expression_type = ReturnValue::HEAP;
-				result += p_type->getFQN_and_mappedName();
+				str_callee_name += p_type->getFQN_and_mappedName();
 			}
 			else
 			{
-				result += type_name;
+				str_callee_name += type_name;
 			}
 		}
 		else
@@ -73,8 +76,6 @@ struct Call : public Interpreter
 				std::string right = get_full_functionname( call->callee );
 				if( ctx.expression_symbol != NULL )
 				{
-
-					std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
 
 					ASY::Scope* left_scope = NULL;
 					if( ctx.expression_symbol->is(ASY::Symbol::T_VARIABLE ))
@@ -94,21 +95,30 @@ struct Call : public Interpreter
 					if(ctx.expression_symbol->is( ASY::Symbol::T_VARIABLE)
 							|| ctx.left_is_pointer )
 					{  // TODO: guess this child_string is ??? primitive? or non-deletable
-						result += ("->"+right);
+						str_prefix = "->";
+						str_callee_name += right;
 					}
 					else if(ctx.expression_symbol->is( ASY::Symbol::T_SCOPE) )
 					{ // should be a type
 						if(ctx.left_is_pointer) // TBR 0720
-							result += _DS2("/* call left is pointer type */")+( "->"+right);
+							str_callee_name += _DS2("/* call left is pointer type */")+( "->"+right);
 						else
-							result += _DS2("/* call left is scope */")+( "::"+right);
+							str_callee_name += _DS2("/* call left is scope */")+( "::"+right);
 					}
 
-					ASY::SymbolPtr callee_symbol = ASY::Findable::findCallee(left_scope,right);
+					ASY::SymbolPtr callee_symbol = ASY::Findable::findFunction(left_scope,right);
 					ASY::FunctionPtr callee_func_symbol = DYNA_CAST(ASY::Function, callee_symbol);
-					result.token_symbol = callee_func_symbol->ReturnType();
-					result.expression_type =
-					 callee_func_symbol->ReturnType()->preferStack() ? ReturnValue::STACK : ReturnValue::HEAP;
+
+					if( callee_func_symbol != NULL)
+					{
+						result.token_symbol = callee_func_symbol->ReturnType();
+						result.expression_type =
+								callee_func_symbol->ReturnType()->preferStack() ? ReturnValue::STACK : ReturnValue::HEAP;
+					} else
+					{
+						/* do for waht? */
+						str_tpl_expression = m_tpl_undefined_member_call;
+					}
 				}
 				else
 				{
@@ -120,25 +130,56 @@ struct Call : public Interpreter
 			else
 			{
 //				ASY::SymbolPtr p_type = call->getCalleeType();
-				result += get_full_functionname( call->callee );
-				callee_type = Findable::findFunction( symbol_table, result );
+				str_callee_name += get_full_functionname( call->callee );
+				callee_type = Findable::findFunction( symbol_table, str_callee_name );
 			}
 		}
-		result +=  "( ";
+		std::string str_arguments;
+//		result +=  "( ";
 		if (call->getArgs())
 		{
 			tw::maple::backend::cpp::Context ctx2 = ctx;
 			ctx2 . callee_type = callee_type;
 			std::cerr << " in call expound - try to evaluate args"<<call->getArgs()->toString()<<std::endl;
-			result += dispatchExpound( call->getArgs(), symbol_table, ctx2);
+			str_arguments += dispatchExpound( call->getArgs(), symbol_table, ctx2);
 		}
-		result += " )";
+//		result += " )";
 
 //		std::cerr << " in call interpreter  = (end)" << std::endl;
+
+		std::list<PatternPtr> patterns;
+		patterns.push_back( PatternPtr( new Pattern("expression", str_tpl_expression) ));
+		patterns.push_back( PatternPtr( new Pattern("arguments", str_arguments) ));
+		patterns.push_back( PatternPtr( new Pattern("callee_name", str_callee_name) ));
+		patterns.push_back( PatternPtr( new Pattern("prefix", str_prefix) ));
+
+		std::string str_answer = substitutePatterns( patterns );
+		result.result = str_answer;
 
 		return result;
 	}
 
+	Call()
+		: TemplatePrinter("Call")
+	{
+		setTemplateString("#(expression)");
+		m_tpl_undefined_member_call = "#(prefix)invokeVoid(\"#(callee_name)\", 0 #(arguments) )";
+		m_tpl_normal_call = "#(prefix)#(callee_name)(#(arguments))";
+	}
+	virtual bool readConfig( boost::property_tree::ptree& pt )
+	{
+		m_tpl_undefined_member_call = pt.get<std::string>( configName()+".template.undefine_member_call", m_tpl_undefined_member_call);
+		m_tpl_normal_call = pt.get<std::string>( configName()+".template.normal_call", m_tpl_normal_call);
+	}
+	virtual bool writeConfig( boost::property_tree::ptree& pt )
+	{
+		pt.put<std::string>( configName()+".template.undefine_member_call", m_tpl_undefined_member_call);
+		m_tpl_undefined_member_call = pt.get<std::string>( configName()+".template.normal_call", m_tpl_normal_call);
+	}
+
+private:
+	std::string m_tpl_undefined_member_call;
+	std::string m_tpl_normal_call;
 private:
 	const std::string get_full_functionname( const std::vector<std::string> fn )
 	{

@@ -205,7 +205,10 @@ std::vector<SymbolPtr> Findable::findLHS_Candidates( Scope* stable, const std::s
 
 ScopePtr Findable::findCallee( Scope* stable, const std::string& class_name )
 {
+	if(stable == NULL ) return ScopePtr();
+
 	ScopePtr found;
+	std::cerr << " findCallee " <<stable->name()<<std::endl;
 	for( std::vector<SymbolPtr>::iterator I = stable->m_childs.begin(), B = stable->m_childs.end()
 			; I != B ; I ++ )
 	{
@@ -231,8 +234,8 @@ ScopePtr Findable::findCallee( Scope* stable, const std::string& class_name )
 		if( found )	return found;
 	}
 
-	else
-		return ScopePtr();
+	std::cerr << " findCallee " <<stable->name() << " " << class_name << " return null "<<std::endl;
+	return ScopePtr();
 }
 
 FunctionPtr Findable::findFunction_downward( Scope* stable, const std::string& function_name )
