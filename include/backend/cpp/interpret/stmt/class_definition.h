@@ -87,10 +87,9 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("indent_tab_add", ctx.indentAdd()) ));
 
 
-		std::string result = "\n/*begin*/\n"
-				+substitutePatterns(  _class_define_->isAbstract()? _template_interface : _template_class
-						, patterns )
-				+"\n/*end*/\n";
+		std::string result = 
+				substitutePatterns(  _class_define_->isAbstract()? _template_interface : _template_class
+						, patterns );
 
 		return result;
 	}
@@ -100,7 +99,7 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 		, _default_base_object("")
 		, _inherit_type(BOTH)
 	{
-		_template_class = ( "#(indent_tab) #(class_type) #(class_name)  #(class_inherit) #(endl)#(indent_tab){#(endl)"
+		_template_class = ( "#(indent_tab)#(class_type) #(class_name) #(class_inherit) #(endl)#(indent_tab){#(endl)"
 							"#(class_stmt)"
 							"#(class_default_constructor)"
 							"#(endl)#(indent_tab)};#(endl)" )
@@ -194,18 +193,16 @@ private:
 			
 			)
 	{
-		std::string answer = "#(indent_tab)public: "+symbol_class->name()+"()";
+		std::string answer = "#(indent_tab_add)public: "+symbol_class->name()+"()";
 
 		std::vector<ASY::SymbolPtr> childs;
 		symbol_class->getChilds(childs/*out*/);
 		for (std::vector<ASY::SymbolPtr>::iterator child_itr = childs.begin(); child_itr
 				!= childs.end(); child_itr++) {
-
-			std::cout << "symbol name = " << (*child_itr)->name() << std::endl;
 			if (((*child_itr)->getSymbolProperties() & ASY::Symbol::T_VARIABLE)) {
 				ASY::VariablePtr var = STATIC_CAST( ASY::Variable, *child_itr );
 				if (var->getInitializeNode() != NULL && var->isStatic() == false) {
-					answer += ":" + var->name() + "("
+					answer += "#(endl)#(indent_tab_add):" + var->name() + "("
 									+ dispatchExpound(
 										var->getInitializeNode(),
 										symbol_class/*TODO: should use function's parent*/,
@@ -214,7 +211,7 @@ private:
 				}
 			}
 		}
-		answer += "#(endl)#(indent_tab){}#(endl)";
+		answer += "#(endl)#(indent_tab_add){}#(endl)";
 
 		return answer;
 	}

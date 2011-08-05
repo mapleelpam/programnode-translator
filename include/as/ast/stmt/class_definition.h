@@ -86,7 +86,6 @@ struct ClassDefinition : public Statement
 	/* advaned methods */
 	bool isNativeClass( )
 	{
-//		std::cerr << "native class '"<<m_metadata.id<<"'"<<std::endl;
 		if(m_metadata.id == "native")
 			return true;
 		else
@@ -94,12 +93,10 @@ struct ClassDefinition : public Statement
 	}
 	std::string getMappedClassName( /*bool& OK*/)
 	{
-//		OK = false;
 		if(m_metadata.id == "native")
 		{
 			if(m_metadata.keyvalues.find("cls") != m_metadata.keyvalues.end() )
 			{
-//				OK = true;
 				return m_metadata.keyvalues["cls"];
 			}
 		}
@@ -107,12 +104,10 @@ struct ClassDefinition : public Statement
 	}
 	std::string getInstanceName( /*bool& OK*/)
 	{
-//		OK = false;
 		if(m_metadata.id == "native")
 		{
 			if(m_metadata.keyvalues.find("instance") != m_metadata.keyvalues.end() )
 			{
-//				OK = true;
 				return m_metadata.keyvalues["instance"];
 			}
 		}

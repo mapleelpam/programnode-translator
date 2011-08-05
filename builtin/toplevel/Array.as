@@ -38,7 +38,7 @@ package
 		public function pop () : *;
 */
 
-		//public function push (...rest) : uint;
+		public function push (...rest) : uint;
 
 		public function reverse () : Array;
 

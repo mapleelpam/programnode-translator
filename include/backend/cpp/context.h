@@ -73,10 +73,8 @@ struct Context
 				for( T_ImportList::iterator import_itr = p_import_list -> begin(), E = p_import_list -> end()
 					; import_itr != E ; import_itr ++ )
 				{
-//					std::cerr << "itrate ---------> "<< (*import_itr)->name() << std::endl;
 					if( (*import_itr)->name() == name )
 					{
-//						std::cerr << "---------> "<< (*import_itr)->name() << std::endl;
 						return (*import_itr);
 					}
 				}
@@ -87,9 +85,7 @@ struct Context
 
 		tw::maple::as::symbol::SymbolPtr find_symbol( std::string name )
 		{
-//			std::cerr << "ctx::find_symbol  ---------> "<< name << std::endl;
 			tw::maple::as::symbol::ScopePtr p_scope = find_scope( name );
-//			std::cerr << "ok ctx::find_symbol  ---------> "<< name << std::endl;
 			return STATIC_CAST( tw::maple::as::symbol::Scope, p_scope );
 		}
 	private:
@@ -125,7 +121,7 @@ struct Context
 		{
 			std::string ans = "";
 			for( int idx = 0 ; idx < indent ; idx ++)
-				ans += "  ";//TODO: replace by indent scape
+				ans += "    ";//TODO: replace by indent scape
             return ans;
 		}
 		private:

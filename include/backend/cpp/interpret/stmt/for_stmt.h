@@ -45,10 +45,14 @@ struct ForStatement : public Interpreter, public TemplatePrinter
 		AST::ForStatementPtr FOR = std::tr1::static_pointer_cast<AST::ForStatement>(node);
 		std::list<PatternPtr> patterns;
 
+		ctx.tree_depth ++;
+		std::string str_for_body = dispatchExpound(FOR->ForBody(), symbol_table, ctx);
+		ctx.tree_depth --;
+
 		patterns.push_back( PatternPtr( new Pattern("for_condition", dispatchExpound(FOR->ForCondition(), symbol_table, ctx) ) ));
 		patterns.push_back( PatternPtr( new Pattern("for_init", dispatchExpound(FOR->ForInit(), symbol_table, ctx) ) ));
 		patterns.push_back( PatternPtr( new Pattern("for_step", dispatchExpound(FOR->ForStep(), symbol_table, ctx) ) ));
-		patterns.push_back( PatternPtr( new Pattern("for_body", dispatchExpound(FOR->ForBody(), symbol_table, ctx) ) ));
+		patterns.push_back( PatternPtr( new Pattern("for_body",  str_for_body ) ));
 		patterns.push_back( PatternPtr( new Pattern("endl", ctx.endl() ) ));
 		patterns.push_back( PatternPtr( new Pattern("indent_tab", ctx.indent()) ));
 
@@ -60,7 +64,7 @@ struct ForStatement : public Interpreter, public TemplatePrinter
 	{
 		setTemplateString( "#(indent_tab)for( "
 				"#(for_init) ; #(for_condition) ; #(for_step) )"
-				"#(indent_tab){#(endl)"
+				"#(endl)#(indent_tab){#(endl)"
 				"#(for_body)"
 				"#(indent_tab)}#(endl)" );
 	}

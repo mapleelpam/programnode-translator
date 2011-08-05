@@ -58,14 +58,14 @@ struct Interpreter
 	{
 		std::cerr << " default expound " << std::endl;
 		ReturnValue result = "";
-		ctx.tree_depth ++;
+//		ctx.tree_depth ++;
 
 		for (std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr =
 				node->node_childs.begin(); nItr != node->node_childs.end(); nItr++) {
 			result += dispatchExpound(*nItr, symbol_table, ctx);
 		}
 
-		ctx.tree_depth --;
+//		ctx.tree_depth --;
 
 		return result;
 	}

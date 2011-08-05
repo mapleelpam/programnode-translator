@@ -93,11 +93,13 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 			}
 			else
 			{
-				str_function_body = std::string("#(endl)#(indent_tab){#(endl)")
+				ctx.tree_depth ++ ; ctx.tree_depth ++ ;
+				str_function_body = std::string("#(endl)#(indent_tab_add){#(endl)")
 				+ dispatchExpound(fcommon->FunctionBody(), symbol_function, ctx).result
-				+ "#(indent_tab)}#(endl)";
+				+ "#(indent_tab_add)}#(endl)";
+				ctx.tree_depth -- ; ctx.tree_depth -- ;
 			}
-		};
+		}
 
 		std::string str_function_return_type = symbol_function->isConstructor() ? "":
 				(symbol_function->ReturnType()->preferStack() ? symbol_function->ReturnType()->getFQN_and_instanceName() :
@@ -120,7 +122,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 
 		patterns.push_back( PatternPtr( new Pattern("function_signature", tpl_function_signature )));
 		patterns.push_back( PatternPtr( new Pattern("function_attribute", str_function_attribute) ));
-		patterns.push_back( PatternPtr( new Pattern("function_attribute_stmt", (str_function_attribute=="")?"":str_function_attribute+":") ));
+		patterns.push_back( PatternPtr( new Pattern("function_attribute_stmt", (str_function_attribute=="")?"":str_function_attribute+": ") ));
 		patterns.push_back( PatternPtr( new Pattern("func_name", str_func_name+ " ") ));
 		patterns.push_back( PatternPtr( new Pattern("func_body",  str_function_body )) );
 		patterns.push_back( PatternPtr( new Pattern("func_parameters", str_func_parameters.result ) ));
@@ -129,7 +131,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("function_is_virtual", 
 					(fdef->isAbstract ||
 						(!symbol_function->isConstructor() && (m_default_virtual&&(!symbol_function->isStatic())&&symbol_function->isMemberFunction() )) )?
-						"virtual":"") ) );
+						"virtual ":"") ) );
 		patterns.push_back( PatternPtr( new Pattern("function_enter", (fdef->isAbstract)? "" : m_tpl_enter_function) ) );
 		patterns.push_back( PatternPtr( new Pattern("function_leave", (fdef->isAbstract)? "" : m_tpl_leave_function) ) );
 		patterns.push_back( PatternPtr( new Pattern("member_initial", (symbol_function->isConstructor())? getMemberInitializer(symbol_function,fdef->mp_parent_initilizer,ctx) : "") ) );
@@ -138,6 +140,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("endl", ctx.endl() )) );
 		patterns.push_back( PatternPtr( new Pattern("indent_tab", ctx.indent()) ));
 		patterns.push_back( PatternPtr( new Pattern("indent_tab_sub", ctx.indentSub()) ));
+		patterns.push_back( PatternPtr( new Pattern("indent_tab_add", ctx.indentAdd()) ));
 
 		return substitutePatterns( patterns );
 	}
@@ -157,15 +160,15 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 							 )
 							;
 		m_tpl_normal_function_signature = m_tpl_constructor_function_signature = m_tpl_member_function_signature =
-							"#(function_attribute_stmt)" "#(endl)"
+							"#(indent_tab)#(function_attribute_stmt)""#(endl)"
 							"#(indent_tab)"
 							"#(function_is_static)"
-							"#(function_is_virtual) "
+							"#(function_is_virtual)"
 							"#(func_ret_type) #(func_name)(#(prefix_arguments)#(func_parameters)#(postfix_arguments))";
 
 
-		m_tpl_enter_function = "#(endl)#(indent_tab){/*enter function*/";
-		m_tpl_leave_function = "#(indent_tab)/*enter function*/#(endl)#(indent_tab)}";
+		m_tpl_enter_function = "#(endl)#(indent_tab){#(endl)#(indent_tab_add)/*enter function*/";
+		m_tpl_leave_function = "#(indent_tab_add)/*leave function*/#(endl)#(indent_tab)}";
 
 		m_tpl_setter_prepend = "set_";
 		m_tpl_getter_prepend = "get_";
@@ -184,7 +187,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 
 	virtual bool readConfig( boost::property_tree::ptree& pt )
 	{
-		m_tpl_normal_function_signature = pt.get<std::string>( configName()+".template.method_signature", m_tpl_normal_function_signature);
+		m_tpl_normal_function_signature = pt.get<std::string>( configName()+".template.normal_signature", m_tpl_normal_function_signature);
 		m_tpl_member_function_signature = pt.get<std::string>( configName()+".template.member_signature", m_tpl_member_function_signature);
 		m_tpl_constructor_function_signature = pt.get<std::string>( configName()+".template.constructor_signature", m_tpl_constructor_function_signature);
 

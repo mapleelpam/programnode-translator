@@ -93,7 +93,7 @@ struct Symbol
 
 	bool is( Properties prop )
 	{
-		std::cerr<<name() <<" is("<<prop<<","<<m_properties<<")"<<std::endl;
+//		std::cerr<<name() <<" is("<<prop<<","<<m_properties<<")"<<std::endl;
 		return ( m_properties & prop ) != 0;
 	}
 	virtual bool preferStack() const {	return false;	} // prefer heap
