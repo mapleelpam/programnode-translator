@@ -83,9 +83,7 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("class_type", _class_define_->isAbstract()?"struct":"class" ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_default_constructor", symbol_class->noContructor()?getDefaultConstructor(symbol_class,ctx):"" ) ));
 
-		patterns.push_back( PatternPtr( new Pattern("endl", ctx.endl() ) ));
-		patterns.push_back( PatternPtr( new Pattern("indent_tab", ctx.indent()) ));
-		patterns.push_back( PatternPtr( new Pattern("indent_tab_add", ctx.indentAdd()) ));
+		COMPELET_PATTERNS( patterns, ctx );
 
 
 		std::string result = 
@@ -111,6 +109,8 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 							"#(class_stmt)"
 							"#(endl)#(indent_tab)};#(endl)" )
 							;
+		m_tpl_setter = "void set_#(variable_name)( #(variable_type) i ){ #(variable_name) = i;	}";
+		m_tpl_getter = "#(variable_type) get_#(variable_name)( ) const { return #(variable_name);	}";
 	}
 
 	virtual bool readConfig( boost::property_tree::ptree& pt )
@@ -145,6 +145,8 @@ private:
 	std::string m_tpl_class;
 	std::string m_tpl_interface;
 	std::string m_tpl_property;
+	std::string m_tpl_setter;
+	std::string m_tpl_getter;
 
 	int	_inherit_type;
 
@@ -239,17 +241,44 @@ private:
 					else
 						str_var_type = symbol_type->getFQN_and_mappedName() + "*" /* '*'or 'Ptr' */;
 
-					std::list<PatternPtr> patterns;
+					// PROPERTY
+					{
+						std::list<PatternPtr> patterns;
 
-					patterns.push_back( PatternPtr( new Pattern("property_type", str_var_type ) ));
-					patterns.push_back( PatternPtr( new Pattern("property_name", var->name() ) ));
+						patterns.push_back( PatternPtr( new Pattern("property_type", str_var_type ) ));
+						patterns.push_back( PatternPtr( new Pattern("property_name", var->name() ) ));
 
-					answer += substitutePatterns(m_tpl_property, patterns ) + "/*itr*/";
-//					answer += "/*" + str_var_type+" " + var->name() + "*/";
+						answer += "#(indent_tab_add)"+substitutePatterns(m_tpl_property, patterns );
+					}
+					// add setter and getter
+					{
+						std::vector<ASY::SymbolPtr> candidates = ASY::Findable::findClassMembers( symbol_class, var->name() );
+
+						bool getter_not_found = true;
+						bool setter_not_found = true;
+						for( std::vector<ASY::SymbolPtr>::iterator itr = candidates.begin(), E = candidates.end()
+							; itr != E ; itr ++ )
+						{
+							ASY::FunctionPtr symbol_func = DYNA_CAST( ASY::Function, *itr );
+							if( symbol_func && symbol_func -> isGetter() )
+								getter_not_found = false;
+							else if( symbol_func && symbol_func -> isGetter() )
+								setter_not_found = false;
+						}
+						std::list<PatternPtr> patterns;
+
+						patterns.push_back( PatternPtr( new Pattern("variable_type", str_var_type ) ));
+						patterns.push_back( PatternPtr( new Pattern("variable_name", var->name() ) ));
+						if( getter_not_found )
+							answer += "#(indent_tab_add)"+substitutePatterns(m_tpl_getter, patterns ) + "#(endl)";
+						if( setter_not_found )
+							answer += "#(indent_tab_add)"+substitutePatterns(m_tpl_setter, patterns ) + "#(endl)";
+					}
+					answer += "#(endl)";
 				}
 			}
 		}
-		return answer+"/*properties*/";
+		return answer;
 	}
 };
 

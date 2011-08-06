@@ -40,11 +40,6 @@ typedef SHARED_PTR(Variable) VariablePtr;
 
 struct Findable {
 
-//	Findable(Scope* instance) :
-//		_instance(instance) {
-//	}
-
-//	static ScopePtr findPackage( std::vector<std::string> pkgs_name);
 	static ScopePtr findPackage( Scope* stable, const std::string& pkgs_name );
 	static ScopePtr findPackage( ScopePtr stable, const std::string& pkgs_name )
 		{ return findPackage( stable.get(), pkgs_name ); }
@@ -71,12 +66,10 @@ struct Findable {
 	static std::vector<SymbolPtr> findLHS_Candidates( ScopePtr stable, const std::string& var_name )
 		{	return findLHS_Candidates( stable.get(), var_name ); }
 
-	static ScopePtr findCallee( Scope* stable, const std::string& class_name );
-	static ScopePtr findCallee( ScopePtr stable, const std::string& class_name )
-		{	return findCallee( stable.get(), class_name ); }
-private:
-
-//	Scope* _instance;
+	// expect return "variable, function, setter, getter", and won't traverse to statement parent and inherit parent
+	static std::vector<SymbolPtr> findClassMembers( Scope* stable, const std::string& name );
+	static std::vector<SymbolPtr> findClassMembers( ScopePtr stable, const std::string& name )
+		{	return findClassMembers( stable.get(), name );		}
 };
 
 }}}}//tw/maple/as/symbol

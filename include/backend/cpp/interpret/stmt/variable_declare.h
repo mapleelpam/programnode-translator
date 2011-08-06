@@ -67,7 +67,7 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 		std::string var_name = var->VariableName;
 		std::string var_attr = "";
 		if( symbol_var -> isClassMember() )
-			var_attr = var->isPublic()?"public" : " private";
+			var_attr = var->isPublic()?"public" : "private";
 
 		std::string var_init = "";
 
@@ -83,11 +83,6 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("var_is_static", (var->isStatic())? "static ":"") ) );
 
 		COMPELET_PATTERNS( patterns, ctx );
-//		patterns.push_back( PatternPtr( new Pattern("endl", ctx.endl() ) ));
-//		patterns.push_back( PatternPtr( new Pattern("indent_tab", ctx.indent()) ));
-//		patterns.push_back( PatternPtr( new Pattern("indent_tab_sub", ctx.indentSub()) ));
-//		patterns.push_back( PatternPtr( new Pattern("indent_tab_add", ctx.indentAdd()) ));
-
 
 		return substitutePatterns( patterns );
 	}
