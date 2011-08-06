@@ -47,8 +47,8 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 		AST::ClassDefinitionPtr _class_define_ = STATIC_CAST( AST::ClassDefinition, node);
 		if( _class_define_->isIntrinsic() || _class_define_->isNativeClass())
 		{
-//			return "";  // Ignore Intrinsic
-			return "/* "+_class_define_->getClassName()+ " is intrinsic, and ignore */";
+			return "";  // Ignore Intrinsic
+//			return "/* "+_class_define_->getClassName()+ " is intrinsic, and ignore */";
 		}
 		ASY::ScopePtr	symbol_class = _class_define_->getClassSymbol();
 
@@ -97,7 +97,7 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 		: TemplatePrinter("ClassDefinition")
 		, m_default_base_object("")
 		, m_tpl_property("")
-		, _inherit_type(BOTH)
+		, m_inherit_type(BOTH)
 	{
 		m_tpl_class = ( "#(indent_tab)#(class_type) #(class_name) #(class_inherit) #(endl)#(indent_tab){#(endl)"
 							"#(class_properties)"
@@ -119,7 +119,11 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 		m_tpl_class = pt.get<std::string>(  configName()+".template.class", m_tpl_class);
 		m_tpl_interface = pt.get<std::string>(  configName()+".template.interface", m_tpl_interface);
 		m_tpl_property = pt.get<std::string>(  configName()+".template.property", m_tpl_property);
-		_inherit_type = pt.get<int>(  configName()+".inherit.type", (_inherit_type));
+
+		m_tpl_setter = pt.get<std::string>(  configName()+".template.default_setter", m_tpl_setter);
+		m_tpl_getter = pt.get<std::string>(  configName()+".template.default_getter", m_tpl_getter);
+
+		m_inherit_type = pt.get<int>(  configName()+".inherit.type", (m_inherit_type));
 		return TemplatePrinter::readConfig( pt );
 	}
 	virtual bool writeConfig( boost::property_tree::ptree& pt )
@@ -128,7 +132,11 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 		pt.put<std::string>( configName()+".template.class", m_tpl_class);
 		pt.put<std::string>( configName()+".template.interface", m_tpl_interface);
 		pt.put<std::string>( configName()+".template.property", m_tpl_property);
-		pt.put<int>( configName()+".inherit.type", _inherit_type);
+
+		pt.put<std::string>(  configName()+".template.default_setter", m_tpl_setter);
+		pt.put<std::string>(  configName()+".template.default_getter", m_tpl_getter);
+
+		pt.put<int>( configName()+".inherit.type", m_inherit_type);
 		return TemplatePrinter::writeConfig( pt );
 	}
 
@@ -148,7 +156,7 @@ private:
 	std::string m_tpl_setter;
 	std::string m_tpl_getter;
 
-	int	_inherit_type;
+	int	m_inherit_type;
 
 private:
 	std::string getInheritsString(
@@ -160,11 +168,11 @@ private:
 	{
 		std::string class_inherit = "";
 
-		if( ( _inherit_type == ONLY_EXTENDS || _inherit_type == BOTH ) && _class_define_->hasBaseClass() )
+		if( ( m_inherit_type == ONLY_EXTENDS || m_inherit_type == BOTH ) && _class_define_->hasBaseClass() )
 		{
 			class_inherit += ": public "+ symbol_class->getInherit()->getFQN_and_mappedName();
 		}
-		if( ( _inherit_type == ONLY_IMPLEMENTS || _inherit_type == BOTH) && _class_define_->hasInterface() )
+		if( ( m_inherit_type == ONLY_IMPLEMENTS || m_inherit_type == BOTH) && _class_define_->hasInterface() )
 		for( int idx = 0 ; idx < _class_define_->Implements ().size() ; idx ++){
 			class_inherit += class_inherit=="" ? " : " : " , ";
 			class_inherit += " public "+ _class_define_->Implements()[idx];
@@ -241,6 +249,8 @@ private:
 					else
 						str_var_type = symbol_type->getFQN_and_mappedName() + "*" /* '*'or 'Ptr' */;
 
+					std::string str_var_attr = var->getSymbolAttribtues() == ASY::Symbol::ATTR_PUBLIC ? "public" : "private";
+
 					// PROPERTY
 					{
 						std::list<PatternPtr> patterns;
@@ -269,6 +279,7 @@ private:
 
 						patterns.push_back( PatternPtr( new Pattern("variable_type", str_var_type ) ));
 						patterns.push_back( PatternPtr( new Pattern("variable_name", var->name() ) ));
+						patterns.push_back( PatternPtr( new Pattern("variable_attribute", str_var_attr ) ));
 						if( getter_not_found )
 							answer += "#(indent_tab_add)"+substitutePatterns(m_tpl_getter, patterns ) + "#(endl)";
 						if( setter_not_found )

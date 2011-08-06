@@ -55,14 +55,11 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 		ASY::SymbolPtr	symbol_type = symbol_var->getTypeSymbol();
 
 		std::string str_var_type/* = invoke_type_mapper(  )*/;
-//		if( symbol_type->isPrimitiveType() || symbol_type->preferStack())
-		std::cerr <<" in variable type = "<<symbol_type->getFQN()<<std::endl;
+
 		if( symbol_type->preferStack())
-		{
 			str_var_type = symbol_type->getFQN_and_instanceName();
-		}
 		else
-			str_var_type = symbol_type->getFQN_and_mappedName() + _pointer_pattern /* '*'or 'Ptr' */;
+			str_var_type = symbol_type->getFQN_and_mappedName() + m_pointer_pattern /* '*'or 'Ptr' */;
 
 		std::string var_name = var->VariableName;
 		std::string var_attr = "";
@@ -89,8 +86,7 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 
 	VariableDeclare()
 		: TemplatePrinter("VariableDeclare")
-		, _default_type_mapper("#(type_name)*")
-		, _pointer_pattern("*")
+		, m_pointer_pattern("*")
 	{
 		setTemplateString( "#(indent_tab)#(var_attribute_stmt)#(var_is_static)#(var_type) #(var_name) #(var_init);#(endl)" );
 	}
@@ -98,22 +94,16 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 
 	virtual bool readConfig( boost::property_tree::ptree& pt )
 	{
-		_default_type_mapper = pt.get<std::string>(  configName()+".type.mapper.__DEFAULT__", _default_type_mapper);
-		_pointer_pattern = pt.get<std::string>(  configName()+".pointer_pattern", _pointer_pattern);
-
+		m_pointer_pattern = pt.get<std::string>(  configName()+".pointer_pattern", m_pointer_pattern);
 		return TemplatePrinter::readConfig( pt );
 	}
 	virtual bool writeConfig( boost::property_tree::ptree& pt )
 	{
-
-		pt.put<std::string>( configName()+".type.mapper.__DEFAULT__", _default_type_mapper);
-		pt.put<std::string>( configName()+".pointer_pattern", _pointer_pattern);
-
+		pt.put<std::string>( configName()+".pointer_pattern", m_pointer_pattern);
 		return TemplatePrinter::writeConfig( pt );
 	}
 private:
-	std::string _default_type_mapper;
-	std::string _pointer_pattern;
+	std::string m_pointer_pattern;
 };
 
 };

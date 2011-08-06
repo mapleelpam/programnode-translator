@@ -45,14 +45,16 @@ struct PackageDefinition : public Interpreter
 		AST::PackageDefinitionPtr ast_pkg = STATIC_CAST( AST::PackageDefinition, node);
 
 
-		std::string result = "";
+		std::string prefix = "";
+		std::string inside = "";
+		std::string postfix = "";
 
 		for( std::vector<std::string>::iterator sItr = ast_pkg->package_names.begin()
 				; sItr != ast_pkg->package_names.end() ; sItr++ )
 		{
-			result += "namespace "+ *sItr+ "{ ";
+			prefix += "namespace "+ *sItr+ "{ ";
 		}
-		result +="\n";
+//		result +="\n";
 
 		ASY::SymbolPtr pkg_symbol = node->getSymbol();
 		ASY::ScopePtr pkg_scope = DYNA_CAST( ASY::Scope, pkg_symbol );
@@ -61,17 +63,22 @@ struct PackageDefinition : public Interpreter
 			for (std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr =
 					node->node_childs.begin(); nItr != node->node_childs.end(); nItr++)
 			{
-				result += dispatchExpound(*nItr, ((pkg_scope)?pkg_scope:symbol_table),  ctx);
+				inside += dispatchExpound(*nItr, ((pkg_scope)?pkg_scope:symbol_table),  ctx);
 			}
 			ctx.tree_depth --;	ctx.tableof_imported.leaveScope();
+
+
 
 		for( std::vector<std::string>::iterator sItr = ast_pkg->package_names.begin(), E = ast_pkg->package_names.end()
 						; sItr != E ; sItr++ )
 		{
-			result += "} /* "+ (*sItr=="" ? "anonymouse" : *sItr )+ "*/ ";
+			postfix += "} /* "+ (*sItr=="" ? "anonymouse" : *sItr )+ "*/ ";
 		}
 
-		return result+"\n";
+		if( inside == "")
+			return "";
+		else
+			return prefix+inside+postfix;
 	}
 
 };

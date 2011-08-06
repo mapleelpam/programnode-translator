@@ -46,8 +46,10 @@ struct IfStatement : public Interpreter, public TemplatePrinter
 		std::list<PatternPtr> patterns;
 
 		patterns.push_back( PatternPtr( new Pattern("if_condition", dispatchExpound(IF->ifCondition(), symbol_table, ctx) ) ));
+		ctx.tree_depth ++ ;
 		patterns.push_back( PatternPtr( new Pattern("then_stmt", dispatchExpound(IF->ifThen(), symbol_table, ctx) ) ));
 		patterns.push_back( PatternPtr( new Pattern("else_stmt", dispatchExpound(IF->ifElse(), symbol_table, ctx) ) ));
+		ctx.tree_depth -- ;
 		patterns.push_back( PatternPtr( new Pattern("endl", ctx.endl() ) ));
 		patterns.push_back( PatternPtr( new Pattern("indent_tab", ctx.indent()) ));
 

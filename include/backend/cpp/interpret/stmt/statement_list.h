@@ -42,8 +42,6 @@ struct StatementList : public Interpreter
 	{
 		std::string result;
 
-//		ctx.tree_depth ++;
-
 		bool is_first = true;
         int _idx = 0;
 
@@ -56,10 +54,8 @@ struct StatementList : public Interpreter
 			if( is_first )
 				is_first = false;
 			else
-				result += "\n";
+				result += "";
 		}
-
-//		ctx.tree_depth --;
 
 		return result;
 	}
