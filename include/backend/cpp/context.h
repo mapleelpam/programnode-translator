@@ -28,6 +28,14 @@
 #include <fstream>
 #include <as/symbol/scope.h>
 
+#define COMPELET_PATTERNS( P, C ) \
+	{ \
+	P.push_back( PatternPtr( new Pattern("endl", C.endl() ) )); \
+	P.push_back( PatternPtr( new Pattern("indent_tab", C.indent()) )); \
+	P.push_back( PatternPtr( new Pattern("indent_tab_sub", C.indentSub()) )); \
+	P.push_back( PatternPtr( new Pattern("indent_tab_add", C.indentAdd()) )); \
+	}
+
 namespace tw { namespace maple { namespace backend { namespace cpp {
 
 struct Context

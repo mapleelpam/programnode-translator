@@ -66,7 +66,7 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 			class_base += _class_define_->Inherits()[0];
 //		} else if (_default_base_object != "") {
 		} else {
-			class_base = _default_base_object;
+			class_base = m_default_base_object;
 		}
 
 		/* change both symbol table into class symbol */
@@ -75,6 +75,7 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 		std::list<PatternPtr> patterns;
 
 		patterns.push_back( PatternPtr( new Pattern("class_name", _class_define_->getClassName() ) ));
+		patterns.push_back( PatternPtr( new Pattern("class_properties", getClassMemberVariableProperties( symbol_class ) )) );
 		patterns.push_back( PatternPtr( new Pattern("class_stmt", class_stmt ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_inherit", class_inherit ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_implements_list", class_implements ) ));
@@ -88,7 +89,7 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 
 
 		std::string result = 
-				substitutePatterns(  _class_define_->isAbstract()? _template_interface : _template_class
+				substitutePatterns(  _class_define_->isAbstract()? m_tpl_interface : m_tpl_class
 						, patterns );
 
 		return result;
@@ -96,15 +97,17 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 
 	ClassDefinition()
 		: TemplatePrinter("ClassDefinition")
-		, _default_base_object("")
+		, m_default_base_object("")
+		, m_tpl_property("")
 		, _inherit_type(BOTH)
 	{
-		_template_class = ( "#(indent_tab)#(class_type) #(class_name) #(class_inherit) #(endl)#(indent_tab){#(endl)"
+		m_tpl_class = ( "#(indent_tab)#(class_type) #(class_name) #(class_inherit) #(endl)#(indent_tab){#(endl)"
+							"#(class_properties)"
 							"#(class_stmt)"
 							"#(class_default_constructor)"
 							"#(endl)#(indent_tab)};#(endl)" )
 							;
-		_template_interface = ( "#(indent_tab) #(class_type) #(class_name)  #(endl)#(indent_tab){#(endl)"
+		m_tpl_interface = ( "#(indent_tab) #(class_type) #(class_name)  #(endl)#(indent_tab){#(endl)"
 							"#(class_stmt)"
 							"#(endl)#(indent_tab)};#(endl)" )
 							;
@@ -112,17 +115,19 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 
 	virtual bool readConfig( boost::property_tree::ptree& pt )
 	{
-		_default_base_object = pt.get<std::string>(  configName()+".inherit.base", _default_base_object);
-		_template_class = pt.get<std::string>(  configName()+".template.class", _template_class);
-		_template_interface = pt.get<std::string>(  configName()+".template.interface", _template_interface);
+		m_default_base_object = pt.get<std::string>(  configName()+".inherit.base", m_default_base_object);
+		m_tpl_class = pt.get<std::string>(  configName()+".template.class", m_tpl_class);
+		m_tpl_interface = pt.get<std::string>(  configName()+".template.interface", m_tpl_interface);
+		m_tpl_property = pt.get<std::string>(  configName()+".template.property", m_tpl_property);
 		_inherit_type = pt.get<int>(  configName()+".inherit.type", (_inherit_type));
 		return TemplatePrinter::readConfig( pt );
 	}
 	virtual bool writeConfig( boost::property_tree::ptree& pt )
 	{
-		pt.put<std::string>( configName()+".inherit.base", _default_base_object);
-		pt.put<std::string>( configName()+".template.class", _template_class);
-		pt.put<std::string>( configName()+".template.interface", _template_interface);
+		pt.put<std::string>( configName()+".inherit.base", m_default_base_object);
+		pt.put<std::string>( configName()+".template.class", m_tpl_class);
+		pt.put<std::string>( configName()+".template.interface", m_tpl_interface);
+		pt.put<std::string>( configName()+".template.property", m_tpl_property);
 		pt.put<int>( configName()+".inherit.type", _inherit_type);
 		return TemplatePrinter::writeConfig( pt );
 	}
@@ -135,10 +140,12 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 		BOTH,
 	};
 private:
-	std::string _default_base_object;
+	std::string m_default_base_object;
 
-	std::string _template_class;
-	std::string _template_interface;
+	std::string m_tpl_class;
+	std::string m_tpl_interface;
+	std::string m_tpl_property;
+
 	int	_inherit_type;
 
 private:
@@ -152,21 +159,18 @@ private:
 		std::string class_inherit = "";
 
 		if( ( _inherit_type == ONLY_EXTENDS || _inherit_type == BOTH ) && _class_define_->hasBaseClass() )
-//		for( int idx = 0 ; idx < _class_define_->Inherits().size() ; idx ++)
 		{
 			class_inherit += ": public "+ symbol_class->getInherit()->getFQN_and_mappedName();
 		}
-//		if( class_inherit == "" && _default_base_object != "" )
-//			class_inherit += " : public "+_default_base_object;
 		if( ( _inherit_type == ONLY_IMPLEMENTS || _inherit_type == BOTH) && _class_define_->hasInterface() )
 		for( int idx = 0 ; idx < _class_define_->Implements ().size() ; idx ++){
 			class_inherit += class_inherit=="" ? " : " : " , ";
 			class_inherit += " public "+ _class_define_->Implements()[idx];
 		}
 
-		if( _default_base_object != "" &&  (!_class_define_->hasBaseClass()) ){
+		if( m_default_base_object != "" &&  (!_class_define_->hasBaseClass()) ){
 			class_inherit += class_inherit=="" ? " : " : " , ";
-			class_inherit += " public " + _default_base_object;
+			class_inherit += " public " + m_default_base_object;
 		}
 
 		return class_inherit;
@@ -214,6 +218,38 @@ private:
 		answer += "#(endl)#(indent_tab_add){}#(endl)";
 
 		return answer;
+	}
+
+	std::string getClassMemberVariableProperties(
+			ASY::ScopePtr symbol_class
+			)
+	{
+		std::string answer;
+		std::vector<ASY::SymbolPtr> childs;
+		symbol_class->getChilds(childs/*out*/);
+		for (std::vector<ASY::SymbolPtr>::iterator child_itr = childs.begin(); child_itr
+				!= childs.end(); child_itr++) {
+			if (((*child_itr)->getSymbolProperties() & ASY::Symbol::T_VARIABLE)) {
+				ASY::VariablePtr var = STATIC_CAST( ASY::Variable, *child_itr );
+				ASY::SymbolPtr	symbol_type = var->getTypeSymbol();
+				if ( var && !var->isStatic() ) {
+					std::string str_var_type;
+					if( symbol_type->preferStack())
+						str_var_type = symbol_type->getFQN_and_instanceName();
+					else
+						str_var_type = symbol_type->getFQN_and_mappedName() + "*" /* '*'or 'Ptr' */;
+
+					std::list<PatternPtr> patterns;
+
+					patterns.push_back( PatternPtr( new Pattern("property_type", str_var_type ) ));
+					patterns.push_back( PatternPtr( new Pattern("property_name", var->name() ) ));
+
+					answer += substitutePatterns(m_tpl_property, patterns ) + "/*itr*/";
+//					answer += "/*" + str_var_type+" " + var->name() + "*/";
+				}
+			}
+		}
+		return answer+"/*properties*/";
 	}
 };
 

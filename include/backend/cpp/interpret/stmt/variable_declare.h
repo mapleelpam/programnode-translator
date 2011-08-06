@@ -65,7 +65,10 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 			str_var_type = symbol_type->getFQN_and_mappedName() + _pointer_pattern /* '*'or 'Ptr' */;
 
 		std::string var_name = var->VariableName;
-		std::string var_attr = var->isPublic()?"public":(var->isPrivate()?"private":"");
+		std::string var_attr = "";
+		if( symbol_var -> isClassMember() )
+			var_attr = var->isPublic()?"public" : " private";
+
 		std::string var_init = "";
 
 		if ( var->varInit() && symbol_var && !(symbol_var->isClassMember()) )
@@ -78,10 +81,12 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("var_name", var_name) ));
 		patterns.push_back( PatternPtr( new Pattern("var_init", var_init) ));
 		patterns.push_back( PatternPtr( new Pattern("var_is_static", (var->isStatic())? "static ":"") ) );
-		patterns.push_back( PatternPtr( new Pattern("endl", ctx.endl() ) ));
-		patterns.push_back( PatternPtr( new Pattern("indent_tab", ctx.indent()) ));
-		patterns.push_back( PatternPtr( new Pattern("indent_tab_sub", ctx.indentSub()) ));
-		patterns.push_back( PatternPtr( new Pattern("indent_tab_add", ctx.indentAdd()) ));
+
+		COMPELET_PATTERNS( patterns, ctx );
+//		patterns.push_back( PatternPtr( new Pattern("endl", ctx.endl() ) ));
+//		patterns.push_back( PatternPtr( new Pattern("indent_tab", ctx.indent()) ));
+//		patterns.push_back( PatternPtr( new Pattern("indent_tab_sub", ctx.indentSub()) ));
+//		patterns.push_back( PatternPtr( new Pattern("indent_tab_add", ctx.indentAdd()) ));
 
 
 		return substitutePatterns( patterns );
