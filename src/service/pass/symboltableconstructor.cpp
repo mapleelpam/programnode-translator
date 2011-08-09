@@ -33,25 +33,25 @@
 #include <as/ast/func/function_parameter_rest.h>
 #include <as/ast/func/function_attribute.h>
 #include <as/ast/func/function_name.h>
-
+#include <as/ast/token/identifier.h>
 #include <as/ast/stmt/package_definition.h>
 #include <as/ast/stmt/class_definition.h>
 #include <as/ast/stmt/import_stmt.h>
-
 #include <as/ast/stmt/variable_declare.h>
+
 #include <as/symbol/scope.h>
 #include <as/symbol/function.h>
 #include <as/symbol/variable.h>
 #include <as/symbol/varianttype.h>
 
 #include <service/pass/construct_symboltable/ph2_inherit/phase2_import_stmt.h>
-
 #include <service/pass/construct_symboltable/ph3_binding/phase3_variable_declare.h>
 #include <service/pass/construct_symboltable/ph3_binding/phase3_function_define.h>
 #include <service/pass/construct_symboltable/ph3_binding/phase3_import_stmt.h>
 #include <service/pass/construct_symboltable/ph3_binding/phase3_call_expr.h>
 #include <service/pass/construct_symboltable/ph3_binding/phase3_parameter.h>
 #include <service/pass/construct_symboltable/ph3_binding/phase3_parameter_rest.h>
+#include <service/pass/construct_symboltable/ph3_binding/phase3_identifier.h>
 
 namespace tw { namespace maple { namespace service { namespace pass {
 
@@ -103,15 +103,15 @@ void SymbolTableConstructor:: constructSymbols(
 //				std::cerr << "abcdefg "<<str_func_name << "  " << fname->function_type<<"  "<<symboltable->name()<<std::endl;
 				scope_func -> setFunctionType( fname->function_type );
 
-				std::cerr << " class name = " << classname << " function_name = " <<str_func_name << std::endl;
+//				std::cerr << " class name = " << classname << " function_name = " <<str_func_name << std::endl;
 				if( classname!="" && classname == str_func_name )
 				{
-					std::cerr << " set true " << std::endl;
+//					std::cerr << " set true " << std::endl;
 					scope_func -> setIsConstructor( true );
 				}
 				else
 				{
-					std::cerr << " set false " << std::endl;
+//					std::cerr << " set false " << std::endl;
 					scope_func -> setIsConstructor( false );
 				}
 
@@ -199,7 +199,7 @@ void SymbolTableConstructor:: linkClassInherit(
 		, tw::maple::service::pass::cs::Phase2ContextPtr local_context
 		)
 {
-	std::cerr <<  " link class inherit iterate  " <<std::endl;
+//	std::cerr <<  " link class inherit iterate  " <<std::endl;
 	BOOST_ASSERT( symboltable != NULL && "ph2: try to linke class inherit");
 	namespace AST = tw::maple::as::ast;
 	namespace CPP = tw::maple::backend::cpp::interpret;
@@ -287,6 +287,7 @@ void SymbolTableConstructor::linkVariableType(
 		using tw::maple::service::pass::cs::ph3::Phase3_FunctionDefine;
 		using tw::maple::service::pass::cs::ph3::Phase3_Parameter;
 		using tw::maple::service::pass::cs::ph3::Phase3_ParameterRest;
+		using tw::maple::service::pass::cs::ph3::Phase3_Identifier;
 
 		ASY::SymbolPtr symbol = (*nItr)->getSymbol();
 
@@ -304,13 +305,14 @@ void SymbolTableConstructor::linkVariableType(
 			linkVariableType( *nItr, symboltable, local_context );/*link it's arguments*/
 			continue;
 		}
-
-
+		if( (*nItr) -> is( AST::Node::NodeType::T_IDENTIFIER ) )
+		{
+			AST::IdentifierPtr ast_id = std::tr1::static_pointer_cast<AST::Identifier>(*nItr);
+			tw::maple::service::pass::cs::ph3::Phase3_Identifier::pass( ast_id, symboltable, local_context );
+			continue;
+		} 
 		if(  symbol && symbol->is( ASY::Symbol::T_VARIABLE) )
 		{
-
-//			std::cerr << "debug infor '"<<symbol->getFQN() <<"'"<< std::endl;
-//			AST::VariableDeclarePtr ast_var = std::tr1::static_pointer_cast<AST::VariableDeclare>(*nItr);
 			AST::VariableDeclarePtr ast_var = DYNA_CAST(AST::VariableDeclare, (*nItr) );
 			AST::FunctionParameterItemPtr ast_param = DYNA_CAST(AST::FunctionParameterItem, (*nItr) );
 			AST::FunctionParameterRestPtr ast_param_rest = DYNA_CAST(AST::FunctionParameterRest, (*nItr) );

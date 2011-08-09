@@ -26,9 +26,7 @@
 #ifndef __TW_MAPLE_BACKEDN_TEMPLATE_PRINTER_H__
 #define __TW_MAPLE_BACKEDN_TEMPLATE_PRINTER_H__
 
-#include <fstream>
-#include <list>
-#include <tr1/memory>
+#include <global.h>
 #include <service/configservice.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp {

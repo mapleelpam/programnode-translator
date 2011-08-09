@@ -35,6 +35,7 @@ struct Function : public Scope
 	Function( std::string n, Scope *parent = NULL )
 		: Scope( n, Scope::T_FUNCTION, parent )
 		, m_is_constructor( false )
+		, m_ever_used_like_variable( false )
 		, m_function_type( tw::maple::generated::FunctionType::TF_NORMAL )
 	{
 	}
@@ -97,13 +98,23 @@ struct Function : public Scope
 		return getParent() ? (getParent()->getScopeType() == Scope::T_CLASS ? true : false ) : false;
 	}
 
+	bool getEverUsedLikeVariable()
+	{
+		return m_ever_used_like_variable;
+	}
+	void setEverUsedLikeVariable(  bool b )
+	{
+		m_ever_used_like_variable = b;
+	}
+
 public:
 	std::vector<SymbolPtr> m_types;
 
 private:
 	SymbolPtr	m_return_type_symbol;
 	bool		m_is_constructor;
-    tw::maple::generated::FunctionType::type m_function_type;
+	tw::maple::generated::FunctionType::type m_function_type;
+	bool		m_ever_used_like_variable;
 
 public:
     std::vector<SymbolPtr> m_parameter_types;

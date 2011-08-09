@@ -35,20 +35,20 @@ struct Identifier: public Expression
 {
 	Identifier(std::string v, std::string q )
 		: Expression(Node::NodeType::T_IDENTIFIER)
-		, value(v)
-		, qualifier( q )
+		  , value(v)
+		  , qualifier( q )
 	{
 	}
 
-    std::string value;
-    std::string qualifier;
+	std::string value;
+	std::string qualifier;
 
-    std::string toString()  {	return "node::identifier-"+qualifier+"-"+value; };
+	std::string toString()  {	return "node::identifier-"+qualifier+"-"+value; };
 };
 
-typedef SHARED_PTR(Identifier) IdentifierPtr;
-
+typedef SHARED_PTR(Identifier) IdentifierPtr; 
 
 } } } }
 
 #endif
+
