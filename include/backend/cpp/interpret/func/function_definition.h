@@ -120,6 +120,11 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		}else
 			tpl_function_signature = m_tpl_normal_function_signature;
 
+		patterns.push_back( PatternPtr( new Pattern("func_static_instance", (symbol_function->getEverUsedLikeVariable() && !symbol_function->isGetter() )?m_tpl_static_instance:"")));
+
+		patterns.push_back( PatternPtr( new Pattern("common",  (str_func_parameters.result)==""?"":"," ) ) );
+		patterns.push_back( PatternPtr( new Pattern("parent_name",  symbol_function->getParent()->name() ) ) );
+
 		patterns.push_back( PatternPtr( new Pattern("function_signature", tpl_function_signature )));
 		patterns.push_back( PatternPtr( new Pattern("function_attribute", str_function_attribute) ));
 		patterns.push_back( PatternPtr( new Pattern("function_attribute_stmt", (str_function_attribute=="")?"":str_function_attribute+": ") ));
@@ -156,7 +161,8 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 							"#(function_enter)"
 							"#(func_body)"
 							"#(function_leave)"
-							"#(endl)"
+//							"#(endl)"
+                            "#(func_static_instance)"
 							 )
 							;
 		m_tpl_normal_function_signature = m_tpl_constructor_function_signature = m_tpl_member_function_signature =
@@ -164,8 +170,11 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 							"#(indent_tab)"
 							"#(function_is_static)"
 							"#(function_is_virtual)"
-							"#(func_ret_type) #(func_name)(#(prefix_arguments)#(func_parameters)#(postfix_arguments))";
-
+							"#(func_ret_type) #(func_name)(#(prefix_arguments)#(func_parameters)#(postfix_arguments))"
+; 
+        m_tpl_static_instance = "#(endl)#(indent_tab)"
+            "#(func_ret_type) static_#(func_name)( ObjectPtr p#(common) #(prefix_arguments)#(func_parameters)#(postfix_arguments)){ ((#(parent_name)*)(Object*)p)->#(func_name)(); }#(endl)"
+        ;
 
 		m_tpl_enter_function = "#(endl)#(indent_tab){#(endl)#(indent_tab_add)/*enter function*/";
 		m_tpl_leave_function = "#(indent_tab_add)/*leave function*/#(endl)#(indent_tab)}";
@@ -239,6 +248,7 @@ private:
 	std::string m_tpl_normal_function_signature;
 	std::string m_tpl_member_function_signature;
 	std::string m_tpl_constructor_function_signature;
+	std::string m_tpl_static_instance;
 
 	bool		m_default_virtual;
 	std::string m_pointer_pattern;
