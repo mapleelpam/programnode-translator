@@ -37,6 +37,7 @@ struct Identifier: public Expression
 		: Expression(Node::NodeType::T_IDENTIFIER)
 		  , value(v)
 		  , qualifier( q )
+		  , add_prefix( "" )
 	{
 	}
 
@@ -44,6 +45,9 @@ struct Identifier: public Expression
 	std::string qualifier;
 
 	std::string toString()  {	return "node::identifier-"+qualifier+"-"+value; };
+
+	// for interpret
+	std::string add_prefix;
 };
 
 typedef SHARED_PTR(Identifier) IdentifierPtr; 

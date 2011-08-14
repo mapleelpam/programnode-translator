@@ -165,6 +165,7 @@ struct Context
     	, expression_symbol( NULL )
     	, statement_class_symbol( tw::maple::as::symbol::ScopePtr() )
     	, left_is_pointer( false )
+    	, without_type(false)
     {
 
     }
@@ -175,7 +176,7 @@ struct Context
 	InterpretType   inter_type;
 	bool			lfs_is_setter;
 	bool			left_is_pointer;
-
+	bool			without_type; // for param
 
 	tw::maple::as::symbol::Symbol*	expression_symbol;
 	tw::maple::as::symbol::ScopePtr	statement_class_symbol;

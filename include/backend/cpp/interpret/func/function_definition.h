@@ -65,6 +65,12 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 				? dispatchExpound(fsig->FunctionParameter(), symbol_table, ctx)
 				:"";
 
+		ctx.without_type = true;
+		ReturnValue str_func_arguments = fsig->node_childs.size()
+				? dispatchExpound(fsig->FunctionParameter(), symbol_table, ctx)
+				:"";
+		ctx.without_type = false;
+
 		std::list<PatternPtr> patterns;
 
 		ASY::FunctionPtr	symbol_function = fdef->getFunctionSymbol();
@@ -131,6 +137,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("func_name", str_func_name+ " ") ));
 		patterns.push_back( PatternPtr( new Pattern("func_body",  str_function_body )) );
 		patterns.push_back( PatternPtr( new Pattern("func_parameters", str_func_parameters.result ) ));
+		patterns.push_back( PatternPtr( new Pattern("func_arguments", str_func_arguments.result ) ));
 		patterns.push_back( PatternPtr( new Pattern("func_ret_type",  str_function_return_type ) ) );
 		patterns.push_back( PatternPtr( new Pattern("function_is_static", (symbol_function->isStatic())? "static ":"") ) );
 		patterns.push_back( PatternPtr( new Pattern("function_is_virtual", 
@@ -161,7 +168,6 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 							"#(function_enter)"
 							"#(func_body)"
 							"#(function_leave)"
-//							"#(endl)"
                             "#(func_static_instance)"
 							 )
 							;
@@ -173,7 +179,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 							"#(func_ret_type) #(func_name)(#(prefix_arguments)#(func_parameters)#(postfix_arguments))"
 ; 
         m_tpl_static_instance = "#(endl)#(indent_tab)"
-            "#(func_ret_type) static_#(func_name)( ObjectPtr p#(common) #(prefix_arguments)#(func_parameters)#(postfix_arguments)){ ((#(parent_name)*)(Object*)p)->#(func_name)(); }#(endl)"
+            "#(func_ret_type) static_#(func_name)( ObjectPtr p#(common) #(prefix_arguments)#(func_parameters)#(postfix_arguments)){ ((#(parent_name)*)(Object*)p)->#(func_name)(#(func_arguments)); }#(endl)"
         ;
 
 		m_tpl_enter_function = "#(endl)#(indent_tab){#(endl)#(indent_tab_add)/*enter function*/";
