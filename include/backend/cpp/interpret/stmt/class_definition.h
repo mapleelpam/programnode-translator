@@ -25,6 +25,7 @@
 #ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_CLASS_DEFINE_H__
 #define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_CLASS_DEFINE_H__
 
+#include <global.h>
 #include <as/ast/stmt/class_definition.h>
 #include <backend/cpp/interpret/interpreter.h>
 #include <backend/cpp/templateprinter.h>
@@ -82,6 +83,7 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("class_base", class_base ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_type", _class_define_->isAbstract()?"struct":"class" ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_default_constructor", symbol_class->noContructor()?getDefaultConstructor(symbol_class,ctx):"" ) ));
+		patterns.push_back( PatternPtr( new Pattern("method_info",  getMethodInfo(symbol_class) )));
 
 		COMPELET_PATTERNS( patterns, ctx );
 
@@ -111,17 +113,25 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 							;
 		m_tpl_setter = "void set_#(variable_name)( #(variable_type) i ){ #(variable_name) = i;	}";
 		m_tpl_getter = "#(variable_type) get_#(variable_name)( ) const { return #(variable_name);	}";
+
+		m_tpl_void_method_info = "";
+		m_tpl_normal_method_info = "";
+		m_tpl_constructor_info = "";
 	}
 
 	virtual bool readConfig( boost::property_tree::ptree& pt )
 	{
-		m_default_base_object = pt.get<std::string>(  configName()+".inherit.base", m_default_base_object);
-		m_tpl_class = pt.get<std::string>(  configName()+".template.class", m_tpl_class);
-		m_tpl_interface = pt.get<std::string>(  configName()+".template.interface", m_tpl_interface);
-		m_tpl_property = pt.get<std::string>(  configName()+".template.property", m_tpl_property);
+		m_default_base_object = pt.get<std::string>( configName()+".inherit.base", m_default_base_object);
+		m_tpl_class = pt.get<std::string>( configName()+".template.class", m_tpl_class);
+		m_tpl_interface = pt.get<std::string>( configName()+".template.interface", m_tpl_interface);
+		m_tpl_property = pt.get<std::string>( configName()+".template.property", m_tpl_property);
 
-		m_tpl_setter = pt.get<std::string>(  configName()+".template.default_setter", m_tpl_setter);
-		m_tpl_getter = pt.get<std::string>(  configName()+".template.default_getter", m_tpl_getter);
+		m_tpl_setter = pt.get<std::string>( configName()+".template.default_setter", m_tpl_setter);
+		m_tpl_getter = pt.get<std::string>( configName()+".template.default_getter", m_tpl_getter);
+
+		m_tpl_void_method_info = pt.get<std::string>( configName()+".template.info.void_method", m_tpl_void_method_info);
+		m_tpl_normal_method_info = pt.get<std::string>( configName()+".template.info.normal_method", m_tpl_normal_method_info);
+		m_tpl_constructor_info = pt.get<std::string>( configName()+".template.info.constructor", m_tpl_constructor_info);
 
 		m_inherit_type = pt.get<int>(  configName()+".inherit.type", (m_inherit_type));
 		return TemplatePrinter::readConfig( pt );
@@ -135,6 +145,10 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 
 		pt.put<std::string>(  configName()+".template.default_setter", m_tpl_setter);
 		pt.put<std::string>(  configName()+".template.default_getter", m_tpl_getter);
+
+		pt.put<std::string>( configName()+".template.info.void_method", m_tpl_void_method_info);
+		pt.put<std::string>( configName()+".template.info.normal_method", m_tpl_normal_method_info);
+		pt.put<std::string>( configName()+".template.info.constructor", m_tpl_constructor_info);
 
 		pt.put<int>( configName()+".inherit.type", m_inherit_type);
 		return TemplatePrinter::writeConfig( pt );
@@ -155,6 +169,10 @@ private:
 	std::string m_tpl_property;
 	std::string m_tpl_setter;
 	std::string m_tpl_getter;
+
+	std::string m_tpl_void_method_info;
+	std::string m_tpl_normal_method_info;
+	std::string m_tpl_constructor_info;
 
 	int	m_inherit_type;
 
@@ -289,6 +307,41 @@ private:
 				}
 			}
 		}
+		return answer;
+	}
+
+	std::string getMethodInfo( ASY::ScopePtr symbol_class )
+	{
+		std::string answer;
+
+		for(std::vector<ASY::SymbolPtr>::iterator nItr = symbol_class->m_childs.begin(), E = symbol_class->m_childs.end()
+				; nItr != E ; nItr ++ )
+		{
+			ASY::FunctionPtr member_function = DYNA_CAST(ASY::Function, *nItr );
+
+			if(member_function )
+			{
+				std::string str_numof_parameter;
+				{
+					std::stringstream ss;
+					ss << member_function->numberOfParameter();
+					ss >> str_numof_parameter;
+				}
+				std::list<PatternPtr> patterns;
+				patterns.push_back( PatternPtr( new Pattern("numof_parameter", str_numof_parameter ) ));
+				patterns.push_back( PatternPtr( new Pattern("function_name", member_function->name() ) ));
+
+				ASY::SymbolPtr func_type = member_function->ReturnType();
+				if( func_type->name() != "void" )
+				{
+					answer+= substitutePatterns(  m_tpl_normal_method_info, patterns );
+				}else if( func_type->name() == "void" )
+				{
+					answer+= substitutePatterns(  m_tpl_void_method_info, patterns );
+				}
+			}
+		}
+
 		return answer;
 	}
 };

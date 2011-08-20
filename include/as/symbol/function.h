@@ -107,6 +107,10 @@ struct Function : public Scope
 		m_ever_used_like_variable = b;
 	}
 
+	size_t numberOfParameter()
+	{
+		return m_parameter_types.size();
+	}
 public:
 	std::vector<SymbolPtr> m_types;
 
