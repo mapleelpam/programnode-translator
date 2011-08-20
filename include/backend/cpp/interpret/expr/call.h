@@ -163,7 +163,7 @@ struct Call : public Interpreter, public TemplatePrinter
 		: TemplatePrinter("Call")
 	{
 		setTemplateString("#(expression)");
-		m_tpl_undefined_member_call = "#(prefix)invokeVoid(\"#(callee_name)\", 0 #(arguments) )";
+		m_tpl_undefined_member_call = "#(prefix)invoke(\"#(callee_name)\", false, 0 #(arguments) )";
 		m_tpl_normal_call = "#(prefix)#(callee_name)(#(arguments))";
 	}
 	virtual bool readConfig( boost::property_tree::ptree& pt )

@@ -321,6 +321,14 @@ private:
 
 			if(member_function )
 			{
+				std::string str_parameters;
+				{
+					for(std::vector<ASY::SymbolPtr>::iterator nItr = member_function->m_parameter_types.begin(), E = member_function->m_parameter_types.end()
+							; nItr != E ; nItr ++ )
+					{
+						str_parameters += ", "+(*nItr)->mappedName();
+					}
+				}
 				std::string str_numof_parameter;
 				{
 					std::stringstream ss;
@@ -332,10 +340,14 @@ private:
 				patterns.push_back( PatternPtr( new Pattern("function_name", member_function->name() ) ));
 
 				ASY::SymbolPtr func_type = member_function->ReturnType();
-				if( func_type->name() != "void" )
+				patterns.push_back( PatternPtr( new Pattern("function_type", func_type->name() ) ));
+				patterns.push_back( PatternPtr( new Pattern("function_parameters", str_parameters ) ));
+
+				if( func_type->name() != "Void" )
 				{
 					answer+= substitutePatterns(  m_tpl_normal_method_info, patterns );
-				}else if( func_type->name() == "void" )
+				}
+				else if( func_type->name() == "Void" )
 				{
 					answer+= substitutePatterns(  m_tpl_void_method_info, patterns );
 				}
