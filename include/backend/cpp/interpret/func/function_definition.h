@@ -88,6 +88,12 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 			case ASY::Symbol::ATTR_PRIVATE:	str_function_attribute="private";	break;
 			case ASY::Symbol::ATTR_PUBLIC:	str_function_attribute="public";	break;
 		}
+		std::string str_numof_parameter;
+		{
+			std::stringstream ss;
+			ss << symbol_function->numberOfParameter();
+			ss >> str_numof_parameter;
+		}
 
 		std::string str_func_name = _function_name_mapper( symbol_function->name(), symbol_function );
 
@@ -137,6 +143,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("func_name", str_func_name+ " ") ));
 		patterns.push_back( PatternPtr( new Pattern("func_body",  str_function_body )) );
 		patterns.push_back( PatternPtr( new Pattern("func_parameters", str_func_parameters.result ) ));
+		patterns.push_back( PatternPtr( new Pattern("func_parameters_number", str_numof_parameter ) ));
 		patterns.push_back( PatternPtr( new Pattern("func_arguments", str_func_arguments.result ) ));
 		patterns.push_back( PatternPtr( new Pattern("func_ret_type",  str_function_return_type ) ) );
 		patterns.push_back( PatternPtr( new Pattern("function_is_static", (symbol_function->isStatic())? "static ":"") ) );
