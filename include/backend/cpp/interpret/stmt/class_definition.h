@@ -75,7 +75,6 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 
 		std::list<PatternPtr> patterns;
 
-		patterns.push_back( PatternPtr( new Pattern("class_name", _class_define_->getClassName() ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_properties", getClassMemberVariableProperties( symbol_class ) )) );
 		patterns.push_back( PatternPtr( new Pattern("class_stmt", class_stmt ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_inherit", class_inherit ) ));
@@ -84,6 +83,7 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("class_type", _class_define_->isAbstract()?"struct":"class" ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_default_constructor", symbol_class->noContructor()?getDefaultConstructor(symbol_class,ctx):"" ) ));
 		patterns.push_back( PatternPtr( new Pattern("method_info",  getMethodInfo(symbol_class) )));
+		patterns.push_back( PatternPtr( new Pattern("class_name", _class_define_->getClassName() ) ));
 
 		COMPELET_PATTERNS( patterns, ctx );
 
@@ -116,7 +116,7 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 
 		m_tpl_void_method_info = "";
 		m_tpl_normal_method_info = "";
-		m_tpl_constructor_info = "";
+		m_tpl_constructor_info = "#(endl)#(indent_tab_add)public: #(class_name)()";
 	}
 
 	virtual bool readConfig( boost::property_tree::ptree& pt )
@@ -225,7 +225,8 @@ private:
 			
 			)
 	{
-		std::string answer = "#(indent_tab_add)public: "+symbol_class->name()+"()";
+//		std::string answer = "#(indent_tab_add)CONSTRUCTOR_INFO_0_A_0_DA("+symbol_class->name()+");#(endl)#(indent_tab_add)public: "+symbol_class->name()+"()";
+		std::string answer = m_tpl_constructor_info;
 
 		std::vector<ASY::SymbolPtr> childs;
 		symbol_class->getChilds(childs/*out*/);

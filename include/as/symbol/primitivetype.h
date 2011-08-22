@@ -37,12 +37,13 @@ struct PrimitiveType : public Symbol
 		, is_pointer( _is_pointer )
 	{
 		setMappedName( another_name );
+		m_mapped_name = another_name;
 	}
 
 
 	virtual const std::string toString() const
 	{
-		return "type:"+name();
+		return "type:"+name()+":"+mappedName()+":"+getFQN_and_instanceName();
 	}
 
 	virtual const std::string getFQN() const
