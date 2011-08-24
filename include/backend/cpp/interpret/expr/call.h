@@ -150,6 +150,7 @@ struct Call : public Interpreter, public TemplatePrinter
 		std::list<PatternPtr> patterns;
 		patterns.push_back( PatternPtr( new Pattern("expression", str_tpl_expression) ));
 		patterns.push_back( PatternPtr( new Pattern("arguments", str_arguments) ));
+		patterns.push_back( PatternPtr( new Pattern("arguments2", str_arguments != ""?","+str_arguments :"") ));
 		patterns.push_back( PatternPtr( new Pattern("callee_name", str_callee_name) ));
 		patterns.push_back( PatternPtr( new Pattern("prefix", str_prefix) ));
 
@@ -163,7 +164,7 @@ struct Call : public Interpreter, public TemplatePrinter
 		: TemplatePrinter("Call")
 	{
 		setTemplateString("#(expression)");
-		m_tpl_undefined_member_call = "#(prefix)invoke(\"#(callee_name)\", false, 0, #(arguments) )";
+		m_tpl_undefined_member_call = "#(prefix)invoke(\"#(callee_name)\", false, 0 #(arguments2) )";
 		m_tpl_normal_call = "#(prefix)#(callee_name)(#(arguments))";
 	}
 	virtual bool readConfig( boost::property_tree::ptree& pt )
