@@ -320,7 +320,7 @@ private:
 		{
 			ASY::FunctionPtr member_function = DYNA_CAST(ASY::Function, *nItr );
 
-			if(member_function )
+			if( member_function && !member_function->isSetter() && !member_function->isGetter() && !member_function->isConstructor())
 			{
 				std::string str_parameters;
 				{

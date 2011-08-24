@@ -92,7 +92,7 @@ struct Identifier : public Interpreter
 				if( ASY::ScopePtr classtype_ptr = ASY::Findable::findClassType(symbol_table.get(),li->value))
 				{
 //					ctx-> token_class_type = classtype_ptr;
-					ReturnValue result =  classtype_ptr->name();
+					ReturnValue result =  classtype_ptr->name()+_DS2("/* found class type */");
 					result.token_symbol = classtype_ptr;
 					return result;
 				}
@@ -116,14 +116,11 @@ struct Identifier : public Interpreter
 					else
 						candidates = ASY::Findable::findRHS_Candidates(symbol_table,li->value);
 
-//					bool should_use_fqn = false;
 					if( candidates.size() == 0 )
 					{	// TODO: move to front
 						// find in import
 						ASY::SymbolPtr s = ctx.tableof_imported.find_symbol( li->value );
 						if( s ){
-//							candidates.push_back( s );
-//							should_use_fqn = true;
 							ReturnValue result = s->getFQN();
 							result.token_symbol = s;
 							result.token_symbol2 = s.get();
@@ -140,7 +137,6 @@ struct Identifier : public Interpreter
 							ASY::FunctionPtr function_ptr = DYNA_CAST( ASY::Function, instance );
 							if( function_ptr && function_ptr->isGetter() )
 							{
-//								ctx-> token_class_type = function_ptr->ReturnType();
 								ReturnValue result =  "get_" +  li->value + "()";
 								result.token_symbol = function_ptr->ReturnType();
 								result.expression_type =

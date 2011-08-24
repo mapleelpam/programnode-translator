@@ -186,7 +186,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 							"#(func_ret_type) #(func_name)(#(prefix_arguments)#(func_parameters)#(postfix_arguments))"
 ; 
         m_tpl_static_instance = "#(endl)#(indent_tab)"
-            "#(func_ret_type) static_#(func_name)( ObjectPtr p#(common) #(prefix_arguments)#(func_parameters)#(postfix_arguments)){ ((#(parent_name)*)(Object*)p)->#(func_name)(#(func_arguments)); }#(endl)"
+            "#(func_ret_type) static_#(func_name)( ObjectPtr p#(common) #(prefix_arguments)#(func_parameters)#(postfix_arguments)){ ((#(parent_name)*)(Object*)p)->#(func_name)(#(func_parameters)); }#(endl)"
         ;
 
 		m_tpl_enter_function = "#(endl)#(indent_tab){#(endl)#(indent_tab_add)/*enter function*/";
