@@ -42,7 +42,6 @@ struct GetExpression : public Interpreter
 			
 			)
 	{
-		std::cerr << " default expound " << std::endl;
 		AST::GetExpressionPtr get = STATIC_CAST( AST::GetExpression, node);
 
 		ReturnValue child_string = dispatchExpound(get->child(), symbol_table, ctx);

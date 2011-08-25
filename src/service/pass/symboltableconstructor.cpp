@@ -237,7 +237,7 @@ void SymbolTableConstructor:: linkClassInherit(
 					std::cerr << _class_define_->Inherits()[0] << " not found ph2"<<std::endl;
 					exit(1);
 				}
-				std::cerr << _class_define_->Inherits()[0] << " bind!~!!! !!!!!!!!!!!!!!!"<<std::endl;
+//				std::cerr << _class_define_->Inherits()[0] << " bind!~!!! !!!!!!!!!!!!!!!"<<std::endl;
 				ASY::ScopePtr inherit_scope = STATIC_CAST( ASY::Scope, inherit_symbol );
 				class_symbol->setInhrit( inherit_scope.get() );
 			}
@@ -363,7 +363,6 @@ void SymbolTableConstructor::linkVariableType(
 //				std::cerr << " exit class name " << p_scope->name()<<std::endl;
 				break;
 			default:
-				std::cerr << " in other name " << p_scope->name() << std::endl;
 //				<< " is "<<(ast_class->isIntrinsic() ||  ast_class->isNativeClass())<<std::endl;
 				local_context->enterScope();
 					linkVariableType( *nItr, p_scope, local_context );

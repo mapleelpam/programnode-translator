@@ -42,9 +42,7 @@ struct ScopeStatement : public Interpreter
 			
 			)
 	{
-		std::cerr << " default expound " << std::endl;
 		std::string result = "";
-//		ctx.tree_depth ++;
 
 		// Very important thing here, enter the symbol table
 		ASY::SymbolPtr scope_symbol = node->getSymbol();
@@ -54,8 +52,6 @@ struct ScopeStatement : public Interpreter
 				node->node_childs.begin(); nItr != node->node_childs.end(); nItr++) {
 			result += dispatchExpound(*nItr, (scope_symboltable)?scope_symboltable:symbol_table, ctx);
 		}
-
-//		ctx.tree_depth --;
 
 		return result;
 	}

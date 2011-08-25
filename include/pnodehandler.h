@@ -291,7 +291,6 @@ public:
 		CHECK_STACK_AND_POP( TypeExpression, AST::Node::NodeType::T_TYPE_EXPRESSION );
 	}
 	void startGetExpression( const std::string& mode ) {
-		std::cerr <<"------------------------> get expression "<<mode<<std::endl;
 		PUSH_STACK_WITH_INIT( GetExpression, mode );
 	}
 	void endGetExpression() {
@@ -387,7 +386,7 @@ public:
 		as::ast::ClassDefinitionPtr class_node(
 				new as::ast::ClassDefinition(class_define.name, class_define.inherits, class_define.interfaces, class_define.attributes));
 
-		std::cout << _node_stack.size() << "  start"<< "classDefine"  <<" -> "<< _node_stack.top()->toString()<<" -:"<<_node_stack.top()->node_childs.size()<< std::endl;
+//		std::cout << _node_stack.size() << "  start"<< "classDefine"  <<" -> "<< _node_stack.top()->toString()<<" -:"<<_node_stack.top()->node_childs.size()<< std::endl;
 //		std::cerr <<"-----------> class define attribute "<<class_define.attribute<<std::endl;
 		_node_stack . top() -> addNodeChild(class_node);
 		_node_stack . push(class_node);

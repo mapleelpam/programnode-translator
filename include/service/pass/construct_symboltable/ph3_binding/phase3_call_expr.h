@@ -47,7 +47,7 @@ struct Phase3_CallExpression
 		{
 			using tw::maple::as::symbol::Findable;
 
-			std::cerr << "in phase2 - callee "<< ast_call->toString() <<std::endl;
+//			std::cerr << "in phase2 - callee "<< ast_call->toString() <<std::endl;
 
 			if( symboltable == NULL )
 			{
@@ -65,7 +65,7 @@ struct Phase3_CallExpression
 
 			if(p_type != NULL ) // found the symbol in import list
 			{
-				std::cerr<<" callee bind type "<< p_type->getFQN() <<std::endl;
+//				std::cerr<<" callee bind type "<< p_type->getFQN() <<std::endl;
 				ast_call->bindType( p_type );
 				return;
 			}
@@ -93,7 +93,7 @@ struct Phase3_CallExpression
 				std::cerr<<" callee bind type "<< p_type->getFQN() <<std::endl;
 				ast_call->bindType( p_type );
 			} else {
-				std::cerr<<" callee name '"<<"" <<"': can't find type - '"<< ast_call->toString() <<"'"<<"  '"<<ast_call->callee[ast_call->callee.size()-1]<<"'"<<std::endl;
+//				std::cerr<<" callee name '"<<"" <<"': can't find type - '"<< ast_call->toString() <<"'"<<"  '"<<ast_call->callee[ast_call->callee.size()-1]<<"'"<<std::endl;
 //				exit(1);
 			}
 		}

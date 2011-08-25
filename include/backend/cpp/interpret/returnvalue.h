@@ -33,7 +33,7 @@ struct ReturnValue
 		, token_symbol2( right.token_symbol2)
 		, expression_type( right.expression_type )
 	{
-		std::cerr<<"------> path damn "<<(right.token_symbol!=NULL?right.token_symbol->name():"")<< " "<< expression_type<<std::endl;
+//		std::cerr<<"------> path damn "<<(right.token_symbol!=NULL?right.token_symbol->name():"")<< " "<< expression_type<<std::endl;
 	}
 	ReturnValue()
 		: result("")
@@ -50,7 +50,7 @@ struct ReturnValue
 		result = right.result;
 		token_symbol = right.token_symbol;
 		expression_type = right.expression_type;
-		std::cerr<<"------> path shit  "<< right.expression_type<<std::endl;
+//		std::cerr<<"------> path shit  "<< right.expression_type<<std::endl;
 	}
 	operator std::string()
 	{

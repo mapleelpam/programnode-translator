@@ -287,7 +287,7 @@ private:
 		for (std::vector<ASY::SymbolPtr>::iterator child_itr = childs.begin(); child_itr
 				!= childs.end(); child_itr++) {
 
-			std::cout << "symbol name = "<< (*child_itr)->name()<<std::endl;
+//			std::cout << "symbol name = "<< (*child_itr)->name()<<std::endl;
 			if (((*child_itr)->getSymbolProperties() & ASY::Symbol::T_VARIABLE))
 			{
 				ASY::VariablePtr var = STATIC_CAST( ASY::Variable, *child_itr );

@@ -140,7 +140,7 @@ struct Call : public Interpreter, public TemplatePrinter
 		{
 			tw::maple::backend::cpp::Context ctx2 = ctx;
 			ctx2 . callee_type = callee_type;
-			std::cerr << " in call expound - try to evaluate args"<<call->getArgs()->toString()<<std::endl;
+//			std::cerr << " in call expound - try to evaluate args"<<call->getArgs()->toString()<<std::endl;
 			str_arguments += dispatchExpound( call->getArgs(), symbol_table, ctx2);
 		}
 //		result += " )";

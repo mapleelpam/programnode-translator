@@ -52,7 +52,7 @@ struct Phase3_Identifier
 		ASY::FunctionPtr func_symbol = Findable::findFunction( symboltable, ast_identifier->value );		
 		if( func_symbol )
 		{
-			ast_identifier -> add_prefix += "static_";
+//			ast_identifier -> add_prefix += "static_";
 			func_symbol -> setEverUsedLikeVariable( true );
 		}
 	}

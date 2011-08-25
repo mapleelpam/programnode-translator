@@ -167,11 +167,11 @@ struct Identifier : public Interpreter
 				 // just variable or setter
 				else if( ctx.inter_type==Context::LHS )
 				{
-					std::cerr << __FILE__ <<":"<<__LINE__<<std::endl;
+					//std::cerr << __FILE__ <<":"<<__LINE__<<std::endl;
 					std::vector<ASY::SymbolPtr> candidates;
 					if( ctx.expression_symbol )
 					{
-						std::cerr << __FILE__ <<":"<<__LINE__<<std::endl;
+					//	std::cerr << __FILE__ <<":"<<__LINE__<<std::endl;
 						ASY::Scope* type_scope = (ASY::Scope*)ctx.expression_symbol;
 						if(ctx.expression_symbol->is( ASY::Symbol::T_VARIABLE ) )
 						{
@@ -184,7 +184,7 @@ struct Identifier : public Interpreter
 					}
 					else
 					{
-						std::cerr << __FILE__ <<":"<<__LINE__<<node->toString()<<std::endl;
+					//	std::cerr << __FILE__ <<":"<<__LINE__<<node->toString()<<std::endl;
 						candidates = ASY::Findable::findLHS_Candidates(symbol_table,li->value);
 					}
 

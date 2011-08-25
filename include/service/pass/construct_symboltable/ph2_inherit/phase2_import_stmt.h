@@ -79,7 +79,7 @@ struct Phase2_ImportStatement
 					if( p_class_scope == NULL )
 						std::cerr << "import can't find type - '"<< getFullName(ast_import->package_names )<<"'"<<std::endl;
 
-					std::cerr << "symboltable ph2 try to import " << p_class_scope->getFQN() <<std::endl;
+//					std::cerr << "symboltable ph2 try to import " << p_class_scope->getFQN() <<std::endl;
 					context -> add_import( p_class_scope );
 				}
 			}

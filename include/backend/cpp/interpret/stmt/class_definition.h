@@ -327,7 +327,14 @@ private:
 					for(std::vector<ASY::SymbolPtr>::iterator nItr = member_function->m_parameter_types.begin(), E = member_function->m_parameter_types.end()
 							; nItr != E ; nItr ++ )
 					{
-						str_parameters += ", "+(*nItr)->mappedName();
+						//str_parameters += ", "+(*nItr)->getFQN_and_instanceName();
+						ASY::SymbolPtr symbol_type = *nItr;
+						if( symbol_type->preferStack())
+							str_parameters += ","+symbol_type->getFQN_and_instanceName();
+						else
+							//str_parameters += symbol_type->getFQN_and_mappedName() + m_pointer_pattern /* '*'or 'Ptr' */;
+							str_parameters +=  ","+symbol_type->getFQN_and_mappedName() + "*"/* '*'or 'Ptr' */;
+
 					}
 				}
 				std::string str_numof_parameter;
@@ -341,7 +348,13 @@ private:
 				patterns.push_back( PatternPtr( new Pattern("function_name", member_function->name() ) ));
 
 				ASY::SymbolPtr func_type = member_function->ReturnType();
-				patterns.push_back( PatternPtr( new Pattern("function_type", func_type->name() ) ));
+				std::string str_func_type;
+				if( func_type->preferStack())
+					str_func_type = func_type->getFQN_and_instanceName();
+				else
+					str_func_type = func_type->getFQN_and_mappedName() + "*"/* '*'or 'Ptr' */;
+
+				patterns.push_back( PatternPtr( new Pattern("function_type", str_func_type ) ));
 				patterns.push_back( PatternPtr( new Pattern("function_parameters", str_parameters ) ));
 
 				if( func_type->name() != "Void" )

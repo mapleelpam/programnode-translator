@@ -78,7 +78,7 @@ struct Phase3_ImportStatement
 					if( p_class_scope == NULL )
 						std::cerr << "import can't find type - '"<< ast_import->package_names[ast_import->package_names.size() - 1] <<"'"<<std::endl;
 
-					std::cerr << "symboltable ph2 try to import " << p_class_scope->getFQN() <<std::endl;
+//					std::cerr << "symboltable ph2 try to import " << p_class_scope->getFQN() <<std::endl;
 					context -> add_import( p_class_scope );
 				}
 			}
