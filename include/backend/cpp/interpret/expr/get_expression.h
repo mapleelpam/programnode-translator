@@ -49,6 +49,11 @@ struct GetExpression : public Interpreter
 
 		if( get->mode == "lexical" )
 		{
+			ASY::FunctionPtr func = ASY::Findable::findFunction( symbol_table, child_string);
+			if( func )
+			{
+				child_string.result = "static_"+child_string.result;
+			}
 			return child_string;
 		}
 		else if( get->mode == "dot" )

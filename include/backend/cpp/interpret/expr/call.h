@@ -81,7 +81,7 @@ struct Call : public Interpreter, public TemplatePrinter
 					if( ctx.expression_symbol->is(ASY::Symbol::T_VARIABLE ))
 //					if( ctx.left_is_instance )
 					{
-						std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
+						//std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
 
 						ASY::Variable* var_symbol = (ASY::Variable*) ctx.expression_symbol;
 						left_scope = (ASY::Scope*)(var_symbol -> getTypeSymbol().get());
@@ -91,7 +91,7 @@ struct Call : public Interpreter, public TemplatePrinter
 						left_scope = (ASY::Scope*)(ctx.expression_symbol);
 					}
 
-					std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
+//					std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
 					if(ctx.expression_symbol->is( ASY::Symbol::T_VARIABLE)
 							|| ctx.left_is_pointer )
 					{  // TODO: guess this child_string is ??? primitive? or non-deletable

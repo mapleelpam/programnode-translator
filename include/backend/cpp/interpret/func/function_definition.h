@@ -132,7 +132,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		}else
 			tpl_function_signature = m_tpl_normal_function_signature;
 
-		patterns.push_back( PatternPtr( new Pattern("func_static_instance", (symbol_function->getEverUsedLikeVariable() && !symbol_function->isGetter() )?m_tpl_static_instance:"")));
+		patterns.push_back( PatternPtr( new Pattern("func_static_instance", (symbol_function->getEverUsedLikeVariable() && !symbol_function->isGetter() && !symbol_function->isSetter() )?m_tpl_static_instance:"")));
 
 		patterns.push_back( PatternPtr( new Pattern("common",  (str_func_parameters.result)==""?"":"," ) ) );
 		patterns.push_back( PatternPtr( new Pattern("parent_name",  symbol_function->getParent()->name() ) ) );

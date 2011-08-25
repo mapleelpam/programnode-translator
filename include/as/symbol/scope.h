@@ -269,7 +269,7 @@ struct Scope : public Symbol, public Registrable
 				}
 			}
 		}
-		std::cout << "can't find type_name '"<<type_name<< "' in this scope '"<<name()<<"'"<<std::endl;
+//		std::cout << "can't find type_name '"<<type_name<< "' in this scope '"<<name()<<"'"<<std::endl;
 		return ( m_parent == NULL )? SymbolPtr() : m_parent->findSymbol( type_name ) ;
 	}
 	SymbolPtr findSymbol_down( const std::string& type_name )

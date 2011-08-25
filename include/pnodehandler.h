@@ -142,7 +142,7 @@ class PNodeHandler : virtual public  generated::AstDumperIf {
 	int DEBUG;
 public:
   PNodeHandler() : _meta_data_dirty(false) {
-	  DEBUG = 1;
+	  DEBUG = 0;
     // Your initialization goes here
   }
 

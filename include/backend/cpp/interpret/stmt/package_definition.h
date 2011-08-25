@@ -40,7 +40,6 @@ struct PackageDefinition : public Interpreter
 			
 			)
 	{
-		std::cerr << " in PackageDefinition scope!!" << std::endl;
 
 		AST::PackageDefinitionPtr ast_pkg = STATIC_CAST( AST::PackageDefinition, node);
 

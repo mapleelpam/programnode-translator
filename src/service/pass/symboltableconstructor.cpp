@@ -211,7 +211,7 @@ void SymbolTableConstructor:: linkClassInherit(
 	for (std::vector< AST::NodePtr >::iterator nItr =
 			node->node_childs.begin(); nItr != node->node_childs.end(); nItr++) {
 
-		std::cerr <<  " link class inherit iterate  "<< (*nItr)->toString() <<std::endl;
+//		std::cerr <<  " link class inherit iterate  "<< (*nItr)->toString() <<std::endl;
 		switch( (*nItr) -> nodeType() ) {
 		case AST::Node::NodeType::T_IMPORT_STMT:
 		{
