@@ -25,6 +25,6 @@ package
 
 		[native(support="none")]
 		public function valueOf () : uint;
-*/
 	}
+*/
 }

@@ -233,6 +233,8 @@ FunctionPtr Findable::findFunction( Scope* stable, const std::string& function_n
 {
 	FunctionPtr found = findFunction_downward(stable, function_name );
 	if( found ) return found;
+	if( stable->m_inherit )
+		return findFunction( stable->m_inherit, function_name );
 	if( stable->m_parent )
 		return findFunction( stable->m_parent, function_name );
 	return FunctionPtr();
