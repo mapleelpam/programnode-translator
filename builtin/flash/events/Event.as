@@ -1,6 +1,7 @@
 package flash.events
 {
 //	import flash.events.Event;
+	import flash.events.EventDispatcher;
 
 	intrinsic public class Event extends Object
 	{
@@ -78,7 +79,7 @@ package flash.events
 
 		public function get eventPhase () : uint;
 
-		public function get target () : Object;
+		public function get target () : EventDispatcher;
 
 		public function get type () : String;
 
