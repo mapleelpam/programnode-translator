@@ -94,6 +94,8 @@ void SymbolTableConstructor:: constructSymbols(
 							scope_func->setSymbolAttributes( ASY::Symbol::ATTR_PUBLIC );
 						else if( ((*sItr) == "private") )
 							scope_func->setSymbolAttributes( ASY::Symbol::ATTR_PRIVATE );
+						else if( ((*sItr) == "protected") )
+							scope_func->setSymbolAttributes( ASY::Symbol::ATTR_PROTECTED);
 						else if( ((*sItr) == "static") )
 							scope_func->setIsStatic( true );
 						else

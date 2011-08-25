@@ -87,6 +87,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 			break;
 			case ASY::Symbol::ATTR_PRIVATE:	str_function_attribute="private";	break;
 			case ASY::Symbol::ATTR_PUBLIC:	str_function_attribute="public";	break;
+			case ASY::Symbol::ATTR_PROTECTED:	str_function_attribute="protected";	break;
 		}
 		std::string str_numof_parameter;
 		{

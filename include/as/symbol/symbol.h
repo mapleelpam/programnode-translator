@@ -48,6 +48,7 @@ struct Symbol
 		ATTR_NONE,
 		ATTR_PUBLIC,
 		ATTR_PRIVATE,
+		ATTR_PROTECTED,
 	};
 
 	const std::string name() const {	return m_name;	}
