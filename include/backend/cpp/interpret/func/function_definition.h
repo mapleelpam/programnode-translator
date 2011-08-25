@@ -94,8 +94,14 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 			std::stringstream ss;
 			ss << symbol_function->numberOfParameter();
 			ss >> str_numof_parameter;
-		}
 
+		}
+		std::string str_numof_default_parameter;
+		{
+			std::stringstream ss;
+			ss << symbol_function->numberOfDefaultParameter();
+			ss >> str_numof_default_parameter;
+		}
 		std::string str_func_name = _function_name_mapper( symbol_function->name(), symbol_function );
 
 		std::string str_function_body;
@@ -153,6 +159,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("func_body",  str_function_body )) );
 		patterns.push_back( PatternPtr( new Pattern("func_parameters", str_func_parameters.result ) ));
 		patterns.push_back( PatternPtr( new Pattern("func_parameters_number", str_numof_parameter ) ));
+		patterns.push_back( PatternPtr( new Pattern("func_default_parameters_number", str_numof_default_parameter ) ));
 		patterns.push_back( PatternPtr( new Pattern("func_parameter_types", "") )); //TBD
 		patterns.push_back( PatternPtr( new Pattern("func_arguments", str_func_arguments.result ) ));
 		patterns.push_back( PatternPtr( new Pattern("func_ret_type",  str_function_return_type ) ) );

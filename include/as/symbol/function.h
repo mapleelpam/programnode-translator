@@ -26,6 +26,7 @@
 #define __TW_MAPLE_AS_SYMBOL_SCOPE_FUNCTION_H__
 
 #include <as/symbol/scope.h>
+#include <as/symbol/parameter.h>
 #include "SyntaxTree_types.h"
 
 namespace tw { namespace maple { namespace as { namespace symbol {
@@ -71,6 +72,7 @@ struct Function : public Scope
 	void addParameterType( SymbolPtr param_type )
 	{
 		m_types.push_back( param_type );
+	//	m_parameter_types.push_back( param_type );
 	}
 
 
@@ -110,6 +112,20 @@ struct Function : public Scope
 	unsigned int numberOfParameter()
 	{
 		return m_parameter_types.size();
+	}
+	unsigned int numberOfDefaultParameter()
+	{
+		size_t num = 0;
+		for( std::vector<SymbolPtr>::iterator itr = m_types.begin() , E = m_types.end()
+			; itr != E ; itr ++ )
+		{
+			ParameterPtr param = DYNA_CAST( Parameter, *itr );
+			if( param && param -> getHaveInit() )
+			{
+				num ++;
+			}
+		}
+		return num;
 	}
 public:
 	std::vector<SymbolPtr> m_types;

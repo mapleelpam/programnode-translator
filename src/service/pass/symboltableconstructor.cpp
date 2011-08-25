@@ -42,6 +42,7 @@
 #include <as/symbol/scope.h>
 #include <as/symbol/function.h>
 #include <as/symbol/variable.h>
+#include <as/symbol/parameter.h>
 #include <as/symbol/varianttype.h>
 
 #include <service/pass/construct_symboltable/ph2_inherit/phase2_import_stmt.h>
@@ -147,7 +148,12 @@ void SymbolTableConstructor:: constructSymbols(
 			{
 				AST::FunctionParameterItemPtr pitem = std::tr1::static_pointer_cast<AST::FunctionParameterItem>(*nItr);
 				std::string str_varname = pitem->ParamName();
-				pitem -> setSymbol( symboltable->registerFunctionParameter( str_varname ) );
+				ASY::SymbolPtr sym_param= symboltable->registerFunctionParameter( str_varname ) ;
+				pitem -> setSymbol( sym_param );
+				{
+					ASY::ParameterPtr p_param = DYNA_CAST( ASY::Parameter, sym_param );
+					p_param -> setHaveInit( pitem->hasInit() );
+				}
 
 			}	break;
 			case AST::Node::NodeType::T_FUNCTION_PARAMETER_REST:
@@ -213,7 +219,6 @@ void SymbolTableConstructor:: linkClassInherit(
 	for (std::vector< AST::NodePtr >::iterator nItr =
 			node->node_childs.begin(); nItr != node->node_childs.end(); nItr++) {
 
-//		std::cerr <<  " link class inherit iterate  "<< (*nItr)->toString() <<std::endl;
 		switch( (*nItr) -> nodeType() ) {
 		case AST::Node::NodeType::T_IMPORT_STMT:
 		{
@@ -239,7 +244,6 @@ void SymbolTableConstructor:: linkClassInherit(
 					std::cerr << _class_define_->Inherits()[0] << " not found ph2"<<std::endl;
 					exit(1);
 				}
-//				std::cerr << _class_define_->Inherits()[0] << " bind!~!!! !!!!!!!!!!!!!!!"<<std::endl;
 				ASY::ScopePtr inherit_scope = STATIC_CAST( ASY::Scope, inherit_symbol );
 				class_symbol->setInhrit( inherit_scope.get() );
 			}
@@ -341,7 +345,6 @@ void SymbolTableConstructor::linkVariableType(
 			ASY::ScopePtr p_scope = STATIC_CAST( ASY::Scope, symbol );
 			switch( p_scope->getScopeType() ) {
 			case ASY::Scope::T_FUNCTION:
-//				std::cerr << " in function name " << p_scope->name() << std::endl;
 			{
 				AST::FunctionDefinitionPtr ast_func = STATIC_CAST( AST::FunctionDefinition, *nItr);
 				ASY::FunctionPtr symbol_func = STATIC_CAST( ASY::Function, symbol);
@@ -350,22 +353,18 @@ void SymbolTableConstructor::linkVariableType(
 				local_context->enterScope();
 					linkVariableType( *nItr, p_scope, local_context );
 				local_context->leaveScope();
-//				std::cerr << " exit function name " << p_scope->name() << std::endl;
 				break;
 			case ASY::Scope::T_CLASS:
 			{
 				AST::ClassDefinitionPtr ast_class = STATIC_CAST( AST::ClassDefinition, *nItr);
 				p_scope -> setIsIntrinsic( ast_class->isIntrinsic() ||  ast_class->isNativeClass() );
-//				std::cerr << " in class name " << p_scope->name() << " is "<<(ast_class->isIntrinsic() ||  ast_class->isNativeClass())<<std::endl;
 
 			}
 				local_context->enterScope();
 					linkVariableType( *nItr, p_scope, local_context );
 				local_context->leaveScope();
-//				std::cerr << " exit class name " << p_scope->name()<<std::endl;
 				break;
 			default:
-//				<< " is "<<(ast_class->isIntrinsic() ||  ast_class->isNativeClass())<<std::endl;
 				local_context->enterScope();
 					linkVariableType( *nItr, p_scope, local_context );
 				local_context->leaveScope();
@@ -455,14 +454,10 @@ void SymbolTableConstructor::superInitLinking(
 	namespace AST = tw::maple::as::ast;
 	namespace ASY = tw::maple::as::symbol;
 
-//	std::cerr <<"super init liking  "<< (node)->toString() <<std::endl;
-
-
 	for (std::vector< AST::NodePtr >::iterator nItr =
 				node->node_childs.begin(), E = node->node_childs.end();
 				nItr != E; nItr++)
 	{
-//		std::cerr <<"super init liking iterate  "<< (*nItr)->toString() <<std::endl;
 		ASY::SymbolPtr symbol = (*nItr)->getSymbol();
 
 		if( (*nItr)->is(  AST::Node::NodeType::T_FUNCTION_DEFINITION ))
@@ -474,8 +469,6 @@ void SymbolTableConstructor::superInitLinking(
 		{
 			if( function != NULL )
 			{
-//				std::cerr <<" ker ker try to link "<<std::endl;
-//				exit(1);
 				AST::SuperInitPtr super_init_ast = DYNA_CAST( AST::SuperInit, *nItr);
 				function->mp_parent_initilizer = super_init_ast.get();
 			}

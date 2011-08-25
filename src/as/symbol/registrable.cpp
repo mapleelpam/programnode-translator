@@ -26,6 +26,7 @@
 #include <as/symbol/symbol.h>
 #include <as/symbol/scope.h>
 #include <as/symbol/variable.h>
+#include <as/symbol/parameter.h>
 #include <as/symbol/action/registrable.h>
 #include <as/symbol/function.h>
 
@@ -96,7 +97,7 @@ VariablePtr Registrable::registerVariable(std::string name) {
 	}
 
 SymbolPtr Registrable::registerFunctionParameter(std::string name) {
-	SymbolPtr symbol(new Variable(name, _instance, Symbol::T_PARAMETER));
+	SymbolPtr symbol(new Parameter(name, _instance, Symbol::T_PARAMETER));
 //		symbol -> setSymbolProperties( Symbol::T_VARIABLE | Symbol::T_PRARAMETER);
 	_instance->addChild(symbol);
 	return symbol;
