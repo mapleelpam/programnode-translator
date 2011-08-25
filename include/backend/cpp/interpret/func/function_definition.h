@@ -132,7 +132,15 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		}else
 			tpl_function_signature = m_tpl_normal_function_signature;
 
-		patterns.push_back( PatternPtr( new Pattern("func_static_instance", (symbol_function->getEverUsedLikeVariable() && !symbol_function->isGetter() && !symbol_function->isSetter() )?m_tpl_static_instance:"")));
+		std::string str_static_instance;
+		if( symbol_function->getEverUsedLikeVariable() 
+			&& !symbol_function->isGetter()
+			 && !symbol_function->isSetter() )
+		{
+			str_static_instance = m_tpl_static_instance;
+		}
+
+		patterns.push_back( PatternPtr( new Pattern("func_static_instance", str_static_instance )));
 
 		patterns.push_back( PatternPtr( new Pattern("common",  (str_func_parameters.result)==""?"":"," ) ) );
 		patterns.push_back( PatternPtr( new Pattern("parent_name",  symbol_function->getParent()->name() ) ) );
@@ -187,7 +195,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 							"#(func_ret_type) #(func_name)(#(prefix_arguments)#(func_parameters)#(postfix_arguments))"
 ; 
         m_tpl_static_instance = "#(endl)#(indent_tab)"
-            "#(func_ret_type) static_#(func_name)( ObjectPtr p#(common) #(prefix_arguments)#(func_parameters)#(postfix_arguments)){ ((#(parent_name)*)(Object*)p)->#(func_name)(#(func_parameters)); }#(endl)"
+            "static #(func_ret_type) static_#(func_name)( ObjectPtr p#(common) #(prefix_arguments)#(func_parameters)#(postfix_arguments)){ ((#(parent_name)*)(Object*)p)->#(func_name)(#(func_parameters)); }#(endl)"
         ;
 
 		m_tpl_enter_function = "#(endl)#(indent_tab){#(endl)#(indent_tab_add)/*enter function*/";
