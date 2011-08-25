@@ -59,11 +59,14 @@ struct Arguments : public Interpreter
 			ReturnValue arg_result = dispatchExpound(*nItr, symbol_table, ctx);
 			if( arg_type && arg_type != arg_result.token_symbol )
 			{
-				if(arg_result.token_symbol )
+				if( arg_result.token_symbol )
 				{
 					std::cerr <<" argument type = "<<arg_result.token_symbol->toString()<<std::endl;
 				}
-				prefix += "(" + arg_type->getFQN_and_mappedName()+")";
+				if( arg_type->preferStack())
+					prefix += "("+arg_type->getFQN_and_instanceName()+")";
+				else
+					prefix += "("+arg_type->getFQN_and_mappedName() + "*)";
 			}
 
 			result +=  prefix + arg_result.result;
