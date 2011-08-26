@@ -49,7 +49,7 @@ struct GetExpression : public Interpreter
 		if( get->mode == "lexical" )
 		{
 			ASY::FunctionPtr func = ASY::Findable::findFunction( symbol_table, child_string);
-			if( func )
+			if( func && !func->isSetter() && !func->isGetter() && !func->isSetter() )
 			{
 				child_string.result = "static_"+child_string.result;
 			}
