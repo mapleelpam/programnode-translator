@@ -116,7 +116,7 @@ struct Function : public Scope
 	unsigned int numberOfDefaultParameter()
 	{
 		size_t num = 0;
-		for( std::vector<SymbolPtr>::iterator itr = m_types.begin() , E = m_types.end()
+		for( std::vector<SymbolPtr>::iterator itr = m_childs.begin() , E = m_childs.end()
 			; itr != E ; itr ++ )
 		{
 			ParameterPtr param = DYNA_CAST( Parameter, *itr );
