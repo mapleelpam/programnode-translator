@@ -157,8 +157,9 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 
 		std::string str_static_instance;
 		if( symbol_function->getEverUsedLikeVariable() 
-			&& !symbol_function->isGetter()
-			 && !symbol_function->isSetter() )
+				&& !symbol_function->isGetter()
+				&& !symbol_function->isSetter() 
+				&& !symbol_function->isConstructor() )
 		{
 			str_static_instance = m_tpl_static_instance;
 		}
