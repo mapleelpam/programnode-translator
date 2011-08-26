@@ -52,7 +52,7 @@ struct Registrable {
 
 	VariablePtr registerVariable(std::string name);
 
-	SymbolPtr registerFunctionParameter(std::string name);
+	SymbolPtr registerFunctionParameter(std::string name, bool has_init);
 
 private:
 	Scope* _instance;

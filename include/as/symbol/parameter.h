@@ -31,14 +31,12 @@ namespace tw { namespace maple { namespace as { namespace symbol {
 struct Scope;
 struct Parameter : public Variable
 {
-	Parameter( std::string n, Scope *parent,  uint p = Symbol::T_NONE )
-		: Variable( n, parent, p )
-		, m_have_init( false )
+	Parameter( std::string n, Scope *parent, bool has_init )
+		: Variable( n, parent,  Symbol::T_VARIABLE | Symbol::T_PARAMETER )
+		, m_have_init( has_init )
 	{
 	}
 
-public:
-	void setHaveInit( bool b ) { m_have_init = b;	}
 	bool getHaveInit( ) { return m_have_init;	}
 private:
 	bool m_have_init;

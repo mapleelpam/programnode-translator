@@ -111,7 +111,7 @@ struct Function : public Scope
 
 	unsigned int numberOfParameter()
 	{
-		return m_parameter_types.size();
+		return m_types.size()-1;
 	}
 	unsigned int numberOfDefaultParameter()
 	{
@@ -136,8 +136,8 @@ private:
 	tw::maple::generated::FunctionType::type m_function_type;
 	bool		m_ever_used_like_variable;
 
-public:
-    std::vector<SymbolPtr> m_parameter_types;
+//public:
+//    std::vector<SymbolPtr> m_parameter_types;
 
 };
 

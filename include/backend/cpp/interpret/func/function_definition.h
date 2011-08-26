@@ -139,6 +139,22 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		}else
 			tpl_function_signature = m_tpl_normal_function_signature;
 
+		std::string str_function_parameter_types = "";
+		{
+			std::vector<ASY::SymbolPtr>::iterator nItr = symbol_function->m_types.begin(), E = symbol_function->m_types.end();
+			nItr ++;
+			for( ; nItr != E ; nItr ++ )
+			{
+				ASY::SymbolPtr symbol_type = *nItr;
+				if( symbol_type->preferStack())
+					str_function_parameter_types += ", "+symbol_type->getFQN_and_instanceName();
+				else
+					str_function_parameter_types +=  ", "+symbol_type->getFQN_and_mappedName() + "*"/* '*'or 'Ptr' */;
+
+			}
+		}
+		
+
 		std::string str_static_instance;
 		if( symbol_function->getEverUsedLikeVariable() 
 			&& !symbol_function->isGetter()
@@ -160,7 +176,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("func_parameters", str_func_parameters.result ) ));
 		patterns.push_back( PatternPtr( new Pattern("func_parameters_number", str_numof_parameter ) ));
 		patterns.push_back( PatternPtr( new Pattern("func_default_parameters_number", str_numof_default_parameter ) ));
-		patterns.push_back( PatternPtr( new Pattern("func_parameter_types", "") )); //TBD
+		patterns.push_back( PatternPtr( new Pattern("func_parameter_types", str_function_parameter_types )) ); 
 		patterns.push_back( PatternPtr( new Pattern("func_arguments", str_func_arguments.result ) ));
 		patterns.push_back( PatternPtr( new Pattern("func_ret_type",  str_function_return_type ) ) );
 		patterns.push_back( PatternPtr( new Pattern("function_is_static", (symbol_function->isStatic())? "static ":"") ) );

@@ -29,6 +29,7 @@
 #include <as/ast/stmt/class_definition.h>
 #include <backend/cpp/interpret/interpreter.h>
 #include <backend/cpp/templateprinter.h>
+#include <as/symbol/parameter.h>
 
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
@@ -324,16 +325,17 @@ private:
 			{
 				std::string str_parameters;
 				{
-					for(std::vector<ASY::SymbolPtr>::iterator nItr = member_function->m_parameter_types.begin(), E = member_function->m_parameter_types.end()
-							; nItr != E ; nItr ++ )
+					std::vector<ASY::SymbolPtr>::iterator nItr = member_function->m_types.begin(), E = member_function->m_types.end();
+					nItr ++;
+					for( ; nItr != E ; nItr ++ )
 					{
-						//str_parameters += ", "+(*nItr)->getFQN_and_instanceName();
+						//if( nItr == E ) break;
 						ASY::SymbolPtr symbol_type = *nItr;
 						if( symbol_type->preferStack())
-							str_parameters += ","+symbol_type->getFQN_and_instanceName();
+							str_parameters += ", "+symbol_type->getFQN_and_instanceName();
 						else
 							//str_parameters += symbol_type->getFQN_and_mappedName() + m_pointer_pattern /* '*'or 'Ptr' */;
-							str_parameters +=  ","+symbol_type->getFQN_and_mappedName() + "*"/* '*'or 'Ptr' */;
+							str_parameters +=  ", "+symbol_type->getFQN_and_mappedName() + "*"/* '*'or 'Ptr' */;
 
 					}
 				}

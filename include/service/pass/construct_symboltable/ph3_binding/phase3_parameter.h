@@ -91,10 +91,6 @@ struct Phase3_Parameter
 			if( p_type ) {
 
 				var_symbol->bindType( p_type );
-				if(  tw::maple::as::symbol::FunctionPtr func = DYNA_CAST( tw::maple::as::symbol::Function, symboltable) )
-				{
-					func->m_parameter_types.push_back(p_type);
-				}
 			} else {
 				std::cerr<<" variable name '"<<ast_param->m_param_name <<"': can't find type - '"<< ast_param->toString() <<"'"<<"  '"<<ast_param->m_param_type[ast_param->m_param_type.size() - 1]<<"'"<<std::endl;
 				exit(1);

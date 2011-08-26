@@ -148,19 +148,15 @@ void SymbolTableConstructor:: constructSymbols(
 			{
 				AST::FunctionParameterItemPtr pitem = std::tr1::static_pointer_cast<AST::FunctionParameterItem>(*nItr);
 				std::string str_varname = pitem->ParamName();
-				ASY::SymbolPtr sym_param= symboltable->registerFunctionParameter( str_varname ) ;
+				ASY::SymbolPtr sym_param= symboltable->registerFunctionParameter( str_varname, pitem->hasInit() ) ;
 				pitem -> setSymbol( sym_param );
-				{
-					ASY::ParameterPtr p_param = DYNA_CAST( ASY::Parameter, sym_param );
-					p_param -> setHaveInit( pitem->hasInit() );
-				}
 
 			}	break;
 			case AST::Node::NodeType::T_FUNCTION_PARAMETER_REST:
 			{
 				AST::FunctionParameterRestPtr pitem = std::tr1::static_pointer_cast<AST::FunctionParameterRest>(*nItr);
 				std::string str_varname = pitem->m_param_name;
-				pitem -> setSymbol( symboltable->registerFunctionParameter( str_varname ) );
+				pitem -> setSymbol( symboltable->registerFunctionParameter( str_varname, false ) );
 
 			}	break;
 			case AST::Node::NodeType::T_VARIABLE_DECLARE:
