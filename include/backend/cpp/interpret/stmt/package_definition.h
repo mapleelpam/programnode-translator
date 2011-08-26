@@ -44,7 +44,7 @@ struct PackageDefinition : public Interpreter
 		AST::PackageDefinitionPtr ast_pkg = STATIC_CAST( AST::PackageDefinition, node);
 
 
-		std::string prefix = "";
+		std::string prefix = "\n";
 		std::string inside = "";
 		std::string postfix = "";
 

@@ -57,6 +57,7 @@ struct BackendManager {
 			tw::maple::backend::cpp::Context context;
 			ofs_stream << dispatchExpound(*nodeItr, symbol_table, context	).result;
 		}
+        ofs_stream << std::endl;
 		declareStaticVariables( symbol_table, ofs_stream );
 
 		ofs_stream.close();
@@ -75,7 +76,7 @@ private:
 		std::vector<ASYM::SymbolPtr> childs;
 		symbol_table->getChilds( childs/*out*/ );
 
-		ofs_stream << std::endl;
+//		ofs_stream << std::endl;
 		for (std::vector<ASYM::SymbolPtr>::iterator
 				child_itr = childs.begin(); child_itr != childs.end(); child_itr++)
 		{
