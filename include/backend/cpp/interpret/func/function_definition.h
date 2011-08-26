@@ -175,6 +175,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("func_name", str_func_name) ));
 		patterns.push_back( PatternPtr( new Pattern("func_body",  str_function_body )) );
 		patterns.push_back( PatternPtr( new Pattern("func_parameters", str_func_parameters.result ) ));
+		patterns.push_back( PatternPtr( new Pattern("func_parameters_variable_only", _function_parameter_argonly(symbol_function) ) ));
 		patterns.push_back( PatternPtr( new Pattern("func_parameters_number", str_numof_parameter ) ));
 		patterns.push_back( PatternPtr( new Pattern("func_default_parameters_number", str_numof_default_parameter ) ));
 		patterns.push_back( PatternPtr( new Pattern("func_parameter_types", str_function_parameter_types )) ); 
@@ -220,7 +221,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 							"#(func_ret_type) #(func_name)(#(prefix_arguments)#(func_parameters)#(postfix_arguments))"
 ; 
         m_tpl_static_instance = "#(endl)#(indent_tab)"
-            "static #(func_ret_type) static_#(func_name)( ObjectPtr p#(common) #(prefix_arguments)#(func_parameters)#(postfix_arguments)){ ((#(parent_name)*)(Object*)p)->#(func_name)(#(func_parameters)); }#(endl)"
+            "static #(func_ret_type) static_#(func_name)( ObjectPtr p#(common) #(prefix_arguments)#(func_parameters)#(postfix_arguments)){ ((#(parent_name)*)(Object*)p)->#(func_name)(#(func_parameters_variable_only)); }#(endl)"
         ;
 
 		m_tpl_enter_function = "#(endl)#(indent_tab){#(endl)#(indent_tab_add)/*enter function*/";
@@ -345,6 +346,18 @@ private:
 		if( symbol_function -> isSetter() )
 			return m_tpl_setter_prepend+function_name;
 		return function_name;
+	}
+	std::string _function_parameter_argonly( ASY::FunctionPtr symbol_function )
+	{
+		std::string answer;
+		for( std::vector<ASY::SymbolPtr>::iterator itr = symbol_function->m_childs.begin(), E = symbol_function->m_childs.end()
+				; itr != E ; itr ++ )
+		{
+			ASY::ParameterPtr symbol_param = DYNA_CAST( ASY::Parameter, *itr );
+			if( symbol_param )
+				answer += (answer==""?"":" ,")+symbol_param->name();
+		}
+		return answer;
 	}
 };
 
