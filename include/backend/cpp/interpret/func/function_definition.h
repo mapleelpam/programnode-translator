@@ -325,7 +325,7 @@ private:
 			if (((*child_itr)->getSymbolProperties() & ASY::Symbol::T_VARIABLE))
 			{
 				ASY::VariablePtr var = STATIC_CAST( ASY::Variable, *child_itr );
-				if( var->getInitializeNode() != NULL )
+				if( var->getInitializeNode() != NULL && !var->isStatic() )
 				{
 					answer += (answer==""?":":",")
 						+ var->name() + "("
