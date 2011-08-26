@@ -160,10 +160,6 @@ struct Call : public Interpreter, public TemplatePrinter
 		std::string str_answer;
 
 		{
-			if( callee_type )
-				std::cerr << " callee type = '"<<callee_type->getCallerMapper() <<"'"<<std::endl;
-			else
-				std::cerr << " can't find callee type "<<str_callee_name <<std::endl;
 	
 			if( callee_type != NULL && (callee_type->getCallerMapper() != "") )
 				str_answer = substitutePatterns( "#(prefix)"+callee_type->getCallerMapper(), patterns );

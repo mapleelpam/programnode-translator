@@ -40,10 +40,10 @@ package
 
 		public function Math ();
 
-    		[mapper(caller="max(#(argn),#(argc))")]
+    		[mapper(caller="#(callee_name)(#(argn),#(argc))")]
 		public static function max (val1:Number = -Infinity, val2:Number = -Infinity, ...rest) : Number;
 
-    		[mapper(caller="min(#(argn),#(argc))")]
+    		[mapper(caller="#(callee_name)(#(argn),#(argc))")]
 		public static function min (val1:Number = Infinity, val2:Number = Infinity, ...rest) : Number;
 
 		public static function pow (base:Number, pow:Number) : Number;

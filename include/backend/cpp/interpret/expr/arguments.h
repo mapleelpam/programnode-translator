@@ -27,9 +27,9 @@
 
 #include <as/ast/expr/arguments.h>
 #include <backend/cpp/interpret/interpreter.h>
+#include <as/symbol/varianttype.h>
 
-namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
-
+namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret { 
 
 // Abstract
 struct Arguments : public Interpreter
@@ -65,6 +65,8 @@ struct Arguments : public Interpreter
 				}
 				if( arg_type->preferStack())
 					prefix += "("+arg_type->getFQN_and_instanceName()+")";
+				else if( DYNA_CAST(ASY::VariantType, arg_type ) )
+					prefix += ""; // ignore
 				else
 					prefix += "("+arg_type->getFQN_and_mappedName() + "*)";
 			}
