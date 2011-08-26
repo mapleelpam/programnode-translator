@@ -147,7 +147,7 @@ struct Identifier : public Interpreter
 							if( variable_ptr )
 							{
 								ReturnValue result = li->value+_DS2("/* found variable */");
-								result.token_symbol = variable_ptr;
+								result.token_symbol = variable_ptr->getTypeSymbol();
 								result.expression_type = ReturnValue::STACK;
 								return result;
 							}
