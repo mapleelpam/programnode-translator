@@ -125,7 +125,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 						symbol_function->ReturnType()->getFQN_and_mappedName() + m_pointer_pattern ) ;
 
 		if( ! symbol_function->isConstructor() )
-			str_function_return_type = ( str_function_return_type == "" ) ? "void /* damn */" : str_function_return_type;
+			str_function_return_type = ( str_function_return_type == "" ) ? "void" : str_function_return_type;
 
 		std::string tpl_function_signature;
 		if( symbol_function->isMemberFunction() )

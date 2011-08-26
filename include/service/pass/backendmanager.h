@@ -74,6 +74,8 @@ private:
 
 		std::vector<ASYM::SymbolPtr> childs;
 		symbol_table->getChilds( childs/*out*/ );
+
+		ofs_stream << std::endl;
 		for (std::vector<ASYM::SymbolPtr>::iterator
 				child_itr = childs.begin(); child_itr != childs.end(); child_itr++)
 		{

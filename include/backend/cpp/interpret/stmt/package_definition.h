@@ -71,7 +71,7 @@ struct PackageDefinition : public Interpreter
 		for( std::vector<std::string>::iterator sItr = ast_pkg->package_names.begin(), E = ast_pkg->package_names.end()
 						; sItr != E ; sItr++ )
 		{
-			postfix += "} /* "+ (*sItr=="" ? "anonymouse" : *sItr )+ "*/ ";
+			postfix += "} /* "+ (*sItr=="" ? "anonymouse" : *sItr )+ "*/";
 		}
 
 		if( inside == "")

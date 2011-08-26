@@ -67,6 +67,8 @@ struct Arguments : public Interpreter
 					prefix += "("+arg_type->getFQN_and_instanceName()+")";
 				else if( DYNA_CAST(ASY::VariantType, arg_type ) )
 					prefix += ""; // ignore
+                else if( arg_type -> name() == "Function" )
+					prefix += ""; // ignore
 				else
 					prefix += "("+arg_type->getFQN_and_mappedName() + "*)";
 			}

@@ -464,11 +464,16 @@ void SymbolTableConstructor::superInitLinking(
 		}
 		else if( (*nItr)->is( AST::Node::NodeType::T_SUPER_INIT ) )
 		{
+            AST::SuperInitPtr super_init_ast = DYNA_CAST( AST::SuperInit, *nItr);
 			if( function != NULL )
 			{
-				AST::SuperInitPtr super_init_ast = DYNA_CAST( AST::SuperInit, *nItr);
 				function->mp_parent_initilizer = super_init_ast.get();
 			}
+            else
+            {
+                std::cerr<< "missed super init "<<super_init_ast->toString() <<std::endl;
+                exit(1);
+            }
 		}
 		else
 			superInitLinking( *nItr, function );
