@@ -27,6 +27,7 @@
 
 #include <as/ast/abstract/statement.h>
 #include <as/ast/expr/super_init.h>
+#include <global.h>
 
 namespace tw { namespace maple { namespace as { namespace ast {
 
@@ -59,6 +60,33 @@ struct FunctionDefinition: public Statement
 		    }
 	    }
 	    return "";
+    }
+    std::string getEnterFunctionMapper()
+    {
+	    if(m_metadata.id == "mapper")
+	    {
+		    if(m_metadata.keyvalues.find("enter_function") != m_metadata.keyvalues.end() )
+		    {
+			    return m_metadata.keyvalues["enter_function"];
+		    }
+	    }
+	    return "";
+    }
+    void getPrefixParameterName( std::string& name, std::string& type, bool& found)
+    {
+    	found = false;
+	    if(m_metadata.id == "mapper")
+	    {
+		    if(m_metadata.keyvalues.find("prefix_parameter") != m_metadata.keyvalues.end() )
+		    {
+		    	found = true;
+			    std::string prefix = m_metadata.keyvalues["prefix_parameter"];
+			    std::vector<std::string> tokens = tokenize( prefix, ":", "false");
+
+			    name = tokens[0];
+			    type = tokens[1];
+		    }
+	    }
     }
 public:
     void setFunctionSymbol( ASYM::FunctionPtr s )	{	_related_function_symbol = s;	}

@@ -164,6 +164,31 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 			str_static_instance = m_tpl_static_instance;
 		}
 
+		std::string str_prefix_parameter = "";
+		{
+			std::string pname, ptype;
+			bool found;
+			fdef->getPrefixParameterName( pname, ptype, found);
+			if( found )
+			{
+				for( std::vector<ASY::SymbolPtr>::iterator itr = symbol_function->m_childs.begin(), E = symbol_function->m_childs.end()
+					; itr != E ; itr ++ )
+				{
+					if((*itr)->name() == pname )
+					{
+						if( ASY::ParameterPtr sym_param = DYNA_CAST(ASY::Parameter, *itr ) )
+						{
+							ASY::SymbolPtr symbol_type = sym_param->getTypeSymbol();
+							if( symbol_type->preferStack())
+								str_prefix_parameter += symbol_type->getFQN_and_instanceName()+" "+ sym_param->name();
+							else
+								str_prefix_parameter += symbol_type->getFQN_and_mappedName() + "* "/* '*'or 'Ptr' */+ sym_param->name();
+						}
+					}
+				}
+			}
+		}
+
 		patterns.push_back( PatternPtr( new Pattern("func_static_instance", str_static_instance )));
 
 		patterns.push_back( PatternPtr( new Pattern("common",  (str_func_parameters.result)==""?"":"," ) ) );
@@ -187,10 +212,11 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 						(!symbol_function->isConstructor() && (m_default_virtual&&(!symbol_function->isStatic())&&symbol_function->isMemberFunction() )) )?
 						"virtual ":"") ) );
 		patterns.push_back( PatternPtr( new Pattern("function_enter", (fdef->isAbstract)? "" : m_tpl_enter_function) ) );
+		patterns.push_back( PatternPtr( new Pattern("enter_stmt", fdef->getEnterFunctionMapper() != "" ? fdef->getEnterFunctionMapper() : "/*enter function*/" ) ) );
 		patterns.push_back( PatternPtr( new Pattern("function_leave", (fdef->isAbstract)? "" : m_tpl_leave_function) ) );
 		patterns.push_back( PatternPtr( new Pattern("member_initial", (symbol_function->isConstructor())? getMemberInitializer(symbol_function,fdef->mp_parent_initilizer,ctx) : "") ) );
-		patterns.push_back( PatternPtr( new Pattern("prefix_arguments", m_tpl_args_prefix) ) );
-		patterns.push_back( PatternPtr( new Pattern("postfix_arguments", m_tpl_args_postfix) ) );
+		patterns.push_back( PatternPtr( new Pattern("prefix_parameters", str_prefix_parameter) ) );
+		patterns.push_back( PatternPtr( new Pattern("postfix_parameters", "") ) );
 		patterns.push_back( PatternPtr( new Pattern("endl", ctx.endl() )) );
 		patterns.push_back( PatternPtr( new Pattern("indent_tab", ctx.indent()) ));
 		patterns.push_back( PatternPtr( new Pattern("indent_tab_sub", ctx.indentSub()) ));
@@ -218,28 +244,17 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 							"#(indent_tab)"
 							"#(function_is_static)"
 							"#(function_is_virtual)"
-							"#(func_ret_type) #(func_name)(#(prefix_arguments)#(func_parameters)#(postfix_arguments))"
+							"#(func_ret_type) #(func_name)(#(prefix_parameters)#(func_parameters)#(postfix_parameters))"
 ; 
         m_tpl_static_instance = "#(endl)#(indent_tab)"
-            "static #(func_ret_type) static_#(func_name)( ObjectPtr p#(common) #(prefix_arguments)#(func_parameters)#(postfix_arguments)){ ((#(parent_name)*)(Object*)p)->#(func_name)(#(func_parameters_variable_only)); }#(endl)"
+            "static #(func_ret_type) static_#(func_name)( ObjectPtr p#(common) #(prefix_parameters)#(func_parameters)#(postfix_parameters)){ ((#(parent_name)*)(Object*)p)->#(func_name)(#(func_parameters_variable_only)); }#(endl)"
         ;
 
-		m_tpl_enter_function = "#(endl)#(indent_tab){#(endl)#(indent_tab_add)/*enter function*/";
+		m_tpl_enter_function = "#(endl)#(indent_tab){#(endl)#(indent_tab_add)#(enter_stmt)";
 		m_tpl_leave_function = "#(indent_tab_add)/*leave function*/#(endl)#(indent_tab)}";
 
 		m_tpl_setter_prepend = "set_";
 		m_tpl_getter_prepend = "get_";
-		if(0)
-		{
-			m_tpl_args_prefix = "/*prefix_args*/";
-			m_tpl_args_postfix = "/*postfix_args*/";
-		}
-		else
-		{
-			m_tpl_args_prefix = "";
-			m_tpl_args_postfix = "";
-		}
-
 	}
 
 	virtual bool readConfig( boost::property_tree::ptree& pt )
@@ -250,9 +265,6 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 
 		m_tpl_enter_function = pt.get<std::string>(  configName()+".template.enter_function", m_tpl_enter_function);
 		m_tpl_leave_function = pt.get<std::string>(  configName()+".template.leave_function", m_tpl_leave_function);
-
-		m_tpl_args_prefix	= pt.get<std::string>(  configName()+".template.prefix_arguments", m_tpl_args_prefix);
-		m_tpl_args_postfix	= pt.get<std::string>(  configName()+".template.postfix_argumetns", m_tpl_args_postfix);
 
 		m_tpl_setter_prepend	= pt.get<std::string>( configName()+".template.setter_prepend", m_tpl_setter_prepend);
 		m_tpl_getter_prepend	= pt.get<std::string>( configName()+".template.getter_prepend", m_tpl_getter_prepend);
@@ -271,9 +283,6 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 
 		pt.put<std::string>( configName()+".template.enter_function", m_tpl_enter_function);
 		pt.put<std::string>( configName()+".template.leave_function", m_tpl_leave_function);
-
-		pt.put<std::string>( configName()+".template.prefix_arguments", m_tpl_args_prefix);
-		pt.put<std::string>( configName()+".template.postfix_argumetns", m_tpl_args_postfix);
 
 		pt.put<std::string>( configName()+".template.setter_prepend", m_tpl_setter_prepend);
 		pt.put<std::string>( configName()+".template.getter_prepend", m_tpl_getter_prepend);

@@ -39,12 +39,14 @@ struct Phase3_FunctionDefine
 
 		static void pass(
 				tw::maple::as::ast::FunctionDefinitionPtr 	ast_func
-				, tw::maple::as::symbol::FunctionPtr 			func_symbol
+				, tw::maple::as::symbol::FunctionPtr 		func_symbol
 				, tw::maple::as::symbol::ScopePtr			symboltable
 				, Phase2ContextPtr context
 				)
 		{
-			tw::maple::as::symbol::SymbolPtr p_type;
+			namespace ASY = tw::maple::as::symbol;
+			using tw::maple::as::symbol::Findable;
+			ASY::SymbolPtr p_type;
 
 			tw::maple::as::ast::FunctionCommonPtr fcommon  = STATIC_CAST( tw::maple::as::ast::FunctionCommon, ast_func->FunctionCommon() );
 			BOOST_ASSERT( fcommon != NULL );
@@ -71,6 +73,35 @@ struct Phase3_FunctionDefine
 			BOOST_ASSERT( p_type != NULL && "can't find symbol" );
 			BOOST_ASSERT( p_type );
 			func_symbol->bindReturnType( p_type );
+
+			// process meta data
+			{ // add parameter in prefix annotation
+				std::string pname, ptype;
+				bool found;
+				ast_func->getPrefixParameterName( pname, ptype, found);
+				if( found )
+				{
+					ASY::SymbolPtr sym_param = func_symbol->registerFunctionParameter( pname, false );
+
+					tw::maple::as::symbol::ScopePtr var_type_scope = symboltable;
+					std::vector<std::string> type_tokens = tokenize( ptype, ".", false);
+					for( int idx = 0 ; idx < type_tokens.size() - 1 ; idx ++ )
+					{
+						tw::maple::as::symbol::SymbolPtr temp_pkg = var_type_scope->findSymbol( type_tokens[idx] );
+						if( temp_pkg && temp_pkg ->getSymbolProperties() == tw::maple::as::symbol::Symbol::T_SCOPE )
+						{
+							var_type_scope = STATIC_CAST( tw::maple::as::symbol::Scope , temp_pkg );
+						} else {
+							std::cerr <<" can't find scope - "<< type_tokens[idx] << " '"<< sym_param->toString() << "'"<<std::endl;
+						}
+					}
+		//			p_type = var_type_scope->findType( ast_var->VariableType[ast_var->VariableType.size() - 1]  );
+
+					ASY::SymbolPtr type_param =
+							Findable::findClassType_downward(var_type_scope.get(), type_tokens[type_tokens.size()- 1]);
+					sym_param ->bindType( type_param );
+				}
+			}
 		}
 };
 

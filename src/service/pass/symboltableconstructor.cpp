@@ -124,6 +124,14 @@ void SymbolTableConstructor:: constructSymbols(
 
 				AST::FunctionSignaturePtr fsig  = STATIC_CAST( AST::FunctionSignature, fcommon->FunctionSignature() );
 
+//				{ // add parameter in prefix annotation
+//					std::string pname, ptype;
+//					bool found;
+//					fdef->getPrefixParameterName(pname,ptype,found);
+//					if( found )
+//						symboltable->registerFunctionParameter( pname, false );
+//				}
+
 				if(	fsig->FunctionParameter() )
 					constructSymbols( fsig->FunctionParameter(), scope_func, classname );
 				constructSymbols( fcommon->FunctionBody(), scope_func, classname );

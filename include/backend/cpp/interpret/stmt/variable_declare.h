@@ -64,7 +64,7 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 		std::string var_name = var->VariableName;
 		std::string var_attr = "";
 		if( symbol_var -> isClassMember() )
-			var_attr = var->isPublic()?"public" : "private";
+			var_attr = var->isPublic()?"public" : (var->isPrivate() ? "private" : "protected");
 
 		std::string var_init = "";
 
