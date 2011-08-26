@@ -27,6 +27,7 @@
 
 #include <global.h>
 #include <as/symbol/symbol.h>
+#include "SyntaxTree_types.h"
 
 
 namespace tw { namespace maple { namespace as { namespace ast {
@@ -144,6 +145,14 @@ public:
 protected:
     ASYM::SymbolPtr	_related_symbol;
 
+
+
+public: 
+    void setMetaData( tw::maple::generated::MetaData& md )
+    {
+	    m_metadata = md;
+    }
+    tw::maple::generated::MetaData	m_metadata;
 };
 
 typedef SHARED_PTR(Node)    NodePtr;

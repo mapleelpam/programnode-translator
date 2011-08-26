@@ -114,6 +114,7 @@ struct Call : public Interpreter, public TemplatePrinter
 						result.token_symbol = callee_func_symbol->ReturnType();
 						result.expression_type =
 								callee_func_symbol->ReturnType()->preferStack() ? ReturnValue::STACK : ReturnValue::HEAP;
+						callee_type = callee_func_symbol;
 					} else
 					{
 						/* do for waht? */
@@ -146,15 +147,29 @@ struct Call : public Interpreter, public TemplatePrinter
 //		result += " )";
 
 //		std::cerr << " in call interpreter  = (end)" << std::endl;
+		std::string str_numof_arguments = getNumofArguments( call->getArgs() );
 
 		std::list<PatternPtr> patterns;
 		patterns.push_back( PatternPtr( new Pattern("expression", str_tpl_expression) ));
-		patterns.push_back( PatternPtr( new Pattern("arguments", str_arguments) ));
-		patterns.push_back( PatternPtr( new Pattern("arguments2", str_arguments != ""?","+str_arguments :"") ));
+		patterns.push_back( PatternPtr( new Pattern("argc", str_arguments) ));
+		patterns.push_back( PatternPtr( new Pattern("argn", str_numof_arguments) ));
+		patterns.push_back( PatternPtr( new Pattern("argc2", str_arguments != ""?","+str_arguments :"") ));
 		patterns.push_back( PatternPtr( new Pattern("callee_name", str_callee_name) ));
 		patterns.push_back( PatternPtr( new Pattern("prefix", str_prefix) ));
 
-		std::string str_answer = substitutePatterns( patterns );
+		std::string str_answer;
+
+		{
+			if( callee_type )
+				std::cerr << " callee type = '"<<callee_type->getCallerMapper() <<"'"<<std::endl;
+			else
+				std::cerr << " can't find callee type "<<str_callee_name <<std::endl;
+	
+			if( callee_type != NULL && (callee_type->getCallerMapper() != "") )
+				str_answer = substitutePatterns( "#(prefix)"+callee_type->getCallerMapper(), patterns );
+			else
+				str_answer = substitutePatterns( patterns );
+		}
 		result.result = str_answer;
 
 		return result;
@@ -164,8 +179,8 @@ struct Call : public Interpreter, public TemplatePrinter
 		: TemplatePrinter("Call")
 	{
 		setTemplateString("#(expression)");
-		m_tpl_undefined_member_call = "#(prefix)invoke(\"#(callee_name)\", false, 0 #(arguments2) )";
-		m_tpl_normal_call = "#(prefix)#(callee_name)(#(arguments))";
+		m_tpl_undefined_member_call = "#(prefix)invoke(\"#(callee_name)\", false, 0 #(argc2) )";
+		m_tpl_normal_call = "#(prefix)#(callee_name)(#(argc))";
 	}
 	virtual bool readConfig( boost::property_tree::ptree& pt )
 	{
@@ -190,6 +205,19 @@ private:
 			ans += "::"+fn[idx];
 		}
 		return ans;
+	}
+	
+	const std::string getNumofArguments( AST::NodePtr node )
+	{
+		std::string str_numof_args;
+		AST::ArgumentsPtr args = DYNA_CAST( AST::Arguments, node );
+		if( args == NULL ) return "0";
+		std::stringstream ss;
+		ss << args->node_childs.size();
+		ss >> str_numof_args;
+
+		return str_numof_args;
+
 	}
 };
 

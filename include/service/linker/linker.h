@@ -35,7 +35,7 @@
 //using namespace ::apache::thrift::transport;
 //using namespace ::apache::thrift::server;
 
-//#define printf(STRING) {};
+#define printf(STRING) {};
 
 namespace tw { namespace maple { namespace service { namespace linker {
 

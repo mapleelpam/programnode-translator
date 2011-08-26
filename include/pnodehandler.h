@@ -175,6 +175,11 @@ public:
 
 	void startFunctionDefinition( bool is_abstract ) {
 		PUSH_STACK_WITH_INIT( FunctionDefinition, is_abstract );
+		
+		if(_meta_data_dirty) {
+			_node_stack.top()->setMetaData(_meta_data);
+			_meta_data_dirty = false;
+		}
 	}
 
 	void functionName(const std::string& n, tw::maple::generated::FunctionType::type t ) {

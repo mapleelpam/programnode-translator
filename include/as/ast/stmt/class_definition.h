@@ -78,11 +78,6 @@ struct ClassDefinition : public Statement
 	std::string getClassName()	const {	return m_classname;	}
 	const std::vector<std::string>& Inherits()	{	return m_inherits;	}
 	const std::vector<std::string>& Implements()	{	return m_implements;	}
-
-	void setMetaData( tw::maple::generated::MetaData& md )
-	{
-		m_metadata = md;
-	}
 	/* advaned methods */
 	bool isNativeClass( )
 	{
@@ -144,7 +139,7 @@ private:
     std::vector<std::string>	m_attributes;
 
 
-    tw::maple::generated::MetaData	m_metadata;
+//    tw::maple::generated::MetaData	m_metadata;
 
 
     // not sure this line has any side effect

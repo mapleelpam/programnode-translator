@@ -127,6 +127,14 @@ struct Function : public Scope
 		}
 		return num;
 	}
+	const std::string getCallerMapper() const
+	{
+		return m_caller_mapper;
+	}
+	void setCallerMapper( std::string caller )
+	{
+		m_caller_mapper = caller;
+	}
 public:
 	std::vector<SymbolPtr> m_types;
 
@@ -135,10 +143,7 @@ private:
 	bool		m_is_constructor;
 	tw::maple::generated::FunctionType::type m_function_type;
 	bool		m_ever_used_like_variable;
-
-//public:
-//    std::vector<SymbolPtr> m_parameter_types;
-
+	std::string 	m_caller_mapper;
 };
 
 typedef SHARED_PTR(Function) FunctionPtr;

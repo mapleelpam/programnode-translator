@@ -5,6 +5,7 @@ package flash.events
 
 	intrinsic public class EventDispatcher extends Object implements IEventDispatcher
 	{
+    		[mapper(caller="addEventListener(this,#(argc))")]
 		public function addEventListener (type:String, listener:Function, useCapture:Boolean = false, priority:int = 0, useWeakReference:Boolean = false) : void;
 
 		public function dispatchEvent (event:Event) : Boolean;

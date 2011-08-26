@@ -135,6 +135,7 @@ ReturnValue dispatchExpound(
 //		 , tw::maple::as::symbol::Scope* class_symbol_table
 		)
 {
+	if( node == NULL) return "";
 	BOOST_ASSERT( node != NULL );
 
 	namespace AST = ::tw::maple::as::ast;

@@ -44,7 +44,7 @@ typedef std::tr1::shared_ptr<Pattern>    PatternPtr;
 class TemplatePrinter : public tw::maple::service::ConfigRequest
 {
 public:
-	std::string substitutePatterns( std::string& in, std::list<PatternPtr>& patterns)
+	std::string substitutePatterns( const std::string& in, std::list<PatternPtr>& patterns)
 	{
 		std::string out = in;
 		for( std::list<PatternPtr>::iterator itr = patterns.begin() ; itr != patterns.end() ; itr ++)

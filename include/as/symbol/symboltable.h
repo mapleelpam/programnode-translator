@@ -63,6 +63,7 @@ struct SymbolTable : public tw::maple::service::ConfigRequest
 		: m_pattern_of_star("Object")
 	{
 		_primitive_type_mapper[ "int" ] = "int";
+		_primitive_type_mapper[ "uint" ] = "unsigned int";
 		_primitive_type_mapper[ "float" ] = "float";
 		_primitive_type_mapper[ "Boolean" ] = "bool";
 		_primitive_type_mapper[ "Void" ] = "void";

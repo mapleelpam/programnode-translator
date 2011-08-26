@@ -49,6 +49,17 @@ struct FunctionDefinition: public Statement
 
     const bool isAbstract;
 
+    std::string getCallerMapper()
+    {
+	    if(m_metadata.id == "mapper")
+	    {
+		    if(m_metadata.keyvalues.find("caller") != m_metadata.keyvalues.end() )
+		    {
+			    return m_metadata.keyvalues["caller"];
+		    }
+	    }
+	    return "";
+    }
 public:
     void setFunctionSymbol( ASYM::FunctionPtr s )	{	_related_function_symbol = s;	}
     ASYM::FunctionPtr getFunctionSymbol( )	{	return _related_function_symbol;	}

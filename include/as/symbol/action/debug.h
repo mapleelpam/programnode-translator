@@ -61,6 +61,7 @@ struct Debug
 					ofs << indent(depth) << (*child_itr)->toString();
 					ofs <<" " <<(function->isConstructor()?"constructor": "not_constructor");
 					ofs <<" " <<(function->getEverUsedLikeVariable()?"will used like variable": "");
+					ofs <<" caller:'" <<(function->getCallerMapper())<<"' ";
 					for( std::vector<SymbolPtr>::iterator I = function->m_types.begin(), E = function->m_types.end()
 							; I != E ; I ++ )
 					{
