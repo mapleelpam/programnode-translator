@@ -66,17 +66,35 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 		if( symbol_var -> isClassMember() )
 			var_attr = var->isPublic()?"public" : (var->isPrivate() ? "private" : "protected");
 
-		std::string var_init = "";
+		ReturnValue var_init = "";
 
 		if ( var->varInit() && symbol_var && !(symbol_var->isClassMember()) )
-	 		var_init = " = " + dispatchExpound( var->varInit(), symbol_table, ctx ).result;
+		{
+			var_init = dispatchExpound( var->varInit(), symbol_table, ctx ).result;
+			std::string str_type_cast = "";
+			if (var_init.token_symbol != symbol_type) {
+				if (symbol_type->preferStack())
+					str_type_cast += "("
+							+ symbol_type->getFQN_and_instanceName() + ")";
+				else if (DYNA_CAST(ASY::VariantType, symbol_type ))
+					str_type_cast += ""; // ignore
+				else if ( symbol_type -> name() == "Function")
+					str_type_cast += ""; // ignore
+				else
+					str_type_cast += "(" + symbol_type->getFQN_and_mappedName()
+							+ "*)";
+			}
+
+
+			var_init.result = " = " + str_type_cast + var_init.result;
+		}
 
 		std::list<PatternPtr> patterns;
 		patterns.push_back( PatternPtr( new Pattern("var_attribute", var_attr) ));
 		patterns.push_back( PatternPtr( new Pattern("var_attribute_stmt", var_attr=="" ? "" : var_attr+": ") ));
 		patterns.push_back( PatternPtr( new Pattern("var_type", str_var_type) ));
 		patterns.push_back( PatternPtr( new Pattern("var_name", var_name) ));
-		patterns.push_back( PatternPtr( new Pattern("var_init", var_init) ));
+		patterns.push_back( PatternPtr( new Pattern("var_init", var_init.result) ));
 		patterns.push_back( PatternPtr( new Pattern("var_is_static", (var->isStatic())? "static ":"") ) );
 
 		COMPELET_PATTERNS( patterns, ctx );

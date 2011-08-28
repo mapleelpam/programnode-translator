@@ -47,11 +47,11 @@ struct SetExpression : public Interpreter
 
 		ctx.inter_type = Context::LHS;
 		bool lft_is_setter = ctx.lfs_is_setter = false;
-		std::string str_rhs = dispatchExpound(set->LHS(), symbol_table, ctx);
+		ReturnValue str_rhs = dispatchExpound(set->LHS(), symbol_table, ctx);
 		lft_is_setter = ctx.lfs_is_setter;
 
 		ctx.inter_type = Context::RHS;
-		std::string str_lhs = dispatchExpound(set->RHS(), symbol_table, ctx/*TODO: SHOULD NOT BE*/ );
+		ReturnValue str_lhs = dispatchExpound(set->RHS(), symbol_table, ctx/*TODO: SHOULD NOT BE*/ );
 
 		ctx.inter_type = Context::RHS;
 
@@ -71,12 +71,34 @@ struct SetExpression : public Interpreter
 			}
 		}
 
+		std::string str_type_cast = "";
+
+		if( str_lhs.token_symbol )
+		{
+			if( str_rhs.token_symbol != str_lhs.token_symbol)
+			{
+
+//				if (arg_result.token_symbol) {
+//					std::cerr << " argument type = "
+//							<< arg_result.token_symbol->toString() << std::endl;
+//				}
+				if (str_lhs.token_symbol->preferStack())
+					str_type_cast += "(" + str_lhs.token_symbol->getFQN_and_instanceName() + ")";
+				else if ( DYNA_CAST(ASY::VariantType, str_rhs.token_symbol ) )
+					str_type_cast += ""; // ignore
+				else if (str_lhs.token_symbol -> name() == "Function")
+					str_type_cast += ""; // ignore
+				else
+					str_type_cast += "(" + str_lhs.token_symbol->getFQN_and_mappedName() + "*)";
+			}
+		}
+
 		if( lft_is_setter )
-			return prefix+str_rhs + "( " + str_lhs+" )";
+			return prefix+str_rhs.result + "( " + str_lhs.result+" )";
 		else if( set->mode == "bracket")
-			return prefix+"["+str_rhs + "] = " + str_lhs;
+			return prefix+"["+str_rhs.result + "] = " + str_lhs.result;
 		else
-			return prefix+str_rhs + " = " + str_lhs;
+			return prefix+str_rhs.result + " = " + str_lhs.result;
 	}
 };
 

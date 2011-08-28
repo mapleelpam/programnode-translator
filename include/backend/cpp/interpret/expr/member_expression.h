@@ -27,6 +27,7 @@
 
 #include <as/ast/expr/call.h>
 #include <as/ast/expr/member_expression.h>
+#include <as/ast/expr/get_expression.h>
 #include <backend/cpp/interpret/interpreter.h>
 #include <backend/cpp/templateprinter.h>
 #include <as/symbol/scope.h>
@@ -78,6 +79,8 @@ struct MemberExpression : public Interpreter
 
 			if( base.token_symbol != NULL )
 			{
+				std::string str_before_base, str_after_base;
+
 				//std::cerr <<__FILE__<<" @@ base "<<base.token_symbol->getFQN() <<" '"<<base.expression_type<<"'"<< std::endl;
 				tw::maple::backend::cpp::Context ctx2 = ctx;
 				ctx2.left_is_pointer = (base.expression_type == ReturnValue::HEAP );
@@ -90,11 +93,18 @@ struct MemberExpression : public Interpreter
 					return constructor_work_around(result, dispatchExpound(expr_mem->selector(), symbol_table, ctx2/*, base_type.get()*/).result);
 				}
 
+				if( expr_mem->selector()->is( AST::Node::NodeType::T_GET_EXPRESSION )
+					&& STATIC_CAST( AST::GetExpression, expr_mem->selector())->mode == "bracket" )
+				{
+					str_before_base = "(*";
+					str_after_base = ")";
+				}
+
 				ASY::ScopePtr base_type	 = DYNA_CAST( ASY::Scope, base.token_symbol);
 				ReturnValue selector_value = dispatchExpound( expr_mem->selector(), symbol_table, ctx2/*, base_type.get()*/);
 				//std::cerr <<__FILE__<<" selector is instance "<< selector_value.expression_type << " '"<<selector_value.result<<"'"<<std::endl;
 				result = selector_value;
-				result.result = base.result+_DS2("/* path2 */")+selector_value.result;
+				result.result = str_before_base+base.result+_DS2("/* path2 */")+str_after_base+selector_value.result;
 			}
 			else
 			{
@@ -121,3 +131,4 @@ private:
 } } } } 
 
 #endif 
+
