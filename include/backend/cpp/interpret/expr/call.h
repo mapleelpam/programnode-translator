@@ -58,6 +58,7 @@ struct Call : public Interpreter, public TemplatePrinter
 			str_callee_name +=  " new ";
 			std::string type_name = get_full_functionname( call->callee );
 			ASY::SymbolPtr p_type = call->getCalleeType();
+			result.token_symbol = p_type;
 			if( p_type != NULL && p_type->getFQN_and_mappedName() != "" )
 			{
 				result.token_symbol = p_type;

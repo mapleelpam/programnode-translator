@@ -42,10 +42,15 @@ struct BinaryOperator : public Interpreter
 	{
 		AST::BinaryOperatorPtr bin = STATIC_CAST( AST::BinaryOperator, node);
 
+		ReturnValue result;
 
-		ReturnValue result = dispatchExpound(bin->LHS(), symbol_table, ctx).result
-				+ resolve_operator( bin->op_type )
-				+ dispatchExpound(bin->RHS(), symbol_table, ctx).result;
+		ReturnValue lhs = dispatchExpound(bin->LHS(), symbol_table, ctx).result;
+		std::string op =  resolve_operator( bin->op_type );
+		ReturnValue rhs = dispatchExpound(bin->RHS(), symbol_table, ctx).result;
+
+		result.result = lhs.result + op + rhs.result;
+
+		result.token_symbol = ( lhs.token_symbol ? lhs.token_symbol : rhs.token_symbol );
 
 		return result;
 	}

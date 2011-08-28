@@ -90,10 +90,11 @@ struct MemberExpression : public Interpreter
 					&& STATIC_CAST( AST::Call, expr_mem->selector())->isObjectConsturct() )
 				{
 					ASY::ScopePtr base_type	 = DYNA_CAST( ASY::Scope, base.token_symbol);
-					return constructor_work_around(result, dispatchExpound(expr_mem->selector(), symbol_table, ctx2/*, base_type.get()*/).result);
+					ReturnValue result = dispatchExpound(expr_mem->selector(), symbol_table, ctx2/*, base_type.get()*/);
+					result.result = constructor_work_around(result, result.result);
+					return result;
 				}
-
-				if( expr_mem->selector()->is( AST::Node::NodeType::T_GET_EXPRESSION )
+				else if( expr_mem->selector()->is( AST::Node::NodeType::T_GET_EXPRESSION )
 					&& STATIC_CAST( AST::GetExpression, expr_mem->selector())->mode == "bracket" )
 				{
 					str_before_base = "(*";
