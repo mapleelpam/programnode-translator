@@ -46,6 +46,7 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 			)
 	{
 
+		using ::tw::maple::as::symbol::Findable;
 		AST::ClassDefinitionPtr _class_define_ = STATIC_CAST( AST::ClassDefinition, node);
 		if( _class_define_->isIntrinsic() || _class_define_->isNativeClass())
 		{
@@ -64,8 +65,15 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 		std::string class_inherit = getInheritsString(_class_define_, symbol_class, ctx);
 
 		std::string class_base = "";
+		std::string class_base_fqn = "";
 		if (_class_define_->hasBaseClass() ) {
 			class_base += _class_define_->Inherits()[0];
+			
+			ASY::ScopePtr class_base_type =Findable::findClassType( symbol_table, _class_define_->Inherits()[0] ) ;
+			if( class_base_type )
+				class_base_fqn += class_base_type -> name() ;
+			else
+				class_base_fqn = class_base;
 //		} else if (_default_base_object != "") {
 		} else {
 			class_base = m_default_base_object;
@@ -81,6 +89,7 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("class_inherit", class_inherit ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_implements_list", class_implements ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_base", class_base ) ));
+		patterns.push_back( PatternPtr( new Pattern("class_base_fqn", class_base_fqn ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_type", _class_define_->isAbstract()?"struct":"class" ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_default_constructor", symbol_class->noContructor()?getDefaultConstructor(symbol_class,ctx):"" ) ));
 		patterns.push_back( PatternPtr( new Pattern("method_info",  getMethodInfo(symbol_class) )));
