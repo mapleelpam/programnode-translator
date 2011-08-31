@@ -28,6 +28,7 @@
 #include <global.h>
 
 #include <as/ast/token/identifier.h>
+#include <backend/cpp/templateprinter.h>
 #include <backend/cpp/interpret/interpreter.h>
 #include <as/symbol/function.h>
 #include <as/symbol/variable.h>
@@ -39,7 +40,7 @@ namespace AST = ::tw::maple::as::ast;
 
 #define DEBUG {std::cerr<<__FILE__<<":"<<__LINE__<<std::endl;}
 
-struct Identifier : public Interpreter
+struct Identifier : public Interpreter, public TemplatePrinter
 {
 	virtual ReturnValue expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
@@ -48,6 +49,7 @@ struct Identifier : public Interpreter
 			)
 	{
 		namespace ASY = tw::maple::as::symbol;
+		using tw::maple::as::symbol::Findable;
 		SHARED_PTR(AST::Identifier) li = std::tr1::static_pointer_cast<AST::Identifier>(node);
 
 		if(li->qualifier != "")
@@ -155,13 +157,22 @@ struct Identifier : public Interpreter
 					}
 					else
 					{
+						ASY::SymbolPtr callee_type = Findable::findFunction( symbol_table, li->value );
+						if( callee_type )
+							return li->value+_DS2("/* found a function */");
+						{ // invoke mapper
+							std::list<PatternPtr> patterns;
+							patterns.push_back( PatternPtr( new Pattern("id", li->value) ));
+							return substitutePatterns( m_tpl_undefined_member_call, patterns );
+						}	
+	
 						std::cerr << " can't find scope - "
 							<< li->value << " '"
 							<< node->toString() << "'" << std::endl;
 						// TODO: find symboltable then -> class_symbol_table
 						// TODO: TBO 0719
 //						exit(1);
-						return li->value;
+						return li->value+_DS("/* can't found variable */");
 					}
 				}
 				 // just variable or setter
@@ -226,6 +237,22 @@ struct Identifier : public Interpreter
 		}
 	}
 
+	Identifier()
+		: TemplatePrinter("Identifier")
+	{
+		m_tpl_undefined_member_call = "getProperty(\"#(id)\" )";
+	}
+	virtual bool readConfig( boost::property_tree::ptree& pt )
+	{
+		m_tpl_undefined_member_call = pt.get<std::string>( configName()+".template.undefine_member_call", m_tpl_undefined_member_call);
+	}
+	virtual bool writeConfig( boost::property_tree::ptree& pt )
+	{
+		pt.put<std::string>( configName()+".template.undefine_member_call", m_tpl_undefined_member_call);
+	}
+
+private:
+	std::string m_tpl_undefined_member_call;
 };
 
 

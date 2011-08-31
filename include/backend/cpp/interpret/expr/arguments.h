@@ -63,11 +63,11 @@ struct Arguments : public Interpreter
 				{
 					std::cerr <<" argument type = "<<arg_result.token_symbol->toString()<<std::endl;
 				}
-				if( arg_type->preferStack())
+				if( arg_type->preferStack() )
 					prefix += "("+arg_type->getFQN_and_instanceName()+")";
 				else if( DYNA_CAST(ASY::VariantType, arg_type ) )
 					prefix += ""; // ignore
-                else if( arg_type -> name() == "Function" )
+				else if( arg_type -> name() == "Function" )
 					prefix += ""; // ignore
 				else
 					prefix += "("+arg_type->getFQN_and_mappedName() + "*)";

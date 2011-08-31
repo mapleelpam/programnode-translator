@@ -187,7 +187,7 @@ struct Call : public Interpreter, public TemplatePrinter
 	virtual bool writeConfig( boost::property_tree::ptree& pt )
 	{
 		pt.put<std::string>( configName()+".template.undefine_member_call", m_tpl_undefined_member_call);
-		m_tpl_undefined_member_call = pt.get<std::string>( configName()+".template.normal_call", m_tpl_normal_call);
+		pt.put<std::string>( configName()+".template.normal_call", m_tpl_normal_call);
 	}
 
 private:
