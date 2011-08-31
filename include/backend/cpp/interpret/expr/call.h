@@ -69,6 +69,11 @@ struct Call : public Interpreter, public TemplatePrinter
 			{
 				str_callee_name += type_name;
 			}
+
+			if( p_type )
+			{
+				callee_type = Findable::findFunction( DYNA_CAST( ASY::Scope, p_type), call->callee[call->callee.size() - 1 ]);
+			}
 		}
 		else
 		{
@@ -107,7 +112,7 @@ struct Call : public Interpreter, public TemplatePrinter
 							str_callee_name += _DS2("/* call left is scope */")+( "::"+right);
 					}
 
-					ASY::SymbolPtr callee_symbol = ASY::Findable::findFunction(left_scope,right);
+					ASY::SymbolPtr callee_symbol = Findable::findFunction(left_scope,right);
 					ASY::FunctionPtr callee_func_symbol = DYNA_CAST(ASY::Function, callee_symbol);
 
 					if( callee_func_symbol != NULL)

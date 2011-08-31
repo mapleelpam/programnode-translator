@@ -258,5 +258,25 @@ std::vector<SymbolPtr> Findable::findClassMembers( Scope* stable, const std::str
 	return answers;
 }
 
+FunctionPtr Findable::findConstructor( ScopePtr stable, const std::vector<std::string>& names )
+{
+	ScopePtr pkg_info = stable;	
+	for( int idx = 0 ; idx < names.size() - 2 ; idx ++ )
+	{	
+		pkg_info = findPackage( pkg_info, names[idx] );
+		if( pkg_info == NULL )
+		{
+			std::cerr << " findFunction can't find pkg "<<names[idx]<<std::endl;
+			return FunctionPtr(); 
+		}
+	}
+
+	ScopePtr class_type = findClassType_downward( pkg_info.get(), names[names.size()-1] );
+	FunctionPtr found = findFunction_downward( class_type.get(), names[names.size()-1] );
+	if( found ) return found;
+
+	return FunctionPtr();
+}
+
 }}}}//tw/maple/as/symbol
 
