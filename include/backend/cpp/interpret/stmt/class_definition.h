@@ -66,17 +66,13 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 
 		std::string class_base = "";
 		std::string class_base_fqn = "";
-		if (_class_define_->hasBaseClass() ) {
+		if ( symbol_class -> getInherit() ) {
 			class_base += _class_define_->Inherits()[0];
 			
-			ASY::ScopePtr class_base_type =Findable::findClassType( symbol_table, _class_define_->Inherits()[0] ) ;
-			if( class_base_type )
-				class_base_fqn += class_base_type -> name() ;
-			else
-				class_base_fqn = class_base;
-//		} else if (_default_base_object != "") {
+
+			class_base_fqn = symbol_class -> getInherit() -> getFQN();
 		} else {
-			class_base = m_default_base_object;
+			class_base_fqn = class_base = m_default_base_object;
 		}
 
 		/* change both symbol table into class symbol */
