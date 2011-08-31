@@ -25,11 +25,10 @@
 #ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_LITERAL_STRING_H__
 #define __TW_MAPLE_BACKEDN_CPP_INTERPRET_LITERAL_STRING_H__
 
+#include <global.h>
 #include <backend/cpp/interpret/interpreter.h>
 #include <as/ast/token/literal_string.h>
-#include <global.h>
-
-
+#include <as/symbol/action/findable.h> 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
 struct LiteralString : public Interpreter
@@ -41,10 +40,17 @@ struct LiteralString : public Interpreter
 			)
 	{
 		namespace AST = ::tw::maple::as::ast;
+		namespace ASY = ::tw::maple::as::symbol;
+		using tw::maple::as::symbol::Findable;
+
+		ASY::SymbolPtr symbol_string = Findable::findClassType( symbol_table, "String" );
+
 		AST::LiteralStringPtr li = std::tr1::static_pointer_cast<AST::LiteralString>(node);
 
 		std::string v = replace( li->value, "\n", "\\n");
-		return  "\"" + v + "\"";
+		ReturnValue result = "\"" + v + "\"";
+		result.token_symbol = symbol_string;
+		return result;
 	}
 
 };

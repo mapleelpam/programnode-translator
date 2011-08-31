@@ -25,6 +25,7 @@
 #ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_EXPR_BINARY_OPERATOR_H__
 #define __TW_MAPLE_BACKEDN_CPP_INTERPRET_EXPR_BINARY_OPERATOR_H__
 
+#include <as/symbol/action/findable.h>
 #include <as/ast/expr/binary_operator.h>
 #include <backend/cpp/interpret/interpreter.h>
 
@@ -40,15 +41,37 @@ struct BinaryOperator : public Interpreter
 			
 			)
 	{
+		using tw::maple::as::symbol::Findable;
 		AST::BinaryOperatorPtr bin = STATIC_CAST( AST::BinaryOperator, node);
 
 		ReturnValue result;
 
-		ReturnValue lhs = dispatchExpound(bin->LHS(), symbol_table, ctx).result;
+		ReturnValue lhs = dispatchExpound(bin->LHS(), symbol_table, ctx);
 		std::string op =  resolve_operator( bin->op_type );
-		ReturnValue rhs = dispatchExpound(bin->RHS(), symbol_table, ctx).result;
+		ReturnValue rhs = dispatchExpound(bin->RHS(), symbol_table, ctx);
 
-		result.result = lhs.result + op + rhs.result;
+		if( (lhs.token_symbol || rhs.token_symbol ) && lhs.token_symbol != rhs.token_symbol )
+		{
+			if( bin->op_type == "plus" )
+			{		
+				//if( lhs.token_symbol->name() == "String" && rhs.token_symbol->name() == "Number" ) 
+				if( lhs.token_symbol && lhs.token_symbol->name() == "String"  ) 
+				{		
+					result.result = lhs.result + op + "Number("+rhs.result+").toString()";
+				}
+				//else if( lhs.token_symbol->name() == "Number" && rhs.token_symbol->name() == "String" ) 
+				else if( rhs.token_symbol && rhs.token_symbol->name() == "String" ) 
+				{		
+					result.result = "Number("+lhs.result+").toString()" + op + rhs.result;
+				}
+				else
+					result.result = lhs.result + op + rhs.result;
+			}
+			else
+			result.result = lhs.result + op + rhs.result;
+		}
+		else
+			result.result = lhs.result + op + rhs.result; 
 
 		result.token_symbol = ( lhs.token_symbol ? lhs.token_symbol : rhs.token_symbol );
 
