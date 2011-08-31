@@ -97,7 +97,7 @@ struct MemberExpression : public Interpreter
 				else if( expr_mem->selector()->is( AST::Node::NodeType::T_GET_EXPRESSION )
 					&& STATIC_CAST( AST::GetExpression, expr_mem->selector())->mode == "bracket" )
 				{
-					str_before_base = "(*";
+					str_before_base = "(Object*)(*";
 					str_after_base = ")";
 				}
 
