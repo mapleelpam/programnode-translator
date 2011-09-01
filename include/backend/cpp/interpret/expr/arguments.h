@@ -27,12 +27,13 @@
 
 #include <as/ast/expr/arguments.h>
 #include <backend/cpp/interpret/interpreter.h>
+#include <backend/cpp/templateprinter.h>
 #include <as/symbol/varianttype.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret { 
 
 // Abstract
-struct Arguments : public Interpreter
+struct Arguments : public Interpreter, public TemplatePrinter
 {   
 	virtual ReturnValue expound(
 			::tw::maple::as::ast::NodePtr node
@@ -70,7 +71,7 @@ struct Arguments : public Interpreter
 				else if( arg_type -> name() == "Function" )
 					prefix += ""; // ignore
 				else
-					prefix += "("+arg_type->getFQN_and_mappedName() + "*)";
+					prefix += "("+arg_type->getFQN_and_mappedName() + "*)"+m_default_pcast_postfix;
 			}
 
 			result +=  prefix + arg_result.result;
@@ -78,6 +79,23 @@ struct Arguments : public Interpreter
 
 		return result;
 	}
+	Arguments()
+		: TemplatePrinter("Arguments")
+		, m_default_pcast_postfix("")
+	{
+		
+	}
+private:
+	virtual bool readConfig( boost::property_tree::ptree& pt )
+	{
+		m_default_pcast_postfix = pt.get<std::string>( configName()+".pcast_postfix", m_default_pcast_postfix );
+	}
+	virtual bool writeConfig( boost::property_tree::ptree& pt )
+	{
+		pt.put<std::string>( configName()+".pcast_postfix", m_default_pcast_postfix );
+	}
+
+	std::string m_default_pcast_postfix;
 };
 
 } } } } }
