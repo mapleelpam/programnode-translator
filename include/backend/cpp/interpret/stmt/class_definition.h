@@ -90,6 +90,7 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("class_default_constructor", symbol_class->noContructor()?getDefaultConstructor(symbol_class,ctx):"" ) ));
 		patterns.push_back( PatternPtr( new Pattern("method_info",  getMethodInfo(symbol_class) )));
 		patterns.push_back( PatternPtr( new Pattern("class_name", _class_define_->getClassName() ) ));
+		patterns.push_back( PatternPtr( new Pattern("class_fqn", symbol_class->getFQN() ) ));
 
 		COMPELET_PATTERNS( patterns, ctx );
 
