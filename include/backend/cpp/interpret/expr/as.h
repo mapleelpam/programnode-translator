@@ -51,6 +51,7 @@ struct As : public Interpreter, public TemplatePrinter
 			{
 				type_name = classtype_ptr->getFQN();
 			}
+			std::cerr << " RHS " << bin->RHS()->toString() << "  "<<type_name << std::endl;
 		}
 
 
