@@ -66,13 +66,16 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 
 		std::string class_base = "";
 		std::string class_base_fqn = "";
+		std::string class_base_fqn_noprefix = "";
 		if ( symbol_class -> getInherit() ) {
 			class_base += _class_define_->Inherits()[0];
 			
 
 			class_base_fqn = symbol_class -> getInherit() -> getFQN();
+			class_base_fqn_noprefix = symbol_class -> getInherit() -> getFQN_noprefix();
 		} else {
 			class_base_fqn = class_base = m_default_base_object;
+			class_base_fqn_noprefix = m_default_base_object;
 		}
 
 		/* change both symbol table into class symbol */
@@ -86,11 +89,13 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("class_implements_list", class_implements ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_base", class_base ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_base_fqn", class_base_fqn ) ));
+		patterns.push_back( PatternPtr( new Pattern("class_base_fqn2", class_base_fqn_noprefix ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_type", _class_define_->isAbstract()?"struct":"class" ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_default_constructor", symbol_class->noContructor()?getDefaultConstructor(symbol_class,ctx):"" ) ));
 		patterns.push_back( PatternPtr( new Pattern("method_info",  getMethodInfo(symbol_class) )));
 		patterns.push_back( PatternPtr( new Pattern("class_name", _class_define_->getClassName() ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_fqn", symbol_class->getFQN() ) ));
+		patterns.push_back( PatternPtr( new Pattern("class_fqn2", symbol_class->getFQN_noprefix() ) ));
 
 		COMPELET_PATTERNS( patterns, ctx );
 
