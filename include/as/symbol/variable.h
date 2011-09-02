@@ -64,6 +64,13 @@ struct Variable : public Symbol
 		else
 			return name();
 	}
+	virtual const std::string getFQN_noprefix( ) const
+	{
+		if (m_parent)
+			return m_parent->getFQN_noprefix() + "::" + name();
+		else
+			return name();
+	}
 	SymbolPtr getTypeSymbol()
 	{
 		return m_type_symbol;

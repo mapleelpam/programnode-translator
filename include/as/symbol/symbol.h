@@ -79,6 +79,10 @@ struct Symbol
 	{
 		return name();
 	}
+	virtual const std::string getFQN_noprefix( ) const
+	{
+		return getFQN();
+	}
 	virtual const std::string getFQN_and_mappedName() const
 	{
 		return mappedName();

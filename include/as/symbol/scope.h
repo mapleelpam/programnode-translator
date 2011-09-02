@@ -205,6 +205,29 @@ struct Scope : public Symbol, public Registrable
 			return name();
 		}
 	}
+	virtual const std::string getFQN_noprefix( bool& is_annoymouse_scope /*out*/) const
+	{
+		is_annoymouse_scope = ( name() == "" );
+
+		if( m_parent )
+		{
+			bool parent_is_anonymouse_scope = false;
+			std::string parent_name = m_parent->getFQN_noprefix( parent_is_anonymouse_scope );
+			if( parent_is_anonymouse_scope && is_annoymouse_scope )
+				return parent_name;
+			else if( parent_is_anonymouse_scope )
+				return parent_name+name();
+			else if( parent_name == "" )
+				return name();
+			else
+				return parent_name+"::"+name();
+		}
+		else if( m_scope_type == T_PROGRAM_ROOT)
+			return "";
+		else {
+			return name();
+		}
+	}
 	virtual const std::string getFQN_and_mappedName( bool& is_annoymouse_scope /*out*/ ) const
 	{
 		is_annoymouse_scope = ( mappedName() == "" );
@@ -230,6 +253,11 @@ struct Scope : public Symbol, public Registrable
 	{
 		bool dummy;
 		return getFQN(dummy);
+	}
+	virtual const std::string getFQN_noprefix() const
+	{
+		bool dummy;
+		return getFQN_noprefix(dummy);
 	}
 	virtual const std::string getFQN_and_mappedName() const
 	{
