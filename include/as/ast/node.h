@@ -98,6 +98,9 @@ struct Node
             T_SUPER_INIT,
 
             T_EXPR_CONDITION,
+            T_STMT_TRY,
+            T_STMT_CATCH,
+            T_STMT_FINALLY,
             T_STMT_IF,
 
             T_STMT_FOR,

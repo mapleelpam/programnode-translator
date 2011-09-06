@@ -442,6 +442,36 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("defineMetaData\n");
   }
 
+  void startTryStatement() {
+    // Your implementation goes here
+    printf("startTryStatement\n");
+  }
+
+  void endTryStatement() {
+    // Your implementation goes here
+    printf("endTryStatement\n");
+  }
+
+  void startCatchClauseStatement() {
+    // Your implementation goes here
+    printf("startCatchClauseStatement\n");
+  }
+
+  void endCatchClauseStatement() {
+    // Your implementation goes here
+    printf("endCatchClauseStatement\n");
+  }
+
+  void startFinallyClauseStatement() {
+    // Your implementation goes here
+    printf("startFinallyClauseStatement\n");
+  }
+
+  void endFinallyClauseStatement() {
+    // Your implementation goes here
+    printf("endFinallyClauseStatement\n");
+  }
+
   void empty() {
     // Your implementation goes here
     printf("empty\n");

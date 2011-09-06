@@ -84,6 +84,9 @@
 #include <as/ast/stmt/import_stmt.h>
 #include <as/ast/stmt/expression_list.h>
 #include <as/ast/stmt/program.h>
+#include <as/ast/stmt/try_stmt.h>
+#include <as/ast/stmt/catch_stmt.h>
+#include <as/ast/stmt/finally_stmt.h>
 
 
 
@@ -497,6 +500,32 @@ public:
         _meta_data = metadata;
         _meta_data_dirty = true;
     }
+
+    void startTryStatement() {
+        PUSH_STACK( TryStatement );
+    }
+
+    void endTryStatement() {
+    	CHECK_STACK_AND_POP( ConditionExpression, AST::Node::NodeType::T_STMT_TRY );
+    }
+
+    void startCatchClauseStatement() {
+    	PUSH_STACK( CatchStatement );
+    }
+
+    void endCatchClauseStatement() {
+        CHECK_STACK_AND_POP( ConditionExpression, AST::Node::NodeType::T_STMT_CATCH );
+    }
+
+    void startFinallyClauseStatement() {
+    	PUSH_STACK( FinallyStatement );
+    }
+    void endFinallyClauseStatement() {
+        CHECK_STACK_AND_POP( ConditionExpression, AST::Node::NodeType::T_STMT_FINALLY );
+    }
+
+
+
 public:
    as::ast::ProgramPtr getProgramNode() {	return _program_root;	};
 
