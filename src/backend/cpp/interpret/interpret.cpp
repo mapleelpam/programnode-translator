@@ -67,6 +67,10 @@
 #include <backend/cpp/interpret/stmt/expression_list.h>
 #include <backend/cpp/interpret/stmt/statement_list.h>
 
+#include <backend/cpp/interpret/stmt/try_stmt.h>
+#include <backend/cpp/interpret/stmt/catch_stmt.h>
+#include <backend/cpp/interpret/stmt/finally_stmt.h>
+
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
 static Interpreter* interpreterResolver[ ::tw::maple::as::ast::Node::NodeType::T_NODE_TYPE_END];
@@ -124,6 +128,9 @@ void initializeInterpreters()
 		interpreterResolver[AST::Node::NodeType::T_SUPER_INIT] = new SuperInit();
 		interpreterResolver[AST::Node::NodeType::T_CONDITION_EXPRESSION] = new ConditionExpression();
 		interpreterResolver[AST::Node::NodeType::T_EMPTY] = new Empty();
+		interpreterResolver[AST::Node::NodeType::T_STMT_TRY] = new TryStatement();
+		interpreterResolver[AST::Node::NodeType::T_STMT_FINALLY] = new FinallyStatement();
+		interpreterResolver[AST::Node::NodeType::T_STMT_CATCH] = new CatchStatement();
 	}
 }
 

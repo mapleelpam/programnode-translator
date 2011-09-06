@@ -22,18 +22,19 @@
  * Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
  * ***************************************************************/
 
-#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_FOR_STMT_H__
-#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_FOR_STMT_H__
+#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_TRY_STMT_H__
+#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_TRY_STMT_H__
 
-#include <as/ast/stmt/for_stmt.h>
+#include <as/ast/stmt/try_stmt.h>
 #include <backend/cpp/interpret/interpreter.h>
 #include <backend/cpp/templateprinter.h>
+
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
 namespace AST = ::tw::maple::as::ast;
 
-struct ForStatement : public Interpreter, public TemplatePrinter
+struct TryStatement : public Interpreter, public TemplatePrinter
 {
 
 	virtual ReturnValue expound(::tw::maple::as::ast::NodePtr node
@@ -42,31 +43,33 @@ struct ForStatement : public Interpreter, public TemplatePrinter
 			
 			)
 	{
-		AST::ForStatementPtr FOR = std::tr1::static_pointer_cast<AST::ForStatement>(node);
+		AST::TryStatementPtr TRY = std::tr1::static_pointer_cast<AST::TryStatement>(node);
 		std::list<PatternPtr> patterns;
 
 		ctx.tree_depth ++;
-		std::string str_for_body = dispatchExpound(FOR->ForBody(), symbol_table, ctx);
+		std::string str_try_block = dispatchExpound(TRY->tryBlock(), symbol_table, ctx);
 		ctx.tree_depth --;
+		std::string str_catch_block = dispatchExpound(TRY->catchList(), symbol_table, ctx);
+		std::string str_finally_block = dispatchExpound(TRY->finallyBlock(), symbol_table, ctx);
 
-		patterns.push_back( PatternPtr( new Pattern("for_condition", dispatchExpound(FOR->ForCondition(), symbol_table, ctx) ) ));
-		patterns.push_back( PatternPtr( new Pattern("for_init", dispatchExpound(FOR->ForInit(), symbol_table, ctx) ) ));
-		patterns.push_back( PatternPtr( new Pattern("for_step", dispatchExpound(FOR->ForStep(), symbol_table, ctx) ) ));
-		patterns.push_back( PatternPtr( new Pattern("for_body",  str_for_body ) ));
+		patterns.push_back( PatternPtr( new Pattern("try_block", str_try_block ) ));
+		patterns.push_back( PatternPtr( new Pattern("catch_list", str_catch_block )));
+		patterns.push_back( PatternPtr( new Pattern("finally_block", str_finally_block ) ));
 
 		COMPELET_PATTERNS( patterns, ctx );
 
 		return substitutePatterns( patterns );
 	}
 
-	ForStatement()
-		: TemplatePrinter("ForStatement")
+	TryStatement()
+		: TemplatePrinter("TryStatement")
 	{
-		setTemplateString( "#(indent_tab)for( "
-				"#(for_init) ; #(for_condition) ; #(for_step) )"
-				"#(endl)#(indent_tab){#(endl)"
-				"#(for_body)"
-				"#(indent_tab)}#(endl)" );
+		setTemplateString( 	"#(indent_tab)try{#(endl)"
+							"#(try_block)"
+							"#(indent_tab)}#(endl)"
+							"#(catch_list)"
+							"#(finally_block)"
+		);
 	}
 
 };
