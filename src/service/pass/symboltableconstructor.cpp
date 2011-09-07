@@ -176,6 +176,8 @@ void SymbolTableConstructor:: constructSymbols(
 				ASY::VariablePtr symbol_var( symboltable->registerVariable( str_varname ) );
 				var->setSymbol( symbol_var );
 
+				symbol_var->setMappedName( var->getNameMapto() );
+//				std::cerr << " in variable declare = '" << var->getNameMapto()<<"'"<<std::endl;
 				symbol_var->setIsStatic( var->isStatic() );
 				if( var->varInit() )
 					symbol_var->setInitializeNode( var->varInit() );

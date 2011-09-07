@@ -148,7 +148,12 @@ struct Identifier : public Interpreter, public TemplatePrinter
 							ASY::VariablePtr variable_ptr = DYNA_CAST( ASY::Variable, instance );
 							if( variable_ptr )
 							{
-								ReturnValue result = li->value+_DS2("/* found variable */");
+								std::string id;
+								{
+									id = variable_ptr->mappedName();
+									if( id == "") 	id = variable_ptr->name();
+								}
+								ReturnValue result = id+_DS2("/* found variable */");
 								result.token_symbol = variable_ptr->getTypeSymbol();
 								result.expression_type = ReturnValue::STACK;
 								return result;

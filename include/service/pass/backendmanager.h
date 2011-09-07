@@ -92,7 +92,7 @@ private:
 
 				ASYM::VariablePtr variable = STATIC_CAST( ASYM::Variable, *child_itr );
 				if( variable->isStatic() ){
-					ofs_stream << variable ->getTypeSymbol()->getFQN_and_instanceName() << " "<<variable->getFQN_noprefix();
+					ofs_stream << variable ->getTypeSymbol()->getFQN_and_instanceName() << " "<<variable->getMapedFQN_noprefix();
 					if(variable->getInitializeNode())
 					{
 						tw::maple::backend::cpp::Context context;

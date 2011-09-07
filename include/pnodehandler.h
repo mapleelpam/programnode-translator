@@ -283,6 +283,11 @@ public:
 	}
 	void startVariableDeclare( const generated::VariableDeclare& var_decl ) {
 		PUSH_STACK_WITH_INIT( VariableDeclare, var_decl );
+
+		if(_meta_data_dirty) {
+			_node_stack.top()->setMetaData(_meta_data);
+			_meta_data_dirty = false;
+		}
 	}
 	void endVariableDeclare() {
 		CHECK_STACK_AND_POP( Variable, AST::Node::NodeType::T_VARIABLE_DECLARE );

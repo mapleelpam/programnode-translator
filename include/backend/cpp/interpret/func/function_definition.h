@@ -217,10 +217,8 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("member_initial", (symbol_function->isConstructor())? getMemberInitializer(symbol_function,fdef->mp_parent_initilizer,ctx) : "") ) );
 		patterns.push_back( PatternPtr( new Pattern("prefix_parameters", str_prefix_parameter) ) );
 		patterns.push_back( PatternPtr( new Pattern("postfix_parameters", "") ) );
-		patterns.push_back( PatternPtr( new Pattern("endl", ctx.endl() )) );
-		patterns.push_back( PatternPtr( new Pattern("indent_tab", ctx.indent()) ));
-		patterns.push_back( PatternPtr( new Pattern("indent_tab_sub", ctx.indentSub()) ));
-		patterns.push_back( PatternPtr( new Pattern("indent_tab_add", ctx.indentAdd()) ));
+
+		COMPELET_PATTERNS( patterns, ctx );
 
 		return substitutePatterns( patterns );
 	}
@@ -237,6 +235,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 							"#(func_body)"
 							"#(function_leave)"
                             "#(func_static_instance)"
+							"#(endl)"
 							 )
 							;
 		m_tpl_normal_function_signature = m_tpl_constructor_function_signature = m_tpl_member_function_signature =

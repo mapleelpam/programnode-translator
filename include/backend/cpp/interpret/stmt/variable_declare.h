@@ -61,7 +61,7 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 		else
 			str_var_type = symbol_type->getFQN_and_mappedName() + m_pointer_pattern /* '*'or 'Ptr' */;
 
-		std::string var_name = var->VariableName;
+		std::string var_name = symbol_var->mappedName() == "" ? symbol_var->name() : symbol_var->mappedName();
 		std::string var_attr = "";
 		if( symbol_var -> isClassMember() )
 			var_attr = var->isPublic()?"public" : (var->isPrivate() ? "private" : "protected");

@@ -51,7 +51,8 @@ struct Symbol
 		ATTR_PROTECTED,
 	};
 
-	const std::string name() const {	return m_name;	}
+	const virtual std::string name() const {	return m_name;	}
+	void setName( const std::string& n )	{	m_name = n;	}
 	virtual const std::string mappedName() const {	return m_mapped_name;	}
 	void	setMappedName( std::string n ){ m_mapped_name = n;	}
 

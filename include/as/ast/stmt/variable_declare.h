@@ -93,6 +93,26 @@ struct VariableDeclare: public Expression
     	return false;
     }
 
+	std::string getNameMapto( bool& ok )
+	{
+		ok = false;
+		if(m_metadata.id == "mapto")
+		{
+			if(m_metadata.keyvalues.find("name") != m_metadata.keyvalues.end() )
+			{
+				ok = true;
+				return m_metadata.keyvalues["name"];
+			}
+		}
+		return "";
+	}
+
+	std::string getNameMapto()
+	{
+		bool ok = false;
+		return getNameMapto( ok );
+	}
+
     const std::string VariableName;
     std::vector<std::string> VariableType;
     std::vector<std::string> VariableAttribute;
