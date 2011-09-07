@@ -4727,6 +4727,102 @@ uint32_t AstDumper_endTryStatement_pargs::write(::apache::thrift::protocol::TPro
   return xfer;
 }
 
+uint32_t AstDumper_startThrowStatement_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t AstDumper_startThrowStatement_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  xfer += oprot->writeStructBegin("AstDumper_startThrowStatement_args");
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+uint32_t AstDumper_startThrowStatement_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  xfer += oprot->writeStructBegin("AstDumper_startThrowStatement_pargs");
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+uint32_t AstDumper_endThrowStatement_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t AstDumper_endThrowStatement_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  xfer += oprot->writeStructBegin("AstDumper_endThrowStatement_args");
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+uint32_t AstDumper_endThrowStatement_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  xfer += oprot->writeStructBegin("AstDumper_endThrowStatement_pargs");
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
 uint32_t AstDumper_startCatchClauseStatement_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   uint32_t xfer = 0;
@@ -6538,6 +6634,42 @@ void AstDumperClient::send_endTryStatement()
   oprot_->writeMessageBegin("endTryStatement", ::apache::thrift::protocol::T_CALL, cseqid);
 
   AstDumper_endTryStatement_pargs args;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void AstDumperClient::startThrowStatement()
+{
+  send_startThrowStatement();
+}
+
+void AstDumperClient::send_startThrowStatement()
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("startThrowStatement", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  AstDumper_startThrowStatement_pargs args;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void AstDumperClient::endThrowStatement()
+{
+  send_endThrowStatement();
+}
+
+void AstDumperClient::send_endThrowStatement()
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("endThrowStatement", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  AstDumper_endThrowStatement_pargs args;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -9857,6 +9989,80 @@ void AstDumperProcessor::process_endTryStatement(int32_t seqid, ::apache::thrift
 
   if (eventHandler_.get() != NULL) {
     eventHandler_->asyncComplete(ctx, "AstDumper.endTryStatement");
+  }
+
+  return;
+}
+
+void AstDumperProcessor::process_startThrowStatement(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = NULL;
+  if (eventHandler_.get() != NULL) {
+    ctx = eventHandler_->getContext("AstDumper.startThrowStatement", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(eventHandler_.get(), ctx, "AstDumper.startThrowStatement");
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->preRead(ctx, "AstDumper.startThrowStatement");
+  }
+
+  AstDumper_startThrowStatement_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->postRead(ctx, "AstDumper.startThrowStatement", bytes);
+  }
+
+  try {
+    iface_->startThrowStatement();
+  } catch (const std::exception& e) {
+    if (eventHandler_.get() != NULL) {
+      eventHandler_->handlerError(ctx, "AstDumper.startThrowStatement");
+    }
+    return;
+  }
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->asyncComplete(ctx, "AstDumper.startThrowStatement");
+  }
+
+  return;
+}
+
+void AstDumperProcessor::process_endThrowStatement(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = NULL;
+  if (eventHandler_.get() != NULL) {
+    ctx = eventHandler_->getContext("AstDumper.endThrowStatement", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(eventHandler_.get(), ctx, "AstDumper.endThrowStatement");
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->preRead(ctx, "AstDumper.endThrowStatement");
+  }
+
+  AstDumper_endThrowStatement_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->postRead(ctx, "AstDumper.endThrowStatement", bytes);
+  }
+
+  try {
+    iface_->endThrowStatement();
+  } catch (const std::exception& e) {
+    if (eventHandler_.get() != NULL) {
+      eventHandler_->handlerError(ctx, "AstDumper.endThrowStatement");
+    }
+    return;
+  }
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->asyncComplete(ctx, "AstDumper.endThrowStatement");
   }
 
   return;

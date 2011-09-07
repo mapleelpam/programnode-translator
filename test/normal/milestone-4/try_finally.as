@@ -1,20 +1,31 @@
 // RUN: java -jar %ASC_JAR -x -z %t.pn  %s 
 // RUN: pnc %t.pn -o %t.cpp
-// RUN: g++  -c -o %t.o %t.cpp -lruntime -D_LINUX
-// : cat %t.cpp | FileCheck -input-file=- %s 
+// RUN: g++  -o %t %t.cpp 
+// RUN: %t | FileCheck -input-file=- %s 
 
 function main () : int
 {
 
 	try {
-		printf("try");
+		printf("try 1\n");		// CHECK: try 1
+		throw 1;
+		printf("try 2\n");
 	}
-/*
-	catch (errObject:Error) {
-		printf("catch");
+	catch (errObject:int) {
+		printf("catch\n");		// CHECK: catch
 	}
-*/
 	finally {
-		printf("finally"); 
+		printf("finally\n"); 
+	}
+
+
+	try {
+		printf("try 3\n");			// CHECK: try 3
+	}
+	catch (errObject:int) {
+		printf("catch 3\n");	
+	}
+	finally {
+		printf("finally 3\n");		
 	}
 }

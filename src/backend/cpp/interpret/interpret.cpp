@@ -70,6 +70,7 @@
 #include <backend/cpp/interpret/stmt/try_stmt.h>
 #include <backend/cpp/interpret/stmt/catch_stmt.h>
 #include <backend/cpp/interpret/stmt/finally_stmt.h>
+#include <backend/cpp/interpret/stmt/throw_stmt.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
@@ -131,6 +132,7 @@ void initializeInterpreters()
 		interpreterResolver[AST::Node::NodeType::T_STMT_TRY] = new TryStatement();
 		interpreterResolver[AST::Node::NodeType::T_STMT_FINALLY] = new FinallyStatement();
 		interpreterResolver[AST::Node::NodeType::T_STMT_CATCH] = new CatchStatement();
+		interpreterResolver[AST::Node::NodeType::T_STMT_THROW] = new ThrowStatement();
 	}
 }
 

@@ -87,6 +87,7 @@
 #include <as/ast/stmt/try_stmt.h>
 #include <as/ast/stmt/catch_stmt.h>
 #include <as/ast/stmt/finally_stmt.h>
+#include <as/ast/stmt/throw_stmt.h>
 
 
 
@@ -524,7 +525,12 @@ public:
         CHECK_STACK_AND_POP( ConditionExpression, AST::Node::NodeType::T_STMT_FINALLY );
     }
 
-
+    void startThrowStatement() {
+    	PUSH_STACK( ThrowStatement );
+    }
+    void endThrowStatement() {
+        CHECK_STACK_AND_POP( ConditionExpression, AST::Node::NodeType::T_STMT_THROW );
+    }
 
 public:
    as::ast::ProgramPtr getProgramNode() {	return _program_root;	};

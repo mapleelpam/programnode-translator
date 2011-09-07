@@ -452,6 +452,16 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("endTryStatement\n");
   }
 
+  void startThrowStatement() {
+    // Your implementation goes here
+    printf("startThrowStatement\n");
+  }
+
+  void endThrowStatement() {
+    // Your implementation goes here
+    printf("endThrowStatement\n");
+  }
+
   void startCatchClauseStatement() {
     // Your implementation goes here
     printf("startCatchClauseStatement\n");

@@ -22,27 +22,26 @@
  * Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
  * ***************************************************************/
 
-#ifndef __TW_MAPLE_AS_AST_SATEMENTS_THJ_STMT_H__
-#define __TW_MAPLE_AS_AST_SATEMENTS_TRY_STMT_H__
+#ifndef __TW_MAPLE_AS_AST_SATEMENTS_THROW_STMT_H__
+#define __TW_MAPLE_AS_AST_SATEMENTS_THROW_STMT_H__
 
 #include <as/ast/abstract/statement.h>
 
 
 namespace tw { namespace maple { namespace as { namespace ast {
 
-struct TryStatement : public Statement
+struct ThrowStatement : public Statement
 {
-	TryStatement() :
-		Statement(Node::NodeType::T_STMT_TRY) {
+	ThrowStatement() :
+		Statement(Node::NodeType::T_STMT_THROW) {
 	}
 
-	NodePtr tryBlock(){	return node_childs[0];	}
-	NodePtr catchList(){	return node_childs[1];	}
-	NodePtr finallyBlock(){	return node_childs[2];	}
+	NodePtr expr(){	return node_childs[0];	}
 
-	std::string toString()  {	return "node::try_stmt"; };
+
+	std::string toString()  {	return "node::throw_stmt"; };
 };
-typedef std::tr1::shared_ptr<TryStatement> TryStatementPtr;
+typedef std::tr1::shared_ptr<ThrowStatement> ThrowStatementPtr;
 
 
 } } } }

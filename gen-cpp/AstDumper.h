@@ -100,6 +100,8 @@ class AstDumperIf {
   virtual void defineMetaData(const MetaData& metadata) = 0;
   virtual void startTryStatement() = 0;
   virtual void endTryStatement() = 0;
+  virtual void startThrowStatement() = 0;
+  virtual void endThrowStatement() = 0;
   virtual void startCatchClauseStatement() = 0;
   virtual void endCatchClauseStatement() = 0;
   virtual void startFinallyClauseStatement() = 0;
@@ -368,6 +370,12 @@ class AstDumperNull : virtual public AstDumperIf {
   void endTryStatement() {
     return;
   }
+  void startThrowStatement() {
+    return;
+  }
+  void endThrowStatement() {
+    return;
+  }
   void startCatchClauseStatement() {
     return;
   }
@@ -394,7 +402,7 @@ typedef struct _AstDumper_startProgram_args__isset {
 class AstDumper_startProgram_args {
  public:
 
-  AstDumper_startProgram_args() : version("0.0.1"), counter(16LL) {
+  AstDumper_startProgram_args() : version("0.0.1"), counter(17LL) {
   }
 
   virtual ~AstDumper_startProgram_args() throw() {}
@@ -3838,6 +3846,80 @@ class AstDumper_endTryStatement_pargs {
 };
 
 
+class AstDumper_startThrowStatement_args {
+ public:
+
+  AstDumper_startThrowStatement_args() {
+  }
+
+  virtual ~AstDumper_startThrowStatement_args() throw() {}
+
+
+  bool operator == (const AstDumper_startThrowStatement_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const AstDumper_startThrowStatement_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_startThrowStatement_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_startThrowStatement_pargs {
+ public:
+
+
+  virtual ~AstDumper_startThrowStatement_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_endThrowStatement_args {
+ public:
+
+  AstDumper_endThrowStatement_args() {
+  }
+
+  virtual ~AstDumper_endThrowStatement_args() throw() {}
+
+
+  bool operator == (const AstDumper_endThrowStatement_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const AstDumper_endThrowStatement_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_endThrowStatement_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_endThrowStatement_pargs {
+ public:
+
+
+  virtual ~AstDumper_endThrowStatement_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
 class AstDumper_startCatchClauseStatement_args {
  public:
 
@@ -4214,6 +4296,10 @@ class AstDumperClient : virtual public AstDumperIf {
   void send_startTryStatement();
   void endTryStatement();
   void send_endTryStatement();
+  void startThrowStatement();
+  void send_startThrowStatement();
+  void endThrowStatement();
+  void send_endThrowStatement();
   void startCatchClauseStatement();
   void send_startCatchClauseStatement();
   void endCatchClauseStatement();
@@ -4323,6 +4409,8 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
   void process_defineMetaData(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_startTryStatement(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_endTryStatement(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_startThrowStatement(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_endThrowStatement(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_startCatchClauseStatement(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_endCatchClauseStatement(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_startFinallyClauseStatement(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -4417,6 +4505,8 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
     processMap_["defineMetaData"] = &AstDumperProcessor::process_defineMetaData;
     processMap_["startTryStatement"] = &AstDumperProcessor::process_startTryStatement;
     processMap_["endTryStatement"] = &AstDumperProcessor::process_endTryStatement;
+    processMap_["startThrowStatement"] = &AstDumperProcessor::process_startThrowStatement;
+    processMap_["endThrowStatement"] = &AstDumperProcessor::process_endThrowStatement;
     processMap_["startCatchClauseStatement"] = &AstDumperProcessor::process_startCatchClauseStatement;
     processMap_["endCatchClauseStatement"] = &AstDumperProcessor::process_endCatchClauseStatement;
     processMap_["startFinallyClauseStatement"] = &AstDumperProcessor::process_startFinallyClauseStatement;
@@ -5039,6 +5129,20 @@ class AstDumperMultiface : virtual public AstDumperIf {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
       ifaces_[i]->endTryStatement();
+    }
+  }
+
+  void startThrowStatement() {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->startThrowStatement();
+    }
+  }
+
+  void endThrowStatement() {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->endThrowStatement();
     }
   }
 
