@@ -40,46 +40,70 @@ struct Phase3_CallExpression
 {
 
 		static void pass(
-				tw::maple::as::ast::CallPtr ast_call
+				tw::maple::as::ast::CallPtr CALL
 				, tw::maple::as::symbol::ScopePtr symboltable
 				, Phase2ContextPtr context
 				)
 		{
 			using tw::maple::as::symbol::Findable;
+			namespace ASY = tw::maple::as::symbol;
 
 			if( symboltable == NULL )
 			{
-				std::cerr << "error in phase2 "<< ast_call->toString() <<std::endl;
+				std::cerr << "error in phase2 "<< CALL->toString() <<std::endl;
 				exit(1);
 			}
 
-			tw::maple::as::symbol::SymbolPtr p_type = context->find_symbol( ast_call->callee[ast_call->callee.size()-1] );
+			ASY::SymbolPtr p_type = context->find_symbol( CALL->callee[CALL->callee.size()-1] );
 
 			if(p_type != NULL ) // found the symbol in import list
 			{
-				ast_call->bindType( p_type );
+				CALL->bindType( p_type );
 				return;
 			}
-			tw::maple::as::symbol::ScopePtr var_type_scope = symboltable;
+			tw::maple::as::symbol::ScopePtr symbol_pkg = symboltable;
 
-			for( int idx = 0 ; idx < ast_call->callee.size() - 1 ; idx ++ )
+			std::cerr << " find " << CALL->callee[0] << "symboltable = "<<symboltable->getFQN() << std::endl;
+
+			for( int idx = 0 ; idx < CALL->callee.size() - 1 ; idx ++ )
 			{
-				tw::maple::as::symbol::SymbolPtr temp_pkg = var_type_scope->findSymbol( ast_call->callee[idx] );
+				tw::maple::as::symbol::SymbolPtr temp_pkg = symbol_pkg->findSymbol( CALL->callee[idx] );
 				if( temp_pkg && temp_pkg ->getSymbolProperties() == tw::maple::as::symbol::Symbol::T_SCOPE )
 				{
-					var_type_scope = STATIC_CAST( tw::maple::as::symbol::Scope , temp_pkg );
+					std::cerr << " find " << CALL->callee[idx] << std::endl;
+					symbol_pkg = STATIC_CAST( tw::maple::as::symbol::Scope , temp_pkg );
 				} else {
-//					std::cerr<<var->VariableName <<" can't find scope - "<< var->VariableType[idx] << " '"<< var->toString() << "'"<<std::endl;
+					std::cerr<<" can't find scope - "<< CALL->callee[CALL->callee.size()-1] << " '"<< CALL->toString() << "'"<<std::endl;
 				}
 			}
-			p_type = Findable::findClassType_downward(var_type_scope.get(), ast_call->callee[ast_call->callee.size()- 1]);
+			if( CALL->isObjectConsturct()){
+				p_type = Findable::findClassType_downward(symbol_pkg.get(), CALL->callee[CALL->callee.size()- 1]);
+
+				if( p_type == NULL)
+				{
+					std::vector<ASY::SymbolPtr> rhs = Findable::findRHS_Candidates( symbol_pkg.get(), CALL->callee[CALL->callee.size()- 1] );
+					if( rhs.size() == 0 )
+					{
+						std::cerr <<" can't resolve constructor "<< CALL->callee[CALL->callee.size()- 1] << std::endl;
+						//TBF
+//						exit(1);
+
+					}
+				}
+			}
+			else
+			{
+				p_type = Findable::findFunction_downward(symbol_pkg.get(), CALL->callee[CALL->callee.size()- 1]);
+			}
 
 			if( p_type ) {
 				std::cerr<<" callee bind type "<< p_type->getFQN() <<std::endl;
-				ast_call->bindType( p_type );
+				CALL->bindType( p_type );
 			} else {
-//				std::cerr<<" callee name '"<<"" <<"': can't find type - '"<< ast_call->toString() <<"'"<<"  '"<<ast_call->callee[ast_call->callee.size()-1]<<"'"<<std::endl;
-//				exit(1);
+				/* BUG fix this, a.b() can't find  */
+				std::cerr<<" callee name '"<<"" <<"': can't find type - '"<< CALL->toString() <<"'"<<"  '"<<CALL->callee[CALL->callee.size()-1]<<"'"<<std::endl;
+//				if( CALL->callee[CALL->callee.size()-1] != "printf")
+//					exit(1);
 			}
 		}
 };

@@ -49,15 +49,15 @@ struct Call : public Interpreter, public TemplatePrinter
 		std::string str_callee_name = "";
 		std::string str_tpl_expression = m_tpl_normal_call;
 		std::string str_prefix = "";
-		AST::CallPtr call = STATIC_CAST( AST::Call, node);
+		AST::CallPtr CALL = STATIC_CAST( AST::Call, node);
 		ASY::FunctionPtr callee_type;
 
 //		std::cerr << " in call expound - "<<get_full_functionname( call->callee )<<std::endl;
 
-		if (call->isObjectConsturct()) {
+		if (CALL->isObjectConsturct()) {
 			str_callee_name +=  " new ";
-			std::string type_name = get_full_functionname( call->callee );
-			ASY::SymbolPtr p_type = call->getCalleeType();
+			std::string type_name = get_full_functionname( CALL->callee );
+			ASY::SymbolPtr p_type = CALL->getCalleeType();
 			result.token_symbol = p_type;
 			if( p_type != NULL && p_type->getFQN_and_mappedName() != "" )
 			{
@@ -72,14 +72,14 @@ struct Call : public Interpreter, public TemplatePrinter
 
 			if( p_type )
 			{
-				callee_type = Findable::findFunction( DYNA_CAST( ASY::Scope, p_type), call->callee[call->callee.size() - 1 ]);
+				callee_type = Findable::findFunction( DYNA_CAST( ASY::Scope, p_type), CALL->callee[CALL->callee.size() - 1 ]);
 			}
 		}
 		else
 		{
-			if( call->mode == "dot" )
+			if( CALL->mode == "dot" )
 			{
-				std::string right = get_full_functionname( call->callee );
+				std::string right = get_full_functionname( CALL->callee );
 				if( ctx.expression_symbol != NULL )
 				{
 
@@ -137,23 +137,23 @@ struct Call : public Interpreter, public TemplatePrinter
 			else
 			{
 //				ASY::SymbolPtr p_type = call->getCalleeType();
-				str_callee_name += get_full_functionname( call->callee );
+				str_callee_name += get_full_functionname( CALL->callee );
 				callee_type = Findable::findFunction( symbol_table, str_callee_name );
 			}
 		}
 		std::string str_arguments;
 //		result +=  "( ";
-		if (call->getArgs())
+		if (CALL->getArgs())
 		{
 			tw::maple::backend::cpp::Context ctx2 = ctx;
 			ctx2 . callee_type = callee_type;
 //			std::cerr << " in call expound - try to evaluate args"<<call->getArgs()->toString()<<std::endl;
-			str_arguments += dispatchExpound( call->getArgs(), symbol_table, ctx2);
+			str_arguments += dispatchExpound( CALL->getArgs(), symbol_table, ctx2);
 		}
 //		result += " )";
 
 //		std::cerr << " in call interpreter  = (end)" << std::endl;
-		std::string str_numof_arguments = getNumofArguments( call->getArgs() );
+		std::string str_numof_arguments = getNumofArguments( CALL->getArgs() );
 
 		std::list<PatternPtr> patterns;
 		patterns.push_back( PatternPtr( new Pattern("expression", str_tpl_expression) ));
