@@ -46,7 +46,7 @@ ScopePtr Findable::findPackage( Scope* stable, const std::string& pkgs_name )
 	for( std::vector<SymbolPtr>::iterator I = stable->m_childs.begin(), B = stable->m_childs.end()
 			; I != B ; I ++ )
 	{
-		std::cerr << " findPackage iterator to " <<(*I)->name() << std::endl;
+//		std::cerr << " findPackage iterator to " <<(*I)->name() << std::endl;
 		if( (*I)->name() == pkgs_name && (*I)->is( Symbol::T_SCOPE ) )
 		{
 			ScopePtr pkg_symbol = DYNA_CAST( Scope, *I );

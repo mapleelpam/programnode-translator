@@ -203,7 +203,14 @@ public:
 	}
 
 	void functionParameter( const std::string& name, const std::vector<std::string>& type, bool has_init, const std::string& init ) {
-		ADD_2_TOP_WITH_INIT( FunctionParameterItem, name, type, has_init, init );
+		if( type.size() == 0)
+		{
+			std::vector<std::string> type2;
+			type2.push_back("Object");
+			ADD_2_TOP_WITH_INIT( FunctionParameterItem, name, type2, has_init, init );
+		}
+		else
+			ADD_2_TOP_WITH_INIT( FunctionParameterItem, name, type, has_init, init );
 	}
 	void functionParameterRest( const std::string& name ) {
 		ADD_2_TOP_WITH_INIT( FunctionParameterRest, name );

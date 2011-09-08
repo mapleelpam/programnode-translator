@@ -61,9 +61,10 @@ struct Phase3_Parameter
 				exit(1);
 			}
 
-			std::string variable_str = ast_param->m_param_type[ast_param->m_param_type.size() - 1];
-			tw::maple::as::symbol::SymbolPtr p_type = context->find_symbol( variable_str );
+			std::string str_var_type = (ast_param->m_param_type.size()==0) ? "Object" : ast_param->m_param_type[ast_param->m_param_type.size() - 1];
+			tw::maple::as::symbol::SymbolPtr p_type = context->find_symbol( str_var_type );
 
+			std::cerr <<" str_var_type " << str_var_type << " size = " <<  ast_param->m_param_type.size() <<std::endl;
 			if(p_type != NULL ) // found the symbol in import list
 			{
 				var_symbol->bindType( p_type );
@@ -71,7 +72,7 @@ struct Phase3_Parameter
 			}
 			tw::maple::as::symbol::ScopePtr var_type_scope = symboltable;
 
-			for( int idx = 0 ; idx < ast_param->m_param_type.size() - 1 ; idx ++ )
+			for( int idx = 0 ; ast_param->m_param_type.size() > 0 && idx < ast_param->m_param_type.size() - 1 ; idx ++ )
 			{
 				tw::maple::as::symbol::SymbolPtr temp_pkg = var_type_scope->findSymbol( ast_param->m_param_type[idx] );
 				if( temp_pkg && temp_pkg->is(tw::maple::as::symbol::Symbol::T_SCOPE) )
