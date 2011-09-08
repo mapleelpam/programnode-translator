@@ -547,6 +547,42 @@ public:
 	void endIncrementExpression() {
 		pm_module-> endIncrementExpression();
 	}
+
+	void startTryStatement() {
+		pm_module->startTryStatement();
+	}
+
+	void endTryStatement() {
+		pm_module->endTryStatement();
+
+	}
+
+	void startThrowStatement() {
+		pm_module->startThrowStatement();
+	}
+
+	void endThrowStatement() {
+
+		pm_module->endThrowStatement();
+	}
+
+	void startCatchClauseStatement() {
+		pm_module->startCatchClauseStatement();
+	}
+
+	void endCatchClauseStatement() {
+
+		pm_module->endCatchClauseStatement();
+	}
+
+	void startFinallyClauseStatement() {
+		pm_module->startFinallyClauseStatement();
+	}
+
+	void endFinallyClauseStatement() {
+
+		pm_module->endFinallyClauseStatement();
+	}
 };
 
 } } } } //tw::maple::service::linker
