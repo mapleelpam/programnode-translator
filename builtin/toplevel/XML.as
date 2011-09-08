@@ -2,8 +2,7 @@ package
 {
 	intrinsic public class XML extends Object
 	{
-/*
-		public static const length : *;
+//		public static const length : *;
 
 		[native(support="none")]
 		public static function get ignoreComments () : Boolean;
@@ -105,7 +104,6 @@ package
 		public function setNamespace (ns:*) : void;
 		[native(support="none")]
 		public function setNotification (f:Function) : *;
-*/
 		[native(support="none")]
 		public static function setSettings (o:Object = null) : void;
 		[native(support="none")]
@@ -119,8 +117,6 @@ package
 		[native(support="none")]
 		public function valueOf () : XML;
 
-/*
 		public function XML (value:* = null);
-*/
 	}
 }

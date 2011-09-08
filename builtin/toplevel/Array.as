@@ -16,11 +16,10 @@ package
 		public function get length () : uint;
 		public function set length (newLength:uint) : void;
 
-		//public function Array (...rest);
+		public function Array (...rest);
 
-		//public function concat (...rest) : Array;
+		public function concat (...rest) : Array;
 
-/*
 		public function every (callback:Function, thisObject:* = null) : Boolean;
 
 		public function filter (callback:Function, thisObject:* = null) : Array;
@@ -36,24 +35,23 @@ package
 		public function map (callback:Function, thisObject:* = null) : Array;
 
 		public function pop () : *;
-*/
 
 		public function push (...rest) : uint;
 
 		public function reverse () : Array;
 
-//		public function shift () : *;
+		public function shift () : *;
 
-//		public function slice (A:* = 0, B:* = 4294967295) : Array;
+		public function slice (A:* = 0, B:* = 4294967295) : Array;
 
-//		public function some (callback:Function, thisObject:* = null) : Boolean;
+		public function some (callback:Function, thisObject:* = null) : Boolean;
 
-		//public function sort (...rest) : *;
+		public function sort (...rest) : *;
 
-		//public function sortOn (names:*, options:* = 0, ...rest) : *;
+		public function sortOn (names:*, options:* = 0, ...rest) : *;
 
-		//public function splice (...rest) : *;
+		public function splice (...rest) : *;
 
-		//public function unshift (...rest) : uint;
+		public function unshift (...rest) : uint;
 	}
 }

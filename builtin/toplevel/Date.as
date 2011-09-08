@@ -93,7 +93,6 @@ package
 
 		public function getUTCSeconds () : Number;
 
-/*
 		public static function parse (s:*) : Number;
 
 		public function setDate (date:* = null) : Number;
@@ -125,7 +124,6 @@ package
 		public function setUTCMonth (month:* = null, date:* = null) : Number;
 
 		public function setUTCSeconds (sec:* = null, ms:* = null) : Number;
-*/
 
 		public function toDateString () : String;
 

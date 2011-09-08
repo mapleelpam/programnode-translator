@@ -26,10 +26,10 @@ package
 
 		public function get source () : String;
 
-//		[native(support="none")]
-//		public function exec (s:String = "") : *;
+		[native(support="none")]
+		public function exec (s:String = "") : *;
 
-//		public function RegExp (pattern:* = null, options:* = null);
+		public function RegExp (pattern:* = null, options:* = null);
 
 		[native(support="none")]
 		public function test (s:String = "") : Boolean;

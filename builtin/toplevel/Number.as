@@ -20,7 +20,6 @@ package
 		[native(support="none")]
 		public static const POSITIVE_INFINITY : Number;
 
-/*
 		public function Number (value:* = 0);
 		[native(support="none")]
 		public function toExponential (p:* = 0) : String;
@@ -30,7 +29,7 @@ package
 		public function toPrecision (p:* = 0) : String;
 
 		public function toString (radix:* = 10) : String;
-*/
+
 		[native(support="none")]
 		public function valueOf () : Number;
 	}
