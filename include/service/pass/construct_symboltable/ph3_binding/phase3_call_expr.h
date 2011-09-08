@@ -47,25 +47,16 @@ struct Phase3_CallExpression
 		{
 			using tw::maple::as::symbol::Findable;
 
-//			std::cerr << "in phase2 - callee "<< ast_call->toString() <<std::endl;
-
 			if( symboltable == NULL )
 			{
 				std::cerr << "error in phase2 "<< ast_call->toString() <<std::endl;
 				exit(1);
 			}
 
-//			std::string type_name = dispatchExpound(ast_call->getCallee(), symbol_table, ctx);
-
-
 			tw::maple::as::symbol::SymbolPtr p_type = context->find_symbol( ast_call->callee[ast_call->callee.size()-1] );
-
-//			tw::maple::as::symbol::SymbolPtr p_type =
-//			Findable::findClassType_downward(var_type_scope.get(), ast_var->VariableType[ast_var->VariableType.size.size()- 1]);
 
 			if(p_type != NULL ) // found the symbol in import list
 			{
-//				std::cerr<<" callee bind type "<< p_type->getFQN() <<std::endl;
 				ast_call->bindType( p_type );
 				return;
 			}
@@ -81,13 +72,7 @@ struct Phase3_CallExpression
 //					std::cerr<<var->VariableName <<" can't find scope - "<< var->VariableType[idx] << " '"<< var->toString() << "'"<<std::endl;
 				}
 			}
-//			p_type = var_type_scope->findType( ast_call->callee[ast_call->callee.size()-1]  );
 			p_type = Findable::findClassType_downward(var_type_scope.get(), ast_call->callee[ast_call->callee.size()- 1]);
-
-//			if( p_type == NULL )
-//			{
-//				p_type = context->find_symbol( ast_var->VariableType[ast_var->VariableType.size() - 1] );
-//			}
 
 			if( p_type ) {
 				std::cerr<<" callee bind type "<< p_type->getFQN() <<std::endl;

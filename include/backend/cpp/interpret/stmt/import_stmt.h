@@ -53,6 +53,7 @@ private:
 			, tw::maple::backend::cpp::Context& ctx
 			)
 	{
+		using as::symbol::Findable;
 		tw::maple::as::symbol::ScopePtr pkg_scope = symboltable;
 
 		if (ast_import->package_names[0] == "__AS3__")
@@ -66,7 +67,7 @@ private:
 				pkg_scope
 						= STATIC_CAST( tw::maple::as::symbol::Scope , temp_pkg );
 			} else {
-				std::cerr << " can't find scope - "
+				std::cerr <<__FILE__<<":"<<__LINE__<< " can't find scope - "
 						<< ast_import->package_names[idx] << " '"
 						<< ast_import->toString() << "'" << std::endl;
 				exit(1);
@@ -77,6 +78,9 @@ private:
 //						pkg_scope->findType(
 //								ast_import->package_names[ast_import->package_names.size()
 //										- 1]);
+		if( p_type == NULL )
+			p_type =
+				Findable::findFunction_downward(pkg_scope.get(), ast_import->package_names[ast_import->package_names.size()- 1]);
 		if (p_type == NULL) {
 			std::cerr << "import can't find type - '"
 					<< ast_import->package_names[ast_import->package_names.size()
