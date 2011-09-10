@@ -90,6 +90,8 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 			case ASY::Symbol::ATTR_PUBLIC:	str_function_attribute="public";	break;
 			case ASY::Symbol::ATTR_PROTECTED:	str_function_attribute="protected";	break;
 		}
+		std::string str_func_attr_stmt = (str_function_attribute=="")?"":str_function_attribute+": ";
+		if( SVC_GLOBAL_SETTINGS -> declare_only )	str_func_attr_stmt = "";
 		std::string str_numof_parameter;
 		{
 			std::stringstream ss;
@@ -104,7 +106,10 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 			ss >> str_numof_default_parameter;
 		}
 		std::string str_func_name = _function_name_mapper( symbol_function->name(), symbol_function );
-
+		std::string str_func_name_prefix = "";
+		if( symbol_function->getParent() -> is(ASY::Scope::T_CLASS)
+				&& SVC_GLOBAL_SETTINGS -> declare_only )
+			str_func_name_prefix = symbol_function->getParent()->name()+"::";
 		std::string str_function_body;
 		{
 			if( fdef->isAbstract)
@@ -193,6 +198,17 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 				}
 			}
 		}
+		std::string str_is_virtual = "";
+		if (fdef->isAbstract ||
+		    (!symbol_function->isConstructor() && (m_default_virtual &&
+		    		(!symbol_function->isStatic())&&symbol_function->isMemberFunction() )) )
+				str_is_virtual = "virtual ";
+		if( SVC_GLOBAL_SETTINGS -> declare_only )
+			str_is_virtual = "";
+
+		std::string str_is_static = "";
+		if (symbol_function->isStatic() && (!SVC_GLOBAL_SETTINGS -> declare_only) )
+			str_is_static = "static ";
 
 		patterns.push_back( PatternPtr( new Pattern("func_static_instance", str_static_instance )));
 
@@ -201,8 +217,9 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 
 		patterns.push_back( PatternPtr( new Pattern("function_signature", tpl_function_signature )));
 		patterns.push_back( PatternPtr( new Pattern("function_attribute", str_function_attribute) ));
-		patterns.push_back( PatternPtr( new Pattern("function_attribute_stmt", (str_function_attribute=="")?"":str_function_attribute+": ") ));
+		patterns.push_back( PatternPtr( new Pattern("function_attribute_stmt", str_func_attr_stmt )) );
 		patterns.push_back( PatternPtr( new Pattern("func_name", str_func_name) ));
+		patterns.push_back( PatternPtr( new Pattern("func_name_prefix", str_func_name_prefix) ));
 		patterns.push_back( PatternPtr( new Pattern("func_body",  str_function_body )) );
 		patterns.push_back( PatternPtr( new Pattern("func_parameters", str_func_parameters.result ) ));
 		patterns.push_back( PatternPtr( new Pattern("func_parameters_variable_only", _function_parameter_argonly(symbol_function) ) ));
@@ -211,11 +228,8 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("func_parameter_types", str_function_parameter_types )) ); 
 		patterns.push_back( PatternPtr( new Pattern("func_arguments", str_func_arguments.result ) ));
 		patterns.push_back( PatternPtr( new Pattern("func_ret_type",  str_function_return_type ) ) );
-		patterns.push_back( PatternPtr( new Pattern("function_is_static", (symbol_function->isStatic())? "static ":"") ) );
-		patterns.push_back( PatternPtr( new Pattern("function_is_virtual", 
-					(fdef->isAbstract ||
-						(!symbol_function->isConstructor() && (m_default_virtual&&(!symbol_function->isStatic())&&symbol_function->isMemberFunction() )) )?
-						"virtual ":"") ) );
+		patterns.push_back( PatternPtr( new Pattern("function_is_static", str_is_static ) ) );
+		patterns.push_back( PatternPtr( new Pattern("function_is_virtual", str_is_virtual ) ) );
 		patterns.push_back( PatternPtr( new Pattern("function_enter", (fdef->isAbstract || SVC_GLOBAL_SETTINGS -> define_only )? "" : m_tpl_enter_function) ) );
 		patterns.push_back( PatternPtr( new Pattern("enter_stmt", fdef->getEnterFunctionMapper() != "" ? fdef->getEnterFunctionMapper() : "/*enter function*/" ) ) );
 		patterns.push_back( PatternPtr( new Pattern("function_leave", (fdef->isAbstract || SVC_GLOBAL_SETTINGS -> define_only )? "" : m_tpl_leave_function) ) );
@@ -244,11 +258,11 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 							 )
 							;
 		m_tpl_normal_function_signature = m_tpl_constructor_function_signature = m_tpl_member_function_signature =
-							"#(indent_tab)#(function_attribute_stmt)""#(endl)"
-							"#(indent_tab)"
-							"#(function_is_static)"
-							"#(function_is_virtual)"
-							"#(func_ret_type) #(func_name)(#(prefix_parameters)#(func_parameters)#(postfix_parameters))"
+				"#(indent_tab)#(function_attribute_stmt)""#(endl)"
+				"#(indent_tab)"
+				"#(function_is_static)"
+				"#(function_is_virtual)"
+				"#(func_ret_type) #(func_name_prefix)#(func_name)(#(prefix_parameters)#(func_parameters)#(postfix_parameters))"
 ; 
         m_tpl_static_instance = "#(endl)#(indent_tab)"
             "static #(func_ret_type) static_#(func_name)( ObjectPtr p#(common) #(prefix_parameters)#(func_parameters)#(postfix_parameters)){ ((#(parent_name)*)(Object*)p)->#(func_name)(#(func_parameters_variable_only)); }#(endl)"

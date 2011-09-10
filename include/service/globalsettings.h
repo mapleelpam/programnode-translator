@@ -48,7 +48,7 @@ struct GlobalSettings  : public ArgElemenRequest
 	{
 			optionDesc.add_options()
 	    	    ("define", "define only (header)")
-	    	    ("source", "source only")
+	    	    ("declare", "declare only (source)")
 	        ;
 	}
 
@@ -57,8 +57,8 @@ struct GlobalSettings  : public ArgElemenRequest
 		if (args.count("define") > 0) {
 			define_only = true;
 		}
-		if (args.count("source") > 0) {
-			dump_source_only = true;
+		if (args.count("declare") > 0) {
+			declare_only = true;
 		}
 	}
 
@@ -66,7 +66,7 @@ struct GlobalSettings  : public ArgElemenRequest
 private:
 	GlobalSettings()
 		: define_only(false)
-		, dump_source_only(false)
+		, declare_only(false)
 	{
 		SVC_ARGUMENTS->registerPass(this);
 	}
@@ -83,7 +83,7 @@ public:
 	}
 
 	bool	define_only;
-	bool	dump_source_only;
+	bool	declare_only;
 
 };
 

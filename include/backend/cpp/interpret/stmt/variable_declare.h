@@ -45,7 +45,6 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 			
 			)
 	{
-
 		namespace ASY = tw::maple::as::symbol;
 
 		std::string result;
@@ -53,6 +52,10 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 		AST::VariableDeclarePtr var = std::tr1::static_pointer_cast<AST::VariableDeclare>(node);
 		ASY::VariablePtr symbol_var = STATIC_CAST( ASY::Variable, node->getSymbol() );
 		ASY::SymbolPtr	symbol_type = symbol_var->getTypeSymbol();
+
+		if( symbol_var->isClassMember()
+			&& SVC_GLOBAL_SETTINGS -> declare_only )
+			return "";
 
 		std::string str_var_type/* = invoke_type_mapper(  )*/;
 

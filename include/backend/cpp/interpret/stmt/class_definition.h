@@ -83,6 +83,9 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 
 		std::list<PatternPtr> patterns;
 
+		if( SVC_GLOBAL_SETTINGS -> declare_only )
+			return class_stmt;
+
 		patterns.push_back( PatternPtr( new Pattern("class_properties", getClassMemberVariableProperties( symbol_class ) )) );
 		patterns.push_back( PatternPtr( new Pattern("class_stmt", class_stmt ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_inherit", class_inherit ) ));
