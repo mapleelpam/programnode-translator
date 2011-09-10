@@ -75,6 +75,12 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		std::list<PatternPtr> patterns;
 
 		ASY::FunctionPtr	symbol_function = fdef->getFunctionSymbol();
+
+		if( symbol_function->isIntrinsic() )
+		{
+			return "";  // Ignore Intrinsic
+		}
+
 		std::string 		str_function_attribute;
 		switch( symbol_function->getSymbolAttribtues() )
 		{

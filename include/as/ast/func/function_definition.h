@@ -42,8 +42,8 @@ struct FunctionDefinition: public Statement
 	}
 
     // Public Assert !!
-    NodePtr FunctionAttr(){	return node_childs[0];	}
-    NodePtr FunctionName(){	return node_childs[1];	}
+    NodePtr FunctionAttr()	{	return node_childs[0];	}
+    NodePtr FunctionName()	{	return node_childs[1];	}
     NodePtr FunctionCommon(){	return node_childs[2];	}
 
     std::string toString()  {	return "node::function_definition"; };
@@ -92,7 +92,7 @@ public:
     void setFunctionSymbol( ASYM::FunctionPtr s )	{	_related_function_symbol = s;	}
     ASYM::FunctionPtr getFunctionSymbol( )	{	return _related_function_symbol;	}
 protected:
-    ASYM::FunctionPtr	_related_function_symbol;
+    ASYM::FunctionPtr		_related_function_symbol;
 public:
     SuperInit*				mp_parent_initilizer;
 };
