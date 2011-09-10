@@ -34,6 +34,7 @@
 #include <as/symbol/function.h>
 #include <as/symbol/variable.h>
 #include <backend/cpp/interpret/interpreter.h>
+#include <service/globalsettings.h>
 
 #include <global.h>
 
@@ -109,6 +110,10 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 			if( fdef->isAbstract)
 			{
 				str_function_body = std::string(" = 0;#(endl)");
+			}
+			else if ( SVC_GLOBAL_SETTINGS -> define_only )
+			{
+				str_function_body = ";";
 			}
 			else
 			{
@@ -211,9 +216,9 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 					(fdef->isAbstract ||
 						(!symbol_function->isConstructor() && (m_default_virtual&&(!symbol_function->isStatic())&&symbol_function->isMemberFunction() )) )?
 						"virtual ":"") ) );
-		patterns.push_back( PatternPtr( new Pattern("function_enter", (fdef->isAbstract)? "" : m_tpl_enter_function) ) );
+		patterns.push_back( PatternPtr( new Pattern("function_enter", (fdef->isAbstract || SVC_GLOBAL_SETTINGS -> define_only )? "" : m_tpl_enter_function) ) );
 		patterns.push_back( PatternPtr( new Pattern("enter_stmt", fdef->getEnterFunctionMapper() != "" ? fdef->getEnterFunctionMapper() : "/*enter function*/" ) ) );
-		patterns.push_back( PatternPtr( new Pattern("function_leave", (fdef->isAbstract)? "" : m_tpl_leave_function) ) );
+		patterns.push_back( PatternPtr( new Pattern("function_leave", (fdef->isAbstract || SVC_GLOBAL_SETTINGS -> define_only )? "" : m_tpl_leave_function) ) );
 		patterns.push_back( PatternPtr( new Pattern("member_initial", (symbol_function->isConstructor())? getMemberInitializer(symbol_function,fdef->mp_parent_initilizer,ctx) : "") ) );
 		patterns.push_back( PatternPtr( new Pattern("prefix_parameters", str_prefix_parameter) ) );
 		patterns.push_back( PatternPtr( new Pattern("postfix_parameters", "") ) );

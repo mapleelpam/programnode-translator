@@ -22,40 +22,73 @@
  *     Author: mapleelpam at gmail.com - Kai-Feng Chou - maple       *
  \*******************************************************************/
 
+#ifndef __TW_MAPLE_SERVICE_GLOBAL_SETTINGS_H__
+#define __TW_MAPLE_SERVICE_GLOBAL_SETTINGS_H__
+
 #include <global.h>
-#include <backend/cpp/interpret/interpreter.h>
-#include <backend/cpp/prependdata.h>
-#include <service/configservice.h>
 #include <service/argumentsservice.h>
-#include <service/passmanagerservice.h>
-#include <service/globalsettings.h>
-#include <as/symbol/scope.h>
-#include <as/symbol/symbol.h>
 
-//namespace po = boost::program_options;
+#include <boost/program_options/options_description.hpp>
+#include <boost/program_options/variables_map.hpp>
+#include <boost/program_options/parsers.hpp>
+#include <boost/program_options/value_semantic.hpp>
+
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/ptree_fwd.hpp>
+#include <boost/property_tree/info_parser.hpp>
+#include <boost/property_tree/xml_parser.hpp>
 
 
-int main(int argc, char **argv)
+namespace tw { namespace maple { namespace service {
+
+
+struct GlobalSettings  : public ArgElemenRequest
 {
-	SVC_CONFIG;
-	SVC_SYMBOLTABLE;
-	SVC_GLOBAL_SETTINGS;
-
-	tw::maple::service::PassManagerService  major;
-
-	try {
-		SVC_ARGUMENTS->parse(argc,argv);
-	} catch (std::exception &e) {
-		std::cerr << "Unknown Arguments " << e.what()<< std::endl;
-		SVC_ARGUMENTS->print_out_help();
-		exit(1);
-	} catch (...) {
-		std::cout << "ERROR " << std::endl;
-		std::cout << "ERROR " << "Error while parsing pnc options Exiting" << std::endl;
-		exit(1);
+	void init(po::options_description& optionDesc, po::positional_options_description& posOptionDesc)
+	{
+			optionDesc.add_options()
+	    	    ("define", "define only (header)")
+	    	    ("source", "source only")
+	        ;
 	}
 
-	major.exec();
+	void pass(po::variables_map& args)
+	{
+		if (args.count("define") > 0) {
+			define_only = true;
+		}
+		if (args.count("source") > 0) {
+			dump_source_only = true;
+		}
+	}
 
-    return 0;
-}
+
+private:
+	GlobalSettings()
+		: define_only(false)
+		, dump_source_only(false)
+	{
+		SVC_ARGUMENTS->registerPass(this);
+	}
+
+
+
+public:
+	static GlobalSettings* instance()	{
+		static GlobalSettings* _instance;
+
+		if( _instance == NULL )
+			_instance = new GlobalSettings();
+		return _instance;
+	}
+
+	bool	define_only;
+	bool	dump_source_only;
+
+};
+
+#define SVC_GLOBAL_SETTINGS tw::maple::service::GlobalSettings::instance()
+
+} } }
+
+#endif
