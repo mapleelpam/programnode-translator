@@ -55,6 +55,7 @@ struct Scope : public Symbol, public Registrable
 		, m_parent( parent )
 		, m_inherit( NULL )
 		, m_no_contrucotr(true)
+		, m_is_intrinsic(false)
 	{	}
 
 	Scope( Scope *parent = NULL )
@@ -63,6 +64,7 @@ struct Scope : public Symbol, public Registrable
 		, m_parent( parent )
 		, m_inherit( NULL )
 		, m_no_contrucotr(true)
+		, m_is_intrinsic(false)
 	{
 		std::ostringstream ss;
 		ss << "anonymous"<<m_parent->m_childs.size();
