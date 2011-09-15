@@ -78,6 +78,11 @@ struct Phase3_CallExpression
 			}
 			if( CALL->isObjectConsturct()){
 				p_type = Findable::findClassType_downward(symbol_pkg.get(), CALL->callee[CALL->callee.size()- 1]);
+//				if( p_type == NULL)
+//				{
+//					std::vector<ASY::SymbolPtr> cans = Findable::findRHS_Candidates(symbol_pkg.get(), CALL->callee[CALL->callee.size()- 1]);
+//					p_type = *(cans.begin());
+//				}
 
 				if( p_type == NULL)
 				{
