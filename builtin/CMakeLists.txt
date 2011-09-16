@@ -14,6 +14,8 @@ make_directory( ${CMAKE_CURRENT_BINARY_DIR}/flash/text/ )
 make_directory( ${CMAKE_CURRENT_BINARY_DIR}/flash/net/ )
 make_directory( ${CMAKE_CURRENT_BINARY_DIR}/flash/system/ )
 make_directory( ${CMAKE_CURRENT_BINARY_DIR}/flash/ui/ )
+make_directory( ${CMAKE_CURRENT_BINARY_DIR}/flash/media/ )
+make_directory( ${CMAKE_CURRENT_BINARY_DIR}/flash/errors/ )
 
 #SET( BUILTIN_AS )
 #LIST( APPEND BUILTIN_AS 

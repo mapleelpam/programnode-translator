@@ -1,86 +1,83 @@
-package flash.net
+﻿package flash.net
 {
-	import flash.events.EventDispatcher;
-//	import private.IDataInput;
-//	import private.IDataOutput;
-	import flash.utils.Timer;
-//	import flash.events.SecurityErrorEvent; //since no one use it
-	import flash.events.TimerEvent;
-	import flash.utils.ByteArray;
+    import flash.events.EventDispatcher;
+//    import flash.utils.*;
+    import flash.utils.ByteArray;
 
-	intrinsic public class Socket extends EventDispatcher implements IDataInput, IDataOutput
-	{
-		public function get bytesAvailable () : uint;
+    intrinsic public class Socket extends EventDispatcher implements IDataInput, IDataOutput
+    {
+        public function Socket(param1:String = null, param2:int = 0);
 
-		public function get connected () : Boolean;
+        public function connect(param1:String, param2:int) : void;
 
-		public function get endian () : String;
-		public function set endian (type:String) : void;
+        public function get timeout() : uint ;
 
-		public function get objectEncoding () : uint;
-		public function set objectEncoding (version:uint) : void;
+        public function readBytes(param1:ByteArray, param2:uint = 0, param3:uint = 0) : void;
 
-		public function get timeout () : uint;
-		public function set timeout (value:uint) : void;
+        public function writeBytes(param1:ByteArray, param2:uint = 0, param3:uint = 0) : void;
 
-		public function close () : void;
+        public function writeBoolean(param1:Boolean) : void;
 
-		public function connect (host:String, port:int) : void;
+        public function writeByte(param1:int) : void;
 
-		public function flush () : void;
+        public function writeShort(param1:int) : void;
 
-		public function readBoolean () : Boolean;
+        public function writeInt(param1:int) : void;
 
-		public function readByte () : int;
+        public function writeUnsignedInt(param1:uint) : void;
 
-		public function readBytes (bytes:ByteArray, offset:uint = 0, length:uint = 0) : void;
+        public function writeFloat(param1:Number) : void;
 
-		public function readDouble () : Number;
+        public function writeDouble(param1:Number) : void;
 
-		public function readFloat () : Number;
+        public function writeMultiByte(param1:String, param2:String) : void;
 
-		public function readInt () : int;
+        public function writeUTF(param1:String) : void;
 
-		public function readMultiByte (length:uint, charSet:String) : String;
+        public function writeUTFBytes(param1:String) : void;
 
-		public function readObject () : *;
+        public function readBoolean() : Boolean;
 
-		public function readShort () : int;
+        public function readByte() : int;
 
-		public function readUnsignedByte () : uint;
+        public function readUnsignedByte() : uint;
 
-		public function readUnsignedInt () : uint;
+        public function readShort() : int;
 
-		public function readUnsignedShort () : uint;
+        public function readUnsignedShort() : uint;
 
-		public function readUTF () : String;
+        public function readInt() : int;
 
-		public function readUTFBytes (length:uint) : String;
+        public function readUnsignedInt() : uint;
 
-		public function Socket (host:String = null, port:int = 0);
+        public function readFloat() : Number;
 
-		public function writeBoolean (value:Boolean) : void;
+        public function readDouble() : Number;
 
-		public function writeByte (value:int) : void;
+        public function readMultiByte(param1:uint, param2:String) : String;
 
-		public function writeBytes (bytes:ByteArray, offset:uint = 0, length:uint = 0) : void;
+        public function readUTF() : String;
 
-		public function writeDouble (value:Number) : void;
+        public function readUTFBytes(param1:uint) : String;
 
-		public function writeFloat (value:Number) : void;
+        public function get bytesAvailable() : uint;
 
-		public function writeInt (value:int) : void;
+        public function get connected() : Boolean;
 
-		public function writeMultiByte (value:String, charSet:String) : void;
+        public function close() : void ;
 
-		public function writeObject (object:*) : void;
+        public function flush() : void;
+        
+	[native(support="none")]
+        public function writeObject(param1) : void;
 
-		public function writeShort (value:int) : void;
+        [native(support="none")]
+        public function readObject();
 
-		public function writeUnsignedInt (value:uint) : void;
+        [native(support="none")]
+        public function get objectEncoding() : uint;
 
-		public function writeUTF (value:String) : void;
+        public function get endian() : String;
 
-		public function writeUTFBytes (value:String) : void;
-	}
+    }
 }

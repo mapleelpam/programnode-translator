@@ -67,7 +67,7 @@ struct Phase3_FunctionDefine
 
 			if( p_type == NULL )
 			{
-				std::cerr << "symboltable ph3: Function Defnition can't find symbol (function return type) '" << fsig->ReturnType << "'"<<std::endl;
+				std::cerr << "symboltable ph3: Function Defnition can't find symbol (function return type) '" << fsig->ReturnType << "'" << " " << func_symbol->name()<<std::endl;
 				exit(1);
 			}
 			BOOST_ASSERT( p_type != NULL && "can't find symbol" );
