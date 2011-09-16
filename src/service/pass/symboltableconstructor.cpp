@@ -99,6 +99,8 @@ void SymbolTableConstructor:: constructSymbols(
 							scope_func->setSymbolAttributes( ASY::Symbol::ATTR_PROTECTED);
 						else if( ((*sItr) == "static") )
 							scope_func->setIsStatic( true );
+						else if( ((*sItr) == "intrinsic") )
+							scope_func->setIsIntrinsic( true );
 						else
 							std::cerr << " unknow attribute " << *sItr << std::endl;
 					}
