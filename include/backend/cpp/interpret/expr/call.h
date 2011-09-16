@@ -56,7 +56,7 @@ struct Call : public Interpreter, public TemplatePrinter
 //		std::cerr << " in call expound - "<<get_full_functionname( call->callee )<<std::endl;
 
 		if (CALL->isObjectConsturct()) {
-			str_callee_name +=  " new ";
+			str_callee_name = "";
 			std::string type_name = get_full_functionname( CALL->callee );
 			ASY::SymbolPtr p_type = CALL->getCalleeType();
 			result.token_symbol = p_type;
@@ -64,7 +64,7 @@ struct Call : public Interpreter, public TemplatePrinter
 			{
 				result.token_symbol = p_type;
 				result.expression_type = ReturnValue::HEAP;
-				str_callee_name += p_type->getFQN_and_mappedName();
+				str_callee_name += "new "+p_type->getFQN_and_mappedName();
 			}
 			else
 			{
@@ -75,13 +75,14 @@ struct Call : public Interpreter, public TemplatePrinter
 					ASY::SymbolPtr symbol_cans = *(cans.begin());
 					if( ASY::VariablePtr variable_cans = DYNA_CAST(ASY::Variable, symbol_cans) )
 					{
-//						std::cerr <<"(operator new) ker ker find variable "<<std::endl;
-//						exit(1);
 						str_special_call_patterns = "#(callee_name)->getXCClass()->newInstance(#(argn))";
-
+						str_callee_name += "(Object*) "+type_name;
 					}
+					else
+						str_callee_name += "new "+type_name;
 				}
-				str_callee_name += type_name;
+				else
+					str_callee_name += "new "+type_name;
 			}
 
 			if( p_type )

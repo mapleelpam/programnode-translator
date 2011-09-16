@@ -49,7 +49,7 @@ struct As : public Interpreter, public TemplatePrinter
 		{ // just class...!!
 			if( ASY::ScopePtr classtype_ptr = ASY::Findable::findClassType(symbol_table.get(),type_name))
 			{
-				type_name = classtype_ptr->getFQN();
+				type_name = classtype_ptr->getFQN_and_mappedName();
 			}
 			std::cerr << " RHS " << bin->RHS()->toString() << "  "<<type_name << std::endl;
 		}
