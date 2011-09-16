@@ -52,6 +52,7 @@ struct Call : public Interpreter, public TemplatePrinter
 		AST::CallPtr CALL = STATIC_CAST( AST::Call, node);
 		ASY::FunctionPtr callee_type;
 
+		std::string str_special_call_patterns = "";
 //		std::cerr << " in call expound - "<<get_full_functionname( call->callee )<<std::endl;
 
 		if (CALL->isObjectConsturct()) {
@@ -67,6 +68,19 @@ struct Call : public Interpreter, public TemplatePrinter
 			}
 			else
 			{
+//				std::cerr <<" callee constructor not found \n"; exit(1);
+				std::vector<ASY::SymbolPtr> cans = Findable::findRHS_Candidates( symbol_table, type_name );
+				if( cans.size() > 0 )
+				{
+					ASY::SymbolPtr symbol_cans = *(cans.begin());
+					if( ASY::VariablePtr variable_cans = DYNA_CAST(ASY::Variable, symbol_cans) )
+					{
+//						std::cerr <<"(operator new) ker ker find variable "<<std::endl;
+//						exit(1);
+						str_special_call_patterns = "#(callee_name)->getXCClass()->newInstance(#(argn))";
+
+					}
+				}
 				str_callee_name += type_name;
 			}
 
@@ -167,7 +181,11 @@ struct Call : public Interpreter, public TemplatePrinter
 
 		{
 	
-			if( callee_type != NULL && (callee_type->getCallerMapper() != "") )
+			if( str_special_call_patterns != "" )
+			{
+				str_answer = substitutePatterns( str_special_call_patterns, patterns );
+			}
+			else if(callee_type != NULL && (callee_type->getCallerMapper() != "") )
 				str_answer = substitutePatterns( "#(prefix)"+callee_type->getCallerMapper(), patterns );
 			else
 				str_answer = substitutePatterns( patterns );

@@ -113,7 +113,9 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 	ClassDefinition()
 		: TemplatePrinter("ClassDefinition")
 		, m_default_base_object("")
+		, m_tpl_property_begin("")
 		, m_tpl_property("")
+		, m_tpl_property_end("")
 		, m_inherit_type(BOTH)
 	{
 		m_tpl_class = ( "#(indent_tab)#(class_type) #(class_name) #(class_inherit) #(endl)#(indent_tab){#(endl)"
@@ -140,6 +142,8 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 		m_tpl_class = pt.get<std::string>( configName()+".template.class", m_tpl_class);
 		m_tpl_interface = pt.get<std::string>( configName()+".template.interface", m_tpl_interface);
 		m_tpl_property = pt.get<std::string>( configName()+".template.property", m_tpl_property);
+		m_tpl_property_begin = pt.get<std::string>( configName()+".template.property_begin", m_tpl_property_begin);
+		m_tpl_property_end = pt.get<std::string>( configName()+".template.property_end", m_tpl_property_end);
 
 		m_tpl_setter = pt.get<std::string>( configName()+".template.default_setter", m_tpl_setter);
 		m_tpl_getter = pt.get<std::string>( configName()+".template.default_getter", m_tpl_getter);
@@ -157,6 +161,8 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 		pt.put<std::string>( configName()+".template.class", m_tpl_class);
 		pt.put<std::string>( configName()+".template.interface", m_tpl_interface);
 		pt.put<std::string>( configName()+".template.property", m_tpl_property);
+		pt.put<std::string>( configName()+".template.property_begin", m_tpl_property_begin);
+		pt.put<std::string>( configName()+".template.property_end", m_tpl_property_end);
 
 		pt.put<std::string>(  configName()+".template.default_setter", m_tpl_setter);
 		pt.put<std::string>(  configName()+".template.default_getter", m_tpl_getter);
@@ -182,6 +188,8 @@ private:
 	std::string m_tpl_class;
 	std::string m_tpl_interface;
 	std::string m_tpl_property;
+	std::string m_tpl_property_begin;
+	std::string m_tpl_property_end;
 	std::string m_tpl_setter;
 	std::string m_tpl_getter;
 
@@ -285,15 +293,15 @@ private:
 
 					std::string str_var_attr = var->getSymbolAttribtues() == ASY::Symbol::ATTR_PUBLIC ? "public" : "private";
 
-					// PROPERTY
-					{
-						std::list<PatternPtr> patterns;
-
-						patterns.push_back( PatternPtr( new Pattern("property_type", str_var_type ) ));
-						patterns.push_back( PatternPtr( new Pattern("property_name", var->name() ) ));
-
-						answer += "#(indent_tab_add)"+substitutePatterns(m_tpl_property, patterns );
-					}
+//					// PROPERTY
+//					{
+//						std::list<PatternPtr> patterns;
+//
+//						patterns.push_back( PatternPtr( new Pattern("property_type", str_var_type ) ));
+//						patterns.push_back( PatternPtr( new Pattern("property_name", var->name() ) ));
+//
+//						answer += "#(indent_tab_add)"+substitutePatterns(m_tpl_property, patterns );
+//					}
 					// add setter and getter
 					{
 						std::vector<ASY::SymbolPtr> candidates = ASY::Findable::findClassMembers( symbol_class, var->name() );
@@ -323,6 +331,36 @@ private:
 				}
 			}
 		}
+
+		answer += m_tpl_property_begin;
+		for (std::vector<ASY::SymbolPtr>::iterator child_itr = childs.begin(); child_itr
+				!= childs.end(); child_itr++) {
+			if (((*child_itr)->getSymbolProperties() & ASY::Symbol::T_VARIABLE)) {
+				ASY::VariablePtr var = STATIC_CAST( ASY::Variable, *child_itr );
+				ASY::SymbolPtr	symbol_type = var->getTypeSymbol();
+				if ( var && !var->isStatic() ) {
+					std::string str_var_type;
+					if( symbol_type->preferStack())
+						str_var_type = symbol_type->getFQN_and_instanceName();
+					else
+						str_var_type = symbol_type->getFQN_and_mappedName() + "*" /* '*'or 'Ptr' */;
+
+					std::string str_var_attr = var->getSymbolAttribtues() == ASY::Symbol::ATTR_PUBLIC ? "public" : "private";
+
+					// PROPERTY
+					{
+						std::list<PatternPtr> patterns;
+
+						patterns.push_back( PatternPtr( new Pattern("property_type", str_var_type ) ));
+						patterns.push_back( PatternPtr( new Pattern("property_name", var->name() ) ));
+
+						answer += "#(indent_tab_add)"+substitutePatterns(m_tpl_property, patterns );
+					}
+					answer += "#(endl)";
+				}
+			}
+		}
+		answer += m_tpl_property_end;
 		return answer;
 	}
 
