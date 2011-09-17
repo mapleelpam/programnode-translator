@@ -90,7 +90,7 @@ public:
 	            while( true )
 	                processor->process( io, io, NULL );
 	        } catch (apache::thrift::transport::TTransportException ex ) {
-	            std::cout << "handler: " << ex.what()<<std::endl;
+//	            std::cout << "handler: " << ex.what()<<std::endl;
 	        }
 
 	        transport->close();
