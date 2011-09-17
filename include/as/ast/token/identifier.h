@@ -33,11 +33,12 @@ namespace tw { namespace maple { namespace as { namespace ast {
 // Abstract
 struct Identifier: public Expression
 {
-	Identifier(std::string v, std::string q )
+	Identifier(std::string v, std::string q, bool is_attr = false )
 		: Expression(Node::NodeType::T_IDENTIFIER)
-		  , value(v)
-		  , qualifier( q )
-		  , add_prefix( "" )
+		, value(v)
+		, qualifier( q )
+		, add_prefix( "" )
+		, is_attribute( is_attr )
 	{
 	}
 
@@ -48,6 +49,7 @@ struct Identifier: public Expression
 
 	// for interpret
 	std::string add_prefix;
+	bool	is_attribute;
 };
 
 typedef SHARED_PTR(Identifier) IdentifierPtr; 

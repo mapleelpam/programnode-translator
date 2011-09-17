@@ -352,6 +352,11 @@ public:
 		printf("identifierExpression\n");
 		pm_module->identifierExpression(id);
 	}
+	void attributeIdentifierExpression(const generated::Identifier& id) {
+
+		printf("aatributeIdentifierExpression\n");
+		pm_module->attributeIdentifierExpression(id);
+	}
 
 	void literalStringExpression(const generated::Literal& str) {
 

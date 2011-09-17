@@ -68,6 +68,7 @@ class AstDumperIf {
   virtual void startSuperInit() = 0;
   virtual void endSuperInit() = 0;
   virtual void identifierExpression(const Identifier& id) = 0;
+  virtual void attributeIdentifierExpression(const Identifier& id) = 0;
   virtual void literalStringExpression(const Literal& str) = 0;
   virtual void literalNumberExpression(const Literal& str) = 0;
   virtual void literalBooleanExpression(const Literal& str) = 0;
@@ -274,6 +275,9 @@ class AstDumperNull : virtual public AstDumperIf {
   void identifierExpression(const Identifier& /* id */) {
     return;
   }
+  void attributeIdentifierExpression(const Identifier& /* id */) {
+    return;
+  }
   void literalStringExpression(const Literal& /* str */) {
     return;
   }
@@ -402,7 +406,7 @@ typedef struct _AstDumper_startProgram_args__isset {
 class AstDumper_startProgram_args {
  public:
 
-  AstDumper_startProgram_args() : version("0.0.1"), counter(17LL) {
+  AstDumper_startProgram_args() : version("0.0.1"), counter(18LL) {
   }
 
   virtual ~AstDumper_startProgram_args() throw() {}
@@ -2601,6 +2605,53 @@ class AstDumper_identifierExpression_pargs {
 
 };
 
+typedef struct _AstDumper_attributeIdentifierExpression_args__isset {
+  _AstDumper_attributeIdentifierExpression_args__isset() : id(false) {}
+  bool id;
+} _AstDumper_attributeIdentifierExpression_args__isset;
+
+class AstDumper_attributeIdentifierExpression_args {
+ public:
+
+  AstDumper_attributeIdentifierExpression_args() {
+  }
+
+  virtual ~AstDumper_attributeIdentifierExpression_args() throw() {}
+
+  Identifier id;
+
+  _AstDumper_attributeIdentifierExpression_args__isset __isset;
+
+  bool operator == (const AstDumper_attributeIdentifierExpression_args & rhs) const
+  {
+    if (!(id == rhs.id))
+      return false;
+    return true;
+  }
+  bool operator != (const AstDumper_attributeIdentifierExpression_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_attributeIdentifierExpression_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_attributeIdentifierExpression_pargs {
+ public:
+
+
+  virtual ~AstDumper_attributeIdentifierExpression_pargs() throw() {}
+
+  const Identifier* id;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
 typedef struct _AstDumper_literalStringExpression_args__isset {
   _AstDumper_literalStringExpression_args__isset() : str(false) {}
   bool str;
@@ -4232,6 +4283,8 @@ class AstDumperClient : virtual public AstDumperIf {
   void send_endSuperInit();
   void identifierExpression(const Identifier& id);
   void send_identifierExpression(const Identifier& id);
+  void attributeIdentifierExpression(const Identifier& id);
+  void send_attributeIdentifierExpression(const Identifier& id);
   void literalStringExpression(const Literal& str);
   void send_literalStringExpression(const Literal& str);
   void literalNumberExpression(const Literal& str);
@@ -4377,6 +4430,7 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
   void process_startSuperInit(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_endSuperInit(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_identifierExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_attributeIdentifierExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_literalStringExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_literalNumberExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_literalBooleanExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -4473,6 +4527,7 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
     processMap_["startSuperInit"] = &AstDumperProcessor::process_startSuperInit;
     processMap_["endSuperInit"] = &AstDumperProcessor::process_endSuperInit;
     processMap_["identifierExpression"] = &AstDumperProcessor::process_identifierExpression;
+    processMap_["attributeIdentifierExpression"] = &AstDumperProcessor::process_attributeIdentifierExpression;
     processMap_["literalStringExpression"] = &AstDumperProcessor::process_literalStringExpression;
     processMap_["literalNumberExpression"] = &AstDumperProcessor::process_literalNumberExpression;
     processMap_["literalBooleanExpression"] = &AstDumperProcessor::process_literalBooleanExpression;
@@ -4905,6 +4960,13 @@ class AstDumperMultiface : virtual public AstDumperIf {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
       ifaces_[i]->identifierExpression(id);
+    }
+  }
+
+  void attributeIdentifierExpression(const Identifier& id) {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->attributeIdentifierExpression(id);
     }
   }
 

@@ -348,6 +348,18 @@ public:
 				new as::ast::Identifier(id.name, id.qualifier));
 		_node_stack . top() -> addNodeChild(exp_id);
 	}
+	void attributeIdentifierExpression(const generated::Identifier& id) {
+		if(DEBUG)
+		{
+			std::cout << _node_stack.size() << "  identifierExpression" << " -> "
+				<< _node_stack.top()->toString() << ":"
+				<< _node_stack.top()->node_childs.size() << ":" << id.name << " qualifier "<<id.qualifier
+				<< std::endl;
+		}
+		as::ast::IdentifierPtr exp_id(
+				new as::ast::Identifier(id.name, id.qualifier, true /*is_attr*/));
+		_node_stack . top() -> addNodeChild(exp_id);
+	}
 	virtual void superExpression( ) {
 		as::ast::SuperExpressionPtr exp_super(
 				new as::ast::SuperExpression() );

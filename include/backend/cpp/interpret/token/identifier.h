@@ -160,6 +160,16 @@ struct Identifier : public Interpreter, public TemplatePrinter
 							}
 						}
 					}
+					else if( li -> is_attribute )
+					{
+//						std::cerr<<" not support attribute "<<std::endl;
+//						exit(1);
+						{ // invoke attribute mapper
+							std::list<PatternPtr> patterns;
+							patterns.push_back( PatternPtr( new Pattern("id", li->value) ));
+							return substitutePatterns( m_tpl_attribute_call, patterns );
+						}
+					}
 					else
 					{
 						ASY::SymbolPtr callee_type = Findable::findFunction( symbol_table, li->value );
@@ -246,18 +256,22 @@ struct Identifier : public Interpreter, public TemplatePrinter
 		: TemplatePrinter("Identifier")
 	{
 		m_tpl_undefined_member_call = "getProperty(\"#(id)\" )";
+		m_tpl_attribute_call = "getAttribute(\"#(id)\" )";
 	}
 	virtual bool readConfig( boost::property_tree::ptree& pt )
 	{
 		m_tpl_undefined_member_call = pt.get<std::string>( configName()+".template.undefine_member_call", m_tpl_undefined_member_call);
+		m_tpl_attribute_call = pt.get<std::string>( configName()+".template.attribute_call", m_tpl_attribute_call);
 	}
 	virtual bool writeConfig( boost::property_tree::ptree& pt )
 	{
 		pt.put<std::string>( configName()+".template.undefine_member_call", m_tpl_undefined_member_call);
+		pt.put<std::string>( configName()+".template.attribute_call", m_tpl_attribute_call);
 	}
 
 private:
 	std::string m_tpl_undefined_member_call;
+	std::string	m_tpl_attribute_call;
 };
 
 

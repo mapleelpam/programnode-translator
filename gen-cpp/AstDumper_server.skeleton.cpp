@@ -292,6 +292,11 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("identifierExpression\n");
   }
 
+  void attributeIdentifierExpression(const Identifier& id) {
+    // Your implementation goes here
+    printf("attributeIdentifierExpression\n");
+  }
+
   void literalStringExpression(const Literal& str) {
     // Your implementation goes here
     printf("literalStringExpression\n");
