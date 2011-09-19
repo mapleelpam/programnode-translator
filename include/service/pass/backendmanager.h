@@ -52,7 +52,7 @@ struct BackendManager {
 
 		prepend_data.execute( ofs_stream );
 
-		ofs_stream << SVC_GLOBAL_SETTINGS->prefix_codes <<std::endl;
+		ofs_stream << SVC_GLOBAL_SETTINGS->prepend_codes <<std::endl;
 
 		for (std::vector<tw::maple::as::ast::ProgramPtr>::iterator
 				nodeItr = pnode_list.begin(); nodeItr != pnode_list.end(); nodeItr++)
