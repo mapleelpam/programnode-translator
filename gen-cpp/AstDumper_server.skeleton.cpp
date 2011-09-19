@@ -522,6 +522,16 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("continueStatement\n");
   }
 
+  void beginDeleteStatement(const std::string& mode) {
+    // Your implementation goes here
+    printf("beginDeleteStatement\n");
+  }
+
+  void endDeleteStatement() {
+    // Your implementation goes here
+    printf("endDeleteStatement\n");
+  }
+
   void empty() {
     // Your implementation goes here
     printf("empty\n");

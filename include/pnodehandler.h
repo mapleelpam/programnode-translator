@@ -89,6 +89,7 @@
 #include <as/ast/stmt/finally_stmt.h>
 #include <as/ast/stmt/throw_stmt.h>
 #include <as/ast/stmt/switch_stmt.h>
+#include <as/ast/stmt/delete_stmt.h>
 #include <as/ast/token/case_label.h>
 #include <as/ast/token/default_label.h>
 #include <as/ast/token/break.h>
@@ -580,6 +581,12 @@ public:
     }
     void breakStatement() {
      	ADD_2_TOP( Break );
+    }
+    void beginDeleteStatement( const std::string& mode ) {
+    	PUSH_STACK( DeleteStatement );
+    }
+    void endDeleteStatement() {
+    	CHECK_STACK_AND_POP( DELETE, AST::Node::NodeType::T_DELETE );
     }
 public:
    as::ast::ProgramPtr getProgramNode() {	return _program_root;	};

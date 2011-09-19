@@ -66,7 +66,7 @@
 #include <backend/cpp/interpret/stmt/stmt_expression.h>
 #include <backend/cpp/interpret/stmt/expression_list.h>
 #include <backend/cpp/interpret/stmt/statement_list.h>
-
+#include <backend/cpp/interpret/stmt/delete_stmt.h>
 #include <backend/cpp/interpret/stmt/try_stmt.h>
 #include <backend/cpp/interpret/stmt/catch_stmt.h>
 #include <backend/cpp/interpret/stmt/finally_stmt.h>
@@ -143,6 +143,7 @@ void initializeInterpreters()
 		interpreterResolver[AST::Node::NodeType::T_DEFAULT_LABEL] = new DefaultLabel();
 		interpreterResolver[AST::Node::NodeType::T_BREAK] = new Break();
 		interpreterResolver[AST::Node::NodeType::T_CONTINUE] = new Continue();
+		interpreterResolver[AST::Node::NodeType::T_DELETE] = new DeleteStatement();
 	}
 }
 

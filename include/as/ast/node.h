@@ -133,6 +133,7 @@ struct Node
 			T_DEFAULT_LABEL,
 			T_BREAK,
 			T_CONTINUE,
+			T_DELETE,
 
             T_NODE_TYPE_END,
 

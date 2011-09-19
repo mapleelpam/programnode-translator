@@ -562,6 +562,14 @@ public:
 
 	}
 
+	void beginDeleteStatement( const std::string& mode ) {
+		pm_module->beginDeleteStatement( mode );
+	}
+
+	void endDeleteStatement() {
+		pm_module->endDeleteStatement();
+	}
+
 	void startThrowStatement() {
 		pm_module->startThrowStatement();
 	}
