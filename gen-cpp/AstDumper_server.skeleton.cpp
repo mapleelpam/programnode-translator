@@ -382,6 +382,16 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("endMemberExpression\n");
   }
 
+  void startSwitchStatement() {
+    // Your implementation goes here
+    printf("startSwitchStatement\n");
+  }
+
+  void endSwitchStatement() {
+    // Your implementation goes here
+    printf("endSwitchStatement\n");
+  }
+
   void startForStatement() {
     // Your implementation goes here
     printf("startForStatement\n");
@@ -485,6 +495,31 @@ class AstDumperHandler : virtual public AstDumperIf {
   void endFinallyClauseStatement() {
     // Your implementation goes here
     printf("endFinallyClauseStatement\n");
+  }
+
+  void startCaseLabel() {
+    // Your implementation goes here
+    printf("startCaseLabel\n");
+  }
+
+  void endCaseLabel() {
+    // Your implementation goes here
+    printf("endCaseLabel\n");
+  }
+
+  void defaultCaseLabel() {
+    // Your implementation goes here
+    printf("defaultCaseLabel\n");
+  }
+
+  void breakStatement() {
+    // Your implementation goes here
+    printf("breakStatement\n");
+  }
+
+  void continueStatement() {
+    // Your implementation goes here
+    printf("continueStatement\n");
   }
 
   void empty() {

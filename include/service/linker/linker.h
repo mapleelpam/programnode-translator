@@ -585,8 +585,28 @@ public:
 	}
 
 	void endFinallyClauseStatement() {
-
 		pm_module->endFinallyClauseStatement();
+	}
+	void startSwitchStatement() {
+		pm_module->startSwitchStatement();
+	}
+	void endSwitchStatement() {
+		pm_module->endSwitchStatement();
+	}
+	void startCaseLabel() {
+		pm_module->startCaseLabel();
+	}
+	void endCaseLabel() {
+		pm_module->endCaseLabel();
+	}
+	void defaultCaseLabel() {
+		pm_module->defaultCaseLabel();
+	}
+	void breakStatement() {
+		pm_module->breakStatement();
+	}
+	void continueStatement() {
+		pm_module->continueStatement();
 	}
 };
 

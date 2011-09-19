@@ -128,6 +128,12 @@ struct Node
             T_CONDITION_EXPRESSION, /*()?():()*/
             T_EMPTY,
 
+            T_SWITCH,
+            T_CASE_LABEL,
+			T_DEFAULT_LABEL,
+			T_BREAK,
+			T_CONTINUE,
+
             T_NODE_TYPE_END,
 
         };

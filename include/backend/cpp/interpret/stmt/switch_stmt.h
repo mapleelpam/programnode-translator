@@ -22,19 +22,18 @@
  * Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
  * ***************************************************************/
 
-#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_THROW_STMT_H__
-#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_THROW_STMT_H__
+#ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_SWITCH_STMT_H__
+#define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_SWITCH_STMT_H__
 
-#include <as/ast/stmt/throw_stmt.h>
+#include <as/ast/stmt/switch_stmt.h>
 #include <backend/cpp/interpret/interpreter.h>
 #include <backend/cpp/templateprinter.h>
-
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
 namespace AST = ::tw::maple::as::ast;
 
-struct ThrowStatement : public Interpreter, public TemplatePrinter
+struct SwitchStatement : public Interpreter, public TemplatePrinter
 {
 
 	virtual ReturnValue expound(::tw::maple::as::ast::NodePtr node
@@ -43,21 +42,22 @@ struct ThrowStatement : public Interpreter, public TemplatePrinter
 			
 			)
 	{
-		AST::ThrowStatementPtr THROW = std::tr1::static_pointer_cast<AST::ThrowStatement>(node);
+		AST::SwitchStatementPtr SWITCH = std::tr1::static_pointer_cast<AST::SwitchStatement>(node);
 		std::list<PatternPtr> patterns;
 
-		std::string str_expression = dispatchExpound(THROW->expr(), symbol_table, ctx);
-
-		patterns.push_back( PatternPtr( new Pattern("expression", str_expression ) ));
+		patterns.push_back( PatternPtr( new Pattern("switch_expression", dispatchExpound(SWITCH->SwitchExpression(), symbol_table, ctx).result ) ));
+		patterns.push_back( PatternPtr( new Pattern("switch_body", dispatchExpound(SWITCH->SWitchBody(), symbol_table, ctx).result ) ));
 		COMPELET_PATTERNS( patterns, ctx );
 
 		return substitutePatterns( patterns );
 	}
 
-	ThrowStatement()
-		: TemplatePrinter("ThrowStatement")
+	SwitchStatement()
+		: TemplatePrinter("SwitchStatement")
 	{
-		setTemplateString( 	"#(indent_tab)throw #(expression);#(endl)" );
+		setTemplateString( "#(indent_tab)switch(#(switch_expression)){#(endl)"
+				"#(switch_body)"
+				"#(indent_tab)};#(endl)" );
 	}
 
 };

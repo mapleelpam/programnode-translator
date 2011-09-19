@@ -88,7 +88,11 @@
 #include <as/ast/stmt/catch_stmt.h>
 #include <as/ast/stmt/finally_stmt.h>
 #include <as/ast/stmt/throw_stmt.h>
-
+#include <as/ast/stmt/switch_stmt.h>
+#include <as/ast/token/case_label.h>
+#include <as/ast/token/default_label.h>
+#include <as/ast/token/break.h>
+#include <as/ast/token/continue.h>
 
 
 using namespace apache::thrift;
@@ -556,6 +560,27 @@ public:
         CHECK_STACK_AND_POP( ConditionExpression, AST::Node::NodeType::T_STMT_THROW );
     }
 
+    void startSwitchStatement() {
+    	PUSH_STACK( SwitchStatement );
+    }
+    void endSwitchStatement() {
+    	CHECK_STACK_AND_POP( SwitchStatement, AST::Node::NodeType::T_SWITCH );
+    }
+    void startCaseLabel() {
+    	PUSH_STACK( CaseLabel );
+    }
+    void endCaseLabel() {
+    	CHECK_STACK_AND_POP( SwitchStatement, AST::Node::NodeType::T_CASE_LABEL );
+    }
+    void defaultCaseLabel() {
+    	ADD_2_TOP( DefaultLabel );
+    }
+    void continueStatement() {
+      	ADD_2_TOP( Continue );
+    }
+    void breakStatement() {
+     	ADD_2_TOP( Break );
+    }
 public:
    as::ast::ProgramPtr getProgramNode() {	return _program_root;	};
 

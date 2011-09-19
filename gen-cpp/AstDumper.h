@@ -86,6 +86,8 @@ class AstDumperIf {
   virtual void endClassDefinition() = 0;
   virtual void startMemberExpression() = 0;
   virtual void endMemberExpression() = 0;
+  virtual void startSwitchStatement() = 0;
+  virtual void endSwitchStatement() = 0;
   virtual void startForStatement() = 0;
   virtual void startForInit() = 0;
   virtual void endForInit() = 0;
@@ -107,6 +109,11 @@ class AstDumperIf {
   virtual void endCatchClauseStatement() = 0;
   virtual void startFinallyClauseStatement() = 0;
   virtual void endFinallyClauseStatement() = 0;
+  virtual void startCaseLabel() = 0;
+  virtual void endCaseLabel() = 0;
+  virtual void defaultCaseLabel() = 0;
+  virtual void breakStatement() = 0;
+  virtual void continueStatement() = 0;
   virtual void empty() = 0;
 };
 
@@ -329,6 +336,12 @@ class AstDumperNull : virtual public AstDumperIf {
   void endMemberExpression() {
     return;
   }
+  void startSwitchStatement() {
+    return;
+  }
+  void endSwitchStatement() {
+    return;
+  }
   void startForStatement() {
     return;
   }
@@ -392,6 +405,21 @@ class AstDumperNull : virtual public AstDumperIf {
   void endFinallyClauseStatement() {
     return;
   }
+  void startCaseLabel() {
+    return;
+  }
+  void endCaseLabel() {
+    return;
+  }
+  void defaultCaseLabel() {
+    return;
+  }
+  void breakStatement() {
+    return;
+  }
+  void continueStatement() {
+    return;
+  }
   void empty() {
     return;
   }
@@ -406,7 +434,7 @@ typedef struct _AstDumper_startProgram_args__isset {
 class AstDumper_startProgram_args {
  public:
 
-  AstDumper_startProgram_args() : version("0.0.1"), counter(18LL) {
+  AstDumper_startProgram_args() : version("0.0.1"), counter(19LL) {
   }
 
   virtual ~AstDumper_startProgram_args() throw() {}
@@ -3332,6 +3360,80 @@ class AstDumper_endMemberExpression_pargs {
 };
 
 
+class AstDumper_startSwitchStatement_args {
+ public:
+
+  AstDumper_startSwitchStatement_args() {
+  }
+
+  virtual ~AstDumper_startSwitchStatement_args() throw() {}
+
+
+  bool operator == (const AstDumper_startSwitchStatement_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const AstDumper_startSwitchStatement_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_startSwitchStatement_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_startSwitchStatement_pargs {
+ public:
+
+
+  virtual ~AstDumper_startSwitchStatement_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_endSwitchStatement_args {
+ public:
+
+  AstDumper_endSwitchStatement_args() {
+  }
+
+  virtual ~AstDumper_endSwitchStatement_args() throw() {}
+
+
+  bool operator == (const AstDumper_endSwitchStatement_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const AstDumper_endSwitchStatement_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_endSwitchStatement_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_endSwitchStatement_pargs {
+ public:
+
+
+  virtual ~AstDumper_endSwitchStatement_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
 class AstDumper_startForStatement_args {
  public:
 
@@ -4119,6 +4221,191 @@ class AstDumper_endFinallyClauseStatement_pargs {
 };
 
 
+class AstDumper_startCaseLabel_args {
+ public:
+
+  AstDumper_startCaseLabel_args() {
+  }
+
+  virtual ~AstDumper_startCaseLabel_args() throw() {}
+
+
+  bool operator == (const AstDumper_startCaseLabel_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const AstDumper_startCaseLabel_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_startCaseLabel_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_startCaseLabel_pargs {
+ public:
+
+
+  virtual ~AstDumper_startCaseLabel_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_endCaseLabel_args {
+ public:
+
+  AstDumper_endCaseLabel_args() {
+  }
+
+  virtual ~AstDumper_endCaseLabel_args() throw() {}
+
+
+  bool operator == (const AstDumper_endCaseLabel_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const AstDumper_endCaseLabel_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_endCaseLabel_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_endCaseLabel_pargs {
+ public:
+
+
+  virtual ~AstDumper_endCaseLabel_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_defaultCaseLabel_args {
+ public:
+
+  AstDumper_defaultCaseLabel_args() {
+  }
+
+  virtual ~AstDumper_defaultCaseLabel_args() throw() {}
+
+
+  bool operator == (const AstDumper_defaultCaseLabel_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const AstDumper_defaultCaseLabel_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_defaultCaseLabel_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_defaultCaseLabel_pargs {
+ public:
+
+
+  virtual ~AstDumper_defaultCaseLabel_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_breakStatement_args {
+ public:
+
+  AstDumper_breakStatement_args() {
+  }
+
+  virtual ~AstDumper_breakStatement_args() throw() {}
+
+
+  bool operator == (const AstDumper_breakStatement_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const AstDumper_breakStatement_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_breakStatement_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_breakStatement_pargs {
+ public:
+
+
+  virtual ~AstDumper_breakStatement_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_continueStatement_args {
+ public:
+
+  AstDumper_continueStatement_args() {
+  }
+
+  virtual ~AstDumper_continueStatement_args() throw() {}
+
+
+  bool operator == (const AstDumper_continueStatement_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const AstDumper_continueStatement_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_continueStatement_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_continueStatement_pargs {
+ public:
+
+
+  virtual ~AstDumper_continueStatement_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
 class AstDumper_empty_args {
  public:
 
@@ -4319,6 +4606,10 @@ class AstDumperClient : virtual public AstDumperIf {
   void send_startMemberExpression();
   void endMemberExpression();
   void send_endMemberExpression();
+  void startSwitchStatement();
+  void send_startSwitchStatement();
+  void endSwitchStatement();
+  void send_endSwitchStatement();
   void startForStatement();
   void send_startForStatement();
   void startForInit();
@@ -4361,6 +4652,16 @@ class AstDumperClient : virtual public AstDumperIf {
   void send_startFinallyClauseStatement();
   void endFinallyClauseStatement();
   void send_endFinallyClauseStatement();
+  void startCaseLabel();
+  void send_startCaseLabel();
+  void endCaseLabel();
+  void send_endCaseLabel();
+  void defaultCaseLabel();
+  void send_defaultCaseLabel();
+  void breakStatement();
+  void send_breakStatement();
+  void continueStatement();
+  void send_continueStatement();
   void empty();
   void send_empty();
  protected:
@@ -4448,6 +4749,8 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
   void process_endClassDefinition(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_startMemberExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_endMemberExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_startSwitchStatement(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_endSwitchStatement(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_startForStatement(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_startForInit(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_endForInit(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -4469,6 +4772,11 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
   void process_endCatchClauseStatement(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_startFinallyClauseStatement(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_endFinallyClauseStatement(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_startCaseLabel(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_endCaseLabel(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_defaultCaseLabel(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_breakStatement(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_continueStatement(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_empty(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
   AstDumperProcessor(boost::shared_ptr<AstDumperIf> iface) :
@@ -4545,6 +4853,8 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
     processMap_["endClassDefinition"] = &AstDumperProcessor::process_endClassDefinition;
     processMap_["startMemberExpression"] = &AstDumperProcessor::process_startMemberExpression;
     processMap_["endMemberExpression"] = &AstDumperProcessor::process_endMemberExpression;
+    processMap_["startSwitchStatement"] = &AstDumperProcessor::process_startSwitchStatement;
+    processMap_["endSwitchStatement"] = &AstDumperProcessor::process_endSwitchStatement;
     processMap_["startForStatement"] = &AstDumperProcessor::process_startForStatement;
     processMap_["startForInit"] = &AstDumperProcessor::process_startForInit;
     processMap_["endForInit"] = &AstDumperProcessor::process_endForInit;
@@ -4566,6 +4876,11 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
     processMap_["endCatchClauseStatement"] = &AstDumperProcessor::process_endCatchClauseStatement;
     processMap_["startFinallyClauseStatement"] = &AstDumperProcessor::process_startFinallyClauseStatement;
     processMap_["endFinallyClauseStatement"] = &AstDumperProcessor::process_endFinallyClauseStatement;
+    processMap_["startCaseLabel"] = &AstDumperProcessor::process_startCaseLabel;
+    processMap_["endCaseLabel"] = &AstDumperProcessor::process_endCaseLabel;
+    processMap_["defaultCaseLabel"] = &AstDumperProcessor::process_defaultCaseLabel;
+    processMap_["breakStatement"] = &AstDumperProcessor::process_breakStatement;
+    processMap_["continueStatement"] = &AstDumperProcessor::process_continueStatement;
     processMap_["empty"] = &AstDumperProcessor::process_empty;
   }
 
@@ -5089,6 +5404,20 @@ class AstDumperMultiface : virtual public AstDumperIf {
     }
   }
 
+  void startSwitchStatement() {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->startSwitchStatement();
+    }
+  }
+
+  void endSwitchStatement() {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->endSwitchStatement();
+    }
+  }
+
   void startForStatement() {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
@@ -5233,6 +5562,41 @@ class AstDumperMultiface : virtual public AstDumperIf {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
       ifaces_[i]->endFinallyClauseStatement();
+    }
+  }
+
+  void startCaseLabel() {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->startCaseLabel();
+    }
+  }
+
+  void endCaseLabel() {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->endCaseLabel();
+    }
+  }
+
+  void defaultCaseLabel() {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->defaultCaseLabel();
+    }
+  }
+
+  void breakStatement() {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->breakStatement();
+    }
+  }
+
+  void continueStatement() {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->continueStatement();
     }
   }
 

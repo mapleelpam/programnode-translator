@@ -71,6 +71,11 @@
 #include <backend/cpp/interpret/stmt/catch_stmt.h>
 #include <backend/cpp/interpret/stmt/finally_stmt.h>
 #include <backend/cpp/interpret/stmt/throw_stmt.h>
+#include <backend/cpp/interpret/stmt/switch_stmt.h>
+#include <backend/cpp/interpret/token/case_label.h>
+#include <backend/cpp/interpret/token/default_label.h>
+#include <backend/cpp/interpret/token/break.h>
+#include <backend/cpp/interpret/token/continue.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
@@ -133,6 +138,11 @@ void initializeInterpreters()
 		interpreterResolver[AST::Node::NodeType::T_STMT_FINALLY] = new FinallyStatement();
 		interpreterResolver[AST::Node::NodeType::T_STMT_CATCH] = new CatchStatement();
 		interpreterResolver[AST::Node::NodeType::T_STMT_THROW] = new ThrowStatement();
+		interpreterResolver[AST::Node::NodeType::T_SWITCH] = new SwitchStatement();
+		interpreterResolver[AST::Node::NodeType::T_CASE_LABEL] = new CaseLabel();
+		interpreterResolver[AST::Node::NodeType::T_DEFAULT_LABEL] = new DefaultLabel();
+		interpreterResolver[AST::Node::NodeType::T_BREAK] = new Break();
+		interpreterResolver[AST::Node::NodeType::T_CONTINUE] = new Continue();
 	}
 }
 
