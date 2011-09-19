@@ -29,6 +29,7 @@
 #include <backend/cpp/prependdata.h>
 #include <pnodehandler.h>
 #include <as/symbol/variable.h>
+#include <service/globalsettings.h>
 
 namespace tw { namespace maple { namespace service { namespace pass {
 
@@ -50,6 +51,8 @@ struct BackendManager {
 		// Interpret/Explain - Invoke Back-end Stream Out
 
 		prepend_data.execute( ofs_stream );
+
+		ofs_stream << SVC_GLOBAL_SETTINGS->prefix_codes <<std::endl;
 
 		for (std::vector<tw::maple::as::ast::ProgramPtr>::iterator
 				nodeItr = pnode_list.begin(); nodeItr != pnode_list.end(); nodeItr++)
