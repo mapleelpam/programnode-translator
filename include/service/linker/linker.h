@@ -358,19 +358,22 @@ public:
 		pm_module->attributeIdentifierExpression(id);
 	}
 
-	void literalStringExpression(const generated::Literal& str) {
-
+	void literalXMLExpression( const std::string & str) {
+		printf("literalXMLExpression\n");
+		pm_module->literalXMLExpression(str);
+	}
+	void literalStringExpression( const std::string & str) {
 		printf("literalStringExpression\n");
 		pm_module->literalStringExpression(str);
 	}
 
-	void literalNumberExpression(const generated::Literal& str) {
+	void literalNumberExpression( const std::string & str) {
 
 		printf("literalNumberExpression\n");
 		pm_module->literalNumberExpression(str);
 	}
 
-	void literalBooleanExpression(const generated::Literal& str) {
+	void literalBooleanExpression( const std::string & str) {
 
 		printf("literalBooleanExpression\n");
 		pm_module->literalBooleanExpression(str);

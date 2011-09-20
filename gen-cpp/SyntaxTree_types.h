@@ -98,43 +98,6 @@ class Identifier {
 
 };
 
-typedef struct _Literal__isset {
-  _Literal__isset() : value(false) {}
-  bool value;
-} _Literal__isset;
-
-class Literal {
- public:
-
-  static const char* ascii_fingerprint; // = "3E312230276B1228199AAA0AF12FDB38";
-  static const uint8_t binary_fingerprint[16]; // = {0x3E,0x31,0x22,0x30,0x27,0x6B,0x12,0x28,0x19,0x9A,0xAA,0x0A,0xF1,0x2F,0xDB,0x38};
-
-  Literal() : value("") {
-  }
-
-  virtual ~Literal() throw() {}
-
-  std::string value;
-
-  _Literal__isset __isset;
-
-  bool operator == (const Literal & rhs) const
-  {
-    if (!(value == rhs.value))
-      return false;
-    return true;
-  }
-  bool operator != (const Literal &rhs) const {
-    return !(*this == rhs);
-  }
-
-  bool operator < (const Literal & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
 typedef struct _CallExpression__isset {
   _CallExpression__isset() : is_new(false), mode(false), callee(false) {}
   bool is_new;

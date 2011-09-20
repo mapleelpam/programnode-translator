@@ -69,9 +69,10 @@ class AstDumperIf {
   virtual void endSuperInit() = 0;
   virtual void identifierExpression(const Identifier& id) = 0;
   virtual void attributeIdentifierExpression(const Identifier& id) = 0;
-  virtual void literalStringExpression(const Literal& str) = 0;
-  virtual void literalNumberExpression(const Literal& str) = 0;
-  virtual void literalBooleanExpression(const Literal& str) = 0;
+  virtual void literalXMLExpression(const std::string& str) = 0;
+  virtual void literalStringExpression(const std::string& str) = 0;
+  virtual void literalNumberExpression(const std::string& str) = 0;
+  virtual void literalBooleanExpression(const std::string& str) = 0;
   virtual void literalNull() = 0;
   virtual void thisExpression() = 0;
   virtual void endExpressionList() = 0;
@@ -287,13 +288,16 @@ class AstDumperNull : virtual public AstDumperIf {
   void attributeIdentifierExpression(const Identifier& /* id */) {
     return;
   }
-  void literalStringExpression(const Literal& /* str */) {
+  void literalXMLExpression(const std::string& /* str */) {
     return;
   }
-  void literalNumberExpression(const Literal& /* str */) {
+  void literalStringExpression(const std::string& /* str */) {
     return;
   }
-  void literalBooleanExpression(const Literal& /* str */) {
+  void literalNumberExpression(const std::string& /* str */) {
+    return;
+  }
+  void literalBooleanExpression(const std::string& /* str */) {
     return;
   }
   void literalNull() {
@@ -442,7 +446,7 @@ typedef struct _AstDumper_startProgram_args__isset {
 class AstDumper_startProgram_args {
  public:
 
-  AstDumper_startProgram_args() : version("0.0.1"), counter(20LL) {
+  AstDumper_startProgram_args() : version("0.0.1"), counter(21LL) {
   }
 
   virtual ~AstDumper_startProgram_args() throw() {}
@@ -2688,6 +2692,53 @@ class AstDumper_attributeIdentifierExpression_pargs {
 
 };
 
+typedef struct _AstDumper_literalXMLExpression_args__isset {
+  _AstDumper_literalXMLExpression_args__isset() : str(false) {}
+  bool str;
+} _AstDumper_literalXMLExpression_args__isset;
+
+class AstDumper_literalXMLExpression_args {
+ public:
+
+  AstDumper_literalXMLExpression_args() : str("") {
+  }
+
+  virtual ~AstDumper_literalXMLExpression_args() throw() {}
+
+  std::string str;
+
+  _AstDumper_literalXMLExpression_args__isset __isset;
+
+  bool operator == (const AstDumper_literalXMLExpression_args & rhs) const
+  {
+    if (!(str == rhs.str))
+      return false;
+    return true;
+  }
+  bool operator != (const AstDumper_literalXMLExpression_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_literalXMLExpression_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_literalXMLExpression_pargs {
+ public:
+
+
+  virtual ~AstDumper_literalXMLExpression_pargs() throw() {}
+
+  const std::string* str;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
 typedef struct _AstDumper_literalStringExpression_args__isset {
   _AstDumper_literalStringExpression_args__isset() : str(false) {}
   bool str;
@@ -2696,12 +2747,12 @@ typedef struct _AstDumper_literalStringExpression_args__isset {
 class AstDumper_literalStringExpression_args {
  public:
 
-  AstDumper_literalStringExpression_args() {
+  AstDumper_literalStringExpression_args() : str("") {
   }
 
   virtual ~AstDumper_literalStringExpression_args() throw() {}
 
-  Literal str;
+  std::string str;
 
   _AstDumper_literalStringExpression_args__isset __isset;
 
@@ -2729,7 +2780,7 @@ class AstDumper_literalStringExpression_pargs {
 
   virtual ~AstDumper_literalStringExpression_pargs() throw() {}
 
-  const Literal* str;
+  const std::string* str;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -2743,12 +2794,12 @@ typedef struct _AstDumper_literalNumberExpression_args__isset {
 class AstDumper_literalNumberExpression_args {
  public:
 
-  AstDumper_literalNumberExpression_args() {
+  AstDumper_literalNumberExpression_args() : str("") {
   }
 
   virtual ~AstDumper_literalNumberExpression_args() throw() {}
 
-  Literal str;
+  std::string str;
 
   _AstDumper_literalNumberExpression_args__isset __isset;
 
@@ -2776,7 +2827,7 @@ class AstDumper_literalNumberExpression_pargs {
 
   virtual ~AstDumper_literalNumberExpression_pargs() throw() {}
 
-  const Literal* str;
+  const std::string* str;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -2790,12 +2841,12 @@ typedef struct _AstDumper_literalBooleanExpression_args__isset {
 class AstDumper_literalBooleanExpression_args {
  public:
 
-  AstDumper_literalBooleanExpression_args() {
+  AstDumper_literalBooleanExpression_args() : str("") {
   }
 
   virtual ~AstDumper_literalBooleanExpression_args() throw() {}
 
-  Literal str;
+  std::string str;
 
   _AstDumper_literalBooleanExpression_args__isset __isset;
 
@@ -2823,7 +2874,7 @@ class AstDumper_literalBooleanExpression_pargs {
 
   virtual ~AstDumper_literalBooleanExpression_pargs() throw() {}
 
-  const Literal* str;
+  const std::string* str;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -4664,12 +4715,14 @@ class AstDumperClient : virtual public AstDumperIf {
   void send_identifierExpression(const Identifier& id);
   void attributeIdentifierExpression(const Identifier& id);
   void send_attributeIdentifierExpression(const Identifier& id);
-  void literalStringExpression(const Literal& str);
-  void send_literalStringExpression(const Literal& str);
-  void literalNumberExpression(const Literal& str);
-  void send_literalNumberExpression(const Literal& str);
-  void literalBooleanExpression(const Literal& str);
-  void send_literalBooleanExpression(const Literal& str);
+  void literalXMLExpression(const std::string& str);
+  void send_literalXMLExpression(const std::string& str);
+  void literalStringExpression(const std::string& str);
+  void send_literalStringExpression(const std::string& str);
+  void literalNumberExpression(const std::string& str);
+  void send_literalNumberExpression(const std::string& str);
+  void literalBooleanExpression(const std::string& str);
+  void send_literalBooleanExpression(const std::string& str);
   void literalNull();
   void send_literalNull();
   void thisExpression();
@@ -4828,6 +4881,7 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
   void process_endSuperInit(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_identifierExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_attributeIdentifierExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_literalXMLExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_literalStringExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_literalNumberExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_literalBooleanExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -4934,6 +4988,7 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
     processMap_["endSuperInit"] = &AstDumperProcessor::process_endSuperInit;
     processMap_["identifierExpression"] = &AstDumperProcessor::process_identifierExpression;
     processMap_["attributeIdentifierExpression"] = &AstDumperProcessor::process_attributeIdentifierExpression;
+    processMap_["literalXMLExpression"] = &AstDumperProcessor::process_literalXMLExpression;
     processMap_["literalStringExpression"] = &AstDumperProcessor::process_literalStringExpression;
     processMap_["literalNumberExpression"] = &AstDumperProcessor::process_literalNumberExpression;
     processMap_["literalBooleanExpression"] = &AstDumperProcessor::process_literalBooleanExpression;
@@ -5385,21 +5440,28 @@ class AstDumperMultiface : virtual public AstDumperIf {
     }
   }
 
-  void literalStringExpression(const Literal& str) {
+  void literalXMLExpression(const std::string& str) {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->literalXMLExpression(str);
+    }
+  }
+
+  void literalStringExpression(const std::string& str) {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
       ifaces_[i]->literalStringExpression(str);
     }
   }
 
-  void literalNumberExpression(const Literal& str) {
+  void literalNumberExpression(const std::string& str) {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
       ifaces_[i]->literalNumberExpression(str);
     }
   }
 
-  void literalBooleanExpression(const Literal& str) {
+  void literalBooleanExpression(const std::string& str) {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
       ifaces_[i]->literalBooleanExpression(str);

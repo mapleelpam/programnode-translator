@@ -297,17 +297,22 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("attributeIdentifierExpression\n");
   }
 
-  void literalStringExpression(const Literal& str) {
+  void literalXMLExpression(const std::string& str) {
+    // Your implementation goes here
+    printf("literalXMLExpression\n");
+  }
+
+  void literalStringExpression(const std::string& str) {
     // Your implementation goes here
     printf("literalStringExpression\n");
   }
 
-  void literalNumberExpression(const Literal& str) {
+  void literalNumberExpression(const std::string& str) {
     // Your implementation goes here
     printf("literalNumberExpression\n");
   }
 
-  void literalBooleanExpression(const Literal& str) {
+  void literalBooleanExpression(const std::string& str) {
     // Your implementation goes here
     printf("literalBooleanExpression\n");
   }

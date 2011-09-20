@@ -38,6 +38,7 @@
 
 #include <as/ast/node.h>
 #include <as/ast/token/super_expression.h>
+#include <as/ast/token/literal_xml.h>
 #include <as/ast/token/literal_string.h>
 #include <as/ast/token/literal_number.h>
 #include <as/ast/token/literal_boolean.h>
@@ -375,18 +376,23 @@ public:
 			new as::ast::ThisExpression() );
 		_node_stack . top() -> addNodeChild( exp_this );
 	}
-	virtual void literalStringExpression(const generated::Literal& str) {
+	virtual void literalStringExpression( const std::string& literal ) {
 		as::ast::LiteralStringPtr exp_literal(
-			new as::ast::LiteralString(str.value));
+			new as::ast::LiteralString( literal ));
 		_node_stack . top() -> addNodeChild(exp_literal);
 	}
-	virtual void literalNumberExpression(const generated::Literal& num) {
+	virtual void literalNumberExpression( const std::string& literal ) {
 		as::ast::LiteralNumberPtr exp_literal(
-			new as::ast::LiteralNumber(num.value));
+			new as::ast::LiteralNumber( literal ));
 		_node_stack . top() -> addNodeChild(exp_literal);
 	}
-	virtual void literalBooleanExpression(const generated::Literal& num) {
-		as::ast::LiteralBooleanPtr exp_literal(new as::ast::LiteralBoolean(num.value));
+	virtual void literalBooleanExpression( const std::string& literal ) {
+		as::ast::LiteralBooleanPtr exp_literal(new as::ast::LiteralBoolean( literal ));
+		_node_stack . top() -> addNodeChild(exp_literal);
+	}
+	virtual void literalXMLExpression( const std::string& literal ) {
+		as::ast::LiteralXMLPtr exp_literal(
+			new as::ast::LiteralXML( literal ));
 		_node_stack . top() -> addNodeChild(exp_literal);
 	}
 	virtual void literalNull( ) {

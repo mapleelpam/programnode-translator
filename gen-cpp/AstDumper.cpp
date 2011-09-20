@@ -3141,6 +3141,68 @@ uint32_t AstDumper_attributeIdentifierExpression_pargs::write(::apache::thrift::
   return xfer;
 }
 
+uint32_t AstDumper_literalXMLExpression_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->str);
+          this->__isset.str = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t AstDumper_literalXMLExpression_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  xfer += oprot->writeStructBegin("AstDumper_literalXMLExpression_args");
+  xfer += oprot->writeFieldBegin("str", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->str);
+  xfer += oprot->writeFieldEnd();
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+uint32_t AstDumper_literalXMLExpression_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  xfer += oprot->writeStructBegin("AstDumper_literalXMLExpression_pargs");
+  xfer += oprot->writeFieldBegin("str", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString((*(this->str)));
+  xfer += oprot->writeFieldEnd();
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
 uint32_t AstDumper_literalStringExpression_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   uint32_t xfer = 0;
@@ -3162,8 +3224,8 @@ uint32_t AstDumper_literalStringExpression_args::read(::apache::thrift::protocol
     switch (fid)
     {
       case 1:
-        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
-          xfer += this->str.read(iprot);
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->str);
           this->__isset.str = true;
         } else {
           xfer += iprot->skip(ftype);
@@ -3184,8 +3246,8 @@ uint32_t AstDumper_literalStringExpression_args::read(::apache::thrift::protocol
 uint32_t AstDumper_literalStringExpression_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   xfer += oprot->writeStructBegin("AstDumper_literalStringExpression_args");
-  xfer += oprot->writeFieldBegin("str", ::apache::thrift::protocol::T_STRUCT, 1);
-  xfer += this->str.write(oprot);
+  xfer += oprot->writeFieldBegin("str", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->str);
   xfer += oprot->writeFieldEnd();
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
@@ -3195,8 +3257,8 @@ uint32_t AstDumper_literalStringExpression_args::write(::apache::thrift::protoco
 uint32_t AstDumper_literalStringExpression_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   xfer += oprot->writeStructBegin("AstDumper_literalStringExpression_pargs");
-  xfer += oprot->writeFieldBegin("str", ::apache::thrift::protocol::T_STRUCT, 1);
-  xfer += (*(this->str)).write(oprot);
+  xfer += oprot->writeFieldBegin("str", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString((*(this->str)));
   xfer += oprot->writeFieldEnd();
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
@@ -3224,8 +3286,8 @@ uint32_t AstDumper_literalNumberExpression_args::read(::apache::thrift::protocol
     switch (fid)
     {
       case 1:
-        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
-          xfer += this->str.read(iprot);
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->str);
           this->__isset.str = true;
         } else {
           xfer += iprot->skip(ftype);
@@ -3246,8 +3308,8 @@ uint32_t AstDumper_literalNumberExpression_args::read(::apache::thrift::protocol
 uint32_t AstDumper_literalNumberExpression_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   xfer += oprot->writeStructBegin("AstDumper_literalNumberExpression_args");
-  xfer += oprot->writeFieldBegin("str", ::apache::thrift::protocol::T_STRUCT, 1);
-  xfer += this->str.write(oprot);
+  xfer += oprot->writeFieldBegin("str", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->str);
   xfer += oprot->writeFieldEnd();
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
@@ -3257,8 +3319,8 @@ uint32_t AstDumper_literalNumberExpression_args::write(::apache::thrift::protoco
 uint32_t AstDumper_literalNumberExpression_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   xfer += oprot->writeStructBegin("AstDumper_literalNumberExpression_pargs");
-  xfer += oprot->writeFieldBegin("str", ::apache::thrift::protocol::T_STRUCT, 1);
-  xfer += (*(this->str)).write(oprot);
+  xfer += oprot->writeFieldBegin("str", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString((*(this->str)));
   xfer += oprot->writeFieldEnd();
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
@@ -3286,8 +3348,8 @@ uint32_t AstDumper_literalBooleanExpression_args::read(::apache::thrift::protoco
     switch (fid)
     {
       case 1:
-        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
-          xfer += this->str.read(iprot);
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->str);
           this->__isset.str = true;
         } else {
           xfer += iprot->skip(ftype);
@@ -3308,8 +3370,8 @@ uint32_t AstDumper_literalBooleanExpression_args::read(::apache::thrift::protoco
 uint32_t AstDumper_literalBooleanExpression_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   xfer += oprot->writeStructBegin("AstDumper_literalBooleanExpression_args");
-  xfer += oprot->writeFieldBegin("str", ::apache::thrift::protocol::T_STRUCT, 1);
-  xfer += this->str.write(oprot);
+  xfer += oprot->writeFieldBegin("str", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->str);
   xfer += oprot->writeFieldEnd();
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
@@ -3319,8 +3381,8 @@ uint32_t AstDumper_literalBooleanExpression_args::write(::apache::thrift::protoc
 uint32_t AstDumper_literalBooleanExpression_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   xfer += oprot->writeStructBegin("AstDumper_literalBooleanExpression_pargs");
-  xfer += oprot->writeFieldBegin("str", ::apache::thrift::protocol::T_STRUCT, 1);
-  xfer += (*(this->str)).write(oprot);
+  xfer += oprot->writeFieldBegin("str", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString((*(this->str)));
   xfer += oprot->writeFieldEnd();
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
@@ -6586,12 +6648,31 @@ void AstDumperClient::send_attributeIdentifierExpression(const Identifier& id)
   oprot_->getTransport()->flush();
 }
 
-void AstDumperClient::literalStringExpression(const Literal& str)
+void AstDumperClient::literalXMLExpression(const std::string& str)
+{
+  send_literalXMLExpression(str);
+}
+
+void AstDumperClient::send_literalXMLExpression(const std::string& str)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("literalXMLExpression", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  AstDumper_literalXMLExpression_pargs args;
+  args.str = &str;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void AstDumperClient::literalStringExpression(const std::string& str)
 {
   send_literalStringExpression(str);
 }
 
-void AstDumperClient::send_literalStringExpression(const Literal& str)
+void AstDumperClient::send_literalStringExpression(const std::string& str)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("literalStringExpression", ::apache::thrift::protocol::T_CALL, cseqid);
@@ -6605,12 +6686,12 @@ void AstDumperClient::send_literalStringExpression(const Literal& str)
   oprot_->getTransport()->flush();
 }
 
-void AstDumperClient::literalNumberExpression(const Literal& str)
+void AstDumperClient::literalNumberExpression(const std::string& str)
 {
   send_literalNumberExpression(str);
 }
 
-void AstDumperClient::send_literalNumberExpression(const Literal& str)
+void AstDumperClient::send_literalNumberExpression(const std::string& str)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("literalNumberExpression", ::apache::thrift::protocol::T_CALL, cseqid);
@@ -6624,12 +6705,12 @@ void AstDumperClient::send_literalNumberExpression(const Literal& str)
   oprot_->getTransport()->flush();
 }
 
-void AstDumperClient::literalBooleanExpression(const Literal& str)
+void AstDumperClient::literalBooleanExpression(const std::string& str)
 {
   send_literalBooleanExpression(str);
 }
 
-void AstDumperClient::send_literalBooleanExpression(const Literal& str)
+void AstDumperClient::send_literalBooleanExpression(const std::string& str)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("literalBooleanExpression", ::apache::thrift::protocol::T_CALL, cseqid);
@@ -9532,6 +9613,43 @@ void AstDumperProcessor::process_attributeIdentifierExpression(int32_t seqid, ::
 
   if (eventHandler_.get() != NULL) {
     eventHandler_->asyncComplete(ctx, "AstDumper.attributeIdentifierExpression");
+  }
+
+  return;
+}
+
+void AstDumperProcessor::process_literalXMLExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = NULL;
+  if (eventHandler_.get() != NULL) {
+    ctx = eventHandler_->getContext("AstDumper.literalXMLExpression", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(eventHandler_.get(), ctx, "AstDumper.literalXMLExpression");
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->preRead(ctx, "AstDumper.literalXMLExpression");
+  }
+
+  AstDumper_literalXMLExpression_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->postRead(ctx, "AstDumper.literalXMLExpression", bytes);
+  }
+
+  try {
+    iface_->literalXMLExpression(args.str);
+  } catch (const std::exception& e) {
+    if (eventHandler_.get() != NULL) {
+      eventHandler_->handlerError(ctx, "AstDumper.literalXMLExpression");
+    }
+    return;
+  }
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->asyncComplete(ctx, "AstDumper.literalXMLExpression");
   }
 
   return;
