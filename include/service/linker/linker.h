@@ -366,7 +366,14 @@ public:
 		printf("literalStringExpression\n");
 		pm_module->literalStringExpression(str);
 	}
-
+	void literalArrayBegin()
+	{
+		pm_module->literalArrayBegin();
+	}
+	void literalArrayEnd()
+	{
+		pm_module->literalArrayEnd();
+	}
 	void literalNumberExpression( const std::string & str) {
 
 		printf("literalNumberExpression\n");

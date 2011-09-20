@@ -85,7 +85,7 @@ struct Node
             T_LITERAL_BOOLEAN,
             T_LITERAL_NULL,
             T_LITERAL_XML,
-
+            T_LITERAL_ARRAY,
 
             T_IDENTIFIER,
 

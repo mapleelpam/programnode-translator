@@ -38,6 +38,7 @@
 
 #include <as/ast/node.h>
 #include <as/ast/token/super_expression.h>
+#include <as/ast/token/literal_array.h>
 #include <as/ast/token/literal_xml.h>
 #include <as/ast/token/literal_string.h>
 #include <as/ast/token/literal_number.h>
@@ -394,6 +395,12 @@ public:
 		as::ast::LiteralXMLPtr exp_literal(
 			new as::ast::LiteralXML( literal ));
 		_node_stack . top() -> addNodeChild(exp_literal);
+	}
+	virtual void literalArrayBegin(  ) {
+		PUSH_STACK( LiteralArray );
+	}
+	virtual void literalArrayEnd(  ) {
+		CHECK_STACK_AND_POP( LiteralArray, AST::Node::NodeType::T_LITERAL_ARRAY );
 	}
 	virtual void literalNull( ) {
 //		as::ast::LiteralNullPtr exp_literal(new as::ast::LiteralNull());

@@ -1,7 +1,7 @@
 // RUN: java -jar %ASC_JAR -x -z %t.pn  %s 
-// RUN: pnc %t.pn -o %t.cpp
-// RUN: g++ -o %t %t.cpp 
-// RUN: %t | FileCheck -input-file=- %s 
+// RUN: pnc %BUILTIN_PN %t.pn -o %t.cpp
+// R U N: g++ -o %t %t.cpp 
+// R U N: %t | FileCheck -input-file=- %s 
 
 package a
 {

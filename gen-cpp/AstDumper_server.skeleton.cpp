@@ -317,6 +317,16 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("literalBooleanExpression\n");
   }
 
+  void literalArrayBegin() {
+    // Your implementation goes here
+    printf("literalArrayBegin\n");
+  }
+
+  void literalArrayEnd() {
+    // Your implementation goes here
+    printf("literalArrayEnd\n");
+  }
+
   void literalNull() {
     // Your implementation goes here
     printf("literalNull\n");
