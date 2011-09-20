@@ -45,11 +45,13 @@ struct As : public Interpreter, public TemplatePrinter
 
 		std::string instance_name = dispatchExpound(bin->LHS(), symbol_table, ctx);
 		std::string type_name = dispatchExpound(bin->RHS(), symbol_table, ctx);
+		std::string type_fqn_no_prefix = type_name;
 
 		{ // just class...!!
 			if( ASY::ScopePtr classtype_ptr = ASY::Findable::findClassType(symbol_table.get(),type_name))
 			{
 				type_name = classtype_ptr->getFQN_and_mappedName();
+				type_fqn_no_prefix = classtype_ptr->getFQN_noprefix();
 			}
 			std::cerr << " RHS " << bin->RHS()->toString() << "  "<<type_name << std::endl;
 		}
@@ -58,6 +60,7 @@ struct As : public Interpreter, public TemplatePrinter
 		std::list<PatternPtr> patterns;
 		patterns.push_back( PatternPtr( new Pattern("instance_name", instance_name ) ));
 		patterns.push_back( PatternPtr( new Pattern("type_name", type_name) ));
+		patterns.push_back( PatternPtr( new Pattern("type_name_style2", type_fqn_no_prefix) ));
 
 		return substitutePatterns( patterns );
 	}

@@ -44,11 +44,23 @@ struct InstanceOf : public Interpreter, public TemplatePrinter
 		AST::InstanceOfPtr bin = STATIC_CAST( AST::InstanceOf, node);
 
 		std::string instance_name = dispatchExpound(bin->LHS(), symbol_table, ctx);
-		std::string type_name = dispatchExpound(bin->RHS(), symbol_table, ctx);
+		ReturnValue type_result = dispatchExpound(bin->RHS(), symbol_table, ctx);
+		std::string type_name = type_result.result;
+		std::string type_fqn_no_prefix = type_name;
+
+		if( ASY::ScopePtr classtype_ptr = DYNA_CAST(ASY::Scope, type_result.token_symbol)  )
+		{ // just class...!!
+
+			type_name = classtype_ptr->getFQN_and_mappedName();
+			type_fqn_no_prefix = classtype_ptr->getFQN_noprefix();
+
+			std::cerr << " RHS " << bin->RHS()->toString() << "  "<<type_name << std::endl;
+		}
 
 		std::list<PatternPtr> patterns;
 		patterns.push_back( PatternPtr( new Pattern("instance_name", instance_name ) ));
 		patterns.push_back( PatternPtr( new Pattern("type_name", type_name) ));
+		patterns.push_back( PatternPtr( new Pattern("type_name_style2", type_fqn_no_prefix) ));
 
 		return substitutePatterns( patterns );
 	}
