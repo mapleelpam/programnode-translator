@@ -55,11 +55,15 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 		}
 		ASY::ScopePtr	symbol_class = _class_define_->getClassSymbol();
 
+
+
 		std::string class_stmt = "";
 		if( _class_define_->hasStatement() ) {
 			ctx.tree_depth ++;
+			ctx.statement_class_symbol = symbol_class;
 				class_stmt = dispatchExpound(_class_define_->classStmt(), symbol_class, ctx/*, symbol_class.get()*/);
 			ctx.tree_depth --;
+//			ctx.statement_class_symbol = NULL;
 		}
 
 		std::string class_inherit = getInheritsString(_class_define_, symbol_class, ctx);

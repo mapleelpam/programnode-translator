@@ -40,7 +40,15 @@ struct ThisExpression : public Interpreter
 			
 			)
 	{
-		return  "this";
+//		::tw::maple::as::symbol::ScopePtr class_scope = symbol_table;
+//		while( ! class_scope -> is( ::tw::maple::as::symbol::Scope::T_CLASS) && class_scope != NULL )
+//		{
+//			class_scope = class_scope->getParent();
+//		}
+
+		ReturnValue result = "this";
+		result.token_symbol = ctx.statement_class_symbol;
+		return  result;
 	}
 
 };
