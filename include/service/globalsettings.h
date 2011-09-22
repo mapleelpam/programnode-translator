@@ -47,6 +47,7 @@ struct GlobalSettings  : public ArgElemenRequest
 	void init(po::options_description& optionDesc, po::positional_options_description& posOptionDesc)
 	{
 			optionDesc.add_options()
+				("debug","debug message")
 	    	    ("define", "define only (header)")
 	    	    ("declare", "declare only (source)")
 	    	    ("prepend_codes", po::value<std::string>(), "prepend cpp codes before reall translate")
@@ -64,6 +65,8 @@ struct GlobalSettings  : public ArgElemenRequest
 		if (args.count("prepend_codes") > 0) {
 			prepend_codes = args["prepend_codes"].as<std::string>();
 		}
+		if (args.count("debug"))
+			show_debug_message = true;
 	}
 
 
@@ -72,6 +75,7 @@ private:
 		: define_only(false)
 		, declare_only(false)
 		, prepend_codes("")
+		, show_debug_message(false)
 	{
 		SVC_ARGUMENTS->registerPass(this);
 	}
@@ -90,6 +94,8 @@ public:
 	bool		define_only;
 	bool		declare_only;
 	std::string	prepend_codes;
+
+	bool		show_debug_message;
 };
 
 #define SVC_GLOBAL_SETTINGS tw::maple::service::GlobalSettings::instance()
