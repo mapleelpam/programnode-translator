@@ -172,7 +172,8 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		
 
 		std::string str_static_instance;
-		if( symbol_function->getEverUsedLikeVariable() 
+		if( !(SVC_GLOBAL_SETTINGS -> declare_only) &&
+			symbol_function->getEverUsedLikeVariable()
 				&& !symbol_function->isGetter()
 				&& !symbol_function->isSetter() 
 				&& !symbol_function->isConstructor() )
@@ -242,6 +243,9 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("member_initial", (symbol_function->isConstructor())? getMemberInitializer(symbol_function,fdef->mp_parent_initilizer,ctx) : "") ) );
 		patterns.push_back( PatternPtr( new Pattern("prefix_parameters", str_prefix_parameter) ) );
 		patterns.push_back( PatternPtr( new Pattern("postfix_parameters", "") ) );
+		patterns.push_back( PatternPtr( new Pattern("contructor_prefix_info", ( SVC_GLOBAL_SETTINGS -> declare_only ) ?
+															"":m_tpl_constructor_prefix_info) ) );
+
 
 		COMPELET_PATTERNS( patterns, ctx );
 
@@ -271,7 +275,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 				"#(func_ret_type) #(func_name_prefix)#(func_name)(#(prefix_parameters)#(func_parameters)#(postfix_parameters))"
 ; 
         m_tpl_static_instance = "#(endl)#(indent_tab)"
-            "static #(func_ret_type) static_#(func_name)( ObjectPtr p#(common) #(prefix_parameters)#(func_parameters)#(postfix_parameters)){ ((#(parent_name)*)(Object*)p)->#(func_name)(#(func_parameters_variable_only)); }#(endl)"
+            "static #(func_ret_type) #(func_name_prefix)static_#(func_name)( ObjectPtr p#(common) #(prefix_parameters)#(func_parameters)#(postfix_parameters)){ ((#(parent_name)*)(Object*)p)->#(func_name)(#(func_parameters_variable_only)); }#(endl)"
         ;
 
 		m_tpl_enter_function = "#(endl)#(indent_tab){#(endl)#(indent_tab_add)#(enter_stmt)";
@@ -279,6 +283,8 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 
 		m_tpl_setter_prepend = "set_";
 		m_tpl_getter_prepend = "get_";
+
+		m_tpl_constructor_prefix_info = "";
 	}
 
 	virtual bool readConfig( boost::property_tree::ptree& pt )
@@ -294,6 +300,8 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		m_tpl_getter_prepend	= pt.get<std::string>( configName()+".template.getter_prepend", m_tpl_getter_prepend);
 
 		m_pointer_pattern = pt.get<std::string>(  configName()+".pointer_pattern", m_pointer_pattern);
+
+		m_tpl_constructor_prefix_info = pt.get<std::string>( configName()+".contructor_prefix_info", m_tpl_constructor_prefix_info);
 
 
 		m_default_virtual = pt.get<bool>( configName()+".default_virtual", m_default_virtual);
@@ -311,6 +319,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		pt.put<std::string>( configName()+".template.setter_prepend", m_tpl_setter_prepend);
 		pt.put<std::string>( configName()+".template.getter_prepend", m_tpl_getter_prepend);
 		pt.put<std::string>( configName()+".pointer_pattern", m_pointer_pattern);
+		pt.put<std::string>( configName()+".contructor_prefix_info", m_tpl_constructor_prefix_info);
 
 		pt.put<bool>( configName()+".default_virtual",m_default_virtual);
 		return TemplatePrinter::writeConfig( pt );
@@ -330,6 +339,7 @@ private:
 	std::string m_tpl_member_function_signature;
 	std::string m_tpl_constructor_function_signature;
 	std::string m_tpl_static_instance;
+	std::string m_tpl_constructor_prefix_info;
 
 	bool		m_default_virtual;
 	std::string m_pointer_pattern;

@@ -52,12 +52,13 @@ struct Symbol
 	};
 
 	const virtual std::string name() const {	return m_name;	}
-	void setName( const std::string& n )	{	m_name = n;	}
+	void setName( const std::string& n )	{	m_mapped_name = m_name = n;	}
 	virtual const std::string mappedName() const {	return m_mapped_name;	}
 	void	setMappedName( std::string n ){ m_mapped_name = n;	}
 
 	Symbol( std::string n,  uint p = T_NONE, Attributes attr = ATTR_NONE )
 		: m_name( n )
+		, m_mapped_name( n )
 		, m_properties( p )
 		, m_attributes( attr )
 		, m_is_static( false )

@@ -94,7 +94,7 @@ struct Identifier : public Interpreter, public TemplatePrinter
 				if( ASY::ScopePtr classtype_ptr = ASY::Findable::findClassType(symbol_table.get(),li->value))
 				{
 //					ctx-> token_class_type = classtype_ptr;
-					ReturnValue result =  classtype_ptr->name()+_DS("/* found class type */");
+					ReturnValue result =  classtype_ptr->name()+_DS2("/* found class type */");
 					result.token_symbol = classtype_ptr;
 					return result;
 				}
@@ -153,7 +153,7 @@ struct Identifier : public Interpreter, public TemplatePrinter
 									id = variable_ptr->mappedName();
 									if( id == "") 	id = variable_ptr->name();
 								}
-								ReturnValue result = id+_DS("/* found variable */");
+								ReturnValue result = id+_DS2("/* found variable */");
 								result.token_symbol = variable_ptr->getTypeSymbol();
 								result.expression_type = ReturnValue::HEAP;
 								return result;
@@ -232,7 +232,8 @@ struct Identifier : public Interpreter, public TemplatePrinter
 							if( variable_ptr )
 							{
 								ReturnValue result = li->value+_DS2("/* found variable */");
-								result.token_symbol = variable_ptr;
+								result.token_symbol = variable_ptr->getTypeSymbol();
+								result.expression_type = ReturnValue::HEAP;
 								return result;
 							}
 						}

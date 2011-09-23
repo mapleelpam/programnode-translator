@@ -67,7 +67,7 @@ struct Variable : public Symbol
 	virtual const std::string getFQN_noprefix( ) const
 	{
 		if (m_parent)
-			return m_parent->getFQN_noprefix() + "::" + name();
+			return m_parent->getFQN_noprefix() + "::" + ( mappedName() == "" ? name() : mappedName() );
 		else
 			return name();
 	}

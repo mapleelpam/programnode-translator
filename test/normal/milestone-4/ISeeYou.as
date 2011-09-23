@@ -1,5 +1,7 @@
 // RUN: java -jar %ASC_JAR -x -z %t.pn  %s
 // RUN: pnc %t.pn %BUILTIN_PN -o %t.cpp 
+// RUN: pnc %t.pn %BUILTIN_PN -o %t.only.cpp	--declare
+// RUN: pnc %t.pn %BUILTIN_PN -o %t.only.h		--define
 
 package
 {

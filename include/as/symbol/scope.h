@@ -218,21 +218,24 @@ struct Scope : public Symbol, public Registrable
 			if( parent_is_anonymouse_scope && is_annoymouse_scope )
 				return parent_name;
 			else if( parent_is_anonymouse_scope )
-				return parent_name+name();
+				return parent_name+mappedName();
 			else if( parent_name == "" )
 				return name();
 			else
-				return parent_name+"::"+name();
+				return parent_name+"::"+mappedName();
 		}
 		else if( m_scope_type == T_PROGRAM_ROOT)
+		{
 			return "";
-		else {
-			return name();
+		}
+		else
+		{
+			return mappedName();
 		}
 	}
 	virtual const std::string getFQN_and_mappedName( bool& is_annoymouse_scope /*out*/ ) const
 	{
-		is_annoymouse_scope = ( mappedName() == "" );
+		is_annoymouse_scope = ( name() == "" );
 
 		if( m_parent )
 		{

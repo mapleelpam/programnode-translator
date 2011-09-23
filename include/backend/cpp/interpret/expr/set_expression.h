@@ -47,11 +47,11 @@ struct SetExpression : public Interpreter
 
 		ctx.inter_type = Context::LHS;
 		bool lft_is_setter = ctx.lfs_is_setter = false;
-		ReturnValue str_rhs = dispatchExpound(set->LHS(), symbol_table, ctx);
+		ReturnValue lhs_value = dispatchExpound(set->LHS(), symbol_table, ctx);
 		lft_is_setter = ctx.lfs_is_setter;
 
 		ctx.inter_type = Context::RHS;
-		ReturnValue str_lhs = dispatchExpound(set->RHS(), symbol_table, ctx/*TODO: SHOULD NOT BE*/ );
+		ReturnValue rhs_value = dispatchExpound(set->RHS(), symbol_table, ctx/*TODO: SHOULD NOT BE*/ );
 
 		ctx.inter_type = Context::RHS;
 
@@ -73,32 +73,30 @@ struct SetExpression : public Interpreter
 
 		std::string str_type_cast = "";
 
-		if( str_lhs.token_symbol )
+		if( lhs_value.token_symbol )
 		{
-			if( str_rhs.token_symbol != str_lhs.token_symbol)
+			if( lhs_value.token_symbol != rhs_value.token_symbol)
 			{
 
-//				if (arg_result.token_symbol) {
-//					std::cerr << " argument type = "
-//							<< arg_result.token_symbol->toString() << std::endl;
-//				}
-				if (str_lhs.token_symbol->preferStack())
-					str_type_cast += "(" + str_lhs.token_symbol->getFQN_and_instanceName() + ")";
-				else if ( DYNA_CAST(ASY::VariantType, str_rhs.token_symbol ) )
+				if (lhs_value.token_symbol->preferStack())
+					str_type_cast = "(" + lhs_value.token_symbol->getFQN_and_instanceName() + ")";
+				else if ( DYNA_CAST(ASY::VariantType, lhs_value.token_symbol ) )
 					str_type_cast += ""; // ignore
-				else if (str_lhs.token_symbol -> name() == "Function")
-					str_type_cast += ""; // ignore
+				else if (lhs_value.token_symbol -> name() == "Function")
+					str_type_cast = ""; // ignore
 				else
-					str_type_cast += "(" + str_lhs.token_symbol->getFQN_and_mappedName() + "*)";
+				{
+					str_type_cast = "(" + lhs_value.token_symbol->getFQN_noprefix() + "*)";
+				}
 			}
 		}
 
 		if( lft_is_setter )
-			return prefix+str_rhs.result + "( " + str_lhs.result+" )";
+			return prefix+lhs_value.result + "( " + rhs_value.result+" )";
 		else if( set->mode == "bracket")
-			return prefix+"["+str_rhs.result + "] = " + str_lhs.result;
+			return prefix+"["+lhs_value.result + "] = " + rhs_value.result;
 		else
-			return prefix+str_rhs.result + " = " + str_lhs.result;
+			return prefix+lhs_value.result + " = " + str_type_cast + rhs_value.result;
 	}
 };
 

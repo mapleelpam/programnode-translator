@@ -76,7 +76,10 @@ struct Call : public Interpreter, public TemplatePrinter
 					if( ASY::VariablePtr variable_cans = DYNA_CAST(ASY::Variable, symbol_cans) )
 					{
 						str_special_call_patterns = "#(callee_name)->getXCClass()->newInstance(#(argn))";
-						str_callee_name += "(Object*) "+type_name;
+						str_callee_name += "( Object* ) "+type_name;
+
+						result.token_symbol = Findable::findClassType( symbol_table, "Object" );
+						result.expression_type = ReturnValue::HEAP;
 					}
 					else
 						str_callee_name += "new "+type_name;
@@ -140,6 +143,8 @@ struct Call : public Interpreter, public TemplatePrinter
 					{
 						/* do for waht? */
 						str_tpl_expression = m_tpl_undefined_member_call;
+						result.token_symbol = Findable::findClassType( symbol_table, "Object" );
+						result.expression_type = ReturnValue::HEAP;
 					}
 				}
 				else
