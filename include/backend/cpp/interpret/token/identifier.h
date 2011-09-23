@@ -153,9 +153,9 @@ struct Identifier : public Interpreter, public TemplatePrinter
 									id = variable_ptr->mappedName();
 									if( id == "") 	id = variable_ptr->name();
 								}
-								ReturnValue result = id+_DS2("/* found variable */");
+								ReturnValue result = id+_DS("/* found variable */");
 								result.token_symbol = variable_ptr->getTypeSymbol();
-								result.expression_type = ReturnValue::STACK;
+								result.expression_type = ReturnValue::HEAP;
 								return result;
 							}
 						}

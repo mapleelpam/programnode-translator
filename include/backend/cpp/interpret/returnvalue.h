@@ -13,7 +13,8 @@ struct ReturnValue
 	};
 	tw::maple::as::symbol::SymbolPtr		token_symbol;
 	tw::maple::as::symbol::Symbol*		token_symbol2;
-	bool expression_type;
+	ExpressionType expression_type;
+//	bool expression_type;
 	std::string result;
 	ReturnValue( const std::string& init )
 		: result( init )
@@ -39,7 +40,7 @@ struct ReturnValue
 		: result("")
 		, token_symbol(tw::maple::as::symbol::SymbolPtr())
 		, token_symbol2( NULL )
-		, expression_type(SCOPE)
+		, expression_type(STACK)
 	{	}
 
 	void operator=( const std::string& rhs )
