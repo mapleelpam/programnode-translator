@@ -43,6 +43,7 @@ package
 		private var text:TextField;
 		private var filterList:Array;
 		private var currentCount:int;
+        private var testInit : int = 0;
 
 		protected function onAdd(event:Event):void
 		{
