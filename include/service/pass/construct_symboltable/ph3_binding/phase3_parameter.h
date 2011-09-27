@@ -64,7 +64,7 @@ struct Phase3_Parameter
 			std::string str_var_type = (ast_param->m_param_type.size()==0) ? "Object" : ast_param->m_param_type[ast_param->m_param_type.size() - 1];
 			tw::maple::as::symbol::SymbolPtr p_type = context->find_symbol( str_var_type );
 
-			std::cerr <<" str_var_type " << str_var_type << " size = " <<  ast_param->m_param_type.size() <<std::endl;
+//			std::cerr <<" str_var_type " << str_var_type << " size = " <<  ast_param->m_param_type.size() <<std::endl;
 			if(p_type != NULL ) // found the symbol in import list
 			{
 				var_symbol->bindType( p_type );
