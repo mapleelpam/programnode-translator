@@ -96,6 +96,10 @@
 #include <as/ast/token/default_label.h>
 #include <as/ast/token/break.h>
 #include <as/ast/token/continue.h>
+#include <as/ast/special/store_register.h>
+#include <as/ast/special/load_register.h>
+#include <as/ast/special/register.h>
+#include <as/ast/special/has_next.h>
 
 
 using namespace apache::thrift;
@@ -601,6 +605,34 @@ public:
     void endDeleteStatement() {
     	CHECK_STACK_AND_POP( DELETE, AST::Node::NodeType::T_DELETE );
     }
+
+    void startStoreRegister() {
+    	PUSH_STACK( StoreRegister );
+    }
+
+    void endStoreRegister() {
+    	CHECK_STACK_AND_POP( StoreRegister, AST::Node::NodeType::T_STORE_REG );
+    }
+    void startLoadRegister() {
+    	PUSH_STACK( LoadRegister );
+    }
+
+    void endLoadRegister() {
+    	CHECK_STACK_AND_POP( LoadRegister, AST::Node::NodeType::T_LOAD_REG );
+    }
+
+    void registerNode(const int32_t reg) {
+      ADD_2_TOP_WITH_INIT( Register, reg  );
+    }
+
+    void startHasNext() {
+    	PUSH_STACK( HasNext );
+    }
+
+    void endHasNext() {
+    	CHECK_STACK_AND_POP( HasNext, AST::Node::NodeType::T_HAS_NEXT );
+    }
+
 public:
    as::ast::ProgramPtr getProgramNode() {	return _program_root;	};
 

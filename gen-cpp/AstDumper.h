@@ -120,6 +120,13 @@ class AstDumperIf {
   virtual void beginDeleteStatement(const std::string& mode) = 0;
   virtual void endDeleteStatement() = 0;
   virtual void empty() = 0;
+  virtual void startStoreRegister() = 0;
+  virtual void endStoreRegister() = 0;
+  virtual void startLoadRegister() = 0;
+  virtual void endLoadRegister() = 0;
+  virtual void registerNode(const int32_t reg) = 0;
+  virtual void startHasNext() = 0;
+  virtual void endHasNext() = 0;
 };
 
 class AstDumperNull : virtual public AstDumperIf {
@@ -443,6 +450,27 @@ class AstDumperNull : virtual public AstDumperIf {
   void empty() {
     return;
   }
+  void startStoreRegister() {
+    return;
+  }
+  void endStoreRegister() {
+    return;
+  }
+  void startLoadRegister() {
+    return;
+  }
+  void endLoadRegister() {
+    return;
+  }
+  void registerNode(const int32_t /* reg */) {
+    return;
+  }
+  void startHasNext() {
+    return;
+  }
+  void endHasNext() {
+    return;
+  }
 };
 
 typedef struct _AstDumper_startProgram_args__isset {
@@ -454,7 +482,7 @@ typedef struct _AstDumper_startProgram_args__isset {
 class AstDumper_startProgram_args {
  public:
 
-  AstDumper_startProgram_args() : version("0.0.1"), counter(22LL) {
+  AstDumper_startProgram_args() : version("0.0.1"), counter(24LL) {
   }
 
   virtual ~AstDumper_startProgram_args() throw() {}
@@ -4667,6 +4695,275 @@ class AstDumper_empty_pargs {
 
 };
 
+
+class AstDumper_startStoreRegister_args {
+ public:
+
+  AstDumper_startStoreRegister_args() {
+  }
+
+  virtual ~AstDumper_startStoreRegister_args() throw() {}
+
+
+  bool operator == (const AstDumper_startStoreRegister_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const AstDumper_startStoreRegister_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_startStoreRegister_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_startStoreRegister_pargs {
+ public:
+
+
+  virtual ~AstDumper_startStoreRegister_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_endStoreRegister_args {
+ public:
+
+  AstDumper_endStoreRegister_args() {
+  }
+
+  virtual ~AstDumper_endStoreRegister_args() throw() {}
+
+
+  bool operator == (const AstDumper_endStoreRegister_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const AstDumper_endStoreRegister_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_endStoreRegister_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_endStoreRegister_pargs {
+ public:
+
+
+  virtual ~AstDumper_endStoreRegister_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_startLoadRegister_args {
+ public:
+
+  AstDumper_startLoadRegister_args() {
+  }
+
+  virtual ~AstDumper_startLoadRegister_args() throw() {}
+
+
+  bool operator == (const AstDumper_startLoadRegister_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const AstDumper_startLoadRegister_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_startLoadRegister_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_startLoadRegister_pargs {
+ public:
+
+
+  virtual ~AstDumper_startLoadRegister_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_endLoadRegister_args {
+ public:
+
+  AstDumper_endLoadRegister_args() {
+  }
+
+  virtual ~AstDumper_endLoadRegister_args() throw() {}
+
+
+  bool operator == (const AstDumper_endLoadRegister_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const AstDumper_endLoadRegister_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_endLoadRegister_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_endLoadRegister_pargs {
+ public:
+
+
+  virtual ~AstDumper_endLoadRegister_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _AstDumper_registerNode_args__isset {
+  _AstDumper_registerNode_args__isset() : reg(false) {}
+  bool reg;
+} _AstDumper_registerNode_args__isset;
+
+class AstDumper_registerNode_args {
+ public:
+
+  AstDumper_registerNode_args() : reg(0) {
+  }
+
+  virtual ~AstDumper_registerNode_args() throw() {}
+
+  int32_t reg;
+
+  _AstDumper_registerNode_args__isset __isset;
+
+  bool operator == (const AstDumper_registerNode_args & rhs) const
+  {
+    if (!(reg == rhs.reg))
+      return false;
+    return true;
+  }
+  bool operator != (const AstDumper_registerNode_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_registerNode_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_registerNode_pargs {
+ public:
+
+
+  virtual ~AstDumper_registerNode_pargs() throw() {}
+
+  const int32_t* reg;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_startHasNext_args {
+ public:
+
+  AstDumper_startHasNext_args() {
+  }
+
+  virtual ~AstDumper_startHasNext_args() throw() {}
+
+
+  bool operator == (const AstDumper_startHasNext_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const AstDumper_startHasNext_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_startHasNext_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_startHasNext_pargs {
+ public:
+
+
+  virtual ~AstDumper_startHasNext_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_endHasNext_args {
+ public:
+
+  AstDumper_endHasNext_args() {
+  }
+
+  virtual ~AstDumper_endHasNext_args() throw() {}
+
+
+  bool operator == (const AstDumper_endHasNext_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const AstDumper_endHasNext_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_endHasNext_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_endHasNext_pargs {
+ public:
+
+
+  virtual ~AstDumper_endHasNext_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
 class AstDumperClient : virtual public AstDumperIf {
  public:
   AstDumperClient(boost::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) :
@@ -4899,6 +5196,20 @@ class AstDumperClient : virtual public AstDumperIf {
   void send_endDeleteStatement();
   void empty();
   void send_empty();
+  void startStoreRegister();
+  void send_startStoreRegister();
+  void endStoreRegister();
+  void send_endStoreRegister();
+  void startLoadRegister();
+  void send_startLoadRegister();
+  void endLoadRegister();
+  void send_endLoadRegister();
+  void registerNode(const int32_t reg);
+  void send_registerNode(const int32_t reg);
+  void startHasNext();
+  void send_startHasNext();
+  void endHasNext();
+  void send_endHasNext();
  protected:
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -5018,6 +5329,13 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
   void process_beginDeleteStatement(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_endDeleteStatement(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_empty(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_startStoreRegister(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_endStoreRegister(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_startLoadRegister(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_endLoadRegister(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_registerNode(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_startHasNext(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_endHasNext(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
   AstDumperProcessor(boost::shared_ptr<AstDumperIf> iface) :
     iface_(iface) {
@@ -5127,6 +5445,13 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
     processMap_["beginDeleteStatement"] = &AstDumperProcessor::process_beginDeleteStatement;
     processMap_["endDeleteStatement"] = &AstDumperProcessor::process_endDeleteStatement;
     processMap_["empty"] = &AstDumperProcessor::process_empty;
+    processMap_["startStoreRegister"] = &AstDumperProcessor::process_startStoreRegister;
+    processMap_["endStoreRegister"] = &AstDumperProcessor::process_endStoreRegister;
+    processMap_["startLoadRegister"] = &AstDumperProcessor::process_startLoadRegister;
+    processMap_["endLoadRegister"] = &AstDumperProcessor::process_endLoadRegister;
+    processMap_["registerNode"] = &AstDumperProcessor::process_registerNode;
+    processMap_["startHasNext"] = &AstDumperProcessor::process_startHasNext;
+    processMap_["endHasNext"] = &AstDumperProcessor::process_endHasNext;
   }
 
   virtual bool process(boost::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot, boost::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot, void* callContext);
@@ -5884,6 +6209,55 @@ class AstDumperMultiface : virtual public AstDumperIf {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
       ifaces_[i]->empty();
+    }
+  }
+
+  void startStoreRegister() {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->startStoreRegister();
+    }
+  }
+
+  void endStoreRegister() {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->endStoreRegister();
+    }
+  }
+
+  void startLoadRegister() {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->startLoadRegister();
+    }
+  }
+
+  void endLoadRegister() {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->endLoadRegister();
+    }
+  }
+
+  void registerNode(const int32_t reg) {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->registerNode(reg);
+    }
+  }
+
+  void startHasNext() {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->startHasNext();
+    }
+  }
+
+  void endHasNext() {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->endHasNext();
     }
   }
 

@@ -137,6 +137,11 @@ struct Node
 			T_CONTINUE,
 			T_DELETE,
 
+			T_STORE_REG, /* special */
+			T_LOAD_REG,
+			T_REG,
+			T_HAS_NEXT,
+
             T_NODE_TYPE_END,
 
         };

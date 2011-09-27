@@ -54,6 +54,7 @@ struct Phase3_CallExpression
 				exit(1);
 			}
 
+			std::cerr << "error in phase3 try to find type  "<< CALL->callee[CALL->callee.size()-1] <<std::endl;
 			ASY::SymbolPtr p_type = context->find_symbol( CALL->callee[CALL->callee.size()-1] );
 
 			if(p_type != NULL ) // found the symbol in import list

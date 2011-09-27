@@ -626,6 +626,32 @@ public:
 	void continueStatement() {
 		pm_module->continueStatement();
 	}
+	void startStoreRegister() {
+		pm_module->startStoreRegister();
+	}
+
+	void endStoreRegister() {
+		pm_module->endStoreRegister();
+	}
+	void startLoadRegister() {
+		pm_module->startLoadRegister();
+	}
+	void endLoadRegister() {
+		pm_module->endLoadRegister();
+	}
+
+	void registerNode(const int32_t reg) {
+		pm_module->registerNode( reg );
+	}
+
+	void startHasNext() {
+		pm_module->startHasNext();
+	}
+
+	void endHasNext() {
+		pm_module->endHasNext();
+	}
+
 };
 
 } } } } //tw::maple::service::linker

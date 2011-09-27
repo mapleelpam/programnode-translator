@@ -552,6 +552,41 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("empty\n");
   }
 
+  void startStoreRegister() {
+    // Your implementation goes here
+    printf("startStoreRegister\n");
+  }
+
+  void endStoreRegister() {
+    // Your implementation goes here
+    printf("endStoreRegister\n");
+  }
+
+  void startLoadRegister() {
+    // Your implementation goes here
+    printf("startLoadRegister\n");
+  }
+
+  void endLoadRegister() {
+    // Your implementation goes here
+    printf("endLoadRegister\n");
+  }
+
+  void registerNode(const int32_t reg) {
+    // Your implementation goes here
+    printf("registerNode\n");
+  }
+
+  void startHasNext() {
+    // Your implementation goes here
+    printf("startHasNext\n");
+  }
+
+  void endHasNext() {
+    // Your implementation goes here
+    printf("endHasNext\n");
+  }
+
 };
 
 int main(int argc, char **argv) {

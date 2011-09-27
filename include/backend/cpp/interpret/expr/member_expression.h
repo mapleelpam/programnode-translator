@@ -58,6 +58,10 @@ struct MemberExpression : public Interpreter
 			//std::cerr << __FILE__<<":"<<__LINE__ << std::endl;
 			return dispatchExpound( expr_mem->selector(), symbol_table, ctx);
 		}
+		else if( expr_mem->base()->is( AST::Node::NodeType::T_LOAD_REG) )
+		{
+			return "Fuck->next()";
+		}
 		else if( expr_mem->base()->is( AST::Node::NodeType::T_SUPER_EXPRESSION) )
 		{
 			//std::cerr << __FILE__<<":"<<__LINE__ << std::endl;
@@ -121,9 +125,9 @@ struct MemberExpression : public Interpreter
 			else
 			{
 				//TODO: report error, and do not pass it
-//				std::cerr <<__FILE__<<" "<<__LINE__<< " -- " << result.result <<std::endl;
-//				if(base.token_symbol2 )
-//					std::cerr <<" error happend here!"<<std::endl;
+				std::cerr <<__FILE__<<" "<<__LINE__<< " -- '" << result.result <<"' '"<<base.result<<"'"<<std::endl;
+				if(base.token_symbol2 )
+					std::cerr <<" error happend here!"<<std::endl;
 				result += _DS2("/* path3 */")+dispatchExpound( expr_mem->selector(), symbol_table, ctx ).result;
 			}
 		}
