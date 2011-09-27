@@ -37,6 +37,8 @@ struct Program : public Node
     virtual int nodeType() {	return NodeType::T_PROGRAM;	};
 
     std::string toString()  {	return "node::program"; };
+
+    std::string	file_name;
 };
 typedef SHARED_PTR(Program) ProgramPtr;
 typedef std::vector< ProgramPtr> ProgramList;

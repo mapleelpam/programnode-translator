@@ -49,10 +49,15 @@ struct ForStatement : public Interpreter, public TemplatePrinter
 		std::string str_for_body = dispatchExpound(FOR->ForBody(), symbol_table, ctx);
 		ctx.tree_depth --;
 
+//		std::cerr << " "<<__FILE__<<" "<<__LINE__<<std::endl;
 		patterns.push_back( PatternPtr( new Pattern("for_condition", dispatchExpound(FOR->ForCondition(), symbol_table, ctx) ) ));
+//		std::cerr << " "<<__FILE__<<" "<<__LINE__<<std::endl;
 		patterns.push_back( PatternPtr( new Pattern("for_init", dispatchExpound(FOR->ForInit(), symbol_table, ctx) ) ));
+//		std::cerr << " "<<__FILE__<<" "<<__LINE__<<std::endl;
 		patterns.push_back( PatternPtr( new Pattern("for_step", dispatchExpound(FOR->ForStep(), symbol_table, ctx) ) ));
+//		std::cerr << " "<<__FILE__<<" "<<__LINE__<<std::endl;
 		patterns.push_back( PatternPtr( new Pattern("for_body",  str_for_body ) ));
+//		std::cerr << " "<<__FILE__<<" "<<__LINE__<<std::endl;
 
 		COMPELET_PATTERNS( patterns, ctx );
 

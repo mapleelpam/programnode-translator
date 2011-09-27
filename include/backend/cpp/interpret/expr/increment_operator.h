@@ -61,7 +61,7 @@ private:
 	{
 		if( str == "plusplus")
 			return "++";
-		else if( str == "minusmius")
+		else if( str == "minusminus")
 			return "--";
 		else {
 			std::cerr << " can't resolve increment op string '" << str << "'"<<std::endl;

@@ -58,6 +58,7 @@ struct BackendManager {
 				nodeItr = pnode_list.begin(); nodeItr != pnode_list.end(); nodeItr++)
 		{
 			tw::maple::backend::cpp::Context context;
+			std::cerr << " backend passing: "<< (*nodeItr)->file_name << std::endl;
 			ofs_stream << dispatchExpound(*nodeItr, symbol_table, context	).result;
 		}
         ofs_stream << std::endl;

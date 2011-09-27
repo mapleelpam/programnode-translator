@@ -16,3 +16,4 @@ add_custom_target(runtest-normal
 
     
 ADD_SUBDIRECTORY( multiple_pn )
+ADD_SUBDIRECTORY( GoNiblerGo )

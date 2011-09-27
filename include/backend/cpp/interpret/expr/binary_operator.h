@@ -106,6 +106,10 @@ private:
 			return "&&";
 		else if( str == "logicalor")
 			return "||";
+		else if( str == "bitwiseand")
+			return "&";
+		else if( str == "bitwiseor")
+			return "|";
 		else {
 			std::cerr << " can't resolve binary op string '" << str << "'"<<std::endl;
 			exit(1);

@@ -48,7 +48,9 @@ struct ProgramNodeLoader {
 		for (std::vector<std::string>::iterator fileItr = file_list.begin()
 				; fileItr != file_list.end(); fileItr++)
 		{
-			pnode_list . push_back(  exec_one( *fileItr ) );
+			as::ast::ProgramPtr result =  exec_one( *fileItr ) ;
+			result -> file_name = *fileItr;
+			pnode_list . push_back(  result );
 		}
 	}
 

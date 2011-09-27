@@ -59,16 +59,18 @@ struct Call : public Interpreter, public TemplatePrinter
 			str_callee_name = "";
 			std::string type_name = get_full_functionname( CALL->callee );
 			ASY::SymbolPtr p_type = CALL->getCalleeType();
+			//std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
 			result.token_symbol = p_type;
-			if( p_type != NULL && p_type->getFQN_and_mappedName() != "" )
+			if( p_type != NULL /*&& p_type->getFQN_and_mappedName() != ""*/ )
 			{
 				result.token_symbol = p_type;
 				result.expression_type = ReturnValue::HEAP;
+				//std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
 				str_callee_name += "new "+p_type->getFQN_and_mappedName();
 			}
 			else
 			{
-//				std::cerr <<" callee constructor not found \n"; exit(1);
+				std::cerr <<" callee constructor not found '"<<type_name<<"'"<<std::endl; exit(1);
 				std::vector<ASY::SymbolPtr> cans = Findable::findRHS_Candidates( symbol_table, type_name );
 				if( cans.size() > 0 )
 				{
@@ -82,13 +84,19 @@ struct Call : public Interpreter, public TemplatePrinter
 						result.expression_type = ReturnValue::HEAP;
 					}
 					else
+					{
+						//std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
 						str_callee_name += "new "+type_name;
+					}
 				}
 				else
+				{
+					//std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
 					str_callee_name += "new "+type_name;
+				}
 			}
 
-			if( p_type )
+			if( p_type && DYNA_CAST( ASY::Scope, p_type))
 			{
 				callee_type = Findable::findFunction( DYNA_CAST( ASY::Scope, p_type), CALL->callee[CALL->callee.size() - 1 ]);
 			}
@@ -105,7 +113,7 @@ struct Call : public Interpreter, public TemplatePrinter
 					if( ctx.expression_symbol->is(ASY::Symbol::T_VARIABLE ))
 //					if( ctx.left_is_instance )
 					{
-						//std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
+						////std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
 
 						ASY::Variable* var_symbol = (ASY::Variable*) ctx.expression_symbol;
 						left_scope = (ASY::Scope*)(var_symbol -> getTypeSymbol().get());
@@ -115,7 +123,7 @@ struct Call : public Interpreter, public TemplatePrinter
 						left_scope = (ASY::Scope*)(ctx.expression_symbol);
 					}
 
-//					std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
+//					//std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
 					if(ctx.expression_symbol->is( ASY::Symbol::T_VARIABLE)
 							|| ctx.left_is_pointer )
 					{  // TODO: guess this child_string is ??? primitive? or non-deletable
@@ -149,6 +157,7 @@ struct Call : public Interpreter, public TemplatePrinter
 				}
 				else
 				{
+					//std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
 					std::cerr << " call(dot) expression error, should pass left symbol" << std::endl;
 					exit(1);
 				}
@@ -185,6 +194,7 @@ struct Call : public Interpreter, public TemplatePrinter
 
 		std::string str_answer;
 
+		//std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
 		{
 	
 			if( str_special_call_patterns != "" )
@@ -196,6 +206,7 @@ struct Call : public Interpreter, public TemplatePrinter
 			else
 				str_answer = substitutePatterns( patterns );
 		}
+		//std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
 		result.result = str_answer;
 
 		return result;

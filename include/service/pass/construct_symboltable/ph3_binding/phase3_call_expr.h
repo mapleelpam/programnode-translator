@@ -74,16 +74,35 @@ struct Phase3_CallExpression
 					symbol_pkg = STATIC_CAST( tw::maple::as::symbol::Scope , temp_pkg );
 				} else {
 					std::cerr<<" can't find scope - "<< CALL->callee[CALL->callee.size()-1] << " '"<< CALL->toString() << "'"<<std::endl;
+					exit(1);
 				}
 			}
 			if( CALL->isObjectConsturct()){
-				p_type = Findable::findClassType_downward(symbol_pkg.get(), CALL->callee[CALL->callee.size()- 1]);
-//				if( p_type == NULL)
-//				{
-//					std::vector<ASY::SymbolPtr> cans = Findable::findRHS_Candidates(symbol_pkg.get(), CALL->callee[CALL->callee.size()- 1]);
-//					p_type = *(cans.begin());
-//				}
 
+				tw::maple::as::symbol::Scope* hack = symbol_pkg.get();
+				while( 1 )
+				{
+					if( hack -> is( tw::maple::as::symbol::Scope::T_CLASS ) )
+					{
+						hack = hack->m_parent;
+						break;
+					}
+					if (hack -> getParent() == NULL)
+					{
+						hack = symbol_pkg.get();
+						break;
+					}
+					else
+						hack = hack->getParent();
+				}
+				std::cerr <<" try to find  "<< CALL->callee[CALL->callee.size()- 1] << " in " << hack->getFQN()<< std::endl;
+
+				p_type = Findable::findClassType_downward(hack, CALL->callee[CALL->callee.size()- 1]);
+				if( p_type == NULL)
+				{
+					ASY::SymbolPtr cans = Findable::findClassType(hack, CALL->callee[CALL->callee.size()- 1]);
+					p_type = cans;
+				}
 				if( p_type == NULL)
 				{
 					std::vector<ASY::SymbolPtr> rhs = Findable::findRHS_Candidates( symbol_pkg.get(), CALL->callee[CALL->callee.size()- 1] );
@@ -91,9 +110,16 @@ struct Phase3_CallExpression
 					{
 						std::cerr <<" can't resolve constructor "<< CALL->callee[CALL->callee.size()- 1] << std::endl;
 						//TBF
-//						exit(1);
+						exit(1);
 
-					}
+					}else
+						p_type = *(rhs.begin());
+				}
+				if( p_type == NULL)
+				{
+					std::cerr <<" can't resolve constructor "<< CALL->callee[CALL->callee.size()- 1] << std::endl;
+					//TBF
+					exit(1);
 				}
 			}
 			else

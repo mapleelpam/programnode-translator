@@ -167,7 +167,11 @@ struct Identifier : public Interpreter, public TemplatePrinter
 						{ // invoke attribute mapper
 							std::list<PatternPtr> patterns;
 							patterns.push_back( PatternPtr( new Pattern("id", li->value) ));
-							return substitutePatterns( m_tpl_attribute_call, patterns );
+
+							ReturnValue result;
+							result.result = substitutePatterns( m_tpl_attribute_call, patterns );
+							result.token_symbol = Findable::findClassType( symbol_table, "Object" );
+							return result;
 						}
 					}
 					else

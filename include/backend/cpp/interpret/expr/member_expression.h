@@ -52,12 +52,15 @@ struct MemberExpression : public Interpreter
 
 		AST::MemberExpressionPtr expr_mem = STATIC_CAST( AST::MemberExpression, node);
 
+		//std::cerr << __FILE__<<":"<<__LINE__ << std::endl;
 		if( expr_mem->base()->is( AST::Node::NodeType::T_EMPTY) )
 		{
+			//std::cerr << __FILE__<<":"<<__LINE__ << std::endl;
 			return dispatchExpound( expr_mem->selector(), symbol_table, ctx);
 		}
 		else if( expr_mem->base()->is( AST::Node::NodeType::T_SUPER_EXPRESSION) )
 		{
+			//std::cerr << __FILE__<<":"<<__LINE__ << std::endl;
 			ReturnValue super = dispatchExpound( expr_mem->base(), symbol_table, ctx);
 			ASY::Scope* inherit_type = (ASY::Scope*)( super.token_symbol2 );
 
@@ -66,19 +69,25 @@ struct MemberExpression : public Interpreter
 			ReturnValue selector_value = dispatchExpound(expr_mem->selector(), symbol_table, ctx2/*, inherit_type*/);
 			selector_value = super.token_symbol2->getFQN()+selector_value.result;
 
+			//std::cerr << __FILE__<<":"<<__LINE__ << std::endl;
 			return selector_value;
 		}
 		else
 		{
+			//std::cerr << __FILE__<<":"<<__LINE__ << std::endl;
 
 //			if( class_symbol_table == NULL && symbol_table )
 //				class_symbol_table = symbol_table->getParent();
 
+			//std::cerr << __FILE__<<":"<<__LINE__ << std::endl;
 			ReturnValue base = dispatchExpound( expr_mem->base(), symbol_table, ctx/*crazy?*/);
+			//std::cerr << __FILE__<<":"<<__LINE__ << std::endl;
 			result = base;
 
 			if( base.token_symbol != NULL )
 			{
+				//std::cerr << __FILE__<<":"<<__LINE__ << std::endl;
+
 				std::string str_before_base, str_after_base;
 
 				//std::cerr <<__FILE__<<" @@ base "<<base.token_symbol->getFQN() <<" '"<<base.expression_type<<"'"<< std::endl;
@@ -103,14 +112,18 @@ struct MemberExpression : public Interpreter
 
 				ASY::ScopePtr base_type	 = DYNA_CAST( ASY::Scope, base.token_symbol);
 				ReturnValue selector_value = dispatchExpound( expr_mem->selector(), symbol_table, ctx2/*, base_type.get()*/);
+
 				//std::cerr <<__FILE__<<" selector is instance "<< selector_value.expression_type << " '"<<selector_value.result<<"'"<<std::endl;
+
 				result = selector_value;
 				result.result = str_before_base+base.result+_DS2("/* path2 */")+str_after_base+selector_value.result;
 			}
 			else
 			{
 				//TODO: report error, and do not pass it
-				//std::cerr <<__FILE__<<" "<<__LINE__<<std::endl;
+//				std::cerr <<__FILE__<<" "<<__LINE__<< " -- " << result.result <<std::endl;
+//				if(base.token_symbol2 )
+//					std::cerr <<" error happend here!"<<std::endl;
 				result += _DS2("/* path3 */")+dispatchExpound( expr_mem->selector(), symbol_table, ctx ).result;
 			}
 		}
