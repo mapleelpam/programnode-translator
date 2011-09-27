@@ -5571,7 +5571,7 @@ uint32_t AstDumper_continueStatement_pargs::write(::apache::thrift::protocol::TP
   return xfer;
 }
 
-uint32_t AstDumper_beginDeleteStatement_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t AstDumper_beginDeleteExpression_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   uint32_t xfer = 0;
   std::string fname;
@@ -5611,9 +5611,9 @@ uint32_t AstDumper_beginDeleteStatement_args::read(::apache::thrift::protocol::T
   return xfer;
 }
 
-uint32_t AstDumper_beginDeleteStatement_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t AstDumper_beginDeleteExpression_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
-  xfer += oprot->writeStructBegin("AstDumper_beginDeleteStatement_args");
+  xfer += oprot->writeStructBegin("AstDumper_beginDeleteExpression_args");
   xfer += oprot->writeFieldBegin("mode", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString(this->mode);
   xfer += oprot->writeFieldEnd();
@@ -5622,9 +5622,9 @@ uint32_t AstDumper_beginDeleteStatement_args::write(::apache::thrift::protocol::
   return xfer;
 }
 
-uint32_t AstDumper_beginDeleteStatement_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t AstDumper_beginDeleteExpression_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
-  xfer += oprot->writeStructBegin("AstDumper_beginDeleteStatement_pargs");
+  xfer += oprot->writeStructBegin("AstDumper_beginDeleteExpression_pargs");
   xfer += oprot->writeFieldBegin("mode", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString((*(this->mode)));
   xfer += oprot->writeFieldEnd();
@@ -5633,7 +5633,7 @@ uint32_t AstDumper_beginDeleteStatement_pargs::write(::apache::thrift::protocol:
   return xfer;
 }
 
-uint32_t AstDumper_endDeleteStatement_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t AstDumper_endDeleteExpression_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   uint32_t xfer = 0;
   std::string fname;
@@ -5665,17 +5665,17 @@ uint32_t AstDumper_endDeleteStatement_args::read(::apache::thrift::protocol::TPr
   return xfer;
 }
 
-uint32_t AstDumper_endDeleteStatement_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t AstDumper_endDeleteExpression_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
-  xfer += oprot->writeStructBegin("AstDumper_endDeleteStatement_args");
+  xfer += oprot->writeStructBegin("AstDumper_endDeleteExpression_args");
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
 }
 
-uint32_t AstDumper_endDeleteStatement_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t AstDumper_endDeleteExpression_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
-  xfer += oprot->writeStructBegin("AstDumper_endDeleteStatement_pargs");
+  xfer += oprot->writeStructBegin("AstDumper_endDeleteExpression_pargs");
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -7965,17 +7965,17 @@ void AstDumperClient::send_continueStatement()
   oprot_->getTransport()->flush();
 }
 
-void AstDumperClient::beginDeleteStatement(const std::string& mode)
+void AstDumperClient::beginDeleteExpression(const std::string& mode)
 {
-  send_beginDeleteStatement(mode);
+  send_beginDeleteExpression(mode);
 }
 
-void AstDumperClient::send_beginDeleteStatement(const std::string& mode)
+void AstDumperClient::send_beginDeleteExpression(const std::string& mode)
 {
   int32_t cseqid = 0;
-  oprot_->writeMessageBegin("beginDeleteStatement", ::apache::thrift::protocol::T_CALL, cseqid);
+  oprot_->writeMessageBegin("beginDeleteExpression", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  AstDumper_beginDeleteStatement_pargs args;
+  AstDumper_beginDeleteExpression_pargs args;
   args.mode = &mode;
   args.write(oprot_);
 
@@ -7984,17 +7984,17 @@ void AstDumperClient::send_beginDeleteStatement(const std::string& mode)
   oprot_->getTransport()->flush();
 }
 
-void AstDumperClient::endDeleteStatement()
+void AstDumperClient::endDeleteExpression()
 {
-  send_endDeleteStatement();
+  send_endDeleteExpression();
 }
 
-void AstDumperClient::send_endDeleteStatement()
+void AstDumperClient::send_endDeleteExpression()
 {
   int32_t cseqid = 0;
-  oprot_->writeMessageBegin("endDeleteStatement", ::apache::thrift::protocol::T_CALL, cseqid);
+  oprot_->writeMessageBegin("endDeleteExpression", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  AstDumper_endDeleteStatement_pargs args;
+  AstDumper_endDeleteExpression_pargs args;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -12003,75 +12003,75 @@ void AstDumperProcessor::process_continueStatement(int32_t seqid, ::apache::thri
   return;
 }
 
-void AstDumperProcessor::process_beginDeleteStatement(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+void AstDumperProcessor::process_beginDeleteExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = NULL;
   if (eventHandler_.get() != NULL) {
-    ctx = eventHandler_->getContext("AstDumper.beginDeleteStatement", callContext);
+    ctx = eventHandler_->getContext("AstDumper.beginDeleteExpression", callContext);
   }
-  ::apache::thrift::TProcessorContextFreer freer(eventHandler_.get(), ctx, "AstDumper.beginDeleteStatement");
+  ::apache::thrift::TProcessorContextFreer freer(eventHandler_.get(), ctx, "AstDumper.beginDeleteExpression");
 
   if (eventHandler_.get() != NULL) {
-    eventHandler_->preRead(ctx, "AstDumper.beginDeleteStatement");
+    eventHandler_->preRead(ctx, "AstDumper.beginDeleteExpression");
   }
 
-  AstDumper_beginDeleteStatement_args args;
+  AstDumper_beginDeleteExpression_args args;
   args.read(iprot);
   iprot->readMessageEnd();
   uint32_t bytes = iprot->getTransport()->readEnd();
 
   if (eventHandler_.get() != NULL) {
-    eventHandler_->postRead(ctx, "AstDumper.beginDeleteStatement", bytes);
+    eventHandler_->postRead(ctx, "AstDumper.beginDeleteExpression", bytes);
   }
 
   try {
-    iface_->beginDeleteStatement(args.mode);
+    iface_->beginDeleteExpression(args.mode);
   } catch (const std::exception& e) {
     if (eventHandler_.get() != NULL) {
-      eventHandler_->handlerError(ctx, "AstDumper.beginDeleteStatement");
+      eventHandler_->handlerError(ctx, "AstDumper.beginDeleteExpression");
     }
     return;
   }
 
   if (eventHandler_.get() != NULL) {
-    eventHandler_->asyncComplete(ctx, "AstDumper.beginDeleteStatement");
+    eventHandler_->asyncComplete(ctx, "AstDumper.beginDeleteExpression");
   }
 
   return;
 }
 
-void AstDumperProcessor::process_endDeleteStatement(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+void AstDumperProcessor::process_endDeleteExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = NULL;
   if (eventHandler_.get() != NULL) {
-    ctx = eventHandler_->getContext("AstDumper.endDeleteStatement", callContext);
+    ctx = eventHandler_->getContext("AstDumper.endDeleteExpression", callContext);
   }
-  ::apache::thrift::TProcessorContextFreer freer(eventHandler_.get(), ctx, "AstDumper.endDeleteStatement");
+  ::apache::thrift::TProcessorContextFreer freer(eventHandler_.get(), ctx, "AstDumper.endDeleteExpression");
 
   if (eventHandler_.get() != NULL) {
-    eventHandler_->preRead(ctx, "AstDumper.endDeleteStatement");
+    eventHandler_->preRead(ctx, "AstDumper.endDeleteExpression");
   }
 
-  AstDumper_endDeleteStatement_args args;
+  AstDumper_endDeleteExpression_args args;
   args.read(iprot);
   iprot->readMessageEnd();
   uint32_t bytes = iprot->getTransport()->readEnd();
 
   if (eventHandler_.get() != NULL) {
-    eventHandler_->postRead(ctx, "AstDumper.endDeleteStatement", bytes);
+    eventHandler_->postRead(ctx, "AstDumper.endDeleteExpression", bytes);
   }
 
   try {
-    iface_->endDeleteStatement();
+    iface_->endDeleteExpression();
   } catch (const std::exception& e) {
     if (eventHandler_.get() != NULL) {
-      eventHandler_->handlerError(ctx, "AstDumper.endDeleteStatement");
+      eventHandler_->handlerError(ctx, "AstDumper.endDeleteExpression");
     }
     return;
   }
 
   if (eventHandler_.get() != NULL) {
-    eventHandler_->asyncComplete(ctx, "AstDumper.endDeleteStatement");
+    eventHandler_->asyncComplete(ctx, "AstDumper.endDeleteExpression");
   }
 
   return;

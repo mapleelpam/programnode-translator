@@ -117,8 +117,8 @@ class AstDumperIf {
   virtual void defaultCaseLabel() = 0;
   virtual void breakStatement() = 0;
   virtual void continueStatement() = 0;
-  virtual void beginDeleteStatement(const std::string& mode) = 0;
-  virtual void endDeleteStatement() = 0;
+  virtual void beginDeleteExpression(const std::string& mode) = 0;
+  virtual void endDeleteExpression() = 0;
   virtual void empty() = 0;
   virtual void startStoreRegister() = 0;
   virtual void endStoreRegister() = 0;
@@ -441,10 +441,10 @@ class AstDumperNull : virtual public AstDumperIf {
   void continueStatement() {
     return;
   }
-  void beginDeleteStatement(const std::string& /* mode */) {
+  void beginDeleteExpression(const std::string& /* mode */) {
     return;
   }
-  void endDeleteStatement() {
+  void endDeleteExpression() {
     return;
   }
   void empty() {
@@ -482,7 +482,7 @@ typedef struct _AstDumper_startProgram_args__isset {
 class AstDumper_startProgram_args {
  public:
 
-  AstDumper_startProgram_args() : version("0.0.1"), counter(24LL) {
+  AstDumper_startProgram_args() : version("0.0.1"), counter(25LL) {
   }
 
   virtual ~AstDumper_startProgram_args() throw() {}
@@ -4574,34 +4574,34 @@ class AstDumper_continueStatement_pargs {
 
 };
 
-typedef struct _AstDumper_beginDeleteStatement_args__isset {
-  _AstDumper_beginDeleteStatement_args__isset() : mode(false) {}
+typedef struct _AstDumper_beginDeleteExpression_args__isset {
+  _AstDumper_beginDeleteExpression_args__isset() : mode(false) {}
   bool mode;
-} _AstDumper_beginDeleteStatement_args__isset;
+} _AstDumper_beginDeleteExpression_args__isset;
 
-class AstDumper_beginDeleteStatement_args {
+class AstDumper_beginDeleteExpression_args {
  public:
 
-  AstDumper_beginDeleteStatement_args() : mode("") {
+  AstDumper_beginDeleteExpression_args() : mode("") {
   }
 
-  virtual ~AstDumper_beginDeleteStatement_args() throw() {}
+  virtual ~AstDumper_beginDeleteExpression_args() throw() {}
 
   std::string mode;
 
-  _AstDumper_beginDeleteStatement_args__isset __isset;
+  _AstDumper_beginDeleteExpression_args__isset __isset;
 
-  bool operator == (const AstDumper_beginDeleteStatement_args & rhs) const
+  bool operator == (const AstDumper_beginDeleteExpression_args & rhs) const
   {
     if (!(mode == rhs.mode))
       return false;
     return true;
   }
-  bool operator != (const AstDumper_beginDeleteStatement_args &rhs) const {
+  bool operator != (const AstDumper_beginDeleteExpression_args &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const AstDumper_beginDeleteStatement_args & ) const;
+  bool operator < (const AstDumper_beginDeleteExpression_args & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -4609,11 +4609,11 @@ class AstDumper_beginDeleteStatement_args {
 };
 
 
-class AstDumper_beginDeleteStatement_pargs {
+class AstDumper_beginDeleteExpression_pargs {
  public:
 
 
-  virtual ~AstDumper_beginDeleteStatement_pargs() throw() {}
+  virtual ~AstDumper_beginDeleteExpression_pargs() throw() {}
 
   const std::string* mode;
 
@@ -4622,24 +4622,24 @@ class AstDumper_beginDeleteStatement_pargs {
 };
 
 
-class AstDumper_endDeleteStatement_args {
+class AstDumper_endDeleteExpression_args {
  public:
 
-  AstDumper_endDeleteStatement_args() {
+  AstDumper_endDeleteExpression_args() {
   }
 
-  virtual ~AstDumper_endDeleteStatement_args() throw() {}
+  virtual ~AstDumper_endDeleteExpression_args() throw() {}
 
 
-  bool operator == (const AstDumper_endDeleteStatement_args & /* rhs */) const
+  bool operator == (const AstDumper_endDeleteExpression_args & /* rhs */) const
   {
     return true;
   }
-  bool operator != (const AstDumper_endDeleteStatement_args &rhs) const {
+  bool operator != (const AstDumper_endDeleteExpression_args &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const AstDumper_endDeleteStatement_args & ) const;
+  bool operator < (const AstDumper_endDeleteExpression_args & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -4647,11 +4647,11 @@ class AstDumper_endDeleteStatement_args {
 };
 
 
-class AstDumper_endDeleteStatement_pargs {
+class AstDumper_endDeleteExpression_pargs {
  public:
 
 
-  virtual ~AstDumper_endDeleteStatement_pargs() throw() {}
+  virtual ~AstDumper_endDeleteExpression_pargs() throw() {}
 
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -5190,10 +5190,10 @@ class AstDumperClient : virtual public AstDumperIf {
   void send_breakStatement();
   void continueStatement();
   void send_continueStatement();
-  void beginDeleteStatement(const std::string& mode);
-  void send_beginDeleteStatement(const std::string& mode);
-  void endDeleteStatement();
-  void send_endDeleteStatement();
+  void beginDeleteExpression(const std::string& mode);
+  void send_beginDeleteExpression(const std::string& mode);
+  void endDeleteExpression();
+  void send_endDeleteExpression();
   void empty();
   void send_empty();
   void startStoreRegister();
@@ -5326,8 +5326,8 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
   void process_defaultCaseLabel(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_breakStatement(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_continueStatement(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
-  void process_beginDeleteStatement(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
-  void process_endDeleteStatement(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_beginDeleteExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_endDeleteExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_empty(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_startStoreRegister(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_endStoreRegister(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -5442,8 +5442,8 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
     processMap_["defaultCaseLabel"] = &AstDumperProcessor::process_defaultCaseLabel;
     processMap_["breakStatement"] = &AstDumperProcessor::process_breakStatement;
     processMap_["continueStatement"] = &AstDumperProcessor::process_continueStatement;
-    processMap_["beginDeleteStatement"] = &AstDumperProcessor::process_beginDeleteStatement;
-    processMap_["endDeleteStatement"] = &AstDumperProcessor::process_endDeleteStatement;
+    processMap_["beginDeleteExpression"] = &AstDumperProcessor::process_beginDeleteExpression;
+    processMap_["endDeleteExpression"] = &AstDumperProcessor::process_endDeleteExpression;
     processMap_["empty"] = &AstDumperProcessor::process_empty;
     processMap_["startStoreRegister"] = &AstDumperProcessor::process_startStoreRegister;
     processMap_["endStoreRegister"] = &AstDumperProcessor::process_endStoreRegister;
@@ -6191,17 +6191,17 @@ class AstDumperMultiface : virtual public AstDumperIf {
     }
   }
 
-  void beginDeleteStatement(const std::string& mode) {
+  void beginDeleteExpression(const std::string& mode) {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
-      ifaces_[i]->beginDeleteStatement(mode);
+      ifaces_[i]->beginDeleteExpression(mode);
     }
   }
 
-  void endDeleteStatement() {
+  void endDeleteExpression() {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
-      ifaces_[i]->endDeleteStatement();
+      ifaces_[i]->endDeleteExpression();
     }
   }
 

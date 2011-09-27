@@ -25,23 +25,25 @@
 #ifndef __TW_MAPLE_AS_AST_SATEMENTS_DELETE_STMT_H__
 #define __TW_MAPLE_AS_AST_SATEMENTS_DELETE_STMT_H__
 
-#include <as/ast/abstract/statement.h>
-#include <as/ast/abstract/statement.h>
+#include <as/ast/abstract/expression.h>
 
 
 namespace tw { namespace maple { namespace as { namespace ast {
 
-struct DeleteStatement : public Statement
+struct DeleteExpression : public Expression
 {
-	DeleteStatement() :
-		Statement(Node::NodeType::T_DELETE) {
+	DeleteExpression( const std::string& m )
+		: Expression(Node::NodeType::T_DELETE)
+		, mode(m)
+	{
 	}
 
-	NodePtr DeleteExpression()	{	return node_childs[0];	}
+	NodePtr ChildExpression()	{	return node_childs[0];	}
 
-	std::string toString()  {	return "node::delete_stmt"; };
+	std::string toString()  {	return "node::delete_expression"; };
+	std::string mode;
 };
-typedef std::tr1::shared_ptr<DeleteStatement> DeleteStatementPtr;
+typedef std::tr1::shared_ptr<DeleteExpression> DeleteExpressionPtr;
 
 
 } } } }

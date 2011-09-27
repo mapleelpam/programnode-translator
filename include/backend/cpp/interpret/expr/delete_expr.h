@@ -25,7 +25,7 @@
 #ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_DELETE_STMT_H__
 #define __TW_MAPLE_BACKEDN_CPP_INTERPRET_STMT_DELETE_STMT_H__
 
-#include <as/ast/stmt/delete_stmt.h>
+#include <as/ast/expr/delete_expr.h>
 #include <backend/cpp/interpret/interpreter.h>
 #include <backend/cpp/templateprinter.h>
 
@@ -33,26 +33,25 @@ namespace tw { namespace maple { namespace backend { namespace cpp { namespace i
 
 namespace AST = ::tw::maple::as::ast;
 
-struct DeleteStatement : public Interpreter, public TemplatePrinter
+struct DeleteExpression : public Interpreter, public TemplatePrinter
 {
 
 	virtual ReturnValue expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context& ctx
-			
 			)
 	{
-		AST::DeleteStatementPtr DELETE = std::tr1::static_pointer_cast<AST::DeleteStatement>(node);
+		AST::DeleteExpressionPtr DELETE = std::tr1::static_pointer_cast<AST::DeleteExpression>(node);
 		std::list<PatternPtr> patterns;
 
-		patterns.push_back( PatternPtr( new Pattern("delete_expression", dispatchExpound(DELETE->DeleteExpression(), symbol_table, ctx).result ) ));
+		patterns.push_back( PatternPtr( new Pattern("delete_expression", dispatchExpound(DELETE->ChildExpression(), symbol_table, ctx).result ) ));
 		COMPELET_PATTERNS( patterns, ctx );
 
 		return substitutePatterns( patterns );
 	}
 
-	DeleteStatement()
-		: TemplatePrinter("DeleteStatement")
+	DeleteExpression()
+		: TemplatePrinter("DeleteExpression")
 	{
 		setTemplateString( "delete #(delete_expression)" );
 	}

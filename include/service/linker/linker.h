@@ -572,12 +572,12 @@ public:
 
 	}
 
-	void beginDeleteStatement( const std::string& mode ) {
-		pm_module->beginDeleteStatement( mode );
+	void beginDeleteExpression( const std::string& mode ) {
+		pm_module->beginDeleteExpression( mode );
 	}
 
-	void endDeleteStatement() {
-		pm_module->endDeleteStatement();
+	void endDeleteExpression() {
+		pm_module->endDeleteExpression();
 	}
 
 	void startThrowStatement() {
