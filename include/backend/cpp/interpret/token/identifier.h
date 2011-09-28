@@ -182,7 +182,11 @@ struct Identifier : public Interpreter, public TemplatePrinter
 						{ // invoke mapper
 							std::list<PatternPtr> patterns;
 							patterns.push_back( PatternPtr( new Pattern("id", li->value) ));
-							return substitutePatterns( m_tpl_undefined_member_call, patterns );
+
+							if( ctx.is_delete )
+								return substitutePatterns( m_tpl_undefined_member_delete, patterns );
+							else
+								return substitutePatterns( m_tpl_undefined_member_call, patterns );
 						}	
 	
 						std::cerr << " can't find scope - "
@@ -261,6 +265,7 @@ struct Identifier : public Interpreter, public TemplatePrinter
 		: TemplatePrinter("Identifier")
 	{
 		m_tpl_undefined_member_call = "getProperty(\"#(id)\" )";
+		m_tpl_undefined_member_delete = "removeProperty(\"#(id)\" )";
 		m_tpl_attribute_call = "getAttribute(\"#(id)\" )";
 	}
 	virtual bool readConfig( boost::property_tree::ptree& pt )
@@ -277,6 +282,7 @@ struct Identifier : public Interpreter, public TemplatePrinter
 private:
 	std::string m_tpl_undefined_member_call;
 	std::string	m_tpl_attribute_call;
+	std::string m_tpl_undefined_member_delete;
 };
 
 

@@ -40,10 +40,13 @@ ADD_CUSTOM_COMMAND(
     COMMAND ${PNLD} ${MULTIPLE_PNs} -o ${CMAKE_CURRENT_BINARY_DIR}/multiple.pn
     ) 
 
+set( PRE_MSG " include \"somthing\"") 
 ADD_CUSTOM_TARGET(
     runtest-goniblergo
     DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/multiple.pn ${PNC}
     #COMMAND ${PNC} ${CMAKE_CURRENT_BINARY_DIR}/multiple.pn -o ${CMAKE_CURRENT_BINARY_DIR}/multiple.cpp ${LIBRARY_OUTPUT_PATH}/builtin.pn
     COMMAND ${PNC} ${MULTIPLE_PNs}  -o ${CMAKE_CURRENT_BINARY_DIR}/multiple.cpp ${LIBRARY_OUTPUT_PATH}/builtin.pn
+    COMMAND ${PNC} ${MULTIPLE_PNs} --declare -o ${CMAKE_CURRENT_BINARY_DIR}/go.only.h ${LIBRARY_OUTPUT_PATH}/builtin.pn
+    COMMAND ${PNC} ${MULTIPLE_PNs} --define -o ${CMAKE_CURRENT_BINARY_DIR}/go.only.cpp ${LIBRARY_OUTPUT_PATH}/builtin.pn --declare --prepend_codes ${PRE_MSG}
     COMMAND g++ ${CMAKE_CURRENT_BINARY_DIR}/multiple.cpp -o ${EXECUTABLE_OUTPUT_PATH}/multiple_test
     )

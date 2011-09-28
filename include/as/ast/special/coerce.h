@@ -23,31 +23,28 @@
  * ***************************************************************/
 
 
-#ifndef __AS_AST_STORE_REGISTER_H_
-#define __AS_AST_STORE_REGISTER_H_
+#ifndef __AS_AST_COERCE_H__
+#define __AS_AST_COERCE_H__
 
 #include <as/ast/abstract/expression.h>
 
 namespace tw { namespace maple { namespace as { namespace ast {
 
-struct StoreRegister: public Node
+struct Coerce: public Node
 {
-	StoreRegister( )
-		: Node(Node::NodeType::T_STORE_REG)
+	Coerce( )
+		: Node(Node::NodeType::T_COERCE)
 	{
 	}
 
-    NodePtr getRegister(){	return (node_childs.size() > 0 )? node_childs[0] : NodePtr();	}
-    NodePtr getExpression(){	return (node_childs.size() > 1 )? node_childs[1] : NodePtr();	}
+    NodePtr getExpression(){	return (node_childs.size() > 1 )? node_childs[0] : NodePtr();	}
 
-
-    std::string toString()  {	return "node::store_register"; };
+    std::string toString()  {	return "node::coerce"; };
 };
 
-typedef SHARED_PTR(StoreRegister) StoreRegisterPtr;
+typedef SHARED_PTR(Coerce) CoercePtr;
 
 
 } } } }
 
 #endif
-

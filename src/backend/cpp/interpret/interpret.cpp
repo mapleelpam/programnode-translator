@@ -78,6 +78,11 @@
 #include <backend/cpp/interpret/token/default_label.h>
 #include <backend/cpp/interpret/token/break.h>
 #include <backend/cpp/interpret/token/continue.h>
+#include <backend/cpp/interpret/special/coerce.h>
+#include <backend/cpp/interpret/special/has_next.h>
+#include <backend/cpp/interpret/special/load_register.h>
+#include <backend/cpp/interpret/special/register.h>
+#include <backend/cpp/interpret/special/store_register.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
@@ -148,6 +153,11 @@ void initializeInterpreters()
 		interpreterResolver[AST::Node::NodeType::T_BREAK] = new Break();
 		interpreterResolver[AST::Node::NodeType::T_CONTINUE] = new Continue();
 		interpreterResolver[AST::Node::NodeType::T_DELETE] = new DeleteExpression();
+		interpreterResolver[AST::Node::NodeType::T_HAS_NEXT] = new HasNext();
+		interpreterResolver[AST::Node::NodeType::T_REG] = new Register();
+		interpreterResolver[AST::Node::NodeType::T_STORE_REG] = new StoreRegister();
+		interpreterResolver[AST::Node::NodeType::T_LOAD_REG] = new LoadRegister();
+		interpreterResolver[AST::Node::NodeType::T_COERCE] = new Coerce();
 
 	}
 }

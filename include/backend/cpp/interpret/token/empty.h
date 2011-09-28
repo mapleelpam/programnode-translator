@@ -45,7 +45,7 @@ struct Empty : public Interpreter
 			
 			)
 	{
-		return "";
+		return "/*empty*/";
 	}
 
 };

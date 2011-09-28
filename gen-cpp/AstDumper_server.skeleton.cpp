@@ -587,6 +587,16 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("endHasNext\n");
   }
 
+  void startCoerce() {
+    // Your implementation goes here
+    printf("startCoerce\n");
+  }
+
+  void endCoerce() {
+    // Your implementation goes here
+    printf("endCoerce\n");
+  }
+
 };
 
 int main(int argc, char **argv) {

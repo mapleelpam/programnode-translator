@@ -141,6 +141,7 @@ struct Node
 			T_LOAD_REG,
 			T_REG,
 			T_HAS_NEXT,
+			T_COERCE,
 
             T_NODE_TYPE_END,
 

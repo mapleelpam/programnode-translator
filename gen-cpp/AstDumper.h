@@ -127,6 +127,8 @@ class AstDumperIf {
   virtual void registerNode(const int32_t reg) = 0;
   virtual void startHasNext() = 0;
   virtual void endHasNext() = 0;
+  virtual void startCoerce() = 0;
+  virtual void endCoerce() = 0;
 };
 
 class AstDumperNull : virtual public AstDumperIf {
@@ -471,6 +473,12 @@ class AstDumperNull : virtual public AstDumperIf {
   void endHasNext() {
     return;
   }
+  void startCoerce() {
+    return;
+  }
+  void endCoerce() {
+    return;
+  }
 };
 
 typedef struct _AstDumper_startProgram_args__isset {
@@ -482,7 +490,7 @@ typedef struct _AstDumper_startProgram_args__isset {
 class AstDumper_startProgram_args {
  public:
 
-  AstDumper_startProgram_args() : version("0.0.1"), counter(25LL) {
+  AstDumper_startProgram_args() : version("0.0.1"), counter(26LL) {
   }
 
   virtual ~AstDumper_startProgram_args() throw() {}
@@ -4964,6 +4972,80 @@ class AstDumper_endHasNext_pargs {
 
 };
 
+
+class AstDumper_startCoerce_args {
+ public:
+
+  AstDumper_startCoerce_args() {
+  }
+
+  virtual ~AstDumper_startCoerce_args() throw() {}
+
+
+  bool operator == (const AstDumper_startCoerce_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const AstDumper_startCoerce_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_startCoerce_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_startCoerce_pargs {
+ public:
+
+
+  virtual ~AstDumper_startCoerce_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_endCoerce_args {
+ public:
+
+  AstDumper_endCoerce_args() {
+  }
+
+  virtual ~AstDumper_endCoerce_args() throw() {}
+
+
+  bool operator == (const AstDumper_endCoerce_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const AstDumper_endCoerce_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_endCoerce_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_endCoerce_pargs {
+ public:
+
+
+  virtual ~AstDumper_endCoerce_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
 class AstDumperClient : virtual public AstDumperIf {
  public:
   AstDumperClient(boost::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) :
@@ -5210,6 +5292,10 @@ class AstDumperClient : virtual public AstDumperIf {
   void send_startHasNext();
   void endHasNext();
   void send_endHasNext();
+  void startCoerce();
+  void send_startCoerce();
+  void endCoerce();
+  void send_endCoerce();
  protected:
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -5336,6 +5422,8 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
   void process_registerNode(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_startHasNext(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_endHasNext(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_startCoerce(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_endCoerce(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
   AstDumperProcessor(boost::shared_ptr<AstDumperIf> iface) :
     iface_(iface) {
@@ -5452,6 +5540,8 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
     processMap_["registerNode"] = &AstDumperProcessor::process_registerNode;
     processMap_["startHasNext"] = &AstDumperProcessor::process_startHasNext;
     processMap_["endHasNext"] = &AstDumperProcessor::process_endHasNext;
+    processMap_["startCoerce"] = &AstDumperProcessor::process_startCoerce;
+    processMap_["endCoerce"] = &AstDumperProcessor::process_endCoerce;
   }
 
   virtual bool process(boost::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot, boost::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot, void* callContext);
@@ -6258,6 +6348,20 @@ class AstDumperMultiface : virtual public AstDumperIf {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
       ifaces_[i]->endHasNext();
+    }
+  }
+
+  void startCoerce() {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->startCoerce();
+    }
+  }
+
+  void endCoerce() {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->endCoerce();
     }
   }
 

@@ -43,7 +43,8 @@ struct Context
 	enum InterpretType
 	{
 		LHS,
-		RHS
+		RHS,
+//		DELETE
 	};
 	struct ScopeContext
 	{
@@ -166,6 +167,7 @@ struct Context
     	, statement_class_symbol( tw::maple::as::symbol::ScopePtr() )
     	, left_is_pointer( false )
     	, without_type(false)
+    	, is_delete( false )
     {
 
     }
@@ -177,6 +179,7 @@ struct Context
 	bool			lfs_is_setter;
 	bool			left_is_pointer;
 	bool			without_type; // for param
+	bool			is_delete;
 
 	tw::maple::as::symbol::Symbol*	expression_symbol;
 	tw::maple::as::symbol::ScopePtr	statement_class_symbol;

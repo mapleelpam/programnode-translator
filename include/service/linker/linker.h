@@ -651,7 +651,13 @@ public:
 	void endHasNext() {
 		pm_module->endHasNext();
 	}
+    void startCoerce() {
+		pm_module->startCoerce();
+    }
 
+    void endCoerce() {
+		pm_module->endCoerce();
+    }
 };
 
 } } } } //tw::maple::service::linker

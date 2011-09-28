@@ -60,7 +60,8 @@ struct MemberExpression : public Interpreter
 		}
 		else if( expr_mem->base()->is( AST::Node::NodeType::T_LOAD_REG) )
 		{
-			return "Fuck->next()";
+			/* TODO: checkout variable name (itc) from ctx */
+			return "itc->next()";
 		}
 		else if( expr_mem->base()->is( AST::Node::NodeType::T_SUPER_EXPRESSION) )
 		{

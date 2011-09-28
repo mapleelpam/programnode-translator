@@ -100,6 +100,7 @@
 #include <as/ast/special/load_register.h>
 #include <as/ast/special/register.h>
 #include <as/ast/special/has_next.h>
+#include <as/ast/special/coerce.h>
 
 
 using namespace apache::thrift;
@@ -633,6 +634,13 @@ public:
     	CHECK_STACK_AND_POP( HasNext, AST::Node::NodeType::T_HAS_NEXT );
     }
 
+    void startCoerce() {
+    	PUSH_STACK( Coerce );
+    }
+
+    void endCoerce() {
+    	CHECK_STACK_AND_POP( Coerce, AST::Node::NodeType::T_COERCE );
+    }
 public:
    as::ast::ProgramPtr getProgramNode() {	return _program_root;	};
 

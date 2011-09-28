@@ -44,8 +44,21 @@ struct DeleteExpression : public Interpreter, public TemplatePrinter
 		AST::DeleteExpressionPtr DELETE = std::tr1::static_pointer_cast<AST::DeleteExpression>(node);
 		std::list<PatternPtr> patterns;
 
-		patterns.push_back( PatternPtr( new Pattern("delete_expression", dispatchExpound(DELETE->ChildExpression(), symbol_table, ctx).result ) ));
-		COMPELET_PATTERNS( patterns, ctx );
+		std::cerr <<" delete -> mode '" << DELETE->mode<<"'"<<std::endl;
+		if( DELETE->mode == "dot")
+		{
+			tw::maple::backend::cpp::Context ctx2 = ctx;
+//			ctx2.inter_type = Context::DELETE;
+			ctx2.is_delete = true;
+			ReturnValue result = dispatchExpound(DELETE->ChildExpression(), symbol_table, ctx2);
+
+			return "->"+result.result;
+		}
+		else
+		{
+			patterns.push_back( PatternPtr( new Pattern("child_expression", dispatchExpound(DELETE->ChildExpression(), symbol_table, ctx).result ) ));
+			COMPELET_PATTERNS( patterns, ctx );
+		}
 
 		return substitutePatterns( patterns );
 	}
@@ -53,7 +66,7 @@ struct DeleteExpression : public Interpreter, public TemplatePrinter
 	DeleteExpression()
 		: TemplatePrinter("DeleteExpression")
 	{
-		setTemplateString( "delete #(delete_expression)" );
+		setTemplateString( "delete #(child_expression)" );
 	}
 
 };
