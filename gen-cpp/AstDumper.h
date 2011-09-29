@@ -46,6 +46,8 @@ class AstDumperIf {
   virtual void endOneArgument() = 0;
   virtual void endArgumentList() = 0;
   virtual void endCallExpression() = 0;
+  virtual void startInvokeExpression(const CallExpression& call) = 0;
+  virtual void endInvokeExpression() = 0;
   virtual void startBinaryExpression(const BinaryExpression& op) = 0;
   virtual void endBinaryExpression() = 0;
   virtual void startIncrementExpression(const IncrementType::type type, const std::string& token) = 0;
@@ -228,6 +230,12 @@ class AstDumperNull : virtual public AstDumperIf {
     return;
   }
   void endCallExpression() {
+    return;
+  }
+  void startInvokeExpression(const CallExpression& /* call */) {
+    return;
+  }
+  void endInvokeExpression() {
     return;
   }
   void startBinaryExpression(const BinaryExpression& /* op */) {
@@ -490,7 +498,7 @@ typedef struct _AstDumper_startProgram_args__isset {
 class AstDumper_startProgram_args {
  public:
 
-  AstDumper_startProgram_args() : version("0.0.1"), counter(26LL) {
+  AstDumper_startProgram_args() : version("0.0.1"), counter(27LL) {
   }
 
   virtual ~AstDumper_startProgram_args() throw() {}
@@ -1794,6 +1802,90 @@ class AstDumper_endCallExpression_pargs {
 
 
   virtual ~AstDumper_endCallExpression_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _AstDumper_startInvokeExpression_args__isset {
+  _AstDumper_startInvokeExpression_args__isset() : call(false) {}
+  bool call;
+} _AstDumper_startInvokeExpression_args__isset;
+
+class AstDumper_startInvokeExpression_args {
+ public:
+
+  AstDumper_startInvokeExpression_args() {
+  }
+
+  virtual ~AstDumper_startInvokeExpression_args() throw() {}
+
+  CallExpression call;
+
+  _AstDumper_startInvokeExpression_args__isset __isset;
+
+  bool operator == (const AstDumper_startInvokeExpression_args & rhs) const
+  {
+    if (!(call == rhs.call))
+      return false;
+    return true;
+  }
+  bool operator != (const AstDumper_startInvokeExpression_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_startInvokeExpression_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_startInvokeExpression_pargs {
+ public:
+
+
+  virtual ~AstDumper_startInvokeExpression_pargs() throw() {}
+
+  const CallExpression* call;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_endInvokeExpression_args {
+ public:
+
+  AstDumper_endInvokeExpression_args() {
+  }
+
+  virtual ~AstDumper_endInvokeExpression_args() throw() {}
+
+
+  bool operator == (const AstDumper_endInvokeExpression_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const AstDumper_endInvokeExpression_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AstDumper_endInvokeExpression_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AstDumper_endInvokeExpression_pargs {
+ public:
+
+
+  virtual ~AstDumper_endInvokeExpression_pargs() throw() {}
 
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -5130,6 +5222,10 @@ class AstDumperClient : virtual public AstDumperIf {
   void send_endArgumentList();
   void endCallExpression();
   void send_endCallExpression();
+  void startInvokeExpression(const CallExpression& call);
+  void send_startInvokeExpression(const CallExpression& call);
+  void endInvokeExpression();
+  void send_endInvokeExpression();
   void startBinaryExpression(const BinaryExpression& op);
   void send_startBinaryExpression(const BinaryExpression& op);
   void endBinaryExpression();
@@ -5341,6 +5437,8 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
   void process_endOneArgument(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_endArgumentList(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_endCallExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_startInvokeExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_endInvokeExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_startBinaryExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_endBinaryExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_startIncrementExpression(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -5459,6 +5557,8 @@ class AstDumperProcessor : virtual public ::apache::thrift::TProcessor {
     processMap_["endOneArgument"] = &AstDumperProcessor::process_endOneArgument;
     processMap_["endArgumentList"] = &AstDumperProcessor::process_endArgumentList;
     processMap_["endCallExpression"] = &AstDumperProcessor::process_endCallExpression;
+    processMap_["startInvokeExpression"] = &AstDumperProcessor::process_startInvokeExpression;
+    processMap_["endInvokeExpression"] = &AstDumperProcessor::process_endInvokeExpression;
     processMap_["startBinaryExpression"] = &AstDumperProcessor::process_startBinaryExpression;
     processMap_["endBinaryExpression"] = &AstDumperProcessor::process_endBinaryExpression;
     processMap_["startIncrementExpression"] = &AstDumperProcessor::process_startIncrementExpression;
@@ -5781,6 +5881,20 @@ class AstDumperMultiface : virtual public AstDumperIf {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
       ifaces_[i]->endCallExpression();
+    }
+  }
+
+  void startInvokeExpression(const CallExpression& call) {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->startInvokeExpression(call);
+    }
+  }
+
+  void endInvokeExpression() {
+    uint32_t sz = ifaces_.size();
+    for (uint32_t i = 0; i < sz; ++i) {
+      ifaces_[i]->endInvokeExpression();
     }
   }
 

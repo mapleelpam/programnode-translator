@@ -44,10 +44,10 @@ struct Coerce : public Interpreter
 
 		ReturnValue exp = dispatchExpound(COERCE->getExpression(), symbol_table, ctx );
 
-		std::stringstream ss;
-		ss << COERCE->node_childs.size() + "  - "+COERCE->getExpression()->toString();
+//		std::stringstream ss;
+//		ss << COERCE->node_childs.size() + "  - "+COERCE->getExpression()->toString();
 
-		return  "/* Coerce */"+exp.result+" /* coerce end*/" + ss.str();
+		return  exp.result;
 	}
 
 };

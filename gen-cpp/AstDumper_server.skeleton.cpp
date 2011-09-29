@@ -182,6 +182,16 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("endCallExpression\n");
   }
 
+  void startInvokeExpression(const CallExpression& call) {
+    // Your implementation goes here
+    printf("startInvokeExpression\n");
+  }
+
+  void endInvokeExpression() {
+    // Your implementation goes here
+    printf("endInvokeExpression\n");
+  }
+
   void startBinaryExpression(const BinaryExpression& op) {
     // Your implementation goes here
     printf("startBinaryExpression\n");

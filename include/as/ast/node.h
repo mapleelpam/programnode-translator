@@ -70,6 +70,7 @@ struct Node
             T_UNARY_OPERATOR,
 
             T_CALL,
+            T_INVOKE,
             T_CompareOperator,
 
             T_PostfixOperator,

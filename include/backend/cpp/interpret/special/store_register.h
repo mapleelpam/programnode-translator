@@ -45,10 +45,8 @@ struct StoreRegister: public Interpreter
 		ReturnValue v2 = dispatchExpound(SREG->getExpression(), symbol_table, ctx );
 
 		if( v2.result == "0")
-			return "/* ignore reset register -1 */";
-		return  std::string("/* StoreRegister */")
-				+ "/*reg*/" + v1.result
-				+ "/*exp*/" + v2.result;
+			return _DS2("/* ignore reset register -1 */");
+		return "IterateForeach itc(" + v2.result +")";
 	}
 
 };

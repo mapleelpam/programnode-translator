@@ -22,29 +22,47 @@
  * Author: mapleelpam at gmail.com - Kai-Feng Chou - maple
  * ***************************************************************/
 
-
-#ifndef __AS_AST_COERCE_H__
-#define __AS_AST_COERCE_H__
+#ifndef __TW_MAPLE_AS_AST_INVOKE_H__
+#define __TW_MAPLE_AS_AST_INVOKE_H__
 
 #include <as/ast/abstract/expression.h>
+#include <as/symbol/symbol.h>
 
 namespace tw { namespace maple { namespace as { namespace ast {
 
-struct Coerce: public Node
+// Abstract
+struct Invoke : public Expression
 {
-	Coerce( )
-		: Node(Node::NodeType::T_COERCE)
+	Invoke( const std::vector<std::string> c, std::string m, bool is_new = false )
+	 : Expression(Node::NodeType::T_INVOKE)
+ 	 , callee(c)
+	 , mode(m)
+	{	}
+
+    std::string toString()  {	return "node::invoke"; };
+
+    const std::vector<std::string> callee;
+    NodePtr getArgs(){	return (node_childs.size() > 0 )? node_childs[0] : NodePtr();	}
+
+	virtual void bindType( tw::maple::as::symbol::SymbolPtr type)
 	{
+			m_type_symbol = type;
+	}
+	virtual tw::maple::as::symbol::SymbolPtr getInvokeeeType()
+	{
+		return m_type_symbol;
 	}
 
-    NodePtr getExpression(){	return (node_childs.size() > 0 )? node_childs[0] : NodePtr();	}
+	std::string mode;
+private:
 
-    std::string toString()  {	return "node::coerce"; };
+	tw::maple::as::symbol::SymbolPtr	m_type_symbol;
 };
 
-typedef SHARED_PTR(Coerce) CoercePtr;
+typedef SHARED_PTR(Invoke) InvokePtr;
 
 
 } } } }
+
 
 #endif

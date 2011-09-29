@@ -20,6 +20,9 @@ class b extends a
 
 		var test: a = new a(1);
 		delete test;
+
+//        test.cde = "123";
+        delete test.cde ;
    }
 
   public var member2:int = 0;

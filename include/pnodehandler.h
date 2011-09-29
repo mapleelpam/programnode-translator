@@ -48,6 +48,7 @@
 #include <as/ast/token/this_expression.h>
 #include <as/ast/token/identifier.h>
 #include <as/ast/expr/call.h>
+#include <as/ast/expr/invoke.h>
 #include <as/ast/expr/increment_operator.h>
 #include <as/ast/expr/member_expression.h>
 #include <as/ast/expr/arguments.h>
@@ -274,9 +275,14 @@ public:
 	void endCallExpression() {
 		CHECK_STACK_AND_POP( CallExpression, AST::Node::NodeType::T_CALL );
 	}
+	void startInvokeExpression(const generated::CallExpression& call) {
+		PUSH_STACK_WITH_INIT( Invoke, call.callee, call.mode);
+	}
+	void endInvokeExpression() {
+		CHECK_STACK_AND_POP( InvokeExpression, AST::Node::NodeType::T_INVOKE );
+	}
 	void startBinaryExpression(const generated::BinaryExpression& op) {
 		PUSH_STACK_WITH_INIT( BinaryOperator, op.op );
-
 	}
 	void endBinaryExpression() {
 		CHECK_STACK_AND_POP( StmtExpression, AST::Node::NodeType::T_BINARY_OPERATOR );

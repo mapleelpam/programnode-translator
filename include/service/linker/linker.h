@@ -234,17 +234,22 @@ public:
 	}
 
 	void endArgumentList() {
-
 		printf("endArgumentList\n");
 		pm_module->endArgumentList();
 	}
 
 	void endCallExpression() {
-
 		printf("endCallExpression\n");
 		pm_module->endCallExpression();
 	}
-
+	void startInvokeExpression(const generated::CallExpression& call) {
+		printf("startInvokeExpression\n");
+		pm_module->startInvokeExpression(call);
+	}
+	void endInvokeExpression() {
+		printf("endInvokeExpression\n");
+		pm_module->endInvokeExpression();
+	}
 	void startBinaryExpression(const generated::BinaryExpression& op) {
 
 		printf("startBinaryExpression\n");
