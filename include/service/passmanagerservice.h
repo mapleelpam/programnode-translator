@@ -41,8 +41,11 @@
 #include <service/pass/backendmanager.h>
 #include <service/pass/symboltableconstructor.h>
 #include <service/argumentsservice.h>
+#include <service/globalsettings.h>
 #include <as/symbol/action/debug.h>
+#include <as/symbol/action/predef.h>
 #include <as/symbol/symboltable.h>
+
 
 namespace tw { namespace maple { namespace service {
 
@@ -97,6 +100,13 @@ public:
 			if( m_out_file_path != "" )
 				ofs.open(m_out_file_path.c_str());
 			tw::maple::as::symbol::Debug::dump_symboltable( symbol_table, ofs );
+			exit(0);
+		}
+		if( SVC_GLOBAL_SETTINGS->predef_only ) {
+			std::ofstream ofs;
+			if (m_out_file_path != "")
+				ofs.open(m_out_file_path.c_str());
+			tw::maple::as::symbol::PreDefine::dump_symboltable(symbol_table, ofs);
 			exit(0);
 		}
 

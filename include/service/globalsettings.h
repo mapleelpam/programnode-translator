@@ -50,6 +50,7 @@ struct GlobalSettings  : public ArgElemenRequest
 				("debug","debug message")
 	    	    ("define", "define only (header)")
 	    	    ("declare", "declare only (source)")
+	    	    ("predef", "pre deinfe only (declare name only)")
 	    	    ("prepend_codes", po::value<std::string>(), "prepend cpp codes before reall translate")
 	        ;
 	}
@@ -61,6 +62,9 @@ struct GlobalSettings  : public ArgElemenRequest
 		}
 		if (args.count("declare") > 0) {
 			declare_only = true;
+		}
+		if (args.count("predef") > 0) {
+			predef_only = true;
 		}
 		if (args.count("prepend_codes") > 0) {
 			prepend_codes = args["prepend_codes"].as<std::string>();
@@ -74,6 +78,7 @@ private:
 	GlobalSettings()
 		: define_only(false)
 		, declare_only(false)
+		, predef_only(false)
 		, prepend_codes("")
 		, show_debug_message(false)
 	{
@@ -93,6 +98,7 @@ public:
 
 	bool		define_only;
 	bool		declare_only;
+	bool		predef_only;
 	std::string	prepend_codes;
 
 	bool		show_debug_message;
