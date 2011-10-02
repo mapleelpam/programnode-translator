@@ -181,6 +181,7 @@ void SymbolTableConstructor:: constructSymbols(
 				symbol_var->setMappedName( var->getNameMapto() );
 //				std::cerr << " in variable declare = '" << var->getNameMapto()<<"'"<<std::endl;
 				symbol_var->setIsStatic( var->is("static") );
+				symbol_var->setIsConst( var->is("const") );
 				if( var->varInit() )
 					symbol_var->setInitializeNode( var->varInit() );
 

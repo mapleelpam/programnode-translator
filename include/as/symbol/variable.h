@@ -36,6 +36,7 @@ struct Variable : public Symbol
 	Variable( std::string n, Scope *parent,  uint p = Symbol::T_NONE )
 		: Symbol( n, p | Symbol::T_VARIABLE )
 		, m_parent( parent )
+		, m_is_const( false )
 	{
 	}
 
@@ -93,9 +94,19 @@ struct Variable : public Symbol
 		return false;
 	}
 
+	void setIsConst( bool b )
+	{
+		m_is_const = b;
+	}
+	bool isConst()
+	{
+		return m_is_const;
+	}
+
 private:
 	SymbolPtr	m_type_symbol;
 	Scope*		m_parent;
+	bool		m_is_const;
 
 public:
 	void setInitializeNode( tw::maple::as::ast::NodePtr node )

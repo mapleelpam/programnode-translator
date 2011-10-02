@@ -288,7 +288,7 @@ private:
 			if (((*child_itr)->getSymbolProperties() & ASY::Symbol::T_VARIABLE)) {
 				ASY::VariablePtr var = STATIC_CAST( ASY::Variable, *child_itr );
 				ASY::SymbolPtr	symbol_type = var->getTypeSymbol();
-				if ( var && !var->isStatic() ) {
+				if ( var && !var->isStatic() && !var->isConst()) {
 					std::string str_var_type;
 					if( symbol_type->preferStack())
 						str_var_type = symbol_type->getFQN_and_instanceName();
