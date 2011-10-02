@@ -13,7 +13,7 @@ package
 
 		//public function concat (...rest) : String;
 
-		//public static function fromCharCode (...rest) : String;
+		public static function fromCharCode (...rest) : String;
 
 		public function indexOf (s:String = undefined, i:Number = 0) : int;
 
