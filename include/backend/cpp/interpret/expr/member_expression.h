@@ -79,15 +79,11 @@ struct MemberExpression : public Interpreter
 		}
 		else
 		{
-			//std::cerr << __FILE__<<":"<<__LINE__ << std::endl;
 
-//			if( class_symbol_table == NULL && symbol_table )
-//				class_symbol_table = symbol_table->getParent();
-
-			//std::cerr << __FILE__<<":"<<__LINE__ << std::endl;
 			ReturnValue base = dispatchExpound( expr_mem->base(), symbol_table, ctx/*crazy?*/);
-			//std::cerr << __FILE__<<":"<<__LINE__ << std::endl;
 			result = base;
+//			if( result.result != "")
+//				result.result = "("+result.result+")";
 
 			if( base.token_symbol != NULL )
 			{
@@ -105,7 +101,7 @@ struct MemberExpression : public Interpreter
 				{
 					ASY::ScopePtr base_type	 = DYNA_CAST( ASY::Scope, base.token_symbol);
 					ReturnValue result = dispatchExpound(expr_mem->selector(), symbol_table, ctx2/*, base_type.get()*/);
-					result.result = constructor_work_around(result, result.result);
+					result.result = constructor_work_around(result, result.result)+_DS("/*call const wa*/");
 					return result;
 				}
 				else if( expr_mem->selector()->is( AST::Node::NodeType::T_GET_EXPRESSION )
@@ -129,7 +125,7 @@ struct MemberExpression : public Interpreter
 				std::cerr <<__FILE__<<" "<<__LINE__<< " -- '" << result.result <<"' '"<<base.result<<"'"<<std::endl;
 				if(base.token_symbol2 )
 					std::cerr <<" error happend here!"<<std::endl;
-				result += _DS2("/* path3 */")+dispatchExpound( expr_mem->selector(), symbol_table, ctx ).result;
+				result = "("+result.result +")->"+_DS2("/* path3 */")+dispatchExpound( expr_mem->selector(), symbol_table, ctx ).result;
 			}
 		}
 		return result;

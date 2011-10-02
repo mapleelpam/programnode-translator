@@ -1,7 +1,7 @@
 // RUN: java -jar %ASC_JAR -x -z %t.pn  %s 
 // RUN: pnc %t.pn -o %t.cpp
-// R U N: g++ -o %t %t.cpp 
-// R U N: %t | FileCheck -input-file=- %s 
+// RUN: g++ -o %t %t.cpp 
+// RUN: %t | FileCheck -input-file=- %s 
 
 package a
 {
@@ -26,6 +26,7 @@ package a
 
 function main() : int
 {
-	printf(" %d \n", (new a.c).d() ); // CHECK: 987
+	printf(" %d \n", (new a.c).d() ); // CHECK: 789
+	printf(" %d \n", new a.c().d() ); // CHECK: 789
 }
 

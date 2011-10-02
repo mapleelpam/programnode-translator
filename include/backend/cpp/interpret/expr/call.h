@@ -207,6 +207,8 @@ struct Call : public Interpreter, public TemplatePrinter
 				str_answer = substitutePatterns( patterns );
 		}
 		//std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
+		if (CALL->isObjectConsturct())
+			str_answer = "("+str_answer+")";
 		result.result = str_answer;
 
 		return result;
