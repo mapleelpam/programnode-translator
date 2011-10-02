@@ -8,7 +8,7 @@ package
 {
     intrinsic public class String 
     {
-        public static const length : int;
+        public static var length : int;
 
     }
 

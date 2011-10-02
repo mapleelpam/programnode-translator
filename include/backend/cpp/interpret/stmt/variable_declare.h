@@ -67,7 +67,7 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 		std::string var_name = symbol_var->mappedName() == "" ? symbol_var->name() : symbol_var->mappedName();
 		std::string var_attr = "";
 		if( symbol_var -> isClassMember() )
-			var_attr = var->isPublic()?"public" : (var->isPrivate() ? "private" : "protected");
+			var_attr = var->is("public")?"public" : (var->is("private") ? "private" : "protected");
 
 		ReturnValue var_init = "";
 
@@ -98,7 +98,9 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("var_type", str_var_type) ));
 		patterns.push_back( PatternPtr( new Pattern("var_name", var_name) ));
 		patterns.push_back( PatternPtr( new Pattern("var_init", var_init.result) ));
-		patterns.push_back( PatternPtr( new Pattern("var_is_static", (var->isStatic())? "static ":"") ) );
+		patterns.push_back( PatternPtr( new Pattern("var_is_static", (var->is("static"))? "static ":"") ) );
+		patterns.push_back( PatternPtr( new Pattern("var_is_const", (var->is("const"))? "const ":"") ) );
+
 
 		COMPELET_PATTERNS( patterns, ctx );
 
@@ -109,7 +111,7 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 		: TemplatePrinter("VariableDeclare")
 		, m_pointer_pattern("*")
 	{
-		setTemplateString( "#(indent_tab)#(var_attribute_stmt)#(var_is_static)#(var_type) #(var_name) #(var_init);#(endl)" );
+		setTemplateString( "#(indent_tab)#(var_attribute_stmt)#(var_is_static)#(var_is_const)#(var_type) #(var_name) #(var_init);#(endl)" );
 	}
 
 

@@ -62,37 +62,57 @@ struct VariableDeclare: public Expression
     	}
 
     };
-    bool isPublic()
-    {
-    	for( std::vector<std::string>::iterator sItr = VariableAttribute.begin()
-    			; sItr != VariableAttribute.end() ; sItr++ )
-    	{
-    		if( *sItr == "public")
-    			return true;
-    	}
-    	return false;
-    }
-    bool isPrivate()
-    {
-		for (std::vector<std::string>::iterator sItr =
-				VariableAttribute.begin(); sItr != VariableAttribute.end(); sItr++) {
-			std::cout << " variable attribute isPrivate: '"<<*sItr <<"'"<< std::endl;
-			if (*sItr == "private")
-				return true;
-		}
-		return false;
-	}
-    bool isStatic()
+//    bool isPublic()
+//    {
+//    	for( std::vector<std::string>::iterator sItr = VariableAttribute.begin()
+//    			; sItr != VariableAttribute.end() ; sItr++ )
+//    	{
+//    		if( *sItr == "public")
+//    			return true;
+//    	}
+//    	return false;
+//    }
+//    bool isPrivate()
+//    {
+//		for (std::vector<std::string>::iterator sItr =
+//				VariableAttribute.begin(); sItr != VariableAttribute.end(); sItr++) {
+//			std::cout << " variable attribute isPrivate: '"<<*sItr <<"'"<< std::endl;
+//			if (*sItr == "private")
+//				return true;
+//		}
+//		return false;
+//	}
+//    bool isStatic()
+//    {
+//    	for( std::vector<std::string>::iterator sItr = VariableAttribute.begin()
+//    	    			; sItr != VariableAttribute.end() ; sItr++ )
+//    	{
+//    		if( *sItr == "static")
+//    			return true;
+//    	}
+//    	return false;
+//    }
+//    bool isConst()
+//    {
+//    	for( std::vector<std::string>::iterator sItr = VariableAttribute.begin()
+//    	    			; sItr != VariableAttribute.end() ; sItr++ )
+//    	{
+//    		if( *sItr == "const")
+//    			return true;
+//    	}
+//    	return false;
+//    }
+
+    bool is( std::string prop )
     {
     	for( std::vector<std::string>::iterator sItr = VariableAttribute.begin()
     	    			; sItr != VariableAttribute.end() ; sItr++ )
     	{
-    		if( *sItr == "static")
+    		if( *sItr == prop)
     			return true;
     	}
     	return false;
     }
-
 	std::string getNameMapto( bool& ok )
 	{
 		ok = false;
