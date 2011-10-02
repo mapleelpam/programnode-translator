@@ -125,7 +125,8 @@ struct MemberExpression : public Interpreter
 				std::cerr <<__FILE__<<" "<<__LINE__<< " -- '" << result.result <<"' '"<<base.result<<"'"<<std::endl;
 				if(base.token_symbol2 )
 					std::cerr <<" error happend here!"<<std::endl;
-				result = "("+result.result +")->"+_DS2("/* path3 */")+dispatchExpound( expr_mem->selector(), symbol_table, ctx ).result;
+				// it's not correct method, we should return "Object" in getProperty
+				result = "("+result.result +")->"+dispatchExpound( expr_mem->selector(), symbol_table, ctx ).result;
 			}
 		}
 		return result;
