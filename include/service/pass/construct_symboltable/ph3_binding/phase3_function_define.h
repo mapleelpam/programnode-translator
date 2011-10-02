@@ -65,13 +65,13 @@ struct Phase3_FunctionDefine
 			p_type = tw::maple::as::symbol::Findable::findType(symboltable.get(), fsig->ReturnType );
 
 
-			if( p_type == NULL )
+			if( p_type == NULL && ! func_symbol->isConstructor())
 			{
 				std::cerr << "symboltable ph3: Function Defnition can't find symbol (function return type) '" << fsig->ReturnType << "'" << " " << func_symbol->name()<<std::endl;
 				exit(1);
 			}
-			BOOST_ASSERT( p_type != NULL && "can't find symbol" );
-			BOOST_ASSERT( p_type );
+//			BOOST_ASSERT( p_type != NULL && "can't find symbol" );
+//			BOOST_ASSERT( p_type );
 			func_symbol->bindReturnType( p_type );
 
 			// process meta data

@@ -20,7 +20,7 @@ class Circle
     {   
         return 123;
     }
-    public function set radius( l:int ) : void 
+    public function set radius( l:int ) : Void 
     {   
     }
     public function get me() : Circle
@@ -31,7 +31,7 @@ class Circle
 
 class TestParent
 {
-    public function test( c:Circle )
+    public function test( c:Circle ) : int
     {
         if( true )
         {
