@@ -47,12 +47,22 @@ struct LiteralString : public Interpreter
 
 		AST::LiteralStringPtr li = std::tr1::static_pointer_cast<AST::LiteralString>(node);
 
-		std::string v = replace( li->value, "\n", "\\n");
+		std::string v = special_replace( li->value);
 		ReturnValue result = "\"" + v + "\"";
 		result.token_symbol = symbol_string;
 		return result;
 	}
 
+private:
+	std::string special_replace( const std::string in )
+	{
+		std::string ans = in ;
+		ans = replace(ans, "\\", "\\\\");
+		ans = replace(ans, "\n", "\\n");
+		ans = replace(ans, "\"", "\\\"");
+
+		return ans;
+	}
 };
 
 

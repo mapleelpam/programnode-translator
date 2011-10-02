@@ -13,8 +13,9 @@ std::string replace(
 	std::string::size_type p = 0;
 	while((p = result.find(SearchString, p)) != std::string::npos)
 	{   
+//		std::cerr << " in replace "<<result<<std::endl;
 		result.replace(p, SearchString.size(), ReplaceString);
-		p++;
+		p+= ReplaceString.size();
 	}
 	return result;
 }
