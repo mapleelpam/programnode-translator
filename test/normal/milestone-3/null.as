@@ -3,6 +3,12 @@
 // RUN: g++ -o %t %t.cpp
 // RUN: %t | FileCheck -input-file=- %s 
 
+class A
+{
+    function test( a:A = null ):Void
+    {
+    }
+}
 
 function echo( a:int = 123 ):int
 {

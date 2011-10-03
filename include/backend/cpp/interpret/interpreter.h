@@ -62,7 +62,8 @@ struct Interpreter
 		}
 
 
-		return result;
+//		return std::string("/*default begin*/")+result.result+std::string("/*default end*/");
+        return result;
 	}
 };
 

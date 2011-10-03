@@ -386,29 +386,26 @@ public:
 	}
 
 	void literalBooleanExpression( const std::string & str) {
-
 		printf("literalBooleanExpression\n");
 		pm_module->literalBooleanExpression(str);
 	}
 
 	void literalNull() {
+		printf("literalNull\n");
 		pm_module->literalNull();
 	}
 
 	void endExpressionList() {
-
 		printf("endExpressionList\n");
 		pm_module->endExpressionList();
 	}
 
 	void addImport(const std::vector<std::string> & packages) {
-
 		printf("addImport\n");
 		pm_module->addImport(packages);
 	}
 
 	void startStmtList() {
-
 		printf("startStmtList\n");
 		pm_module->startStmtList();
 	}
