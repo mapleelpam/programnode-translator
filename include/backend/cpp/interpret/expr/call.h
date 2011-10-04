@@ -51,6 +51,7 @@ struct Call : public Interpreter, public TemplatePrinter
 		std::string str_prefix = "";
 		AST::CallPtr CALL = STATIC_CAST( AST::Call, node);
 		ASY::FunctionPtr callee_type;
+		ASY::ScopePtr constructor_type;
 
 		std::string str_special_call_patterns = "";
 //		std::cerr << " in call expound - "<<get_full_functionname( call->callee )<<std::endl;
@@ -163,11 +164,14 @@ struct Call : public Interpreter, public TemplatePrinter
 				}
 
 			}
-			else
+			else // not Dot
 			{
 //				ASY::SymbolPtr p_type = call->getCalleeType();
 				str_callee_name += get_full_functionname( CALL->callee );
 				callee_type = Findable::findFunction( symbol_table, str_callee_name );
+				if( callee_type == NULL )
+					constructor_type = Findable::findClassType(symbol_table.get(), str_callee_name);
+
 			}
 		}
 		std::string str_arguments;
@@ -182,6 +186,9 @@ struct Call : public Interpreter, public TemplatePrinter
 //		result += " )";
 
 //		std::cerr << " in call interpreter  = (end)" << std::endl;
+
+		if( callee_type == NULL && constructor_type )
+			str_callee_name = constructor_type->getFQN_and_instanceName();
 		std::string str_numof_arguments = getNumofArguments( CALL->getArgs() );
 
 		std::list<PatternPtr> patterns;

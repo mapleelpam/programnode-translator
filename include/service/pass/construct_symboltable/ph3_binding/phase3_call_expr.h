@@ -126,6 +126,10 @@ struct Phase3_CallExpression
 			else
 			{
 				p_type = Findable::findFunction_downward(symbol_pkg.get(), CALL->callee[CALL->callee.size()- 1]);
+//				if( p_type == NULL )
+//				{
+//					p_type = Findable::findClassType(symbol_pkg.get(), CALL->callee[CALL->callee.size()- 1]);
+//				}
 			}
 
 			if( p_type ) {
