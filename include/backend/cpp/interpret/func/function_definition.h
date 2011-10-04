@@ -248,7 +248,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 															"":m_tpl_constructor_prefix_info) ) );
 
 
-		COMPELET_PATTERNS( patterns, ctx );
+		COMPELETE_PATTERNS( patterns, ctx );
 
 		return substitutePatterns( patterns );
 	}

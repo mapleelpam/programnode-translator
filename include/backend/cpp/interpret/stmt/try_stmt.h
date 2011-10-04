@@ -56,7 +56,7 @@ struct TryStatement : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("catch_list", str_catch_block )));
 		patterns.push_back( PatternPtr( new Pattern("finally_block", str_finally_block ) ));
 
-		COMPELET_PATTERNS( patterns, ctx );
+		COMPELETE_PATTERNS( patterns, ctx );
 
 		return substitutePatterns( patterns );
 	}

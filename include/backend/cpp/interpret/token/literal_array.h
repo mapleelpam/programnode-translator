@@ -47,7 +47,7 @@ struct LiteralArray : public Interpreter, public TemplatePrinter
 
 		std::list<PatternPtr> patterns;
 		patterns.push_back( PatternPtr( new Pattern("array_arguments", str_argumetns ) ));
-		COMPELET_PATTERNS( patterns, ctx );
+		COMPELETE_PATTERNS( patterns, ctx );
 
 		return substitutePatterns( patterns );
 	}

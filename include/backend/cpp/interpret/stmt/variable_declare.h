@@ -102,7 +102,7 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("var_is_const", (var->is("const"))? "const ":"") ) );
 
 
-		COMPELET_PATTERNS( patterns, ctx );
+		COMPELETE_PATTERNS( patterns, ctx );
 
 		return substitutePatterns( patterns );
 	}

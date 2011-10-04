@@ -104,7 +104,7 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("class_fqn", symbol_class->getFQN() ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_fqn2", symbol_class->getFQN_noprefix() ) ));
 
-		COMPELET_PATTERNS( patterns, ctx );
+		COMPELETE_PATTERNS( patterns, ctx );
 
 
 		std::string result = 

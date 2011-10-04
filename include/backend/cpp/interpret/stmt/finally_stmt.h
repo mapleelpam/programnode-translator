@@ -53,7 +53,7 @@ struct FinallyStatement : public Interpreter, public TemplatePrinter
 
 		patterns.push_back( PatternPtr( new Pattern("statement", str_statement ) ));
 
-		COMPELET_PATTERNS( patterns, ctx );
+		COMPELETE_PATTERNS( patterns, ctx );
 
 		return substitutePatterns( patterns );
 	}

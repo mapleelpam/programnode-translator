@@ -4,6 +4,7 @@
 //    import flash.net.*;
     import flash.utils.ByteArray;
     import flash.net.URLRequest;
+	import flash.media.SoundChannel;
 
     intrinsic public class Sound extends EventDispatcher
     {
@@ -18,7 +19,8 @@
 
         public function get isURLInaccessible() : Boolean;
 
-//        public function play(param1:Number = 0, param2:int = 0, param3:SoundTransform = null) : SoundChannel;
+      //  public function play(param1:Number = 0, param2:int = 0, param3:SoundTransform = null) : SoundChannel;
+        public function play(param1:Number = 0, param2:int = 0 ) : SoundChannel;
 
         [native(support="api")]
         public function get length() : Number;

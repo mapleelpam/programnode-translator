@@ -47,7 +47,7 @@ struct SwitchStatement : public Interpreter, public TemplatePrinter
 
 		patterns.push_back( PatternPtr( new Pattern("switch_expression", dispatchExpound(SWITCH->SwitchExpression(), symbol_table, ctx).result ) ));
 		patterns.push_back( PatternPtr( new Pattern("switch_body", dispatchExpound(SWITCH->SWitchBody(), symbol_table, ctx).result ) ));
-		COMPELET_PATTERNS( patterns, ctx );
+		COMPELETE_PATTERNS( patterns, ctx );
 
 		return substitutePatterns( patterns );
 	}

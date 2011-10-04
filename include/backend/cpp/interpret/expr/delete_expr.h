@@ -57,7 +57,7 @@ struct DeleteExpression : public Interpreter, public TemplatePrinter
 		else
 		{
 			patterns.push_back( PatternPtr( new Pattern("child_expression", dispatchExpound(DELETE->ChildExpression(), symbol_table, ctx).result ) ));
-			COMPELET_PATTERNS( patterns, ctx );
+			COMPELETE_PATTERNS( patterns, ctx );
 		}
 
 		return substitutePatterns( patterns );

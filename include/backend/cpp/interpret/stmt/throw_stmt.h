@@ -49,7 +49,7 @@ struct ThrowStatement : public Interpreter, public TemplatePrinter
 		std::string str_expression = dispatchExpound(THROW->expr(), symbol_table, ctx);
 
 		patterns.push_back( PatternPtr( new Pattern("expression", str_expression ) ));
-		COMPELET_PATTERNS( patterns, ctx );
+		COMPELETE_PATTERNS( patterns, ctx );
 
 		return substitutePatterns( patterns );
 	}

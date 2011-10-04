@@ -28,7 +28,7 @@
 #include <fstream>
 #include <as/symbol/scope.h>
 
-#define COMPELET_PATTERNS( P, C ) \
+#define COMPELETE_PATTERNS( P, C ) \
 	{ \
 	P.push_back( PatternPtr( new Pattern("endl", C.endl() ) )); \
 	P.push_back( PatternPtr( new Pattern("indent_tab", C.indent()) )); \

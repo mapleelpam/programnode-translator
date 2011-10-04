@@ -59,7 +59,7 @@ struct ForStatement : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("for_body",  str_for_body ) ));
 //		std::cerr << " "<<__FILE__<<" "<<__LINE__<<std::endl;
 
-		COMPELET_PATTERNS( patterns, ctx );
+		COMPELETE_PATTERNS( patterns, ctx );
 
 		return substitutePatterns( patterns );
 	}
