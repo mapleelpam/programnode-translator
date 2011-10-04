@@ -154,8 +154,13 @@ struct Identifier : public Interpreter, public TemplatePrinter
 									if( id == "") 	id = variable_ptr->name();
 								}
 								ReturnValue result = id+_DS2("/* found variable */");
-								result.token_symbol = variable_ptr->getTypeSymbol();
-								result.expression_type = ReturnValue::HEAP;
+//								result.token_symbol = variable_ptr->getTypeSymbol();
+								result.token_symbol = variable_ptr;
+
+								if( variable_ptr -> getTypeSymbol() -> preferStack() )
+									result.expression_type = ReturnValue::STACK;
+								else
+									result.expression_type = ReturnValue::HEAP;
 								return result;
 							}
 						}

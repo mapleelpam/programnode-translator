@@ -126,9 +126,15 @@ struct Call : public Interpreter, public TemplatePrinter
 
 //					//std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
 					if(ctx.expression_symbol->is( ASY::Symbol::T_VARIABLE)
-							|| ctx.left_is_pointer )
+							&& ctx.left_is_pointer )
 					{  // TODO: guess this child_string is ??? primitive? or non-deletable
 						str_prefix = "->";
+						str_callee_name += right;
+					}
+					else if(ctx.expression_symbol->is( ASY::Symbol::T_VARIABLE)
+							&& !ctx.left_is_pointer )
+					{  // TODO: guess this child_string is ??? primitive? or non-deletable
+						str_prefix = ".";
 						str_callee_name += right;
 					}
 					else if(ctx.expression_symbol->is( ASY::Symbol::T_SCOPE) )

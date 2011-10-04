@@ -82,6 +82,12 @@ struct MemberExpression : public Interpreter
 
 			ReturnValue base = dispatchExpound( expr_mem->base(), symbol_table, ctx/*crazy?*/);
 			result = base;
+			//debug only
+//			{
+//				std::stringstream ss;
+//				ss << base.result << " (type = "<<base.expression_type  <<" ) ";
+//				base.result = ss.str();
+//			}
 //			if( result.result != "")
 //				result.result = "("+result.result+")";
 
@@ -96,7 +102,7 @@ struct MemberExpression : public Interpreter
 				ctx2.left_is_pointer = (base.expression_type == ReturnValue::HEAP );
 				//std::cerr <<__FILE__<<" is instance "<< base.expression_type << std::endl;
 				ctx2.expression_symbol = base.token_symbol.get();
-				if(  expr_mem->selector()->is( AST::Node::NodeType::T_CALL )
+				if(  expr_mem->selector()->is( AST::Node::NodeType::T_CALL ) // should never be here
 					&& STATIC_CAST( AST::Call, expr_mem->selector())->isObjectConsturct() )
 				{
 					ASY::ScopePtr base_type	 = DYNA_CAST( ASY::Scope, base.token_symbol);
