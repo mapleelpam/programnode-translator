@@ -27,6 +27,7 @@
 
 #include <global.h>
 #include <service/argumentsservice.h>
+#include <service/configservice.h>
 
 #include <boost/program_options/options_description.hpp>
 #include <boost/program_options/variables_map.hpp>
@@ -42,7 +43,7 @@
 namespace tw { namespace maple { namespace service {
 
 
-struct GlobalSettings  : public ArgElemenRequest
+struct GlobalSettings  : public ArgElemenRequest, public tw::maple::service::ConfigRequest
 {
 	void init(po::options_description& optionDesc, po::positional_options_description& posOptionDesc)
 	{
@@ -76,15 +77,27 @@ struct GlobalSettings  : public ArgElemenRequest
 
 private:
 	GlobalSettings()
-		: define_only(false)
+		: tw::maple::service::ConfigRequest("global")
+		, define_only(false)
 		, declare_only(false)
 		, predef_only(false)
 		, prepend_codes("")
 		, show_debug_message(false)
+		, pointer_pattern("*")
 	{
 		SVC_ARGUMENTS->registerPass(this);
 	}
 
+	virtual bool readConfig( boost::property_tree::ptree& pt )	//inherit::ConfigRequest
+	{
+		pointer_pattern = pt.get<std::string>(  configName()+".pointer_pattern", pointer_pattern);
+		return true;
+	}
+	virtual bool writeConfig( boost::property_tree::ptree& pt )	//inherit::ConfigRequest
+	{
+		pt.put<std::string>( configName()+".pointer_pattern", pointer_pattern);
+		return true;
+	}
 
 
 public:
@@ -95,6 +108,7 @@ public:
 			_instance = new GlobalSettings();
 		return _instance;
 	}
+	const std::string  configName() const {	return "global";	}
 
 	bool		define_only;
 	bool		declare_only;
@@ -102,6 +116,8 @@ public:
 	std::string	prepend_codes;
 
 	bool		show_debug_message;
+	std::string pointer_pattern;
+
 };
 
 #define SVC_GLOBAL_SETTINGS tw::maple::service::GlobalSettings::instance()

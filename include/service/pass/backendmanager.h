@@ -96,7 +96,14 @@ private:
 
 				ASYM::VariablePtr variable = STATIC_CAST( ASYM::Variable, *child_itr );
 				if( variable->isStatic() ){
-					ofs_stream << variable ->getTypeSymbol()->getFQN_and_instanceName() << " "<<variable->getFQN_noprefix();
+					std::string str_var_type = "";
+					ASYM::SymbolPtr symbol_type = variable->getTypeSymbol();
+					if( symbol_type->preferStack())
+						str_var_type = symbol_type->getFQN_and_instanceName();
+					else
+						str_var_type = symbol_type->getFQN_and_mappedName() + SVC_GLOBAL_SETTINGS->pointer_pattern /* '*'or 'Ptr' */;
+
+					ofs_stream << str_var_type << " "<<variable->getFQN_noprefix();
 					if(variable->getInitializeNode())
 					{
 						tw::maple::backend::cpp::Context context;
