@@ -132,7 +132,15 @@ struct MemberExpression : public Interpreter
 				if(base.token_symbol2 )
 					std::cerr <<" error happend here!"<<std::endl;
 				// it's not correct method, we should return "Object" in getProperty
-				result = "("+result.result +")->"+dispatchExpound( expr_mem->selector(), symbol_table, ctx ).result;
+
+				std::string str_mid = "->";
+				if( expr_mem->selector()->is( AST::Node::NodeType::T_GET_EXPRESSION )
+					&& STATIC_CAST( AST::GetExpression, expr_mem->selector())->mode == "bracket" )
+				{
+					str_mid = "";
+				}
+
+				result = "("+result.result +")"+str_mid+dispatchExpound( expr_mem->selector(), symbol_table, ctx ).result;
 			}
 		}
 		return result;
