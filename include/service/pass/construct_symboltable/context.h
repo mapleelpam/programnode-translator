@@ -71,6 +71,7 @@ struct Phase2Context
 			for( T_ImportList::iterator import_itr = p_import_list -> begin(), E = p_import_list -> end()
 				; import_itr != E ; import_itr ++ )
 			{
+//				std::cerr << " import name '" << (*import_itr)->name() <<"' try to find "<<name << std::endl;
 				if( (*import_itr)->name() == name )
 					return (*import_itr);
 			}

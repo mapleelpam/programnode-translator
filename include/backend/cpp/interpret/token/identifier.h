@@ -176,6 +176,11 @@ struct Identifier : public Interpreter, public TemplatePrinter
 							ReturnValue result;
 							result.result = substitutePatterns( m_tpl_attribute_call, patterns );
 							result.token_symbol = Findable::findClassType( symbol_table, "Object" );
+							if( result.token_symbol == NULL )
+							{
+								std::cerr << " can't find Object "<< std::endl;
+								exit(1);
+							}
 							return result;
 						}
 					}
