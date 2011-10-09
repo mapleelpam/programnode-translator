@@ -5,13 +5,14 @@
     import flash.utils.ByteArray;
     import flash.net.URLRequest;
 	import flash.media.SoundChannel;
+	import flash.media.SoundLoaderContext;
 
     intrinsic public class Sound extends EventDispatcher
     {
 
-//        public function Sound(param1:URLRequest = null, param2:SoundLoaderContext = null);
+        public function Sound(param1:URLRequest = null, param2:SoundLoaderContext = null);
 
-//        public function load(param1:URLRequest, param2:SoundLoaderContext = null) : void ;
+        public function load(param1:URLRequest, param2:SoundLoaderContext = null) : void ;
 
         
 
