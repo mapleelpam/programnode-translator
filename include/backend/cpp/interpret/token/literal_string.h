@@ -59,6 +59,10 @@ private:
 		std::string ans = in ;
 		ans = replace(ans, "\\", "\\\\");
 		ans = replace(ans, "\n", "\\n");
+		ans = replace(ans, "\t", "\\t");
+		ans = replace(ans, "\r", "\\r");
+		ans = replace(ans, "\b", "\\b");
+		ans = replace(ans, "\f", "\\f");
 		ans = replace(ans, "\"", "\\\"");
 
 		return ans;
