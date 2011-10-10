@@ -23,7 +23,7 @@ package com.adobe.serialization.json
 		 * @playerversion Flash 9.0
 		 * @tiptext
 		 */
-		public function JSONESequenceEncoder( value:*, complexType:Array=null )
+		public function JSONESequenceEncoder( value:*, complexType:Array = null )
 		{
 			_complexType=complexType;
 			jsonString = convertToString( value);
