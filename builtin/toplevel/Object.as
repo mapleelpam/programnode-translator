@@ -20,5 +20,7 @@ package
 
 		[native(support="none")]
 		public function propertyIsEnumerable (V:* = null) : Boolean;
+
+        public function toString() : String;
 	}
 }
