@@ -51,7 +51,7 @@ struct GetExpression : public Interpreter
 			ASY::FunctionPtr func = ASY::Findable::findFunction( symbol_table, child_string);
 			if( func && !func->isSetter() && !func->isGetter() && !func->isSetter() && !func->isConstructor() )
 			{
-				child_string.result = "static_"+child_string.result;
+				child_string.result = "(void*)static_"+child_string.result;
 			}
 			return child_string;
 		}
