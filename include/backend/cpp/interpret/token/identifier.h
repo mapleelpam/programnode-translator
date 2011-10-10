@@ -195,6 +195,8 @@ struct Identifier : public Interpreter, public TemplatePrinter
 
 							if( ctx.is_delete )
 								return substitutePatterns( m_tpl_undefined_member_delete, patterns );
+							else if( ctx.is_delete_item )
+								return substitutePatterns( m_tpl_item_delete, patterns );
 							else
 								return substitutePatterns( m_tpl_undefined_member_call, patterns );
 						}	
@@ -276,6 +278,7 @@ struct Identifier : public Interpreter, public TemplatePrinter
 	{
 		m_tpl_undefined_member_call = "getProperty(\"#(id)\" )";
 		m_tpl_undefined_member_delete = "removeProperty(\"#(id)\" )";
+		m_tpl_item_delete = "removeItem(\"#(id)\" )";
 		m_tpl_attribute_call = "getAttribute(\"#(id)\" )";
 	}
 	virtual bool readConfig( boost::property_tree::ptree& pt )
@@ -293,6 +296,7 @@ private:
 	std::string m_tpl_undefined_member_call;
 	std::string	m_tpl_attribute_call;
 	std::string m_tpl_undefined_member_delete;
+	std::string m_tpl_item_delete;
 };
 
 

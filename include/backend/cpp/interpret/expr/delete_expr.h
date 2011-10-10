@@ -54,6 +54,15 @@ struct DeleteExpression : public Interpreter, public TemplatePrinter
 
 			return "->"+result.result;
 		}
+		else if( DELETE->mode == "bracket")
+		{
+			tw::maple::backend::cpp::Context ctx2 = ctx;
+//			ctx2.inter_type = Context::DELETE;
+			ctx2.is_delete_item = true;
+			ReturnValue result = dispatchExpound(DELETE->ChildExpression(), symbol_table, ctx2);
+
+			return "->"+result.result;
+		}
 		else
 		{
 			patterns.push_back( PatternPtr( new Pattern("child_expression", dispatchExpound(DELETE->ChildExpression(), symbol_table, ctx).result ) ));

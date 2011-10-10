@@ -168,6 +168,7 @@ struct Context
     	, left_is_pointer( false )
     	, without_type(false)
     	, is_delete( false )
+    	, is_delete_item( false )
     {
 
     }
@@ -180,6 +181,7 @@ struct Context
 	bool			left_is_pointer;
 	bool			without_type; // for param
 	bool			is_delete;
+	bool			is_delete_item;
 
 	tw::maple::as::symbol::Symbol*	expression_symbol;
 	tw::maple::as::symbol::ScopePtr	statement_class_symbol;
