@@ -22,6 +22,7 @@ package
 
 	public class ISeeYou extends Sprite
 	{
+        static  var a:int = 0;
 		public function ISeeYou()
 		{
 			var loader:Loader=new Loader();

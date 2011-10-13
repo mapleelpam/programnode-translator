@@ -94,7 +94,7 @@ struct Identifier : public Interpreter, public TemplatePrinter
 				if( ASY::ScopePtr classtype_ptr = ASY::Findable::findClassType(symbol_table.get(),li->value))
 				{
 //					ctx-> token_class_type = classtype_ptr;
-					ReturnValue result =  classtype_ptr->name()+_DS2("/* found class type */");
+					ReturnValue result =  classtype_ptr->mappedName()+_DS2("/* found class type */");
 					result.token_symbol = classtype_ptr;
 					return result;
 				}
