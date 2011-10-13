@@ -113,8 +113,8 @@ struct MemberExpression : public Interpreter
 				else if( expr_mem->selector()->is( AST::Node::NodeType::T_GET_EXPRESSION )
 					&& STATIC_CAST( AST::GetExpression, expr_mem->selector())->mode == "bracket" )
 				{
-					str_before_base = "(Object*)(*";
-					str_after_base = ")";
+					str_before_base = "(*(Object*)(*";
+					str_after_base = "))";
 				}
 
 				ASY::ScopePtr base_type	 = DYNA_CAST( ASY::Scope, base.token_symbol);
@@ -133,6 +133,16 @@ struct MemberExpression : public Interpreter
 					std::cerr <<" error happend here!"<<std::endl;
 				// it's not correct method, we should return "Object" in getProperty
 
+				std::string str_before_base = "(";
+				std::string str_after_base = ")";
+				if( expr_mem->selector()->is( AST::Node::NodeType::T_GET_EXPRESSION )
+									&& STATIC_CAST( AST::GetExpression, expr_mem->selector())->mode == "bracket" )
+				{
+									str_before_base = "(*(Object*)";
+									str_after_base = ")";
+				}
+
+
 				std::string str_mid = "->";
 				if( expr_mem->selector()->is( AST::Node::NodeType::T_GET_EXPRESSION )
 					&& STATIC_CAST( AST::GetExpression, expr_mem->selector())->mode == "bracket" )
@@ -140,7 +150,7 @@ struct MemberExpression : public Interpreter
 					str_mid = "";
 				}
 
-				result = "("+result.result +")"+str_mid+dispatchExpound( expr_mem->selector(), symbol_table, ctx ).result;
+				result = str_before_base+result.result +str_after_base+str_mid+dispatchExpound( expr_mem->selector(), symbol_table, ctx ).result;
 			}
 		}
 		return result;
