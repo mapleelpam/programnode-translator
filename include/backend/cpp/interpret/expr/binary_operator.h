@@ -54,15 +54,14 @@ struct BinaryOperator : public Interpreter
 		{
 			if( bin->op_type == "plus" )
 			{		
-				//if( lhs.token_symbol->name() == "String" && rhs.token_symbol->name() == "Number" ) 
-				if( lhs.token_symbol && lhs.token_symbol->name() == "String"  ) 
-				{		
-					result.result = lhs.result + op + "Number("+rhs.result+").toString()";
+				//if( lhs.token_symbol->name() == "String" && rhs.token_symbol->name() == "Number" )
+				if( lhs.token_symbol && lhs.token_symbol->name() == "String"  )
+				{
+					result.result = lhs.result + op +rhs.result+"->toString()";
 				}
-				//else if( lhs.token_symbol->name() == "Number" && rhs.token_symbol->name() == "String" ) 
-				else if( rhs.token_symbol && rhs.token_symbol->name() == "String" ) 
-				{		
-					result.result = "Number("+lhs.result+").toString()" + op + rhs.result;
+				else if( rhs.token_symbol && rhs.token_symbol->name() == "String" )
+				{
+					result.result = lhs.result+"->toString()" + op + rhs.result;
 				}
 				else
 					result.result = lhs.result + op + rhs.result;
