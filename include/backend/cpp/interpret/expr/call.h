@@ -139,10 +139,14 @@ struct Call : public Interpreter, public TemplatePrinter
 					}
 					else if(ctx.expression_symbol->is( ASY::Symbol::T_SCOPE) )
 					{ // should be a type
+						str_prefix = "->";
 						if(ctx.left_is_pointer) // TBR 0720
-							str_callee_name += _DS2("/* call left is pointer type */")+( "->"+right);
+							str_callee_name += _DS2("/* call left is pointer type */")+(right);
 						else
-							str_callee_name += _DS2("/* call left is scope */")+( "::"+right);
+						{
+							str_prefix = "::";
+							str_callee_name += _DS2("/* call left is scope */")+( right);
+						}
 					}
 					else
 					{

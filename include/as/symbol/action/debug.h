@@ -55,6 +55,8 @@ struct Debug
 				ofs << indent(depth) << (*child_itr)->toString() << " ParentFQN->"<<scope->getInherit()->getFQN() <<std::endl;
 				ofs << indent(depth) << (*child_itr)->toString() << " instance name->"<<scope->instanceName() <<std::endl;
 
+				if( scope->is( Scope::T_CLASS ) )
+					ofs <<" " <<(scope->isNoReflection()?"no_reflection": "use_reflection") << std::endl;
 				if( scope->is( Scope::T_FUNCTION ) )
 				{
 					FunctionPtr function = DYNA_CAST( Function, scope );

@@ -56,6 +56,7 @@ struct Scope : public Symbol, public Registrable
 		, m_inherit( NULL )
 		, m_no_contrucotr(true)
 		, m_is_intrinsic(false)
+		, m_no_reflection( false )
 	{	}
 
 	Scope( Scope *parent = NULL )
@@ -65,6 +66,7 @@ struct Scope : public Symbol, public Registrable
 		, m_inherit( NULL )
 		, m_no_contrucotr(true)
 		, m_is_intrinsic(false)
+		, m_no_reflection( false )
 	{
 		std::ostringstream ss;
 		ss << "anonymous"<<m_parent->m_childs.size();
@@ -397,6 +399,13 @@ public:
 	bool isIntrinsic(){	return m_is_intrinsic;	}
 	void setIsIntrinsic( bool b ){	m_is_intrinsic = b;	}
 
+	bool isNoReflection(){
+		if(m_no_reflection == false && m_inherit)
+			return m_inherit->isNoReflection();
+		return m_no_reflection;
+	}
+	void setNoReflection( bool b ){	m_no_reflection = b;	}
+
 	virtual bool preferStack()	const {	return m_instance_name != "";	}
 	void setInstanceName( std::string s )	{ m_instance_name = s;	}
 	std::string instanceName()	const {	return m_instance_name;	}
@@ -428,7 +437,7 @@ public:
 	Scope*  m_inherit;
 	bool	m_no_contrucotr;
 	bool 	m_is_intrinsic;
-
+	bool	m_no_reflection;
 
 	std::string		m_instance_name;
 //friend class Scope;

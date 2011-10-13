@@ -119,6 +119,20 @@ struct ClassDefinition : public Statement
 		return false;
 	}
 
+	bool isNoReflection()
+	{
+		for( std::vector<std::string>::iterator itr = m_attributes.begin(), E = m_attributes.end()
+				; itr != E ; itr ++ )
+		{
+
+			if (m_metadata.id == "no_reflection") {
+				return true;
+			}
+			return false;
+		}
+		return false;
+	}
+
 public:
     void setClassSymbol( ASYM::ScopePtr s )	{	_related_class_symbol = s;	}
     ASYM::ScopePtr getClassSymbol( )	{	return _related_class_symbol;	}

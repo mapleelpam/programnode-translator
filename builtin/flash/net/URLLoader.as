@@ -16,6 +16,7 @@ package flash.net
 
 		public var dataFormat : String;
 
+    		[mapper(caller="addEventListener(this,#(argc))")]
 		public function addEventListener (type:String, listener:Function, useCapture:Boolean = false, priority:int = 0, useWeakReference:Boolean = false) : void;
 
 		public function close () : void;

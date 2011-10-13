@@ -368,7 +368,7 @@ void SymbolTableConstructor::linkVariableType(
 			{
 				AST::ClassDefinitionPtr ast_class = STATIC_CAST( AST::ClassDefinition, *nItr);
 				p_scope -> setIsIntrinsic( ast_class->isIntrinsic() ||  ast_class->isNativeClass() );
-
+				p_scope -> setNoReflection( ast_class->isNoReflection() );
 			}
 				local_context->enterScope();
 					linkVariableType( *nItr, p_scope, local_context );

@@ -170,6 +170,7 @@ package flash.display
 
 		public function addChildAt (child:DisplayObject, index:int) : DisplayObject;
 
+    		[mapper(caller="addEventListener(this,#(argc))")]
 		public function addEventListener (type:String, listener:Function, useCapture:Boolean = false, priority:int = 0, useWeakReference:Boolean = false) : void;
 
 		public function dispatchEvent (event:Event) : Boolean;

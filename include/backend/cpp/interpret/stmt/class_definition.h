@@ -90,6 +90,7 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 		if( SVC_GLOBAL_SETTINGS -> declare_only )
 			return class_stmt;
 
+		patterns.push_back( PatternPtr( new Pattern("class_reflection",symbol_class->isNoReflection()?"":m_tpl_reflection) ));
 		patterns.push_back( PatternPtr( new Pattern("class_properties", getClassMemberVariableProperties( symbol_class ) )) );
 		patterns.push_back( PatternPtr( new Pattern("class_stmt", class_stmt ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_inherit", class_inherit ) ));
@@ -103,6 +104,7 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("class_name", _class_define_->getClassName() ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_fqn", symbol_class->getFQN() ) ));
 		patterns.push_back( PatternPtr( new Pattern("class_fqn2", symbol_class->getFQN_noprefix() ) ));
+
 
 		COMPELETE_PATTERNS( patterns, ctx );
 
@@ -137,6 +139,7 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 
 		m_tpl_void_method_info = "";
 		m_tpl_normal_method_info = "";
+		m_tpl_reflection = "";
 		m_tpl_constructor_info = "#(endl)#(indent_tab_add)public: #(class_name)()";
 	}
 
@@ -156,6 +159,8 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 		m_tpl_normal_method_info = pt.get<std::string>( configName()+".template.info.normal_method", m_tpl_normal_method_info);
 		m_tpl_constructor_info = pt.get<std::string>( configName()+".template.info.constructor", m_tpl_constructor_info);
 
+		m_tpl_reflection = pt.get<std::string>( configName()+".template.reflection", m_tpl_reflection);
+
 		m_inherit_type = pt.get<int>(  configName()+".inherit.type", (m_inherit_type));
 		return TemplatePrinter::readConfig( pt );
 	}
@@ -174,6 +179,7 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 		pt.put<std::string>( configName()+".template.info.void_method", m_tpl_void_method_info);
 		pt.put<std::string>( configName()+".template.info.normal_method", m_tpl_normal_method_info);
 		pt.put<std::string>( configName()+".template.info.constructor", m_tpl_constructor_info);
+		pt.put<std::string>( configName()+".template.reflection", m_tpl_reflection);
 
 		pt.put<int>( configName()+".inherit.type", m_inherit_type);
 		return TemplatePrinter::writeConfig( pt );
@@ -201,6 +207,7 @@ private:
 	std::string m_tpl_normal_method_info;
 	std::string m_tpl_constructor_info;
 
+	std::string m_tpl_reflection;
 	int	m_inherit_type;
 
 private:
