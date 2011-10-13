@@ -19,9 +19,9 @@ package com
             printf("\a");
             printf("\n");
             printf("\?");
- //           printf("\\");
+            printf("\\");
             printf("\f");
-//            printf("\"");
+            printf("\"");
 //            printf("\0");
 //            printf("\v");
             printf("\'");

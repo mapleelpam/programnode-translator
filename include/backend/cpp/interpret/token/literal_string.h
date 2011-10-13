@@ -63,7 +63,7 @@ private:
 		ans = replace(ans, "\r", "\\r");
 		ans = replace(ans, "\b", "\\b");
 		ans = replace(ans, "\f", "\\f");
-//		ans = replace(ans, "\"", "\\\"");
+		ans = replace(ans, "\"", "\\\"");
 //		ans = replace(ans, "\0", "\\\0");
 		ans = replace(ans, "\v", "\\\v");
 //		ans = replace(ans, "\a", "\\\a");
