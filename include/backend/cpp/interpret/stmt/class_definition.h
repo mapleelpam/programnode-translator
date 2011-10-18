@@ -56,7 +56,6 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 		ASY::ScopePtr	symbol_class = _class_define_->getClassSymbol();
 
 
-
 		std::string class_stmt = "";
 		if( _class_define_->hasStatement() ) {
 			ctx.tree_depth ++;
@@ -90,6 +89,11 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 		if( SVC_GLOBAL_SETTINGS -> declare_only )
 			return class_stmt;
 
+		if( symbol_class->isNoReflection() )
+		{
+
+		}
+
 		patterns.push_back( PatternPtr( new Pattern("class_reflection",symbol_class->isNoReflection()?"":m_tpl_reflection) ));
 		patterns.push_back( PatternPtr( new Pattern("class_properties", getClassMemberVariableProperties( symbol_class ) )) );
 		patterns.push_back( PatternPtr( new Pattern("class_stmt", class_stmt ) ));
@@ -110,7 +114,8 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 
 
 		std::string result = 
-				substitutePatterns(  _class_define_->isAbstract()? m_tpl_interface : m_tpl_class
+				substitutePatterns(  _class_define_->isAbstract()? m_tpl_interface :
+						(symbol_class->isNoReflection()? m_tpl_class_not_reflection :m_tpl_class)
 						, patterns );
 
 		return result;
@@ -124,6 +129,7 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 		, m_tpl_property_end("")
 		, m_inherit_type(BOTH)
 	{
+		m_tpl_class_not_reflection =
 		m_tpl_class = ( "#(indent_tab)#(class_type) #(class_name) #(class_inherit) #(endl)#(indent_tab){#(endl)"
 							"#(class_properties)"
 							"#(class_stmt)"
@@ -146,7 +152,10 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 	virtual bool readConfig( boost::property_tree::ptree& pt )
 	{
 		m_default_base_object = pt.get<std::string>( configName()+".inherit.base", m_default_base_object);
+
 		m_tpl_class = pt.get<std::string>( configName()+".template.class", m_tpl_class);
+		m_tpl_class_not_reflection = pt.get<std::string>( configName()+".template.class_not_object", m_tpl_class_not_reflection);
+
 		m_tpl_interface = pt.get<std::string>( configName()+".template.interface", m_tpl_interface);
 		m_tpl_property = pt.get<std::string>( configName()+".template.property", m_tpl_property);
 		m_tpl_property_begin = pt.get<std::string>( configName()+".template.property_begin", m_tpl_property_begin);
@@ -167,7 +176,10 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 	virtual bool writeConfig( boost::property_tree::ptree& pt )
 	{
 		pt.put<std::string>( configName()+".inherit.base", m_default_base_object);
+
 		pt.put<std::string>( configName()+".template.class", m_tpl_class);
+		pt.put<std::string>( configName()+".template.class_not_object", m_tpl_class_not_reflection);
+
 		pt.put<std::string>( configName()+".template.interface", m_tpl_interface);
 		pt.put<std::string>( configName()+".template.property", m_tpl_property);
 		pt.put<std::string>( configName()+".template.property_begin", m_tpl_property_begin);
@@ -195,7 +207,7 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 private:
 	std::string m_default_base_object;
 
-	std::string m_tpl_class;
+	std::string m_tpl_class, m_tpl_class_not_reflection;
 	std::string m_tpl_interface;
 	std::string m_tpl_property;
 	std::string m_tpl_property_begin;
@@ -342,6 +354,9 @@ private:
 				}
 			}
 		}
+
+		if( symbol_class->isNoReflection() )
+			return answer; // end of this line
 
 		answer += m_tpl_property_begin;
 		for (std::vector<ASY::SymbolPtr>::iterator child_itr = childs.begin(); child_itr

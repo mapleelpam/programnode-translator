@@ -48,12 +48,22 @@ struct ConditionExpression : public Interpreter
 
 		AST::ConditionExpressionPtr ce = STATIC_CAST( AST::ConditionExpression, node);
 
+		ReturnValue expr_true = dispatchExpound( ce->ExpressionThen(), symbol_table, ctx);
+		ReturnValue expr_false = dispatchExpound( ce->ExpressionElse(), symbol_table, ctx);
 
-		std::string result = "(" + dispatchExpound( ce->Condition(), symbol_table, ctx).result + ") ?";
-		result += "(" + dispatchExpound( ce->ExpressionThen(), symbol_table, ctx).result + ") : ";
-		result += "(" + dispatchExpound( ce->ExpressionElse(), symbol_table, ctx).result + ") ";
+		const std::string s_scope_begin = "(", s_scope_end = ")";
 
-		return result;
+		std::string result = s_scope_begin+"(" + dispatchExpound( ce->Condition(), symbol_table, ctx).result + ") ?";
+		result += "(" + expr_true.result + ") : ";
+		result += "(" + expr_false.result + ") " + s_scope_end;
+
+		ReturnValue the_answer = result;
+		if( expr_true.token_symbol == expr_false.token_symbol )
+		{
+			the_answer.token_symbol = expr_true.token_symbol;
+		}
+
+		return the_answer;
 	}
 
 };

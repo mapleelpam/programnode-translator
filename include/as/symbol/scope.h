@@ -81,6 +81,17 @@ struct Scope : public Symbol, public Registrable
 	ScopeType getScopeType( ) const {	return m_scope_type;	}
 	bool is(ScopeType t) const { return m_scope_type == t;	}
 
+	bool isClass( std::string check_name )
+	{
+		if( !is(T_CLASS) )
+			return false;
+		if( name() == check_name )
+			return true;
+		if( m_inherit )
+			return m_inherit -> isClass( check_name );
+		return false;
+	}
+
 	virtual const std::string toString() const
 	{
 		std::string ans = "";

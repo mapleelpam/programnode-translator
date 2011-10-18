@@ -60,7 +60,8 @@ struct SetExpression : public Interpreter
 		{
 			if(ctx.expression_symbol->is( ASY::Symbol::T_VARIABLE) )
 			{
-				prefix = "->";
+				if( set->mode != "bracket" )
+					prefix = "->";
 			}
 			else if(ctx.expression_symbol->is( ASY::Symbol::T_SCOPE) )
 			{
@@ -85,8 +86,8 @@ struct SetExpression : public Interpreter
 				else if (lhs_value.token_symbol -> name() == "Function")
 					str_type_cast = ""; // ignore
 				else
-				{
-					str_type_cast = "(" + lhs_value.token_symbol->getFQN_noprefix() + "*)";
+				{	// every time variable prefer heap, it should be ObjectBase
+					str_type_cast = "(" + lhs_value.token_symbol->getFQN_noprefix() + "*)(Object*)";
 				}
 			}
 		}
@@ -94,7 +95,21 @@ struct SetExpression : public Interpreter
 		if( lft_is_setter )
 			return prefix+lhs_value.result + "( " + rhs_value.result+" )";
 		else if( set->mode == "bracket")
+		{
+			ASY::Variable* symbol_var;
+			if( ctx.expression_symbol && (symbol_var = dynamic_cast<ASY::Variable*>( ctx.expression_symbol)) )
+			{
+				ASY::SymbolPtr symbol_type = symbol_var->getTypeSymbol();
+				ASY::ScopePtr  symbol_class_type = DYNA_CAST( ASY::Scope, symbol_type );
+
+				if( symbol_class_type && !(symbol_class_type->isClass("Array")) )
+				{
+					return prefix+"->setProperty("+lhs_value.result + ", " + rhs_value.result +" ) ";
+				}
+			}
+			// else; default
 			return prefix+"["+lhs_value.result + "] = " + rhs_value.result;
+		}
 		else
 			return prefix+lhs_value.result + " = " + str_type_cast + rhs_value.result;
 	}

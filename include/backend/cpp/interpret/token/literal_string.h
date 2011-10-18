@@ -28,10 +28,12 @@
 #include <global.h>
 #include <backend/cpp/interpret/interpreter.h>
 #include <as/ast/token/literal_string.h>
-#include <as/symbol/action/findable.h> 
+#include <as/symbol/action/findable.h>
+#include <backend/cpp/templateprinter.h>
+
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
-struct LiteralString : public Interpreter
+struct LiteralString : public Interpreter, public TemplatePrinter
 {   
 	virtual ReturnValue expound(::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
@@ -48,11 +50,16 @@ struct LiteralString : public Interpreter
 		AST::LiteralStringPtr li = std::tr1::static_pointer_cast<AST::LiteralString>(node);
 
 		std::string v = special_replace( li->value);
-		ReturnValue result = "\"" + v + "\"";
+		ReturnValue result = s_typecast+"(\"" + v + "\")";
 		result.token_symbol = symbol_string;
 		return result;
 	}
 
+	LiteralString()
+		: TemplatePrinter("LiteralString")
+	{
+		s_typecast = "";
+	}
 private:
 	std::string special_replace( const std::string in )
 	{
@@ -73,6 +80,19 @@ private:
 
 		return ans;
 	}
+
+	virtual bool readConfig( boost::property_tree::ptree& pt )
+	{
+		s_typecast = pt.get<std::string>( configName()+".typecast", s_typecast);
+		return TemplatePrinter::readConfig( pt );
+	}
+	virtual bool writeConfig( boost::property_tree::ptree& pt )
+	{
+		pt.put<std::string>( configName()+".typecast", s_typecast);
+		return TemplatePrinter::writeConfig( pt );
+	}
+
+	std::string s_typecast;
 };
 
 

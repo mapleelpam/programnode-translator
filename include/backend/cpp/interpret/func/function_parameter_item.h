@@ -54,7 +54,7 @@ struct FunctionParameterItem : public Interpreter, public TemplatePrinter
 			str_var_type = symbol_type->getFQN_and_mappedName() + _pointer_pattern /* '*'or 'Ptr' */;
 
 
-		if(fParam->hasInit())
+		if(fParam->hasInit() && (!SVC_GLOBAL_SETTINGS -> define_only) )
 			return str_var_type+" "+fParam->ParamName()+ " = "+ fParam->ParamInit();
 		else
 			return str_var_type+" "+fParam->ParamName();
