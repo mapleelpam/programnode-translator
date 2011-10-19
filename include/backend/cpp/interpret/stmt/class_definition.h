@@ -86,7 +86,7 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 
 		std::list<PatternPtr> patterns;
 
-		if( SVC_GLOBAL_SETTINGS -> declare_only )
+		if( SVC_GLOBAL_SETTINGS -> define_only )
 			return class_stmt;
 
 		if( symbol_class->isNoReflection() )

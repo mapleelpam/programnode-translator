@@ -54,7 +54,7 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 		ASY::SymbolPtr	symbol_type = symbol_var->getTypeSymbol();
 
 		if( symbol_var->isClassMember()
-			&& SVC_GLOBAL_SETTINGS -> declare_only )
+			&& SVC_GLOBAL_SETTINGS -> define_only )
 			return "";
 
 		std::string str_var_type/* = invoke_type_mapper(  )*/;

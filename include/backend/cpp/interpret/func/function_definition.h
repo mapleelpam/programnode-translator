@@ -97,7 +97,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 			case ASY::Symbol::ATTR_PROTECTED:	str_function_attribute="protected";	break;
 		}
 		std::string str_func_attr_stmt = (str_function_attribute=="")?"":str_function_attribute+": ";
-		if( SVC_GLOBAL_SETTINGS -> declare_only )	str_func_attr_stmt = "";
+		if( SVC_GLOBAL_SETTINGS -> define_only )	str_func_attr_stmt = "";
 		std::string str_numof_parameter;
 		{
 			std::stringstream ss;
@@ -122,11 +122,11 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 			{
 				str_function_body = std::string(" = 0;#(endl)");
 			}
-			else if ( SVC_GLOBAL_SETTINGS -> define_only )
+			else if ( SVC_GLOBAL_SETTINGS -> declare_only && (!SVC_GLOBAL_SETTINGS -> define_only) )
 			{
-				str_function_body = ";";
+				str_function_body = "; /* i'm here */";
 			}
-			else
+			else // no set and define_only
 			{
 				ctx.tree_depth ++ ; ctx.tree_depth ++ ;
 				str_function_body = std::string("#(endl)#(indent_tab_add){#(endl)")
@@ -172,7 +172,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		
 
 		std::string str_static_instance;
-		if( !(SVC_GLOBAL_SETTINGS -> declare_only) &&
+		if( !(SVC_GLOBAL_SETTINGS -> define_only) &&
 			symbol_function->getEverUsedLikeVariable()
 				&& !symbol_function->isGetter()
 				&& !symbol_function->isSetter() 
@@ -210,11 +210,11 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		    (!symbol_function->isConstructor() && (m_default_virtual &&
 		    		(!symbol_function->isStatic())&&symbol_function->isMemberFunction() )) )
 				str_is_virtual = "virtual ";
-		if( SVC_GLOBAL_SETTINGS -> declare_only )
+		if( SVC_GLOBAL_SETTINGS -> define_only )
 			str_is_virtual = "";
 
 		std::string str_is_static = "";
-		if (symbol_function->isStatic() && (!SVC_GLOBAL_SETTINGS -> declare_only) )
+		if (symbol_function->isStatic() && (!SVC_GLOBAL_SETTINGS -> define_only) )
 			str_is_static = "static ";
 
 		patterns.push_back( PatternPtr( new Pattern("func_static_instance", str_static_instance )));
@@ -237,14 +237,14 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("func_ret_type",  str_function_return_type ) ) );
 		patterns.push_back( PatternPtr( new Pattern("function_is_static", str_is_static ) ) );
 		patterns.push_back( PatternPtr( new Pattern("function_is_virtual", str_is_virtual ) ) );
-		patterns.push_back( PatternPtr( new Pattern("function_enter", (fdef->isAbstract || SVC_GLOBAL_SETTINGS -> define_only )? "" : m_tpl_enter_function) ) );
+		patterns.push_back( PatternPtr( new Pattern("function_enter", (fdef->isAbstract || SVC_GLOBAL_SETTINGS -> declare_only )? "" : m_tpl_enter_function) ) );
 		patterns.push_back( PatternPtr( new Pattern("enter_stmt", fdef->getEnterFunctionMapper() != "" ? fdef->getEnterFunctionMapper() : "/*enter function*/" ) ) );
-		patterns.push_back( PatternPtr( new Pattern("function_leave", (fdef->isAbstract || SVC_GLOBAL_SETTINGS -> define_only )? "" : m_tpl_leave_function) ) );
+		patterns.push_back( PatternPtr( new Pattern("function_leave", (fdef->isAbstract || SVC_GLOBAL_SETTINGS -> declare_only )? "" : m_tpl_leave_function) ) );
 		patterns.push_back( PatternPtr( new Pattern("member_initial", (symbol_function->isConstructor() )
 										? (SVC_GLOBAL_SETTINGS -> define_only)? "" : getMemberInitializer(symbol_function,fdef->mp_parent_initilizer,ctx) : "") ) );
 		patterns.push_back( PatternPtr( new Pattern("prefix_parameters", str_prefix_parameter) ) );
 		patterns.push_back( PatternPtr( new Pattern("postfix_parameters", "") ) );
-		patterns.push_back( PatternPtr( new Pattern("contructor_prefix_info", ( SVC_GLOBAL_SETTINGS -> declare_only ) ?
+		patterns.push_back( PatternPtr( new Pattern("contructor_prefix_info", ( SVC_GLOBAL_SETTINGS -> define_only ) ?
 															"":m_tpl_constructor_prefix_info) ) );
 
 
