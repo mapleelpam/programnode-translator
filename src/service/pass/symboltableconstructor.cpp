@@ -178,7 +178,17 @@ void SymbolTableConstructor:: constructSymbols(
 				ASY::VariablePtr symbol_var( symboltable->registerVariable( str_varname ) );
 				var->setSymbol( symbol_var );
 
-				symbol_var->setMappedName( var->getNameMapto() );
+				if( var->getNameMapto() != "" )
+					symbol_var->setMappedName( var->getNameMapto() );
+				else
+					symbol_var->setMappedName( str_varname );
+
+				if( str_varname == "NULL" )
+				{
+//					std::cerr << "catctch a NULL exit"<<std::endl;
+//					exit(1);
+					symbol_var->setMappedName("__NULL__");
+				}
 //				std::cerr << " in variable declare = '" << var->getNameMapto()<<"'"<<std::endl;
 				symbol_var->setIsStatic( var->is("static") );
 				symbol_var->setIsConst( var->is("const") );

@@ -52,7 +52,7 @@ struct PreDefine
 
 				if( scope->is( Scope::T_CLASS ) )
 				{
-					ofs << indent(depth) <<  "SMART_PTR("<<scope->getFQN_noprefix()<<");"<<std::endl;
+					ofs << indent(depth) <<  "SMART_PTR("<<scope->name()<<");"<<std::endl;
 				}
 				if( scope->is( Scope::T_PACKAGE ) )
 				{

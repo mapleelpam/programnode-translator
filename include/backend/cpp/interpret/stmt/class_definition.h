@@ -343,7 +343,7 @@ private:
 						std::list<PatternPtr> patterns;
 
 						patterns.push_back( PatternPtr( new Pattern("variable_type", str_var_type ) ));
-						patterns.push_back( PatternPtr( new Pattern("variable_name", var->name() ) ));
+						patterns.push_back( PatternPtr( new Pattern("variable_name", var->mappedName() ) ));
 						patterns.push_back( PatternPtr( new Pattern("variable_attribute", str_var_attr ) ));
 						if( getter_not_found )
 							answer += "#(indent_tab_add)"+substitutePatterns(m_tpl_getter, patterns ) + "#(endl)";
