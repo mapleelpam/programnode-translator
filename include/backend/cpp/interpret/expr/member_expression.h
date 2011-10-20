@@ -25,6 +25,7 @@
 #ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_EXPR_EXPRMEMBER_H_
 #define __TW_MAPLE_BACKEDN_CPP_INTERPRET_EXPR_EXPRMEMBER_H_
 
+#include <as/symbol/action/findable.h>
 #include <as/ast/expr/call.h>
 #include <as/ast/expr/member_expression.h>
 #include <as/ast/expr/get_expression.h>
@@ -47,8 +48,11 @@ struct MemberExpression : public Interpreter
 	{
 		namespace ASY = ::tw::maple::as::symbol;
 		namespace AST = ::tw::maple::as::ast;
+//		namespace Findable = ::tw::maple::as::symbol::Findable;
+
 
 		ReturnValue result;
+		result.token_symbol = ::tw::maple::as::symbol::Findable::findClassType( symbol_table, "Object" );
 
 		AST::MemberExpressionPtr expr_mem = STATIC_CAST( AST::MemberExpression, node);
 
@@ -123,7 +127,7 @@ struct MemberExpression : public Interpreter
 				//std::cerr <<__FILE__<<" selector is instance "<< selector_value.expression_type << " '"<<selector_value.result<<"'"<<std::endl;
 
 				result = selector_value;
-				result.result = "("+str_before_base+base.result+_DS2("/* path2 */")+str_after_base+selector_value.result+")";
+				result.result = ""+str_before_base+base.result+_DS2("/* path2 */")+str_after_base+selector_value.result+"";
 			}
 			else
 			{
@@ -138,8 +142,8 @@ struct MemberExpression : public Interpreter
 				if( expr_mem->selector()->is( AST::Node::NodeType::T_GET_EXPRESSION )
 						&& STATIC_CAST( AST::GetExpression, expr_mem->selector())->mode == "bracket" )
 				{
-									str_before_base = "*(Object*)";
-									str_after_base = "";
+									str_before_base = "(*(Object*)";
+									str_after_base = ")";
 				}
 
 
@@ -150,7 +154,7 @@ struct MemberExpression : public Interpreter
 					str_mid = "";
 				}
 
-				result = "("+str_before_base+result.result +str_after_base + str_mid+dispatchExpound( expr_mem->selector(), symbol_table, ctx ).result +")";
+				result.result = ""+str_before_base+result.result +str_after_base + str_mid+dispatchExpound( expr_mem->selector(), symbol_table, ctx ).result +"";
 			}
 		}
 		return result;
