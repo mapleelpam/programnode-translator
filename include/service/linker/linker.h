@@ -286,10 +286,10 @@ public:
 		pm_module->endIsOperator();
 	}
 
-	void startAsOperator() {
+	void startAsOperator( const std::string& t) {
 
 		printf("startAsOperator\n");
-		pm_module->startAsOperator();
+		pm_module->startAsOperator( t );
 	}
 
 	void endAsOperator() {

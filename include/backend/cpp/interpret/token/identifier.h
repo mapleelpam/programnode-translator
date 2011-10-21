@@ -50,7 +50,7 @@ struct Identifier : public Interpreter, public TemplatePrinter
 	{
 		namespace ASY = tw::maple::as::symbol;
 		using tw::maple::as::symbol::Findable;
-		SHARED_PTR(AST::Identifier) li = std::tr1::static_pointer_cast<AST::Identifier>(node);
+		AST::IdentifierPtr li = std::tr1::static_pointer_cast<AST::Identifier>(node);
 
 		if(li->qualifier != "")
 		{

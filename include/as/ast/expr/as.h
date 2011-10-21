@@ -32,8 +32,9 @@ namespace tw { namespace maple { namespace as { namespace ast {
 
 struct As: public Expression
 {
-	As( ) :
-		Expression(Node::NodeType::T_AS)
+	As( std::string t )
+		: Expression(Node::NodeType::T_AS)
+		, type_name( t )
 	{
 	}
 
@@ -45,6 +46,7 @@ struct As: public Expression
     std::string toString()  {	return "node::as"; };
     bool check(){	return node_childs.size() == 2;	};
 
+    std::string type_name;
 };
 
 typedef std::tr1::shared_ptr<As> AsPtr;

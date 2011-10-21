@@ -232,7 +232,7 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("endIsOperator\n");
   }
 
-  void startAsOperator() {
+  void startAsOperator(const std::string& type_name) {
     // Your implementation goes here
     printf("startAsOperator\n");
   }

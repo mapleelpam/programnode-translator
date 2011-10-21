@@ -300,8 +300,13 @@ public:
 	void endIsOperator() {
 		CHECK_STACK_AND_POP( Is, AST::Node::NodeType::T_IS );
 	}
-	void startAsOperator() {
-		PUSH_STACK( As );
+	void startAsOperator( const std::string& type_name ) {
+		std::cerr << " as operator's type name = " << type_name << std::endl;
+		if( type_name == "" )
+		{
+			exit(1);
+		}
+		PUSH_STACK_WITH_INIT( As, type_name );
 	}
 	void endAsOperator() {
 		CHECK_STACK_AND_POP( As, AST::Node::NodeType::T_AS );

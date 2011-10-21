@@ -2467,6 +2467,14 @@ uint32_t AstDumper_startAsOperator_args::read(::apache::thrift::protocol::TProto
     }
     switch (fid)
     {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->type_name);
+          this->__isset.type_name = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -2482,6 +2490,9 @@ uint32_t AstDumper_startAsOperator_args::read(::apache::thrift::protocol::TProto
 uint32_t AstDumper_startAsOperator_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   xfer += oprot->writeStructBegin("AstDumper_startAsOperator_args");
+  xfer += oprot->writeFieldBegin("type_name", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->type_name);
+  xfer += oprot->writeFieldEnd();
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -2490,6 +2501,9 @@ uint32_t AstDumper_startAsOperator_args::write(::apache::thrift::protocol::TProt
 uint32_t AstDumper_startAsOperator_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   xfer += oprot->writeStructBegin("AstDumper_startAsOperator_pargs");
+  xfer += oprot->writeFieldBegin("type_name", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString((*(this->type_name)));
+  xfer += oprot->writeFieldEnd();
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -7061,17 +7075,18 @@ void AstDumperClient::send_endIsOperator()
   oprot_->getTransport()->flush();
 }
 
-void AstDumperClient::startAsOperator()
+void AstDumperClient::startAsOperator(const std::string& type_name)
 {
-  send_startAsOperator();
+  send_startAsOperator(type_name);
 }
 
-void AstDumperClient::send_startAsOperator()
+void AstDumperClient::send_startAsOperator(const std::string& type_name)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("startAsOperator", ::apache::thrift::protocol::T_CALL, cseqid);
 
   AstDumper_startAsOperator_pargs args;
+  args.type_name = &type_name;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -10047,7 +10062,7 @@ void AstDumperProcessor::process_startAsOperator(int32_t seqid, ::apache::thrift
   }
 
   try {
-    iface_->startAsOperator();
+    iface_->startAsOperator(args.type_name);
   } catch (const std::exception& e) {
     if (eventHandler_.get() != NULL) {
       eventHandler_->handlerError(ctx, "AstDumper.startAsOperator");

@@ -28,6 +28,7 @@
 #include <as/ast/expr/as.h>
 #include <backend/cpp/interpret/interpreter.h>
 #include <backend/cpp/templateprinter.h>
+#include <as/symbol/primitivetype.h>
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
 
@@ -44,7 +45,9 @@ struct As : public Interpreter, public TemplatePrinter
 		AST::AsPtr bin = STATIC_CAST( AST::As, node);
 
 		std::string instance_name = dispatchExpound(bin->LHS(), symbol_table, ctx);
-		std::string type_name = dispatchExpound(bin->RHS(), symbol_table, ctx);
+//		std::string type_name = dispatchExpound(bin->RHS(), symbol_table, ctx);
+		std::string type_name = bin->type_name;
+
 		std::string type_fqn_no_prefix = type_name;
 
 		{ // just class...!!
@@ -52,6 +55,12 @@ struct As : public Interpreter, public TemplatePrinter
 			{
 				type_name = classtype_ptr->getFQN_and_mappedName();
 				type_fqn_no_prefix = classtype_ptr->getFQN_noprefix();
+			}
+			else if(  ASY::SymbolPtr s = ASY::Findable::findType(symbol_table.get(),type_name))
+			{
+				ASY::PrimitiveTypePtr prim_ptr = DYNA_CAST( ASY::PrimitiveType, s );
+
+				type_fqn_no_prefix = type_name = prim_ptr->className();
 			}
 			std::cerr << " RHS " << bin->RHS()->toString() << "  "<<type_name << std::endl;
 		}

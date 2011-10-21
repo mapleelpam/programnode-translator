@@ -56,7 +56,7 @@ class AstDumperIf {
   virtual void endInstanceOfExpression() = 0;
   virtual void startIsOperator() = 0;
   virtual void endIsOperator() = 0;
-  virtual void startAsOperator() = 0;
+  virtual void startAsOperator(const std::string& type_name) = 0;
   virtual void endAsOperator() = 0;
   virtual void startUnaryExpression(const UnaryExpression& op) = 0;
   virtual void endUnaryExpression() = 0;
@@ -262,7 +262,7 @@ class AstDumperNull : virtual public AstDumperIf {
   void endIsOperator() {
     return;
   }
-  void startAsOperator() {
+  void startAsOperator(const std::string& /* type_name */) {
     return;
   }
   void endAsOperator() {
@@ -498,7 +498,7 @@ typedef struct _AstDumper_startProgram_args__isset {
 class AstDumper_startProgram_args {
  public:
 
-  AstDumper_startProgram_args() : version("0.0.1"), counter(27LL) {
+  AstDumper_startProgram_args() : version("0.0.1"), counter(28LL) {
   }
 
   virtual ~AstDumper_startProgram_args() throw() {}
@@ -2213,18 +2213,27 @@ class AstDumper_endIsOperator_pargs {
 
 };
 
+typedef struct _AstDumper_startAsOperator_args__isset {
+  _AstDumper_startAsOperator_args__isset() : type_name(false) {}
+  bool type_name;
+} _AstDumper_startAsOperator_args__isset;
 
 class AstDumper_startAsOperator_args {
  public:
 
-  AstDumper_startAsOperator_args() {
+  AstDumper_startAsOperator_args() : type_name("") {
   }
 
   virtual ~AstDumper_startAsOperator_args() throw() {}
 
+  std::string type_name;
 
-  bool operator == (const AstDumper_startAsOperator_args & /* rhs */) const
+  _AstDumper_startAsOperator_args__isset __isset;
+
+  bool operator == (const AstDumper_startAsOperator_args & rhs) const
   {
+    if (!(type_name == rhs.type_name))
+      return false;
     return true;
   }
   bool operator != (const AstDumper_startAsOperator_args &rhs) const {
@@ -2245,6 +2254,7 @@ class AstDumper_startAsOperator_pargs {
 
   virtual ~AstDumper_startAsOperator_pargs() throw() {}
 
+  const std::string* type_name;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -5242,8 +5252,8 @@ class AstDumperClient : virtual public AstDumperIf {
   void send_startIsOperator();
   void endIsOperator();
   void send_endIsOperator();
-  void startAsOperator();
-  void send_startAsOperator();
+  void startAsOperator(const std::string& type_name);
+  void send_startAsOperator(const std::string& type_name);
   void endAsOperator();
   void send_endAsOperator();
   void startUnaryExpression(const UnaryExpression& op);
@@ -5954,10 +5964,10 @@ class AstDumperMultiface : virtual public AstDumperIf {
     }
   }
 
-  void startAsOperator() {
+  void startAsOperator(const std::string& type_name) {
     uint32_t sz = ifaces_.size();
     for (uint32_t i = 0; i < sz; ++i) {
-      ifaces_[i]->startAsOperator();
+      ifaces_[i]->startAsOperator(type_name);
     }
   }
 

@@ -71,7 +71,7 @@ public:
 	}
 	void pass(po::variables_map& args)
 	{
-		fprintf(stderr," in psm \n");
+//		fprintf(stderr," in psm \n");
 		if (args.count("help") > 0) {
 			SVC_ARGUMENTS->print_out_help();
 			exit(1);
@@ -95,6 +95,7 @@ public:
 		tw::maple::service::pass::ProgramNodeLoader::exec( m_pnode_files, pnode_list/*out*/ );
 
 		tw::maple::service::pass::SymbolTableConstructor::exec( pnode_list, symbol_table /* out */ );
+
 		if( m_dump_symbol_table_only ) {
 			std::ofstream ofs;
 			if( m_out_file_path != "" )

@@ -31,13 +31,14 @@ namespace tw { namespace maple { namespace as { namespace symbol {
 
 struct PrimitiveType : public Symbol
 {
-	PrimitiveType( std::string n, std::string another_name, bool _is_pointer = false )
+	PrimitiveType( std::string n, std::string another_name, std::string c /*bool _is_pointer = false*/ )
 		: Symbol( n, Symbol::T_PRIMITIVE_TYPE )
 //		, m_mappedName( another_name )
-		, is_pointer( _is_pointer )
+//		, is_pointer( _is_pointer )
 	{
 		setMappedName( another_name );
 		m_mapped_name = another_name;
+		class_name = c;
 	}
 
 
@@ -64,15 +65,22 @@ struct PrimitiveType : public Symbol
 //	}
 	bool preferStack() const {	return true;	} // don't use heap, operator new
 	std::string instanceName()	const {	return mappedName();	}
+
+	std::string className() const { return class_name;	};
+//	void setClassName( std::string s ) {	class_name = s;	}
+
 	virtual const std::string getFQN_and_instanceName() const
 	{
 		return instanceName();
 	}
 
-	bool is_pointer;
+//	bool is_pointer;
+
+private:
+	std::string class_name;
 };
 
-typedef SHARED_PTR(PrimitiveType) TypePtr;
+typedef SHARED_PTR(PrimitiveType) PrimitiveTypePtr;
 
 }}}}//tw/maple/as/symbol
 

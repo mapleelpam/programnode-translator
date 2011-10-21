@@ -3,7 +3,7 @@
 // RUN: g++  -c -o %t.o %t.cpp -lruntime -D_LINUX
 // RUN: cat %t.cpp | FileCheck -input-file=- %s 
 
-function callee( a:float ) : int
+function callee( a:uint ) : int
 {
 	return a;
 }
@@ -13,5 +13,5 @@ function main () : int
 	var input : int;
 
 	input = 0;
-	callee( input ); // CHECK: (float)input 
+	callee( input ); // CHECK: (unsigned int)input 
 }

@@ -44,7 +44,13 @@ struct SymbolTable : public tw::maple::service::ConfigRequest
 	ScopePtr getRoot() {
 		ScopePtr root(new Scope("root", Scope::T_PROGRAM_ROOT));
 		for( StringMap::iterator sitr = _primitive_type_mapper.begin(); sitr != _primitive_type_mapper.end() ; sitr ++ )
-			root->addChild(  TypePtr(new PrimitiveType((*sitr).first, (*sitr).second) ) );
+		{
+			std::string name = (*sitr).first;
+			std::string instanceName = (*sitr).second;
+			std::string className = _primitive_type_class_mapper.find( name )->second ;
+			std::cerr << " name = " << name << " classname " << className<<std::endl;
+			root->addChild(  PrimitiveTypePtr(new PrimitiveType(name, instanceName, className ) ) );
+		}
 		root->addChild( VariantTypePtr( new VariantType()) );
 
 		return root;
@@ -64,9 +70,14 @@ struct SymbolTable : public tw::maple::service::ConfigRequest
 	{
 		_primitive_type_mapper[ "int" ] = "int";
 		_primitive_type_mapper[ "uint" ] = "unsigned int";
-		_primitive_type_mapper[ "float" ] = "float";
 		_primitive_type_mapper[ "Boolean" ] = "bool";
+//		_primitive_type_mapper[ "String" ] = "NativeString";
 		_primitive_type_mapper[ "Void" ] = "void";
+
+		_primitive_type_class_mapper[ "int" ] = "Int";
+		_primitive_type_class_mapper[ "uint" ] = "Uint";
+		_primitive_type_class_mapper[ "Boolean" ] = "XCBoolean";
+//		_primitive_type_class_mapper[ "String" ] = "XCString";
 	}
 	virtual bool readConfig( boost::property_tree::ptree& pt )
 	{
@@ -74,6 +85,11 @@ struct SymbolTable : public tw::maple::service::ConfigRequest
 			std::string str_config_primitive = "primitive_types.mapper.";
 			BOOST_FOREACH(boost::property_tree::ptree::value_type &pitr, pt.get_child( str_config_primitive ))
 				_primitive_type_mapper[ pitr.first] = pitr.second.get<std::string>( "");
+		}
+		{
+			std::string str_config_primitive = "primitive_types.class.";
+			BOOST_FOREACH(boost::property_tree::ptree::value_type &pitr, pt.get_child( str_config_primitive ))
+				_primitive_type_class_mapper[ pitr.first] = pitr.second.get<std::string>( "");
 		}
 
 		m_pattern_of_star = pt.get( "symboltable.pattern_of_star",  m_pattern_of_star );
@@ -90,6 +106,7 @@ struct SymbolTable : public tw::maple::service::ConfigRequest
 	}
 
 	StringMap _primitive_type_mapper;
+	StringMap _primitive_type_class_mapper;
 	std::string		m_pattern_of_star;
 };
 
