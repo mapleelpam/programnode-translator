@@ -114,7 +114,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		std::string str_func_name = _function_name_mapper( symbol_function->name(), symbol_function );
 		std::string str_func_name_prefix = "";
 		if( symbol_function->getParent() -> is(ASY::Scope::T_CLASS)
-				&& SVC_GLOBAL_SETTINGS -> declare_only )
+				&& SVC_GLOBAL_SETTINGS -> define_only )
 			str_func_name_prefix = symbol_function->getParent()->name()+"::";
 		std::string str_function_body;
 		{
@@ -124,7 +124,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 			}
 			else if ( SVC_GLOBAL_SETTINGS -> declare_only && (!SVC_GLOBAL_SETTINGS -> define_only) )
 			{
-				str_function_body = "; /* i'm here */";
+				str_function_body = ";";
 			}
 			else // no set and define_only
 			{
