@@ -20,10 +20,14 @@ package ker
 			}
 			{
 				var myXML1:XML=<type name1='object'></type>;
+/*
 				var myXML2:XML=<type name2='object'></type>;
 				var xmlList:XMLList=myXML1+myXML2;
 				xmlList+=<test name='test'/>;
 				trace(xmlList);
+*/
+            
+                myXML1.item.(@id==1)
 			}
         }
     }
