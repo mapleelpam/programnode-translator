@@ -154,7 +154,6 @@ struct Identifier : public Interpreter, public TemplatePrinter
 //									if( id == "") 	id = variable_ptr->name();
 								}
 								ReturnValue result = id+_DS2("/* found variable */");
-//								result.token_symbol = variable_ptr->getTypeSymbol();
 								result.token_symbol = variable_ptr;
 
 								if( variable_ptr -> getTypeSymbol() -> preferStack() )

@@ -62,7 +62,7 @@ struct BackendManager {
 			ofs_stream << dispatchExpound(*nodeItr, symbol_table, context	).result;
 		}
         ofs_stream << std::endl;
-        if( !SVC_GLOBAL_SETTINGS->define_only )
+        if( SVC_GLOBAL_SETTINGS->declare_only == false || SVC_GLOBAL_SETTINGS->define_only )
         	declareStaticVariables( symbol_table, ofs_stream );
 
 		ofs_stream.close();

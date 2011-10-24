@@ -40,7 +40,8 @@ ADD_CUSTOM_COMMAND(
     COMMAND ${PNLD} ${MULTIPLE_PNs} -o ${CMAKE_CURRENT_BINARY_DIR}/multiple.pn
     ) 
 
-set( PRE_MSG " include \"somthing\"") 
+#set( PRE_MSG " include \"somthing\"") 
+set( PRE_MSG " ") 
 ADD_CUSTOM_TARGET(
     runtest-goniblergo
     DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/multiple.pn ${PNC}
