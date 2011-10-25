@@ -40,7 +40,7 @@ struct Symbol
 		T_SCOPE			= 0x0002, // function/class/package
 		T_VARIABLE		= 0x0004,
 		T_PRIMITIVE_TYPE= 0x0008,
-		T_PARAMETER	= 0x0010,
+		T_PARAMETER		= 0x0010,
 	};
 
 	enum Attributes

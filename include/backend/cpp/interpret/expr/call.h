@@ -65,7 +65,7 @@ struct Call : public Interpreter, public TemplatePrinter
 			if( p_type != NULL /*&& p_type->getFQN_and_mappedName() != ""*/ )
 			{
 				result.token_symbol = p_type;
-				result.expression_type = ReturnValue::HEAP;
+				result.expression_type = ExpressionType::HEAP;
 				//std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
 				str_callee_name += "new "+p_type->getFQN_and_mappedName();
 			}
@@ -82,7 +82,7 @@ struct Call : public Interpreter, public TemplatePrinter
 						str_callee_name += "( Object* ) "+type_name;
 
 						result.token_symbol = Findable::findClassType( symbol_table, "Object" );
-						result.expression_type = ReturnValue::HEAP;
+						result.expression_type = ExpressionType::HEAP;
 					}
 					else
 					{
@@ -126,13 +126,13 @@ struct Call : public Interpreter, public TemplatePrinter
 
 //					//std::cerr << __FILE__<<":"<<__LINE__<<std::endl;
 					if(ctx.expression_symbol->is( ASY::Symbol::T_VARIABLE)
-							&& ctx.left_is_pointer )
+							&& ctx.left_expr_type )
 					{  // TODO: guess this child_string is ??? primitive? or non-deletable
 						str_prefix = "->";
 						str_callee_name += right;
 					}
 					else if(ctx.expression_symbol->is( ASY::Symbol::T_VARIABLE)
-							&& !ctx.left_is_pointer )
+							&& !ctx.left_expr_type )
 					{  // TODO: guess this child_string is ??? primitive? or non-deletable
 						str_prefix = ".";
 						str_callee_name += right;
@@ -140,7 +140,7 @@ struct Call : public Interpreter, public TemplatePrinter
 					else if(ctx.expression_symbol->is( ASY::Symbol::T_SCOPE) )
 					{ // should be a type
 						str_prefix = "->";
-						if(ctx.left_is_pointer) // TBR 0720
+						if(ctx.left_expr_type) // TBR 0720
 							str_callee_name += _DS2("/* call left is pointer type */")+(right);
 						else
 						{
@@ -160,14 +160,14 @@ struct Call : public Interpreter, public TemplatePrinter
 					{
 						result.token_symbol = callee_func_symbol->ReturnType();
 						result.expression_type =
-								callee_func_symbol->ReturnType()->preferStack() ? ReturnValue::STACK : ReturnValue::HEAP;
+								callee_func_symbol->ReturnType()->preferStack() ? ExpressionType::STACK : ExpressionType::HEAP;
 						callee_type = callee_func_symbol;
 					} else
 					{
 						/* do for waht? */
 						str_tpl_expression = m_tpl_undefined_member_call;
 						result.token_symbol = Findable::findClassType( symbol_table, "Object" );
-						result.expression_type = ReturnValue::HEAP;
+						result.expression_type = ExpressionType::HEAP;
 					}
 				}
 				else

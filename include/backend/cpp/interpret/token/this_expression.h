@@ -49,7 +49,7 @@ struct ThisExpression : public Interpreter
 		ReturnValue result = "this";
 
 		result.token_symbol = ctx.statement_class_symbol;
-		result.expression_type = ReturnValue::HEAP;
+		result.expression_type = ExpressionType::HEAP;
 		return  result;
 	}
 

@@ -5,28 +5,23 @@ namespace tw { namespace maple { namespace backend { namespace cpp { namespace i
 
 struct ReturnValue
 {
-	enum ExpressionType
-	{
-		SCOPE,
-		HEAP,
-		STACK,
-	};
+
 	tw::maple::as::symbol::SymbolPtr		token_symbol;
 	tw::maple::as::symbol::Symbol*		token_symbol2;
-	ExpressionType expression_type;
+	ExpressionType::Type expression_type;
 //	bool expression_type;
 	std::string result;
 	ReturnValue( const std::string& init )
 		: result( init )
 		, token_symbol(tw::maple::as::symbol::SymbolPtr())
 		, token_symbol2( NULL )
-		, expression_type(SCOPE)
+		, expression_type( ExpressionType::SCOPE)
 	{	}
 	ReturnValue( const char* init )
 		: result( std::string(init) )
 		, token_symbol(tw::maple::as::symbol::SymbolPtr())
 		, token_symbol2( NULL )
-		, expression_type(SCOPE)
+		, expression_type( ExpressionType::SCOPE)
 	{	}
 	ReturnValue( const ReturnValue& right )
 		: result( right.result )
@@ -40,7 +35,7 @@ struct ReturnValue
 		: result("")
 		, token_symbol(tw::maple::as::symbol::SymbolPtr())
 		, token_symbol2( NULL )
-		, expression_type(STACK)
+		, expression_type( ExpressionType::STACK )
 	{	}
 
 	void operator=( const std::string& rhs )

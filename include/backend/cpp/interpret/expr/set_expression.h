@@ -66,7 +66,7 @@ struct SetExpression : public Interpreter
 			}
 			else if(ctx.expression_symbol->is( ASY::Symbol::T_SCOPE) )
 			{
-				if(ctx.expression_symbol->is( ASY::Symbol::T_VARIABLE) || ctx.left_is_pointer )
+				if(ctx.expression_symbol->is( ASY::Symbol::T_VARIABLE) || ctx.left_expr_type )
 					prefix = "->";
 				else
 					prefix = "::";
