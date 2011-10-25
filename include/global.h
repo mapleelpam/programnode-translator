@@ -65,6 +65,16 @@ std::string replace(
 
 std::vector<std::string> tokenize(const std::string& str, const std::string& delimiters, bool allowEmptyTokenString);
 
+struct ExpressionType
+{
+	enum Type
+	{
+		SCOPE,
+		HEAP,
+		STACK,
+	};
+};
+
 
 } /*maple*/ } /*tw*/
 

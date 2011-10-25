@@ -31,7 +31,7 @@ package a
 			urlloader.load(new URLRequest("sprites.json"));
 
 			var picloader:Loader=new Loader();
-			picloader.contentLoaderInfo.addEventListener(Event.COMPLETE, onPicComplete);
+//			picloader.contentLoaderInfo.addEventListener(Event.COMPLETE, onPicComplete);
 			picloader.load(new URLRequest("sprites.png"));
 			person=new Person();
 			stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);

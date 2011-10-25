@@ -20,5 +20,6 @@ function main() : int
 	m . a1 = 1; 
 	m . a2 = new Maple();
 
+//     m.a1;
 	m . a2 . a1 = m.a1;
 }

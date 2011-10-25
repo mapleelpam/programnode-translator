@@ -46,6 +46,7 @@ struct Context
 		RHS,
 //		DELETE
 	};
+
 	struct ScopeContext
 	{
 		ScopeContext()
@@ -165,7 +166,7 @@ struct Context
     	, lfs_is_setter( false )
     	, expression_symbol( NULL )
     	, statement_class_symbol( tw::maple::as::symbol::ScopePtr() )
-    	, left_is_pointer( false )
+    	, left_expr_type( ExpressionType::SCOPE )
     	, without_type(false)
     	, is_delete( false )
     	, is_delete_item( false )
@@ -176,9 +177,11 @@ struct Context
 	IndentContext	tree_depth;
 	ScopeContext	tableof_imported;	//handle import
 
+	ExpressionType::Type		left_expr_type;
+
 	InterpretType   inter_type;
+
 	bool			lfs_is_setter;
-	bool			left_is_pointer;
 	bool			without_type; // for param
 	bool			is_delete;
 	bool			is_delete_item;

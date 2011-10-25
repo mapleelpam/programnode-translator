@@ -56,11 +56,14 @@ struct MemberExpression : public Interpreter
 
 		AST::MemberExpressionPtr expr_mem = STATIC_CAST( AST::MemberExpression, node);
 
-		//std::cerr << __FILE__<<":"<<__LINE__ << std::endl;
+		std::cerr << __FILE__<<":"<<__LINE__ << std::endl;
 		if( expr_mem->base()->is( AST::Node::NodeType::T_EMPTY) )
 		{
-			//std::cerr << __FILE__<<":"<<__LINE__ << std::endl;
-			return dispatchExpound( expr_mem->selector(), symbol_table, ctx);
+			std::cerr << __FILE__<<":"<<__LINE__ << std::endl;
+			ReturnValue selector_value =  dispatchExpound( expr_mem->selector(), symbol_table, ctx);
+
+			selector_value.result += "/*path zero*/";
+			return selector_value;
 		}
 		else if( expr_mem->base()->is( AST::Node::NodeType::T_LOAD_REG) )
 		{
@@ -103,9 +106,10 @@ struct MemberExpression : public Interpreter
 
 				//std::cerr <<__FILE__<<" @@ base "<<base.token_symbol->getFQN() <<" '"<<base.expression_type<<"'"<< std::endl;
 				tw::maple::backend::cpp::Context ctx2 = ctx;
-				ctx2.left_is_pointer = (base.expression_type == ReturnValue::HEAP );
-				//std::cerr <<__FILE__<<" is instance "<< base.expression_type << std::endl;
+				ctx2.left_expr_type = base.expression_type;
+				std::cerr <<__FILE__<<" is instance "<< base.expression_type << std::endl;
 				ctx2.expression_symbol = base.token_symbol.get();
+
 				if(  expr_mem->selector()->is( AST::Node::NodeType::T_CALL ) // should never be here
 					&& STATIC_CAST( AST::Call, expr_mem->selector())->isObjectConsturct() )
 				{
@@ -142,8 +146,8 @@ struct MemberExpression : public Interpreter
 				if( expr_mem->selector()->is( AST::Node::NodeType::T_GET_EXPRESSION )
 						&& STATIC_CAST( AST::GetExpression, expr_mem->selector())->mode == "bracket" )
 				{
-									str_before_base = "(*(Object*)";
-									str_after_base = ")";
+					str_before_base = "(*(Object*)";
+					str_after_base = ")";
 				}
 
 
@@ -153,10 +157,12 @@ struct MemberExpression : public Interpreter
 				{
 					str_mid = "";
 				}
-
-				result.result = ""+str_before_base+result.result +str_after_base + str_mid+dispatchExpound( expr_mem->selector(), symbol_table, ctx ).result +"";
+				ReturnValue selector_value = dispatchExpound( expr_mem->selector(), symbol_table, ctx );
+				result.result = ""+str_before_base+result.result +str_after_base + str_mid+selector_value.result;
+				result.token_symbol = selector_value.token_symbol;
 			}
 		}
+		std::cerr << __FILE__<<":"<<__LINE__ << std::endl;
 		return result;
 	}
 private:

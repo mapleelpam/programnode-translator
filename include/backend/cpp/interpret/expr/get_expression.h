@@ -59,17 +59,17 @@ struct GetExpression : public Interpreter
 		{
 			if( ctx.expression_symbol != NULL )
 			{
-				if(ctx.expression_symbol->is( ASY::Symbol::T_VARIABLE) || ctx.left_is_pointer )
+				if(	ctx.left_expr_type == ExpressionType::HEAP )
 				{  // TODO: guess this child_string is ??? primitive? or non-deletable
 					child_string.result = "->"+_DS2("/*is variable*/")+child_string.result;
 					return child_string;
 				}
-				else if(ctx.expression_symbol->is( ASY::Symbol::T_VARIABLE) && !ctx.left_is_pointer )
+				else if(ctx.left_expr_type == ExpressionType::STACK  )
 				{  // TODO: guess this child_string is ??? primitive? or non-deletable
 					child_string.result = "."+_DS2("/*is stack variable*/")+child_string.result;
 					return child_string;
 				}
-				else if(ctx.expression_symbol->is( ASY::Symbol::T_SCOPE) )
+				else if( ctx.left_expr_type == ExpressionType::SCOPE )
 				{ // should be a type
 					child_string.result = "::"+_DS2("/*is scope*/")+child_string.result;
 					return child_string;

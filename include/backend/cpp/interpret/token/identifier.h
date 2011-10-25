@@ -83,6 +83,7 @@ struct Identifier : public Interpreter, public TemplatePrinter
 				ReturnValue result;
 				result =  left+"::"+ li->value + _DS2("/* find symbol */");
 				result.token_symbol = symbol_ptr;
+				result.expression_type = ExpressionType::SCOPE;
 				return result;
 			}
 			else
@@ -96,6 +97,7 @@ struct Identifier : public Interpreter, public TemplatePrinter
 //					ctx-> token_class_type = classtype_ptr;
 					ReturnValue result =  classtype_ptr->mappedName()+_DS2("/* found class type */");
 					result.token_symbol = classtype_ptr;
+					result.expression_type = ExpressionType::SCOPE;
 					return result;
 				}
 			}
@@ -105,15 +107,20 @@ struct Identifier : public Interpreter, public TemplatePrinter
 					std::vector<ASY::SymbolPtr> candidates;
 					if( ctx.expression_symbol )
 					{
-						ASY::Scope* type_scope = (ASY::Scope*)ctx.expression_symbol;
+						ASY::Scope* type_scope = dynamic_cast<ASY::Scope*>(ctx.expression_symbol);
 						if(ctx.expression_symbol->is( ASY::Symbol::T_VARIABLE ) )
 						{
 							ASY::Variable* var_sym =(ASY::Variable*) (ctx.expression_symbol);
-							type_scope = (ASY::Scope*)( var_sym->getTypeSymbol().get() );
+							type_scope = dynamic_cast<ASY::Scope*>( var_sym->getTypeSymbol().get() );
 						}
-						candidates = ASY::Findable::findRHS_Candidates(type_scope,li->value);
+						if( type_scope )
+						{
+							candidates = ASY::Findable::findRHS_Candidates(type_scope,li->value);
+						}
 						if( candidates.size() == 0) //TODO: Bug here!!!
+						{
 							candidates = ASY::Findable::findRHS_Candidates(symbol_table,li->value);
+						}
 					}
 					else
 						candidates = ASY::Findable::findRHS_Candidates(symbol_table,li->value);
@@ -142,7 +149,7 @@ struct Identifier : public Interpreter, public TemplatePrinter
 								ReturnValue result =  "get_" +  li->value + "()";
 								result.token_symbol = function_ptr->ReturnType();
 								result.expression_type =
-									function_ptr->ReturnType()->preferStack() ? ReturnValue::STACK : ReturnValue::HEAP;
+									function_ptr->ReturnType()->preferStack() ? ExpressionType::STACK : ExpressionType::HEAP;
 								return result;
 							}
 							ASY::VariablePtr variable_ptr = DYNA_CAST( ASY::Variable, instance );
@@ -157,11 +164,18 @@ struct Identifier : public Interpreter, public TemplatePrinter
 								result.token_symbol = variable_ptr;
 
 								if( variable_ptr -> getTypeSymbol() -> preferStack() )
-									result.expression_type = ReturnValue::STACK;
+								{
+//									std::cerr <<" prefer stack "<< std::endl;
+									result.expression_type = ExpressionType::STACK;
+								}
 								else
-									result.expression_type = ReturnValue::HEAP;
+								{
+//									std::cerr <<" prefer heap "<< std::endl;
+									result.expression_type = ExpressionType::HEAP;
+								}
 								return result;
 							}
+
 						}
 					}
 					else if( li -> is_attribute )
@@ -175,7 +189,7 @@ struct Identifier : public Interpreter, public TemplatePrinter
 							ReturnValue result;
 							result.result = substitutePatterns( m_tpl_attribute_call, patterns );
 							result.token_symbol = Findable::findClassType( symbol_table, "Object" );
-							result.expression_type = ReturnValue::HEAP;
+							result.expression_type = ExpressionType::HEAP;
 							if( result.token_symbol == NULL )
 							{
 								std::cerr << " can't find Object "<< std::endl;
@@ -208,7 +222,7 @@ struct Identifier : public Interpreter, public TemplatePrinter
 						// TODO: find symboltable then -> class_symbol_table
 						// TODO: TBO 0719
 //						exit(1);
-						return li->value+_DS("/* can't found variable */");
+						return li->value+_DS2("/* can't found variable */");
 					}
 				}
 				 // just variable or setter
@@ -260,7 +274,7 @@ struct Identifier : public Interpreter, public TemplatePrinter
 
 								ReturnValue result = id +_DS2("/* found variable */");
 								result.token_symbol = variable_ptr->getTypeSymbol();
-								result.expression_type = ReturnValue::HEAP;
+								result.expression_type = ExpressionType::HEAP;
 								return result;
 							}
 						}
