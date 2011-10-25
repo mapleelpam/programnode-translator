@@ -43,6 +43,7 @@ struct SetExpression : public Interpreter
 			)
 	{
 		std::string result;
+		std::string ro_rhs, lo_rhs;
 		AST::SetExpressionPtr set = STATIC_CAST( AST::SetExpression, node);
 
 		ctx.inter_type = Context::LHS;
@@ -78,9 +79,12 @@ struct SetExpression : public Interpreter
 		{
 			if( lhs_value.token_symbol != rhs_value.token_symbol)
 			{
-
 				if (lhs_value.token_symbol->preferStack())
+				{
 					str_type_cast = "(" + lhs_value.token_symbol->getFQN_and_instanceName() + ")";
+					lo_rhs = "(";
+					ro_rhs = ")";
+				}
 				else if ( DYNA_CAST(ASY::VariantType, lhs_value.token_symbol ) )
 					str_type_cast += ""; // ignore
 				else if (lhs_value.token_symbol -> name() == "Function")
@@ -88,6 +92,8 @@ struct SetExpression : public Interpreter
 				else
 				{	// every time variable prefer heap, it should be ObjectBase
 					str_type_cast = "(" + lhs_value.token_symbol->getFQN_noprefix() + "*)(Object*)";
+					lo_rhs = "(";
+					ro_rhs = ")";
 				}
 			}
 		}
@@ -111,7 +117,7 @@ struct SetExpression : public Interpreter
 			return prefix+"["+lhs_value.result + "] = " + rhs_value.result;
 		}
 		else
-			return prefix+lhs_value.result + " = " + str_type_cast + rhs_value.result;
+			return prefix+lhs_value.result + " = " + str_type_cast + lo_rhs + rhs_value.result + ro_rhs;
 	}
 };
 
