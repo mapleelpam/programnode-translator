@@ -185,9 +185,11 @@ void SymbolTableConstructor:: constructSymbols(
 
 				if( str_varname == "NULL" )
 				{
-//					std::cerr << "catctch a NULL exit"<<std::endl;
-//					exit(1);
 					symbol_var->setMappedName("__NULL__");
+				}
+				if( str_varname == "NAN" )
+				{
+					symbol_var->setMappedName("xcvarNAN");
 				}
 //				std::cerr << " in variable declare = '" << var->getNameMapto()<<"'"<<std::endl;
 				symbol_var->setIsStatic( var->is("static") );
