@@ -241,7 +241,9 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("enter_stmt", fdef->getEnterFunctionMapper() != "" ? fdef->getEnterFunctionMapper() : "/*enter function*/" ) ) );
 		patterns.push_back( PatternPtr( new Pattern("function_leave", (fdef->isAbstract || SVC_GLOBAL_SETTINGS -> declare_only )? "" : m_tpl_leave_function) ) );
 		patterns.push_back( PatternPtr( new Pattern("member_initial", (symbol_function->isConstructor() )
-										? (SVC_GLOBAL_SETTINGS -> define_only)? "" : getMemberInitializer(symbol_function,fdef->mp_parent_initilizer,ctx) : "") ) );
+										? (SVC_GLOBAL_SETTINGS -> declare_only && (!SVC_GLOBAL_SETTINGS -> define_only))? ""
+											: getMemberInitializer(symbol_function,fdef->mp_parent_initilizer,ctx)
+										: "") ) );
 		patterns.push_back( PatternPtr( new Pattern("prefix_parameters", str_prefix_parameter) ) );
 		patterns.push_back( PatternPtr( new Pattern("postfix_parameters", "") ) );
 		patterns.push_back( PatternPtr( new Pattern("contructor_prefix_info", ( SVC_GLOBAL_SETTINGS -> define_only ) ?
