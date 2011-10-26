@@ -140,9 +140,14 @@ ScopePtr Findable::findClassType( Scope* stable, const std::string& class_name )
 std::vector<SymbolPtr> Findable::findRHS_Candidates( Scope* stable, const std::string& var_name )
 {
 	std::vector<SymbolPtr> answers;
+
+//	std::cerr << stable->name() << std::endl;
+
 	for( std::vector<SymbolPtr>::iterator I = stable->m_childs.begin(), B = stable->m_childs.end()
 			; I != B ; I ++ )
 	{
+//		std::cerr << stable->name() << " iterate " << (*I)->name() << " try to find " << var_name << std::endl;
+
 		if( (*I)->name() == var_name && (*I)->is( Symbol::T_VARIABLE ) )
 		{
 			answers . push_back( *I );

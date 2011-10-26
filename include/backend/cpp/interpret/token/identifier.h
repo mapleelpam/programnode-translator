@@ -111,12 +111,16 @@ struct Identifier : public Interpreter, public TemplatePrinter
 						if(ctx.expression_symbol->is( ASY::Symbol::T_VARIABLE ) )
 						{
 							ASY::Variable* var_sym =(ASY::Variable*) (ctx.expression_symbol);
-							type_scope = (ASY::Scope*)( var_sym->getTypeSymbol().get() );
+							type_scope = dynamic_cast<ASY::Scope*>( var_sym->getTypeSymbol().get() );
 						}
-						if( ctx.left_expr_type == ExpressionType::SCOPE && type_scope )
+						if( type_scope )
+						{
 							candidates = ASY::Findable::findRHS_Candidates(type_scope,li->value);
+						}
 						if( candidates.size() == 0) //TODO: Bug here!!!
+						{
 							candidates = ASY::Findable::findRHS_Candidates(symbol_table,li->value);
+						}
 					}
 					else
 						candidates = ASY::Findable::findRHS_Candidates(symbol_table,li->value);
@@ -218,7 +222,7 @@ struct Identifier : public Interpreter, public TemplatePrinter
 						// TODO: find symboltable then -> class_symbol_table
 						// TODO: TBO 0719
 //						exit(1);
-						return li->value+_DS("/* can't found variable */");
+						return li->value+_DS2("/* can't found variable */");
 					}
 				}
 				 // just variable or setter
