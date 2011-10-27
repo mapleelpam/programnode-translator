@@ -38,7 +38,7 @@ struct DefaultLabel : public Interpreter
 			
 			)
 	{
-		return  "default:\n";
+		return  "#(indent_tab_add)defaultlabel:\n";
 	}
 
 };

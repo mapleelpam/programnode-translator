@@ -43,7 +43,7 @@ struct CaseLabel : public Interpreter
 		AST::CaseLabelPtr LABEL = std::tr1::static_pointer_cast<AST::CaseLabel>(node);
 
 		std::string str_expr = dispatchExpound(LABEL->label(), symbol_table, ctx);
-		return  "case "+str_expr+":\n";
+		return  "#(indent_tab_add)caselabel_"+str_expr+":\n";
 	}
 
 };

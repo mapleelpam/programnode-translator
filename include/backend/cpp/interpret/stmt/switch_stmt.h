@@ -45,14 +45,34 @@ struct SwitchStatement : public Interpreter, public TemplatePrinter
 		AST::SwitchStatementPtr SWITCH = std::tr1::static_pointer_cast<AST::SwitchStatement>(node);
 		std::list<PatternPtr> patterns;
 
-		patterns.push_back( PatternPtr( new Pattern("switch_expression", dispatchExpound(SWITCH->SwitchExpression(), symbol_table, ctx).result ) ));
-		patterns.push_back( PatternPtr( new Pattern("switch_body", dispatchExpound(SWITCH->SWitchBody(), symbol_table, ctx).result ) ));
+
+		ctx.tree_depth ++ ;
+		std::string s_switch_body = dispatchExpound(SWITCH->SWitchBody(), symbol_table, ctx);
+		ctx.tree_depth -- ;
+
+		ReturnValue switch_expr = dispatchExpound(SWITCH->SwitchExpression(), symbol_table, ctx).result;
+
 		COMPELETE_PATTERNS( patterns, ctx );
 
-		std::vector<std::string> list;
-		findAllCase( SWITCH->SWitchBody(), symbol_table, ctx, list );
+		std::string debug;
 
-		return substitutePatterns( patterns );
+		std::vector < std::string > list;
+		bool has_default = false;
+		{
+			findAllCase(SWITCH->SWitchBody(), symbol_table, ctx, list /*out*/, has_default /*out*/);
+
+			for (int idx = 0; idx < list.size(); idx++) {
+				debug += "/* " + list[idx] + " */";
+			}
+		}
+		if( has_default )
+			std::cerr << " ---- has default = true"<<std::endl;
+
+		return substitutePatterns( frontOfSwitch(list, has_default, switch_expr)+s_switch_body+backOfSwitch(), patterns );
+
+//		patterns.push_back( PatternPtr( new Pattern("switch_expression", s_switch_expr ) ));
+//		patterns.push_back( PatternPtr( new Pattern("switch_body", s_switch_body ) ));
+//		return frontOfSwitch(list)+substitutePatterns( patterns );
 	}
 
 	SwitchStatement()
@@ -68,17 +88,24 @@ private:
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context& ctx
 			, std::vector<std::string>& list /*out*/
+			, bool& has_default /*out*/
 			)
 	{
 		if( !body->is( AST::Node::NodeType::T_STMT_LIST) )
 		{
-			findAllCase( body->node_childs[0], symbol_table, ctx, list ); // TODO: ker ker
+			findAllCase( body->node_childs[0], symbol_table, ctx, list, has_default ); // TODO: ker ker
 			return;
 		}
 
 		for (std::vector<std::tr1::shared_ptr<tw::maple::as::ast::Node> >::iterator nItr =
 			body->node_childs.begin(); nItr != body->node_childs.end(); nItr++)
 		{
+			if( (*nItr)->is( AST::Node::NodeType::T_DEFAULT_LABEL) )
+			{
+				std::cerr << " hey i got the default label \n";
+				has_default = true;
+			}
+
 			if( !(*nItr)->is( AST::Node::NodeType::T_CASE_LABEL) )
 				continue;
 
@@ -93,6 +120,31 @@ private:
 		}
 
 //		return "";
+	}
+
+	std::string frontOfSwitch( std::vector < std::string >& case_list, bool has_default, ReturnValue& switch_expr )
+	{
+		std::string result = "#(indent_tab)do{#(endl)";
+		const std::string s_expr_pattern = " __expression__";
+
+		{
+			if( switch_expr.token_symbol )
+				result += switch_expr.token_symbol->name()+" "+s_expr_pattern+";#(endl)";
+			else
+				result += "#(indent_tab_add)int "+s_expr_pattern;
+			result += " = " +switch_expr.result+";#(endl)";
+		}
+		for (int idx = 0; idx < case_list.size(); idx++) {
+			result += "#(indent_tab_add)if( "+s_expr_pattern+" == " + case_list[idx] + " ) { goto caselabel_" + case_list[idx]+" ; }#(endl)";
+		}
+		if( has_default )
+			result += "#(indent_tab_add)goto defaultlabel;#(endl)";
+
+		return result;
+	}
+	std::string backOfSwitch()
+	{
+		return "#(indent_tab_add)break;#(endl)#(indent_tab)}while(1);#(endl)";
 	}
 };
 
