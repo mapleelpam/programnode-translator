@@ -65,6 +65,22 @@ struct Interpreter
 //		return std::string("/*default begin*/")+result.result+std::string("/*default end*/");
         return result;
 	}
+
+	std::string removeSpecialChar( std::string label_string )
+	{
+		label_string = replace( label_string, "\"", "_dq_");	// double quotation mark
+		label_string = replace( label_string, "(", "_lp_");		// parenthesis
+		label_string = replace( label_string, ")", "_rp_");
+		label_string = replace( label_string, "[", "_lsb_"); 	//	square bracket
+		label_string = replace( label_string, "]", "_rsb_");
+		label_string = replace( label_string, "{", "_lbs_");
+		label_string = replace( label_string, "}", "_rbs_");
+		label_string = replace( label_string, ",", "_cn_");		// common
+		label_string = replace( label_string, ":", "_sn_");		// semicolon
+		label_string = replace( label_string, "\\", "_sl_");		// slash
+
+		return label_string;
+	}
 };
 
 } } } } }

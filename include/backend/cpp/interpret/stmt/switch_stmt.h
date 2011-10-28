@@ -50,7 +50,7 @@ struct SwitchStatement : public Interpreter, public TemplatePrinter
 		std::string s_switch_body = dispatchExpound(SWITCH->SWitchBody(), symbol_table, ctx);
 		ctx.tree_depth -- ;
 
-		ReturnValue switch_expr = dispatchExpound(SWITCH->SwitchExpression(), symbol_table, ctx).result;
+		ReturnValue switch_expr = dispatchExpound(SWITCH->SwitchExpression(), symbol_table, ctx);
 
 		COMPELETE_PATTERNS( patterns, ctx );
 
@@ -129,13 +129,16 @@ private:
 
 		{
 			if( switch_expr.token_symbol )
-				result += switch_expr.token_symbol->name()+" "+s_expr_pattern+";#(endl)";
+				result += "#(indent_tab_add)"+getTypeString(switch_expr.token_symbol)+" "+s_expr_pattern;
 			else
 				result += "#(indent_tab_add)int "+s_expr_pattern;
 			result += " = " +switch_expr.result+";#(endl)";
 		}
 		for (int idx = 0; idx < case_list.size(); idx++) {
-			result += "#(indent_tab_add)if( "+s_expr_pattern+" == " + case_list[idx] + " ) { goto caselabel_" + case_list[idx]+" ; }#(endl)";
+			std::string label_string = "caselabel_" + case_list[idx];
+			label_string = removeSpecialChar(label_string);
+
+			result += "#(indent_tab_add)if( "+s_expr_pattern+" == " + case_list[idx] + " ) { goto "+ label_string+"; }#(endl)";
 		}
 		if( has_default )
 			result += "#(indent_tab_add)goto defaultlabel;#(endl)";
@@ -145,6 +148,27 @@ private:
 	std::string backOfSwitch()
 	{
 		return "#(indent_tab_add)break;#(endl)#(indent_tab)}while(1);#(endl)";
+	}
+
+	std::string getTypeString( tw::maple::as::symbol::SymbolPtr symbol )
+	{
+		namespace ASY = tw::maple::as::symbol;
+		std::string		s_type;
+		ASY::SymbolPtr	symbol_type;
+
+		if( ASY::VariablePtr variable = DYNA_CAST(ASY::Variable, symbol) )
+		{
+			symbol_type = variable->getTypeSymbol();
+		}
+		else
+			symbol_type = symbol;
+
+		if( symbol_type->preferStack())
+			s_type = symbol_type->getFQN_and_instanceName();
+		else
+			s_type = symbol_type->getFQN_and_mappedName() + SVC_GLOBAL_SETTINGS->pointer_pattern /* '*'or 'Ptr' */;
+
+		return s_type;
 	}
 };
 
