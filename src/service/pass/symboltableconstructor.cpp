@@ -108,6 +108,7 @@ void SymbolTableConstructor:: constructSymbols(
 //				std::cerr << "abcdefg "<<str_func_name << "  " << fname->function_type<<"  "<<symboltable->name()<<std::endl;
 				scope_func -> setFunctionType( fname->function_type );
 				scope_func -> setCallerMapper( fdef->getCallerMapper() );
+				scope_func -> setIsSupported( fdef->isSupported() );
 
 //				std::cerr << " class name = " << classname << " function_name = " <<str_func_name << std::endl;
 				if( classname!="" && classname == str_func_name )

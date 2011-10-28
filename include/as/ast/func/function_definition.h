@@ -88,6 +88,19 @@ struct FunctionDefinition: public Statement
 		    }
 	    }
     }
+    bool isSupported( )
+    {
+	    if(m_metadata.id == "native")
+	    {
+		    if(m_metadata.keyvalues.find("support") != m_metadata.keyvalues.end() )
+		    {
+			    std::string answer = m_metadata.keyvalues["support"];
+			    if( answer == "none" )
+			    	return false;
+		    }
+	    }
+	    return true;
+    }
 public:
     void setFunctionSymbol( ASYM::FunctionPtr s )	{	_related_function_symbol = s;	}
     ASYM::FunctionPtr getFunctionSymbol( )	{	return _related_function_symbol;	}

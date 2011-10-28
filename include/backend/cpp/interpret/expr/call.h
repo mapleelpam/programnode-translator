@@ -199,6 +199,14 @@ struct Call : public Interpreter, public TemplatePrinter
 
 			}
 		}
+
+		if( callee_type && callee_type->isSupported() == false )
+		{
+//			std::cerr <<" callee: "<<callee_type->getFQN() << " not supported, and exit with error "<<std::endl;
+//			exit(2);
+			std::cerr <<" callee: "<<callee_type->getFQN() << " not supported, but........  "<<std::endl;
+		}
+
 		std::string str_arguments;
 		std::string str_arguments_type2;
 

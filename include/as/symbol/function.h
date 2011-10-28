@@ -38,6 +38,7 @@ struct Function : public Scope
 		, m_is_constructor( false )
 		, m_ever_used_like_variable( false )
 		, m_function_type( tw::maple::generated::FunctionType::TF_NORMAL )
+		, m_is_supported( true )
 	{
 	}
 
@@ -144,6 +145,12 @@ private:
 	tw::maple::generated::FunctionType::type m_function_type;
 	bool		m_ever_used_like_variable;
 	std::string 	m_caller_mapper;
+
+public:
+	bool	isSupported()	{	return m_is_supported;	}
+	void	setIsSupported( bool b ){	m_is_supported = b;	}
+private:
+	bool	m_is_supported;
 };
 
 typedef SHARED_PTR(Function) FunctionPtr;
