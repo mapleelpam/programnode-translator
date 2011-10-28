@@ -30,6 +30,8 @@
 #include <as/ast/abstract/expression.h>
 #include <as/ast/expr/call.h>
 
+#include "backend/cpp/interpret/expr/arguments.h"
+
 namespace AST = ::tw::maple::as::ast;
 
 namespace tw { namespace maple { namespace backend { namespace cpp { namespace interpret {
@@ -198,15 +200,22 @@ struct Call : public Interpreter, public TemplatePrinter
 			}
 		}
 		std::string str_arguments;
-//		result +=  "( ";
+		std::string str_arguments_type2;
+
 		if (CALL->getArgs())
 		{
 			tw::maple::backend::cpp::Context ctx2 = ctx;
 			ctx2 . callee_type = callee_type;
 //			std::cerr << " in call expound - try to evaluate args"<<call->getArgs()->toString()<<std::endl;
-			str_arguments += dispatchExpound( CALL->getArgs(), symbol_table, ctx2);
+			str_arguments = dispatchExpound( CALL->getArgs(), symbol_table, ctx2);
 		}
-//		result += " )";
+
+		if (CALL->getArgs() && callee_type && (callee_type->getCallerMapper() != ""))
+		{
+			tw::maple::backend::cpp::Context ctx2 = ctx;
+			ctx2 . callee_type = callee_type;
+			str_arguments_type2 = Arguments::special_expound_type2( CALL->getArgs(), symbol_table, ctx2 );
+		}
 
 //		std::cerr << " in call interpreter  = (end)" << std::endl;
 
@@ -217,6 +226,7 @@ struct Call : public Interpreter, public TemplatePrinter
 		std::list<PatternPtr> patterns;
 		patterns.push_back( PatternPtr( new Pattern("expression", str_tpl_expression) ));
 		patterns.push_back( PatternPtr( new Pattern("argc", str_arguments) ));
+		patterns.push_back( PatternPtr( new Pattern("argc_type2", str_arguments_type2+"/*it's type two*/") ));
 		patterns.push_back( PatternPtr( new Pattern("argn", str_numof_arguments) ));
 		patterns.push_back( PatternPtr( new Pattern("argc2", str_arguments != ""?","+str_arguments :"") ));
 		patterns.push_back( PatternPtr( new Pattern("callee_name", str_callee_name) ));

@@ -279,6 +279,7 @@ private:
 		for (std::vector<ASY::SymbolPtr>::iterator child_itr = childs.begin(); child_itr
 				!= childs.end(); child_itr++) {
 			if (((*child_itr)->getSymbolProperties() & ASY::Symbol::T_VARIABLE)) {
+
 				ASY::VariablePtr var = STATIC_CAST( ASY::Variable, *child_itr );
 				if (var->getInitializeNode() != NULL && var->isStatic() == false) {
 					answer += "#(endl)#(indent_tab_add):" + var->name() + "("

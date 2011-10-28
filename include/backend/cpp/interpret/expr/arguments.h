@@ -39,7 +39,6 @@ struct Arguments : public Interpreter, public TemplatePrinter
 			::tw::maple::as::ast::NodePtr node
 			, tw::maple::as::symbol::ScopePtr symbol_table
 			, tw::maple::backend::cpp::Context& ctx
-
 			)
 	{
 		namespace AST = ::tw::maple::as::ast;
@@ -49,7 +48,8 @@ struct Arguments : public Interpreter, public TemplatePrinter
 
 
 		int counter = 0;
-		for( std::vector<tw::maple::as::ast::NodePtr>::iterator nItr = node->node_childs.begin(), E = node->node_childs.end()
+		for( std::vector<tw::maple::as::ast::NodePtr>::iterator
+				nItr = node->node_childs.begin(), E = node->node_childs.end()
 				; nItr != E ; nItr ++, counter ++ )
 		{
 			ASY::SymbolPtr arg_type;
@@ -75,6 +75,76 @@ struct Arguments : public Interpreter, public TemplatePrinter
 			}
 
 			result +=  prefix + arg_result.result;
+		}
+
+		return result;
+	}
+	static ReturnValue special_expound_type2(
+			::tw::maple::as::ast::NodePtr node
+			, tw::maple::as::symbol::ScopePtr symbol_table
+			, tw::maple::backend::cpp::Context& ctx
+			)
+	{
+
+		namespace AST = ::tw::maple::as::ast;
+		namespace ASY = ::tw::maple::as::symbol;
+
+		ReturnValue result = "";
+
+
+		int counter = 0;
+		for( std::vector<tw::maple::as::ast::NodePtr>::iterator
+				nItr = node->node_childs.begin(), E = node->node_childs.end()
+				; nItr != E ; nItr ++, counter ++ )
+		{
+			ASY::SymbolPtr arg_type;
+			if( ctx.callee_type )
+				arg_type = ctx.callee_type->m_types[counter+1];
+
+			std::string prefix = (counter == 0? std::string(""):std::string(", "));
+			ReturnValue one_arg_result = dispatchExpound(*nItr, symbol_table, ctx);
+			std::string s_enum;
+
+			if(  one_arg_result.token_symbol )
+			{
+				if( one_arg_result.token_symbol->name() == "String")
+					s_enum = " TYPE_STRING, ";
+				else if( one_arg_result.token_symbol->name() == "Object")
+					s_enum = " TYPE_OBJECT, ";
+				else if( one_arg_result.token_symbol->name() == "Int")
+					s_enum = " TYPE_INT, ";
+				else if( one_arg_result.token_symbol->name() == "UInt")
+					s_enum = " TYPE_UINT, ";
+				else if( one_arg_result.token_symbol->name() == "Boolean")
+					s_enum = " TYPE_BOOLEAN, ";
+				else if( one_arg_result.token_symbol->name() == "Number")
+					s_enum = " TYPE_NUMBER, ";
+				else if( one_arg_result.token_symbol->name() == "Function")
+					s_enum = " TYPE_FUNCTION, ";
+			}
+			else
+			{
+//				std::cerr <<" empty token symbol "<<__FILE__<<":"<<__LINE__<<"contact maple !!!! blahblahblah"<<std::endl;
+//				exit(1);
+				s_enum = " TYPE_OBJECT, ";
+			}
+//			if( arg_type && arg_type != arg_result.token_symbol )
+//			{
+//				if( arg_result.token_symbol )
+//				{
+//					std::cerr <<" argument type = "<<arg_result.token_symbol->toString()<<std::endl;
+//				}
+//				if( arg_type->preferStack() )
+//					prefix += "("+arg_type->getFQN_and_instanceName()+")";
+//				else if( DYNA_CAST(ASY::VariantType, arg_type ) )
+//					prefix += ""; // ignore
+//				else if( arg_type -> name() == "Function" )
+//					prefix += ""; // ignore
+//				else
+//					prefix += "("+arg_type->getFQN_and_mappedName() + "*)"+m_default_pcast_postfix;
+//			}
+
+			result +=  prefix +s_enum+one_arg_result.result;
 		}
 
 		return result;

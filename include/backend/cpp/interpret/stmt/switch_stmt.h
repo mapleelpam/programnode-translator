@@ -150,26 +150,7 @@ private:
 		return "#(indent_tab_add)break;#(endl)#(indent_tab)}while(1);#(endl)";
 	}
 
-	std::string getTypeString( tw::maple::as::symbol::SymbolPtr symbol )
-	{
-		namespace ASY = tw::maple::as::symbol;
-		std::string		s_type;
-		ASY::SymbolPtr	symbol_type;
 
-		if( ASY::VariablePtr variable = DYNA_CAST(ASY::Variable, symbol) )
-		{
-			symbol_type = variable->getTypeSymbol();
-		}
-		else
-			symbol_type = symbol;
-
-		if( symbol_type->preferStack())
-			s_type = symbol_type->getFQN_and_instanceName();
-		else
-			s_type = symbol_type->getFQN_and_mappedName() + SVC_GLOBAL_SETTINGS->pointer_pattern /* '*'or 'Ptr' */;
-
-		return s_type;
-	}
 };
 
 };

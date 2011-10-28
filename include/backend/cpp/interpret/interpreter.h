@@ -26,9 +26,11 @@
 #ifndef __TW_MAPLE_BACKEDN_CPP_INTERPRET_INTERPRET_H_
 #define __TW_MAPLE_BACKEDN_CPP_INTERPRET_INTERPRET_H_
 
+#include <service/globalsettings.h>
 #include <as/ast/abstract/expression.h>
 #include <backend/cpp/context.h>
 #include <as/symbol/scope.h>
+#include <as/symbol/variable.h>
 #include <backend/cpp/interpret/returnvalue.h>
 
 #define DEBUG_INTERPRET_ENTRY {std::cout << typeid(*this).name() << "::"<<__FUNCTION__<< " enter function" <<std::endl;	}
@@ -66,6 +68,7 @@ struct Interpreter
         return result;
 	}
 
+protected:
 	std::string removeSpecialChar( std::string label_string )
 	{
 		label_string = replace( label_string, "\"", "_dq_");	// double quotation mark
@@ -80,6 +83,26 @@ struct Interpreter
 		label_string = replace( label_string, "\\", "_sl_");		// slash
 
 		return label_string;
+	}
+	std::string getTypeString( tw::maple::as::symbol::SymbolPtr symbol )
+	{
+		namespace ASY = tw::maple::as::symbol;
+		std::string		s_type;
+		ASY::SymbolPtr	symbol_type;
+
+		if( ASY::VariablePtr variable = DYNA_CAST(ASY::Variable, symbol) )
+		{
+			symbol_type = variable->getTypeSymbol();
+		}
+		else
+			symbol_type = symbol;
+
+		if( symbol_type->preferStack())
+			s_type = symbol_type->getFQN_and_instanceName();
+		else
+			s_type = symbol_type->getFQN_and_mappedName() + SVC_GLOBAL_SETTINGS->pointer_pattern /* '*'or 'Ptr' */;
+
+		return s_type;
 	}
 };
 

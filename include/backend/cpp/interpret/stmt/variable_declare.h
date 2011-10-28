@@ -30,7 +30,6 @@
 #include <backend/cpp/interpret/interpreter.h>
 #include <backend/cpp/templateprinter.h>
 #include <boost/foreach.hpp>
-#include <as/symbol/variable.h>
 
 namespace AST = ::tw::maple::as::ast;
 
