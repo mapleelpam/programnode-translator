@@ -304,10 +304,13 @@ private:
 		symbol_class->getChilds(childs/*out*/);
 		for (std::vector<ASY::SymbolPtr>::iterator child_itr = childs.begin(); child_itr
 				!= childs.end(); child_itr++) {
-			if (((*child_itr)->getSymbolProperties() & ASY::Symbol::T_VARIABLE)) {
+//			if (((*child_itr)->getSymbolProperties() & ASY::Symbol::T_VARIABLE)) {
+			if (((*child_itr)->is( ASY::Symbol::T_VARIABLE) ) ) {
 				ASY::VariablePtr var = STATIC_CAST( ASY::Variable, *child_itr );
 				ASY::SymbolPtr	symbol_type = var->getTypeSymbol();
-				if ( var && !var->isStatic() && !var->isConst()) {
+
+//				if ( var && !var->isStatic() && !var->isConst()) {
+				if ( var && !var->isStatic() ) {
 					std::string str_var_type;
 					if( symbol_type->preferStack())
 						str_var_type = symbol_type->getFQN_and_instanceName();
@@ -340,9 +343,11 @@ private:
 							else if( symbol_func && symbol_func -> isGetter() )
 								setter_not_found = false;
 						}
+						if( var->isConst() ) // work around, we don't need setter for const
+							setter_not_found = false;
 						std::list<PatternPtr> patterns;
 
-						patterns.push_back( PatternPtr( new Pattern("variable_type", str_var_type ) ));
+						patterns.push_back( PatternPtr( new Pattern("variable_type", ((var->isConst())?"const ":"")+str_var_type ) ));
 						patterns.push_back( PatternPtr( new Pattern("variable_name", var->mappedName() ) ));
 						patterns.push_back( PatternPtr( new Pattern("variable_attribute", str_var_attr ) ));
 						if( getter_not_found )
@@ -377,7 +382,7 @@ private:
 					{
 						std::list<PatternPtr> patterns;
 
-						patterns.push_back( PatternPtr( new Pattern("property_type", str_var_type ) ));
+						patterns.push_back( PatternPtr( new Pattern("property_type", ((var->isConst())?"const ":"")+str_var_type ) ));
 						patterns.push_back( PatternPtr( new Pattern("property_name", var->name() ) ));
 
 						answer += "#(indent_tab_add)"+substitutePatterns(m_tpl_property, patterns );
