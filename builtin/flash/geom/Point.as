@@ -1,9 +1,18 @@
 intrinsic class flash.geom.Point {
 
-	var x : Number;
-	var y : Number;
-	var length : Number;
+//	var x : Number;
+//	var y : Number;
+//	var length : Number;
 
+	public function get x () : Number;
+	public function set x (newX:Number) : void;
+	
+	public function get y () : Number;
+	public function set y (newY:Number) : void;
+	
+	public function get length () : Number;
+	public function set length (newLength:Number) : void;
+	
 	function Point( x : Number, y : Number );
 
 	function normalize( length : Number ) : Void;

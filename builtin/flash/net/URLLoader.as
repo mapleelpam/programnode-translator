@@ -8,10 +8,18 @@ package flash.net
 
 	intrinsic public class URLLoader extends EventDispatcher
 	{
-		public var bytesLoaded : uint;
-
-		public var bytesTotal : uint;
-
+//		public var bytesLoaded : uint;
+//
+//		public var bytesTotal : uint;
+		
+		
+		public function get bytesLoaded () : uint;
+		public function set bytesLoaded (newBytesLoaded:uint) : void;
+		
+		public function get bytesTotal () : uint;
+		public function set bytesTotal (newBytesTotal:uint) : void;
+		
+		
 //		public var data : *;
 
 		public var dataFormat : String;
