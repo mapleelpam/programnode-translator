@@ -141,6 +141,7 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 							"#(endl)#(indent_tab)};#(endl)" )
 							;
 		m_tpl_setter = "void set_#(variable_name)( #(variable_type) i ){ #(variable_name) = i;	}";
+		m_tpl_empty_setter = "void set_#(variable_name)( #(variable_type) i ){ }";
 		m_tpl_getter = "#(variable_type) get_#(variable_name)( ) const { return #(variable_name);	}";
 
 		m_tpl_void_method_info = "";
@@ -162,6 +163,8 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 		m_tpl_property_end = pt.get<std::string>( configName()+".template.property_end", m_tpl_property_end);
 
 		m_tpl_setter = pt.get<std::string>( configName()+".template.default_setter", m_tpl_setter);
+		m_tpl_empty_setter = pt.get<std::string>( configName()+".template.default_empty_setter", m_tpl_empty_setter);
+
 		m_tpl_getter = pt.get<std::string>( configName()+".template.default_getter", m_tpl_getter);
 
 		m_tpl_void_method_info = pt.get<std::string>( configName()+".template.info.void_method", m_tpl_void_method_info);
@@ -186,6 +189,7 @@ struct ClassDefinition : public Interpreter, public TemplatePrinter
 		pt.put<std::string>( configName()+".template.property_end", m_tpl_property_end);
 
 		pt.put<std::string>(  configName()+".template.default_setter", m_tpl_setter);
+		pt.put<std::string>(  configName()+".template.default_empty_setter", m_tpl_empty_setter);
 		pt.put<std::string>(  configName()+".template.default_getter", m_tpl_getter);
 
 		pt.put<std::string>( configName()+".template.info.void_method", m_tpl_void_method_info);
@@ -213,6 +217,7 @@ private:
 	std::string m_tpl_property_begin;
 	std::string m_tpl_property_end;
 	std::string m_tpl_setter;
+	std::string m_tpl_empty_setter;
 	std::string m_tpl_getter;
 
 	std::string m_tpl_void_method_info;
@@ -344,8 +349,8 @@ private:
 							else if( symbol_func && symbol_func -> isGetter() )
 								setter_not_found = false;
 						}
-						if( var->isConst() ) // work around, we don't need setter for const
-							setter_not_found = false;
+//						if( var->isConst() ) // work around, we don't need setter for const
+//							setter_not_found = false;
 						std::list<PatternPtr> patterns;
 
 						patterns.push_back( PatternPtr( new Pattern("variable_type", ((var->isConst())?"const ":"")+str_var_type ) ));
@@ -354,7 +359,12 @@ private:
 						if( getter_not_found )
 							answer += "#(indent_tab_add)"+substitutePatterns(m_tpl_getter, patterns ) + "#(endl)";
 						if( setter_not_found )
-							answer += "#(indent_tab_add)"+substitutePatterns(m_tpl_setter, patterns ) + "#(endl)";
+						{
+							if( var->isConst() )
+								answer += "#(indent_tab_add)"+substitutePatterns(m_tpl_empty_setter, patterns ) + "#(endl)";
+							else
+								answer += "#(indent_tab_add)"+substitutePatterns(m_tpl_setter, patterns ) + "#(endl)";
+						}
 					}
 					answer += "#(endl)";
 				}
