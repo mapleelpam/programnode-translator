@@ -44,8 +44,8 @@ struct StoreRegister: public Interpreter
 		ReturnValue v1 = dispatchExpound(SREG->getRegister(), symbol_table, ctx );
 		ReturnValue v2 = dispatchExpound(SREG->getExpression(), symbol_table, ctx );
 
-		if( v2.result == "0")
-			return _DS2("/* ignore reset register -1 */");
+		if( (v2.result == "0") || (v2.result == "") || v2.result == "\"\"")
+			return _DS2("/* ignore reset register -1 */#(endl)");
 		return "IterateForeach itc(" + v2.result +")";
 	}
 

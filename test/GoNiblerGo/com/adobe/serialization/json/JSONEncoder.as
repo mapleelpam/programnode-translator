@@ -161,6 +161,10 @@ package com.adobe.serialization.json
 						s += "\\t";
 						break;
 					
+					case '/': // slash
+						s += "tmp"
+						break;
+					
 					default: // everything else
 						
 						// check for a control character and escape as unicode

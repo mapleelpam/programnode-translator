@@ -71,6 +71,7 @@ struct Interpreter
 protected:
 	std::string removeSpecialChar( std::string label_string )
 	{
+		label_string = replace( label_string, "/", "_ls_");	// double quotation mark
 		label_string = replace( label_string, "\"", "_dq_");	// double quotation mark
 		label_string = replace( label_string, "(", "_lp_");		// parenthesis
 		label_string = replace( label_string, ")", "_rp_");

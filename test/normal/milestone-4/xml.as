@@ -1,4 +1,4 @@
-// RUN: java -jar %ASC_JAR -x -z %t.pn  %s 
+// RUN: java -jar %ASC_JAR -x -z %t.pn  %s -strict
 // RUN: pnc %BUILTIN_PN %t.pn -o %t.cpp
 // R U N: g++  -c -o %t.o %t.cpp -lruntime -D_LINUX
 // R U N: %t | FileCheck -input-file=- %s 
@@ -10,6 +10,7 @@ package ker
 
         public function Test():Void
         {
+/*
 			{
 				var xml:XML = describeType(child);
 				trace(xml.*);	
@@ -18,8 +19,11 @@ package ker
 
 				//xml.item+=<item="123"/>;
 			}
+*/
 			{
-				var myXML1:XML=<type name1='object'></type>;
+//				var myXML1:XML=<type name1='object'></type>;
+//				var b: XMLList;
+				var myXML1:XML;
 /*
 				var myXML2:XML=<type name2='object'></type>;
 				var xmlList:XMLList=myXML1+myXML2;
@@ -27,6 +31,7 @@ package ker
 				trace(xmlList);
 */
             
+                //b = myXML1.item.(@id==1)
                 myXML1.item.(@id==1)
 			}
         }
