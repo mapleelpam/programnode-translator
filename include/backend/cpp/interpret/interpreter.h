@@ -85,7 +85,7 @@ protected:
 
 		return label_string;
 	}
-	std::string getTypeString( tw::maple::as::symbol::SymbolPtr symbol )
+	static std::string getTypeString( tw::maple::as::symbol::SymbolPtr symbol )
 	{
 		namespace ASY = tw::maple::as::symbol;
 		std::string		s_type;
@@ -104,6 +104,21 @@ protected:
 			s_type = symbol_type->getFQN_and_mappedName() + SVC_GLOBAL_SETTINGS->pointer_pattern /* '*'or 'Ptr' */;
 
 		return s_type;
+	}
+	static std::string getTypeNameString( tw::maple::as::symbol::SymbolPtr symbol )
+	{
+		namespace ASY = tw::maple::as::symbol;
+		std::string		s_type;
+		ASY::SymbolPtr	symbol_type;
+
+		if( ASY::VariablePtr variable = DYNA_CAST(ASY::Variable, symbol) )
+		{
+			symbol_type = variable->getTypeSymbol();
+		}
+		else
+			symbol_type = symbol;
+
+		return symbol_type -> name();
 	}
 };
 

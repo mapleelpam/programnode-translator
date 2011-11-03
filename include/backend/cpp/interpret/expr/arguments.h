@@ -53,8 +53,10 @@ struct Arguments : public Interpreter, public TemplatePrinter
 				; nItr != E ; nItr ++, counter ++ )
 		{
 			ASY::SymbolPtr arg_type;
-			if( ctx.callee_type )
+			if( ctx.callee_type && (ctx.callee_type->m_types.size() > counter+1))
+			{
 				arg_type = ctx.callee_type->m_types[counter+1];
+			}
 
 			std::string prefix = (counter == 0? std::string(""):std::string(", "));
 			ReturnValue arg_result = dispatchExpound(*nItr, symbol_table, ctx);
@@ -98,7 +100,7 @@ struct Arguments : public Interpreter, public TemplatePrinter
 				; nItr != E ; nItr ++, counter ++ )
 		{
 			ASY::SymbolPtr arg_type;
-			if( ctx.callee_type )
+			if( ctx.callee_type && (ctx.callee_type->m_types.size() > counter+1))
 				arg_type = ctx.callee_type->m_types[counter+1];
 
 			std::string prefix = (counter == 0? std::string(""):std::string(", "));
@@ -107,20 +109,22 @@ struct Arguments : public Interpreter, public TemplatePrinter
 
 			if(  one_arg_result.token_symbol )
 			{
-				if( one_arg_result.token_symbol->name() == "String")
+				if( getTypeString(one_arg_result.token_symbol) == "String" || getTypeString(one_arg_result.token_symbol) == "::NativeString")
 					s_enum = " TYPE_STRING, ";
-				else if( one_arg_result.token_symbol->name() == "Object")
+				else if( getTypeString(one_arg_result.token_symbol) == "Object" || getTypeString(one_arg_result.token_symbol) == "::ObjectPtr")
 					s_enum = " TYPE_OBJECT, ";
-				else if( one_arg_result.token_symbol->name() == "Int")
+				else if( getTypeString(one_arg_result.token_symbol) == "Int" || getTypeString(one_arg_result.token_symbol) == "NativeInt")
 					s_enum = " TYPE_INT, ";
-				else if( one_arg_result.token_symbol->name() == "UInt")
+				else if( getTypeString(one_arg_result.token_symbol) == "UInt")
 					s_enum = " TYPE_UINT, ";
-				else if( one_arg_result.token_symbol->name() == "Boolean")
+				else if( getTypeString(one_arg_result.token_symbol) == "Boolean")
 					s_enum = " TYPE_BOOLEAN, ";
-				else if( one_arg_result.token_symbol->name() == "Number")
+				else if( getTypeString(one_arg_result.token_symbol) == "Number")
 					s_enum = " TYPE_NUMBER, ";
-				else if( one_arg_result.token_symbol->name() == "Function")
+				else if( getTypeString(one_arg_result.token_symbol) == "Function")
 					s_enum = " TYPE_FUNCTION, ";
+				else
+					s_enum = " /*can't resolved  "+getTypeString(one_arg_result.token_symbol)+"*/, ";
 			}
 			else
 			{
