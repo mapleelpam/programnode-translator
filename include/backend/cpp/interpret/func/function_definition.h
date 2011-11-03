@@ -217,6 +217,15 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		if (symbol_function->isStatic() && (!SVC_GLOBAL_SETTINGS -> define_only) )
 			str_is_static = "static ";
 
+		std::string str_function_default_return;
+		if( m_bl_return_default_value_in_the_end && (!symbol_function->isConstructor())
+				&& (str_function_return_type!="void" && str_function_return_type != "Void")
+				&& ( symbol_function->ReturnType()!=NULL && !(symbol_function->ReturnType()->preferStack()) )
+				)
+		{
+			str_function_default_return = "#(indent_tab_sub)return "+str_function_return_type+"();#(endl)";
+		}
+
 		patterns.push_back( PatternPtr( new Pattern("func_static_instance", str_static_instance )));
 
 		patterns.push_back( PatternPtr( new Pattern("common",  (str_func_parameters.result)==""?"":"," ) ) );
@@ -240,6 +249,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		patterns.push_back( PatternPtr( new Pattern("function_enter", (fdef->isAbstract || SVC_GLOBAL_SETTINGS -> declare_only )? "" : m_tpl_enter_function) ) );
 		patterns.push_back( PatternPtr( new Pattern("enter_stmt", fdef->getEnterFunctionMapper() != "" ? fdef->getEnterFunctionMapper() : "/*enter function*/" ) ) );
 		patterns.push_back( PatternPtr( new Pattern("function_leave", (fdef->isAbstract || SVC_GLOBAL_SETTINGS -> declare_only )? "" : m_tpl_leave_function) ) );
+		patterns.push_back( PatternPtr( new Pattern("func_default_return",  str_function_default_return ) ) );
 		patterns.push_back( PatternPtr( new Pattern("member_initial", (symbol_function->isConstructor() )
 										? (SVC_GLOBAL_SETTINGS -> declare_only && (!SVC_GLOBAL_SETTINGS -> define_only))? ""
 											: getMemberInitializer(symbol_function,fdef->mp_parent_initilizer,ctx)
@@ -258,6 +268,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 	FunctionDefinition()
 		: TemplatePrinter("FunctionDefinition")
 		, m_pointer_pattern("*")
+		, m_bl_return_default_value_in_the_end( false )
 		, m_default_virtual( true )
 	{
 		setTemplateString(  "#(function_signature)"
@@ -282,7 +293,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
         ;
 
 		m_tpl_enter_function = "#(endl)#(indent_tab){#(endl)#(indent_tab_add)#(enter_stmt)";
-		m_tpl_leave_function = "#(indent_tab_add)/*leave function*/#(endl)#(indent_tab)}";
+		m_tpl_leave_function = "#(indent_tab_add)/*leave function*/#(endl)#(indent_tab)#(func_default_return)#(indent_tab)}";
 
 		m_tpl_setter_prepend = "set_";
 		m_tpl_getter_prepend = "get_";
@@ -306,6 +317,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 
 		m_tpl_constructor_prefix_info = pt.get<std::string>( configName()+".contructor_prefix_info", m_tpl_constructor_prefix_info);
 
+		m_bl_return_default_value_in_the_end = pt.get<bool>( configName()+".return_default_value_in_the_end", m_bl_return_default_value_in_the_end);
 
 		m_default_virtual = pt.get<bool>( configName()+".default_virtual", m_default_virtual);
 		return TemplatePrinter::readConfig( pt );
@@ -324,6 +336,7 @@ struct FunctionDefinition : public Interpreter, public TemplatePrinter
 		pt.put<std::string>( configName()+".pointer_pattern", m_pointer_pattern);
 		pt.put<std::string>( configName()+".contructor_prefix_info", m_tpl_constructor_prefix_info);
 
+		pt.put<bool>( configName()+".return_default_value_in_the_end", m_bl_return_default_value_in_the_end);
 		pt.put<bool>( configName()+".default_virtual",m_default_virtual);
 		return TemplatePrinter::writeConfig( pt );
 	}
@@ -343,6 +356,8 @@ private:
 	std::string m_tpl_constructor_function_signature;
 	std::string m_tpl_static_instance;
 	std::string m_tpl_constructor_prefix_info;
+
+	bool		m_bl_return_default_value_in_the_end;
 
 	bool		m_default_virtual;
 	std::string m_pointer_pattern;
