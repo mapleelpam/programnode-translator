@@ -38,7 +38,10 @@ struct DefaultLabel : public Interpreter
 			
 			)
 	{
-		return  "#(indent_tab_add)defaultlabel:\n";
+		std::string s_before_label = ( ctx.curly_brackets > 0 ) ? "}" : "" ;
+			if( ctx.curly_brackets > 0 )	ctx.curly_brackets --;
+		std::string s_after_label =  "{";	ctx.curly_brackets ++;
+		return  "#(indent_tab_add)"+s_before_label+"#(endl)#(indent_tab_add)defaultlabel:"+s_after_label+"\n";
 	}
 
 };

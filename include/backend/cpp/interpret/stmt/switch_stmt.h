@@ -48,6 +48,13 @@ struct SwitchStatement : public Interpreter, public TemplatePrinter
 
 		ctx.tree_depth ++ ;
 		std::string s_switch_body = dispatchExpound(SWITCH->SWitchBody(), symbol_table, ctx);
+		{
+			if( ctx.curly_brackets > 0 )
+			{
+				ctx.curly_brackets --;
+				s_switch_body += "#(endl)#(indent_tab_add)}#(endl)";
+			}
+		}
 		ctx.tree_depth -- ;
 
 		ReturnValue switch_expr = dispatchExpound(SWITCH->SwitchExpression(), symbol_table, ctx);

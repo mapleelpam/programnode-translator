@@ -170,6 +170,7 @@ struct Context
     	, without_type(false)
     	, is_delete( false )
     	, is_delete_item( false )
+    	, curly_brackets( 0 )
     {
 
     }
@@ -185,6 +186,7 @@ struct Context
 	bool			without_type; // for param
 	bool			is_delete;
 	bool			is_delete_item;
+	int				curly_brackets;
 
 	tw::maple::as::symbol::Symbol*	expression_symbol;
 	tw::maple::as::symbol::ScopePtr	statement_class_symbol;
