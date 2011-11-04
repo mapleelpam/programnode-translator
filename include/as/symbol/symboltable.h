@@ -73,6 +73,8 @@ struct SymbolTable : public tw::maple::service::ConfigRequest
 		_primitive_type_mapper[ "Boolean" ] = "bool";
 //		_primitive_type_mapper[ "String" ] = "NativeString";
 		_primitive_type_mapper[ "Void" ] = "void";
+		_primitive_type_mapper[ "void" ] = "void";
+
 
 		_primitive_type_class_mapper[ "int" ] = "Int";
 		_primitive_type_class_mapper[ "uint" ] = "Uint";
