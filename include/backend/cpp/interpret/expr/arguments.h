@@ -119,12 +119,13 @@ struct Arguments : public Interpreter, public TemplatePrinter
 					s_enum = " TYPE_UINT, ";
 				else if( getTypeString(one_arg_result.token_symbol) == "Boolean")
 					s_enum = " TYPE_BOOLEAN, ";
-				else if( getTypeString(one_arg_result.token_symbol) == "Number")
+				else if( getTypeString(one_arg_result.token_symbol) == "Number" || getTypeString(one_arg_result.token_symbol) == "::NativeNumber")
 					s_enum = " TYPE_NUMBER, ";
 				else if( getTypeString(one_arg_result.token_symbol) == "Function")
 					s_enum = " TYPE_FUNCTION, ";
 				else
-					s_enum = " /*can't resolved  "+getTypeString(one_arg_result.token_symbol)+"*/, ";
+					s_enum = " TYPE_OBJECT, ";
+//					s_enum = " /*can't resolved  "+getTypeString(one_arg_result.token_symbol)+"*/, ";
 			}
 			else
 			{
