@@ -2129,6 +2129,102 @@ uint32_t AstDumper_endBinaryExpression_pargs::write(::apache::thrift::protocol::
   return xfer;
 }
 
+uint32_t AstDumper_startFilter_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t AstDumper_startFilter_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  xfer += oprot->writeStructBegin("AstDumper_startFilter_args");
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+uint32_t AstDumper_startFilter_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  xfer += oprot->writeStructBegin("AstDumper_startFilter_pargs");
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+uint32_t AstDumper_endFilter_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t AstDumper_endFilter_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  xfer += oprot->writeStructBegin("AstDumper_endFilter_args");
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+uint32_t AstDumper_endFilter_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  xfer += oprot->writeStructBegin("AstDumper_endFilter_pargs");
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
 uint32_t AstDumper_startIncrementExpression_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   uint32_t xfer = 0;
@@ -6965,6 +7061,42 @@ void AstDumperClient::send_endBinaryExpression()
   oprot_->getTransport()->flush();
 }
 
+void AstDumperClient::startFilter()
+{
+  send_startFilter();
+}
+
+void AstDumperClient::send_startFilter()
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("startFilter", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  AstDumper_startFilter_pargs args;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void AstDumperClient::endFilter()
+{
+  send_endFilter();
+}
+
+void AstDumperClient::send_endFilter()
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("endFilter", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  AstDumper_endFilter_pargs args;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
 void AstDumperClient::startIncrementExpression(const IncrementType::type type, const std::string& token)
 {
   send_startIncrementExpression(type, token);
@@ -9813,6 +9945,80 @@ void AstDumperProcessor::process_endBinaryExpression(int32_t seqid, ::apache::th
 
   if (eventHandler_.get() != NULL) {
     eventHandler_->asyncComplete(ctx, "AstDumper.endBinaryExpression");
+  }
+
+  return;
+}
+
+void AstDumperProcessor::process_startFilter(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = NULL;
+  if (eventHandler_.get() != NULL) {
+    ctx = eventHandler_->getContext("AstDumper.startFilter", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(eventHandler_.get(), ctx, "AstDumper.startFilter");
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->preRead(ctx, "AstDumper.startFilter");
+  }
+
+  AstDumper_startFilter_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->postRead(ctx, "AstDumper.startFilter", bytes);
+  }
+
+  try {
+    iface_->startFilter();
+  } catch (const std::exception& e) {
+    if (eventHandler_.get() != NULL) {
+      eventHandler_->handlerError(ctx, "AstDumper.startFilter");
+    }
+    return;
+  }
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->asyncComplete(ctx, "AstDumper.startFilter");
+  }
+
+  return;
+}
+
+void AstDumperProcessor::process_endFilter(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = NULL;
+  if (eventHandler_.get() != NULL) {
+    ctx = eventHandler_->getContext("AstDumper.endFilter", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(eventHandler_.get(), ctx, "AstDumper.endFilter");
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->preRead(ctx, "AstDumper.endFilter");
+  }
+
+  AstDumper_endFilter_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->postRead(ctx, "AstDumper.endFilter", bytes);
+  }
+
+  try {
+    iface_->endFilter();
+  } catch (const std::exception& e) {
+    if (eventHandler_.get() != NULL) {
+      eventHandler_->handlerError(ctx, "AstDumper.endFilter");
+    }
+    return;
+  }
+
+  if (eventHandler_.get() != NULL) {
+    eventHandler_->asyncComplete(ctx, "AstDumper.endFilter");
   }
 
   return;

@@ -44,6 +44,7 @@
 #include <as/ast/token/literal_number.h>
 #include <as/ast/token/literal_boolean.h>
 #include <as/ast/token/literal_null.h>
+#include <as/ast/token/argument.h>
 #include <as/ast/token/empty.h>
 #include <as/ast/token/this_expression.h>
 #include <as/ast/token/identifier.h>
@@ -52,15 +53,7 @@
 #include <as/ast/expr/increment_operator.h>
 #include <as/ast/expr/member_expression.h>
 #include <as/ast/expr/arguments.h>
-#include <as/ast/token/argument.h>
-#include <as/ast/func/function_definition.h>
-#include <as/ast/func/function_name.h>
-#include <as/ast/func/function_signature.h>
-#include <as/ast/func/function_parameters.h>
-#include <as/ast/func/function_parameter_item.h>
-#include <as/ast/func/function_parameter_rest.h>
-#include <as/ast/func/function_common.h>
-#include <as/ast/func/function_attribute.h>
+#include <as/ast/expr/filter_operator.h>
 #include <as/ast/expr/binary_operator.h>
 #include <as/ast/expr/instanceof.h>
 #include <as/ast/expr/is.h>
@@ -102,6 +95,14 @@
 #include <as/ast/special/register.h>
 #include <as/ast/special/has_next.h>
 #include <as/ast/special/coerce.h>
+#include <as/ast/func/function_definition.h>
+#include <as/ast/func/function_name.h>
+#include <as/ast/func/function_signature.h>
+#include <as/ast/func/function_parameters.h>
+#include <as/ast/func/function_parameter_item.h>
+#include <as/ast/func/function_parameter_rest.h>
+#include <as/ast/func/function_common.h>
+#include <as/ast/func/function_attribute.h>
 
 
 using namespace apache::thrift;
@@ -286,6 +287,12 @@ public:
 	}
 	void endBinaryExpression() {
 		CHECK_STACK_AND_POP( StmtExpression, AST::Node::NodeType::T_BINARY_OPERATOR );
+	}
+	void startFilter() {
+		PUSH_STACK_WITH_INIT( FilterOperator );
+	}
+	void endFilter() {
+		CHECK_STACK_AND_POP( FilterOperator, AST::Node::NodeType::T_FILTER_OPERATOR );
 	}
 	void startInstanceOfExpression() {
 		PUSH_STACK( InstanceOf );

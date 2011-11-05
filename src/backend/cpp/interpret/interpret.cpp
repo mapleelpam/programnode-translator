@@ -45,6 +45,7 @@
 #include <backend/cpp/interpret/token/argument.h>
 #include <backend/cpp/interpret/stmt/return_stmt.h>
 #include <backend/cpp/interpret/expr/binary_operator.h>
+#include <backend/cpp/interpret/expr/filter_operator.h>
 #include <backend/cpp/interpret/expr/increment_operator.h>
 #include <backend/cpp/interpret/expr/unary_operator.h>
 #include <backend/cpp/interpret/expr/condition_expression.h>
@@ -158,7 +159,7 @@ void initializeInterpreters()
 		interpreterResolver[AST::Node::NodeType::T_STORE_REG] = new StoreRegister();
 		interpreterResolver[AST::Node::NodeType::T_LOAD_REG] = new LoadRegister();
 		interpreterResolver[AST::Node::NodeType::T_COERCE] = new Coerce();
-
+		interpreterResolver[AST::Node::NodeType::T_FILTER_OPERATOR] = new FilterOperator();
 	}
 }
 

@@ -62,6 +62,7 @@ struct Node
             T_ConstantNumber,
 
             // Expr
+            T_FILTER_OPERATOR,
             T_BINARY_OPERATOR,
             T_INCREMENT,
             T_INSTANCEOF,

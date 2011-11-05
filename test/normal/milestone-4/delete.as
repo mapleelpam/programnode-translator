@@ -1,6 +1,6 @@
 // RUN: java -jar %ASC_JAR -x -z %t.pn  %s 
 // RUN: pnc %t.pn -o %t.cpp
-// RUN: g++  -c -o %t.o %t.cpp 
+// R U N: g++  -c -o %t.o %t.cpp 
 // R U n: %t | FileCheck -input-file=- %s 
 class a
 {

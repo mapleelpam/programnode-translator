@@ -574,6 +574,14 @@ public:
 
 	}
 
+	void startFilter() {
+		pm_module->startFilter();
+	}
+
+	void endFilter() {
+		pm_module->endFilter();
+
+	}
 	void beginDeleteExpression( const std::string& mode ) {
 		pm_module->beginDeleteExpression( mode );
 	}

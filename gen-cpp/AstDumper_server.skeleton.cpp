@@ -202,6 +202,16 @@ class AstDumperHandler : virtual public AstDumperIf {
     printf("endBinaryExpression\n");
   }
 
+  void startFilter() {
+    // Your implementation goes here
+    printf("startFilter\n");
+  }
+
+  void endFilter() {
+    // Your implementation goes here
+    printf("endFilter\n");
+  }
+
   void startIncrementExpression(const IncrementType::type type, const std::string& token) {
     // Your implementation goes here
     printf("startIncrementExpression\n");
