@@ -171,6 +171,7 @@ struct Context
     	, is_delete( false )
     	, is_delete_item( false )
     	, curly_brackets( 0 )
+    	, disable_mapper( false )
     {
 
     }
@@ -187,6 +188,7 @@ struct Context
 	bool			is_delete;
 	bool			is_delete_item;
 	int				curly_brackets;
+	bool			disable_mapper;
 
 	tw::maple::as::symbol::Symbol*	expression_symbol;
 	tw::maple::as::symbol::ScopePtr	statement_class_symbol;

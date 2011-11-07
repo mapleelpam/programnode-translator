@@ -234,7 +234,7 @@ struct Call : public Interpreter, public TemplatePrinter
 		std::list<PatternPtr> patterns;
 		patterns.push_back( PatternPtr( new Pattern("expression", str_tpl_expression) ));
 		patterns.push_back( PatternPtr( new Pattern("argc", str_arguments) ));
-		patterns.push_back( PatternPtr( new Pattern("argc_type2", str_arguments_type2+"/*it's type two*/") ));
+		patterns.push_back( PatternPtr( new Pattern("argc_type2", str_arguments_type2+_DS2("/*it's type two*/")) ));
 		patterns.push_back( PatternPtr( new Pattern("argn", str_numof_arguments) ));
 		patterns.push_back( PatternPtr( new Pattern("argc2", str_arguments != ""?","+str_arguments :"") ));
 		patterns.push_back( PatternPtr( new Pattern("callee_name", str_callee_name) ));

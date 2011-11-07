@@ -208,10 +208,14 @@ struct Identifier : public Interpreter, public TemplatePrinter
 							std::list<PatternPtr> patterns;
 							patterns.push_back( PatternPtr( new Pattern("id", li->value) ));
 
-							if( ctx.is_delete )
+							if( ctx.disable_mapper)
+								return substitutePatterns( "\"#(id)\"", patterns );
+							else if( ctx.is_delete )
 								return substitutePatterns( m_tpl_undefined_member_delete, patterns );
 							else if( ctx.is_delete_item )
 								return substitutePatterns( m_tpl_item_delete, patterns );
+							else if(li->value=="*")
+								return substitutePatterns( m_tpl_attribute_call, patterns );
 							else
 								return substitutePatterns( m_tpl_undefined_member_call, patterns );
 						}	

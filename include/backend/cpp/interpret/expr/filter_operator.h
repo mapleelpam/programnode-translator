@@ -49,22 +49,28 @@ struct FilterOperator : public Interpreter
 		ReturnValue lhs = dispatchExpound(bin->LHS(), symbol_table, ctx);
 		ReturnValue rhs = dispatchExpound(bin->RHS(), symbol_table, ctx);
 
-		AST::NodePtr eq_lfs, eq_rhs;
-		locate_the_expression( bin->RHS(), eq_lfs, eq_rhs );
+		AST::NodePtr eq_lhs, eq_rhs;
+		locate_the_expression( bin->RHS(), eq_lhs, eq_rhs );
 
-		result += lhs.result + "->filter("+ dispatchExpound(eq_rhs, symbol_table, ctx).result +")";
+		{
+			Context ctx2 = ctx;
+			ctx2.disable_mapper = true;
+			result += lhs.result + "->attribute_match("
+				+dispatchExpound(eq_lhs, symbol_table, ctx2).result +", "
+				+dispatchExpound(eq_rhs, symbol_table, ctx).result +")";
+		}
 
 		return result;
 	}
 private:
 
 	void locate_the_expression ( ::tw::maple::as::ast::NodePtr input
-			, ::tw::maple::as::ast::NodePtr& eq_lfs /* out */
+			, ::tw::maple::as::ast::NodePtr& eq_lhs /* out */
 			, ::tw::maple::as::ast::NodePtr& eq_rhs /* out */ )
 	{
 		if( input->nodeType() == AST::Node::NodeType::T_EXPR_LIST)
 		{
-			locate_the_expression( input, eq_lfs, eq_rhs );
+			locate_the_expression( input, eq_lhs, eq_rhs );
 			return;
 		}
 		else if( input->nodeType() == AST::Node::NodeType::T_BINARY_OPERATOR)
@@ -72,7 +78,7 @@ private:
 			AST::BinaryOperatorPtr bin = STATIC_CAST( AST::BinaryOperator, input);
 			if( bin->op_type == "equals")
 			{
-				eq_lfs = bin->LHS();
+				eq_lhs = bin->LHS();
 				eq_rhs = bin->RHS();
 				return;
 			}
