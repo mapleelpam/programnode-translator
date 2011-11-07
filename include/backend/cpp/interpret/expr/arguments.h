@@ -117,7 +117,7 @@ struct Arguments : public Interpreter, public TemplatePrinter
 					s_enum = " TYPE_INT, ";
 				else if( getTypeString(one_arg_result.token_symbol) == "UInt")
 					s_enum = " TYPE_UINT, ";
-				else if( getTypeString(one_arg_result.token_symbol) == "Boolean")
+				else if( getTypeString(one_arg_result.token_symbol) == "Boolean" || getTypeString(one_arg_result.token_symbol) == "NativeBoolean")
 					s_enum = " TYPE_BOOLEAN, ";
 				else if( getTypeString(one_arg_result.token_symbol) == "Number" || getTypeString(one_arg_result.token_symbol) == "::NativeNumber")
 					s_enum = " TYPE_NUMBER, ";
