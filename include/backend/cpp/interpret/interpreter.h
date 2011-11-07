@@ -82,6 +82,7 @@ protected:
 		label_string = replace( label_string, ",", "_cn_");		// common
 		label_string = replace( label_string, ":", "_sn_");		// semicolon
 		label_string = replace( label_string, "\\", "_sl_");		// slash
+		label_string = replace( label_string, "*", "_bs_");		// little blossom
 
 		return label_string;
 	}
