@@ -210,6 +210,10 @@ struct Identifier : public Interpreter, public TemplatePrinter
 
 							if( ctx.disable_mapper)
 								return substitutePatterns( "\"#(id)\"", patterns );
+							else if (ctx.expression_symbol && getTypeNameString(ctx.expression_symbol) == "XML" )
+							{
+								return substitutePatterns( "child(\"#(id)\" )", patterns );
+							}
 							else if( ctx.is_delete )
 								return substitutePatterns( m_tpl_undefined_member_delete, patterns );
 							else if( ctx.is_delete_item )

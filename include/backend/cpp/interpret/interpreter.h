@@ -106,6 +106,20 @@ protected:
 
 		return s_type;
 	}
+	static std::string getTypeNameString( tw::maple::as::symbol::Symbol* symbol )
+	{
+		namespace ASY = tw::maple::as::symbol;
+		std::string		s_type;
+
+		if( ASY::Variable* variable = dynamic_cast<ASY::Variable*>( symbol) )
+		{
+//			symbol_type = variable->getTypeSymbol();
+			return variable->getTypeSymbol() -> name();
+		}
+		else
+			return symbol -> name();
+
+	}
 	static std::string getTypeNameString( tw::maple::as::symbol::SymbolPtr symbol )
 	{
 		namespace ASY = tw::maple::as::symbol;
@@ -121,6 +135,7 @@ protected:
 
 		return symbol_type -> name();
 	}
+
 };
 
 } } } } }
