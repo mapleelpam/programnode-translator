@@ -46,7 +46,7 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 	{
 		namespace ASY = tw::maple::as::symbol;
 
-		std::string result;
+		std::string result, ro_rhs, lo_rhs;
 
 		AST::VariableDeclarePtr var = std::tr1::static_pointer_cast<AST::VariableDeclare>(node);
 		ASY::VariablePtr symbol_var = STATIC_CAST( ASY::Variable, node->getSymbol() );
@@ -82,13 +82,23 @@ struct VariableDeclare : public Interpreter, public TemplatePrinter
 					str_type_cast += ""; // ignore
 				else if ( symbol_type -> name() == "Function")
 					str_type_cast += ""; // ignore
+				else if ( symbol_type -> name() == "XML")
+				{
+					str_type_cast = "new XML";
+					lo_rhs = "(";
+					ro_rhs = ")";
+				}
 				else
+				{
 					str_type_cast += "(" + symbol_type->getFQN_and_mappedName()
 							+ "*)";
+					lo_rhs = "(";
+					ro_rhs = ")";
+				}
 			}
 
 
-			var_init.result = " = " + str_type_cast + var_init.result;
+			var_init.result = " = " + str_type_cast + lo_rhs + var_init.result + ro_rhs;
 		}
 
 		std::list<PatternPtr> patterns;
