@@ -219,7 +219,7 @@ struct Identifier : public Interpreter, public TemplatePrinter
 							else if( ctx.is_delete_item )
 								return substitutePatterns( m_tpl_item_delete, patterns );
 							else if(li->value=="*")
-								return substitutePatterns( m_tpl_attribute_call, patterns );
+								return substitutePatterns( "children()", patterns );
 							else
 								return substitutePatterns( m_tpl_undefined_member_call, patterns );
 						}	
