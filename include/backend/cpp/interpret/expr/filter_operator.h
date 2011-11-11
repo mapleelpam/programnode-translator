@@ -58,6 +58,10 @@ struct FilterOperator : public Interpreter
 			result += lhs.result + "->attribute_match("
 				+dispatchExpound(eq_lhs, symbol_table, ctx2).result +", "
 				+dispatchExpound(eq_rhs, symbol_table, ctx).result +")";
+
+			result.token_symbol = Findable::findClassType( symbol_table, "XML" );
+			result.expression_type = ExpressionType::HEAP;
+
 		}
 
 		return result;
